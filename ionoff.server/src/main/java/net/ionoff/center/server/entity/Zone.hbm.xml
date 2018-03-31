@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.ionoff.center.server.entity.Zone" table="zones">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<property name="name">
+			<column name="name" />
+		</property>
+		
+		<property name="order">
+			<column name="order_" />
+		</property>
+		
+		<many-to-one name="area" class="net.ionoff.center.server.entity.Area" fetch="select">
+            <column name="area_id" not-null="true" />
+        </many-to-one>
+        
+		<many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">
+            <column name="project_id" not-null="true" />
+        </many-to-one>
+        
+		<bag name="devices" table="devices" 
+				inverse="true" lazy="true" fetch="select" order-by="order_">
+            <key>
+                <column name="zone_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.Device" />
+        </bag>
+        
+        
+		<bag name="scenes" table="scenes" 
+				inverse="true" lazy="true" fetch="select" order-by="name">
+            <key>
+                <column name="zone_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.Scene" />
+        </bag>
+		
+	</class>
+	
+</hibernate-mapping>

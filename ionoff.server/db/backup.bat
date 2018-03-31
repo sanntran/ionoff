@@ -1,0 +1,1 @@
+mysqldump -u root -p"ionoff$db" ionoff > ionoff.sql

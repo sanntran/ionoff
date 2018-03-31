@@ -1,0 +1,30 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+	<g:HTMLPanel ui:field="root" styleName="playlistEdit expanded">
+		<div class="header">
+			<span class="icon"></span>
+			<g:InlineLabel ui:field="lblName" styleName="title"></g:InlineLabel>
+			<g:Button ui:field="btnDelete" styleName="btn empty"></g:Button>
+			<g:Button ui:field="btnPlay" styleName="btn play"></g:Button>
+			<g:Button ui:field="btnSaveAs" styleName="btn saveAs"></g:Button>
+			<g:Button ui:field="btnSave" styleName="btn save"></g:Button>
+			<g:Button ui:field="btnClose" styleName="btn close"></g:Button>
+		</div>
+		<div class="wrapper">
+			<div class="imgWrapper">
+				<img class="img" src="styles/images/play/playlist.jpg"></img>
+			</div>
+			<div class="contentWrapper">
+				<g:InlineLabel ui:field="lblTextBoxName"></g:InlineLabel>
+				<g:TextBox ui:field="textBoxName"></g:TextBox>
+				<g:InlineLabel ui:field="lblTextAreaDescription"></g:InlineLabel>
+				<g:TextArea  ui:field="textAreaDescription" styleName="name"></g:TextArea>
+			</div>
+			<g:FlowPanel ui:field="nodesWrapper" styleName="nodesWrapper">
+				
+			</g:FlowPanel>
+		</div>		
+	</g:HTMLPanel>
+
+</ui:UiBinder>

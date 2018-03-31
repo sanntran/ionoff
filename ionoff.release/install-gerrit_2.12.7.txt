@@ -1,0 +1,64 @@
+Installation guide
+
+1. Run
+java -jar gerrit-2.12.7.war init -d gerrit
+
+Go to gmail account to turned on 'Access for less secure apps'
+1. Login gmail account
+2. Go to My Account -> 	Sign-in & security -> Connected apps & sites -> turned on 'Access for less secure apps'
+
+2. Extract gerrit-2.12.7.war to folder named 'war'
+
+3. Copy file gerrit.xml to $tomcat/conf/Catalina/localhost
+
+gerrit.xml:
+<Context path="/gerrit" docBase="/opt/gerrit/war">
+<Resource   
+     name="jdbc/ReviewDb"   
+     type="javax.sql.DataSource"   
+     driverClassName="com.mysql.jdbc.Driver"   
+     username="root"   
+     password="xapxinh$db"   
+     url="jdbc:mysql://localhost/gerrit?autoReconnect=true"   
+     auth="Container"  
+ />
+</Context>
+
+4. Copy all file inside $gerrit/lib to $war/WEB-INF/lib
+5. Add -Dorg.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true to $tomcat/bin/setenv.sh
+6. gerrit.config
+
+[gerrit]
+        basePath = git
+        canonicalWebUrl = http://222.255.239.47/gerrit
+[database]
+        type = mysql
+        hostname = localhost
+        database = gerrit
+        username = root
+[index]
+        type = LUCENE
+[auth]
+        type = OPENID
+[receive]
+        enableSignedPush = false
+[sendemail]
+        smtpServer = smtp.gmail.com
+        smtpEncryption = SSL
+        smtpUser = trancongsan@gmail.com
+[container]
+        user = root
+        javaHome = /opt/oracle/jdk1.8.0_91/jre
+        war = /opt/gerrit/gerrit-2.12.7.war
+[sshd]
+        listenAddress = *:29418
+[httpd]
+        listenUrl = http://*:8080/
+[cache]
+        directory = cache
+
+7. Install download-commands.jar plugin
+
+
+-----
+Gerrit plugins: https://gerritcodereview-plugins.storage.googleapis.com/index.html

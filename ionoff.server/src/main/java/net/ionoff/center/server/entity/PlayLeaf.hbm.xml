@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.xapxinh.center.server.entity.PlayLeaf" table="playleafs">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<property name="name">
+			<column name="name" />
+		</property>
+		
+		<property name="url">
+			<column name="url" />
+		</property>
+		
+		<property name="mrl">
+			<column name="mrl" />
+		</property>
+		
+		<property name="type">
+			<column name="type_" />
+		</property>
+		
+		<property name="duration">
+			<column name="duration" />
+		</property>
+		
+		<property name="authors">
+			<column name="authors" />
+		</property>
+		
+		<property name="artists">
+			<column name="artists" />
+		</property>
+		
+		<property name="idx">
+			<column name="idx" />
+		</property>
+		
+		<many-to-one name="playNode" class="net.xapxinh.center.server.entity.PlayNode" fetch="select">
+            <column name="playnode_id" not-null="true" />
+        </many-to-one>      
+		
+	</class>
+	
+</hibernate-mapping>

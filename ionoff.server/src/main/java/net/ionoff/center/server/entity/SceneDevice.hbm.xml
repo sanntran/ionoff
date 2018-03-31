@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.ionoff.center.server.entity.SceneDevice" table="scenes_devices">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<property name="order">
+			<column name="order_" />
+		</property>
+		
+		<property name="duration">
+			<column name="duration" />
+		</property>
+		
+		<many-to-one name="scene" class="net.ionoff.center.server.entity.Scene" fetch="select">
+            <column name="scene_id" not-null="true" />
+        </many-to-one>
+        
+		<many-to-one name="device" class="net.ionoff.center.server.entity.Device" fetch="select">
+            <column name="device_id" not-null="true" />
+        </many-to-one>
+        
+		<bag name="actions" table="scenes_actions" 
+				inverse="true" lazy="true" fetch="select" order-by="id">
+            <key>
+                <column name="scenedevice_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.SceneAction" />
+        </bag>
+		
+	</class>
+	
+</hibernate-mapping>

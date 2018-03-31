@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+	
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.bytecode.use_reflection_optimizer">false</property>	
+		
+		<!-- Database connection settings -->
+        <!-- JDBC connection pool (use the built-in) -->
+               
+        <property name="connection.pool_size">5</property>
+		
+        <!-- SQL dialect -->
+        <!-- Enable Hibernate's automatic session context management -->
+        <!-- Disable the second-level cache -->
+        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">false</property>
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">validate</property>
+        
+        
+       	<property name="hibernate.auto_close_session">true</property>
+	   	<!-- configuration pool via c3p0 -->
+	   	<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>	   	
+	   	<property name= "hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>   
+	   	<property name="hibernate.connection.url">jdbc:mysql://localhost/xdata?autoReconnect=true&amp;characterEncoding=UTF-8</property>
+	   	<property name="hibernate.connection.username">root</property>
+	   	<property name="hibernate.connection.password">ionoff$db</property>	   	
+	   	<property name="hibernate.default_schema">xdata</property>
+	   	<property name="hibernate.enable_lazy_load_no_trans">true</property>
+	   	
+	   	<property name= "hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+	   	<property name="hibernate.c3p0.acquire_increment">5</property>
+	   	<property name="hibernate.c3p0.idle_test_period">1800</property>
+	   	<property name="hibernate.c3p0.max_size">600</property>
+	   	<property name="hibernate.c3p0.max_statements">50</property>
+	   	<property name="hibernate.c3p0.min_size">5</property>
+	   	<property name="hibernate.c3p0.timeout">1800</property>
+		
+		<!-- Mapping files -->
+		<mapping resource="net/xapxinh/dataservice/entity/Album.hbm.xml"/>
+		<mapping resource="net/xapxinh/dataservice/entity/AlbumSong.hbm.xml"/>
+		<mapping resource="net/xapxinh/dataservice/entity/Artist.hbm.xml"/>
+		<mapping resource="net/xapxinh/dataservice/entity/ArtistAlbum.hbm.xml"/>
+		<mapping resource="net/xapxinh/dataservice/entity/ArtistSong.hbm.xml"/>
+		<mapping resource="net/xapxinh/dataservice/entity/Author.hbm.xml"/>		
+		<mapping resource="net/xapxinh/dataservice/entity/AuthorAlbum.hbm.xml"/>
+		<mapping resource="net/xapxinh/dataservice/entity/Song.hbm.xml"/>
+		<mapping resource="net/xapxinh/dataservice/entity/Player.hbm.xml"/>
+		
+	</session-factory>
+</hibernate-configuration>

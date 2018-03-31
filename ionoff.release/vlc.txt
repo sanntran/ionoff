@@ -1,0 +1,12 @@
+Setup Preferences:
+	Allow only one instance
+	Preferences -> All:
+		Input / Codec:
+			Http server port: 8288	
+			
+		Interface -> Main interface:
+		 	Extra interface module: Web
+		Interface -> Main interface -> Lua
+		 	Lua HTTP password: xapxinh$vlc
+		Interface -> Main interface -> Qt
+			Show unimportant error and warnings dialogs: Uncheck

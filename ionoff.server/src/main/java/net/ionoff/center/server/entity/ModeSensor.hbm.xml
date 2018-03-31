@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="net.ionoff.center.server.entity.ModeSensor" table="modes_sensors">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<property name="enabled" type="java.lang.Boolean">
+			<column name="enabled_" sql-type="bit"/>
+		</property>
+		
+		<property name="timeBuffer">
+			<column name="time_buffer" />
+		</property>
+		
+		<property name="resetTime">
+			<column name="reset_time" />
+		</property>
+		
+		<many-to-one name="mode" class="net.ionoff.center.server.entity.Mode" fetch="select">
+            <column name="mode_id" not-null="true" />
+        </many-to-one>
+		
+		<many-to-one name="sensor" class="net.ionoff.center.server.entity.Sensor" fetch="select">
+            <column name="sensor_id" not-null="true" />
+        </many-to-one>
+        
+		<set name="scenes" table="modes_sensors_scenes" 
+				inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="modesensor_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.ModeSensorScene" />
+        </set>
+        
+		<set name="users" table="modes_sensors_users" 
+				inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="modesensor_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.ModeSensorUser" />
+        </set>
+		
+	</class>
+</hibernate-mapping>

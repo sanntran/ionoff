@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.ionoff.center.server.entity.Dashboard" table="dashboards">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<many-to-one name="user" class="net.ionoff.center.server.entity.User" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+		
+		<many-to-one name="zone" class="net.ionoff.center.server.entity.Zone" fetch="select">
+            <column name="zone_id" not-null="false" />
+        </many-to-one>
+        
+        <many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">
+            <column name="project_id" not-null="true" />
+        </many-to-one>
+		
+		<set name="devices" table="dashboards_devices" 
+				inverse="true" lazy="true" fetch="select">
+            <cache usage="read-write"/>
+            <key>
+                <column name="dashboard_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.DashboardDevice" />
+        </set>
+        
+        <set name="scenes" table="dashboards_scenes" 
+				inverse="true" lazy="true" fetch="select">
+            <cache usage="read-write"/>
+            <key>
+                <column name="scene_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.DashboardScene" />
+        </set>
+		
+	</class>
+	
+</hibernate-mapping>

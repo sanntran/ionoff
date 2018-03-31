@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="net.ionoff.center.server.entity.ModeSensorScene" table="modes_sensors_scenes">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<property name="detected" type="java.lang.Boolean">
+			<column name="detected_" sql-type="bit"/>
+		</property>
+		
+		<many-to-one name="modeSensor" class="net.ionoff.center.server.entity.ModeSensor" fetch="select">
+            <column name="modesensor_id" not-null="true" />
+        </many-to-one>
+		
+		<many-to-one name="zone" class="net.ionoff.center.server.entity.Zone" fetch="select">
+            <column name="zone_id" not-null="true" />
+        </many-to-one>
+		
+		<many-to-one name="scene" class="net.ionoff.center.server.entity.Scene" fetch="select">
+            <column name="scene_id" not-null="false" />
+        </many-to-one>
+		
+	</class>
+</hibernate-mapping>

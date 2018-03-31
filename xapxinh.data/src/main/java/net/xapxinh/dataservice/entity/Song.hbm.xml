@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="net.xapxinh.dataservice.entity.Song" table="songs" >
+		
+		<id name="id" type="long" column="id" >
+			<generator class="native"/>
+		</id>
+
+		<property name="name">
+			<column name="name" />
+		</property>
+		
+		<property name="folder">
+			<column name="folder" />
+		</property>
+		
+		<property name="title">
+			<column name="title" />
+		</property>
+		
+		<many-to-one name="author" class="net.xapxinh.dataservice.entity.Author" fetch="select">
+            <column name="author_id" not-null="true" />
+        </many-to-one>
+		
+		<set name="albumSongs" table="albums_songs" 
+        	inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="song_id" not-null="true" />
+            </key>
+            <one-to-many entity-name="net.xapxinh.dataservice.entity.AlbumSong"/>
+        </set>
+        
+		<set name="artistSongs" table="artists_songs" 
+        	inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="song_id" not-null="true" />
+            </key>
+            <one-to-many entity-name="net.xapxinh.dataservice.entity.ArtistSong"/>
+        </set>
+	</class>
+</hibernate-mapping>

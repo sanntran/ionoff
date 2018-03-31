@@ -1,0 +1,48 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:m='urn:import:gwt.material.design.client.ui'
+	xmlns:ma="urn:import:gwt.material.design.addins.client">
+
+	<ui:style>
+		.menuIcon {
+			position: absolute;
+			right: 0px;
+			margin-right: 0px !important;
+			top: 20px;
+		}
+		.menuItem {
+			color: #f2f38a !important;
+    		font-size: 13px !important;
+		}
+	</ui:style>
+		
+	<g:HTMLPanel ui:field="root">
+		<m:MaterialColumn grid="l3 m3 s6">
+			<m:MaterialCollapsible addStyleNames="device appliance" backgroundColor="BLUE_GREY_DARKEN_2" textColor="YELLOW_LIGHTEN_5">
+				<m:MaterialCollapsibleItem>
+					<m:MaterialCollapsibleHeader backgroundColor="BLUE_GREY_DARKEN_2">
+						<m:MaterialImage ui:field="imgIcon" url="imgs/device.png" activates="relayDropdown" 
+							width="50" height="50" circle="true" addStyleNames="icon unknown" float="LEFT"/>
+						<m:MaterialLabel ui:field="lblName" addStyleNames="name" text="-" marginTop="3" fontSize="1.2em"/>
+						<m:MaterialLabel ui:field="lblZone" addStyleNames="zone" text="-" marginTop="5" textColor="GREY_LIGHTEN_2"/>
+						<m:MaterialLabel ui:field="lblTime" addStyleNames="time" text="-" textColor="GREY_LIGHTEN_1"/>
+					</m:MaterialCollapsibleHeader>
+					<m:MaterialCollapsibleBody backgroundColor="BLUE_GREY_DARKEN_1" marginBottom="10">
+						<m:MaterialCollection ui:field="relayCollection" grid="s12">
+						</m:MaterialCollection>
+					</m:MaterialCollapsibleBody>
+					<m:MaterialIcon ui:field="menuIcon" addStyleNames="{style.menuIcon}" iconType="MORE_VERT" iconSize="SMALL" waves="LIGHT"/>
+				</m:MaterialCollapsibleItem>
+			 </m:MaterialCollapsible>
+		</m:MaterialColumn>
+		
+		<m:MaterialDropDown activator="menuIcon" ui:field="menuDropdown" belowOrigin="true" constrainWidth="false"
+			backgroundColor="BLUE_GREY_DARKEN_1">
+			<m:MaterialLink ui:field="menuItemAddToZoneDashboard" addStyleNames="{style.menuItem}" text="Add to Zone Dashboard" />
+			<m:MaterialLink ui:field="menuItemAddToProjectDashboard" addStyleNames="{style.menuItem}" text="Add to Project Dashboard" />
+			<m:MaterialLink ui:field="menuItemRemoveFromDashboard" addStyleNames="{style.menuItem}" text="Remove from Dashboard" />
+		
+		</m:MaterialDropDown>
+	</g:HTMLPanel>
+
+</ui:UiBinder>

@@ -1,0 +1,184 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>net.ionoff</groupId>
+		<artifactId>ionoff</artifactId>
+		<version>${project.version}</version>
+		<relativePath>../ionoff/pom.xml</relativePath>
+	</parent>
+	
+	<artifactId>ionoff.client</artifactId>
+	<packaging>war</packaging>
+	<name>ionoff.client</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>net.ionoff</groupId>
+			<artifactId>ionoff.shared</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.gwt.inject</groupId>
+			<artifactId>gin</artifactId>
+			<version>2.1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<version>2.8.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.moxieapps</groupId>
+			<artifactId>gwt.highcharts</artifactId>
+			<version>1.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fusesource.restygwt</groupId>
+			<artifactId>restygwt</artifactId>
+			<version>2.0.3</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>2.8.1</version>
+		</dependency>
+		
+		
+		<dependency>
+		    <groupId>com.github.gwtmaterialdesign</groupId>
+		    <artifactId>gwt-material</artifactId>
+		    <version>2.0-rc6</version>
+		</dependency>
+		
+		<dependency>
+            <groupId>com.github.gwtmaterialdesign</groupId>
+            <artifactId>gwt-material-themes</artifactId>
+            <version>2.0-rc6</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.github.gwtmaterialdesign</groupId>
+            <artifactId>gwt-material-addins</artifactId>
+            <version>2.0-rc6</version>
+        </dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>ionoff</finalName>
+
+		<plugins>
+
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.4.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+						<configuration>
+							<excludeDefaultDirectories>true</excludeDefaultDirectories>
+							<filesets>
+								<filesets>
+									<directory>target/library</directory>
+									<includes>
+										<include>*.jar</include>
+									</includes>
+								</filesets>
+							</filesets>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/library</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<configuration>
+							<tasks>
+<!-- 								<ant antfile="build.xml" target="build" /> -->
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<webResources>
+						<resource>
+							<directory>src/main/webapp</directory>
+						</resource>
+					</webResources>
+					
+					<packagingExcludes>
+						WEB-INF/lib/*.jar, WEB-INF/classes/**/*.*
+					</packagingExcludes>
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+	</build>
+</project>

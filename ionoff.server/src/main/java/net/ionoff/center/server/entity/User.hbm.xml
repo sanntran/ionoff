@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	
+	<class name="net.ionoff.center.server.entity.User" table="users">
+		
+		<id name="id" type="long" column="id" >
+			<generator class="increment" />
+		</id>
+
+		<property name="name">
+			<column name="name" />
+		</property>
+
+		<property name="fullName">
+			<column name="fullname"/>
+		</property>
+		
+		<property name="phoneNo">
+			<column name="phone_no"/>
+		</property>
+		
+		<property name="email">
+			<column name="email"/>
+		</property>
+		
+		<property name="password">
+			<column name="password_"/>
+		</property>
+		
+		<property name="language">
+			<column name="language"/>
+		</property>
+		
+		<many-to-one name="group" class="net.ionoff.center.server.entity.UserGroup" fetch="select">
+            <column name="group_id" not-null="true" />
+        </many-to-one>
+        
+		<set name="projects" table="users_projects" 
+				inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.UserProject" />
+        </set>
+        
+        <set name="zones" table="users_zones" 
+				inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.UserZone" />
+        </set>
+	</class>
+	
+</hibernate-mapping>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security-4.2.xsd
+		http://www.springframework.org/schema/task
+		http://www.springframework.org/schema/task/spring-task-4.0.xsd" >
+
+	<!-- Database Configuration -->
+	<import resource="data-source.xml" />
+	<import resource="data-access.xml" />
+
+	<mvc:annotation-driven />
+	
+	<task:annotation-driven />
+
+	<context:component-scan base-package="net.ionoff.center.server.restapi" />
+
+	<bean id="jwtTokenUtil" class="net.ionoff.center.server.security.JwtTokenUtil">
+	</bean>
+
+	<bean id="passwordEncoder"
+		class="org.springframework.security.crypto.password.StandardPasswordEncoder">
+		<constructor-arg value="FVUhwvR3zS" />
+	</bean>
+
+	<security:authentication-manager id="authenticationManager">
+		<security:authentication-provider
+			user-service-ref="userService">
+			<security:password-encoder ref="passwordEncoder" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<security:http pattern="/api/errors/**" security="none" />
+	<security:http pattern="/api/users/license" security="none" />
+	<security:http pattern="/api/users/authenticate" security="none" />
+	<security:http pattern="/api/system/*" security="none" />
+
+	<security:http entry-point-ref="unauthorizedEntryPoint"
+		authentication-manager-ref="authenticationManager" create-session="stateless">
+		<security:csrf disabled="true" />
+		
+		<security:custom-filter ref="authenticationTokenFilter" position="PRE_AUTH_FILTER" />
+		
+		<security:intercept-url pattern="/api/projects" access="hasRole('ROLE_SYSTEM_ADMIN')" />
+		<security:intercept-url pattern="/api/projects/*" access="hasRole('ROLE_SYSTEM_ADMIN')" />
+		
+		<security:intercept-url method="PUT" pattern="/api/**" access="hasRole('ROLE_PROJECT_ADMIN')" />
+		<security:intercept-url method="DELETE" pattern="/api/**" access="hasRole('ROLE_PROJECT_ADMIN')" />
+
+		<security:intercept-url method="PUT" pattern="/api/playlists" access="hasRole('ROLE_PROJECT_USER')" />
+		<security:intercept-url method="PUT" pattern="/api/playlists/*" access="hasRole('ROLE_PROJECT_USER')" />
+		<security:intercept-url method="DELETE" pattern="/api/playlists/*" access="hasRole('ROLE_PROJECT_USER')" />
+		<security:intercept-url method="DELETE" pattern="/api/playleafs/*" access="hasRole('ROLE_PROJECT_USER')" />
+		<security:intercept-url method="DELETE" pattern="/api/playnodes/*" access="hasRole('ROLE_PROJECT_USER')" />
+
+		<security:intercept-url method="POST" pattern="/api/modes/*/activate" access="hasRole('ROLE_PROJECT_ADMIN')" />
+
+		<security:intercept-url method="POST" pattern="/api/**/close" access="hasRole('ROLE_PROJECT_USER')" />
+		<security:intercept-url method="POST" pattern="/api/**/open" access="hasRole('ROLE_PROJECT_USER')" />
+		<security:intercept-url method="POST" pattern="/api/**/closeopen" access="hasRole('ROLE_PROJECT_USER')" />
+		<security:intercept-url method="POST" pattern="/api/**/activate" access="hasRole('ROLE_PROJECT_USER')" />
+		<security:intercept-url method="POST" pattern="/api/**/trigger" access="hasRole('ROLE_PROJECT_USER')" />
+		<security:intercept-url method="POST" pattern="/api/**/on" access="hasRole('ROLE_PROJECT_USER')" />
+		<security:intercept-url method="POST" pattern="/api/**/off" access="hasRole('ROLE_PROJECT_USER')" />
+		<security:intercept-url method="POST" pattern="/api/**/command" access="hasRole('ROLE_PROJECT_USER')" />
+
+	</security:http>
+
+	<bean id="unauthorizedEntryPoint"
+		class="net.ionoff.center.server.security.UnauthorizedEntryPoint" />
+
+	<bean id="authenticationTokenFilter"
+		class="net.ionoff.center.server.security.JwtAuthenticationTokenFilter">
+	</bean>
+
+	<context:component-scan base-package="net.ionoff.center.server.restapi" />
+
+	<bean id="e4ControllerApi" class="net.ionoff.center.server.controller.api.E4ControllerApi">
+	</bean>
+
+	<bean id="p4ControllerApi" class="net.ionoff.center.server.controller.api.P4ControllerApi">
+	</bean>
+
+	<bean id="p8ControllerApi" class="net.ionoff.center.server.controller.api.P8ControllerApi">
+	</bean>
+
+	<bean id="ec100ControllerApi"
+		class="net.ionoff.center.server.controller.api.EC100ControllerApi">
+	</bean>
+
+	<bean id="ep2"
+		class="net.ionoff.center.server.controller.api.EP2ControllerApi">
+	</bean>
+
+	<bean id="controllerApiProvider"
+		class="net.ionoff.center.server.controller.api.ControllerApiProvider">
+	</bean>
+
+	<bean id="emailService" class="net.ionoff.center.server.email.service.EmailServiceImpl">
+	</bean>
+
+	<bean id="smsService" class="net.ionoff.center.server.sms.service.SmsServiceImpl">
+	</bean>
+
+	<bean id="controlService" class="net.ionoff.center.server.control.ControlServiceImpl">
+	</bean>
+
+	<bean id="sensorStatusNotifier" class="net.ionoff.center.server.notifier.SensorStatusNotifier">
+		<constructor-arg ref="sensorStatusChangedListener" />
+	</bean>
+
+	<bean id="sensorStatusChangedListener"
+		class="net.ionoff.center.server.notifier.listener.SensorStatusChangedListener">
+	</bean>
+	
+	<bean id="sensorStatusChangedHandler"
+		class="net.ionoff.center.server.notifier.handler.SensorStatusChangedHandler">
+	</bean>
+	
+	<bean id="relayStatusNotifier" class="net.ionoff.center.server.notifier.RelayStatusNotifier">
+		<constructor-arg ref="relayStatusChangedListener" />
+	</bean>
+	
+	<bean id="relayStatusChangedListener" 
+				class="net.ionoff.center.server.notifier.listener.RelayStatusChangedListener">
+	</bean>
+
+	<bean id="relayStatusChangedHandler"
+				class="net.ionoff.center.server.notifier.handler.RelayStatusChangedHandler">
+	</bean>
+
+	<bean id="dataServiceApi" class="net.ionoff.center.server.xapxinh.XDataServiceApiImpl">
+	</bean>
+
+	<bean id="playerConnectionPool" class="net.ionoff.center.server.xapxinh.PlayerConnectionPool">
+		<constructor-arg ref="deviceService" />
+	</bean>
+
+	<bean id="xmpPlayerApi" class="net.xapxinh.center.server.api.player.XmpPlayerApi">
+	</bean>
+
+	<bean id="impPlayerApi" class="net.ionoff.center.server.player.api.ImpPlayerApi">
+	</bean>
+
+	<bean id="playerCaches" class="net.xapxinh.center.server.service.player.PlayerCaches">
+	</bean>
+
+	<bean id="playerService"
+		class="net.ionoff.center.server.player.service.PlayerServiceImpl">
+		<constructor-arg ref="xmpPlayerApi" />
+		<constructor-arg ref="playerConnectionPool" />
+		<constructor-arg ref="playerCaches" />
+		<constructor-arg ref="dataServiceApi" />
+	</bean>
+
+	<bean id="controllerConnectionPool"
+		class="net.ionoff.center.server.thread.ControllerConnectionPool">
+	</bean>
+
+	<bean id="dataService" class="net.xapxinh.center.server.service.data.DataServiceImpl">
+		<constructor-arg ref="dataServiceApi" />
+		<constructor-arg ref="playerService" />
+	</bean>
+
+	<bean id="serverThreadPool" class="net.ionoff.center.server.thread.ServerThreadPool">
+	</bean>
+
+	<bean id="areaMapper" class="net.ionoff.center.server.objmapper.AreaMapper">
+	</bean>
+
+	<bean id="controllerMapper" class="net.ionoff.center.server.objmapper.ControllerMapper">
+	</bean>
+
+	<bean id="deviceMapper" class="net.ionoff.center.server.objmapper.DeviceMapper">
+	</bean>
+
+	<bean id="modeMapper" class="net.ionoff.center.server.objmapper.ModeMapper">
+	</bean>
+
+	<bean id="playlistMapper" class="net.ionoff.center.server.objmapper.PlayListMapper">
+	</bean>
+	
+	<bean id="scheduleMapper" class="net.ionoff.center.server.objmapper.ScheduleMapper">
+	</bean>
+
+	<bean id="projectMapper" class="net.ionoff.center.server.objmapper.ProjectMapper">
+	</bean>
+
+	<bean id="relayMapper" class="net.ionoff.center.server.objmapper.RelayMapper">
+	</bean>
+
+	<bean id="sceneMapper" class="net.ionoff.center.server.objmapper.SceneMapper">
+	</bean>
+
+	<bean id="sensorMapper" class="net.ionoff.center.server.objmapper.SensorMapper">
+	</bean>
+
+	<bean id="userMapper" class="net.ionoff.center.server.objmapper.UserMapper">
+	</bean>
+
+	<bean id="zoneMapper" class="net.ionoff.center.server.objmapper.ZoneMapper">
+	</bean>
+	
+	<bean id="dashboardMapper" class="net.ionoff.center.server.objmapper.DashboardMapper">
+	</bean>
+	
+	<bean id="mqttClient" class="net.ionoff.center.server.thread.MosquittoClient">
+	</bean>
+	
+	<bean id="controllerStatusHandler" class="net.ionoff.center.server.thread.ControllerStatusHandler">
+	</bean>
+
+</beans>

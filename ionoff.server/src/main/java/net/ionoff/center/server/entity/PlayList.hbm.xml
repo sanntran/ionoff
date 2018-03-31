@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.ionoff.center.server.entity.PlayList" table="playlists">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<property name="name">
+			<column name="name" />
+		</property>
+		
+		<property name="isPublic" type="java.lang.Boolean">
+			<column name="is_public" sql-type="bit"/>
+		</property>
+		
+		<property name="thumbnail">
+			<column name="thumbnail" />
+		</property>
+        
+        <bag name="nodes" table="playnodes" inverse="true" lazy="true"
+			fetch="select" order-by="idx">
+			<key column="playlist_id" not-null="true">
+			</key>
+			<one-to-many entity-name="net.xapxinh.center.server.entity.PlayNode" />
+		</bag>
+		
+		<many-to-one name="user" class="net.ionoff.center.server.entity.User" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+        
+	</class>
+	
+</hibernate-mapping>

@@ -1,0 +1,1 @@
+mysqldump -u root -p"ionoff$db" xdata > xdata.sql

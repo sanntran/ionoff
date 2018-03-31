@@ -1,0 +1,21 @@
+COMODO cert: 
+
+Step one: Convert x509 Cert and Key to a pkcs12 file
+
+keytool -importkeystore -deststorepass 'ionoff$server' -destkeypass 'ionoff$server' -destkeystore cloud.ionoff.net.jks  -srckeystore cloud.ionoff.net.p12 -srcstoretype PKCS12 -srcstorepass 'ionoff$server' -alias tomcat
+
+
+Step two: Convert the pkcs12 file to a java keystore
+
+keytool -importkeystore -deststorepass 'ionoff$server' -destkeypass 'ionoff$server' -destkeystore cloud.ionoff.net.jks  -srckeystore cloud.ionoff.net.p12 -srcstoretype PKCS12 -srcstorepass 'ionoff$server' -alias tomcat
+
+Step 3: 
+Config server.xml Tomcat
+
+<Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"
+              maxThreads="150" scheme="https" secure="true"
+              clientAuth="false" sslProtocol="TLS"
+               keystoreFile="keystore/cloud.ionoff.net.jks"
+               keystorePass="ionoff$server"
+              keyAlias="tomcat"
+               />

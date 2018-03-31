@@ -1,0 +1,80 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:m='urn:import:gwt.material.design.client.ui'
+	xmlns:ma="urn:import:gwt.material.design.addins.client">
+
+	<ui:style>
+		.icon {
+			bottom: 15px !important;
+    		left: 4px !important;
+		}
+		.sliderWrapper {
+			position: absolute;
+		    bottom: 2px;
+		    left: 15px;
+		    height: 2px;
+		    background-color: #677b8b;
+		    right: 15px;
+		}
+		.sliderPlayed {
+			height: 2px;
+		}
+		.playerBtn {
+		    width: 50px !important;
+		    text-align: center;
+		    height: 45px;
+			line-height: 45px;
+			font-size: 3.5rem !important;
+			float: right;
+		}
+		.menuIcon {
+			position: absolute;
+			right: 0px;
+		}
+		.menuItem {
+			color: #f2f38a !important;
+    		font-size: 13px !important;
+		}
+		.btnGroup {
+			position: absolute;
+		    bottom: 10px;
+		    right: 10px!important;
+    		width: calc(100% - 20px) !important;
+		}
+	</ui:style>
+	
+	<g:HTMLPanel ui:field="root">
+		<m:MaterialColumn grid="l3 m3 s6">
+				<m:MaterialCard addStyleNames="device player" backgroundColor="BLUE_GREY_DARKEN_2">
+					<m:MaterialCardContent textColor="YELLOW_LIGHTEN_5" >
+						<m:MaterialRow marginBottom="0">
+							<m:MaterialIcon ui:field="menuIcon" addStyleNames="{style.menuIcon}" iconType="MORE_VERT" iconSize="SMALL" waves="LIGHT"/>						
+							<m:MaterialPanel ui:field="playerCard" grid="s9"  waves="LIGHT">
+								<m:MaterialLabel ui:field="lblName" addStyleNames="name" text="-" marginTop="3" fontSize="1.2em" float="LEFT"/>
+								<m:MaterialLabel ui:field="lblZone" addStyleNames="zone" text="-" marginTop="5" textColor="GREY_LIGHTEN_2"/>
+							</m:MaterialPanel>
+							<m:MaterialPanel grid="s12" addStyleNames="{style.btnGroup}">
+								<m:MaterialIcon ui:field="btnPlay" addStyleNames="{style.playerBtn}" waves="LIGHT" iconType="PLAY_ARROW" circle="true" iconSize="MEDIUM"/>
+								<m:MaterialIcon ui:field="btnStop" addStyleNames="{style.playerBtn}" waves="LIGHT" iconType="STOP" circle="true" iconSize="MEDIUM"/>
+							</m:MaterialPanel>
+							<m:MaterialPanel addStyleNames="{style.sliderWrapper}">
+								<m:MaterialLabel ui:field="lblPlayed" addStyleNames="{style.sliderPlayed}" backgroundColor="PINK_ACCENT_4"/>
+							</m:MaterialPanel>
+							<m:MaterialImage ui:field="imgIcon" addStyleNames="icon {style.icon}" url="imgs/player.png" width="50" height="50" circle="true" float="LEFT"/>
+							<m:MaterialLabel ui:field="lblTime" addStyleNames="time" text="" textColor="GREY_LIGHTEN_1" float="LEFT"/>
+						</m:MaterialRow>
+					</m:MaterialCardContent>
+				</m:MaterialCard>
+				
+				<m:MaterialDropDown activator="menuIcon" ui:field="menuDropdown" belowOrigin="true" constrainWidth="false"
+					backgroundColor="BLUE_GREY_DARKEN_1">
+					<m:MaterialLink ui:field="menuItemAddToZoneDashboard" addStyleNames="{style.menuItem}" text="Add to Zone Dashboard" />
+					<m:MaterialLink ui:field="menuItemAddToProjectDashboard" addStyleNames="{style.menuItem}" text="Add to Project Dashboard" />
+					<m:MaterialLink ui:field="menuItemRemoveFromDashboard" addStyleNames="{style.menuItem}" text="Remove from Dashboard" />
+				
+				</m:MaterialDropDown>
+			</m:MaterialColumn>
+			
+	</g:HTMLPanel>
+
+</ui:UiBinder>

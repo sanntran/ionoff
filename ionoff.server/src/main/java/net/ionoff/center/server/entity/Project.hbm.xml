@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.ionoff.center.server.entity.Project" table="projects">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<property name="name">
+			<column name="name" />
+		</property>
+		
+		<property name="address">
+			<column name="address" />
+		</property>
+		
+		<set name="zones" table="zones" 
+				inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="project_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.Zone" />
+        </set>
+        
+		
+		<set name="areas" table="areas" 
+				inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="project_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.Area" />
+        </set>
+        
+		<set name="modes" table="modes" 
+				inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="project_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.Mode" />
+        </set>
+        
+        <set name="users" table="users_projects" 
+				inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="project_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.UserProject" />
+        </set>
+                
+		<set name="sensors" table="sensors" 
+				inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="project_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.Sensor" />
+        </set>
+        
+		<set name="controllers" table="controllers" 
+				inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="project_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.Controller" />
+        </set>
+		
+	</class>
+	
+</hibernate-mapping>

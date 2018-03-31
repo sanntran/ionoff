@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.ionoff.center.server.entity.ScheduleAction" table="schedules_actions" discriminator-value="ScheduleAction">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<discriminator column="type_" type="string"> </discriminator>
+		
+		<property name="action">
+			<column name="action_" />
+		</property>
+        
+		<many-to-one name="schedule" class="net.ionoff.center.server.entity.Schedule" fetch="select">
+            <column name="schedule_id" not-null="true" />
+        </many-to-one>
+        
+		<subclass name="net.ionoff.center.server.entity.SchedulePlayerAction"
+			discriminator-value="SchedulePlayerAction">
+		    
+		    <property name="volume">
+				<column name="volume" />
+			</property>
+			
+			<property name="album">
+				<column name="album" />
+			</property>
+			
+			<property name="albumType">
+				<column name="album_type" />
+			</property>
+			
+			<many-to-one name="player" class="net.ionoff.center.server.entity.Player" fetch="select">
+            	<column name="player_id" not-null="false" />
+            </many-to-one>
+		</subclass>
+
+		<subclass name="net.ionoff.center.server.entity.ScheduleRelayAction"
+			discriminator-value="ScheduleRelayAction">
+			
+			<many-to-one name="relay" class="net.ionoff.center.server.entity.Relay" fetch="select">
+            	<column name="relay_id" not-null="false" />
+        	</many-to-one>
+        	
+		</subclass>
+		
+	</class>
+	
+</hibernate-mapping>

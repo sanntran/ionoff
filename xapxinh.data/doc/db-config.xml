@@ -1,0 +1,33 @@
+<dataConfig>
+	<dataSource type="JdbcDataSource"
+	driver="com.mysql.jdbc.Driver"
+	url="jdbc:mysql://localhost:3306/xdataservice"
+	user="root"
+	password="xapxinh$db" />
+	<document>	    
+		<entity name="id" query="select *, 'Artist' as 'clazz' from artists ;" />
+		<entity name="id" query="select *, 'Author' as 'clazz' from authors_ ;" />
+		<entity name="id" query="select *, 'Song' as 'clazz' from songs ;" />
+		<entity name="id" query="select t1.*, t2.author, 'Album' as 'clazz' 
+								from 
+								(select album.*, GROUP_CONCAT(t1a.name SEPARATOR ', ') as 'artist'
+									from 
+									(select artist_album.album_id, artist.name
+										from artists as artist, artists_albums as artist_album 
+										where artist.id = artist_album.artist_id) 
+									as t1a right join albums as album
+									on t1a.album_id = album.id
+									group by album.id)
+								as t1,
+								(select album.id, GROUP_CONCAT(t2a.name SEPARATOR ', ') as 'author'
+									from 
+									(select author_album.album_id, author.name
+										from authors_ as author, authors_albums as author_album 
+										where author.id = author_album.author_id) 
+									as t2a right join albums as album
+									on t2a.album_id = album.id
+									group by album.id) 
+								as t2
+								where t1.id = t2.id ;" />
+	</document>
+</dataConfig>

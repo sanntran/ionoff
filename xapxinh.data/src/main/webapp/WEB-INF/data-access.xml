@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	    
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+      <property name="dataSource" ref="dataSource"/>
+      <property name="configLocation" value="classpath:hibernate.cfg.xml" />      
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+      <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+    <!-- Persistence DAO -->
+    <bean id="albumDao" class="net.xapxinh.dataservice.persistence.dao.impl.AlbumDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="albumSongDao" class="net.xapxinh.dataservice.persistence.dao.impl.AlbumSongDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="authorDao" class="net.xapxinh.dataservice.persistence.dao.impl.AuthorDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="authorAlbumDao" class="net.xapxinh.dataservice.persistence.dao.impl.AuthorAlbumDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="artistDao" class="net.xapxinh.dataservice.persistence.dao.impl.ArtistDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="artistAlbumDao" class="net.xapxinh.dataservice.persistence.dao.impl.ArtistAlbumDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="artistSongDao" class="net.xapxinh.dataservice.persistence.dao.impl.ArtistSongDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="songDao" class="net.xapxinh.dataservice.persistence.dao.impl.SongDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="playerDao" class="net.xapxinh.dataservice.persistence.dao.impl.PlayerDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <!-- Persistence services -->
+    <bean id="albumService" class="net.xapxinh.dataservice.persistence.service.impl.AlbumServiceImpl">
+      <constructor-arg ref="albumDao" />    
+    </bean>
+    
+    <bean id="songService" class="net.xapxinh.dataservice.persistence.service.impl.SongServiceImpl">
+      <constructor-arg ref="songDao" />    
+    </bean>
+    
+    <bean id="albumSongService" class="net.xapxinh.dataservice.persistence.service.impl.AlbumSongServiceImpl">
+      <constructor-arg ref="albumSongDao" />    
+    </bean>
+    
+    <bean id="authorService" class="net.xapxinh.dataservice.persistence.service.impl.AuthorServiceImpl">
+      <constructor-arg ref="authorDao" />    
+    </bean>
+    
+    <bean id="authorAlbumService" class="net.xapxinh.dataservice.persistence.service.impl.AuthorAlbumServiceImpl">
+      <constructor-arg ref="authorAlbumDao" />    
+    </bean>
+    
+    <bean id="artistService" class="net.xapxinh.dataservice.persistence.service.impl.ArtistServiceImpl">
+      <constructor-arg ref="artistDao" />    
+    </bean>
+    
+    <bean id="artistAlbumService" class="net.xapxinh.dataservice.persistence.service.impl.ArtistAlbumServiceImpl">
+      <constructor-arg ref="artistAlbumDao" />    
+    </bean>
+    
+    <bean id="artistSongService" class="net.xapxinh.dataservice.persistence.service.impl.ArtistSongServiceImpl">
+      <constructor-arg ref="artistSongDao" />    
+    </bean>
+    
+    <bean id="musicFileService" class="net.xapxinh.dataservice.persistence.service.impl.SongServiceImpl">
+      <constructor-arg ref="songDao" />    
+    </bean>
+    
+    <bean id="playerService" class="net.xapxinh.dataservice.persistence.service.impl.PlayerServiceImpl">
+      <constructor-arg ref="playerDao" />    
+    </bean>
+    
+</beans>

@@ -1,0 +1,209 @@
+Linux mint 17 Qiana - Cinnamon
+
+1. 	Uninstall all app that unncessarry:
+ 	- Accessories: keep origin	 
+ 	- Office: remove all
+ 	- Internet: Keep Firefox
+ 	- Graphic: Keep Image Viewer, Simple Scan
+ 	- Sound & Video: Keep VLC
+
+2. Change startup app:
+
+Menu Preferences -> Startup Application
+	** Uncheck 
+ 	- mintUpdate
+ 	- mintUpload
+ 	- mintWelcome
+	** Add
+ 	- Menu -> Sound & Video -> Right click VLC media player -> Edit properties -> copy all field -> paste to 'Add Startup Program'
+
+3. 	Setup VLC: Web, HTTP port, Lua password
+	Note that port is: 8288
+	VLC search path: /usr/lib/vlc
+
+3. 	Set screen never off
+	Menu -> Preferences -> Screen Saver
+ 	- Uncheck: Active screen saver when computer is idle
+ 	- Uncheck: Lock screen when screen saver is active
+
+4. 	Remove Home and Computer on Desktop
+ 	Menu -> Prefernces -> Desktop Setting
+    - Uncheck Computer
+	- Uncheck Home
+
+5. Install Java
+	Solution 1////
+	
+	- Copy jdk-7u72-linux-x64.tar.gz to /home/esysma/
+
+	- Extract file: sudo tar -xzf jdk-7u72-linux-x64.tar.gz
+
+	- Move to /usr/lib/jvm: sudo mv jdk1.7.0_72 /usr/lib/jvm/
+
+	- Update System Java to Oracle JDK7
+		sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk1.7.0_72/bin/java 2014
+		sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk1.7.0_72/bin/javac 2014
+		sudo update-alternatives --install /usr/bin/jar jar /usr/lib/jvm/jdk1.7.0_72/bin/jar 2014
+	 	sudo update-alternatives --install /usr/bin/javaws javaws /usr/lib/jvm/jdk1.7.0_72/bin/javaws 2014
+		
+		
+		************ Note to remove alternatives
+		sudo update-alternatives --remove "java" "/usr/lib/jvm/jdk1.7.0_72/bin/java"
+		sudo update-alternatives --remove "javac" "/usr/lib/jvm/jdk1.7.0_72/bin/javac"
+		sudo update-alternatives --remove "jar" "/usr/lib/jvm/jdk1.7.0_72/bin/jar"
+	 	sudo update-alternatives --remove "javaws" "/usr/lib/jvm/jdk1.7.0_72/bin/javaws"
+
+	- Checking or Setting the System Java Version in use with
+		sudo update-alternatives --config java
+		sudo update-alternatives --config javaws
+		sudo update-alternatives --config javac
+		sudo update-alternatives --config jar
+		
+		
+	Solution 2///
+		sudo add-apt-repository ppa:webupd8team/java
+		sudo apt-get update
+		sudo apt-get install oracle-java7-installer 
+
+6. Install Tomcat
+	- Copy apache-tomcat-7.0.55.tar.gz to Downloads
+
+	- Extract: 
+	  	sudo tar -xzf apache-tomcat-7.0.55.tar.gz
+
+	- Create folder in /usr/local/
+	  	cd /usr/local/
+	  	sudo mkdir esysma
+
+	- Move tomcat to esysma folder
+      	sudo mv /home/esysma/Downloads/apache-tomcat-7.0.55 /usr/local/esysma/
+
+	- Create the init script in /etc/init.d/tomcat7 with the contents as per below 
+			
+			#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:        tomcat7
+# Required-Start:  $network
+# Required-Stop:   $network
+# Default-Start:   2 3 4 5
+# Default-Stop:    0 1 6
+# Short-Description: Start/Stop Tomcat server
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+start() {
+ sh /usr/local/esysma/apache-tomcat-7.0.56/bin/startup.sh
+}
+
+stop() {
+ sh /usr/local/esysma/apache-tomcat-7.0.56/bin/shutdown.sh
+}
+
+case $1 in
+  start|stop) $1;;
+  restart) stop; start;;
+  *) echo "Run as $0 <start|stop|restart>"; exit 1;;
+esac
+
+	
+	- Set tomcat7 runs on startup
+		chmod 755 /etc/init.d/tomcat7
+		update-rc.d tomcat7 defaults
+
+7. 	Install FTP Server
+
+	- Go to Application, then select Accessories and chose Terminal 
+	- sudo apt-get install vsftpd
+	- If allowing anonymous user:
+		chmod 777 /etc/vsftpd.conf
+		goto /etc/vsftpd.conf -> open (double click)
+		Edit 	
+			anonymous_enable=NO
+			write_enable=YES
+		Remove '#' from #chroot_local_user=YES
+		Add to the bottom:
+				allow_writeable_chroot=YES
+
+		chmod 644 /etc/vsftpd.conf
+		
+
+	To restart the FTP service, type the following command: 
+		sudo /etc/init.d/vsftpd restart (without quotation marks)
+	Linux mint 17:
+		sudo service vsftpd restart
+
+8. Set static IP
+	Menu -> Administration -> Network
+
+	OR:
+
+	sudo nano sudo nano /etc/network/interfaces
+
+	# This file describes the network interfaces available on your system
+	# and how to activae them. For more information, see interfaces(5)
+
+	# The loopback network interface
+	auto lo
+	iface lo inet loopback
+
+	# The primary network interface
+	auto eth0
+	iface eth0 inet static
+	address 192.168.1.253
+	netmask 255.255.255.0
+	gateway 192.168.1.1
+	dns-nameservers 8.8.8.8 8.8.4.4
+	
+*************************************************************************
+Uninstall FTP:
+sudo apt-get purge vsftpd
+
+*************************************************************************
+9. 	Show count down timeout:
+	Opening the file /etc/default/grub and changing the value of GRUB_HIDDEN_TIMEOUT_QUIET to false:
+	1. Open grub: sudo gedit /etc/default/grub
+	2. Set: GRUB_HIDDEN_TIMEOUT_QUIET=false
+			GRUB_TIMEOUT=5
+	3. Save file:
+	4. Run update: sudo update-grub
+
+	DO NOT Disable the timeout, SHOULD Show count down timeout
+	
+****Disable the timeout:
+	Opening the file /etc/default/grub and changing the value of GRUB_TIMEOUT to -1:
+	1. Open grub: sudo gedit /etc/default/grub
+	2. Set: GRUB_TIMEOUT=-1
+	3. Save file:
+	4. Run update: sudo update-grub
+
+10. Install no-ip
+	mkdir utils
+	
+	cd /usr/local/src
+	sudo wget http://www.no-ip.com/client/linux/noip-duc-linux.tar.gz
+	sudo tar xzf noip-duc-linux.tar.gz
+	sudo cd no-ip-2.1.9
+	sudo make
+	sudo make install
+
+	sudo apt-get install make
+	sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+	$ sudo apt-get install gcc-4.8
+	
+	$ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 20
+	$ sudo update-alternatives --config gcc
+	
+11. disable Grub's menu from showing up after failed boot
+	sudo nano /etc/default/grub	
+	Insert to the end:
+	GRUB_RECORDFAIL_TIMEOUT=0
+	Save file
+	Run update: sudo update-grub
+	
+12. Install MySQL Server
+	sudo apt-get install mysql-server  
+	
+	
+13. Disable firewall: sudo ufw disable

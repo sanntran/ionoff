@@ -1,0 +1,397 @@
+Ubuntu minimal 16.04
+
+User: ubuntu
+Defalt pass: ubuntu
+
+Ubuntu minimal 16.04 IMP
+Change pass to: ionoff$mpd
+
+Ubuntu minimal 16.04 SERVER
+Change pass to: ionoff$server
+
+1. 	Raspberry long boot
+	Reason: No network and static ip is not set
+	
+	
+2. Set static IP
+
+	sudo nano /etc/network/interfaces
+
+	# This file describes the network interfaces available on your system
+	# and how to activae them. For more information, see interfaces(5)
+
+	# The loopback network interface
+	auto lo
+	iface lo inet loopback
+
+	# The primary network interface
+	auto eth0
+	iface eth0 inet static
+	address 192.168.1.252
+	netmask 255.255.255.0
+	gateway 192.168.1.1
+	dns-nameservers 192.168.1.1 8.8.8.8
+	
+3. 	Fix lost eth0
+
+	Edit file /lib/udev/rules.d/73-usb-net-by-mac.rules
+	(If does not exist, creat a new one) 
+	
+	Change
+	
+	ACTION=="add", SUBSYSTEM=="net", SUBSYSTEMS=="usb", NAME=="", ATTR{address}=="?[014589cd]:*", TEST!="/etc/udev/rules.d/80-net-setup-link.rules", IMPORT{builtin}="net_id", NAME="$env{ID_NET_NAME_MAC}"
+
+	To (In case creat new file, add:)
+	ACTION=="add", SUBSYSTEM=="net", SUBSYSTEMS=="usb", NAME=="", \ATTR{address}=="?[014589cd]:*", TEST!="/etc/udev/rules.d/80-net-setup-link.rules", IMPORT{builtin}="net_id", NAME="eth0"
+
+	(Replace ?[014589cd]:* by the net card mac address)
+	
+	To prevent any future updates from overwriting this fix, do the following:
+
+	cp /lib/udev/rules.d/73-usb-net-by-mac.rules /etc/udev/rules.d/
+	
+	Reboot
+	
+	******************************************************************
+	Fix loss eth0 (ubuntu standard)
+
+	This solution only works if you're seeing an odd network interface device like env{hwdaddress} when running $ ifconfig -a instead of eth0. I tried all the common answers about adding rules but only this fix worked.
+
+	I'm running a Raspberry Pi 3 with Ubuntu 16.04 preinstalled server armhf. Long story short, running $ apt-get update added Predictable Network Interface Names
+
+	Edit the following file:
+
+	$ vim /lib/udev/rules.d/73-usb-net-by-mac.rules
+	
+	You should see:
+	ACTION=="add", SUBSYSTEM=="net", SUBSYSTEMS=="usb", NAME=="", ATTR{address}=="?[014589cd]:*", TEST!="/etc/udev/rules.d/80-net-setup-link.rules", IMPORT{builtin}="net_id", NAME="$env{ID_NET_NAME_MAC}"
+	
+	Change the NAME at the end as follows:
+	ACTION=="add", SUBSYSTEM=="net", SUBSYSTEMS=="usb", NAME=="", ATTR{address}=="?[014589cd]:*", TEST!="/etc/udev/rules.d/80-net-setup-link.rules", IMPORT{builtin}="net_id", NAME="eth0"
+	
+	Save Changes
+
+	Reboot. Everything should be working now assuming everything is pointing to eth0.
+
+	Edit (10/26/2016) To prevent any future updates from overwriting this fix, do the following:
+
+	cp /lib/udev/rules.d/73-usb-net-by-mac.rules /etc/udev/rules.d/
+		
+4. 	Install SSH
+	sudo apt-get install ssh
+	
+5. 	Enlarge partion. See bottom
+
+--
+6.	Install FTP Server
+	
+	- sudo apt-get install vsftpd
+	- If allowing anonymous user:
+		chmod 777 /etc/vsftpd.conf
+		nano /etc/vsftpd.conf
+		Edit 	
+			anonymous_enable=NO
+			write_enable=YES
+		Remove '#' from #chroot_local_user=YES
+		Add to the bottom:
+				allow_writeable_chroot=YES
+
+		chmod 644 /etc/vsftpd.conf
+		
+
+	To restart the FTP service, type the following command: 
+		sudo /etc/init.d/vsftpd restart		
+		
+7. 	
+
+8.	Install Java
+	mv jdk-8u91-linux-arm32-vfp-hflt.tar.gz /opt/oracle/
+	sudo tar -xzf jdk-8u91-linux-arm32-vfp-hflt.tar.gz
+	sudo update-alternatives --install /usr/bin/java java /opt/oracle/jdk1.8.0_91/bin/java 2016
+	sudo update-alternatives --install /usr/bin/javac javac /opt/oracle/jdk1.8.0_91/bin/javac 2016
+	sudo update-alternatives --install /usr/bin/jar jar /opt/oracle/jdk1.8.0_91/bin/jar 2016
+	sudo update-alternatives --install /usr/bin/javaws javaws /opt/oracle/jdk1.8.0_91/bin/javaws 2016
+
+9.	MySQL server 5.7
+	Sudo apt-get install mysql-server
+	
+	Open /etc/mysql/my.cnf 
+	Add:
+	[mysqld]
+	sql-mode=""
+
+10. Install RTC ...
+
+	
+11. Enlarge partion
+	ubuntu@ubuntu-standard:/opt/gerrit$ fdisk /dev/mmcblk0
+
+	Welcome to fdisk (util-linux 2.27.1).
+	Changes will remain in memory only, until you decide to write them.
+	Be careful before using the write command.
+
+	fdisk: cannot open /dev/mmcblk0: Permission denied
+	ubuntu@ubuntu-standard:/opt/gerrit$ sudo fdisk /dev/mmcblk0
+
+	Welcome to fdisk (util-linux 2.27.1).
+	Changes will remain in memory only, until you decide to write them.
+	Be careful before using the write command.
+
+
+	Command (m for help): parted
+	Disk /dev/mmcblk0: 14.9 GiB, 15931539456 bytes, 31116288 sectors
+	Units: sectors of 1 * 512 = 512 bytes
+	Sector size (logical/physical): 512 bytes / 512 bytes
+	I/O size (minimum/optimal): 512 bytes / 512 bytes
+	Disklabel type: dos
+	Disk identifier: 0xb5af4ac3
+
+	Device         Boot  Start     End Sectors  Size Id Type
+	/dev/mmcblk0p1 *      2048  133119  131072   64M  c W95 FAT32 (LBA)
+	/dev/mmcblk0p2      133120 7679999 7546880  3.6G 83 Linux
+
+	Command (m for help): m
+
+	Help:
+
+	  DOS (MBR)
+	   a   toggle a bootable flag
+	   b   edit nested BSD disklabel
+	   c   toggle the dos compatibility flag
+
+	  Generic
+	   d   delete a partition
+	   F   list free unpartitioned space
+	   l   list known partition types
+	   n   add a new partition
+	   p   print the partition table
+	   t   change a partition type
+	   v   verify the partition table
+	   i   print information about a partition
+
+	  Misc
+	   m   print this menu
+	   u   change display/entry units
+	   x   extra functionality (experts only)
+
+	  Script
+	   I   load disk layout from sfdisk script file
+	   O   dump disk layout to sfdisk script file
+
+	  Save & Exit
+	   w   write table to disk and exit
+	   q   quit without saving changes
+
+	  Create a new label
+	   g   create a new empty GPT partition table
+	   G   create a new empty SGI (IRIX) partition table
+	   o   create a new empty DOS partition table
+	   s   create a new empty Sun partition table
+
+
+	Command (m for help): parted rm 2
+	Disk /dev/mmcblk0: 14.9 GiB, 15931539456 bytes, 31116288 sectors
+	Units: sectors of 1 * 512 = 512 bytes
+	Sector size (logical/physical): 512 bytes / 512 bytes
+	I/O size (minimum/optimal): 512 bytes / 512 bytes
+	Disklabel type: dos
+	Disk identifier: 0xb5af4ac3
+
+	Device         Boot  Start     End Sectors  Size Id Type
+	/dev/mmcblk0p1 *      2048  133119  131072   64M  c W95 FAT32 (LBA)
+	/dev/mmcblk0p2      133120 7679999 7546880  3.6G 83 Linux
+
+	Command (m for help): d 2
+	Partition number (1,2, default 2): 2
+
+	Partition 2 has been deleted.
+
+	Command (m for help): n
+	Partition type
+	   p   primary (1 primary, 0 extended, 3 free)
+	   e   extended (container for logical partitions)
+	Select (default p): p
+	Partition number (2-4, default 2): 2
+	First sector (133120-31116287, default 133120): 133120
+	Last sector, +sectors or +size{K,M,G,T,P} (133120-31116287, default 31116287):
+
+	Created a new partition 2 of type 'Linux' and of size 14.8 GiB.
+
+	Command (m for help): parted
+	Disk /dev/mmcblk0: 14.9 GiB, 15931539456 bytes, 31116288 sectors
+	Units: sectors of 1 * 512 = 512 bytes
+	Sector size (logical/physical): 512 bytes / 512 bytes
+	I/O size (minimum/optimal): 512 bytes / 512 bytes
+	Disklabel type: dos
+	Disk identifier: 0xb5af4ac3
+
+	Device         Boot  Start      End  Sectors  Size Id Type
+	/dev/mmcblk0p1 *      2048   133119   131072   64M  c W95 FAT32 (LBA)
+	/dev/mmcblk0p2      133120 31116287 30983168 14.8G 83 Linux
+
+	Command (m for help): w
+	The partition table has been altered.
+	Calling ioctl() to re-read partition table.
+	Re-reading the partition table failed.: Device or resource busy
+
+	The kernel still uses the old table. The new table will be used at the next reboot or after you run partprobe(8) or kpartx(8).
+
+	
+	sudo resize2fs -p /dev/mmcblk0p2
+
+
+
+12. Install DS3231 Real Time Clock
+
+	12.1.  Edit file  /boot/config.txt
+		sudo nano  /boot/config.txt
+		
+		Fine line #dtparam=arm_i2c=off then uncomment and change off to on
+		dtparam=arm_i2c=on
+		
+		Add following lines:
+		# dtoverlay
+		##     Load device tree overlay for ds3231 rtc
+		##
+		##     Default not exist
+		# dtoverlay=i2c-rtc,ds3231
+		
+		Save and reboot
+
+	12.2. 	Check the rtc is installed by read date in rtc module
+		sudo hwclock
+		
+	12.3. 	Change timezone to Asia/Ho_Chi_Minh
+		sudo timedatectl set-timezone Asia/Ho_Chi_Minh
+
+	12.4. 	Update system date
+		sudo date 030323432017.45
+		(command format: MMDDHHmmYYYY.SS)
+		
+	12.5. 	Write date to rtc module module
+		sudo hwclock -w
+		
+	12.6. 	Check date time again 
+		sudo hwclock -r
+
+	12.7. 	Set system to use rtc date time instead of date time server
+		sudo nano /etc/rc.local
+		
+		Add following lines before "exit 0":
+		
+		# Set the system date time from hardware clock at boot
+
+		hwclock -s
+
+	12.8. 	Shutdown and wait, then power on and check the time
+
+13. Install JAVA
+	mv jdk-8u91-linux-arm32-vfp-hflt.tar.gz /opt/oracle/
+	sudo tar -xzf jdk-8u91-linux-arm32-vfp-hflt.tar.gz
+	sudo update-alternatives --install /usr/bin/java java /opt/oracle/jdk1.8.0_91/bin/java 2017
+	sudo update-alternatives --install /usr/bin/javac javac /opt/oracle/jdk1.8.0_91/bin/javac 2017
+	sudo update-alternatives --install /usr/bin/jar jar /opt/oracle/jdk1.8.0_91/bin/jar 2017
+	sudo update-alternatives --install /usr/bin/javaws javaws /opt/oracle/jdk1.8.0_91/bin/javaws 2017
+	
+14. Install Tomcat		
+	Download tomcat:
+		cd /opt/
+		mkdir oracle/
+		wget "http://192.168.1.69:8080/tomcat-9.0.1.zip"
+	Unzip tomcat
+		unzip tomcat-9.0.1.zip
+
+	
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:        tomcat8
+# Required-Start:  $network
+# Required-Stop:   $network
+# Default-Start:   2 3 4 5
+# Default-Stop:    0 1 6
+# Short-Description: Start/Stop Tomcat server
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+start() {
+ sh /opt/apache/tomcat-9.0.1/bin/startup.sh
+}
+
+stop() {
+ sh /opt/apache/tomcat-9.0.1/bin/shutdown.sh
+}
+
+case $1 in
+  start|stop) $1;;
+  restart) stop; start;;
+  *) echo "Run as $0 <start|stop|restart>"; exit 1;;
+esac
+		
+		
+	sudo chmod 755 /etc/init.d/tomcat9
+	sudo update-rc.d tomcat9 defaults
+	
+	To remove tomcat 9 startup:
+	sudo update-rc.d -f tomcat9 remove
+
+// ---------------------------------------------------------------
+// MPD
+// -------------------------------------------------------------
+15. Install 
+
+// -------------------------------------------------------------
+	sudo apt-get install mpd
+	
+	sudo nano /etc/mpd.conf
+	
+	music_directory		"/home/ubuntu/music"
+	bind_to_address		"any"
+	
+	To update music library:
+	mpc update
+	
+	systemctl restart mpd
+
+// -------------------------------------------------------------
+
+
+15.1	Download latest version from https://www.musicpd.org or https://github.com/MusicPlayerDaemon/MPD
+		
+15.2
+		tar xf mpd-version.tar.xz
+		cd mpd-version
+
+15.3 	Install library and dependencies
+		sudo apt-get install g++ libmad0-dev libmpg123-dev libid3tag0-dev   libflac-dev libvorbis-dev libopus-dev   libadplug-dev libaudiofile-dev \
+		libsndfile1-dev libfaad-dev   libfluidsynth-dev libgme-dev libmikmod-dev libmodplug-dev   libmpcdec-dev libwavpack-dev libwildmidi-dev \
+		libsidplay2-dev libsidutils-dev libresid-builder-dev   libavcodec-dev libavformat-dev   libmp3lame-dev   libsamplerate0-dev libsoxr-dev \
+		libbz2-dev libcdio-paranoia-dev libiso9660-dev libmms-dev   libzzip-dev   libcurl4-gnutls-dev libyajl-dev libexpat-dev  \
+		libasound2-dev libao-dev libjack-jackd2-dev libopenal-dev   libpulse-dev libroar-dev libshout3-dev   libmpdclient-dev  \
+		libnfs-dev libsmbclient-dev   libupnp-dev   libavahi-client-dev   libsqlite3-dev   libsystemd-dev libwrap0-dev   libcppunit-dev xmlto \
+		libboost-dev   libicu-dev
+
+15.4 	sudo ./configure
+15.5	sudo make
+15.6	sudo make install
+		
+		sudo mkdir /var/log/mpd
+		sudo chmod 777 -R /run/mpd/
+		sudo chmod 777 -R/var/lib/mpd/
+		sudo mkdir /var/lib/mpd/playlists
+
+16. Create user:
+	adduser ionoff
+
+17. Delete user: 
+	deluser --remove-home {$user}
+
+18. Change ssh service port:
+	nano /etc/ssh/sshd_config
+Locate the following line:
+	# Port 22
+Remove # and change 22 to 2122.
+Restart the sshd service by running the following command:
+	service sshd restart
+		

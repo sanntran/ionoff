@@ -1,0 +1,2 @@
+set kunagi database by passing parameter to tomcat setenv:
+-Dkunagi.config=/usr/local/server/kunagi-data/config.properties

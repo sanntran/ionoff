@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	    
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+      <property name="dataSource" ref="dataSource"/>
+      <property name="configLocation" value="classpath:hibernate.cfg.xml" />      
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+      <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+    
+    <!--Daos  -->
+    
+    <bean id="userGroupDao" class="net.ionoff.center.server.persistence.dao.impl.UserGroupDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="deviceDao" class="net.ionoff.center.server.persistence.dao.impl.DeviceDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="versionDao" class="net.ionoff.center.server.persistence.dao.impl.VersionDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="userDao" class="net.ionoff.center.server.persistence.dao.impl.UserDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="projectDao" class="net.ionoff.center.server.persistence.dao.impl.ProjectDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="areaDao" class="net.ionoff.center.server.persistence.dao.impl.AreaDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="zoneDao" class="net.ionoff.center.server.persistence.dao.impl.ZoneDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="controllerDao" class="net.ionoff.center.server.persistence.dao.impl.ControllerDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="relayDao" class="net.ionoff.center.server.persistence.dao.impl.RelayDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="relayGroupDao" class="net.ionoff.center.server.persistence.dao.impl.RelayGroupDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="sensorDao" class="net.ionoff.center.server.persistence.dao.impl.SensorDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="modeDao" class="net.ionoff.center.server.persistence.dao.impl.ModeDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="sceneDao" class="net.ionoff.center.server.persistence.dao.impl.SceneDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="scheduleDao" class="net.ionoff.center.server.persistence.dao.impl.ScheduleDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="scheduleActionDao" class="net.ionoff.center.server.persistence.dao.impl.ScheduleActionDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="sceneActionDao" class="net.ionoff.center.server.persistence.dao.impl.SceneActionDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="sceneDeviceDao" class="net.ionoff.center.server.persistence.dao.impl.SceneDeviceDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="modeSceneDao" class="net.ionoff.center.server.persistence.dao.impl.ModeSceneDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="modeSensorDao" class="net.ionoff.center.server.persistence.dao.impl.ModeSensorDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="modeSensorSceneDao" class="net.ionoff.center.server.persistence.dao.impl.ModeSensorSceneDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="modeSensorUserDao" class="net.ionoff.center.server.persistence.dao.impl.ModeSensorUserDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="playListDao" class="net.ionoff.center.server.persistence.dao.impl.PlayListDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="playNodeDao" class="net.ionoff.center.server.persistence.dao.impl.PlayNodeDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>  
+     
+    <bean id="playLeafDao" class="net.ionoff.center.server.persistence.dao.impl.PlayLeafDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>   
+    
+    <bean id="tokenDao" class="net.ionoff.center.server.persistence.dao.impl.TokenDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="userProjectDao" class="net.ionoff.center.server.persistence.dao.impl.UserProjectDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="userZoneDao" class="net.ionoff.center.server.persistence.dao.impl.UserZoneDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="userDeviceDao" class="net.ionoff.center.server.persistence.dao.impl.UserDeviceDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="userSceneDao" class="net.ionoff.center.server.persistence.dao.impl.UserSceneDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="dashboardDao" class="net.ionoff.center.server.persistence.dao.impl.DashboardDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="dashboardDeviceDao" class="net.ionoff.center.server.persistence.dao.impl.DashboardDeviceDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+    <bean id="dashboardSceneDao" class="net.ionoff.center.server.persistence.dao.impl.DashboardSceneDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+	<!--Services  -->
+    
+    <bean id="groupService" class="net.ionoff.center.server.persistence.service.impl.UserGroupServiceImpl">
+      <constructor-arg ref="userGroupDao" />    
+    </bean>
+    
+    <bean id="deviceService" class="net.ionoff.center.server.persistence.service.impl.DeviceServiceImpl">
+      <constructor-arg ref="deviceDao" /> 
+    </bean>
+    
+    <bean id="versionService" class="net.ionoff.center.server.persistence.service.impl.VersionServiceImpl">
+      <constructor-arg ref="versionDao" />    
+    </bean>
+    
+    <bean id="userService" class="net.ionoff.center.server.persistence.service.impl.UserServiceImpl">
+      <constructor-arg ref="userDao" />
+    </bean>
+    
+    <bean id="projectService" class="net.ionoff.center.server.persistence.service.impl.ProjectServiceImpl">
+      <constructor-arg ref="projectDao" />    
+    </bean>
+    
+    <bean id="areaService" class="net.ionoff.center.server.persistence.service.impl.AreaServiceImpl">
+      <constructor-arg ref="areaDao" />   
+    </bean>
+    
+     <bean id="zoneService" class="net.ionoff.center.server.persistence.service.impl.ZoneServiceImpl">
+      <constructor-arg ref="zoneDao" />    
+    </bean>
+    
+    <bean id="controllerService" class="net.ionoff.center.server.persistence.service.impl.ControllerServiceImpl">
+      <constructor-arg ref="controllerDao" />   
+    </bean>
+    
+    <bean id="relayService" class="net.ionoff.center.server.persistence.service.impl.RelayServiceImpl">
+      <constructor-arg ref="relayDao" />
+    </bean>
+    
+     <bean id="relayGroupService" class="net.ionoff.center.server.persistence.service.impl.RelayGroupServiceImpl">
+      <constructor-arg ref="relayGroupDao" />
+    </bean>
+    
+    <bean id="sensorService" class="net.ionoff.center.server.persistence.service.impl.SensorServiceImpl">
+      <constructor-arg ref="sensorDao" />  
+    </bean>
+    
+    <bean id="modeService" class="net.ionoff.center.server.persistence.service.impl.ModeServiceImpl">
+      <constructor-arg ref="modeDao" />  
+    </bean>
+    
+	<bean id="sceneService" class="net.ionoff.center.server.persistence.service.impl.SceneServiceImpl">
+      <constructor-arg ref="sceneDao" /> 
+    </bean> 
+    
+    <bean id="scheduleService" class="net.ionoff.center.server.persistence.service.impl.ScheduleServiceImpl">
+      <constructor-arg ref="scheduleDao" />
+    </bean>	
+    
+    <bean id="scheduleActionService" class="net.ionoff.center.server.persistence.service.impl.ScheduleActionServiceImpl">
+      <constructor-arg ref="scheduleActionDao" />
+    </bean>	
+    
+    <bean id="sceneActionService" class="net.ionoff.center.server.persistence.service.impl.SceneActionServiceImpl">
+      <constructor-arg ref="sceneActionDao" />
+    </bean>	
+    
+    <bean id="sceneDeviceService" class="net.ionoff.center.server.persistence.service.impl.SceneDeviceServiceImpl">
+      <constructor-arg ref="sceneDeviceDao" />
+    </bean>
+    
+    <bean id="modeSceneService" class="net.ionoff.center.server.persistence.service.impl.ModeSceneServiceImpl">
+      <constructor-arg ref="modeSceneDao" />
+    </bean>	
+    
+    <bean id="modeSensorService" class="net.ionoff.center.server.persistence.service.impl.ModeSensorServiceImpl">
+      <constructor-arg ref="modeSensorDao" />
+    </bean>	
+    
+    <bean id="modeSensorSceneService" class="net.ionoff.center.server.persistence.service.impl.ModeSensorSceneServiceImpl">
+      <constructor-arg ref="modeSensorSceneDao" />
+    </bean>	
+    
+    <bean id="modeSensorUserService" class="net.ionoff.center.server.persistence.service.impl.ModeSensorUserServiceImpl">
+      <constructor-arg ref="modeSensorUserDao" />
+    </bean>	
+    
+    <bean id="playListService" class="net.ionoff.center.server.persistence.service.impl.PlayListServiceImpl">
+      <constructor-arg ref="playListDao" />  
+    </bean>
+    
+    <bean id="playNodeService" class="net.ionoff.center.server.persistence.service.impl.PlayNodeServiceImpl">
+      <constructor-arg ref="playNodeDao" />  
+    </bean>  
+    
+    <bean id="userZoneService" class="net.ionoff.center.server.persistence.service.impl.UserZoneServiceImpl">
+      <constructor-arg ref="userZoneDao" />    
+    </bean> 
+    
+    <bean id="userDeviceService" class="net.ionoff.center.server.persistence.service.impl.UserDeviceServiceImpl">
+      <constructor-arg ref="userDeviceDao" />    
+    </bean>
+    
+    <bean id="userSceneService" class="net.ionoff.center.server.persistence.service.impl.UserSceneServiceImpl">
+      <constructor-arg ref="userSceneDao" />    
+    </bean> 
+    
+    <bean id="userProjectService" class="net.ionoff.center.server.persistence.service.impl.UserProjectServiceImpl">
+      <constructor-arg ref="userProjectDao" />    
+    </bean> 
+    
+    <bean id="dashboardService" class="net.ionoff.center.server.persistence.service.impl.DashboardServiceImpl">
+      <constructor-arg ref="dashboardDao" />    
+    </bean> 
+</beans>

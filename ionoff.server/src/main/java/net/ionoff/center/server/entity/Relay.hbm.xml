@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.ionoff.center.server.entity.Relay" table="relays">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<version name="version" type="long" column="version_"/>
+		
+		<property name="name">
+			<column name="name" />
+		</property>
+		
+		<property name="label">
+			<column name="label" />
+		</property>
+		
+		<property name="time">
+			<column name="time_" sql-type="datetime"/>
+		</property>
+		
+		<property name="index">
+			<column name="index_" />
+		</property>
+		
+		<property name="status" type="java.lang.Boolean">
+			<column name="status_" sql-type="bit"/>
+		</property>
+		
+		<property name="type">
+			<column name="type_" />
+		</property>
+		
+		<many-to-one name="controller" class="net.ionoff.center.server.entity.Controller" fetch="select">
+            <column name="controller_id" not-null="true" />
+        </many-to-one>
+        
+        <many-to-one name="group" class="net.ionoff.center.server.entity.RelayGroup" fetch="select">
+            <column name="group_id" not-null="false" />
+        </many-to-one>
+        
+		<many-to-one name="device" class="net.ionoff.center.server.entity.Device" fetch="select">
+            <column name="device_id" not-null="false" />
+        </many-to-one>
+		
+	</class>
+	
+</hibernate-mapping>

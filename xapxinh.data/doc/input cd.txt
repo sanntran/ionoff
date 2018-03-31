@@ -1,0 +1,6 @@
+Steps to create album:
+1. Rename all audio files to be started with file index
+2. Album image name must be album.jpg 200x200 (should put CD images to the folder: front.jpg and back.jpg)
+3. Should put _info.xml into the album folder
+4. Url to request create album on cloud:
+http://localhost:8000/xdataservice/webapi/albums/scan?folder=D:/albums/tddr

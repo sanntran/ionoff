@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.xapxinh.center.server.entity.PlayNode" table="playnodes">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<property name="name">
+			<column name="name" />
+		</property>
+		
+		<property name="idx">
+			<column name="idx" />
+		</property>
+		
+		<property name="type">
+			<column name="type_" />
+		</property>
+		
+		<bag name="leafs" table="playleafs" inverse="true" lazy="true"
+			fetch="select" order-by="idx">
+			<key column="playnode_id" not-null="true">
+			</key>
+			<one-to-many entity-name="net.xapxinh.center.server.entity.PlayLeaf" />
+		</bag>
+				
+		<many-to-one name="playList" class="net.ionoff.center.server.entity.PlayList" fetch="select">
+            <column name="playlist_id" not-null="true" />
+        </many-to-one>      
+		
+	</class>
+	
+</hibernate-mapping>

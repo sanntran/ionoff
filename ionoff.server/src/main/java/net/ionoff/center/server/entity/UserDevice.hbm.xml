@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	
+	<class name="net.ionoff.center.server.entity.UserDevice" table="users_devices">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id" >
+			<generator class="increment" />
+		</id>
+		
+	    <property name="role" type="java.lang.Boolean">
+			<column name="role" sql-type="bit"/>
+		</property>
+		
+	    <many-to-one name="user" class="net.ionoff.center.server.entity.User" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+        
+		<many-to-one name="device" class="net.ionoff.center.server.entity.Device" fetch="select">
+            <column name="device_id" not-null="true" />
+        </many-to-one>
+        
+        <many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">
+            <column name="project_id" not-null="true" />
+        </many-to-one>
+	</class>
+	
+</hibernate-mapping>

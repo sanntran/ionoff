@@ -1,0 +1,992 @@
+.gwt-Tree .gwt-TreeItem-selected {
+	color: #628cd5 !important;
+	background: none !important;
+}
+
+
+.popup.message {
+	bottom: 32px !important;
+}
+
+.dropdown-content li {
+    min-height: 34px !important;
+    line-height: 34px !important;
+    font-size: 13px !important;
+}
+
+.select-wrapper span.caret {
+	top: 10px !important;
+	right: 2px !important;
+}
+
+.main .content .toolbar .title {
+	color: #fffde7 !important;
+    font-size: 20px;
+    line-height: 48px;
+    display: inline-block;
+    padding-left: 5px;
+}
+
+.main .content .toolbar .title i {
+	margin: 12px 10px 10px 10px;
+	width: 30px;
+}
+ 
+.main .content .table .edit .tabs .tab a:hover {
+    color: #37474f !important;
+}
+
+.select2-container .select2-dropdown {
+	color: #37474f;
+}
+
+.select2-container--default .select2-results__group {
+    padding: 10px;
+    border-bottom: 1px solid #dedede;
+}
+
+.main .content .table {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+    position: relative;
+    overflow: hidden;
+    padding: 0px;
+}
+
+.main .content .table .list {
+	height: 100%;
+	overflow: auto;
+	width: calc(100% - 4px);
+    transition: width 0.5s;
+    -moz-transition: width 0.5s; /* Firefox 4 */
+    -webkit-transition: width 0.5s; /* Safari and Chrome */
+    -o-transition: width 0.5s; /* Opera */
+}
+
+.main .content .table .edit {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	z-index: 2;
+	transition: left 0.5s;
+    -moz-transition: left 0.5s; /* Firefox 4 */
+    -webkit-transition: left 0.5s; /* Safari and Chrome */
+    -o-transition: left 0.5s; /* Opera */
+    border: 1px solid #546e7a;
+    border-radius: 1px;
+    background-color: #fff;
+    color: #3b4f58;
+}
+
+.main .content .table .edit.visible {
+	right: 0px;
+}
+
+@media only screen and (max-width: 768px) { /* tablet */ 
+	.main .content .table .edit.visible {
+		left: 0px;
+	}
+	.main .content .table .edit.invisible {
+		left: 100%;
+		right: -100%;
+	}
+}
+
+@media only screen and (min-width: 768px) { /* tablet */ 
+	.main .content .table .list.collapsed {
+		width: 100%;
+	}
+	.main .content .table .edit.visible {
+		left: 50%;
+	}
+	.main .content .table .edit.invisible {
+		left: 100%;
+		right: -50%;
+	}
+}
+
+.main .content .table .list.collapsed .toolbar .searchbar .close {
+	display: block;
+	position: absolute;
+	right: 140px;
+}
+
+.main .content .table .edit .header {
+	top: 0px;
+    width: 100%;
+    height: 46px;
+    position: absolute;
+    border-bottom: 1px solid #37474f;
+    background-color: #3b4f58;
+    padding: 3px 0px;
+    color: #fffde7;
+}
+.main .content .table .edit .header .icon {
+	width: 50px;
+	height: 40px;
+	display: inline-block;
+	float: left;
+	padding: 5px 10px;
+}
+
+.main .content .table .edit .header .id {
+	display: block;
+	font-size: 12px;
+}
+
+.main .content .table .edit .header .name {
+	font-size: 14px;
+}
+
+.main .content .table .edit .header .close {
+	position: absolute;
+	right: 0px;
+	height: 46px;
+	width: 46px;
+	padding-left: 15px;
+	top: 0px;
+	color: #fff;
+}
+
+.main .content .table .edit .footer {
+	text-align: right;
+	height: 46px;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    border-top: 1px solid #e6e6e6;
+    padding: 5px 0px;
+}
+.main .content .table .edit .body {
+    position: absolute;
+    width: 100%;
+    top: 46px;
+    bottom: 46px;
+    padding: 10px;
+    overflow: auto;
+}
+
+.main .content .table .edit .body .input-field label {
+	color: #3b4f58 !important;
+	
+}
+
+.main .content .table .edit .body .row > .input-field label {
+	margin-left: -0.75rem;
+}
+
+.main .content .table .edit .body .lbl {
+	display: block;
+	color: #3b4f58;
+    top: 0.8rem;
+    padding-left: 0px;
+    font-size: 0.8rem;
+    cursor: text;
+}
+
+.main .content .table .edit .body .select-wrapper {
+	margin-bottom: 25px;
+}
+
+.main .content .table .edit .body .collapsible-body {
+    padding: 10px;
+}
+
+.main .content .table .edit .body .collapsible-body.invisible {
+    display: none !important;
+}
+
+.main .content .table .edit .body .collection-item {
+	padding: 10px 0px 10px 10px;
+	position: relative;
+}
+
+.main .content .table .edit .body .sceneDevices .deviceActions .collection-item {
+	padding: 10px 0px 10px 10px !important;
+}
+
+.main .content .table .edit .body .collection-item.userProject span,
+.main .content .table .edit .body .collection-item.userZone span {
+	margin-left: 10px;
+}
+
+.main .content .table .edit .body .collection-item.userProject span label,
+.main .content .table .edit .body .collection-item.userZone span label {
+	color: #37474f;
+	font-size: 14px;
+}
+
+.main .content .table .edit .body .collection-item.userProject span.gwt-InlineLabel,
+.main .content .table .edit .body .collection-item.userZone span.gwt-InlineLabel {
+	display: block;
+    padding-left: 35px;
+    color: #a8a8a8;
+}
+
+.main .content .table .edit .body .collection-item.light {
+	padding-left: 50px;
+	background: url(images/light_status.png) left 5px no-repeat;
+}
+
+.main .content .table .edit .body .collection-item.player {
+	padding-left: 50px;
+	background: url(images/player_status.png) left 5px no-repeat;
+}
+
+.main .content .table .edit .body .collection-item.appliance {
+	padding-left: 50px;
+	background: url(images/appliance_status.png) left 5px no-repeat;
+}
+
+.main .content .table .edit .body .collapsible {
+	box-shadow: 0px 0px 0px 1px #ccc;
+    border: none
+}
+
+.main .content .table .edit .body .no-padding {
+	padding: 0px;
+}
+
+.main .content .table .list.expanded {
+	width: 100%;
+}
+
+.main .content .toolbar {
+	min-height: 50px;
+	padding: 0px;
+	position: relative;
+}
+
+.main .content .toolbar button {
+	width: 40px;
+    padding-left: 5px;
+}
+
+.main .content .toolbar .buttons {
+	display: inline-block;
+	width: 220px;
+	float: right;
+	height: 50px;
+    padding: 8px 0px;
+    text-align: right;
+    position: absolute;
+    right: 0px;
+}
+
+.main .content .toolbar .buttons button {
+	margin-right: 5px;
+	background-color: transparent !important;
+	box-shadow: none;
+}
+.main .content .toolbar .buttons button i {
+	font-size: 30px;	
+}
+
+.main .content .toolbar .searchbar {
+    background-color: #fff;
+    color: #37474f;
+    border: 1px solid #fff;
+    height: 36px;
+    position: relative;
+}
+
+.main .content .toolbar .searchbar .gwt-TextBox {
+	height: 32px;
+    float: left;
+    width: calc(100% - 160px);
+    border: 1px solid #d6d6d6;
+    margin: 0px;
+    padding-left: 10px !important;
+    box-sizing: border-box;
+}
+
+.main .content .toolbar .searchbar .input-field {
+	margin-top: 0px !important;
+}
+.main .content .toolbar .searchbar .input-field li span {
+	font-size: 13px;
+    line-height: 16px;
+    color: #37474f;
+}
+
+.main .content .toolbar .searchbar .close {
+	display: block;
+	position: absolute;
+	right: 180px;
+	height: 30px;
+    margin-top: 2px;
+}
+
+.main .content .toolbar .searchbar .close i {
+	line-height: 32px;
+}
+
+.main .content .toolbar .searchbar .gwt-ListBox {
+	top: 1px;
+    position: absolute;
+    right: 0px;
+    width: 160px;
+}
+.main .content .toolbar .searchbar .gwt-ListBox input.select-dropdown {
+	height: 32px;
+    padding-left: 15px;
+    margin: 0px;
+    border: 1px solid #d6d6d6;
+    box-sizing: border-box;
+    padding-right: 5px;
+}
+
+.main .content .celltable {
+	padding: 0px;
+	background-color: #37474f !important;
+	min-height: calc(100% - 85px);
+	border-top: 1px solid #607d8b;
+}
+
+.main .content .celltable table {
+	border-collapse: separate !important;
+}
+
+.main .content .celltable table .firstColumn {
+	padding-left: 15px !important;
+}
+
+.main .content .celltable table thead tr th {
+	color: #fffde7 !important;
+	border-bottom: 1px solid #6f7277 !important;
+	padding: 5px 5px 5px 5px;
+}
+
+.main .content .celltable table tbody tr {
+	height: 50px;
+}
+
+.main .content .celltable table tbody tr td select {
+	width: 125px;
+}
+
+.main .content .celltable table tbody tr td input {
+	height: 26px;
+	border: 1px solid #e6e6e6;
+	margin: 0px;
+	background-color: #fff;
+}
+
+.main .content .celltable table tbody tr td {
+	padding: 2px 5px 2px 5px;
+	cursor: pointer;
+    border: none !important;
+    color: #212121;
+}
+
+.main .content .celltable table tbody tr td .material-icons {
+	float: right;
+    width: 100%;
+    text-align: right;
+    cursor: pointer;
+    padding-right: 5px;
+}
+
+.main .content .paging {
+	height: 35px;
+    border-top: 1px solid #6f7277;
+    background-color: #37474f !important;
+    padding-left: 10px;
+}
+
+.main .content .pager {
+	width: 250px;
+    margin: 5px 0px;
+    float: left;
+}
+
+
+.main .content .table.relays .edit .body .relayGroup {
+	border-top: 2px solid #d2d2d2;
+    margin-top: 10px;
+    border-bottom: 1px solid #d2d2d2;
+}
+
+.main .content .table.relays .edit .body .relayGroup .relay {
+	border-bottom: 1px solid #f2f2f2;
+    padding: 10px 0px;
+    position: relative;
+}
+
+.main .content .table.relays .edit .body .relayGroup .relay .name {
+	display: block;
+}
+
+.main .content .table.relays .edit .body .relayGroup .relay .controller {
+	font-size: 12px;
+	color: #737373;
+}
+
+.main .content .table.relays .edit .body .relayGroup .relay .del {
+	position: absolute;
+	right: 10px;
+	top: 15px;
+}
+
+.main .content .table.relays .edit .body .relayGroup .add {
+	margin: 10px 0px;
+}
+
+.main .content .table .edit .body .relaySelection {
+	 position: relative;
+}
+.main .content .table .edit .body .relaySelection .collapsible .collection-item {
+	padding: 10px 0px !important;
+}
+
+.main .content .table .edit .body .relaySelection .collapsible .collapsible-header {
+	background-color: #f2f2f2;
+}
+
+.main .content .table .edit .body .relaySelection .collapsible .collection-item .icon {
+	font-size: 3.5rem;
+    width: 3.5rem;
+}
+
+.main .content .table .edit .body .relaySelection .collapsible .collection-item .key {
+    margin-top: -5px;
+    color: #626769;
+    height: 14px;
+    line-height: 14px;
+}
+
+.main .content .table .edit .body .relaySelection .collapsible .relay.collection-item {
+	padding: 10px 20px !important;
+}
+  
+
+.main .content .table .edit .body .deviceSelection {
+	 position: relative;
+}
+
+.main .content .table .edit .body .deviceSelection .collapsible {
+	 margin-top: -15px;
+}
+
+.main .content .table .edit .body .deviceSelection .collapsible-header,  
+		.main .content .table .edit .body .userRoles .collapsible-header {
+	line-height: inherit;	
+	background-color: #f9f9f9;
+}
+
+.main .content .table .edit .body .userRoles .collapsible-header.area {
+    height: 40px;
+    padding-top: 5px;
+    background: url(images/system_icons_dark.png) left -40px no-repeat #f9f9f9;
+}
+
+.main .content .table .edit .body .userRoles .collapsible-header .collection-item {
+    padding: 10px 0px !important;
+    background: transparent;
+}
+
+.main .content .table .edit .body .userRoles .collapsible-header.zone {
+    background: url(images/system_icons_dark.png) left -75px no-repeat #f9f9f9;
+}
+
+.main .content .table .edit .body .sceneDevices .collapsible-header {
+	line-height: inherit;	
+	background-color: #f9f9f9;
+}
+
+.main .content .table .edit .body .deviceSelection .collapsible-header {
+	line-height: inherit;	
+}
+
+.main .content .table .edit .body .deviceSelection .collapsible-header .collection-item {
+	line-height: inherit;
+	padding: 10px 0px 10px 45px;	
+}
+
+.main .content .table .edit .body .deviceSelection .collection-item {
+    padding: 15px 0px 15px 45px;
+    position: relative;
+}
+ 
+.main .content .table .edit .body .userRoles .collapsible-header {
+	line-height: inherit;	
+	padding-left: 0px;
+}
+
+.main .content .table .edit .body .userZone {
+	border-bottom: none;
+}
+
+.main .content .table .edit .body .userZone .collapsible {
+	margin: 0px;
+}
+
+.main .content .table .edit .body .userZone .collapsible-body {
+    padding: 0px 10px 0px 35px;
+    background-color: #f2f2f2
+}
+
+.main .content .table .edit .body .userZone .collapsible-body .lblDevice,
+.main .content .table .edit .body .userZone .collapsible-body .lblScene {
+    padding: 15px 0px 10px 0px;
+    border-bottom: 1px solid #c1c1c1;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.main .content .table .edit .body .userZone.collection-item {
+	padding: 0px;
+}
+
+.main .content .table .edit .body .userDevice.collection-item,
+.main .content .table .edit .body .userScene.collection-item {
+	padding: 10px 0px 10px 0px;
+	background-color: transparent;
+}
+
+.main .content .table .edit .body .userZone .tabs {
+	 margin-bottom: 10px;
+}
+
+.main .content .table .edit .body .deviceSelection .collapsible-header .icon.zone,  
+		.table .edit .body .userRoles .collapsible-header .icon.zone {
+	height: 40px;
+    width: 40px;
+    left: 0px;
+    position: absolute;
+	background: url(images/system_icons_dark.png) left -80px no-repeat #f9f9f9;
+}
+
+.main .content .table .edit .body .deviceSelection  .clear {
+	position: absolute;
+	right: 0px;
+	top: 5px;
+	width: 50px;
+	padding-left: 15px;
+}
+
+.main .content .table .edit .body .zoneSelection .gwt-Tree .treeItem.area {
+	background: #f2f2f2;
+	border-bottom: 1px solid #e0e0e0;
+}
+.main .content .table .edit .body .zoneSelection .gwt-Tree .treeItem.area img {
+	width: 40px !important;
+	height: 40px !important;
+	background: url(images/system_icons_dark.png) left -40px no-repeat !important;
+}
+.main .content .table .edit .body .zoneSelection .gwt-Tree .treeItem.zone {
+	margin: 0px !important;
+	padding: 0px 0px 0px 5px !important;
+	background: #fff;
+	border-bottom: 1px solid #f2f2f2;
+}
+.main .content .table .edit .body .zoneSelection .gwt-Tree .treeItem.zone .gwt-TreeItem {
+	display: block !important;
+	padding: 15px 0px 12px 45px;
+	background: url(images/system_icons_dark.png) left -80px no-repeat;
+}
+.main .content .table .edit .body .zoneSelection .gwt-Tree .treeItem.zone .gwt-TreeItem.gwt-TreeItem-selected{
+	background: url(images/system_icons_dark.png) left -80px no-repeat !important;
+}
+
+/** Styte the loading image to prevent scroll-x */
+
+.celltable table tbody tr td div div div {
+	width: auto !important; 
+}
+
+/** Styte the header of table column */
+
+.celltable table thead tr th {
+	text-shadow: none;
+	padding: 3px 10px;
+}
+
+.main .content .table .edit .scheduleTimeSetting .checkBox {
+	border-bottom: 1px solid #aaa;
+	margin-bottom: 10px;
+}
+
+.main .content .table .edit .scheduleTimeSetting .amPm .select-wrapper {
+	margin-bottom: 17px;
+}
+
+.main .content .table .edit .scheduleTimeSetting .amPm .input-field {
+	margin-top: 11px;
+}
+
+.main .content .table .edit .scheduleTimeSetting .amPm .select-wrapper input.select-dropdown {
+	height: 41px !important;
+}
+
+.main .content .table .edit .scheduleTimeSetting .panelDays {
+	border-bottom: 1px solid #aaa;
+    margin-bottom: 25px;
+}
+
+.main .content .table .edit .scheduleTimeSetting .panelDays [type="checkbox"]+label {
+	min-width: 70px;
+	margin: 0px 15px 10px 0px;
+    border-right: 1px solid #aaa;
+}
+
+.main .content .table.modes .edit .isScheduledCheckBox {
+	height: 40px;
+    border-bottom: 1px solid #afafaf;
+    margin-bottom: 10px;
+}
+
+.main .content .table .edit .relayAction {
+	height: 55px;
+	display: block;
+	color: #000;
+	border-bottom: 1px solid #f2f2f2;
+	position: relative;
+}
+	
+.main .content .table.scenes .edit .relayAction {
+	padding: 0px 5px 0px 45px;
+}
+
+.main .content .table.schedules .edit .relayAction {
+	padding: 0px 5px 0px 5px;
+}
+
+.main .content .table.schedules .edit .checkBoxActive {
+	height: 40px;
+    border-bottom: 1px solid #afafaf;
+    margin-bottom: 15px;
+}
+
+.main .content .table .edit .relayAction .icon {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	float: left;
+    position: relative;
+    top: 6px;
+}
+
+.main .content .table .edit .relayAction .icon.relay {
+	background: url(images/relay_status.png) center 0px no-repeat;
+}
+
+.main .content .table .edit .relayAction .name { 
+	display: inline-block;
+    line-height: 35px;
+    padding: 10px 10px;
+    width: 50%;
+}
+
+.main .content .table .edit .relayAction .listBox {
+	position: relative;
+    display: inline-block;
+    top: 0px;
+    float: right;
+    height: 30px;
+    padding-top: 0px;
+    width: calc(50% - 50px);
+}
+.main .content .table .edit .relayAction .listBox .select-wrapper {
+	margin-bottom: 0px;
+}
+
+.main .content .table .edit .playerAction {
+	display: block;
+}
+
+.main .content .table .edit .playerAction .actionSetting {
+	display: block;
+	height: 40px;
+}
+
+.main .content .table .edit .playerAction .albumSelection {
+	display: block;
+	padding: 5px 0px;
+}
+
+.main .content .table .edit .playerAction .icon {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	float: left;
+}
+
+.main .content .table .edit .playerAction .icon.player {
+	background: url(images/player_status.png) center 0px no-repeat;
+}
+
+.main .content .table .edit .playerAction .lbl {
+	display: inline-block;
+	padding: 0px 5px 0px 5px;
+	position: relative;
+	top: 10px;
+}
+
+.main .content .table .edit .playerAction .lbl.volume {
+	padding-left: 5px;
+}
+
+.main .content .table .edit .playerAction .listBox {
+	position: relative;
+}
+
+.main .content .table .edit .playerAction .textBox {
+	position: relative;
+    top: 10px;
+    display: inline-block;
+    width: 115px
+}
+
+.main .content .table .edit .playerAction .albumSetting {
+	height: 40px;
+	display: block;
+}
+
+.main .content .table .edit .playerAction .btn.save {
+	background: url(images/admin/player_action.png)  center -120px no-repeat;
+	float: right;
+    position: relative;
+    top: 5px;
+}
+
+.main .content .table .edit .playerAction .btn.open {
+	background: url(images/admin/player_action.png) center 0px no-repeat;
+	float: right;
+	position: relative;
+	top: 4px;
+}
+
+.main .content .table .edit .playerAction .albumSelection .settingPanel {
+	display: block;
+}
+
+.main .content .table .edit .playerAction .albumSelection .scrollPanel {
+	display: block;
+	position: relative;
+}
+
+.main .content .table .edit .playerAction .albumSelection .panelAlbum {
+	display: block;
+	height: 40px;
+	border-bottom: 1px solid #f2f2f2;
+	padding: 5px 0px;
+	position: relative;
+}
+
+.main .content .table .edit .playerAction .albumSelection .panelAlbum .name {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width: calc(100% - 90px);
+	display: inline-block;
+	line-height: 30px;
+}
+
+.main .content .table .edit .playerAction .albumSelection .panelAlbum .button {
+	display: inline-block;
+	width: 40px;
+	height: 30px;
+}
+
+.main .content .table .edit .playerAction .albumSelection .panelAlbum .button.folder {
+	float: left;
+	background: url(images/admin/player_action.png) center 0px no-repeat;
+}
+.main .content .table .edit .playerAction .albumSelection .panelAlbum .button.file {
+	float: left;
+	background: url(images/admin/player_action.png) center -30px no-repeat;
+}
+.main .content .table .edit .playerAction .albumSelection .panelAlbum .button.album {
+	float: left;
+	background: url(images/admin/player_action.png) center -60px no-repeat;
+}
+.main .content .table .edit .playerAction .albumSelection .panelAlbum .button.select {
+	background: url(images/admin/player_action.png) center -90px no-repeat;
+	float: right;
+}
+
+.main .content .table .edit .body .sceneDevices .deviceActions .icon {
+	position: absolute;
+    left: 0px;
+    width: 40px;
+    height: 40px;
+    top: 10px;
+}
+.main .content .table .edit .body .sceneDevices .deviceActions .collapsible-header .icon {
+	position: absolute;
+    left: 0px;
+    width: 40px;
+    height: 40px;
+    top: 5px
+} 
+
+.main .content .table .edit .body .sceneDevices .deviceActions .collapsible-body .lbl {
+	margin-top: 10px;
+}
+
+.main .content .table .edit .body .sceneDevices .deviceActions .collapsible-body .order {
+	display: inline-block;
+	width: 48%;
+}
+
+.main .content .table .edit .body .sceneDevices .deviceActions .collapsible-body .duration {
+	display: inline-block;
+	width: 48%;
+	margin-left: 4%;
+}
+
+.main .content .table .edit .body .sceneDevices.deviceActions .collapsible-header .collection-item {
+	padding: 10px 0px 10px 50px !important;
+    position: relative;
+}
+    
+.main .content .table .edit .body .sceneDevices .deviceActions .icon.light {
+	background: url(images/light_status.png) center 0px no-repeat;
+}
+.main .content .table .edit .body .sceneDevices .deviceActions .icon.player {
+	background: url(images/player_status.png) center 0px no-repeat;
+}
+.main .content .table .edit .body .sceneDevices .deviceActions .icon.appliance {
+	background: url(images/appliance_status.png) center 0px no-repeat;
+}
+
+.main .content .table.modes .edit .detail .checkBox {
+	border-bottom: 1px solid #aaa;
+    margin-bottom: 25px;
+    display: block;
+}
+
+.main .content .table.modes .edit .detail {
+	position: relative;
+}
+
+.main .content .table.modes .edit .detail .saveTimeBuffer {
+	position: absolute;
+    right: 20px;
+    bottom: 20px;
+    margin: 0px;
+    width: 40px;
+    padding-left: 15px;
+}
+
+.main .content .table.modes .edit .sensorSetting .tabsPanel {
+	padding-left: 1px;
+}
+
+.main .content .table.modes .edit .sensorSetting .tabsPanel .lblTab {
+	display: inline-block;
+	padding: 15px 20px 0px;
+	height: 40px;
+	background: #e0e0e0;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.main .content .table.modes .edit .sensorSetting .tabsPanel .lblTab:hover {
+	background: #f2f2f2;
+	cursor: pointer;
+}
+
+.main .content .table.modes .edit .sensorSetting .tabsPanel .lblTab.selected {
+	background: #f2f2f2;
+	background-color: #2196F3;
+	color: #fff;
+}
+
+.main .content .table.modes .edit .sensorSetting .sensorScenes {
+	border-top: 1px solid rgb(192, 66, 94);
+}
+
+.main .content .table.modes .edit .sensorSetting .sensorScenes .sensorScene  {
+	height: 50px;
+    padding: 5px 0px;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.main .content .table.modes .edit .sensorSetting .sensorScenes .sensorScene  .zoneIcon {
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	float: left;
+	background: url("images/system_icons_dark.png") no-repeat scroll center -40px transparent;
+}
+
+.main .content .table.modes .edit .sensorSetting .sensorScenes .sensorScene  .zoneName {
+	display: inline-block;
+	padding: 0px 5px;
+	position: relative;
+	width: 50%;
+}
+
+
+.main .content .table.modes .edit .sensorSetting .sensorUsers {
+	border-top: 1px solid rgb(192, 66, 94);
+}
+
+.main .content .table.modes .edit .sensorSetting .sensorUsers .sensorUser  {
+	height: 50px;
+    padding: 5px 0px;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.main .content .table.modes .edit .sensorSetting .sensorUsers .sensorUser  .userIcon {
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	float: left;
+	background: url("images/system_icons_dark.png") no-repeat scroll center -280px transparent;
+}
+
+.main .content .table.modes .edit .sensorSetting .sensorUsers .sensorUser  .userName {
+	display: inline-block;
+	padding: 0px 5px;
+	position: relative;
+	top: 15px;
+	min-width: 70px;
+}
+
+.main .content .table.modes .edit .sensorSetting .sensorUsers .sensorUser  .checkBox {
+	display: inline-block;
+	position: relative;
+	top: 15px;
+	padding: 0px 5px;
+	float: right;
+}
+
+.main .content .table.modes .edit .modeScene {
+	height: 50px;
+	padding: 5px 0px;
+	border-bottom: 1px solid #e6e6e6;
+}
+
+.main .content .table.modes .edit .modeScene .zoneIcon {
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	float: left;
+	background: url(images/system_icons_dark.png) center -40px no-repeat;
+}
+
+.main .content .table.modes .edit .modeScene .zoneName {
+	display: inline-block;
+	padding: 0px 5px;
+	position: relative;
+	line-height: 45px;
+	width: calc(50% - 40px);
+}
+
+
+.main .content .table.modes .edit .sensorSetting .sensorScenes .sensorScene  .listBox {
+	display: inline-block;
+	position: relative;
+	width: calc(50% - 40px);
+	margin-top: 0px;
+}
+
+.main .content .table.modes .edit .modeScene .listBox {
+	display: inline-block;
+	position: relative;
+	width: 50%;
+	margin-top: 4px;
+}

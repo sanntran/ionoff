@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.ionoff.center.server.entity.Sensor" table="sensors">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<property name="name">
+			<column name="name" />
+		</property>
+		
+		<property name="status" type="java.lang.Boolean">
+			<column name="status_" sql-type="bit"/>
+		</property>
+		
+		<many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">
+            <column name="project_id" not-null="true" />
+        </many-to-one>
+        
+		<many-to-one name="controller" class="net.ionoff.center.server.entity.Controller" fetch="select">
+            <column name="controller_id" not-null="false" />
+        </many-to-one>
+		
+		<property name="controllerInput">
+			<column name="controller_input" />
+		</property>
+	</class>
+	
+</hibernate-mapping>

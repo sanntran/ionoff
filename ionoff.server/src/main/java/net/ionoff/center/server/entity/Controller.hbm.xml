@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.ionoff.center.server.entity.Controller" table="controllers">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<property name="name">
+			<column name="name" />
+		</property>
+		
+		<property name="ip">
+			<column name="ip" />
+		</property>
+		
+		<property name="port">
+			<column name="port" />
+		</property>
+		
+		<property name="key">
+			<column name="key_" />
+		</property>
+		
+		<property name="model">
+			<column name="model" />
+		</property>
+		
+		<property name="connectedTime">
+			<column name="connected_time"/>
+		</property>
+		
+		<property name="crashCount">
+			<column name="crash_count"/>
+		</property>
+		
+		<bag name="relays" table="relays" 
+				inverse="true" lazy="true" fetch="select"  order-by="index_">
+            <key>
+                <column name="controller_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.Relay" />
+        </bag>
+        
+		<many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">
+            <column name="project_id" not-null="true" />
+        </many-to-one>
+		
+	</class>
+	
+</hibernate-mapping>

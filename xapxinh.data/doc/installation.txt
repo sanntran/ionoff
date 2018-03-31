@@ -1,0 +1,12 @@
+Install youtube-dl: 	
+	sudo apt-get install youtube-dl
+
+To upgrade youtube-dl:
+- 	Install python-pip if needed: 
+	sudo apt-get install python-pip
+- 	Command to upgrade: 
+	sudo pip install --upgrade youtube-dl
+	
+
+TODO Install solr
+ 

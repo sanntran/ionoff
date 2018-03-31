@@ -1,0 +1,43 @@
+package net.ionoff.center.server.persistence.dao.impl;
+
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Transactional;
+
+import net.ionoff.center.server.entity.DashboardScene;
+import net.ionoff.center.server.entity.QueryCriteria;
+import net.ionoff.center.server.persistence.dao.IDashboardSceneDao;
+
+@Transactional
+public class DashboardSceneDaoImpl extends AbstractGenericDao<DashboardScene> implements IDashboardSceneDao {
+
+	public DashboardSceneDaoImpl(SessionFactory sessionFactory) {
+		super(sessionFactory);
+		setClass(DashboardScene.class);
+	}
+
+	@Override
+	public long countByCriteria(QueryCriteria criteria) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public List<DashboardScene> findByCriteria(QueryCriteria criteria) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public DashboardScene findByDashboardSceneId(long dashboardId, long sceneId) {
+		String sql = "select distinct dashboardScene"
+				+ " from DashboardScene as dashboardScene"
+				+ " where dashboardScene.dashboard.id = :dashboardId"
+				+ " and dashboardScene.scene.id = :sceneId";
+		Query query = getCurrentSession().createQuery(sql)
+				.setParameter("dashboardId", dashboardId)
+				.setParameter("sceneId", sceneId).setCacheable(true);
+		return getFirst(findMany(query));
+	}
+
+}

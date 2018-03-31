@@ -1,0 +1,1 @@
+-src src/main/java -launcherDir D:/Projects/ionoff/ionoff.client/src/main/webapp net.ionoff.center.IApp

@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="net.xapxinh.dataservice.entity.Album" table="albums" >
+		
+		<id name="id" type="long" column="id" >
+			<generator class="native"/>
+		</id>
+        
+		<property name="name">
+			<column name="name" />
+		</property>
+		
+		<property name="title">
+			<column name="title" />
+		</property>
+		
+		<property name="image">
+			<column name="image" />
+		</property>
+		
+		<property name="releaseDate">
+			<column name="release_date" />
+		</property>
+		
+		<property name="description" type="text">
+			<column name="description" />
+		</property>
+		
+		<property name="listenCount" type="int">
+			<column name="listen_count" />
+		</property>
+		
+		<property name="uploadedDate">
+			<column name="uploaded_date" sql-type="datetime"/>
+		</property>
+		
+		<set name="artistAlbums" table="artists_albums" 
+        	inverse="true" lazy="true" fetch="select">
+            <key column="album_id" not-null="true" > </key>
+            <one-to-many class="net.xapxinh.dataservice.entity.ArtistAlbum"/>
+        </set>
+        
+		<set name="authorAlbums" table="authors_albums" 
+        	inverse="true" lazy="true" fetch="select">
+            <key column="album_id" not-null="true" > </key>
+            <one-to-many entity-name="net.xapxinh.dataservice.entity.AuthorAlbum"/>
+        </set>
+        
+		<list name="albumSongs" table="albums_songs" 
+        	inverse="true" lazy="true" fetch="select">
+            <key column="album_id" not-null="true" > </key>
+            <index column="song_index"/>
+            <one-to-many entity-name="net.xapxinh.dataservice.entity.AlbumSong"/>
+        </list>
+        
+	</class>
+</hibernate-mapping>

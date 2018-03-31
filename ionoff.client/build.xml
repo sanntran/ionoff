@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Rename this to your project name -->
+<project name="ionoff.client" basedir="." default="build">
+	
+	<tstamp> <format property="touch.time" pattern="yyyy_MM_dd"/> </tstamp>
+ 	
+ 	<property name="src.dir" value="src/main/java" />
+	<property name="webapp.dir" value="src/main/webapp" />
+	<property name="bin.dir" location="target/classes" />
+	<property name="lib.dir" location="target/library" />
+	<property name="parent.dir" location=".."/>
+	<property name="gwt.sdk.dir" value="${parent.dir}/../eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.8.1/gwt-2.8.1" />
+	
+	<property name="version" value="0.0.1"/>
+
+	<path id="project.class.path">
+	    <pathelement location="${bin.dir}"/>
+	    <pathelement location="${gwt.sdk.dir}/gwt-user.jar"/>
+	    <fileset dir="${gwt.sdk.dir}" includes="gwt-dev*.jar"/>
+	    <!-- Add any additional non-server libs (such as JUnit) -->
+	    <fileset dir="${lib.dir}" includes="**/*.jar"/>
+	</path>
+	
+	<target name="build">
+		<antcall target="gwt.compile"/>
+		<delete dir="${webapp.dir}/gwt-unitCache" />
+		<delete dir="${webapp.dir}/WEB-INF/classes" />		
+		<delete dir="${webapp.dir}/WEB-INF/deploy" />
+	</target>
+	
+	<target name="gwt.compile" description="GWT compile to JavaScript"> <!-- depends="javac" -->
+		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+	        <classpath>
+	            <pathelement location="${src.dir}" />
+	            <pathelement location="${gwt.sdk.dir}/validation-api-1.0.0.GA.jar" />
+        		<pathelement location="${gwt.sdk.dir}/validation-api-1.0.0.GA-sources.jar" />
+	            <path refid="project.class.path" />
+	        </classpath>
+	        <arg line="-logLevel INFO" />
+	        <jvmarg value="-Xmx1024M" />
+	        <!-- you can ignore this -->
+			<arg line="-war"/>
+			<arg value="${webapp.dir}"/>
+	        <arg value="net.ionoff.center.IApp" />
+	    </java>
+	</target>
+		 
+</project>

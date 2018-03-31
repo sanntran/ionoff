@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="net.ionoff.center.server.entity.ModeSensorUser" table="modes_sensors_users">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<property name="detected" type="java.lang.Boolean">
+			<column name="detected_" sql-type="bit"/>
+		</property>
+		
+		<property name="sendSms" type="java.lang.Boolean">
+			<column name="send_sms" sql-type="bit"/>
+		</property>
+		
+		<property name="sendEmail" type="java.lang.Boolean">
+			<column name="send_email" sql-type="bit"/>
+		</property>
+		
+		<many-to-one name="modeSensor" class="net.ionoff.center.server.entity.ModeSensor" fetch="select">
+            <column name="modesensor_id" not-null="true" />
+        </many-to-one>
+
+		<many-to-one name="user" class="net.ionoff.center.server.entity.User" fetch="select">
+            <column name="user_id" not-null="false" />
+        </many-to-one>
+        
+        <many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">
+            <column name="project_id" not-null="false" />
+        </many-to-one>
+		
+	</class>
+</hibernate-mapping>

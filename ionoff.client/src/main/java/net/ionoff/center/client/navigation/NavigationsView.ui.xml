@@ -1,0 +1,104 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:m="urn:import:gwt.material.design.client.ui"
+	xmlns:ma="urn:import:gwt.material.design.addins.client">
+
+	<ui:style>
+		.header {
+			z-index: 1001 !important;
+		}
+		.systemTime {
+			position: absolute;
+			top: 44px;
+			right: 15px;
+			font-size: 18px;
+			color: #102c3e !important;
+		}
+		.systemDate {
+			position: absolute;
+			top: 65px;
+			right: 15px;
+			font-size: 10px;
+			color: #000 !important;
+		}
+		.iconSelectProject {
+			position: absolute;
+			left: 75px;
+    		top: 25px;
+		}
+		.iconProjectSetting {
+			position: absolute;
+			left: 120px;
+    		top: 25px;
+		}
+		
+	</ui:style>
+
+	<g:HTMLPanel ui:field="root">
+		<m:MaterialHeader addStyleNames="{style.header}">
+			<m:MaterialNavBar ui:field="navBar" activates="sidenavDrawer"
+				backgroundColor="BLUE_GREY_DARKEN_3" shadow="1">
+				<m:MaterialButton ui:field="btnLogo" type="FLAT" waves="LIGHT" addStyleNames="logo" />					
+				<m:MaterialIcon ui:field="dashhboardIcon" addStyleNames="dashhboardIcon" waves="LIGHT" iconType="DASHBOARD" iconSize="SMALL" />
+				<m:MaterialButton ui:field="btnNavTitle" type="FLAT" waves="LIGHT" addStyleNames="btnTitle">
+					<m:MaterialIcon ui:field="iconArowUp" textColor="GREY_LIGHTEN_4" iconType="KEYBOARD_ARROW_LEFT" />
+					<m:MaterialTitle ui:field="navTitle" title="Null" description="Null" addStyleNames="title" />
+				</m:MaterialButton>		
+				<m:MaterialIcon ui:field="btnUser" activates="userMenu" iconType="ACCOUNT_CIRCLE" iconColor="WHITE" waves="LIGHT" float="RIGHT"
+					addStyleNames="button-user" />
+			</m:MaterialNavBar>
+		</m:MaterialHeader>
+
+		<m:MaterialSideNavDrawer backgroundColor="BLUE_GREY_DARKEN_3" m:id="sidenavDrawer" style="top: 56px !important;"
+			ui:field="sideNav" showOnAttach="true" withHeader="true" width="250">
+			<ma:sideprofile.MaterialSideProfile url="imgs/profile.jpg" addStyleNames="sideProfile">
+				<m:MaterialImage ui:field="btnImgProject" url="imgs/project.jpg" />
+				<m:MaterialIcon ui:field="iconSelectProject" iconType="ARROW_DROP_DOWN"  waves="LIGHT" iconColor="WHITE" addStyleNames="{style.iconSelectProject}"/>
+				<m:MaterialIcon ui:field="iconSystemSetting" iconType="SETTINGS"  waves="LIGHT" iconColor="WHITE" addStyleNames="{style.iconProjectSetting}"/>
+				
+				<m:MaterialLabel ui:field="lblSystemTime"
+					addStyleNames="{style.systemTime}" text="00:00" />
+				<m:MaterialLabel ui:field="lblSystemDate"
+					addStyleNames="{style.systemDate}" text="0000/00/00" />
+				
+				<m:MaterialButton ui:field="btnProfileTitle" type="FLAT" waves="LIGHT" addStyleNames="btnProfileTitle">
+					<m:MaterialTitle ui:field="profileTitle" title="Null" description="Null" addStyleNames="profileTitle" />
+					<m:MaterialIcon iconType="MORE_VERT" iconColor="WHITE" float="RIGHT"/>
+				</m:MaterialButton>
+				
+			</ma:sideprofile.MaterialSideProfile>
+			
+			<m:MaterialLink ui:field="menuItemProject" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="BUSINESS" />
+			<m:MaterialLink ui:field="menuItemDashboard" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="DASHBOARD" />
+			<m:MaterialLink ui:field="menuItemDevice" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="DEVICES_OTHER" > 
+			</m:MaterialLink>
+			<m:MaterialLink ui:field="menuItemScene" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="MOVIE" >
+			</m:MaterialLink>
+			<m:MaterialLink ui:field="menuItemMode" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="SETTINGS_BRIGHTNESS" >
+			</m:MaterialLink>
+			<m:MaterialLink ui:field="menuItemSchedule" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="SCHEDULE" />
+			<m:MaterialLink ui:field="menuItemController" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="MEMORY" />
+			<m:MaterialLink ui:field="menuItemRelay" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="POWER_SETTINGS_NEW" />
+			<m:MaterialLink ui:field="menuItemUser" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="ACCOUNT_CIRCLE" />
+			<m:MaterialLink ui:field="menuItemSensor" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="WIFI_TETHERING" />
+			<m:MaterialLink ui:field="menuItemArea" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="BORDER_ALL" />
+			<m:MaterialLink ui:field="menuItemZone" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="CROP_3_2" />
+			<m:MaterialLink ui:field="menuItemArrow" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="KEYBOARD_ARROW_DOWN"/>
+		</m:MaterialSideNavDrawer>
+
+		<m:MaterialDropDown activator="userMenu" addStyleNames="userMenu"
+			belowOrigin="true" constrainWidth="false" width="250px"
+			backgroundColor="BLUE_GREY_DARKEN_1">
+			<m:MaterialTitle ui:field="lblUser" title="User" description="user" addStyleNames="user">
+				<m:MaterialIcon iconType="ACCOUNT_CIRCLE" />
+			</m:MaterialTitle>
+			<m:MaterialLink ui:field="menuItemFullscreen" iconType="FULLSCREEN" text="" />
+			<m:MaterialCheckBox ui:field="menuItemVi" text="" value="false" />
+			<m:MaterialCheckBox ui:field="menuItemEn" text="" value="false" />
+			<m:MaterialLink ui:field="menuItemVersion" iconType="UPDATE" text="" />
+			<m:MaterialLink ui:field="menuItemLogout" iconType="EXIT_TO_APP" text="" />
+		</m:MaterialDropDown>
+		
+	</g:HTMLPanel>
+
+</ui:UiBinder>

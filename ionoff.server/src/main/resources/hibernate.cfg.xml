@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+	
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.bytecode.use_reflection_optimizer">false</property>	
+		
+		<!-- Database connection settings -->
+        <!-- JDBC connection pool (use the built-in) -->
+               
+        <property name="connection.pool_size">5</property>
+		
+        <!-- SQL dialect -->
+        <!-- Enable Hibernate's automatic session context management -->
+        
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">fasle</property>
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">validate</property>
+        <property name="hibernate.generate_statistics">true</property>
+        
+       	<property name="hibernate.auto_close_session">true</property>
+       	<property name="hibernate.enable_lazy_load_no_trans">true</property>
+       	
+	   	<!-- configuration pool via c3p0 -->
+	   	<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>	   	
+	   	<property name= "hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>   
+	   	<property name="hibernate.connection.url">jdbc:mysql://localhost/ionoff?autoReconnect=true&amp;characterEncoding=UTF-8</property>
+	   	<property name="hibernate.connection.username">root</property>
+	   	<property name="hibernate.connection.password">ionoff$db</property>	   	
+	   	<property name="hibernate.default_schema">ionoff</property>
+	   	
+	   	<property name= "hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+	   	<property name="hibernate.c3p0.acquire_increment">5</property>
+	   	<property name="hibernate.c3p0.idle_test_period">1800</property>
+	   	<property name="hibernate.c3p0.max_size">600</property>
+	   	<property name="hibernate.c3p0.max_statements">50</property>
+	   	<property name="hibernate.c3p0.min_size">5</property>
+	   	<property name="hibernate.c3p0.timeout">1800</property>
+	   	
+	   	
+	   	<property name="hibernate.cache.use_second_level_cache">true</property>
+		<property name="hibernate.cache.use_query_cache">true</property>
+ 		<property name="net.sf.ehcache.configurationResourceName">ehcache.xml</property>
+ 		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+ 		
+		<!-- Mapping files -->
+		<mapping resource="net/ionoff/center/server/entity/Device.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/UserGroup.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/User.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/Project.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/UserProject.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/Area.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/Zone.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/UserZone.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/UserDevice.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/UserScene.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/Controller.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/Relay.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/RelayGroup.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/Sensor.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/Mode.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/Scene.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/ModeScene.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/SceneDevice.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/SceneAction.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/Schedule.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/ScheduleAction.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/ModeSensor.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/ModeSensorScene.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/ModeSensorUser.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/Version.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/PlayList.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/PlayNode.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/PlayLeaf.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/Token.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/Dashboard.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/DashboardDevice.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/DashboardScene.hbm.xml"/>
+		
+	</session-factory>
+</hibernate-configuration>

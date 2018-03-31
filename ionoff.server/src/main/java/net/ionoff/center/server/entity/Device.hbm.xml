@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.ionoff.center.server.entity.Device" table="devices" discriminator-value="Device" batch-size="1">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<discriminator column="type_" type="string"> </discriminator>
+		
+		<version name="version" type="long" column="version_"/>
+		
+		<property name="name">
+			<column name="name" />
+		</property>
+		
+		<property name="time">
+			<column name="time_" sql-type="datetime"/>
+		</property>
+		
+		<property name="order">
+			<column name="order_" />
+		</property>
+		
+		<many-to-one name="zone" class="net.ionoff.center.server.entity.Zone" fetch="select">
+            <column name="zone_id" not-null="true" />
+        </many-to-one>
+        
+		<many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">
+            <column name="project_id" not-null="true" />
+        </many-to-one>
+        
+		<set name="relays" table="relays" 
+				inverse="true" lazy="true" fetch="select">
+            <cache usage="read-write"/>
+            <key>
+                <column name="device_id" not-null="false" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.Relay" />
+        </set>
+        
+		<subclass name="net.ionoff.center.server.entity.Light"
+			discriminator-value="Light">
+		</subclass>
+		
+		<subclass name="net.ionoff.center.server.entity.Appliance"
+			discriminator-value="Appliance">
+		</subclass>
+
+		<subclass name="net.ionoff.center.server.entity.Player"
+			discriminator-value="Player">
+			
+			<property name="mac">
+				<column name="mac" />
+			</property>
+			
+			<property name="ip">
+				<column name="ip" />
+			</property>
+			
+			<property name="port">
+				<column name="port" />
+			</property>
+			
+			<property name="model">
+				<column name="model" />
+			</property>
+		</subclass>
+		
+	</class>
+	
+</hibernate-mapping>

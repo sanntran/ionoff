@@ -1,0 +1,11 @@
+<Context path="/gerrit" docBase="D:/Gerrit/war">
+<Resource   
+     name="jdbc/ReviewDb"   
+     type="javax.sql.DataSource"   
+     driverClassName="com.mysql.jdbc.Driver"   
+     username="root"   
+     password="xapxinh$db"   
+     url="jdbc:mysql://localhost/gerrit?autoReconnect=true"   
+     auth="Container"  
+ />
+</Context>

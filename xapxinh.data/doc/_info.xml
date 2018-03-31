@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<album>
+	<!--*required-->
+	<title>Ngựa Hoang</title> 
+	
+	<!--*required-->
+	<releaseDate>1995</releaseDate> 		
+	
+	<!--*required-->
+	<description>null
+	</description>
+	
+	<!--null if various artists-->
+	<artists>Nguyễn Hưng</artists> 			
+	
+	<!--null if various authors-->
+	<authors>null</authors> 
+	
+	<musicFiles>
+		<!--
+		<musicFile name="*required" 	title="*required" 	artists="*required" 	author="*required"></musicFile>
+		-->
+		<musicFile name="01.wav" 	
+			title="Vết Thù Trên Lưng Ngựa Hoang" 		
+			artists="Nguyễn Hưng" 	
+			author="Phạm Duy, Ngọc Chánh">
+		</musicFile>
+		<musicFile name="02.wav" 	
+			title="Đừng Hỏi Vì Sao Tôi Buồn" 		
+			artists="Nguyễn Hưng" 	
+			author="Bào Thu">
+		</musicFile>
+		<musicFile name="03.wav" 	
+			title="Tình Chết Theo Mùa Đông" 		
+			artists="Nguyễn Hưng" 	
+			author="Lam Phương">
+		</musicFile>
+		<musicFile name="04.wav" 	
+			title="Người Xa Người" 		
+			artists="Nguyễn Hưng" 	
+			author="Trần Thiện Thanh">
+		</musicFile>
+		<musicFile name="05.wav" 	
+			title="Hương Xưa" 		
+			artists="Nguyễn Hưng" 	
+			author="Vũ Hoàng">
+		</musicFile>
+		<musicFile name="06.wav" 	
+			title="Xin Làm Người Tình" 		
+			artists="Nguyễn Hưng" 	
+			author="Nguyễn Hưng">
+		</musicFile>
+		<musicFile name="07.wav" 	
+			title="Nhớ Phút Ấy" 		
+			artists="Nguyễn Hưng" 	
+			author="Mai Anh Việt">
+		</musicFile>
+		<musicFile name="08.wav" 	
+			title="Bốn Màu Áo" 		
+			artists="Nguyễn Hưng" 	
+			author="Anh Thy">
+		</musicFile>
+		<musicFile name="09.wav" 	
+			title="Ân Tình Mong Manh" 		
+			artists="Nguyễn Hưng" 	
+			author="Ngọc Trọng">
+		</musicFile>
+		<musicFile name="10.wav" 	
+			title="Yêu Thầm" 		
+			artists="Nguyễn Hưng" 	
+			author="Lam Phương">
+		</musicFile>		
+	</musicFiles>
+</album>

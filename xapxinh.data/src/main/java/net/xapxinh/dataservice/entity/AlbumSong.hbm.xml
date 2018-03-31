@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	
+	<class name="net.xapxinh.dataservice.entity.AlbumSong" table="albums_songs" >
+		
+		<id name="id" type="long" column="id" >
+			<generator class="native"/>
+		</id>
+		
+		<property name="songIndex">
+			<column name="song_index" />
+		</property>
+		
+		<many-to-one name="album" column="album_id" class="net.xapxinh.dataservice.entity.Album" 
+		    fetch="select">
+        </many-to-one>
+        
+        <many-to-one name="song" column="song_id" class="net.xapxinh.dataservice.entity.Song" 
+            fetch="select">
+        </many-to-one>
+	    
+	</class>
+</hibernate-mapping>

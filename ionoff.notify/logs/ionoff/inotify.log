@@ -1,0 +1,16 @@
+2016-05-28 11:09:40 INFO  SmsServiceImpl:32 - Sending SMS to [0933439994]
+2016-05-28 11:09:40 INFO  SmsServiceImpl:33 - Sending SMS message Test API
+2016-05-28 11:14:16 INFO  SmsServiceImpl:32 - Sending SMS to: [0933439994]
+2016-05-28 11:14:16 INFO  SmsServiceImpl:33 - Sending SMS message: Test API
+2016-05-28 11:14:16 INFO  SmsServiceImpl:54 - Response code from SMS gateway: 400
+2016-05-28 11:15:47 INFO  SmsServiceImpl:32 - Sending SMS to: [0933439994]
+2016-05-28 11:15:47 INFO  SmsServiceImpl:33 - Sending SMS message: Test API
+2016-05-28 11:16:37 INFO  SmsServiceImpl:54 - Response code from SMS gateway: 400
+2016-05-28 11:23:06 INFO  SmsServiceImpl:32 - Sending SMS to: [0933439994]
+2016-05-28 11:23:06 INFO  SmsServiceImpl:33 - Sending SMS message: Test API
+2016-05-28 11:24:03 INFO  SmsServiceImpl:32 - Sending SMS to: [0933439994]
+2016-05-28 11:24:03 INFO  SmsServiceImpl:33 - Sending SMS message: Test API
+2016-05-28 11:24:27 INFO  SmsServiceImpl:54 - Response code from SMS gateway: 200
+2016-05-28 11:24:27 INFO  SmsServiceImpl:63 - Response message from SMS gateway: <?xml version="1.0" encoding="utf-8"?><SmsResultModel xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><CodeResult>100</CodeResult><SMSID>20992174</SMSID><CountRegenerate>0</CountRegenerate><IsSandbox>0</IsSandbox></SmsResultModel>
+2016-05-28 11:24:27 INFO  SmsServiceImpl:54 - Response code from SMS gateway: 200
+2016-05-28 11:24:27 INFO  SmsServiceImpl:63 - Response message from SMS gateway: <?xml version="1.0" encoding="utf-8"?><SmsResultModel xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><CodeResult>100</CodeResult><SMSID>20992181</SMSID><CountRegenerate>0</CountRegenerate><IsSandbox>0</IsSandbox></SmsResultModel>

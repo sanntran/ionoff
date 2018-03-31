@@ -1,0 +1,7 @@
+1. Update latest.json file
+2. The latest sql file name must be the same with version date time.
+3. Every sql file MUST contains script to update version name and version date time
+4. The zip file contain:
+	- ionoff.war
+	- iserver.war
+	- all sql script files

@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.ionoff.center.server.entity.Mode" table="modes">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<property name="name">
+			<column name="name" />
+		</property>
+		
+		<property name="time">
+			<column name="time_" sql-type="datetime"/>
+		</property>
+		
+		<property name="isScheduled" type="java.lang.Boolean">
+			<column name="is_scheduled" sql-type="bit"/>
+		</property>
+		
+		<property name="scheduleRepeat">
+			<column name="schedule_repeat" />
+		</property>
+		
+		<property name="scheduleTime">
+			<column name="schedule_time" />
+		</property>
+		
+		<property name="scheduleDay">
+			<column name="schedule_day" />
+		</property>
+		
+		<property name="isActivated" type="java.lang.Boolean">
+			<column name="is_activated" sql-type="bit"/>
+		</property>
+        
+		<many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">
+            <column name="project_id" not-null="true" />
+        </many-to-one>
+		
+		<set name="scenes" table="modes_scenes" 
+				inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mode_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.ModeScene" />
+        </set>
+        
+		<set name="sensors" table="modes_sensors" 
+				inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mode_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.ModeSensor" />
+        </set>
+        
+	</class>
+	
+</hibernate-mapping>

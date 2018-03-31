@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.ionoff.center.server.entity.Schedule" table="schedules">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<property name="name">
+			<column name="name" />
+		</property>
+		
+		<property name="repeat">
+			<column name="repeat_" />
+		</property>
+		
+		<property name="time">
+			<column name="time_" />
+		</property>
+		
+		<property name="day">
+			<column name="day_" />
+		</property>
+		
+		<property name="status" type="java.lang.Boolean">
+			<column name="status_" sql-type="bit"/>
+		</property>
+		
+		<property name="retry">
+			<column name="retry_" />
+		</property>
+		
+		<property name="enabled" type="java.lang.Boolean">
+			<column name="enabled_" sql-type="bit"/>
+		</property>
+		
+		<many-to-one name="device" class="net.ionoff.center.server.entity.Device" fetch="select">
+            <column name="device_id" not-null="true" />
+        </many-to-one>
+		
+		<set name="actions" table="schedules_actions" 
+				inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="schedule_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.ScheduleAction" />
+        </set>
+        
+        <many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">
+            <column name="project_id" not-null="true" />
+        </many-to-one>
+	</class>
+	
+</hibernate-mapping>
