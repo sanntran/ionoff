@@ -1,0 +1,1 @@
+This project is to generate activation key from MAC address

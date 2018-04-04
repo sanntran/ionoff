@@ -1,0 +1,5 @@
+*** Error 24 "C:\Program Files (x86)\PICC\Devices\16F723.h" Line 2(9,18): Unknown device type    -- Try PCM
+      1 Errors,  0 Warnings.
+>>> Warning 203 "main.c" Line 149(1,1): Condition always TRUE
+      Memory usage:   ROM=10%      RAM=4% - 4%
+      0 Errors,  1 Warnings.

@@ -1,0 +1,14 @@
+>>> Warning 225 "D:\Projects\ionoff\ionoff.controller\p4\source\tcpip\enc28j60.c" Line 85(24,139): Duplicate #define
+>>> Warning 225 "D:\Projects\ionoff\ionoff.controller\p4\source\tcpip\enc28j60.c" Line 87(30,37): Duplicate #define
+>>> Warning 216 "main.c" Line 262(0,1): Interrupts disabled during call to prevent re-entrancy:  (@delay_ms1)
+>>> Warning 216 "main.c" Line 262(0,1): Interrupts disabled during call to prevent re-entrancy:  (BFSReg)
+>>> Warning 216 "main.c" Line 262(0,1): Interrupts disabled during call to prevent re-entrancy:  (BankSel)
+>>> Warning 216 "main.c" Line 262(0,1): Interrupts disabled during call to prevent re-entrancy:  (WriteReg)
+>>> Warning 216 "main.c" Line 262(0,1): Interrupts disabled during call to prevent re-entrancy:  (ENCSPIXfer)
+>>> Warning 216 "main.c" Line 262(0,1): Interrupts disabled during call to prevent re-entrancy:  (ReadETHReg)
+>>> Warning 216 "main.c" Line 262(0,1): Interrupts disabled during call to prevent re-entrancy:  (BFCReg)
+>>> Warning 216 "main.c" Line 262(0,1): Interrupts disabled during call to prevent re-entrancy:  (MACDiscardTx)
+>>> Warning 216 "main.c" Line 262(0,1): Interrupts disabled during call to prevent re-entrancy:  (StackInit)
+>>> Warning 216 "main.c" Line 262(0,1): Interrupts disabled during call to prevent re-entrancy:  (ResetEnc28J60)
+      Memory usage:   ROM=84%      RAM=24% - 34%
+      0 Errors,  12 Warnings.

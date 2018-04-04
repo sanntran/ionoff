@@ -1,0 +1,5 @@
+// http://www.ljcv.net/projects/minipic10t/
+// Convert the character to uppercase
+if (c >= 'a' && c <= 'z') {
+	c -= ('a' - 'A');
+}

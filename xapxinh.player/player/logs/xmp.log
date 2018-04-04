@@ -1,0 +1,444 @@
+2017-04-13 22:37:14 INFO  LatestVersionDownloader:45 - Current version is the latest version
+2017-04-13 22:37:15 INFO  Info:77 - vlcj: 3.10.1
+2017-04-13 22:37:15 INFO  Info:78 - java: 1.8.0_77 Oracle Corporation
+2017-04-13 22:37:15 INFO  Info:79 - java home: D:\Projects\jdk8\jre
+2017-04-13 22:37:15 INFO  Info:80 - os: Windows 7 6.1 amd64
+2017-04-13 22:37:15 INFO  LibVlcFactory:171 - vlc: 2.2.1 Terry Pratchett (Weatherwax), changeset 2.2.1-0-ga425c42
+2017-04-13 22:37:15 INFO  LibVlcFactory:172 - libvlc: D:\Projects\github\xapxinh\xapxinh.player\vlc\libvlc.dll
+2017-04-13 22:37:22 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:37:22 INFO  PlayerSchedulesExecutor:23 - Player schedules executor thread has been started !
+2017-04-13 22:37:22 INFO  TcpConnection:130 - Response: {"message":"Player connection is not accepted: CND04104CQ","status":"failed"}
+2017-04-13 22:37:22 INFO  TcpConnection:147 - Status: Rejected!
+2017-04-13 22:38:31 ERROR TcpConnection:87 - Request is null
+java.net.SocketException: Request is null
+	at net.xapxinh.player.connection.TcpConnection.handleTcpRequest(TcpConnection.java:74)
+	at net.xapxinh.player.connection.TcpConnection.listen(TcpConnection.java:67)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:49)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:38:31 ERROR TcpConnection:53 - java.net.SocketException
+2017-04-13 22:38:31 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:38:31 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:38:31 INFO  TcpConnection:130 - Response: {"message":"Player connection is not accepted: CND04104CQ","status":"failed"}
+2017-04-13 22:38:31 INFO  TcpConnection:147 - Status: Rejected!
+2017-04-13 22:40:27 ERROR TcpConnection:87 - Request is null
+java.net.SocketException: Request is null
+	at net.xapxinh.player.connection.TcpConnection.handleTcpRequest(TcpConnection.java:74)
+	at net.xapxinh.player.connection.TcpConnection.listen(TcpConnection.java:67)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:49)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:40:27 ERROR TcpConnection:53 - java.net.SocketException
+2017-04-13 22:40:27 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:40:27 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:40:27 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:40:27 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 22:43:54 INFO  LatestVersionDownloader:45 - Current version is the latest version
+2017-04-13 22:43:54 INFO  Info:77 - vlcj: 3.10.1
+2017-04-13 22:43:54 INFO  Info:78 - java: 1.8.0_77 Oracle Corporation
+2017-04-13 22:43:54 INFO  Info:79 - java home: D:\Projects\jdk8\jre
+2017-04-13 22:43:54 INFO  Info:80 - os: Windows 7 6.1 amd64
+2017-04-13 22:43:54 INFO  LibVlcFactory:171 - vlc: 2.2.1 Terry Pratchett (Weatherwax), changeset 2.2.1-0-ga425c42
+2017-04-13 22:43:54 INFO  LibVlcFactory:172 - libvlc: D:\Projects\github\xapxinh\xapxinh.player\vlc\libvlc.dll
+2017-04-13 22:43:56 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:43:56 INFO  PlayerSchedulesExecutor:23 - Player schedules executor thread has been started !
+2017-04-13 22:43:56 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:43:56 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 22:44:07 ERROR TcpConnection:87 - 
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:277)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.createNode(EmbeddedMediaPlayerPanel.java:129)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.inEnqueue(EmbeddedMediaPlayerPanel.java:83)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_enqueue(StatusRequestHandler.java:245)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_play(StatusRequestHandler.java:270)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:55)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:44)
+	at net.xapxinh.player.handler.RequestHandler.getStatus(RequestHandler.java:100)
+	at net.xapxinh.player.handler.RequestHandler.handleStatusRequest(RequestHandler.java:95)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:74)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:66)
+	at net.xapxinh.player.connection.TcpConnection.handleTcpRequest(TcpConnection.java:80)
+	at net.xapxinh.player.connection.TcpConnection.listen(TcpConnection.java:67)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:49)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:44:07 ERROR TcpConnection:53 - java.net.SocketException
+2017-04-13 22:44:07 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:44:07 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:44:07 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:44:07 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 22:44:14 ERROR TcpConnection:87 - 
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:277)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.createNode(EmbeddedMediaPlayerPanel.java:129)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.inEnqueue(EmbeddedMediaPlayerPanel.java:83)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_enqueue(StatusRequestHandler.java:245)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_play(StatusRequestHandler.java:270)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:55)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:44)
+	at net.xapxinh.player.handler.RequestHandler.getStatus(RequestHandler.java:100)
+	at net.xapxinh.player.handler.RequestHandler.handleStatusRequest(RequestHandler.java:95)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:74)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:66)
+	at net.xapxinh.player.connection.TcpConnection.handleTcpRequest(TcpConnection.java:80)
+	at net.xapxinh.player.connection.TcpConnection.listen(TcpConnection.java:67)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:49)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:44:14 ERROR TcpConnection:53 - java.net.SocketException
+2017-04-13 22:44:14 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:44:14 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:44:15 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:44:15 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 22:44:40 ERROR TcpConnection:87 - 
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:277)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.createNode(EmbeddedMediaPlayerPanel.java:129)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.inEnqueue(EmbeddedMediaPlayerPanel.java:83)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_enqueue(StatusRequestHandler.java:245)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_play(StatusRequestHandler.java:270)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:55)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:44)
+	at net.xapxinh.player.handler.RequestHandler.getStatus(RequestHandler.java:100)
+	at net.xapxinh.player.handler.RequestHandler.handleStatusRequest(RequestHandler.java:95)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:74)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:66)
+	at net.xapxinh.player.connection.TcpConnection.handleTcpRequest(TcpConnection.java:80)
+	at net.xapxinh.player.connection.TcpConnection.listen(TcpConnection.java:67)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:49)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:44:40 ERROR TcpConnection:53 - java.net.SocketException
+2017-04-13 22:44:40 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:44:40 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:44:40 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:44:40 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 22:51:45 ERROR TcpConnection:87 - 
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:277)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.createNode(EmbeddedMediaPlayerPanel.java:129)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.inEnqueue(EmbeddedMediaPlayerPanel.java:83)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_enqueue(StatusRequestHandler.java:245)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_play(StatusRequestHandler.java:270)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:55)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:44)
+	at net.xapxinh.player.handler.RequestHandler.getStatus(RequestHandler.java:100)
+	at net.xapxinh.player.handler.RequestHandler.handleStatusRequest(RequestHandler.java:95)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:74)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:66)
+	at net.xapxinh.player.connection.TcpConnection.handleTcpRequest(TcpConnection.java:80)
+	at net.xapxinh.player.connection.TcpConnection.listen(TcpConnection.java:67)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:49)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:51:45 ERROR TcpConnection:53 - java.net.SocketException
+2017-04-13 22:51:45 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:51:45 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:51:45 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:51:45 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 22:51:54 INFO  LatestVersionDownloader:45 - Current version is the latest version
+2017-04-13 22:51:54 INFO  Info:77 - vlcj: 3.10.1
+2017-04-13 22:51:54 INFO  Info:78 - java: 1.8.0_77 Oracle Corporation
+2017-04-13 22:51:54 INFO  Info:79 - java home: D:\Projects\jdk8\jre
+2017-04-13 22:51:54 INFO  Info:80 - os: Windows 7 6.1 amd64
+2017-04-13 22:51:54 INFO  LibVlcFactory:171 - vlc: 2.2.1 Terry Pratchett (Weatherwax), changeset 2.2.1-0-ga425c42
+2017-04-13 22:51:54 INFO  LibVlcFactory:172 - libvlc: D:\Projects\github\xapxinh\xapxinh.player\vlc\libvlc.dll
+2017-04-13 22:51:55 ERROR TcpConnection:53 - java.net.SocketException: Socket closed
+2017-04-13 22:51:55 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:51:55 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:51:55 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:51:56 INFO  PlayerSchedulesExecutor:23 - Player schedules executor thread has been started !
+2017-04-13 22:51:56 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:51:56 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 22:51:57 ERROR TcpConnection:53 - java.net.SocketException: Socket closed
+2017-04-13 22:51:57 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:51:57 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:52:09 INFO  LatestVersionDownloader:45 - Current version is the latest version
+2017-04-13 22:52:09 INFO  Info:77 - vlcj: 3.10.1
+2017-04-13 22:52:09 INFO  Info:78 - java: 1.8.0_77 Oracle Corporation
+2017-04-13 22:52:09 INFO  Info:79 - java home: D:\Projects\jdk8\jre
+2017-04-13 22:52:09 INFO  Info:80 - os: Windows 7 6.1 amd64
+2017-04-13 22:52:09 INFO  LibVlcFactory:171 - vlc: 2.2.1 Terry Pratchett (Weatherwax), changeset 2.2.1-0-ga425c42
+2017-04-13 22:52:09 INFO  LibVlcFactory:172 - libvlc: D:\Projects\github\xapxinh\xapxinh.player\vlc\libvlc.dll
+2017-04-13 22:52:11 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:52:11 INFO  PlayerSchedulesExecutor:23 - Player schedules executor thread has been started !
+2017-04-13 22:52:11 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:52:11 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 22:52:16 ERROR TcpConnection:87 - 
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:277)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.createNode(EmbeddedMediaPlayerPanel.java:129)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.inEnqueue(EmbeddedMediaPlayerPanel.java:83)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_enqueue(StatusRequestHandler.java:245)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_play(StatusRequestHandler.java:270)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:55)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:44)
+	at net.xapxinh.player.handler.RequestHandler.getStatus(RequestHandler.java:100)
+	at net.xapxinh.player.handler.RequestHandler.handleStatusRequest(RequestHandler.java:95)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:74)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:66)
+	at net.xapxinh.player.connection.TcpConnection.handleTcpRequest(TcpConnection.java:80)
+	at net.xapxinh.player.connection.TcpConnection.listen(TcpConnection.java:67)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:49)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:52:16 ERROR TcpConnection:53 - java.net.SocketException
+2017-04-13 22:52:16 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:52:16 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:52:16 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:52:16 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 22:52:19 ERROR TcpConnection:87 - 
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:277)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.createNode(EmbeddedMediaPlayerPanel.java:129)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.inEnqueue(EmbeddedMediaPlayerPanel.java:83)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_enqueue(StatusRequestHandler.java:245)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_play(StatusRequestHandler.java:270)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:55)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:44)
+	at net.xapxinh.player.handler.RequestHandler.getStatus(RequestHandler.java:100)
+	at net.xapxinh.player.handler.RequestHandler.handleStatusRequest(RequestHandler.java:95)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:74)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:66)
+	at net.xapxinh.player.connection.TcpConnection.handleTcpRequest(TcpConnection.java:80)
+	at net.xapxinh.player.connection.TcpConnection.listen(TcpConnection.java:67)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:49)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:52:19 ERROR TcpConnection:53 - java.net.SocketException
+2017-04-13 22:52:19 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:52:19 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:52:19 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:52:19 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 22:52:31 ERROR TcpConnection:87 - 
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:277)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.createNode(EmbeddedMediaPlayerPanel.java:129)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.inEnqueue(EmbeddedMediaPlayerPanel.java:83)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_enqueue(StatusRequestHandler.java:245)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_play(StatusRequestHandler.java:270)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:55)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:44)
+	at net.xapxinh.player.handler.RequestHandler.getStatus(RequestHandler.java:100)
+	at net.xapxinh.player.handler.RequestHandler.handleStatusRequest(RequestHandler.java:95)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:74)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:66)
+	at net.xapxinh.player.connection.TcpConnection.handleTcpRequest(TcpConnection.java:80)
+	at net.xapxinh.player.connection.TcpConnection.listen(TcpConnection.java:67)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:49)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:52:31 ERROR TcpConnection:53 - java.net.SocketException
+2017-04-13 22:52:31 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:52:31 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:52:31 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:52:31 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 22:52:41 ERROR TcpConnection:87 - 
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:277)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.createNode(EmbeddedMediaPlayerPanel.java:129)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.inEnqueue(EmbeddedMediaPlayerPanel.java:83)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_enqueue(StatusRequestHandler.java:245)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_play(StatusRequestHandler.java:270)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:55)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:44)
+	at net.xapxinh.player.handler.RequestHandler.getStatus(RequestHandler.java:100)
+	at net.xapxinh.player.handler.RequestHandler.handleStatusRequest(RequestHandler.java:95)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:74)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:66)
+	at net.xapxinh.player.connection.TcpConnection.handleTcpRequest(TcpConnection.java:80)
+	at net.xapxinh.player.connection.TcpConnection.listen(TcpConnection.java:67)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:49)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:52:41 ERROR TcpConnection:53 - java.net.SocketException
+2017-04-13 22:52:41 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:52:41 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:52:41 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:52:41 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 22:52:51 INFO  LatestVersionDownloader:45 - Current version is the latest version
+2017-04-13 22:52:51 INFO  Info:77 - vlcj: 3.10.1
+2017-04-13 22:52:51 INFO  Info:78 - java: 1.8.0_77 Oracle Corporation
+2017-04-13 22:52:51 INFO  Info:79 - java home: D:\Projects\jdk8\jre
+2017-04-13 22:52:51 INFO  Info:80 - os: Windows 7 6.1 amd64
+2017-04-13 22:52:51 INFO  LibVlcFactory:171 - vlc: 2.2.1 Terry Pratchett (Weatherwax), changeset 2.2.1-0-ga425c42
+2017-04-13 22:52:51 INFO  LibVlcFactory:172 - libvlc: D:\Projects\github\xapxinh\xapxinh.player\vlc\libvlc.dll
+2017-04-13 22:52:53 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:52:53 INFO  PlayerSchedulesExecutor:23 - Player schedules executor thread has been started !
+2017-04-13 22:52:53 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:52:53 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 22:52:59 ERROR TcpConnection:87 - 
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:277)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.createNode(EmbeddedMediaPlayerPanel.java:129)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.inEnqueue(EmbeddedMediaPlayerPanel.java:83)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_enqueue(StatusRequestHandler.java:245)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_play(StatusRequestHandler.java:270)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:55)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:44)
+	at net.xapxinh.player.handler.RequestHandler.getStatus(RequestHandler.java:100)
+	at net.xapxinh.player.handler.RequestHandler.handleStatusRequest(RequestHandler.java:95)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:74)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:66)
+	at net.xapxinh.player.connection.TcpConnection.handleTcpRequest(TcpConnection.java:80)
+	at net.xapxinh.player.connection.TcpConnection.listen(TcpConnection.java:67)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:49)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:52:59 ERROR TcpConnection:53 - java.net.SocketException
+2017-04-13 22:52:59 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:52:59 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:52:59 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:52:59 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 22:53:06 ERROR TcpConnection:87 - 
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:277)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.createNode(EmbeddedMediaPlayerPanel.java:129)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.inEnqueue(EmbeddedMediaPlayerPanel.java:83)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_enqueue(StatusRequestHandler.java:245)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_play(StatusRequestHandler.java:270)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:55)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:44)
+	at net.xapxinh.player.handler.RequestHandler.getStatus(RequestHandler.java:100)
+	at net.xapxinh.player.handler.RequestHandler.handleStatusRequest(RequestHandler.java:95)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:74)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:66)
+	at net.xapxinh.player.connection.TcpConnection.handleTcpRequest(TcpConnection.java:80)
+	at net.xapxinh.player.connection.TcpConnection.listen(TcpConnection.java:67)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:49)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:53:06 ERROR TcpConnection:53 - java.net.SocketException
+2017-04-13 22:53:06 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:53:06 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:53:06 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:53:06 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 22:53:22 ERROR TcpConnection:87 - 
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:277)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.createNode(EmbeddedMediaPlayerPanel.java:129)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.inEnqueue(EmbeddedMediaPlayerPanel.java:83)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_enqueue(StatusRequestHandler.java:245)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_play(StatusRequestHandler.java:270)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:55)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:44)
+	at net.xapxinh.player.handler.RequestHandler.getStatus(RequestHandler.java:100)
+	at net.xapxinh.player.handler.RequestHandler.handleStatusRequest(RequestHandler.java:95)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:74)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:66)
+	at net.xapxinh.player.connection.TcpConnection.handleTcpRequest(TcpConnection.java:80)
+	at net.xapxinh.player.connection.TcpConnection.listen(TcpConnection.java:67)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:49)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:53:22 ERROR TcpConnection:53 - java.net.SocketException
+2017-04-13 22:53:22 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:53:22 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:53:22 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:53:22 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 22:54:13 ERROR TcpConnection:87 - 
+java.lang.NullPointerException
+	at java.io.File.<init>(File.java:277)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.createNode(EmbeddedMediaPlayerPanel.java:129)
+	at net.xapxinh.player.EmbeddedMediaPlayerPanel.inEnqueue(EmbeddedMediaPlayerPanel.java:83)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_enqueue(StatusRequestHandler.java:245)
+	at net.xapxinh.player.handler.StatusRequestHandler.in_play(StatusRequestHandler.java:270)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:55)
+	at net.xapxinh.player.handler.StatusRequestHandler.handleRequest(StatusRequestHandler.java:44)
+	at net.xapxinh.player.handler.RequestHandler.getStatus(RequestHandler.java:100)
+	at net.xapxinh.player.handler.RequestHandler.handleStatusRequest(RequestHandler.java:95)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:74)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:66)
+	at net.xapxinh.player.connection.TcpConnection.handleTcpRequest(TcpConnection.java:80)
+	at net.xapxinh.player.connection.TcpConnection.listen(TcpConnection.java:67)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:49)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:54:13 ERROR TcpConnection:53 - java.net.SocketException
+2017-04-13 22:54:13 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:54:13 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:54:14 INFO  TcpConnection:130 - Response: {"context":"/requests/status"}
+2017-04-13 22:54:14 ERROR TcpConnection:142 - JSONObject["status"] not found.
+org.json.JSONException: JSONObject["status"] not found.
+	at org.json.JSONObject.get(JSONObject.java:475)
+	at net.xapxinh.player.connection.TcpConnection.onRecievedResponse(TcpConnection.java:133)
+	at net.xapxinh.player.connection.TcpConnection.connect(TcpConnection.java:115)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:46)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:54:14 ERROR TcpConnection:87 - 
+java.lang.NullPointerException
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:73)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:66)
+	at net.xapxinh.player.connection.TcpConnection.handleTcpRequest(TcpConnection.java:80)
+	at net.xapxinh.player.connection.TcpConnection.listen(TcpConnection.java:67)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:49)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:54:14 ERROR TcpConnection:53 - java.net.SocketException
+2017-04-13 22:54:14 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:54:14 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:54:14 INFO  TcpConnection:130 - Response: {"context":"/requests/status"}
+2017-04-13 22:54:14 ERROR TcpConnection:142 - JSONObject["status"] not found.
+org.json.JSONException: JSONObject["status"] not found.
+	at org.json.JSONObject.get(JSONObject.java:475)
+	at net.xapxinh.player.connection.TcpConnection.onRecievedResponse(TcpConnection.java:133)
+	at net.xapxinh.player.connection.TcpConnection.connect(TcpConnection.java:115)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:46)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:54:14 ERROR TcpConnection:87 - 
+java.lang.NullPointerException
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:73)
+	at net.xapxinh.player.handler.RequestHandler.handleRequest(RequestHandler.java:66)
+	at net.xapxinh.player.connection.TcpConnection.handleTcpRequest(TcpConnection.java:80)
+	at net.xapxinh.player.connection.TcpConnection.listen(TcpConnection.java:67)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:49)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.restart(TcpConnection.java:61)
+	at net.xapxinh.player.connection.TcpConnection.run(TcpConnection.java:41)
+2017-04-13 22:54:14 ERROR TcpConnection:53 - java.net.SocketException
+2017-04-13 22:54:14 INFO  TcpConnection:147 - Status: Disconnected
+2017-04-13 22:54:14 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 22:54:14 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 22:54:14 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 23:49:22 INFO  LatestVersionDownloader:45 - Current version is the latest version
+2017-04-13 23:49:22 INFO  Info:77 - vlcj: 3.10.1
+2017-04-13 23:49:22 INFO  Info:78 - java: 1.8.0_77 Oracle Corporation
+2017-04-13 23:49:22 INFO  Info:79 - java home: D:\Projects\jdk8\jre
+2017-04-13 23:49:22 INFO  Info:80 - os: Windows 7 6.1 amd64
+2017-04-13 23:49:23 INFO  LibVlcFactory:171 - vlc: 2.2.1 Terry Pratchett (Weatherwax), changeset 2.2.1-0-ga425c42
+2017-04-13 23:49:23 INFO  LibVlcFactory:172 - libvlc: D:\Projects\github\xapxinh\xapxinh.player\vlc\libvlc.dll
+2017-04-13 23:49:27 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 23:49:27 INFO  PlayerSchedulesExecutor:23 - Player schedules executor thread has been started !
+2017-04-13 23:49:29 INFO  TcpConnection:130 - Response: {"playerName":"Player Elite","status":"connected","playerId":11}
+2017-04-13 23:49:29 INFO  TcpConnection:147 - Status: Connected
+2017-04-13 23:50:39 INFO  LatestVersionDownloader:45 - Current version is the latest version
+2017-04-13 23:50:39 INFO  Info:77 - vlcj: 3.10.1
+2017-04-13 23:50:39 INFO  Info:78 - java: 1.8.0_77 Oracle Corporation
+2017-04-13 23:50:39 INFO  Info:79 - java home: D:\Projects\jdk8\jre
+2017-04-13 23:50:39 INFO  Info:80 - os: Windows 7 6.1 amd64
+2017-04-13 23:50:39 INFO  LibVlcFactory:171 - vlc: 2.2.1 Terry Pratchett (Weatherwax), changeset 2.2.1-0-ga425c42
+2017-04-13 23:50:39 INFO  LibVlcFactory:172 - libvlc: D:\Projects\github\xapxinh\xapxinh.player\vlc\libvlc.dll
+2017-04-13 23:50:41 INFO  TcpConnection:147 - Status: Connecting...
+2017-04-13 23:50:41 INFO  PlayerSchedulesExecutor:23 - Player schedules executor thread has been started !
+2017-04-13 23:50:41 INFO  TcpConnection:130 - Response: {"playerName":"HPEliteBook","status":"connected","playerId":10}
+2017-04-13 23:50:41 INFO  TcpConnection:147 - Status: Connected

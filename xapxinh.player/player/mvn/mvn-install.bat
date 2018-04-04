@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=jshortcut-0.4.jar -DgroupId=jshortcut -DartifactId=jshortcut -Dversion=0.4 -Dpackaging=jar
