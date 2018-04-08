@@ -10,6 +10,6 @@ import net.ionoff.center.shared.dto.ModeSensorSceneDto;
 @Transactional
 public interface IModeSensorSceneService extends IGenericService<ModeSensorScene, ModeSensorSceneDto> {
 
-	List<ModeSensorSceneDto> findByModeSensorId(Long modeSensorId, boolean detected);
+	List<ModeSensorSceneDto> findByModeSensorId(Long modeSensorId);
 	
 }

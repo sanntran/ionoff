@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.ionoff.center.server.entity.SensorStatus" table="sensors_status">
+		
+		<id name="id" type="long">
+			<column name="sensor_id" />
+			<generator class="foreign">
+				<param name="property">sensor</param>
+			</generator>
+		</id>
+		
+		<one-to-one name="sensor" class="net.ionoff.center.server.entity.Sensor"></one-to-one>
+		 
+		<property name="time">
+			<column name="time_" sql-type="datetime"/>
+		</property>
+		
+		<property name="value">
+			<column name="value_"/>
+		</property>
+		
+		<property name="total">
+			<column name="total_"/>
+		</property>
+		
+	</class>
+	
+</hibernate-mapping>

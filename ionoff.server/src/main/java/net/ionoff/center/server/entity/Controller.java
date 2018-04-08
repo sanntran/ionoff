@@ -19,6 +19,7 @@ public class Controller extends BaseObj {
 	private Integer crashCount;
 	private Project project;
 	private List<Relay> relays;
+	private List<Switch> switchs;
 	
 	public String getIp() {
 		return ip;
@@ -40,18 +41,21 @@ public class Controller extends BaseObj {
 	public void setKey(String key) {
 		this.key = key;
 	}
+	
 	public Long getConnectedTime() {
 		return connectedTime;
 	}
 	public void setConnectedTime(Long connectedTime) {
 		this.connectedTime = connectedTime;
 	}
+	
 	public Integer getCrashCount() {
 		return crashCount;
 	}
 	public void setCrashCount(Integer crashCount) {
 		this.crashCount = crashCount;
 	}
+	
 	public List<Relay> getRelays() {
 		return relays;
 	}
@@ -109,6 +113,13 @@ public class Controller extends BaseObj {
 			}
 		}
 		return null;
+	}
+	
+	public List<Switch> getSwitchs() {
+		return switchs;
+	}
+	public void setSwitchs(List<Switch> switchs) {
+		this.switchs = switchs;
 	}
 	
 	public boolean isValidKey() {

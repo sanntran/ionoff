@@ -44,32 +44,17 @@ public class SensorStatusChangedHandler {
 			logger.info("Activated mode: " + modeSensor.getMode().getSId() + ". Sensor " + sensor.getSId() + " is disabled.");
 			return;
 		}
-		Boolean newSensorStatus = sensor.getStatus();
-		if (newSensorStatus == true) {
-			onModeSensorDetectedHuman(sensor, modeSensor);
-		}
-		else if (newSensorStatus == false) {
-			onModeSensorDetectedNoHuman(sensor, modeSensor);
+		Double newSensorValue = sensor.getStatus().getValue();
+		if (isMatchConditon(modeSensor, newSensorValue)) {
+			activateScenes(sensor, modeSensor);
+			notifyUsers(sensor, modeSensor);
 		}
 	}
 
-	private void onModeSensorDetectedNoHuman(Sensor sensor, ModeSensor modeSensor) {
-		if (modeSensor.getTimeBuffer() == null) {
-			return;
-		}
-		if (modeSensor.getTimeBuffer() == 0) {
-			logger.info("Sensor " + sensor.getSId() + " detected no human, no time buffer");
-			activateScenes(sensor, modeSensor, false);
-			notifyUsers(sensor, modeSensor, false);
-		}
+	private boolean isMatchConditon(ModeSensor modeSensor, Double newSensorValue) {
+		// TODO check here
+		return false;
 	}
-
-	private void onModeSensorDetectedHuman(Sensor sensor, ModeSensor modeSensor) {
-		logger.info("Sensor " + sensor.getSId() + " detected human, time buffer is not cared");
-		activateScenes(sensor, modeSensor, true);
-		notifyUsers(sensor, modeSensor, true);
-	}
-	
 
 	protected ModeSensor getModeSensor(Sensor sensor) {
 		if (sensor.getProject() == null) {
@@ -94,22 +79,22 @@ public class SensorStatusChangedHandler {
 		return modeSensorService;
 	}
 	
-	protected void activateScenes(Sensor sensor, ModeSensor modeSensor, boolean detected) {
+	protected void activateScenes(Sensor sensor, ModeSensor modeSensor) {
 		if (!modeSensor.hasScene()) {
 			return;
 		}
 		getLogger().info("Mode " + modeSensor.getMode().getSId() 
 				+ ", sensor " + sensor.getSId() + " is starting new thread to activate scenes");
-		new ModeSensorScenesActivator(modeSensor, detected, controlService).start();
+		new ModeSensorScenesActivator(modeSensor, controlService).start();
 	}
 	
-	protected void notifyUsers(Sensor sensor, ModeSensor modeSensor, boolean detected) {
+	protected void notifyUsers(Sensor sensor, ModeSensor modeSensor) {
 		if (!modeSensor.hasUser()) {
 			return;
 		}
 		getLogger().info("Mode " + modeSensor.getMode().getSId() 
 				+ ", sensor " + sensor.getSId() + " is starting new thread to notify users");
-		new ModeSensorUserActivator(modeSensor, detected, emailService, smsService).start();
+		new ModeSensorUserActivator(modeSensor, emailService, smsService).start();
 	}
 	
 	protected Logger getLogger() {

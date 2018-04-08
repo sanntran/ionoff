@@ -41,6 +41,7 @@ public class DeviceEditView extends AbstractEditView<DeviceDto> implements Devic
 		listBoxTypes = new MaterialListBox();
 		listBoxTypes.addItem(AdminLocale.getAdminConst().light());
 		listBoxTypes.addItem(AdminLocale.getAdminConst().mediaPlayer());
+		listBoxTypes.addItem(AdminLocale.getAdminConst().weighScale());
 		listBoxTypes.addItem(AdminLocale.getAdminConst().appliance());
 		contentPanel.add(listBoxTypes);
 		

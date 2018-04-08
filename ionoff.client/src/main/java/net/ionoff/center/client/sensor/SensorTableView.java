@@ -54,10 +54,10 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 	    Column<SensorDto, String> column = new TextColumn<SensorDto>() {
 	    	@Override
 	    	public String getValue(SensorDto object) {
-	    		if (object.getControllerId() == null || object.getControllerName() == null) {
+	    		if (object.getDriverId() == null || object.getDriverName() == null) {
 	    			return AdminLocale.getAdminConst().none();
 	    		}
-	    		return BaseDto.formatNameID(object.getControllerName(), object.getControllerId());
+	    		return BaseDto.formatNameID(object.getDriverName(), object.getDriverId());
 	    	}
 	    };
 		return column;

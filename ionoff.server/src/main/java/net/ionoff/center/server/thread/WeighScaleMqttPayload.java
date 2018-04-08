@@ -1,11 +1,9 @@
 package net.ionoff.center.server.thread;
 
-public class MqttPayload {
+public class WeighScaleMqttPayload {
 	
 	public static final String ID = "id";
 	public static final String CODE = "code";
-	public static final String IO = "io";
-	public static final String CF = "cf";
 	public static final String STATUS = "status";
 	public static final String RESET = "reset";
 	public static final String CRASH = "crash";
@@ -14,12 +12,10 @@ public class MqttPayload {
 	
 	private String id;
 	private String code;
-	private String io;
+	private String status;
 	private String cf;
-	private String in;
-	private String out;
 	
-	public MqttPayload(String payload) {
+	public WeighScaleMqttPayload(String payload) {
 		String[] params = payload.split("&");
 		for (String param : params) {
 			String[] pairs = param.split("=");
@@ -29,11 +25,8 @@ public class MqttPayload {
 			else if ("code".equals(pairs[0])) {
 				code = pairs[1];
 			}
-			else if ("io".equals(pairs[0])) {
-				io = pairs[1];
-				String[] inout = io.split(",");
-				in = inout[0];
-				out = inout[1];
+			else if ("status".equals(pairs[0])) {
+				setStatus(pairs[1]);
 			}
 			else if ("cf".equals(pairs[0])) {
 				cf = pairs[1];
@@ -54,12 +47,6 @@ public class MqttPayload {
 	public void setCode(String code) {
 		this.code = code;
 	}
-	public String getIo() {
-		return io;
-	}
-	public void setIo(String io) {
-		this.io = io;
-	}
 	public String getCf() {
 		return cf;
 	}
@@ -67,11 +54,11 @@ public class MqttPayload {
 		this.cf = cf;
 	}
 
-	public String getIn() {
-		return in;
+	public String getStatus() {
+		return status;
 	}
-	
-	public String getOut() {
-		return out;
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

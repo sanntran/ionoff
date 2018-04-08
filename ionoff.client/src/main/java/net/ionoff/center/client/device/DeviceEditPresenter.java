@@ -35,6 +35,7 @@ import net.ionoff.center.shared.dto.BaseDto;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.LightDto;
 import net.ionoff.center.shared.dto.PlayerDto;
+import net.ionoff.center.shared.dto.WeighScaleDto;
 import net.ionoff.center.shared.dto.ZoneDto;
 
 public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
@@ -107,6 +108,9 @@ public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
 				else if (typeIndex == 1) {
 					setEntityDto(newPlayerDto(entityDto));
 				}
+				else if (typeIndex == 2) {
+					setEntityDto(newWeighScaleDto(entityDto));
+				}
 				else {
 					setEntityDto(newApplianceDto(entityDto));
 				}
@@ -131,8 +135,14 @@ public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
 		PlayerDto playerDto = new PlayerDto();
 		copyDeviceDto(target, playerDto);
 		playerDto.setModel(PlayerDto.IMP);
-		playerDto.setIp("192.168.1.249");
+		playerDto.setIp("");
 		return playerDto;
+	}
+	
+	private WeighScaleDto newWeighScaleDto(DeviceDto target) {
+		WeighScaleDto weighScaleDto = new WeighScaleDto();
+		copyDeviceDto(target, weighScaleDto);
+		return weighScaleDto;
 	}
 	
 	private void copyDeviceDto(DeviceDto sourceDevice, DeviceDto targetDevice) {
@@ -177,6 +187,12 @@ public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
 			player.setIp(view.getTextBoxIp().getText());
 		}
 		
+		else if (entityDto instanceof WeighScaleDto) {
+			WeighScaleDto scale = (WeighScaleDto)entityDto;
+			scale.setMac(view.getTextBoxMac().getValue());
+			scale.setModel(view.getListBoxModels().getSelectedValue());
+		}
+		
 		rpcProvider.getDeviceService().save(entityDto.getId(), entityDto, 
 				new MethodCallback<DeviceDto>() {
 			@Override
@@ -218,7 +234,6 @@ public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
 		if (dto.getId() != BaseDto.DEFAULT_ID) {
 			view.getListBoxTypes().setEnabled(false);
 			view.getListBoxTypes().setSelectedValue(getTypeName(dto));
-			//view.getZoneCollapsibleBody().addStyleName("invisible");
 		}
 		else {
 			view.getListBoxTypes().setEnabled(true);
@@ -228,7 +243,6 @@ public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
 			else {
 				view.getListBoxTypes().setSelectedIndex(-1);
 			}
-			//view.getZoneCollapsibleBody().removeStyleName("invisible");
 		}
 		if (dto instanceof PlayerDto) {
 			PlayerDto player = (PlayerDto)dto;
@@ -238,6 +252,13 @@ public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
 			view.getTextBoxIp().setText(player.getIp());
 			view.getListBoxModels().setVisible(true);
 			view.getListBoxModels().setSelectedValue(player.getModel());
+		}
+		else if (dto instanceof WeighScaleDto) {
+			WeighScaleDto scale = (WeighScaleDto)dto;
+			view.getTextBoxMac().setText(scale.getMac());
+			view.getTextBoxMac().setVisible(true);
+			view.getTextBoxIp().setVisible(false);
+			view.getListBoxModels().setVisible(false);
 		}
 		else {
 			view.getTextBoxIp().setVisible(false);
@@ -251,8 +272,11 @@ public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
 		else if (dto instanceof PlayerDto) {
 			view.getListBoxTypes().setSelectedIndex(1);
 		}
-		else {
+		else if (dto instanceof WeighScaleDto) {
 			view.getListBoxTypes().setSelectedIndex(2);
+		}
+		else {
+			view.getListBoxTypes().setSelectedIndex(3);
 		}
 		view.getZoneNameLbl().setText(BaseDto.formatNameID(dto.getZoneName(), dto.getZoneId()));
 		
@@ -264,6 +288,9 @@ public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
 		}
 		else if (dto instanceof PlayerDto) {
 			return AdminLocale.getAdminConst().mediaPlayer();
+		}
+		else if (dto instanceof WeighScaleDto) {
+			return AdminLocale.getAdminConst().weighScale();
 		}
 		else {
 			return AdminLocale.getAdminConst().appliance();

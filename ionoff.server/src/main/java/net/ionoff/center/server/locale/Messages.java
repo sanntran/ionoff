@@ -94,9 +94,8 @@ public class Messages {
 		return messageFormat.format(new Object[] {entity, ownedEntity});
 	}
 
-	public String errorSensorControllerInput(String inputNumber, String registedSensor) {
-		messageFormat.applyPattern(resourceBundle.getString("errorSensorControllerInput"));
-		return messageFormat.format(new Object[] {inputNumber, registedSensor});
+	public String errorSensorDriverIndex() {
+		return resourceBundle.getString("errorSensorDriverIndex");
 	}
 
 	public String errorSetRelayTypeButtonForLight() {

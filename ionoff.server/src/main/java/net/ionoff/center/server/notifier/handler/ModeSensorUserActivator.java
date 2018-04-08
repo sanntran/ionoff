@@ -24,8 +24,7 @@ class ModeSensorUserActivator extends Thread {
 	
 	private static final SimpleDateFormat DATETIME_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	
-	ModeSensorUserActivator(ModeSensor modeSensor, boolean detected, EmailService emailService, SmsService smsService) {
-		this.detected  = detected;
+	ModeSensorUserActivator(ModeSensor modeSensor, EmailService emailService, SmsService smsService) {
 		this.modeSensor = modeSensor;
 		this.emailService = emailService;
 		this.smsService = smsService;
@@ -39,9 +38,7 @@ class ModeSensorUserActivator extends Thread {
 		if (modeSensor.hasUser()) {
 			List<ModeSensorUser> subscribers = new ArrayList<ModeSensorUser>();
 			for (ModeSensorUser sensorUser : modeSensor.getUsers()) {
-				if (sensorUser.getDetected() == detected) {
-					subscribers.add(sensorUser);
-				}
+				subscribers.add(sensorUser);
 			}
 			if (!subscribers.isEmpty()) {
 				String language = "vi";

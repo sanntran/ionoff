@@ -16,6 +16,7 @@ import net.ionoff.center.server.entity.Scene;
 import net.ionoff.center.server.entity.SceneDevice;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.UserDevice;
+import net.ionoff.center.server.entity.WeighScale;
 import net.ionoff.center.server.entity.Zone;
 import net.ionoff.center.server.objmapper.DeviceMapper;
 import net.ionoff.center.server.persistence.dao.IDeviceDao;
@@ -152,8 +153,13 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 	}
 	
 	@Override
-	public Device findByMac(String mac) {
-		return getDao().findByMac(mac);
+	public Player findPlayerByMac(String mac) {
+		return getDao().findPlayerByMac(mac);
+	}
+
+	@Override
+	public WeighScale findWeighScaleByMac(String mac) {
+		return getDao().findWeighScaleByMac(mac);
 	}
 
 	@Override

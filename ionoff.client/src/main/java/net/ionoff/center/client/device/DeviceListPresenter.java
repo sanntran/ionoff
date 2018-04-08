@@ -27,6 +27,7 @@ import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.LightDto;
 import net.ionoff.center.shared.dto.PlayerDto;
 import net.ionoff.center.shared.dto.StatusDto;
+import net.ionoff.center.shared.dto.WeighScaleDto;
 
 public class DeviceListPresenter extends AbstractPresenter {
 
@@ -169,6 +170,9 @@ public class DeviceListPresenter extends AbstractPresenter {
 			else if (device instanceof PlayerDto) {
 				showPlayer((PlayerDto) device);
 			}
+			else if (device instanceof WeighScaleDto) {
+				showScale((WeighScaleDto) device);
+			}
 			else if (device instanceof ApplianceDto) {
 				showAppliance((ApplianceDto) device);
 			}
@@ -176,6 +180,14 @@ public class DeviceListPresenter extends AbstractPresenter {
 		scheduleSyncDeviceStatus();
 	}
 	
+	private void showScale(WeighScaleDto scale) {
+		WeighScaleView scaleView = new WeighScaleView();
+		WeighScalePresenter scalePresenter = new WeighScalePresenter(rpcProvider, eventBus, scaleView, scale);
+		scalePresenter.go();
+		devicePresenters.add(scalePresenter);
+		scalePresenter.show(display.getWrapper());
+	}
+
 	private void showPlayer(PlayerDto player) {
 		PlayerView playerView = new PlayerView();
 		PlayerPresenter playerPresenter = new PlayerPresenter(rpcProvider, eventBus, playerView, player);

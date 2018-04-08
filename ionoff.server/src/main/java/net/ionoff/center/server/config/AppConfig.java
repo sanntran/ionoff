@@ -20,9 +20,11 @@ public class AppConfig {
 	public final String MQTT_USER;
 	public final String MQTT_PASS;
 	public final int MQTT_QOS;
-	public final String MQTT_TOPIC;
 	public final String MQTT_CLIENT_ID;
 	public final String MQTT_BROKER_URL;
+	public final String MQTT_TOPIC_IONOFF_NET;
+	public final String MQTT_TOPIC_RELAY_DRIVER;
+	public final String MQTT_TOPIC_WEIGH_SCALE;
 	
 	public AppConfig() {
 
@@ -44,9 +46,11 @@ public class AppConfig {
 		
 		MQTT_USER = prop.getProperty("MQTT_USER");
 		MQTT_PASS = prop.getProperty("MQTT_PASS");
-		MQTT_TOPIC = prop.getProperty("MQTT_TOPIC");
 		MQTT_CLIENT_ID = prop.getProperty("MQTT_CLIENT_ID");
 		MQTT_BROKER_URL = prop.getProperty("MQTT_BROKER_URL");
+		MQTT_TOPIC_IONOFF_NET = prop.getProperty("MQTT_TOPIC_IONOFF_NET");
+		MQTT_TOPIC_RELAY_DRIVER = prop.getProperty("MQTT_TOPIC_RELAY_DRIVER");
+		MQTT_TOPIC_WEIGH_SCALE = prop.getProperty("MQTT_TOPIC_WEIGH_SCALE");
 		
 		int port = 39994;	
 		try {

@@ -60,11 +60,23 @@
       <constructor-arg ref="sessionFactory" />    
     </bean>
     
+    <bean id="switchDao" class="net.ionoff.center.server.persistence.dao.impl.SwitchDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
     <bean id="relayGroupDao" class="net.ionoff.center.server.persistence.dao.impl.RelayGroupDaoImpl">
       <constructor-arg ref="sessionFactory" />    
     </bean>
     
     <bean id="sensorDao" class="net.ionoff.center.server.persistence.dao.impl.SensorDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+     <bean id="sensorDataDao" class="net.ionoff.center.server.persistence.dao.impl.SensorDataDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
+     <bean id="sensorStatusDao" class="net.ionoff.center.server.persistence.dao.impl.SensorStatusDaoImpl">
       <constructor-arg ref="sessionFactory" />    
     </bean>
     

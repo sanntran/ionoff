@@ -82,7 +82,6 @@ public class ModeMapper {
 	public ModeSensorSceneDto createModeSensorSceneDto(ModeSensorScene modeSensorScene) {
 		final ModeSensorSceneDto modeSensorSceneDto = new ModeSensorSceneDto();
 		modeSensorSceneDto.setId(modeSensorScene.getId());
-		modeSensorSceneDto.setDetected(modeSensorScene.getDetected());
 		modeSensorSceneDto.setModeSensorId(modeSensorScene.getModeSensor().getId());
 		modeSensorSceneDto.setZoneId(modeSensorScene.getZone().getId());
 		modeSensorSceneDto.setZoneName(modeSensorScene.getZone().getName());
@@ -127,7 +126,6 @@ public class ModeMapper {
 			ModeSensorUser modeSensorUser) {
 		final ModeSensorUserDto modeSensorUserDto = new ModeSensorUserDto();
 		modeSensorUserDto.setId(modeSensorUser.getId());
-		modeSensorUserDto.setDetected(modeSensorUser.getDetected());
 		modeSensorUserDto.setSendEmail(modeSensorUser.isSendEmail());
 		modeSensorUserDto.setSendSms(modeSensorUser.isSendSms());
 		modeSensorUserDto.setModeSensorId(modeSensorUser.getModeSensor().getId());

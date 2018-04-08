@@ -12,10 +12,6 @@
 			<generator class="increment" />
 		</id>
 		
-		<property name="detected" type="java.lang.Boolean">
-			<column name="detected_" sql-type="bit"/>
-		</property>
-		
 		<property name="sendSms" type="java.lang.Boolean">
 			<column name="send_sms" sql-type="bit"/>
 		</property>

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -49,9 +48,8 @@ public class ModeSensorSceneServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public List<ModeSensorSceneDto> findByModeSensorId(@PathVariable("modeSensorId") Long modeSensorId,
-			@RequestParam("detected") boolean detected,
 			HttpServletRequest request) {
 		
-		return modeSensorSceneService.findByModeSensorId(modeSensorId, detected);
+		return modeSensorSceneService.findByModeSensorId(modeSensorId);
 	}
 }

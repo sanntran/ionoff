@@ -3,34 +3,40 @@ package net.ionoff.center.shared.dto;
 public class SensorDto extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
-	public static final int NULL_INPUT = -1;
 	
-	private Long controllerId;
-	private String controllerName;
-	private Integer controllerInput;
-	
+	private String type;
+	private Long driverId;
+	private String driverName;
+	private Integer index;
 	private Long projectId;
 	
-	public Long getControllerId() {
-		return controllerId;
+	public String getType() {
+		return type;
 	}
-	public void setControllerId(Long controllerId) {
-		this.controllerId = controllerId;
+	public void setType(String type) {
+		this.type = type;
+	}
+	public Long getDriverId() {
+		return driverId;
+	}
+	public void setDriverId(Long driverId) {
+		this.driverId = driverId;
 	}
 	
-	public String getControllerName() {
-		return controllerName;
+	public String getDriverName() {
+		return driverName;
 	}
-	public void setControllerName(String controllerName) {
-		this.controllerName = controllerName;
+	public void setDriverName(String driverName) {
+		this.driverName = driverName;
 	}
 	
-	public Integer getControllerInput() {
-		return controllerInput;
+	public Integer getIndex() {
+		return index;
 	}
-	public void setControllerInput(Integer controllerInput) {
-		this.controllerInput = controllerInput;
+	public void setIndex(Integer index) {
+		this.index = index;
 	}
+	
 	public Long getProjectId() {
 		return projectId;
 	}

@@ -63,13 +63,11 @@ public class ModeSensorSceneServiceImpl extends AbstractGenericService<ModeSenso
 	}
 
 	@Override
-	public List<ModeSensorSceneDto> findByModeSensorId(Long modeSensorId, boolean detected) {
+	public List<ModeSensorSceneDto> findByModeSensorId(Long modeSensorId) {
 		final ModeSensor modeSensor = modeSensorService.requireById(modeSensorId);
 		final List<ModeSensorSceneDto> response = new ArrayList<ModeSensorSceneDto>();
 		for (final ModeSensorScene modeSensorScene : modeSensor.getScenes()) {
-			if (detected == modeSensorScene.getDetected()) {
-				response.add(modeMapper.createModeSensorSceneDto(modeSensorScene));
-			}
+			response.add(modeMapper.createModeSensorSceneDto(modeSensorScene));
 		}
 		return response;
 	}

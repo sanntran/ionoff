@@ -84,17 +84,6 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 	}
 
 	@Override
-	public List<Sensor> findByControllerId(long controllerId) {
-		String sql = "select distinct sensor"
-				+ " from Sensor as sensor"
-				+ " where sensor.controller.id = :controllerId"
-				+ " order by sensor.name";
-		Query query = getCurrentSession().createQuery(sql)
-				.setParameter("controllerId", controllerId);
-		return findMany(query);
-	}
-
-	@Override
 	public long countByCriteria(QueryCriteria criteria) {
 		if (NAME.equals(criteria.getSearchField())) {
 			return countByName(criteria.getProjectId(), criteria.getSearchKey());
@@ -109,5 +98,27 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 					criteria.getFromIndex(), criteria.getMaxResults(), criteria.getSortBy(), criteria.getIsAscending());
 		}
 		return Collections.emptyList();
+	}
+
+	@Override
+	public List<Sensor> findBySwitchId(long switchId) {
+		String sql = "select distinct sensor"
+				+ " from Sensor as sensor"
+				+ " where sensor.zwitch.id = :switchId"
+				+ " order by sensor.name";
+		Query query = getCurrentSession().createQuery(sql)
+				.setParameter("switchId", switchId);
+		return findMany(query);
+	}
+
+	@Override
+	public List<Sensor> findByDeviceId(long deviceId) {
+		String sql = "select distinct sensor"
+				+ " from Sensor as sensor"
+				+ " where sensor.device.id = :deviceId"
+				+ " order by sensor.name";
+		Query query = getCurrentSession().createQuery(sql)
+				.setParameter("deviceId", deviceId);
+		return findMany(query);
 	}
 }

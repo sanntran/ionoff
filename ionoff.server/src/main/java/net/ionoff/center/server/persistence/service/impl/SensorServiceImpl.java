@@ -9,15 +9,19 @@ import net.ionoff.center.server.entity.Mode;
 import net.ionoff.center.server.entity.ModeSensor;
 import net.ionoff.center.server.entity.Project;
 import net.ionoff.center.server.entity.Sensor;
+import net.ionoff.center.server.entity.SensorData;
+import net.ionoff.center.server.entity.SensorStatus;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.locale.Messages;
 import net.ionoff.center.server.objmapper.SensorMapper;
 import net.ionoff.center.server.persistence.dao.ISensorDao;
+import net.ionoff.center.server.persistence.dao.ISensorDataDao;
+import net.ionoff.center.server.persistence.dao.ISensorStatusDao;
 import net.ionoff.center.server.persistence.service.IModeSensorService;
 import net.ionoff.center.server.persistence.service.ISensorService;
-import net.ionoff.center.shared.dto.BaseDto;
 import net.ionoff.center.shared.dto.SensorDto;
+import net.ionoff.center.shared.entity.SensorType;
 
 @Transactional
 public class SensorServiceImpl extends AbstractGenericService<Sensor, SensorDto> implements ISensorService {
@@ -26,6 +30,12 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor, SensorDto>
 	
 	@Autowired
 	private SensorMapper sensorMapper;
+	
+	@Autowired
+	private ISensorDataDao sensorDataDao;
+	
+	@Autowired
+	private ISensorStatusDao sensorStatusDao;
 	
 	@Autowired
 	private IModeSensorService modeSensorService;
@@ -67,11 +77,6 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor, SensorDto>
 	public List<Sensor> findByProjectId(long projectId) {
 		return getDao().findByProjectId(projectId);
 	}
-	
-	@Override
-	public List<Sensor> findByControllerId(long controllerId) {
-		return getDao().findByControllerId(controllerId);
-	}
 
 	@Override
 	public SensorDto requireDtoById(long id) {
@@ -101,22 +106,12 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor, SensorDto>
 	}
 
 	private void validateSensor(SensorDto sensorDto, String locale) throws UpdateEntityException {
-		final List<Sensor> sensors = findByProjectId(sensorDto.getProjectId());
-		if (sensors == null || sensors.isEmpty()) {
+		if (!SensorType.DIGITAL.toString().equals(sensorDto.getType())) {
 			return;
 		}
-		if (sensorDto.getControllerId() == null) {
-			return;
-		}
-		for (final Sensor sensor : sensors) {
-			if (sensorDto.getId() != sensor.getId() && sensor.getController() != null &&
-					sensor.getController().getId() == sensorDto.getControllerId()
-					&& sensor.getControllerInput().equals(sensorDto.getControllerInput() - 1)) {
-
-				final String message = Messages.get(locale).errorSensorControllerInput(
-						sensorDto.getControllerInput().toString(), BaseDto.formatNameID(sensor.getName(), sensor.getId()));
-				throw new UpdateEntityException(message);
-			}
+		if (sensorDto.getDriverId() == null || sensorDto.getIndex() == null) {
+			final String message = Messages.get(locale).errorSensorDriverIndex();
+			throw new UpdateEntityException(message);
 		}
 	}
 
@@ -129,5 +124,39 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor, SensorDto>
 	@Override
 	protected List<SensorDto> createDtoList(List<Sensor> entities) {
 		return sensorMapper.createSerialDtoList(entities);
+	}
+
+	@Override
+	public List<Sensor> findBySwitchId(long switchId) {
+		return sensorDao.findBySwitchId(switchId);
+	}
+
+	@Override
+	public List<Sensor> findByDeviceId(long deviceId) {
+		return sensorDao.findByDeviceId(deviceId);
+	}
+
+	@Override
+	public void updateStatus(SensorStatus status) {
+		sensorStatusDao.update(status);
+		SensorData sensorData = newSensorData(status);
+		sensorDataDao.insert(sensorData);
+	}
+
+	private SensorData newSensorData(SensorStatus status) {
+		SensorData sensorData = new SensorData();
+		sensorData.setSensor(status.getSensor());
+		sensorData.setTime(status.getTime());
+		sensorData.setValue(status.getValue());
+		sensorData.setTotal(status.getTotal());
+		return sensorData;
+	}
+
+	public ISensorStatusDao getSensorStatusDao() {
+		return sensorStatusDao;
+	}
+
+	public void setSensorStatusDao(ISensorStatusDao sensorStatusDao) {
+		this.sensorStatusDao = sensorStatusDao;
 	}
 }

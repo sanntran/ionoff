@@ -17,21 +17,33 @@
 			<column name="name" />
 		</property>
 		
-		<property name="status" type="java.lang.Boolean">
-			<column name="status_" sql-type="bit"/>
+		<property name="unit">
+			<column name="unit" />
 		</property>
+		
+		<property name="type">
+			<column name="type_" />
+		</property>
+		
+		<many-to-one name="zone" class="net.ionoff.center.server.entity.Zone" fetch="select">
+            <column name="zone_id" not-null="true" />
+        </many-to-one>
+		
+		<many-to-one name="device" class="net.ionoff.center.server.entity.Device" fetch="select">
+            <column name="device_id" not-null="true" />
+        </many-to-one>
 		
 		<many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">
             <column name="project_id" not-null="true" />
         </many-to-one>
         
-		<many-to-one name="controller" class="net.ionoff.center.server.entity.Controller" fetch="select">
-            <column name="controller_id" not-null="false" />
+        <many-to-one name="zwitch" class="net.ionoff.center.server.entity.Switch" fetch="select">
+            <column name="switch_id" not-null="true" />
         </many-to-one>
+
+		<one-to-one name="status"
+			class="net.ionoff.center.server.entity.SensorStatus"></one-to-one>
 		
-		<property name="controllerInput">
-			<column name="controller_input" />
-		</property>
 	</class>
 	
 </hibernate-mapping>

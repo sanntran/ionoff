@@ -56,13 +56,11 @@ public class ModeSensorUserServiceImpl extends AbstractGenericService<ModeSensor
 	}
 
 	@Override
-	public List<ModeSensorUserDto> findByModeSensorId(Long modeSensorId, boolean detected) {
+	public List<ModeSensorUserDto> findByModeSensorId(Long modeSensorId) {
 		final ModeSensor modeSensor = modeSensorService.requireById(modeSensorId);
 		final List<ModeSensorUserDto> modeSensorUserDtos = new ArrayList<ModeSensorUserDto>();
 		for (final ModeSensorUser modeSensorUser : modeSensor.getUsers()) {
-			if (detected == modeSensorUser.getDetected()) {
-				modeSensorUserDtos.add(modeMapper.createModeSensorUserDto(modeSensorUser));
-			}
+			modeSensorUserDtos.add(modeMapper.createModeSensorUserDto(modeSensorUser));
 		}
 		return modeSensorUserDtos;
 	}

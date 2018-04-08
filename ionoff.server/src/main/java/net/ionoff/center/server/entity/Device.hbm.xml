@@ -53,6 +53,28 @@
 		<subclass name="net.ionoff.center.server.entity.Appliance"
 			discriminator-value="Appliance">
 		</subclass>
+		
+		
+		<subclass name="net.ionoff.center.server.entity.WeighScale"
+			discriminator-value="WeighScale">
+			
+			<property name="mac">
+				<column name="mac" />
+			</property>
+			
+			<property name="model">
+				<column name="model" />
+			</property>
+			
+			<bag name="sensors" table="sensors" 
+					inverse="true" lazy="true" fetch="select" order-by="index_">
+	            <key>
+	                <column name="device_id" not-null="true" />
+	            </key>
+	            <one-to-many class="net.ionoff.center.server.entity.Sensor" />
+	        </bag>
+			
+		</subclass>
 
 		<subclass name="net.ionoff.center.server.entity.Player"
 			discriminator-value="Player">

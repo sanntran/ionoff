@@ -9,27 +9,22 @@ import net.ionoff.center.server.entity.ModeSensorScene;
 class ModeSensorScenesActivator extends Thread {
 	private static Logger logger = Logger.getLogger(ModeSensorScenesActivator.class.getName());
 	
-	private boolean detected;
 	private final ModeSensor modeSensor;
 	private final IControlService controlService;
 	private final String threadName;
 	
-	ModeSensorScenesActivator(ModeSensor modeSensor, boolean detected, IControlService controlService) {
-		this.detected  = detected;
+	ModeSensorScenesActivator(ModeSensor modeSensor, IControlService controlService) {
 		this.modeSensor = modeSensor;
 		this.controlService = controlService;
 		threadName = "Thread of mode:" + modeSensor.getMode().getSId() 
-				+ " - sensor:" + modeSensor.getSensor().getSId() 
-				+ " - detected:" + detected;
+				+ " - sensor:" + modeSensor.getSensor().getSId();
 	}
 	
 	@Override
 	public void run() {
 		if (modeSensor.hasScene()) {
 			for (ModeSensorScene sensorScene : modeSensor.getScenes()) {
-				if (sensorScene.getDetected() == detected) {
-					activateScene(sensorScene);
-				}
+				activateScene(sensorScene);
 			}
 			logger.info(threadName + " has finised activating scenes");
 		}

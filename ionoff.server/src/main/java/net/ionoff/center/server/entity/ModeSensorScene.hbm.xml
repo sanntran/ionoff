@@ -12,10 +12,6 @@
 			<generator class="increment" />
 		</id>
 		
-		<property name="detected" type="java.lang.Boolean">
-			<column name="detected_" sql-type="bit"/>
-		</property>
-		
 		<many-to-one name="modeSensor" class="net.ionoff.center.server.entity.ModeSensor" fetch="select">
             <column name="modesensor_id" not-null="true" />
         </many-to-one>

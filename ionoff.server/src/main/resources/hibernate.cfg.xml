@@ -59,8 +59,11 @@
 		<mapping resource="net/ionoff/center/server/entity/UserScene.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/Controller.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/Relay.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/Switch.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/RelayGroup.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/Sensor.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/SensorStatus.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/SensorData.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/Mode.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/Scene.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/ModeScene.hbm.xml"/>

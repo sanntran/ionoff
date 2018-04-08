@@ -11,10 +11,6 @@ public class Device extends BaseObj implements ISlice, Comparable<Device> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String PLAYER = "player";
-	public static final String LIGHT = "light";
-	public static final String APPLIANCE = "appliance";
-	
 	private Long version;
 	private Date time;
 	private Integer order;

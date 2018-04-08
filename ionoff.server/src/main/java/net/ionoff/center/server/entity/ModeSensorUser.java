@@ -4,19 +4,11 @@ public class ModeSensorUser extends BaseObj {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Boolean detected;
 	private Boolean sendSms;
 	private Boolean sendEmail;
 	private ModeSensor modeSensor;
 	private User user;
 	private Project project;
-	
-	public Boolean getDetected() {
-		return detected;
-	}
-	public void setDetected(Boolean detected) {
-		this.detected = detected;
-	}
 
 	public ModeSensor getModeSensor() {
 		return modeSensor;

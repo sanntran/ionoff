@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import net.ionoff.center.server.entity.Controller;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.persistence.service.IControllerService;
@@ -35,20 +36,15 @@ public class SensorMapper {
 	}
 	
 	public Sensor updateSensor(Sensor sensor , SensorDto sensorDto) throws UpdateEntityException {
-		if (sensorDto.getControllerInput() == null 
-				&& sensorDto.getControllerInput().intValue() == SensorDto.NULL_INPUT) {
-			sensor.setControllerInput(sensorDto.getControllerInput());
-		}
-		else {
-			sensor.setControllerInput(sensorDto.getControllerInput() - 1);
-		}
-		
+		sensor.setType(sensorDto.getType());
 		sensor.setName(sensorDto.getName());
-		if (sensorDto.getControllerId() != null) {
-			sensor.setController(controllerService.findById(sensorDto.getControllerId()));
+		if (sensorDto.getDriverId() != null) {
+			Controller driver = controllerService.findById(sensorDto.getDriverId());
+			driver.getSwitchs().get(sensorDto.getIndex());
+			sensor.setProject(driver.getProject());
 		}
 		else {
-			sensor.setController(null);
+			sensor.setZwitch(null);
 		}
 		return sensor;
 	}
@@ -57,15 +53,17 @@ public class SensorMapper {
 		final SensorDto sensorDto = new SensorDto();
 		sensorDto.setId(sensor.getId());
 		sensorDto.setName(sensor.getName());
-		if (sensor.getController() != null) {
-			sensorDto.setControllerId(sensor.getController().getId());
-			sensorDto.setControllerName(sensor.getController().getName());
+		if (sensor.getDevice() != null) {
+			sensorDto.setDriverId(sensor.getDevice().getId());
+			sensorDto.setDriverName(sensor.getDevice().getName());
 		}
-		if (sensor.getControllerInput() != null && sensor.getControllerInput().intValue() != Sensor.NULL_INPUT) {
-			sensorDto.setControllerInput(sensor.getControllerInput() + 1);
+		if (sensor.getZwitch() != null) {
+			sensorDto.setDriverId(sensor.getZwitch().getDriver().getId());
+			sensorDto.setDriverName(sensor.getZwitch().getDriver().getName());
+			sensorDto.setIndex(sensor.getZwitch().getIndex() + 1);
 		}
 		else {
-			sensorDto.setControllerInput(sensor.getControllerInput());
+			sensorDto.setIndex(null);
 		}
 		sensorDto.setProjectId(sensor.getProject().getId());
 		return sensorDto;

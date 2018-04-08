@@ -4,18 +4,49 @@ public class Sensor extends BaseObj {
 
 	private static final long serialVersionUID = 1L;
 	public static final int NULL_INPUT = -1;
-	private Boolean status;
-	private Project project;
-	private Controller controller;
-	private Integer controllerInput;
 	
-	public Boolean getStatus() {
+	private String unit;
+	private String type;
+	private SensorStatus status;
+	private Zone zone;
+	private Device device;
+	private Project project;
+	private Switch zwitch;
+	
+	public String getUnit() {
+		return unit;
+	}
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	public SensorStatus getStatus() {
 		return status;
 	}
-	public void setStatus(Boolean status) {
+	public void setStatus(SensorStatus status) {
 		this.status = status;
 	}
 	
+	public Zone getZone() {
+		return zone;
+	}
+	public void setZone(Zone zone) {
+		this.zone = zone;
+	}
+	
+	public Device getDevice() {
+		return device;
+	}
+	public void setDevice(Device device) {
+		this.device = device;
+	}
 	public Project getProject() {
 		return project;
 	}	
@@ -23,17 +54,10 @@ public class Sensor extends BaseObj {
 		this.project = project;
 	}
 	
-	public Controller getController() {
-		return controller;
+	public Switch getZwitch() {
+		return zwitch;
 	}
-	public void setController(Controller controller) {
-		this.controller = controller;
-	}
-	
-	public Integer getControllerInput() {
-		return controllerInput;
-	}
-	public void setControllerInput(Integer controllerInput) {
-		this.controllerInput = controllerInput;
+	public void setZwitch(Switch zwitch) {
+		this.zwitch = zwitch;
 	}
 }

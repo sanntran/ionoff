@@ -101,10 +101,10 @@ public class SensorTablePresenter extends AbstractTablePresenter<SensorDto> {
 		if (!super.validateBeforeSaving()) {
 			return false;
 		}
-		if (!validateInputNumberValue(AdminLocale.getAdminConst().input(), getUnsavedDto().getControllerInput() + "")) {
+		if (!validateInputNumberValue(AdminLocale.getAdminConst().input(), getUnsavedDto().getIndex() + "")) {
 			return false;
 		}
-		if ("0".equals(getUnsavedDto().getControllerInput() + "")) {
+		if ("0".equals(getUnsavedDto().getIndex() + "")) {
 			final String message = AdminLocale.getAdminMessages().invalidFieldValue(AdminLocale.getAdminConst().input());
 			eventBus.fireEvent(new ShowMessageEvent(message, ShowMessageEvent.ERROR));
 			return false;
@@ -128,7 +128,7 @@ public class SensorTablePresenter extends AbstractTablePresenter<SensorDto> {
 		newSensorDto.setId(BaseDto.DEFAULT_ID);
 		newSensorDto.setProjectId(getProjectId());
 		newSensorDto.setName("*" + AdminLocale.getAdminConst().sensor());
-		newSensorDto.setControllerInput(SensorDto.NULL_INPUT);
+		newSensorDto.setIndex(1);
 		return newSensorDto;
 	}
 

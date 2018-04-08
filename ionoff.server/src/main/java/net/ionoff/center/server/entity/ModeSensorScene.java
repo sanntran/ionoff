@@ -4,17 +4,9 @@ public class ModeSensorScene extends BaseObj {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Boolean detected;
 	private ModeSensor modeSensor;
 	private Zone zone;
 	private Scene scene;
-	
-	public Boolean getDetected() {
-		return detected;
-	}
-	public void setDetected(Boolean detected) {
-		this.detected = detected;
-	}
 	
 	public Zone getZone() {
 		return zone;

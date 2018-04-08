@@ -54,23 +54,20 @@ public class ModeSensorServiceImpl extends AbstractGenericService<ModeSensor, Mo
 			return;
 		}
 		for (Zone zone : modeSensor.getMode().getProject().getZones()) {
-			insertModeSensorScene(modeSensor, zone, false);
-			insertModeSensorScene(modeSensor, zone, true);
+			insertModeSensorScene(modeSensor, zone);
 		}
 	}
 	
 	private void insertModeSensorUsers(ModeSensor modeSensor) {
 		for (UserProject userProject : modeSensor.getMode().getProject().getUsers()) {
 			if (userProject.hasRole()) {
-				insertModeSensorUser(modeSensor, userProject.getUser(), false);
-				insertModeSensorUser(modeSensor, userProject.getUser(), true);
+				insertModeSensorUser(modeSensor, userProject.getUser());
 			}
 		}
 	}
 
-	private void insertModeSensorUser(ModeSensor modeSensor, User user, boolean detected) {
+	private void insertModeSensorUser(ModeSensor modeSensor, User user) {
 		ModeSensorUser modeSensorUser = new ModeSensorUser();
-		modeSensorUser.setDetected(detected);
 		modeSensorUser.setModeSensor(modeSensor);
 		modeSensorUser.setUser(user);
 		modeSensorUser.setSendEmail(false);
@@ -79,9 +76,8 @@ public class ModeSensorServiceImpl extends AbstractGenericService<ModeSensor, Mo
 		modeSensorUserDao.insert(modeSensorUser);
 	}
 
-	private void insertModeSensorScene(ModeSensor modeSensor, Zone zone, boolean detected) {
+	private void insertModeSensorScene(ModeSensor modeSensor, Zone zone) {
 		ModeSensorScene modeSensorScene = new ModeSensorScene();
-		modeSensorScene.setDetected(detected);
 		modeSensorScene.setModeSensor(modeSensor);
 		modeSensorScene.setZone(zone);
 		modeSensorSceneDao.insert(modeSensorScene);

@@ -116,14 +116,12 @@ public class ZoneServiceImpl extends AbstractGenericService<Zone, ZoneDto> imple
 			return;
 		}
 		for (ModeSensor modeSensor : mode.getSensors()) {
-			insertModeSensorScene(modeSensor, zone, false);
-			insertModeSensorScene(modeSensor, zone, true);
+			insertModeSensorScene(modeSensor, zone);
 		}
 	}
 
-	private void insertModeSensorScene(ModeSensor modeSensor, Zone zone, boolean detected) {
+	private void insertModeSensorScene(ModeSensor modeSensor, Zone zone) {
 		ModeSensorScene modeSensorScene = new ModeSensorScene();
-		modeSensorScene.setDetected(detected);
 		modeSensorScene.setModeSensor(modeSensor);
 		modeSensorScene.setZone(zone);
 		modeSensorSceneDao.insert(modeSensorScene);

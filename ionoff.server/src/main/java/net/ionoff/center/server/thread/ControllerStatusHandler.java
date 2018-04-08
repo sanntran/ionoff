@@ -9,6 +9,7 @@ import net.ionoff.center.server.controller.api.ControllerStatus;
 import net.ionoff.center.server.entity.Controller;
 import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.Sensor;
+import net.ionoff.center.server.entity.Switch;
 import net.ionoff.center.server.notifier.RelayStatusNotifier;
 import net.ionoff.center.server.notifier.SensorStatusNotifier;
 import net.ionoff.center.server.notifier.event.RelayStatusChangedEvent;
@@ -24,12 +25,16 @@ public class ControllerStatusHandler {
 	
 	@Autowired
 	private IControllerService controllerService;
+	
 	@Autowired
 	private IRelayService relayService;
+	
 	@Autowired
 	private ISensorService sensorService;
+	
 	@Autowired
 	private SensorStatusNotifier sensorStatusNotifier;
+	
 	@Autowired
 	private RelayStatusNotifier relayStatusNotifier;
 	
@@ -93,17 +98,15 @@ public class ControllerStatusHandler {
 				relayService.update(relay, controllerStatus.getRelayOutputStatus().get(relay.getIndex()));
 			}
 		}
-		// Update sensor status
-		List<Sensor> sensors = sensorService.findByControllerId(controller.getId());
-		if (sensors.isEmpty()) {
-			return;
-		}
-		for (Sensor sensor : sensors) {
-			if (isSensorStatusChanged(sensor, controllerStatus.getDigitalInputStatus())) {
-				sensor.setStatus(controllerStatus.getDigitalInputStatus(sensor.getControllerInput()));
-				sensorService.update(sensor);
+		if (controller.getSwitchs() != null) {
+			for (Switch zwitch : controller.getSwitchs()) {
+				if (zwitch.updateStatus(controllerStatus.getDigitalInputStatus().get(zwitch.getIndex()))) {
+					// Sensor status is updated when update switch
+					controllerService.updateSwitch(zwitch);
+				}
 			}
 		}
+		
 	}
 
 	void onControllerStatusChanged(Controller controller, String inStatus, String outStatus) {
@@ -118,13 +121,25 @@ public class ControllerStatusHandler {
 				onRelayStatusChanged(relay);
 			}
 		}
-		// Update sensor status
-		List<Sensor> sensors = sensorService.findByControllerId(controller.getId());
-		for (Sensor sensor : sensors) {
-			if (isSensorStatusChanged(sensor, controllerStatus.getDigitalInputStatus())) {
-				onSensorStatusChanged(sensor,
-						controllerStatus.getDigitalInputStatus().get(sensor.getControllerInput()));
+		if (controller.getSwitchs() != null) {
+			for (Switch zwitch : controller.getSwitchs()) {
+				if (zwitch.updateStatus(controllerStatus.getDigitalInputStatus().get(zwitch.getIndex()))) {
+					// Sensor status is updated when update switch
+					controllerService.updateSwitch(zwitch);
+					onSwitchStatusChanged(zwitch);
+				}
 			}
+		}
+		
+	}
+
+	private void onSwitchStatusChanged(Switch zwitch) {
+		List<Sensor> sensors = sensorService.findBySwitchId(zwitch.getId());
+		if (sensors == null || sensors.isEmpty()) {
+			return;
+		}
+		for (Sensor sensor : sensors) {
+			onSensorStatusChanged(sensor);
 		}
 	}
 
@@ -132,51 +147,13 @@ public class ControllerStatusHandler {
 		relayStatusNotifier.notifyListeners(new RelayStatusChangedEvent(relay));
 	}
 
-	void onSensorStatusChanged(Sensor sensor, Boolean newStatus) {
-		if (newStatus == null) {
-			return;
-		}
-		if (newStatus.booleanValue() == false) {
-			onSensorDetectedHuman(sensor); // digital input is 1 means that it
-											// is triggered
-		} else if (newStatus.booleanValue() == true) {
-			onSensorDetectedNoHuman(sensor); // digital input is 1 means that it
-												// is not triggered
-		}
-	}
-
-	void onSensorDetectedHuman(Sensor sensor) {
-		sensor.setStatus(true); // set the sensor to triggered
-		sensorService.update(sensor);
+	private void onSensorStatusChanged(Sensor sensor) {
 		new Thread() {
 			@Override
 			public void run() {
 				sensorStatusNotifier.notifyListeners(new SensorStatusChangedEvent(sensor));
 			}
 		}.start();
-	}
-
-	void onSensorDetectedNoHuman(Sensor sensor) {
-		sensor.setStatus(false); // set the sensor to default not triggered
-		sensorService.update(sensor);
-		new Thread() {
-			@Override
-			public void run() {
-				sensorStatusNotifier.notifyListeners(new SensorStatusChangedEvent(sensor));
-			}
-		}.start();
-	}
-
-	boolean isSensorStatusChanged(Sensor sensor, List<Boolean> digitalInputStatus) {
-		if (sensor.getControllerInput() != null
-				&& (sensor.getControllerInput().intValue() < digitalInputStatus.size())) {
-			return sensor.getStatus() == null
-					// it is very important to aware that sensor status is
-					// !digital input status
-					// so when their status are equal that mean status changed
-					|| (sensor.getStatus().booleanValue() == digitalInputStatus.get(sensor.getControllerInput()));
-		}
-		return false;
 	}
 
 	public void onControllerCrashed(Controller controller, String in, String out) {

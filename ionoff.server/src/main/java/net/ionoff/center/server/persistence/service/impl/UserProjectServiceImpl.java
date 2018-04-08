@@ -170,7 +170,6 @@ public class UserProjectServiceImpl extends AbstractGenericService<UserProject, 
 	
 	private void insertModeSensorUser(ModeSensor modeSensor, User user, boolean detected) {
 		ModeSensorUser modeSensorUser = new ModeSensorUser();
-		modeSensorUser.setDetected(detected);
 		modeSensorUser.setModeSensor(modeSensor);
 		modeSensorUser.setUser(user);
 		modeSensorUser.setSendEmail(false);

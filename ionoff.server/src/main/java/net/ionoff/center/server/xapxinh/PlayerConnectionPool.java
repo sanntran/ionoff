@@ -25,7 +25,7 @@ public class PlayerConnectionPool extends AbstractPlayerConnectionPool {
 	
 	@Override
 	protected Player getPlayer(String mac){
-		net.ionoff.center.server.entity.Player iPlayer = (net.ionoff.center.server.entity.Player) deviceService.findByMac(mac);
+		net.ionoff.center.server.entity.Player iPlayer = deviceService.findPlayerByMac(mac);
 		if (iPlayer == null) {
 			LOGGER.error("There is no player has MAC: " + mac);
 			return null;
@@ -49,7 +49,7 @@ public class PlayerConnectionPool extends AbstractPlayerConnectionPool {
 			if (obj.has("mac")) {
 				String mac = (String) obj.get("mac");
 				net.ionoff.center.server.entity.Player iPlayer 
-					= (net.ionoff.center.server.entity.Player) deviceService.findByMac(mac);
+					= deviceService.findPlayerByMac(mac);
 				if (iPlayer != null) {
 					iPlayer.setTime(new Date());
 					deviceService.update(iPlayer);

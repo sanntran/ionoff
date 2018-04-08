@@ -1,5 +1,6 @@
 package net.ionoff.center.server.persistence.service.impl;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Controller;
 import net.ionoff.center.server.entity.Relay;
+import net.ionoff.center.server.entity.Sensor;
+import net.ionoff.center.server.entity.SensorStatus;
+import net.ionoff.center.server.entity.Switch;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.exception.DeleteEntityException;
 import net.ionoff.center.server.exception.UpdateEntityException;
@@ -18,6 +22,9 @@ import net.ionoff.center.server.locale.Messages;
 import net.ionoff.center.server.objmapper.ControllerMapper;
 import net.ionoff.center.server.persistence.dao.IControllerDao;
 import net.ionoff.center.server.persistence.dao.IRelayDao;
+import net.ionoff.center.server.persistence.dao.ISensorDao;
+import net.ionoff.center.server.persistence.dao.ISensorStatusDao;
+import net.ionoff.center.server.persistence.dao.ISwitchDao;
 import net.ionoff.center.server.persistence.service.IControllerService;
 import net.ionoff.center.shared.dto.ControllerDto;
 import net.ionoff.center.shared.entity.ControllerModel;
@@ -35,6 +42,15 @@ public class ControllerServiceImpl extends AbstractGenericService<Controller, Co
 	
 	@Autowired
 	private IRelayDao relayDao;
+	
+	@Autowired
+	private ISwitchDao switchDao;
+	
+	@Autowired
+	private ISensorDao sensorDao;
+	
+	@Autowired
+	private ISensorStatusDao sensorStatusDao;
 	
 	public ControllerServiceImpl(IControllerDao controllerDao) {
 		this.controllerDao = controllerDao;
@@ -176,5 +192,40 @@ public class ControllerServiceImpl extends AbstractGenericService<Controller, Co
 	@Override
 	protected List<ControllerDto> createDtoList(List<Controller> entities) {
 		return controllerMapper.createControllerDtoList(entities);
+	}
+
+	@Override
+	public void insertSwitches(Controller relayDriver) {
+		ControllerModel model = relayDriver.getModelObj();
+		if (model == null) {
+			return;
+		}
+		if (relayDriver.getSwitchs() != null && !relayDriver.getSwitchs().isEmpty()) {
+			return;
+		}
+		for (int i = 0; i < model.getDigitalInput(); i++) {
+			Switch zwitch = new Switch();
+			zwitch.setDriver(relayDriver);
+			zwitch.setIndex(i);
+			zwitch.setName("Switch-" + (i + 1));
+		}
+	}
+
+	@Override
+	public Switch updateSwitch(Switch zwitch) {
+		switchDao.update(zwitch);
+		List<Sensor> sensors = sensorDao.findBySwitchId(zwitch.getId());
+		if (sensors == null || sensors.isEmpty()) {
+			return zwitch;
+		}
+		for (Sensor sensor : sensors) {
+			SensorStatus status = sensor.getStatus();
+			if (status != null) {
+				status.setTime(new Date());
+				status.setValue(Boolean.TRUE.equals(zwitch.getStatus()) ? 1.0 : 0.0);
+				sensorStatusDao.update(status);
+			}
+		}
+		return zwitch;
 	}
 }

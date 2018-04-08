@@ -8,7 +8,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 @JsonSubTypes({
 	@Type(value=LightDto.class, name="LightDto"), 
-	@Type(value=PlayerDto.class, name="PlayerDto"), 
+	@Type(value=PlayerDto.class, name="PlayerDto"),
+	@Type(value=WeighScaleDto.class, name="WeighScaleDto"),
 	@Type(value=ApplianceDto.class, name="ApplianceDto")})
 @JsonTypeInfo(use=Id.NAME, include=As.PROPERTY, property="clazz")
 public class DeviceDto extends BaseDto {

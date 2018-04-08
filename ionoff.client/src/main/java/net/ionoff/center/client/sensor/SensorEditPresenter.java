@@ -92,15 +92,15 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		int selectedControllerIndex = view.getListBoxControllers().getSelectedIndex();
 		String selectedItem = view.getListBoxControllers().getItemText(selectedControllerIndex);
 		if (selectedControllerIndex == 0) {
-			entityDto.setControllerId(null);
-			entityDto.setControllerName(null);
+			entityDto.setDriverId(null);
+			entityDto.setDriverName(null);
 		}
 		else {
-			entityDto.setControllerId(BaseDto.parseIdFromFormattedNameID(selectedItem));
-			entityDto.setControllerName(BaseDto.parseNameFromFormattedNameID(selectedItem));
+			entityDto.setDriverId(BaseDto.parseIdFromFormattedNameID(selectedItem));
+			entityDto.setDriverName(BaseDto.parseNameFromFormattedNameID(selectedItem));
 		}
 		int newInput = view.getIntBoxControllerInputIdx().getValue();
-		entityDto.setControllerInput(newInput);
+		entityDto.setIndex(newInput);
 		
 		rpcProvider.getSensorService().save(entityDto.getId(), entityDto, 
 				new MethodCallback<SensorDto>() {
@@ -135,18 +135,18 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		view.getLblName().setText(dto.getName());
 		view.getTextBoxName().setText(dto.getName());
 		
-		if (dto.getControllerId() != null) {
-			view.getListBoxControllers().setSelectedValue(BaseDto.formatNameID(dto.getControllerName(), dto.getControllerId()));
+		if (dto.getDriverId() != null) {
+			view.getListBoxControllers().setSelectedValue(BaseDto.formatNameID(dto.getDriverName(), dto.getDriverId()));
 		}
 		else {
 			view.getListBoxControllers().setSelectedIndex(0);
 		}
 		
-		if (dto.getControllerInput() == null) {
+		if (dto.getIndex() == null) {
 			view.getIntBoxControllerInputIdx().setValue(0);
 		}
 		else {
-			view.getIntBoxControllerInputIdx().setValue(dto.getControllerInput());
+			view.getIntBoxControllerInputIdx().setValue(dto.getIndex());
 		}
 	}
 

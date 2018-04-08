@@ -1,6 +1,7 @@
 package net.ionoff.center.server.thread;
 
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -14,9 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import net.ionoff.center.server.config.AppConfig;
 import net.ionoff.center.server.entity.Controller;
+import net.ionoff.center.server.entity.Sensor;
+import net.ionoff.center.server.entity.WeighScale;
 import net.ionoff.center.server.exception.MqttConnectionException;
 import net.ionoff.center.server.exception.MqttPublishException;
 import net.ionoff.center.server.persistence.service.IControllerService;
+import net.ionoff.center.server.persistence.service.IDeviceService;
+import net.ionoff.center.server.persistence.service.ISensorService;
 
 
 public class MosquittoClient implements MqttCallback {
@@ -26,14 +31,20 @@ public class MosquittoClient implements MqttCallback {
 	private MqttClient client;
 	private MqttConnectOptions connOpt;
 	private boolean connected = false;
-	private String subscribleTopic;
+	private String[] subscribleTopics;
 	private long messageArrivedTime = 0;
 	
 	@Autowired
 	private ServerThreadPool threadPull; 
+
+	@Autowired
+	private IDeviceService deviceService;
 	
 	@Autowired
 	private IControllerService controllerService;
+	
+	@Autowired
+	private ISensorService sensorService;
 	
 	@Autowired
 	private ControllerStatusHandler controllerStatusHandler;
@@ -48,6 +59,8 @@ public class MosquittoClient implements MqttCallback {
 	}
 	
 	public void init() {
+		subscribleTopics = new String[] {AppConfig.getInstance().MQTT_TOPIC_IONOFF_NET, 
+				AppConfig.getInstance().MQTT_TOPIC_RELAY_DRIVER, AppConfig.getInstance().MQTT_TOPIC_WEIGH_SCALE};
 		try {
 			client = new MqttClient(AppConfig.getInstance().MQTT_BROKER_URL
 					, AppConfig.getInstance().MQTT_CLIENT_ID + System.currentTimeMillis());
@@ -124,7 +137,7 @@ public class MosquittoClient implements MqttCallback {
 	private void setConnected(boolean value) {
 		this.connected = value;
 		if (connected) {
-			setSubscribleTopic(AppConfig.getInstance().MQTT_TOPIC);
+			setSubscribleTopic(subscribleTopics);
 		}
 	}
 
@@ -152,13 +165,34 @@ public class MosquittoClient implements MqttCallback {
 		String payload = new String(message.getPayload());
 		LOGGER.info("Message arrived: " + payload);
 		
-		if (AppConfig.getInstance().MQTT_TOPIC.equals(topic)) {
-			onMessageArrived(payload);
+		if (AppConfig.getInstance().MQTT_TOPIC_IONOFF_NET.equals(topic) ||
+				AppConfig.getInstance().MQTT_TOPIC_RELAY_DRIVER.equals(topic)) {
+			onControllerDriverMessageArrived(payload);
+		}
+		else if (AppConfig.getInstance().MQTT_TOPIC_WEIGH_SCALE.equals(topic)) {
+			onWeighScaleMessageArrived(payload);
 		}
 	}
 	
-	private void onMessageArrived(String payload) {
-		MqttPayload mqttPayload = new MqttPayload(payload);
+	private void onWeighScaleMessageArrived(String payload) {
+		WeighScaleMqttPayload data = new WeighScaleMqttPayload(payload);
+		WeighScale scale = deviceService.findWeighScaleByMac(data.getId());
+		Date now = new Date();
+		scale.setTime(now);
+		if (scale.getSensors() == null || scale.getSensors().isEmpty()) {
+			deviceService.update(scale);
+			return;
+		}
+		Sensor sensor = scale.getSensors().get(0);
+		String status[] = data.getStatus().split(",");
+		sensor.getStatus().setTime(now);
+		sensor.getStatus().setValue(Double.valueOf(status[0]));
+		sensor.getStatus().setTotal(Double.valueOf(status[1]));
+		sensorService.updateStatus(sensor.getStatus());
+	}
+
+	private void onControllerDriverMessageArrived(String payload) {
+		RelayDriverMqttPayload mqttPayload = new RelayDriverMqttPayload(payload);
 		if (mqttPayload.getId() == null) {
 			LOGGER.info("Message is not valid format " + payload);
 			return;
@@ -175,39 +209,32 @@ public class MosquittoClient implements MqttCallback {
 		if (!controller.isConnected()) {
 			LOGGER.info("Controller " + controller.getKey() + " is now connected");
 		}
-		if (MqttPayload.STATUS.equals(mqttPayload.getCode())) {
+		if (RelayDriverMqttPayload.STATUS.equals(mqttPayload.getCode())) {
 			LOGGER.info("Controller " + controller.getKey() + " has been connected");
 			controllerStatusHandler.onReceivedControllerStatus(controller, mqttPayload.getIn(),  mqttPayload.getOut());
-		} else if (MqttPayload.CHANGED.equals(mqttPayload.getCode())) {
+		} else if (RelayDriverMqttPayload.CHANGED.equals(mqttPayload.getCode())) {
 			LOGGER.info("Controller " + controller.getKey() + " input status has been changed");
 			controllerStatusHandler.onControllerStatusChanged(controller, mqttPayload.getIn(),  mqttPayload.getOut());
-		} else if (MqttPayload.RESET.equals(mqttPayload.getCode())) {
+		} else if (RelayDriverMqttPayload.RESET.equals(mqttPayload.getCode())) {
 			LOGGER.info("Controller " + controller.getKey() + " has been started");
 			controllerStatusHandler.onControllerStarted(controller, null, mqttPayload.getIn(),  mqttPayload.getOut());
-		} else if (MqttPayload.CRASH.equals(mqttPayload.getCode())) {
+		} else if (RelayDriverMqttPayload.CRASH.equals(mqttPayload.getCode())) {
 			LOGGER.info("Controller " + controller.getKey() + " started due to crash");
 			controllerStatusHandler.onControllerCrashed(controller, mqttPayload.getIn(),  mqttPayload.getOut());
 		}
 	}
 
-	public void setSubscribleTopic(String subscribleTopic) {
-		if (this.subscribleTopic != null) {
-			try {
-				client.unsubscribe(this.subscribleTopic);
-			} catch (MqttException e) {
-				LOGGER.error(e.getMessage(), e);
-			}
-		}
-		this.subscribleTopic = subscribleTopic;
+	private void setSubscribleTopic(String subscribleTopic[]) {
 		try {
-			client.subscribe(this.subscribleTopic);
+			client.unsubscribe(subscribleTopics);
 		} catch (MqttException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
-	}
-	
-	public boolean isThingOnline() {
-		return System.currentTimeMillis() - messageArrivedTime < 60000;
+		try {
+			client.subscribe(subscribleTopics);
+		} catch (MqttException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
 	}
 
 	public boolean isConnected() {

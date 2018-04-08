@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Device;
+import net.ionoff.center.server.entity.Player;
 import net.ionoff.center.server.entity.User;
+import net.ionoff.center.server.entity.WeighScale;
 import net.ionoff.center.server.entity.Zone;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.StatusDto;
@@ -14,9 +16,11 @@ import net.xapxinh.center.server.exception.UnknownPlayerException;
 @Transactional
 public interface IDeviceService extends IGenericService<Device, DeviceDto> {		
 
-	Device findByMac(String mac);
-	
 	void update(Device device, Long zoneId);
+	
+	Player findPlayerByMac(String mac);
+
+	WeighScale findWeighScaleByMac(String mac);
 	
 	void moveDevice(Device device, Zone fromZone, Zone toZone);
 

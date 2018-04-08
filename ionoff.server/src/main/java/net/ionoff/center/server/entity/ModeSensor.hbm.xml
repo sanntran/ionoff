@@ -20,6 +20,14 @@
 			<column name="time_buffer" />
 		</property>
 		
+		<property name="condition">
+			<column name="condition"/>
+		</property>
+		
+		<property name="value">
+			<column name="value_"/>
+		</property>
+		
 		<property name="resetTime">
 			<column name="reset_time" />
 		</property>
