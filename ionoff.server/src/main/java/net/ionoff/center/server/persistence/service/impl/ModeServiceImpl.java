@@ -50,7 +50,6 @@ public class ModeServiceImpl extends AbstractGenericService<Mode, ModeDto> imple
 	public Mode insert(Mode mode) {
 		super.insert(mode);
 		insertModeScenes(mode);
-		insertModeSensors(mode);
 		return mode;
 	}
 

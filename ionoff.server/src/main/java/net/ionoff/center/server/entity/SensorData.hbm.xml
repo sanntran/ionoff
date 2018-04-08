@@ -24,7 +24,7 @@
 		</property>
 		
 		<property name="total">
-			<column name="total"/>
+			<column name="total_"/>
 		</property>
 		
 	</class>

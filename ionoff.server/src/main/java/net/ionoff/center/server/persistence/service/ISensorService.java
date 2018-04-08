@@ -19,5 +19,7 @@ public interface ISensorService extends IGenericService<Sensor, SensorDto> {
 
 	List<SensorDto> findDtoByProjectId(Long projectId);
 
-	void updateStatus(SensorStatus status);
+	void updateStatus(SensorStatus sensorStatus);
+
+	void insertSensorStatus(SensorStatus sensorStatus);
 }

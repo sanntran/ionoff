@@ -52,7 +52,6 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor, SensorDto>
 	@Override
 	public Sensor insert(Sensor sensor) {
 		super.insert(sensor);
-		insertModeSensors(sensor);
 		return sensor;
 	}
 
@@ -137,26 +136,23 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor, SensorDto>
 	}
 
 	@Override
-	public void updateStatus(SensorStatus status) {
-		sensorStatusDao.update(status);
-		SensorData sensorData = newSensorData(status);
+	public void updateStatus(SensorStatus sensorStatus) {
+		sensorStatusDao.update(sensorStatus);
+		SensorData sensorData = newSensorData(sensorStatus);
 		sensorDataDao.insert(sensorData);
 	}
 
-	private SensorData newSensorData(SensorStatus status) {
+	private SensorData newSensorData(SensorStatus sensorStatus) {
 		SensorData sensorData = new SensorData();
-		sensorData.setSensor(status.getSensor());
-		sensorData.setTime(status.getTime());
-		sensorData.setValue(status.getValue());
-		sensorData.setTotal(status.getTotal());
+		sensorData.setSensor(sensorStatus.getSensor());
+		sensorData.setTime(sensorStatus.getTime());
+		sensorData.setValue(sensorStatus.getValue());
+		sensorData.setTotal(sensorStatus.getTotal());
 		return sensorData;
 	}
 
-	public ISensorStatusDao getSensorStatusDao() {
-		return sensorStatusDao;
-	}
-
-	public void setSensorStatusDao(ISensorStatusDao sensorStatusDao) {
-		this.sensorStatusDao = sensorStatusDao;
+	@Override
+	public void insertSensorStatus(SensorStatus sensorStatus) {
+		sensorStatusDao.insert(sensorStatus);
 	}
 }

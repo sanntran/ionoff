@@ -14,6 +14,8 @@ import net.ionoff.center.server.entity.Player;
 import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.Scene;
 import net.ionoff.center.server.entity.SceneDevice;
+import net.ionoff.center.server.entity.Sensor;
+import net.ionoff.center.server.entity.SensorStatus;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.UserDevice;
 import net.ionoff.center.server.entity.WeighScale;
@@ -25,9 +27,11 @@ import net.ionoff.center.server.persistence.dao.IUserDeviceDao;
 import net.ionoff.center.server.persistence.dao.IZoneDao;
 import net.ionoff.center.server.persistence.service.IDeviceService;
 import net.ionoff.center.server.persistence.service.ISceneDeviceService;
+import net.ionoff.center.server.persistence.service.ISensorService;
 import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.StatusDto;
+import net.ionoff.center.shared.entity.SensorType;
 import net.xapxinh.center.server.exception.UnknownPlayerException;
 import net.xapxinh.center.server.service.player.IPlayerService;
 import net.xapxinh.center.shared.dto.Status;
@@ -48,6 +52,9 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 	
 	@Autowired
 	protected IPlayerService playerService;
+	
+	@Autowired
+	protected ISensorService sensorService;
 	
 	@Autowired
 	private DeviceMapper deviceMapper;
@@ -73,13 +80,31 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 		super.insert(device);
 		insertSceneDevices(device);
 		insertUserDevices(device);
+		if (device instanceof WeighScale) {
+			Sensor sensor = new Sensor();
+			sensor.setDevice(device);
+			sensor.setName("Weigh Sensor");
+			sensor.setProject(device.getProject());
+			sensor.setType(SensorType.ANALOG.toString());
+			sensor.setUnit("kg");
+			sensor.setZone(device.getZone());
+			sensorService.insert(sensor);
+			createSensorStatus(sensor);
+		}
 		Cache cache = getDao().getSessionFactory().getCache();
 		if (cache != null) {
 		    cache.evictAllRegions();
 		}
+		
 		return device;
 	}
 	
+	private void createSensorStatus(Sensor sensor) {
+		SensorStatus status = new SensorStatus();
+		status.setSensor(sensor);
+		sensorService.insertSensorStatus(status);
+	}
+
 	private void insertUserDevices(Device device) {
 		List<User> users = userDao.findByProjectId(device.getProject().getId());
 		for (User user : users) { 
@@ -193,6 +218,18 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 					child.setTime(DateTimeUtil.ddMMHHmmFormatter.format(relay.getTime()));
 				}
 				statusDto.getChildren().add(child);
+			}
+		}
+		else if (device.instanceOf(WeighScale.class)) {
+			WeighScale scale = EntityUtil.castUnproxy(device, WeighScale.class);
+			if (scale.getSensors() != null && !scale.getSensors().isEmpty()) {
+				Sensor sensor = scale.getSensors().get(0);
+				if (sensor.getStatus().getTime() != null) {
+					statusDto.setTime(DateTimeUtil.ddMMHHmmFormatter.format(sensor.getStatus().getTime()));
+				}
+				statusDto.setLatestValue(sensor.getStatus().getValue() + " " + sensor.getUnit());
+				statusDto.setSetupValue(sensor.getStatus().getSetup() + " " + sensor.getUnit());
+				statusDto.setTotalValue(sensor.getStatus().getTotal() + " " + sensor.getUnit());
 			}
 		}
 		else if (device.instanceOf(Player.class)) {

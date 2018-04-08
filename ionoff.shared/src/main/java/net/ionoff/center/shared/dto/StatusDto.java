@@ -14,6 +14,9 @@ public class StatusDto implements Serializable {
 	private String track;
 	private String time;
 	private Integer position;
+	private String latestValue;
+	private String setupValue;
+	private String totalValue;
 	private List<StatusDto> children;
 	
 	public Long getId() {
@@ -72,5 +75,29 @@ public class StatusDto implements Serializable {
 	}
 	public void setPosition(Integer position) {
 		this.position = position;
+	}
+
+	public String getLatestValue() {
+		return latestValue;
+	}
+
+	public void setLatestValue(String latestValue) {
+		this.latestValue = latestValue;
+	}
+
+	public String getSetupValue() {
+		return setupValue;
+	}
+
+	public void setSetupValue(String setupValue) {
+		this.setupValue = setupValue;
+	}
+
+	public String getTotalValue() {
+		return totalValue;
+	}
+
+	public void setTotalValue(String totalValue) {
+		this.totalValue = totalValue;
 	}
 }

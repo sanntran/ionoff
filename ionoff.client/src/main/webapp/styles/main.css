@@ -747,7 +747,7 @@ textarea.materialize-textarea[readonly="readonly"] {
     line-height: 25px;
     font-size: 10px;
     position: absolute;
-    top: 60px;
+    top: 63px;
     right: 15px;
     overflow: hidden;
     text-overflow: ellipsis;

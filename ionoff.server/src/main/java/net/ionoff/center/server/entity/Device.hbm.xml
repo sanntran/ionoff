@@ -67,7 +67,7 @@
 			</property>
 			
 			<bag name="sensors" table="sensors" 
-					inverse="true" lazy="true" fetch="select" order-by="index_">
+					inverse="true" lazy="true" fetch="select" order-by="id">
 	            <key>
 	                <column name="device_id" not-null="true" />
 	            </key>

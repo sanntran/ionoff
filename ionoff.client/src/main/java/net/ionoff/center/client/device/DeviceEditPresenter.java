@@ -190,7 +190,6 @@ public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
 		else if (entityDto instanceof WeighScaleDto) {
 			WeighScaleDto scale = (WeighScaleDto)entityDto;
 			scale.setMac(view.getTextBoxMac().getValue());
-			scale.setModel(view.getListBoxModels().getSelectedValue());
 		}
 		
 		rpcProvider.getDeviceService().save(entityDto.getId(), entityDto, 

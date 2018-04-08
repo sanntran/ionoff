@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 
-import net.ionoff.center.client.event.ChangeTokenEvent;
 import net.ionoff.center.client.event.ShowMessageEvent;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.service.IRpcServiceProvider;
@@ -61,9 +60,7 @@ public class WeighScalePresenter extends DevicePresenter {
 		view.getScaleCard().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				String token = AppToken.newPlayerToken(scale.getId());
-				eventBus.fireEvent(new ChangeTokenEvent(token));
-				
+				// show report here - not yet implemented				
 			}
 		});
 		
@@ -158,10 +155,14 @@ public class WeighScalePresenter extends DevicePresenter {
 
 	private void displayStatus() {
 		view.asPanel().removeStyleName("on");
+		
 		if (scale.getStatus().getTime() != null) {
 			view.getLblTime().setText(scale.getStatus().getTime());
 		}
-			
+		view.getLblLatestValue().setText(scale.getStatus().getLatestValue());
+		view.getLblSetupValue().setText(scale.getStatus().getSetupValue());
+		view.getLblTotalValue().setText(scale.getStatus().getTotalValue());
+		
 		if (Boolean.FALSE.equals(scale.getStatus().getValue())) {
 			view.getImgIcon().removeStyleName("on");
 			view.getImgIcon().removeStyleName("unknown");
@@ -177,18 +178,6 @@ public class WeighScalePresenter extends DevicePresenter {
 			view.getImgIcon().removeStyleName("on");
 			view.getImgIcon().removeStyleName("off");
 			view.getImgIcon().addStyleName("unknown");
-		}
-		
-		if (Boolean.TRUE.equals(scale.getStatus().getValue())) {
-			if (scale.getStatus().getTrack() != null && !scale.getStatus().getTrack().isEmpty()) {
-				view.getLblTime().setText(scale.getStatus().getTrack());
-			}
-			else {
-				view.getLblTime().setText(scale.getStatus().getTime());
-			}
-		}
-		else {
-			view.getLblTime().setText(scale.getStatus().getTime());
 		}
 	}
 

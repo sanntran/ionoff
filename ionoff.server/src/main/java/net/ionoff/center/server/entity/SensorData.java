@@ -9,7 +9,9 @@ public class SensorData extends BaseObj {
 	private Date time;
 	private Double value;
 	private Double total;
+	private Double setup;
 	private Sensor sensor;
+	
 	
 	public Date getTime() {
 		return time;
@@ -31,6 +33,14 @@ public class SensorData extends BaseObj {
 	public void setTotal(Double total) {
 		this.total = total;
 	}
+
+	public Double getSetup() {
+		return setup;
+	}
+	public void setSetup(Double setup) {
+		this.setup = setup;
+	}
+	
 	public Sensor getSensor() {
 		return sensor;
 	}

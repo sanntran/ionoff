@@ -102,3 +102,9 @@ ALTER TABLE `ionoff`.`sensors_data`
 CHANGE COLUMN `total` `total_` DOUBLE NULL DEFAULT NULL ;
 
 
+ALTER TABLE `ionoff`.`sensors_status` 
+ADD COLUMN `setup` DOUBLE NULL AFTER `total_`;
+
+
+ALTER TABLE `ionoff`.`sensors_data` 
+ADD COLUMN `setup` DOUBLE NULL AFTER `total_`;

@@ -27,6 +27,8 @@ import net.ionoff.center.client.device.LightPresenter;
 import net.ionoff.center.client.device.LightView;
 import net.ionoff.center.client.device.PlayerPresenter;
 import net.ionoff.center.client.device.PlayerView;
+import net.ionoff.center.client.device.WeighScalePresenter;
+import net.ionoff.center.client.device.WeighScaleView;
 import net.ionoff.center.client.event.ChangeTokenEvent;
 import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.service.IRpcServiceProvider;
@@ -37,6 +39,7 @@ import net.ionoff.center.shared.dto.DashboardDto;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.LightDto;
 import net.ionoff.center.shared.dto.PlayerDto;
+import net.ionoff.center.shared.dto.WeighScaleDto;
 
 public class DashboardPresenter extends AbstractPresenter {
 
@@ -193,17 +196,24 @@ public class DashboardPresenter extends AbstractPresenter {
 			if (device instanceof LightDto) {
 				showLight((LightDto) device);
 			}
-		}
-		for (final DeviceDto device : devices) {
-			if (device instanceof PlayerDto) {
+			else if (device instanceof PlayerDto) {
 				showPlayer((PlayerDto) device);
 			}
-		}
-		for (final DeviceDto device : devices) {
-			if (device instanceof ApplianceDto) {
+			else if (device instanceof WeighScaleDto) {
+				showScale((WeighScaleDto) device);
+			}
+			else if (device instanceof ApplianceDto) {
 				showAppliance((ApplianceDto) device);
 			}
 		}
+	}
+	
+	private void showScale(WeighScaleDto scale) {
+		WeighScaleView scaleView = new WeighScaleView();
+		WeighScalePresenter scalePresenter = new WeighScalePresenter(rpcService, eventBus, scaleView, scale);
+		scalePresenter.go();
+		devicePresenters.add(scalePresenter);
+		scalePresenter.show(display.getDeviceWrapper());
 	}
 	
 	private void showPlayer(PlayerDto player) {

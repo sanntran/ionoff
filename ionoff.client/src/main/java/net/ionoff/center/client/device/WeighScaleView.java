@@ -37,6 +37,12 @@ public class WeighScaleView extends FocusPanel implements IDeviceView {
 	@UiField 
 	MaterialLabel lblTime;
 	@UiField 
+	MaterialLabel lblLatestValue;
+	@UiField 
+	MaterialLabel lblSetupValue;
+	@UiField 
+	MaterialLabel lblTotalValue;
+	@UiField 
 	MaterialIcon menuIcon;
 	@UiField 
 	MaterialDropDown menuDropdown;
@@ -67,6 +73,18 @@ public class WeighScaleView extends FocusPanel implements IDeviceView {
 	@Override
 	public MaterialLabel getLblTime() {
 		return lblTime;
+	}
+	
+	public MaterialLabel getLblLatestValue() {
+		return lblLatestValue;
+	}
+	
+	public MaterialLabel getLblSetupValue() {
+		return lblSetupValue;
+	}
+	
+	public MaterialLabel getLblTotalValue() {
+		return lblTotalValue;
 	}
 	
 	@Override

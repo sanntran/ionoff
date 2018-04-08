@@ -26,11 +26,11 @@
 		</property>
 		
 		<many-to-one name="zone" class="net.ionoff.center.server.entity.Zone" fetch="select">
-            <column name="zone_id" not-null="true" />
+            <column name="zone_id" not-null="false" />
         </many-to-one>
 		
 		<many-to-one name="device" class="net.ionoff.center.server.entity.Device" fetch="select">
-            <column name="device_id" not-null="true" />
+            <column name="device_id" not-null="false" />
         </many-to-one>
 		
 		<many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">
@@ -38,7 +38,7 @@
         </many-to-one>
         
         <many-to-one name="zwitch" class="net.ionoff.center.server.entity.Switch" fetch="select">
-            <column name="switch_id" not-null="true" />
+            <column name="switch_id" not-null="false" />
         </many-to-one>
 
 		<one-to-one name="status"
