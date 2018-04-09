@@ -21,11 +21,25 @@ public class RelayStatusChangedHandler {
 		if (relay != null && relay.getGroup() != null) {
 			logger.info("Relay " + relay.getSId() + " status changed. Synchronizing relay group state");
 			List<Relay> relays = relay.getGroup().getRelays();
+			if (hasLeader(relays)) {
+				if (!Boolean.TRUE.equals(relay.getIsLeader())) {
+					return;
+				}
+			}
 			for (Relay r : relays) {
 				if (r.getId() != relay.getId()) {
 					controlService.setRelayState(r, relay.getStatus());
 				}
 			}
 		}
+	}
+	
+	private boolean hasLeader(List<Relay> relays) {
+		for (Relay r : relays) {
+			if (Boolean.TRUE.equals(r.getIsLeader())) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

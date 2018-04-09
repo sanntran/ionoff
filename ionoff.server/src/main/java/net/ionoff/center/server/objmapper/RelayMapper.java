@@ -32,6 +32,7 @@ public class RelayMapper {
 		relayDto.setLabel(relay.getLabel());
 		relayDto.setIndex(relay.getIndex() + 1);
 		relayDto.setStatus(relay.getStatus());
+		relayDto.setIsLeader(relay.getIsLeader());
 		relayDto.setType(relay.getType());
 		if (relay.getTime() != null) {
 			relayDto.setTime(DateTimeUtil.ddMMHHmmFormatter.format(relay.getTime()));
@@ -53,6 +54,11 @@ public class RelayMapper {
 				RelayDto relayDto = new RelayDto();
 				relayDto.setId(relay.getId());
 				relayDto.setName(relay.getName());
+				relayDto.setIsLeader(relay.getIsLeader());
+				if (relay.getDevice() != null) {
+					relayDto.setDeviceId(relay.getDevice().getId());
+					relayDto.setDeviceName(relay.getDevice().getName());
+				}
 				relayDto.setControllerName(relay.getController().getName());
 				relayGroupDto.getRelays().add(relayDto);
 			}

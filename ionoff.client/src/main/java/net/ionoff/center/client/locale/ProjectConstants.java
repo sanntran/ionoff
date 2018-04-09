@@ -273,4 +273,7 @@ public interface ProjectConstants extends Constants {
 	
 	@DefaultStringValue("Xóa khỏi dashboard")
 	String removeFromDashboard();
+
+	@DefaultStringValue("Thêm")
+	String add();
 }

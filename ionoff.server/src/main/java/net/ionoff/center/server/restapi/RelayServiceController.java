@@ -3,6 +3,7 @@ package net.ionoff.center.server.restapi;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.QueryParam;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,9 @@ public class RelayServiceController {
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criretiaDto,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
+		if (!user.hasAdminRole()) {
+			throw new AccessDeniedException("Access denied");
+		}
 		RequestContextHolder.checkProjectPermission(user, criretiaDto.getProjectId());
 		return relayService.countByCriteria(criretiaDto);
 	}
@@ -60,6 +64,9 @@ public class RelayServiceController {
 			HttpServletRequest request) {
 
 		User user = RequestContextHolder.getUser();
+		if (!user.hasAdminRole()) {
+			throw new AccessDeniedException("Access denied");
+		}
 		RequestContextHolder.checkProjectPermission(user, criretiaDto.getProjectId());
 		return relayService.searchByCriteria(criretiaDto);
 	}
@@ -73,6 +80,9 @@ public class RelayServiceController {
 			@RequestBody RelayDto relayDto, HttpServletRequest request) throws UpdateEntityException {
 
 		User user = RequestContextHolder.getUser();
+		if (!user.hasAdminRole()) {
+			throw new AccessDeniedException("Access denied");
+		}
 		if (!relayId.equals(relayDto.getId()) && !relayDto.isNew()) {
 			throw new ChangeEntityIdException(relayDto.toString());
 		}
@@ -153,11 +163,26 @@ public class RelayServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public RelayGroupDto removeRelayFromGroup(@PathVariable("relayId") Long relayId, 
-			Long relayIdToRemove, HttpServletRequest request) {
+			@QueryParam("relayIdToRemove") Long relayIdToRemove, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		if (!user.hasAdminRole()) {
 			throw new AccessDeniedException("Access denied");
 		}
 		return relayGroupService.removeRelayFromGroup(relayId, relayIdToRemove);
+	}
+	
+	@RequestMapping(value = "relays/{relayId}/leader",
+			method = RequestMethod.PUT,
+			produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public RelayDto update(@PathVariable("relayId") Long relayId,
+			@QueryParam("isLeader") Boolean isLeader, HttpServletRequest request) throws UpdateEntityException {
+
+		User user = RequestContextHolder.getUser();
+		if (!user.hasAdminRole()) {
+			throw new AccessDeniedException("Access denied");
+		}
+		logger.info("User " + user.getName() + " update relay leader. Relay id: " + relayId + ", isLeader: " + isLeader);
+		return relayService.updateRelayLeader(user, relayId, isLeader);
 	}
 }

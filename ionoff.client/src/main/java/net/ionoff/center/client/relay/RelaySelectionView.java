@@ -74,6 +74,10 @@ public class RelaySelectionView extends FlowPanel {
 				lblRelayName.setFontSize("15px");
 				relayItem.add(lblRelayName);
 				
+				MaterialLabel lblDeviceName = new MaterialLabel(relay.getDeviceName());
+				lblDeviceName.setFontSize("12px");
+				relayItem.add(lblDeviceName);
+				
 				relayItem.addClickHandler(new ClickHandler() {
 					@Override
 					public void onClick(ClickEvent event) {

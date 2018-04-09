@@ -5,9 +5,10 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 
-import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialButton;
+import net.ionoff.center.client.locale.ProjectLocale;
 
 public class RelayGroupView extends FlowPanel {
 
@@ -17,9 +18,10 @@ public class RelayGroupView extends FlowPanel {
 	public RelayGroupView() {
 		addStyleName("relayGroup");
 		relayViews = new ArrayList<>();
-		btnAdd = new MaterialButton();
-		btnAdd.setIconType(IconType.ADD);
-		btnAdd.setWaves(WavesType.LIGHT);
+		btnAdd = new MaterialButton(ProjectLocale.getProjectConst().add());
+		btnAdd.setBackgroundColor(Color.WHITE);
+		btnAdd.setTextColor(Color.GREY_DARKEN_4);
+		btnAdd.setWaves(WavesType.DEFAULT);
 		btnAdd.addStyleName("add");
 		add(btnAdd);
 	}
