@@ -8,8 +8,8 @@ android {
         applicationId "net.ionoff.app"
         minSdkVersion 15
         targetSdkVersion 15
-        versionCode 11
-        versionName "1.5.6_201803230030"
+        versionCode 12
+        versionName "1.5.6_201804092350"
     }
     buildTypes {
         release {

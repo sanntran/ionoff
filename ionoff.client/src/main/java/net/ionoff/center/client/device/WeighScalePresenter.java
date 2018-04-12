@@ -17,9 +17,6 @@ import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.StatusDto;
 import net.ionoff.center.shared.dto.WeighScaleDto;
-import net.xapxinh.center.client.player.event.ShowLoadingEvent;
-import net.xapxinh.center.shared.dto.Command;
-import net.xapxinh.center.shared.dto.Status;
 
 public class WeighScalePresenter extends DevicePresenter {
 
@@ -138,21 +135,6 @@ public class WeighScalePresenter extends DevicePresenter {
 		});
 	}
 
-	protected void rpcSendCommand(Command command) {
-		rpcService.getPlayerService().sendCommand(scale.getId(), command, new MethodCallback<Status>() {
-			@Override
-			public void onFailure(Method method, Throwable exception) {
-				ClientUtil.handleRpcFailure(method, exception, eventBus);
-			}
-
-			@Override
-			public void onSuccess(Method method, Status response) {
-				eventBus.fireEvent(new ShowLoadingEvent(false));
-				updateStatus(response);
-			}
-		});
-	}
-
 	private void displayStatus() {
 		view.asPanel().removeStyleName("on");
 		
@@ -184,20 +166,10 @@ public class WeighScalePresenter extends DevicePresenter {
 	@Override
 	public void updateStatus(StatusDto status) {
 		scale.getStatus().setValue(status.getValue());
-		scale.getStatus().setState(status.getState());
+		scale.getStatus().setLatestValue(status.getLatestValue());
+		scale.getStatus().setSetupValue(status.getSetupValue());
 		scale.getStatus().setTime(status.getTime());
-		scale.getStatus().setTrack(status.getTrack());
-		scale.getStatus().setPosition(status.getPosition());
-		displayStatus();
-	}
-
-	private void updateStatus(Status status) {
-		scale.getStatus().setValue(true);
-		scale.getStatus().setState(status.getState());
-		scale.getStatus().setTrack(status.getTitle());
-		if (status.getPosition() > 0) {
-			scale.getStatus().setPosition(Math.round(status.getPosition() * 100));
-		}
+		scale.getStatus().setTotalValue(status.getTotalValue());
 		displayStatus();
 	}
 

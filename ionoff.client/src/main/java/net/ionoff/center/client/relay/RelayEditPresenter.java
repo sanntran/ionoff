@@ -17,6 +17,7 @@ import gwt.material.design.client.ui.MaterialTextBox;
 import net.ionoff.center.client.common.AbstractEditPresenter;
 import net.ionoff.center.client.common.DevicesSelectionPanel;
 import net.ionoff.center.client.common.IEditView;
+import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.service.EntityService;
 import net.ionoff.center.client.service.IRpcServiceProvider;
@@ -98,6 +99,7 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 			}
 			@Override
 			public void onSuccess(Method method, List<ControllerDto> result) {
+				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
 				view.getRelaySelectionView().setControllerOptions(result);
 			}
 		});
@@ -114,6 +116,7 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 			}
 			@Override
 			public void onSuccess(Method method, RelayGroupDto result) {
+				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
 				showRelayGroup(result);
 			}
 		});
@@ -198,6 +201,7 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 				final int statusCode = method.getResponse().getStatusCode();
 				if (statusCode == Response.SC_NOT_FOUND) {
 					// Ignore
+					eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
 				}
 				else {
 					ClientUtil.handleRpcFailure(method, exception, eventBus);
@@ -205,6 +209,7 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 			}
 			@Override
 			public void onSuccess(Method method, RelayGroupDto result) {
+				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
 				showRelayGroup(result);
 			}
 		});
@@ -216,8 +221,39 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 			RelayItemView relayView = new RelayItemView(relay);
 			view.getRelayGroupView().add(relayView);
 			relayView.getBtnRemove().addClickHandler((event) -> removeRelayFromGroup(relay));
+			relayView.getBtnLeader().addClickHandler((event) -> setRelayAsGroupLeader(relay, relayView));
 		}
 		view.getRelayGroupView().add(view.getRelayGroupView().getBtnAdd());
+	}
+
+	private void setRelayAsGroupLeader(RelayDto relay, RelayItemView relayView) {
+		relayView.getBtnLeader().removeStyleName("none");
+		if (Boolean.TRUE.equals(relay.getIsLeader())) {
+			relay.setIsLeader(false);
+			relayView.getBtnLeader().addStyleName("none");
+		}
+		else {
+			relay.setIsLeader(true);
+		}
+		rpcProvider.getRelayService().updateLeader(relay.getId(), relay.getIsLeader(), new MethodCallback<RelayDto>() {
+			@Override
+			public void onFailure(Method method, Throwable exception) {
+				ClientUtil.handleRpcFailure(method, exception, eventBus);
+				relayView.getBtnLeader().removeStyleName("none");
+				if (Boolean.TRUE.equals(relay.getIsLeader())) {
+					relay.setIsLeader(false);
+					relayView.getBtnLeader().addStyleName("none");
+				}
+				else {
+					relay.setIsLeader(true);
+				}
+			}
+			@Override
+			public void onSuccess(Method method, RelayDto result) {
+				// does nothing
+				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
+			}
+		});
 	}
 
 	private void removeRelayFromGroup(RelayDto relay) {
@@ -229,6 +265,7 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 			}
 			@Override
 			public void onSuccess(Method method, RelayGroupDto result) {
+				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
 				showRelayGroup(result);
 			}
 		});

@@ -31,4 +31,17 @@ public class WeighScale extends Device {
 		this.sensors = sensors;
 	}
 	
+
+	@Override
+	public Boolean getStatus() {
+		if (getTime() == null || (System.currentTimeMillis() - getTime().getTime()) > 60000) {
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean isOnline() {
+		return getStatus().booleanValue();
+	}
+	
 }

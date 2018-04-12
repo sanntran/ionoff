@@ -418,7 +418,7 @@
 	display: block;
 }
 
-.main .content .table.relays .edit .body .relayGroup .relay .controller {
+.main .content .table.relays .edit .body .relayGroup .relay .driver {
 	font-size: 12px;
 	color: #737373;
 }
@@ -427,6 +427,15 @@
 	position: absolute;
 	right: 10px;
 	top: 15px;
+}
+.main .content .table.relays .edit .body .relayGroup .relay .leader {
+	cursor: pointer;
+    position: absolute;
+    right: 50px;
+    top: 15px;
+}
+.main .content .table.relays .edit .body .relayGroup .relay .leader.none {
+	color: #a1a1a1;
 }
 
 .main .content .table.relays .edit .body .relayGroup .add {

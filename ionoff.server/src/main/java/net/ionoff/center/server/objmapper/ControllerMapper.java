@@ -44,6 +44,10 @@ public class ControllerMapper {
 				RelayDto relayDto = new RelayDto();
 				relayDto.setId(relay.getId());
 				relayDto.setName(relay.getName());
+				if (relay.getDevice() != null) {
+					relayDto.setDeviceId(relay.getDevice().getId());
+					relayDto.setDeviceName(relay.getDevice().getName());
+				}
 				controllerDto.getRelays().add(relayDto);
 			}
 			controllerDtos.add(controllerDto);

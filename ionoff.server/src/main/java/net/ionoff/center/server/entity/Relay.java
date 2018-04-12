@@ -15,6 +15,7 @@ public class Relay extends BaseObj {
 	private String type;
 	private Integer index;
 	private Boolean status;
+	private Boolean isLeader;
 	private Controller controller;
 	private Device device;
 	private RelayGroup group;
@@ -59,6 +60,12 @@ public class Relay extends BaseObj {
 		this.status = status;
 	}
 
+	public Boolean getIsLeader() {
+		return isLeader;
+	}
+	public void setIsLeader(Boolean isLeader) {
+		this.isLeader = isLeader;
+	}
 	public Controller getController() {
 		return controller;
 	}

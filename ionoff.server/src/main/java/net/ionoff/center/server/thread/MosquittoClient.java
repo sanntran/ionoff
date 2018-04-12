@@ -32,7 +32,6 @@ public class MosquittoClient implements MqttCallback {
 	private MqttConnectOptions connOpt;
 	private boolean connected = false;
 	private String[] subscribleTopics;
-	private long messageArrivedTime = 0;
 	
 	@Autowired
 	private ServerThreadPool threadPull; 
@@ -159,7 +158,6 @@ public class MosquittoClient implements MqttCallback {
 	
 	@Override
 	public void messageArrived(String topic, MqttMessage message) throws Exception {
-		messageArrivedTime = System.currentTimeMillis();
 		// Called when a message arrives from the server that matches any
 		// subscription made by the client
 		String payload = new String(message.getPayload());
@@ -177,17 +175,27 @@ public class MosquittoClient implements MqttCallback {
 	private void onWeighScaleMessageArrived(String payload) {
 		WeighScaleMqttPayload data = new WeighScaleMqttPayload(payload);
 		WeighScale scale = deviceService.findWeighScaleByMac(data.getId());
+		if (scale == null) {
+			LOGGER.info("Found no weigh scale by id: " + data.getId());
+			return;
+		}
 		Date now = new Date();
 		scale.setTime(now);
 		if (scale.getSensors() == null || scale.getSensors().isEmpty()) {
 			deviceService.update(scale);
 			return;
 		}
+		
+		deviceService.update(scale);
+		
 		Sensor sensor = scale.getSensors().get(0);
 		String status[] = data.getStatus().split(",");
 		sensor.getStatus().setTime(now);
 		sensor.getStatus().setValue(Double.valueOf(status[0]));
-		sensor.getStatus().setTotal(Double.valueOf(status[1]));
+		sensor.getStatus().setSetup(Double.valueOf(status[1]));
+		sensor.getStatus().setTotal(Double.valueOf(status[2]));
+		
+		sensorService.update(sensor);
 		sensorService.updateStatus(sensor.getStatus());
 	}
 

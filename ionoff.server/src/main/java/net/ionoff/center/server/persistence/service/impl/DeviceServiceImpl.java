@@ -88,8 +88,11 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 			sensor.setType(SensorType.ANALOG.toString());
 			sensor.setUnit("kg");
 			sensor.setZone(device.getZone());
+			SensorStatus status = new SensorStatus();
+			status.setSensor(sensor);
+			sensor.setStatus(status);
 			sensorService.insert(sensor);
-			createSensorStatus(sensor);
+			sensorService.insertSensorStatus(status);
 		}
 		Cache cache = getDao().getSessionFactory().getCache();
 		if (cache != null) {
@@ -97,12 +100,6 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 		}
 		
 		return device;
-	}
-	
-	private void createSensorStatus(Sensor sensor) {
-		SensorStatus status = new SensorStatus();
-		status.setSensor(sensor);
-		sensorService.insertSensorStatus(status);
 	}
 
 	private void insertUserDevices(Device device) {

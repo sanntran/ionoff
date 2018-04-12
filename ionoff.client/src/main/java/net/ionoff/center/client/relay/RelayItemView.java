@@ -12,25 +12,41 @@ import net.ionoff.center.shared.dto.RelayDto;
 public class RelayItemView extends FlowPanel {
 
 	private final Label lblName;
-	private final Label lblControllerName;
+	private final Label lblDriverName;
 	private final MaterialIcon btnDelete;
+	private final MaterialIcon btnLeader;
 
 	public RelayItemView(RelayDto relay) {
 		addStyleName("relay");
 		lblName = new InlineLabel(relay.getName());
 		add(lblName);
 		lblName.addStyleName("name");
-		lblControllerName = new InlineLabel(relay.getControllerName());
-		add(lblControllerName);
-		lblControllerName.addStyleName("controller");
+		
+		lblDriverName = new InlineLabel(relay.getControllerName());
+		lblDriverName.addStyleName("driver");
+		add(lblDriverName);
+		
 		btnDelete = new MaterialIcon(); 
 		btnDelete.addStyleName("del");
 		btnDelete.setFloat(Float.RIGHT);
 		btnDelete.setIconType(IconType.DELETE);
 		add(btnDelete);
+		
+		btnLeader = new MaterialIcon(); 
+		btnLeader.addStyleName("leader");
+		if (!Boolean.TRUE.equals(relay.getIsLeader())) {
+			btnLeader.addStyleName("none");
+		}
+		btnLeader.setFloat(Float.RIGHT);
+		btnLeader.setIconType(IconType.FLAG);
+		add(btnLeader);
 	}
 
 	public MaterialIcon getBtnRemove() {
 		return btnDelete;
+	}
+	
+	public MaterialIcon getBtnLeader() {
+		return btnLeader;
 	}
 }

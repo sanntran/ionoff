@@ -8,7 +8,7 @@
 	<class name="net.ionoff.center.server.entity.SensorData" table="sensors_data">
 		
 		<id name="id" type="long" column="id">
-			<generator class="native" />
+			<generator class="increment" />
 		</id>
 		
 		<many-to-one name="sensor" class="net.ionoff.center.server.entity.Sensor" fetch="select">

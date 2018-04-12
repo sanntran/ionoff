@@ -14,7 +14,9 @@
 			</generator>
 		</id>
 		
-		<one-to-one name="sensor" class="net.ionoff.center.server.entity.Sensor"></one-to-one>
+		<one-to-one name="sensor" 
+			class="net.ionoff.center.server.entity.Sensor" constrained="true">
+		</one-to-one>
 		 
 		<property name="time">
 			<column name="time_" sql-type="datetime"/>
@@ -22,6 +24,10 @@
 		
 		<property name="value">
 			<column name="value_"/>
+		</property>
+		
+		<property name="setup">
+			<column name="setup"/>
 		</property>
 		
 		<property name="total">

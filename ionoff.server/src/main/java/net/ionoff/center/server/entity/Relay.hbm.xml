@@ -39,6 +39,10 @@
 			<column name="type_" />
 		</property>
 		
+		<property name="isLeader" type="java.lang.Boolean">
+			<column name="is_leader" sql-type="bit"/>
+		</property>
+		
 		<many-to-one name="controller" class="net.ionoff.center.server.entity.Controller" fetch="select">
             <column name="controller_id" not-null="true" />
         </many-to-one>

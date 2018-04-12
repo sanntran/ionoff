@@ -31,7 +31,7 @@ import net.ionoff.center.shared.dto.RelayDto;
 
 @Transactional
 public class RelayServiceImpl extends AbstractGenericService<Relay, RelayDto> implements IRelayService {
-
+	
 	private IRelayDao relayDao;
 	
 	@Autowired
@@ -225,5 +225,13 @@ public class RelayServiceImpl extends AbstractGenericService<Relay, RelayDto> im
 	@Override
 	protected List<RelayDto> createDtoList(List<Relay> entities) {
 		return relayMapper.createRelayDtoList(entities);
+	}
+
+	@Override
+	public RelayDto updateRelayLeader(User user, Long relayId, Boolean isLeader) {
+		Relay relay = requireById(relayId); 
+		relay.setIsLeader(isLeader);
+		update(relay);
+		return relayMapper.createRelayDto(relay);
 	}
 }

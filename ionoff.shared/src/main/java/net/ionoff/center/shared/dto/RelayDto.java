@@ -15,10 +15,9 @@ public class RelayDto extends BaseDto {
 	private Integer index;
 	private Boolean status;
 	private String label;
-
+	private Boolean isLeader;
 	private Long controllerId;
 	private String controllerName;
-
 	private Long deviceId;
 	private String deviceName;
 
@@ -94,5 +93,12 @@ public class RelayDto extends BaseDto {
 	}
 	public void setTime(String time) {
 		this.time = time;
+	}
+	
+	public Boolean getIsLeader() {
+		return isLeader;
+	}
+	public void setIsLeader(Boolean isLeader) {
+		this.isLeader = isLeader;
 	}
 }

@@ -1172,6 +1172,10 @@ ADD CONSTRAINT `relays_fk_group_id`
   ON UPDATE CASCADE;
 
 --
-  ALTER TABLE .`scenes_devices` 
+  ALTER TABLE `scenes_devices` 
 ADD COLUMN `order_` INT NULL AFTER `id`,
 ADD COLUMN `duration` INT NULL AFTER `order_`;
+
+
+ALTER TABLE `relays` 
+ADD COLUMN `is_leader` BIT NULL AFTER `status_`;

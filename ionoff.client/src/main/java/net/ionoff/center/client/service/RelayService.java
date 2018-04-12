@@ -67,4 +67,8 @@ public interface RelayService extends EntityService<RelayDto> {
 	@DELETE
 	@Path("api/relays/{relayId}/group")
 	void removeFromRelayGroup(@PathParam("relayId") Long relayId, @QueryParam("relayIdToRemove") Long relayIdToRemove, MethodCallback<RelayGroupDto> callback);
+	
+	@PUT
+	@Path("api/relays/{relayId}/leader")
+	void updateLeader(@PathParam("relayId") Long relayId, @QueryParam("isLeader") Boolean isLeader, MethodCallback<RelayDto> methodCallback);
 }
