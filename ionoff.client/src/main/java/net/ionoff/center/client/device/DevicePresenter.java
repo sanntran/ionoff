@@ -3,7 +3,7 @@ package net.ionoff.center.client.device;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 
-import net.ionoff.center.client.common.AbstractPresenter;
+import net.ionoff.center.client.base.AbstractPresenter;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.StatusDto;

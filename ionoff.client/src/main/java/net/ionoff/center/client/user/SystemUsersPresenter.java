@@ -13,8 +13,8 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 
-import net.ionoff.center.client.common.ITableView;
-import net.ionoff.center.client.common.SystemTablePresenter;
+import net.ionoff.center.client.base.ITableView;
+import net.ionoff.center.client.base.SystemTablePresenter;
 import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.service.IRpcServiceProvider;

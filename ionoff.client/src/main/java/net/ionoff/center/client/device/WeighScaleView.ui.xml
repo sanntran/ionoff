@@ -14,20 +14,9 @@
 		}
 		.latestValue {
 			position: absolute;
-			left: 15px;
-			top: 70px;
-		}
-		.panelValue {
-		    bottom: 15px;
-		    position: absolute;
-		    right: 15px !important;
-		    text-align: right;
-		}
-		
-		.setupValue {
-		}
-		
-		.totalValue {
+			right: 15px;
+			bottom: 20px;
+			font-size: 15px;
 		}
 	</ui:style>
 	
@@ -44,11 +33,7 @@
 							<m:MaterialImage ui:field="imgIcon" addStyleNames="icon" url="imgs/scale.png" width="50" height="50" circle="true" float="LEFT"/>
 							<m:MaterialLabel ui:field="lblTime" addStyleNames="time" text="" textColor="GREY_LIGHTEN_1" float="LEFT"/>
 							<m:MaterialLabel ui:field="lblLatestValue" addStyleNames="{style.latestValue}" text="-"/>
-							<m:MaterialPanel grid="s6" float="RIGHT" addStyleNames="{style.panelValue}" >
-								<m:MaterialLabel ui:field="lblSetupValue" addStyleNames="{style.setupValue}" text="-" />
-								<m:MaterialLabel ui:field="lblTotalValue" addStyleNames="{style.totalValue}" text="-" />
-							</m:MaterialPanel>
-							
+
 						</m:MaterialRow>
 					</m:MaterialCardContent>
 				</m:MaterialCard>

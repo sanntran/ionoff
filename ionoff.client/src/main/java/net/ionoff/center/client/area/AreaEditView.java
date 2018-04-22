@@ -2,7 +2,7 @@ package net.ionoff.center.client.area;
 
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIntegerBox;
-import net.ionoff.center.client.common.AbstractEditView;
+import net.ionoff.center.client.base.AbstractEditView;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.shared.dto.AreaDto;
 

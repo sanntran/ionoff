@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
-import net.ionoff.center.client.common.AbstractPresenter;
+import net.ionoff.center.client.base.AbstractPresenter;
 import net.ionoff.center.client.event.ShowMessageEvent;
 import net.ionoff.center.client.locale.ProjectLocale;
 import net.ionoff.center.client.service.IRpcServiceProvider;

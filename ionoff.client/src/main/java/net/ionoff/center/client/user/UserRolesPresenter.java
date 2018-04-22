@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 import gwt.material.design.client.ui.MaterialCollection;
-import net.ionoff.center.client.common.AbstractPresenter;
+import net.ionoff.center.client.base.AbstractPresenter;
 import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.event.ShowMessageEvent;
 import net.ionoff.center.client.locale.AdminLocale;

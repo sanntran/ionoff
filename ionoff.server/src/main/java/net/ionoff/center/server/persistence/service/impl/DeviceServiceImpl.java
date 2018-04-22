@@ -225,8 +225,6 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 					statusDto.setTime(DateTimeUtil.ddMMHHmmFormatter.format(sensor.getStatus().getTime()));
 				}
 				statusDto.setLatestValue(sensor.getStatus().getValue() + " " + sensor.getUnit());
-				statusDto.setSetupValue(sensor.getStatus().getSetup() + " " + sensor.getUnit());
-				statusDto.setTotalValue(sensor.getStatus().getTotal() + " " + sensor.getUnit());
 			}
 		}
 		else if (device.instanceOf(Player.class)) {

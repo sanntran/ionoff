@@ -12,7 +12,7 @@ import gwt.material.design.client.ui.MaterialCheckBox;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialTab;
 import gwt.material.design.client.ui.MaterialTabItem;
-import net.ionoff.center.client.common.AbstractEditView;
+import net.ionoff.center.client.base.AbstractEditView;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.schedule.ScheduleTimeSettingPanel;
 import net.ionoff.center.shared.dto.ModeDto;

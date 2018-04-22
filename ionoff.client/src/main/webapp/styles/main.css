@@ -23,6 +23,20 @@ body {
 	min-width: 320px;
 }
 
+body::-webkit-scrollbar {
+	width: 0em;
+	height: 0px;
+}
+
+body::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+body::-webkit-scrollbar-thumb {
+	background-color: #f2f2f2;
+	outline: 1px solid #f2f2f2;
+}
+
 a {
 	color: #66FFFF;
 }
@@ -295,7 +309,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 }
 
 .main .lds-ripple, .login .lds-ripple {
-	visibility: false;
+	visibility: hidden;
 	display: none;
 }
 
@@ -501,7 +515,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 }
 
 .main .side-nav {
-	top: 56px !important !important;
+	top: 56px !important;
 	height: calc(100% - 56px) !important;
 }
 
@@ -673,8 +687,8 @@ textarea.materialize-textarea[readonly="readonly"] {
 }
 
 .main .content .devices .device {
-	
 }
+
 .main .content .devices .device.card,
 .main .content .scenes .scene.card,
 .main .content .dashboard .device.card,
@@ -683,7 +697,6 @@ textarea.materialize-textarea[readonly="readonly"] {
 .main .content .zones .zone.card {
 	height: 150px;
 }
-
 
 .main .content .devices .device.card .card-content,
 .main .content .scenes .scene.card .card-content,

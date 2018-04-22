@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.addins.client.window.MaterialWindow;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
@@ -38,10 +39,6 @@ public class WeighScaleView extends FocusPanel implements IDeviceView {
 	MaterialLabel lblTime;
 	@UiField 
 	MaterialLabel lblLatestValue;
-	@UiField 
-	MaterialLabel lblSetupValue;
-	@UiField 
-	MaterialLabel lblTotalValue;
 	@UiField 
 	MaterialIcon menuIcon;
 	@UiField 
@@ -77,14 +74,6 @@ public class WeighScaleView extends FocusPanel implements IDeviceView {
 	
 	public MaterialLabel getLblLatestValue() {
 		return lblLatestValue;
-	}
-	
-	public MaterialLabel getLblSetupValue() {
-		return lblSetupValue;
-	}
-	
-	public MaterialLabel getLblTotalValue() {
-		return lblTotalValue;
 	}
 	
 	@Override

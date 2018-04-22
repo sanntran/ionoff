@@ -1,7 +1,8 @@
 package net.ionoff.center.shared.dto;
 
 public class QueryCriteriaDto {
-	
+
+	private Long deviceId;
 	private Long projectId;
 	private String searchKey;
 	private String searchField;
@@ -9,7 +10,14 @@ public class QueryCriteriaDto {
 	private Integer maxResults;
 	private String sortBy;
 	private Boolean isAscending;
-	
+
+	public Long getDeviceId() {
+		return deviceId;
+	}
+	public void setDeviceId(Long deviceId) {
+		this.deviceId = deviceId;
+	}
+
 	public Long getProjectId() {
 		return projectId;
 	}

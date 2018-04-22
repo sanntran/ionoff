@@ -25,7 +25,7 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialNavBar;
 import gwt.material.design.client.ui.MaterialSideNavDrawer;
 import gwt.material.design.client.ui.MaterialTitle;
-import net.ionoff.center.client.common.AbstractPresenter;
+import net.ionoff.center.client.base.AbstractPresenter;
 import net.ionoff.center.client.event.ChangeLanguageEvent;
 import net.ionoff.center.client.event.ChangeProjectEvent;
 import net.ionoff.center.client.event.ChangeTokenEvent;
@@ -269,7 +269,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 		display.getMenuItemDevice().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newDeviceToken()));
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newDevicesToken()));
 			}
 		});
 		

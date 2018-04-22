@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Rename this to your project name -->
+<project name="ionoff.server" basedir="." default="deploy">
+	
+	<tstamp> <format property="touch.time" pattern="yyyy_MM_dd"/> </tstamp>
+
+	<property name="parent.dir" location=".."/>
+	<property name="tomcat.dir" value="../../tomcat-9.0.0" />
+	<property name="webapp.dir" value="${tomcat.dir}/webapps" />
+
+	<target name="deploy">
+		<delete dir="${webapp.dir}/iserver" />
+		<copy file="./target/iserver.war" todir="${webapp.dir}" overwrite="true"/>
+	</target>
+
+</project>

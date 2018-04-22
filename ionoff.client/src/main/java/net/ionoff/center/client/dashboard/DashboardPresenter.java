@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Panel;
 
 import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialLabel;
-import net.ionoff.center.client.common.AbstractPresenter;
+import net.ionoff.center.client.base.AbstractPresenter;
 import net.ionoff.center.client.device.ApplianceCardView;
 import net.ionoff.center.client.device.ApplianceCollapsibleView;
 import net.ionoff.center.client.device.AppliancePresenter;
@@ -106,7 +106,7 @@ public class DashboardPresenter extends AbstractPresenter {
 		display.getCartDevice().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				String token = AppToken.newDeviceToken();
+				String token = AppToken.newDevicesToken();
 				eventBus.fireEvent(new ChangeTokenEvent(token));
 			}
 		});

@@ -64,7 +64,7 @@ public class PlayerPresenter extends DevicePresenter {
 		view.getPlayerCard().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				String token = AppToken.newPlayerToken(player.getId());
+				String token = AppToken.newDeviceToken(player.getId());
 				eventBus.fireEvent(new ChangeTokenEvent(token));
 				
 			}

@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Panel;
 
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialRow;
-import net.ionoff.center.client.common.AbstractPresenter;
+import net.ionoff.center.client.base.AbstractPresenter;
 import net.ionoff.center.client.event.ChangeTokenEvent;
 import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.service.IRpcServiceProvider;

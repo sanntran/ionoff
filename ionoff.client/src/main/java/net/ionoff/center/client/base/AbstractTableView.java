@@ -1,4 +1,4 @@
-package net.ionoff.center.client.common;
+package net.ionoff.center.client.base;
 
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -9,7 +9,8 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 
-import net.ionoff.center.client.zone.ToolBarView;
+import net.ionoff.center.client.ui.FontawesomeButtonCell;
+import net.ionoff.center.client.ui.ToolBarView;
 import net.ionoff.center.shared.dto.BaseDto;
 
 public abstract class AbstractTableView<T extends BaseDto> extends FlowPanel implements ITableView<T> {

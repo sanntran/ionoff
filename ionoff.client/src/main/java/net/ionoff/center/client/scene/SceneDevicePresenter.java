@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import gwt.material.design.client.ui.MaterialCollapsibleHeader;
 import gwt.material.design.client.ui.MaterialCollapsibleItem;
 import gwt.material.design.client.ui.MaterialIntegerBox;
-import net.ionoff.center.client.common.AbstractPresenter;
+import net.ionoff.center.client.base.AbstractPresenter;
 import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.schedule.PlayerActionView;
 import net.ionoff.center.client.schedule.RelayActionView;

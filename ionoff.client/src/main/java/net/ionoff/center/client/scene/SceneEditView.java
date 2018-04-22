@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.Label;
 
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
 import gwt.material.design.client.constants.IconType;
-import net.ionoff.center.client.common.AbstractEditView;
+import net.ionoff.center.client.base.AbstractEditView;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.shared.dto.SceneDto;
 

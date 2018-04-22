@@ -10,7 +10,7 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
-import net.ionoff.center.client.common.AbstractPresenter;
+import net.ionoff.center.client.base.AbstractPresenter;
 import net.ionoff.center.client.event.ChangeTokenEvent;
 import net.ionoff.center.client.event.ChangeZoneEvent;
 import net.ionoff.center.client.locale.ProjectLocale;

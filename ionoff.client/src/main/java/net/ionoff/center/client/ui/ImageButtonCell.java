@@ -1,4 +1,4 @@
-package net.ionoff.center.client.common;
+package net.ionoff.center.client.ui;
 
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.safehtml.shared.SafeHtml;

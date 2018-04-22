@@ -246,4 +246,7 @@ public interface AdminConstants extends Constants {
 
 	@DefaultStringValue("Trạng thái")
 	String status();
+
+	@DefaultStringValue("Giá trị")
+	String value();
 }

@@ -59,6 +59,8 @@ public class RpcServiceProviderImpl implements IRpcServiceProvider {
 	private SystemService systemService;
 	@Inject
 	private DashboardService dashboardService;
+	@Inject
+	private SensorDataService sensorDataService;
 	
 	@Override
 	public LoginService getLoginService() {
@@ -201,5 +203,11 @@ public class RpcServiceProviderImpl implements IRpcServiceProvider {
 	public DashboardService getDashboardService() {
 		eventBus.fireEvent(ShowLoadingEvent.getInstance(true));
 		return dashboardService;
+	}
+
+	@Override
+	public SensorDataService getSensorDataService() {
+		eventBus.fireEvent(ShowLoadingEvent.getInstance(true));
+		return sensorDataService;
 	}
 }

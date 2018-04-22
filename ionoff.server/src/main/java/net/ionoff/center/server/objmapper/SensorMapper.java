@@ -3,6 +3,9 @@ package net.ionoff.center.server.objmapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.ionoff.center.server.entity.SensorData;
+import net.ionoff.center.server.util.DateTimeUtil;
+import net.ionoff.center.shared.dto.SensorDataDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import net.ionoff.center.server.entity.Controller;
@@ -67,5 +70,26 @@ public class SensorMapper {
 		}
 		sensorDto.setProjectId(sensor.getProject().getId());
 		return sensorDto;
+	}
+
+    public List<SensorDataDto> createSensorDataDtoList(List<SensorData> sensorDataList) {
+		List<SensorDataDto> sensorDataDtos = new ArrayList<>();
+		for (SensorData data : sensorDataList) {
+			sensorDataDtos.add(createSensorDataDto(data));
+		}
+		return sensorDataDtos;
+    }
+
+	public SensorDataDto createSensorDataDto(SensorData sensorData) {
+		final SensorDataDto sensorDataDto = new SensorDataDto();
+		sensorDataDto.setId(sensorData.getId());
+		sensorDataDto.setName(sensorData.getName());
+		if (sensorData.getTime() != null) {
+			sensorDataDto.setTime(DateTimeUtil.yyyyMMddHHmmssFormatter.format(sensorData.getTime()));
+		}
+		sensorDataDto.setValue(sensorData.getValue());
+		sensorDataDto.setIndex(sensorData.getIndex());
+
+		return sensorDataDto;
 	}
 }

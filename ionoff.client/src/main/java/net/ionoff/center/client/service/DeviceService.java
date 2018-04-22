@@ -44,7 +44,7 @@ public interface DeviceService extends EntityService<DeviceDto> {
 			MethodCallback<Long> callback);
 	
 	@GET
-	@Path("api/devices/{devicesId}")
+	@Path("api/devices/{deviceId}")
 	void findById(@PathParam("deviceId") Long deviceId, MethodCallback<DeviceDto> callback);
 	
 	@GET

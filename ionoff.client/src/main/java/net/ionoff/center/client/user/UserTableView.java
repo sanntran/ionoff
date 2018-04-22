@@ -7,7 +7,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 
 import gwt.material.design.client.constants.IconType;
-import net.ionoff.center.client.common.AbstractTableView;
+import net.ionoff.center.client.base.AbstractTableView;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.locale.ProjectLocale;
 import net.ionoff.center.shared.dto.UserDto;

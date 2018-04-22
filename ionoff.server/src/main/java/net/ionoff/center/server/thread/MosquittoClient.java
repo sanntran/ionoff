@@ -161,7 +161,6 @@ public class MosquittoClient implements MqttCallback {
 		// Called when a message arrives from the server that matches any
 		// subscription made by the client
 		String payload = new String(message.getPayload());
-		LOGGER.info("Message arrived: " + payload);
 		
 		if (AppConfig.getInstance().MQTT_TOPIC_IONOFF_NET.equals(topic) ||
 				AppConfig.getInstance().MQTT_TOPIC_RELAY_DRIVER.equals(topic)) {
@@ -173,6 +172,7 @@ public class MosquittoClient implements MqttCallback {
 	}
 	
 	private void onWeighScaleMessageArrived(String payload) {
+		LOGGER.info("Message arrived: " + payload);
 		WeighScaleMqttPayload data = new WeighScaleMqttPayload(payload);
 		WeighScale scale = deviceService.findWeighScaleByMac(data.getId());
 		if (scale == null) {
@@ -185,18 +185,25 @@ public class MosquittoClient implements MqttCallback {
 			deviceService.update(scale);
 			return;
 		}
-		
-		deviceService.update(scale);
-		
+
+		if (data.getValue() == null || data.getIndex() == null) {
+			LOGGER.info("Invalid message format");
+			publishMessage(scale.getMac(), "InvalidMessage: " + payload);
+			deviceService.update(scale);
+			return;
+		}
+
 		Sensor sensor = scale.getSensors().get(0);
-		String status[] = data.getStatus().split(",");
 		sensor.getStatus().setTime(now);
-		sensor.getStatus().setValue(Double.valueOf(status[0]));
-		sensor.getStatus().setSetup(Double.valueOf(status[1]));
-		sensor.getStatus().setTotal(Double.valueOf(status[2]));
-		
+		sensor.getStatus().setValue(data.getValue());
+		sensor.getStatus().setIndex(data.getIndex());
 		sensorService.update(sensor);
 		sensorService.updateStatus(sensor.getStatus());
+
+		if (WeighScaleMqttPayload.CHANGED.equals(data.getCode())) {
+			sensorService.insertSensorData(sensor.getStatus());
+			publishMessage(scale.getMac(), "MessageIndexOK: " + data.getIndex());
+		}
 	}
 
 	private void onControllerDriverMessageArrived(String payload) {
@@ -218,7 +225,7 @@ public class MosquittoClient implements MqttCallback {
 			LOGGER.info("Controller " + controller.getKey() + " is now connected");
 		}
 		if (RelayDriverMqttPayload.STATUS.equals(mqttPayload.getCode())) {
-			LOGGER.info("Controller " + controller.getKey() + " has been connected");
+			//LOGGER.info("Controller " + controller.getKey() + " has been connected");
 			controllerStatusHandler.onReceivedControllerStatus(controller, mqttPayload.getIn(),  mqttPayload.getOut());
 		} else if (RelayDriverMqttPayload.CHANGED.equals(mqttPayload.getCode())) {
 			LOGGER.info("Controller " + controller.getKey() + " input status has been changed");

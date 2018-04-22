@@ -1,4 +1,4 @@
-package net.ionoff.center.client.common;
+package net.ionoff.center.client.ui;
 
 import java.util.List;
 

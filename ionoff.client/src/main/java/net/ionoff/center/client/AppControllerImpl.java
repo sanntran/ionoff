@@ -123,8 +123,8 @@ public class AppControllerImpl implements IAppController {
 	}
 	
 	@Override
-	public void showPlayer() {
-		getContentPresenter().showPlayer();
+	public void showDevice() {
+		getContentPresenter().showDevice();
 	}
 
 	@Override
@@ -150,7 +150,7 @@ public class AppControllerImpl implements IAppController {
 		else {
 			getContentPresenter().showDeviceList();
 		}		
-	}	
+	}
 
 	@Override
 	public void showSchedules() {

@@ -258,11 +258,6 @@
 	position: relative;
 }
 
-.main .content .toolbar button {
-	width: 40px;
-    padding-left: 5px;
-}
-
 .main .content .toolbar .buttons {
 	display: inline-block;
 	width: 220px;
@@ -278,6 +273,8 @@
 	margin-right: 5px;
 	background-color: transparent !important;
 	box-shadow: none;
+	width: 40px;
+	padding-left: 5px;
 }
 .main .content .toolbar .buttons button i {
 	font-size: 30px;	
@@ -291,14 +288,38 @@
     position: relative;
 }
 
-.main .content .toolbar .searchbar .gwt-TextBox {
+.main .content .toolbar .searchbar .gwt-TextBox,
+.main .content .toolbar .searchbar .panelDate {
 	height: 32px;
-    float: left;
-    width: calc(100% - 160px);
-    border: 1px solid #d6d6d6;
+    float: right;
+    width: calc(100% - 140px);
     margin: 0px;
-    padding-left: 10px !important;
     box-sizing: border-box;
+}
+
+.main .content .toolbar .searchbar .panelDate .sep {
+	width: 10px;
+	display: inline-block;
+}
+
+.main .content .toolbar .searchbar .panelDate .date {
+	width: calc(50% - 5px);
+	display: inline-block;
+	height: 32px;
+	margin: 0px;
+}
+
+.main .content .toolbar .searchbar .panelDate .date input  {
+	padding-left: 5px;
+	box-sizing: border-box;
+	margin: 0px;
+	height: 32px;
+}
+
+
+.main .content .toolbar .searchbar .gwt-TextBox {
+	border: 1px solid #d6d6d6;
+	padding-left: 10px !important;
 }
 
 .main .content .toolbar .searchbar .input-field {
@@ -306,16 +327,21 @@
 }
 .main .content .toolbar .searchbar .input-field li span {
 	font-size: 13px;
-    line-height: 16px;
-    color: #37474f;
+	line-height: 10px;
+	color: #37474f;
+	border-bottom: 1px solid #f1f1f1;
+	height: 32px;
+	padding-left: 5px;
 }
 
 .main .content .toolbar .searchbar .close {
 	display: block;
 	position: absolute;
-	right: 180px;
-	height: 30px;
-    margin-top: 2px;
+	right: 0px;
+	height: 32px;
+	width: 50px;
+	text-align: center;
+	line-height: 32px;
 }
 
 .main .content .toolbar .searchbar .close i {
@@ -323,14 +349,12 @@
 }
 
 .main .content .toolbar .searchbar .gwt-ListBox {
-	top: 1px;
-    position: absolute;
-    right: 0px;
-    width: 160px;
+	float: left;
+    width: 140px;
 }
 .main .content .toolbar .searchbar .gwt-ListBox input.select-dropdown {
 	height: 32px;
-    padding-left: 15px;
+    padding-left: 5px;
     margin: 0px;
     border: 1px solid #d6d6d6;
     box-sizing: border-box;

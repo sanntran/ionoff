@@ -43,5 +43,8 @@ public class WeighScale extends Device {
 	public boolean isOnline() {
 		return getStatus().booleanValue();
 	}
-	
+
+    public boolean hasSensor() {
+		return sensors != null && !sensors.isEmpty();
+    }
 }

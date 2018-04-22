@@ -6,15 +6,12 @@ import com.google.gwt.user.client.ui.Panel;
 
 import net.ionoff.center.client.area.AreaTablePresenter;
 import net.ionoff.center.client.area.AreaTableView;
-import net.ionoff.center.client.common.AbstractPresenter;
+import net.ionoff.center.client.base.AbstractPresenter;
 import net.ionoff.center.client.controller.ControllerTablePresenter;
 import net.ionoff.center.client.controller.ControllerTableView;
 import net.ionoff.center.client.dashboard.DashboardPresenter;
 import net.ionoff.center.client.dashboard.DashboardView;
-import net.ionoff.center.client.device.DeviceListPresenter;
-import net.ionoff.center.client.device.DeviceListView;
-import net.ionoff.center.client.device.DeviceTablePresenter;
-import net.ionoff.center.client.device.DeviceTableView;
+import net.ionoff.center.client.device.*;
 import net.ionoff.center.client.event.ChangeTokenEvent;
 import net.ionoff.center.client.mode.ModeListPresenter;
 import net.ionoff.center.client.mode.ModeListView;
@@ -42,12 +39,17 @@ import net.ionoff.center.client.zone.ZoneListPresenter;
 import net.ionoff.center.client.zone.ZoneListView;
 import net.ionoff.center.client.zone.ZoneTablePresenter;
 import net.ionoff.center.client.zone.ZoneTableView;
+import net.ionoff.center.shared.dto.DeviceDto;
+import net.ionoff.center.shared.dto.PlayerDto;
+import net.ionoff.center.shared.dto.WeighScaleDto;
 import net.xapxinh.center.client.player.PlayerPresenter;
 import net.xapxinh.center.client.player.PlayerView;
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 public class ContentPresenter extends AbstractPresenter {
 
-	interface Display {
+    interface Display {
 		Panel asPanel();
     }
 	private SystemUsersPresenter systemUserPresenter;
@@ -67,9 +69,10 @@ public class ContentPresenter extends AbstractPresenter {
 	private AreaTablePresenter areaTablePresenter;
 	private ZoneTablePresenter zoneTablePresenter;
 	private ZoneListPresenter zoneListPresenter;
-	
+
 	private PlayerPresenter playerPresenter;
-	
+	private ScaleDataTablePresenter scaleDataPresenter;
+
 	private IRpcServiceProvider rpcProvider;
 	private Display display;
 	
@@ -82,19 +85,45 @@ public class ContentPresenter extends AbstractPresenter {
 	@Override
 	public void go() {
 	}
-	
-	public void showPlayer() {
-		String pId = AppToken.getPlayerId();
-		if (!ClientUtil.isLongNumber(pId)) {
-			final String token = AppToken.newDeviceToken();
+
+	public void showDevice() {
+		String id = AppToken.getDeviceId();
+		if (!ClientUtil.isLongNumber(id)) {
+			final String token = AppToken.newDevicesToken();
 			eventBus.fireEvent(new ChangeTokenEvent(token));
 		}
 		else {
-			display.asPanel().addStyleName("player");
-			final Long playerId = Long.parseLong(pId);
-			getPlayerPresenter().setPlayerId(playerId);
-			getPlayerPresenter().show(display.asPanel());
+			final Long deviceId = Long.parseLong(id);
+
+			rpcProvider.getDeviceService().findById(deviceId, new MethodCallback<DeviceDto>() {
+				@Override
+				public void onFailure(Method method, Throwable throwable) {
+					ClientUtil.handleRpcFailure(method, throwable, eventBus);
+				}
+
+				@Override
+				public void onSuccess(Method method, DeviceDto response) {
+					if (response instanceof PlayerDto) {
+						showPlayer(deviceId);
+					}
+					else if (response instanceof WeighScaleDto) {
+						showScaleData((WeighScaleDto) response);
+					}
+				}
+			});
 		}
+	}
+
+	private void showScaleData(WeighScaleDto scaleDto) {
+		display.asPanel().removeStyleName("player");
+		getScaleDataPresenter(scaleDto).show(display.asPanel());
+	}
+
+	private void showPlayer(Long playerId) {
+		// check device type here
+		display.asPanel().addStyleName("player");
+		getPlayerPresenter().setPlayerId(playerId);
+		getPlayerPresenter().show(display.asPanel());
 	}
 
 	public void showDashboard() {
@@ -190,7 +219,18 @@ public class ContentPresenter extends AbstractPresenter {
 		}
 		return playerPresenter;
 	}
-	
+
+	public ScaleDataTablePresenter getScaleDataPresenter(WeighScaleDto scaleDto) {
+		if (scaleDataPresenter == null) {
+			scaleDataPresenter = new ScaleDataTablePresenter(rpcProvider, eventBus, scaleDto, new ScaleDataTableView());
+			scaleDataPresenter.go();
+		}
+		else {
+			scaleDataPresenter.setScale(scaleDto);
+			scaleDataPresenter.refresh();
+		}
+		return scaleDataPresenter;
+	}
 
 	public ScheduleTablePresenter getScheduleTablePresenter() {
 		if (scheduleTablePresenter == null) {

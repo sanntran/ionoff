@@ -8,10 +8,8 @@ public class SensorData extends BaseObj {
 	
 	private Date time;
 	private Double value;
-	private Double total;
-	private Double setup;
+	private Long index;
 	private Sensor sensor;
-	
 	
 	public Date getTime() {
 		return time;
@@ -26,21 +24,14 @@ public class SensorData extends BaseObj {
 	public void setValue(Double value) {
 		this.value = value;
 	}
-	
-	public Double getTotal() {
-		return total;
+
+	public Long getIndex() {
+		return index;
 	}
-	public void setTotal(Double total) {
-		this.total = total;
+	public void setIndex(Long index) {
+		this.index = index;
 	}
 
-	public Double getSetup() {
-		return setup;
-	}
-	public void setSetup(Double setup) {
-		this.setup = setup;
-	}
-	
 	public Sensor getSensor() {
 		return sensor;
 	}

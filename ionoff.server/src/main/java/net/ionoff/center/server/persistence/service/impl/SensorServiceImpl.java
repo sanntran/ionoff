@@ -2,6 +2,9 @@ package net.ionoff.center.server.persistence.service.impl;
 
 import java.util.List;
 
+import net.ionoff.center.server.objmapper.QueryCriteriaMapper;
+import net.ionoff.center.shared.dto.QueryCriteriaDto;
+import net.ionoff.center.shared.dto.SensorDataDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -138,21 +141,32 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor, SensorDto>
 	@Override
 	public void updateStatus(SensorStatus sensorStatus) {
 		sensorStatusDao.update(sensorStatus);
-		SensorData sensorData = newSensorData(sensorStatus);
-		sensorDataDao.insert(sensorData);
 	}
 
-	private SensorData newSensorData(SensorStatus sensorStatus) {
+	@Override
+	public SensorData insertSensorData(SensorStatus newStatus) {
 		SensorData sensorData = new SensorData();
-		sensorData.setSensor(sensorStatus.getSensor());
-		sensorData.setTime(sensorStatus.getTime());
-		sensorData.setValue(sensorStatus.getValue());
-		sensorData.setTotal(sensorStatus.getTotal());
+		sensorData.setSensor(newStatus.getSensor());
+		sensorData.setTime(newStatus.getTime());
+		sensorData.setValue(newStatus.getValue());
+        sensorData.setIndex(newStatus.getIndex());
+		sensorDataDao.insert(sensorData);
 		return sensorData;
 	}
 
 	@Override
 	public void insertSensorStatus(SensorStatus sensorStatus) {
 		sensorStatusDao.insert(sensorStatus);
+	}
+
+	@Override
+	public Long countDataByCriteria(QueryCriteriaDto criteriaDto) {
+		return sensorDataDao.countByCriteria(QueryCriteriaMapper.toQueryCriteria(criteriaDto));
+	}
+
+	@Override
+	public List<SensorDataDto> searchDataByCriteria(QueryCriteriaDto criteriaDto) {
+		List<SensorData> sensorDataList = sensorDataDao.findByCriteria(QueryCriteriaMapper.toQueryCriteria(criteriaDto));
+		return sensorMapper.createSensorDataDtoList(sensorDataList);
 	}
 }

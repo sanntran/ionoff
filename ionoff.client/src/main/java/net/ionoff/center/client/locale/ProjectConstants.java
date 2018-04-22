@@ -276,4 +276,7 @@ public interface ProjectConstants extends Constants {
 
 	@DefaultStringValue("Thêm")
 	String add();
+
+	@DefaultStringValue("Dữ liệu ngày %s - %s")
+	String dataDate();
 }

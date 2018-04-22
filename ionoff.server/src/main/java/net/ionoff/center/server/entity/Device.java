@@ -150,4 +150,5 @@ public class Device extends BaseObj implements ISlice, Comparable<Device> {
 	public boolean instanceOf( Class<? extends Device> clazz) {
 		return clazz.getSimpleName().equals(getClass().getSimpleName());
 	}
+
 }

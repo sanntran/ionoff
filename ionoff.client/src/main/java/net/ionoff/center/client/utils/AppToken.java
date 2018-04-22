@@ -15,11 +15,10 @@ public final class AppToken extends TokenUtil {
 	public static final String ZONE = "zone_";
 	public static final String DASHBOARD = "dashboard";
 	public static final String DEVICES = "devices";
-	public static final String PLAYERS = "players";
 	public static final String SCENES = "scenes";
 	public static final String SCHEDULES = "schedules";
 	public static final String MODES = "modes";
-	public static final String PLAYER = "player_";
+	public static final String DEVICE = "device_";
 	public static final String NULL = "null";
 	public static final String LORD = "lord";
 	public static final String PROJECTS = "projects";
@@ -83,7 +82,7 @@ public final class AppToken extends TokenUtil {
 				|| hasTokenItem(tokenItems, USERS)
 				|| hasTokenItem(tokenItems, RELAYS)
 				|| hasTokenItem(tokenItems, SENSORS)
-				|| hasTokenItem(tokenItems, PLAYER)) {
+				|| hasTokenItem(tokenItems, DEVICE)) {
 			
 			final String projectId = getProjectId(token);
 			if (!isLongNumber(projectId)) {
@@ -95,9 +94,9 @@ public final class AppToken extends TokenUtil {
 					return false;
 				}
 			}
-			if (hasTokenItem(token, PLAYER)) {
-				final String playerId = getTokenId(token, PLAYER);
-				if (!isLongNumber(playerId)) {
+			if (hasTokenItem(token, DEVICE)) {
+				final String deviceId = getTokenId(token, DEVICE);
+				if (!isLongNumber(deviceId)) {
 					return false;
 				}
 			}
@@ -139,7 +138,7 @@ public final class AppToken extends TokenUtil {
 	public static String changeZoneId(Long newZoneId) {
 
 		String token = History.getToken();
-		token = removeTokenPlayer(token);
+		token = removeTokenDevice(token);
 
 		if (!hasTokenItem(ZONE)) {
 			if (newZoneId == null) {
@@ -175,9 +174,9 @@ public final class AppToken extends TokenUtil {
 		return newToken.replaceAll("/" + TABLE, "");
 	}
 
-	public static String newPlayerToken() {
+	public static String newDeviceToken() {
 		final String token = History.getToken();
-		return replaceTokenItem(token, PLAYERS);
+		return replaceTokenItem(token, DEVICE);
 	}
 
 	public static String newSceneToken() {
@@ -203,16 +202,21 @@ public final class AppToken extends TokenUtil {
 	}
 
 	private static String replaceTokenItem(String token, String newItem) {
-		token = removeTokenPlayer(token).replace(DLM + TABLE, "");
-		
+		token = token.replace(DLM + TABLE, "");
+		if (hasTokenItem(DEVICE)) {
+			final String deviceId = getTokenId(token, DEVICE);
+			if (token.startsWith(DEVICE)) {
+				return token.replace((DEVICE + deviceId), newItem);
+			}
+			else {
+				return token.replace((DEVICE + deviceId), newItem);
+			}
+		}
 		if (hasTokenItem(DASHBOARD)) {
 			return token.replace(DASHBOARD, newItem);
 		}
 		if (hasTokenItem(DEVICES)) {
 			return token.replace(DEVICES, newItem);
-		}
-		if (hasTokenItem(PLAYERS)) {
-			return token.replace(PLAYERS, newItem);
 		}
 		if (hasTokenItem(SCENES)) {
 			return token.replace(SCENES, newItem);
@@ -244,14 +248,14 @@ public final class AppToken extends TokenUtil {
 		return token.replace(MODES, newItem);
 	}
 
-	private static String removeTokenPlayer(String token) {
-		if (hasTokenItem(PLAYER)) {
-			final String playerId = getTokenId(token, PLAYER);
-			if (token.startsWith(PLAYER)) {
-				return token.replace((PLAYER + playerId + TOKEN_DLM), "");
+	private static String removeTokenDevice(String token) {
+		if (hasTokenItem(DEVICE)) {
+			final String deviceId = getTokenId(token, DEVICE);
+			if (token.startsWith(DEVICE)) {
+				return token.replace((DEVICE + deviceId + TOKEN_DLM), "");
 			}
 			else {
-				return token.replace((TOKEN_DLM + PLAYER + playerId), "");
+				return token.replace((TOKEN_DLM + DEVICE + deviceId), "");
 			}
 		}
 		return token;
@@ -261,8 +265,8 @@ public final class AppToken extends TokenUtil {
 		return DASHBOARD + TOKEN_DLM + PROJECT + projectId;
 	}
 
-	public static String newPlayerToken(long playerId) {
-		return replaceTokenItem(History.getToken(), PLAYER + playerId);
+	public static String newDeviceToken(long deviceId) {
+		return replaceTokenItem(History.getToken(), DEVICE + deviceId);
 	}
 
 	public static String getProjectItem() {
@@ -272,9 +276,6 @@ public final class AppToken extends TokenUtil {
 	public static String getProjectItem(String token) {
 		if (hasTokenItem(token, DASHBOARD)) {
 			return DASHBOARD;
-		}
-		if (hasTokenItem(token, PLAYERS)) {
-			return PLAYERS;
 		}
 		if (hasTokenItem(token, DEVICES)) {
 			return DEVICES;
@@ -306,16 +307,16 @@ public final class AppToken extends TokenUtil {
 		if (hasTokenItem(token, SENSORS)) {
 			return SENSORS;
 		}
-		if (hasTokenItem(token, PLAYER)) {
-			return PLAYER;
+		if (hasTokenItem(token, DEVICE)) {
+			return DEVICE;
 		}
 		return "";
 	}
 
-	public static String getPlayerId() {
+	public static String getDeviceId() {
 		final String token = History.getToken();
-		if (hasTokenItem(PLAYER)) {
-			return getTokenId(token, PLAYER);
+		if (hasTokenItem(DEVICE)) {
+			return getTokenId(token, DEVICE);
 		}
 		else {
 			return null;
@@ -334,7 +335,7 @@ public final class AppToken extends TokenUtil {
 		}
 	}
 
-	public static String newDeviceToken() {
+	public static String newDevicesToken() {
 		final String token = History.getToken();
 		return replaceTokenItem(token, DEVICES);
 	}

@@ -7,8 +7,8 @@ import com.google.gwt.user.client.ui.Label;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialListBox;
 import gwt.material.design.client.ui.MaterialTextBox;
-import net.ionoff.center.client.common.AbstractEditView;
-import net.ionoff.center.client.common.DevicesSelectionPanel;
+import net.ionoff.center.client.base.AbstractEditView;
+import net.ionoff.center.client.ui.DevicesSelectionPanel;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.shared.dto.RelayDto;
 

@@ -158,8 +158,8 @@ public class Application extends AbstractApp {
 			else if (AppToken.hasTokenItem(AppToken.DEVICES)) {
 				appController.showDevices();
 			}
-			else if (AppToken.hasTokenItem(AppToken.PLAYER)) {
-				appController.showPlayer();
+			else if (AppToken.hasTokenItem(AppToken.DEVICE)) {
+				appController.showDevice();
 			}
 			else if (AppToken.hasTokenItem(AppToken.SCENES)) {
 				appController.showScenes();

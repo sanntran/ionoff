@@ -1,4 +1,4 @@
-package net.ionoff.center.client.common;
+package net.ionoff.center.client.base;
 
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 
-import net.ionoff.center.client.zone.ToolBarView;
+import net.ionoff.center.client.ui.ToolBarView;
 
 public interface ITableView<T> {
 	Widget asWidget();

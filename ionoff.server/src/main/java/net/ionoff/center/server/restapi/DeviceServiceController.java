@@ -69,6 +69,20 @@ public class DeviceServiceController {
 		return deviceService.countByCriteria(criteriaDto);
 	}
 
+
+	@RequestMapping(value = "devices/{deviceId}",
+			method = RequestMethod.GET,
+			produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public DeviceDto findById(@PathVariable("deviceId") Long deviceId,
+									HttpServletRequest request) throws UpdateEntityException {
+
+		DeviceDto deviceDto = deviceService.requireDtoById(deviceId);
+		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkZonePermission(user, deviceDto.getZoneId());
+		return deviceDto;
+	}
+
 	@RequestMapping(value = "devices/{deviceId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")

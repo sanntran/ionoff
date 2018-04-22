@@ -14,6 +14,8 @@ public class WeighScaleMqttPayload {
 	private String code;
 	private String status;
 	private String cf;
+	private Double value;
+	private Long index;
 	
 	public WeighScaleMqttPayload(String payload) {
 		String[] params = payload.split("&");
@@ -27,6 +29,21 @@ public class WeighScaleMqttPayload {
 			}
 			else if ("status".equals(pairs[0])) {
 				setStatus(pairs[1]);
+				String vals[] = status.split(",");
+				if (vals.length == 2) {
+					try {
+						value = Double.valueOf(vals[0]);
+					}
+					catch (Exception e) {
+						// ignore
+					}
+					try {
+						index = Long.valueOf(vals[1]);
+					}
+					catch (Exception e) {
+						// ignore
+					}
+				}
 			}
 			else if ("cf".equals(pairs[0])) {
 				cf = pairs[1];
@@ -61,4 +78,12 @@ public class WeighScaleMqttPayload {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public Long getIndex() {
+		return index;
+	}
+	public Double getValue() {
+		return value;
+	}
+
 }

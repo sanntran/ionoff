@@ -1,4 +1,4 @@
-package net.ionoff.center.client.common;
+package net.ionoff.center.client.base;
 
 import com.google.gwt.event.shared.HandlerManager;
 

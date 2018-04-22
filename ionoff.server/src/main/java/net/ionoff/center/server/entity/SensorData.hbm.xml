@@ -22,11 +22,10 @@
 		<property name="value">
 			<column name="value_"/>
 		</property>
-		
-		<property name="total">
-			<column name="total_"/>
+
+		<property name="index">
+			<column name="index_"/>
 		</property>
-		
 	</class>
 	
 </hibernate-mapping>

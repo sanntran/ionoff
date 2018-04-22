@@ -1,5 +1,7 @@
 package net.ionoff.center.client.device;
 
+import net.ionoff.center.client.event.ChangeTokenEvent;
+import net.ionoff.center.client.utils.TokenUtil;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -34,8 +36,11 @@ public class WeighScalePresenter extends DevicePresenter {
 
 	@Override
 	public void show(HasWidgets container) {
+		updateMenuItems();
 		container.add(view.asPanel());
-		
+	}
+
+	private void updateMenuItems() {
 		if (AppToken.hasTokenItem(AppToken.DASHBOARD)) {
 			view.getMenuItemAddToProjectDashboard().getParent().setVisible(false);
 			view.getMenuItemAddToZoneDashboard().getParent().setVisible(false);
@@ -57,7 +62,8 @@ public class WeighScalePresenter extends DevicePresenter {
 		view.getScaleCard().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				// show report here - not yet implemented				
+				String token = AppToken.newDeviceToken(scale.getId());
+				eventBus.fireEvent(new ChangeTokenEvent(token));
 			}
 		});
 		
@@ -142,8 +148,6 @@ public class WeighScalePresenter extends DevicePresenter {
 			view.getLblTime().setText(scale.getStatus().getTime());
 		}
 		view.getLblLatestValue().setText(scale.getStatus().getLatestValue());
-		view.getLblSetupValue().setText(scale.getStatus().getSetupValue());
-		view.getLblTotalValue().setText(scale.getStatus().getTotalValue());
 		
 		if (Boolean.FALSE.equals(scale.getStatus().getValue())) {
 			view.getImgIcon().removeStyleName("on");
@@ -167,9 +171,7 @@ public class WeighScalePresenter extends DevicePresenter {
 	public void updateStatus(StatusDto status) {
 		scale.getStatus().setValue(status.getValue());
 		scale.getStatus().setLatestValue(status.getLatestValue());
-		scale.getStatus().setSetupValue(status.getSetupValue());
 		scale.getStatus().setTime(status.getTime());
-		scale.getStatus().setTotalValue(status.getTotalValue());
 		displayStatus();
 	}
 

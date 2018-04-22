@@ -1,6 +1,6 @@
 package net.ionoff.center.client;
 
-import net.ionoff.center.client.common.IPresenter;
+import net.ionoff.center.client.base.IPresenter;
 import net.ionoff.center.shared.dto.ProjectDto;
 
 /**

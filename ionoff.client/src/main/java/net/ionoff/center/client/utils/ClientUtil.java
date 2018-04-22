@@ -134,4 +134,21 @@ public final class ClientUtil {
 		}
 		return messageDto;
 	}
+
+	public static String format(final String format, String delimiter, final String... args) {
+		String[] split = format.split(delimiter);
+		final StringBuffer buffer = new StringBuffer();
+		if (format.startsWith(delimiter)) {
+			buffer.append(args[0]);
+		}
+		for (int i= 0; i < split.length - 1; i+= 1) {
+			buffer.append(split[i]);
+			buffer.append(args[i]);
+		}
+		buffer.append(split[split.length - 1]);
+		if (format.endsWith(delimiter)) {
+			buffer.append(args[split.length - 1]);
+		}
+		return buffer.toString();
+	}
 }

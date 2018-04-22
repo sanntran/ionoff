@@ -12,9 +12,9 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 import gwt.material.design.client.ui.MaterialCheckBox;
-import net.ionoff.center.client.common.AbstractEditPresenter;
-import net.ionoff.center.client.common.DevicesSelectionPanel;
-import net.ionoff.center.client.common.IEditView;
+import net.ionoff.center.client.base.AbstractEditPresenter;
+import net.ionoff.center.client.ui.DevicesSelectionPanel;
+import net.ionoff.center.client.base.IEditView;
 import net.ionoff.center.client.event.ShowMessageEvent;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.service.EntityService;

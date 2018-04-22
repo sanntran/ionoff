@@ -32,7 +32,9 @@ public class DeviceListView extends Composite implements DeviceListPresenter.Dis
 
 	public DeviceListView() {
 		uiBinder.createAndBindUi(this);
+
 		lblTitle.setText(ProjectLocale.getProjectConst().device());
+
 	}
 
 	@Override
@@ -49,4 +51,5 @@ public class DeviceListView extends Composite implements DeviceListPresenter.Dis
 	public MaterialIcon getIconSetting() {
 		return iconSetting;
 	}
+
 }

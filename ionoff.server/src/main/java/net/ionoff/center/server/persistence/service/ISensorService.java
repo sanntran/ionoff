@@ -2,6 +2,9 @@ package net.ionoff.center.server.persistence.service;
 
 import java.util.List;
 
+import net.ionoff.center.server.entity.SensorData;
+import net.ionoff.center.shared.dto.QueryCriteriaDto;
+import net.ionoff.center.shared.dto.SensorDataDto;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Sensor;
@@ -21,5 +24,11 @@ public interface ISensorService extends IGenericService<Sensor, SensorDto> {
 
 	void updateStatus(SensorStatus sensorStatus);
 
+	SensorData insertSensorData(SensorStatus newStatus);
+
 	void insertSensorStatus(SensorStatus sensorStatus);
+
+    Long countDataByCriteria(QueryCriteriaDto criteriaDto);
+
+	List<SensorDataDto> searchDataByCriteria(QueryCriteriaDto criteriaDto);
 }

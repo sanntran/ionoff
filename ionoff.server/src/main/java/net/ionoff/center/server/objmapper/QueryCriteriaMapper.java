@@ -7,6 +7,7 @@ public class QueryCriteriaMapper {
 
 	public static QueryCriteria toQueryCriteria(QueryCriteriaDto queryCriteriaDto) {
 		final QueryCriteria criteria = new QueryCriteria();
+		criteria.setDeviceId(queryCriteriaDto.getDeviceId());
 		criteria.setProjectId(queryCriteriaDto.getProjectId());
 		criteria.setSearchKey(queryCriteriaDto.getSearchKey());
 		criteria.setSearchField(queryCriteriaDto.getSearchField());

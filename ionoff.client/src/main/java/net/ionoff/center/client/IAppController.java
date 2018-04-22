@@ -24,7 +24,7 @@ public interface IAppController {
 	
 	void showDashboard();
 
-	void showPlayer();
+	void showDevice();
 
 	void showDevices();
 
