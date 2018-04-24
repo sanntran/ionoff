@@ -29,7 +29,7 @@
 	   	<property name= "hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>   
 	   	<property name="hibernate.connection.url">jdbc:mysql://localhost/ionoff?autoReconnect=true&amp;characterEncoding=UTF-8</property>
 	   	<property name="hibernate.connection.username">root</property>
-	   	<property name="hibernate.connection.password">ionoff$db</property>	   	
+	   	<property name="hibernate.connection.password">root</property>	   	
 	   	<property name="hibernate.default_schema">ionoff</property>
 	   	
 	   	<property name= "hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>

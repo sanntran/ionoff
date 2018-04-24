@@ -114,5 +114,5 @@ public interface UserService extends EntityService<UserDto> {
 	
 	@POST
 	@Path("api/users/{userId}/language")
-	void changeLanguage(@PathParam("userId") Long userId, String language, MethodCallback<UserDto> callback);
+	void changeLanguage(@PathParam("userId") Long userId, @QueryParam("language") String language, MethodCallback<UserDto> callback);
 }

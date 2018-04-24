@@ -60,7 +60,7 @@ public class AppControllerImpl implements IAppController {
 			public void onSuccess(Method method, UserDto response) {
 				StorageService.getInstance().getCookie().getUser().setLanguage(language);
 				StorageService.getInstance().writeCookie();
-				String url = ClientUtil.getUrl(language, "ionoff.html");
+				String url = ClientUtil.getUrl(language, "index.html");
 				url = url + "#" + History.getToken();
 				Window.open(url, "_self", "");
 			}

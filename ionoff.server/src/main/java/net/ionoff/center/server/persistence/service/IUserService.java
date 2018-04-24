@@ -27,4 +27,6 @@ public interface IUserService extends IGenericService<User, UserDto>, UserDetail
 	void deleteDtoById(User user, Long userId, Long projectId);
 
 	List<UserDto> findDtoByProjectId(Long projectId);
+
+	UserDto updateLanguage(User user, String language);
 }

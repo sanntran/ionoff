@@ -313,4 +313,13 @@ public class UserServiceController {
 	public List<ProjectDto> getProjectsByUser(@PathVariable("userId") Long userId) {
 		return projectService.findDtoByUserId(userId);
 	}
+	
+	@RequestMapping(value = "users/{userId}/language",
+			method = RequestMethod.POST,
+			produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public UserDto updateUserLanguage(@PathVariable("userId") Long userId, @RequestParam("language") String language) {
+		User user = RequestContextHolder.getUser();
+		return userService.updateLanguage(user, language);
+	}
 }

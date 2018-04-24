@@ -210,5 +210,12 @@ public class UserServiceImpl extends AbstractGenericService<User, UserDto> imple
 	protected List<UserDto> createDtoList(List<User> entities) {
 		return userMapper.createUserDtoList(entities);
 	}
+
+	@Override
+	public UserDto updateLanguage(User user, String language) {
+		user	.setLanguage(language);
+		super.update(user);
+		return userMapper.createUserDto(user);
+	}
 	
 }
