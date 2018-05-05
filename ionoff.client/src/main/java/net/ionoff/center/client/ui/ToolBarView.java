@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 
+import com.google.gwt.user.datepicker.client.CalendarUtil;
 import gwt.material.design.client.constants.ButtonType;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
@@ -34,7 +35,9 @@ public class ToolBarView extends FlowPanel {
 	private final MaterialIcon btnCloseSearch;
 	private final MaterialLink lblTitle;
 	private final DateTimeFormat dateFormat;
-	
+
+	private int days = 1;
+
 	public ToolBarView() {
 		setStyleName("toolbar");
 		
@@ -78,12 +81,14 @@ public class ToolBarView extends FlowPanel {
 
 		String format = "yyyy/mm/dd";
 		dateFormat = DateTimeFormat.getFormat("yyyy/MM/dd");
-		Date now = new Date();
+		Date fromDate = new Date();
+        CalendarUtil.addDaysToDate(fromDate, -days);
 
 		dateBoxFrom = new MaterialDatePicker();
 		dateBoxFrom.addStyleName("date");
-		dateBoxFrom.setValue(now);
+		dateBoxFrom.setValue(fromDate);
 		dateBoxFrom.setFormat(format);
+		dateBoxFrom.setAutoClose(true);
 		panelDateInput.add(dateBoxFrom);
 
 		Label lbl = new InlineLabel("~");
@@ -91,8 +96,10 @@ public class ToolBarView extends FlowPanel {
 
 		dateBoxTo = new MaterialDatePicker();
 		dateBoxTo.addStyleName("date");
-		dateBoxTo.setValue(now);
+		Date toDate = new Date();
+		dateBoxTo.setValue(toDate);
 		dateBoxTo.setFormat(format);
+		dateBoxTo.setAutoClose(true);
 		panelDateInput.add(dateBoxTo);
 
 		panelDateInput.setVisible(false);
@@ -156,17 +163,29 @@ public class ToolBarView extends FlowPanel {
 	}
 
 	public String getDateBoxFromText() {
+        Date fromDate = new Date();
+        CalendarUtil.addDaysToDate(fromDate, -days);
 	    if (this.dateBoxFrom.getValue() == null) {
-            return dateFormat.format(new Date());
+            return dateFormat.format(fromDate);
         }
 		return dateFormat.format(this.dateBoxFrom.getValue());
 	}
 
 	public String getDateBoxToText() {
+		Date toDate = new Date();
         if (this.dateBoxTo.getValue() == null) {
-            return dateFormat.format(new Date());
+            return dateFormat.format(toDate);
         }
 	    return dateFormat.format(this.dateBoxTo.getValue());
+	}
+
+	public void setDayPeriod(int days) {
+		this.days = days;
+
+        dateBoxTo.setValue(new Date());
+        Date fromDate = new Date();
+		CalendarUtil.addDaysToDate(fromDate, -days);
+        dateBoxFrom.setValue(fromDate);
 	}
 
 	public FlowPanel getPanelDateInput() {

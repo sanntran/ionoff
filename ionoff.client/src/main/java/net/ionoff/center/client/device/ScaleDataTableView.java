@@ -25,6 +25,7 @@ public class ScaleDataTableView extends AbstractTableView<SensorDataDto> impleme
 		getToolBarView().getBtnRemove().setVisible(false);
 		getToolBarView().getTextBoxKeyWord().setVisible(false);
 		getToolBarView().getPanelDateInput().setVisible(true);
+		getToolBarView().setDayPeriod(7);
 	}
 
 	@Override
@@ -36,11 +37,11 @@ public class ScaleDataTableView extends AbstractTableView<SensorDataDto> impleme
 		cellTable.setColumnWidth(idColumn, COLUMN_ID_WIDTH, Unit.PX);
 
 		timeColumn = createTimeColumn();
-		cellTable.addColumn(timeColumn, AdminLocale.getAdminConst().time());
+		cellTable.addColumn(timeColumn, AdminLocale.getAdminConst().date());
 		cellTable.setColumnWidth(timeColumn, COLUMN_NAME_WIDTH, Unit.PX);
 
 		valueColumn =  createValueColumn();
-		cellTable.addColumn(valueColumn, AdminLocale.getAdminConst().value());
+		cellTable.addColumn(valueColumn, AdminLocale.getAdminConst().total());
 		cellTable.setColumnWidth(valueColumn, COLUMN_NAME_WIDTH, Unit.PX);
 
 		indexColumn =  createIndexColumn();
@@ -57,7 +58,7 @@ public class ScaleDataTableView extends AbstractTableView<SensorDataDto> impleme
 		Column<SensorDataDto, String> column = new TextColumn<SensorDataDto>() {
 			@Override
 			public String getValue(SensorDataDto object) {
-				return object.getTime();
+				return object.getTime() == null ? "" : object.getTime().replaceAll(" 23:59:59", "");
 			}
 		};
 		return column;

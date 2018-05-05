@@ -262,8 +262,21 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.7</version>
 				<executions>
+					<execution >
+						<id>publish</id>
+						<phase>compile</phase>
+						<configuration>
+							<tasks>
+								<ant antfile="build.xml" target="publish" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
 					<execution>
-						<phase>install</phase>
+						<id>deploy</id>
+						<phase>package</phase>
 						<configuration>
 							<tasks>
 								<ant antfile="build.xml" target="deploy" />

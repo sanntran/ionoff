@@ -1,6 +1,7 @@
 package net.ionoff.center.client.device;
 
 import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.ui.MaterialCollection;
 import gwt.material.design.client.ui.MaterialDoubleBox;
 import gwt.material.design.client.ui.MaterialTextBox;
 import net.ionoff.center.client.base.AbstractEditView;
@@ -9,23 +10,19 @@ import net.ionoff.center.shared.dto.SensorDataDto;
 
 public class ScaleDataEditView extends AbstractEditView<SensorDataDto> implements ScaleDataEditPresenter.Display {
 
-	private MaterialTextBox textBoxTime;
-	private MaterialDoubleBox doubleBoxValue;
+	private MaterialCollection dataCollection;
 
 	public ScaleDataEditView() {
 		super();
 		getLblIcon().setIconType(IconType.DEVICES_OTHER);
-
-		getTextBoxName().setPlaceholder(AdminLocale.getAdminConst().time());
-		getTextBoxName().setLabel(AdminLocale.getAdminConst().time());
-
-		doubleBoxValue = new MaterialDoubleBox();
-		doubleBoxValue.setLabel(AdminLocale.getAdminConst().value());
-		contentPanel.add(doubleBoxValue);
+		getTextBoxName().setVisible(false);
+		dataCollection = new MaterialCollection();
+		getContentPanel().add(dataCollection);
+		getBtnSave().setVisible(false);
 	}
-	
+
 	@Override
-	public MaterialDoubleBox getDoubleBoxValue() {
-		return doubleBoxValue;
+	public MaterialCollection getDataCollection() {
+		return dataCollection;
 	}
 }

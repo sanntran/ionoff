@@ -20,19 +20,19 @@ import net.ionoff.center.shared.dto.SensorDto;
  * @author Sann Tran
  */
 public interface SensorService extends EntityService<SensorDto> {
-	
+
+	@Override
+	@POST
+	@Path("api/sensors/count")
+	void countByCriteria(QueryCriteriaDto criteriaDto,
+						 MethodCallback<Long> callback);
+
 	@Override
 	@POST
 	@Path("api/sensors/search")
 	void searchByCriteria(QueryCriteriaDto criteriaDto,
 			MethodCallback<List<SensorDto>> callback);
-	
-	@Override
-	@POST
-	@Path("api/sensors/count")
-	void countByCriteria(QueryCriteriaDto criteriaDto,
-			MethodCallback<Long> callback);
-	
+
 	@PUT
 	@Path("api/sensors/{sensorId}")
 	void save(@PathParam("sensorId") Long sensorId, SensorDto sensorDto, MethodCallback<SensorDto> callback);

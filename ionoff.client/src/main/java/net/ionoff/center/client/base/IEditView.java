@@ -1,5 +1,6 @@
 package net.ionoff.center.client.base;
 
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -24,4 +25,6 @@ public interface IEditView<T> {
 	MaterialButton getBtnSave();
 	
 	MaterialButton getBtnClose();
+
+	FlowPanel getContentPanel();
 }

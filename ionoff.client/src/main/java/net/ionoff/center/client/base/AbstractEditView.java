@@ -117,4 +117,9 @@ public abstract class AbstractEditView<T extends BaseDto> extends FlowPanel impl
 	public MaterialButton getBtnClose() {
 		return btnClose;
 	}
+
+	@Override
+	public FlowPanel getContentPanel() {
+		return contentPanel;
+	}
 }

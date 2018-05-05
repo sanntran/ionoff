@@ -50,4 +50,28 @@ public class SensorDataServiceController {
 		return sensorDataDtos;
 	}
 
+	@RequestMapping(value = "sensordata/sumbyday",
+			method = RequestMethod.POST,
+			produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public List<SensorDataDto> sumDataByDay(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
+		User user = RequestContextHolder.getUser();
+		DeviceDto deviceDto = deviceService.requireDtoById(criteriaDto.getDeviceId());
+		RequestContextHolder.checkZonePermission(user, deviceDto.getZoneId());
+		List<SensorDataDto> sensorDataDtos = sensorService.getSumDataByDay(criteriaDto);
+		return sensorDataDtos;
+	}
+
+    @RequestMapping(value = "sensordata/loadbyday",
+            method = RequestMethod.POST,
+            produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public List<SensorDataDto> loadDataByDay(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
+        User user = RequestContextHolder.getUser();
+        DeviceDto deviceDto = deviceService.requireDtoById(criteriaDto.getDeviceId());
+        RequestContextHolder.checkZonePermission(user, deviceDto.getZoneId());
+        List<SensorDataDto> sensorDataDtos = sensorService.loadDataByDay(criteriaDto);
+        return sensorDataDtos;
+    }
+
 }

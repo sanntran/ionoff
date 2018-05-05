@@ -19,7 +19,8 @@ public class DateTimeUtil {
 	public static final String AM_PM = "AmPm";
 	public static final double timeZone = 7.0;
 	public static String HHmmddMMyyyyFormatter = "HH/mm/dd/MM/yyyy";
-	// Lunar - Solar date time	
+	// Lunar - Solar date time
+	public static final SimpleDateFormat yyyyMMddFormatter = new SimpleDateFormat("yyyy/MM/dd");
 	public static final SimpleDateFormat ddMMHHmmFormatter = new SimpleDateFormat("MM/dd HH:mm");
 	public static final SimpleDateFormat yyyyMMddHHmmFormatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 	public static final SimpleDateFormat yyyyMMdd_HHmmssFormatter =  new SimpleDateFormat("yyyyMMdd_HHmmss");

@@ -1023,3 +1023,20 @@
 	width: 50%;
 	margin-top: 4px;
 }
+
+.main .content .table.scaledata .edit .collection-item {
+	padding: 10px !important;
+	text-align: center;
+}
+.main .content .table.scaledata .edit .collection-item .time {
+	float: left;
+	font-size: 14px;
+}
+.main .content .table.scaledata .edit .collection-item .val {
+	font-weight: bold;
+}
+.main .content .table.scaledata .edit .collection-item .idx {
+	float: right;
+	font-size: 10px;
+}
+

@@ -169,4 +169,16 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor, SensorDto>
 		List<SensorData> sensorDataList = sensorDataDao.findByCriteria(QueryCriteriaMapper.toQueryCriteria(criteriaDto));
 		return sensorMapper.createSensorDataDtoList(sensorDataList);
 	}
+
+	@Override
+	public List<SensorDataDto> loadDataByDay(QueryCriteriaDto criteriaDto) {
+		List<SensorData> sensorDataList = sensorDataDao.findByDay(QueryCriteriaMapper.toQueryCriteria(criteriaDto));
+		return sensorMapper.createSensorDataDtoList(sensorDataList);
+	}
+
+	@Override
+	public List<SensorDataDto> getSumDataByDay(QueryCriteriaDto criteriaDto) {
+		List<SensorData> sensorDataList = sensorDataDao.getSumByDay(QueryCriteriaMapper.toQueryCriteria(criteriaDto));
+		return sensorMapper.createSensorDataDtoList(sensorDataList);
+	}
 }

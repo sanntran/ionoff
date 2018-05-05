@@ -249,4 +249,7 @@ public interface AdminConstants extends Constants {
 
 	@DefaultStringValue("Giá trị")
 	String value();
+
+	@DefaultStringValue("Tổng")
+	String total();
 }

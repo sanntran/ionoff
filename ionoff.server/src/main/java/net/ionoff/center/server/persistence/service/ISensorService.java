@@ -31,4 +31,8 @@ public interface ISensorService extends IGenericService<Sensor, SensorDto> {
     Long countDataByCriteria(QueryCriteriaDto criteriaDto);
 
 	List<SensorDataDto> searchDataByCriteria(QueryCriteriaDto criteriaDto);
+
+	List<SensorDataDto> loadDataByDay(QueryCriteriaDto criteriaDto);
+
+	List<SensorDataDto> getSumDataByDay(QueryCriteriaDto criteriaDto);
 }

@@ -14,18 +14,29 @@ import java.util.List;
  */
 public interface SensorDataService extends EntityService<SensorDataDto> {
 
-	@Override
-	@POST
-	@Path("api/sensordata/search")
-	void searchByCriteria(QueryCriteriaDto criteriaDto,
-                          MethodCallback<List<SensorDataDto>> callback);
 
 	@Override
 	@POST
 	@Path("api/sensordata/count")
 	void countByCriteria(QueryCriteriaDto criteriaDto,
                          MethodCallback<Long> callback);
-	
+
+	@Override
+	@POST
+	@Path("api/sensordata/search")
+	void searchByCriteria(QueryCriteriaDto criteriaDto,
+						  MethodCallback<List<SensorDataDto>> callback);
+
+	@POST
+	@Path("api/sensordata/sumbyday")
+	void calculateSumByDay(QueryCriteriaDto criteriaDto,
+						 MethodCallback<List<SensorDataDto>> callback);
+
+	@POST
+	@Path("api/sensordata/loadbyday")
+	void searchByDay(QueryCriteriaDto criteriaDto,
+						   MethodCallback<List<SensorDataDto>> callback);
+
 	@PUT
 	@Path("api/sensordata/{id}")
 	void save(@PathParam("id") Long id, SensorDataDto dto, MethodCallback<SensorDataDto> callback);
