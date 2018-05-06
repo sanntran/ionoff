@@ -1,13 +1,20 @@
 package net.ionoff.center.client.service;
 
+import java.util.List;
+
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
+
+import org.fusesource.restygwt.client.MethodCallback;
+
 import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
 import net.ionoff.center.shared.dto.SensorDataDto;
-import net.ionoff.center.shared.dto.SensorDto;
-import org.fusesource.restygwt.client.MethodCallback;
-
-import javax.ws.rs.*;
-import java.util.List;
 
 /**
  * @author Sann Tran
@@ -31,6 +38,12 @@ public interface SensorDataService extends EntityService<SensorDataDto> {
 	@Path("api/sensordata/sumbyday")
 	void calculateSumByDay(QueryCriteriaDto criteriaDto,
 						 MethodCallback<List<SensorDataDto>> callback);
+	
+	@POST
+	@Path("api/sensordata/export")
+	void exportToReportFile(QueryCriteriaDto criteriaDto, 
+						 @QueryParam("fileType") String fileType,
+						 MethodCallback<MessageDto> callback);
 
 	@POST
 	@Path("api/sensordata/loadbyday")

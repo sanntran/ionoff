@@ -1,26 +1,33 @@
 package net.ionoff.center.client.device;
 
+import java.util.List;
+
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
+
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
+
+import gwt.material.design.client.ui.MaterialLink;
 import net.ionoff.center.client.base.AbstractTablePresenter;
 import net.ionoff.center.client.base.ITableView;
 import net.ionoff.center.client.event.ShowLoadingEvent;
+import net.ionoff.center.client.event.ShowMessageEvent;
 import net.ionoff.center.client.locale.AdminLocale;
-import net.ionoff.center.client.sensor.SensorEditPresenter;
-import net.ionoff.center.client.service.EntityService;
+import net.ionoff.center.client.locale.ProjectLocale;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.service.SensorDataService;
 import net.ionoff.center.client.utils.ClientUtil;
-import net.ionoff.center.shared.dto.*;
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.MethodCallback;
-
-import java.util.List;
+import net.ionoff.center.shared.dto.MessageDto;
+import net.ionoff.center.shared.dto.QueryCriteriaDto;
+import net.ionoff.center.shared.dto.SensorDataDto;
+import net.ionoff.center.shared.dto.WeighScaleDto;
 
 public class ScaleDataTablePresenter extends AbstractTablePresenter<SensorDataDto> {
 
@@ -28,6 +35,9 @@ public class ScaleDataTablePresenter extends AbstractTablePresenter<SensorDataDt
     public interface Display extends ITableView<SensorDataDto> {
         Column<SensorDataDto, String> getNameColumn();
         ScaleDataEditPresenter.Display getScaleDataEditView();
+		MaterialLink getLinkDownloadPdfFile();
+		MaterialLink getLinkDownloadExcelFile();
+		MaterialLink getLinkDownloadWordFile();
     }
 
     private final Display view;
@@ -50,9 +60,48 @@ public class ScaleDataTablePresenter extends AbstractTablePresenter<SensorDataDt
                 showEditForm();
             }
         });
+        view.getLinkDownloadPdfFile().addClickHandler(event -> downloadReportFile("pdf"));
+        view.getLinkDownloadExcelFile().addClickHandler(event -> downloadReportFile("xlsx"));
+        view.getLinkDownloadWordFile().addClickHandler(event -> downloadReportFile("docx"));
     }
 
-    @Override
+    private void downloadReportFile(String fileType) {
+    	eventBus.fireEvent(new ShowMessageEvent(ProjectLocale.getProjectMessages().generatingReport(), 
+    			ShowMessageEvent.NORMAL));
+		QueryCriteriaDto criteria = buildSearchAllCriteria();
+		rpcProvider.getSensorDataService().exportToReportFile(criteria, fileType,
+				new MethodCallback<MessageDto>() {
+					@Override
+					public void onFailure(Method method, Throwable exception) {
+						eventBus.fireEvent(new ShowMessageEvent(ProjectLocale.getProjectMessages()
+								.errorGeneratingReport(), ShowMessageEvent.ERROR));
+						ClientUtil.handleRpcFailure(method, exception, eventBus);
+					}
+					@Override
+					public void onSuccess(Method method, MessageDto result) {
+						eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
+						eventBus.fireEvent(new ShowMessageEvent(ProjectLocale.getProjectMessages()
+								.finishGeneratingReport(), ShowMessageEvent.SUCCESS));
+						String url = ClientUtil.getBaseUrl() + "/" + result.getMessage();
+						if (fileType.equals("pdf")) {
+							Window.open(url, "_blank", null);
+						}
+						else {
+							Window.open(url, "_self", null);
+						}
+					}
+				});
+	}
+
+	private QueryCriteriaDto buildSearchAllCriteria() {
+		QueryCriteriaDto criteriaDto = super.buildSearchCriteria(0);
+		criteriaDto.setFromIndex(0);
+		criteriaDto.setMaxResults(0);
+        criteriaDto.setDeviceId(scaleDto.getId());
+        return criteriaDto;
+	}
+
+	@Override
     public void go() {
         bind();
     }

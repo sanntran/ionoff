@@ -12,11 +12,14 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
+import com.google.gwt.user.client.Window;
 
 import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.event.ShowMessageEvent;
 import net.ionoff.center.client.event.UserLogOutEvent;
 import net.ionoff.center.client.locale.ClientLocale;
+import net.ionoff.center.client.storage.ApiServer;
+import net.ionoff.center.client.storage.StorageService;
 import net.ionoff.center.shared.dto.MessageDto;
 
 public final class ClientUtil {
@@ -68,13 +71,34 @@ public final class ClientUtil {
 	}
 
 	public static String getUrl(String language, String page) {
-		final String url = getBaseUrl() + page + "?locale=" + language;
+		final String url = getClientUrl() + page + "?locale=" + language;
 		return url;
 	}
 
 	public static String getBaseUrl() {
+		String protocol = Window.Location.getProtocol();
+    	if (protocol.contains("http")) {
+    		return protocol 
+        			+ "//" + Window.Location.getHostName() 
+        			+ ":" + Window.Location.getPort();
+    	}
+    	ApiServer server = StorageService.getInstance().getEnabledApiServer();
+		if (server == null) {
+			return "http://cloud.ionoff.net"; 	
+		}
+		if (server.getHost().startsWith("http")) {
+			return server.getHost();  
+		}
+		return "http://" + server.getHost();  
+	}
+	
+	public static String getClientUrl() {
 		return GWT.getModuleBaseURL().replace((GWT.getModuleName() + "/"), "");
 	}
+	
+	public static String getServiceUrl() {
+		return getBaseUrl() + "/iserver";  
+    }
 
 	public static MessageDto handleRpcFailure(Method method, Throwable exception, HandlerManager eventBus) {
 		MessageDto messageDto = new MessageDto();

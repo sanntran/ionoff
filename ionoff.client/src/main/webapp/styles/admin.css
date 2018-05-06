@@ -303,7 +303,7 @@
 }
 
 .main .content .toolbar .searchbar .panelDate .date {
-	width: calc(50% - 5px);
+	width: calc(40%);
 	display: inline-block;
 	height: 32px;
 	margin: 0px;
@@ -342,6 +342,7 @@
 	width: 50px;
 	text-align: center;
 	line-height: 32px;
+	top: 2px;
 }
 
 .main .content .toolbar .searchbar .close i {

@@ -9,7 +9,7 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.inject.Provider;
 
 import net.ionoff.center.client.service.LoginService;
-import net.ionoff.center.client.service.ApiServiceUrl;
+import net.ionoff.center.client.utils.ClientUtil;
 import net.xapxinh.center.client.player.rpc.PlayerService;
 
 public class AppInjectorModule extends AbstractInjectorModule {
@@ -35,7 +35,7 @@ public class AppInjectorModule extends AbstractInjectorModule {
 		@Override
 		public LoginService get() {			
 			final org.fusesource.restygwt.client.Resource resource
-			= new org.fusesource.restygwt.client.Resource(ApiServiceUrl.get());
+			= new org.fusesource.restygwt.client.Resource(ClientUtil.getServiceUrl());
 			final LoginService service = GWT.create(LoginService.class);
 			((RestServiceProxy)service).setResource(resource);
 			return service;
@@ -46,7 +46,7 @@ public class AppInjectorModule extends AbstractInjectorModule {
 		@Override
 		public PlayerService get() {
 			final org.fusesource.restygwt.client.Resource resource
-			= new org.fusesource.restygwt.client.Resource(ApiServiceUrl.get());
+			= new org.fusesource.restygwt.client.Resource(ClientUtil.getServiceUrl());
 			final PlayerService service = GWT.create(PlayerService.class);
 			((RestServiceProxy)service).setResource(resource);
 			return service;

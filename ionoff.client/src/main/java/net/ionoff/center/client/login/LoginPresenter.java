@@ -181,7 +181,7 @@ public class LoginPresenter {
 		StorageService.getInstance().getServers().get(1).setEnabled(server2Enabled);
 		StorageService.getInstance().saveServers();
 		
-		String url = ClientUtil.getBaseUrl();
+		String url = ClientUtil.getClientUrl();
 		Window.open(url, "_self", "");
 	}
 

@@ -1,20 +1,21 @@
 package net.ionoff.center.client.ui;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import java.util.Date;
+
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
-
 import com.google.gwt.user.datepicker.client.CalendarUtil;
-import gwt.material.design.client.constants.ButtonType;
+
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
-import gwt.material.design.client.ui.*;
-
-import java.util.Date;
+import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialDatePicker;
+import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialListBox;
 
 public class ToolBarView extends FlowPanel {
 	
@@ -36,6 +37,8 @@ public class ToolBarView extends FlowPanel {
 	private final MaterialLink lblTitle;
 	private final DateTimeFormat dateFormat;
 
+	private final FlowPanel buttonsPanel;
+	
 	private int days = 1;
 
 	public ToolBarView() {
@@ -45,7 +48,7 @@ public class ToolBarView extends FlowPanel {
 		lblTitle.addStyleName("title");
 		add(lblTitle);
 		
-		FlowPanel buttonsPanel = new FlowPanel();
+		buttonsPanel = new FlowPanel();
 		buttonsPanel.setStyleName("buttons");
 		add(buttonsPanel);
 		
@@ -190,5 +193,9 @@ public class ToolBarView extends FlowPanel {
 
 	public FlowPanel getPanelDateInput() {
 		return this.panelDateInput;
+	}
+
+	public void addBtn(MaterialButton iconBtn) {
+		buttonsPanel.add(iconBtn);
 	}
 }

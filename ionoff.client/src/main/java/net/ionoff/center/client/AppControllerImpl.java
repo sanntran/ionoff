@@ -42,7 +42,7 @@ public class AppControllerImpl implements IAppController {
 	@Override
 	public void logout() {
 		StorageService.getInstance().detroyCookie();
-		String url = ClientUtil.getBaseUrl();
+		String url = ClientUtil.getClientUrl();
 		Window.open(url, "_self", "");
 	}
 	

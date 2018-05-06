@@ -2,7 +2,6 @@ package net.ionoff.center.client;
 
 import javax.inject.Singleton;
 
-import net.ionoff.center.client.service.*;
 import org.fusesource.restygwt.client.RestService;
 import org.fusesource.restygwt.client.RestServiceProxy;
 
@@ -11,6 +10,33 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provider;
 
+import net.ionoff.center.client.service.AreaService;
+import net.ionoff.center.client.service.ControllerService;
+import net.ionoff.center.client.service.DashboardService;
+import net.ionoff.center.client.service.DeviceService;
+import net.ionoff.center.client.service.IRpcServiceProvider;
+import net.ionoff.center.client.service.LoginService;
+import net.ionoff.center.client.service.ModeSceneService;
+import net.ionoff.center.client.service.ModeSensorSceneService;
+import net.ionoff.center.client.service.ModeSensorService;
+import net.ionoff.center.client.service.ModeSensorUserService;
+import net.ionoff.center.client.service.ModeService;
+import net.ionoff.center.client.service.ProjectService;
+import net.ionoff.center.client.service.RelayService;
+import net.ionoff.center.client.service.RpcServiceProviderImpl;
+import net.ionoff.center.client.service.SceneActionService;
+import net.ionoff.center.client.service.ScenePlayerActionService;
+import net.ionoff.center.client.service.SceneRelayActionService;
+import net.ionoff.center.client.service.SceneService;
+import net.ionoff.center.client.service.SchedulePlayerActionService;
+import net.ionoff.center.client.service.ScheduleRelayActionService;
+import net.ionoff.center.client.service.ScheduleService;
+import net.ionoff.center.client.service.SensorDataService;
+import net.ionoff.center.client.service.SensorService;
+import net.ionoff.center.client.service.SystemService;
+import net.ionoff.center.client.service.UserService;
+import net.ionoff.center.client.service.ZoneService;
+import net.ionoff.center.client.utils.ClientUtil;
 import net.xapxinh.center.client.player.rpc.PlayerService;
 
 public class AbstractInjectorModule extends AbstractGinModule {
@@ -265,7 +291,7 @@ public class AbstractInjectorModule extends AbstractGinModule {
 
 	private static void setRestServiceProxyResource(RestService service) {
 		final org.fusesource.restygwt.client.Resource resource
-		= new org.fusesource.restygwt.client.Resource(ApiServiceUrl.get());
+		= new org.fusesource.restygwt.client.Resource(ClientUtil.getServiceUrl());
 		((RestServiceProxy)service).setResource(resource);
 	} 
 }
