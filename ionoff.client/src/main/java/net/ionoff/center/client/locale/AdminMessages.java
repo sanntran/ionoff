@@ -38,5 +38,5 @@ public interface AdminMessages extends Messages {
 	String noSensorFound();
 	
 	@DefaultMessage("Không đổi model bộ điều khiển đã thêm")
-	String unsupportChangingControllerModel();
+	String unsupportChangingRelayDriverModel();
 }

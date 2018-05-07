@@ -426,7 +426,7 @@ class ConfigPanel extends JPanel {
 				}
 			}
 
-			p8Tool.showMessage("Success. Please restart controller", Color.GREEN);
+			p8Tool.showMessage("Success. Please restart relayDriver", Color.GREEN);
 		} catch (Throwable e) {
 			e.printStackTrace();
 			p8Tool.showMessage(e.getMessage(), Color.RED);

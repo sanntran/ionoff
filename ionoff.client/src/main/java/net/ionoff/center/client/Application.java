@@ -170,8 +170,8 @@ public class Application extends AbstractApp {
 			else if (AppToken.hasTokenItem(AppToken.MODES)) {
 				appController.showModes();
 			}
-			else if (AppToken.hasTokenItem(AppToken.CONTROLLERS)) {
-				appController.showControllers();
+			else if (AppToken.hasTokenItem(AppToken.RELAY_DRIVERS)) {
+				appController.showRelayDrivers();
 			}
 			else if (AppToken.hasTokenItem(AppToken.RELAYS)) {
 				appController.showRelays();

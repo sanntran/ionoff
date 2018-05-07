@@ -11,9 +11,9 @@ public class DashboardDto extends BaseDto {
 	private int totalDeviceCount;
 	private int deviceOnCount;
 	private int deviceOffCount;
-	private int totalControllerCount;
-	private int onlineControllerCount;
-	private int offlineControllerCount;
+	private int totalRelayDriverCount;
+	private int onlineRelayDriverCount;
+	private int offlineRelayDriverCount;
 	private int totalScheduleCount;
 	private String nextSchedule;
 	private String nextScheduleTime;
@@ -139,28 +139,28 @@ public class DashboardDto extends BaseDto {
 	}
 
 
-	public int getTotalControllerCount() {
-		return totalControllerCount;
+	public int getTotalRelayDriverCount() {
+		return totalRelayDriverCount;
 	}
 
-	public void setTotalControllerCount(int totalControllerCount) {
-		this.totalControllerCount = totalControllerCount;
+	public void setTotalRelayDriverCount(int totalRelayDriverCount) {
+		this.totalRelayDriverCount = totalRelayDriverCount;
 	}
 
-	public int getOfflineControllerCount() {
-		return offlineControllerCount;
+	public int getOfflineRelayDriverCount() {
+		return offlineRelayDriverCount;
 	}
 
-	public void setOfflineControllerCount(int offlineControllerCount) {
-		this.offlineControllerCount = offlineControllerCount;
+	public void setOfflineRelayDriverCount(int offlineRelayDriverCount) {
+		this.offlineRelayDriverCount = offlineRelayDriverCount;
 	}
 
-	public int getOnlineControllerCount() {
-		return onlineControllerCount;
+	public int getOnlineRelayDriverCount() {
+		return onlineRelayDriverCount;
 	}
 
-	public void setOnlineControllerCount(int onlineControllerCount) {
-		this.onlineControllerCount = onlineControllerCount;
+	public void setOnlineRelayDriverCount(int onlineRelayDriverCount) {
+		this.onlineRelayDriverCount = onlineRelayDriverCount;
 	}
 
 }

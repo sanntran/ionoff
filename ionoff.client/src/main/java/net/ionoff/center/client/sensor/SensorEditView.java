@@ -9,16 +9,16 @@ import net.ionoff.center.shared.dto.SensorDto;
 
 public class SensorEditView extends AbstractEditView<SensorDto> implements SensorEditPresenter.Display {
 	
-	private MaterialListBox listBoxControllers;
+	private MaterialListBox listBoxRelayDrivers;
 	private MaterialIntegerBox intBoxInputIndex;
 	
 	public SensorEditView() {
 		super();
 		getLblIcon().setIconType(IconType.WIFI_TETHERING);
 		
-		listBoxControllers = new MaterialListBox();
-		listBoxControllers.setPlaceholder(AdminLocale.getAdminConst().controller());
-		contentPanel.add(listBoxControllers);
+		listBoxRelayDrivers = new MaterialListBox();
+		listBoxRelayDrivers.setPlaceholder(AdminLocale.getAdminConst().relayDriver());
+		contentPanel.add(listBoxRelayDrivers);
 		
 		intBoxInputIndex = new MaterialIntegerBox();
 		intBoxInputIndex.setLabel(AdminLocale.getAdminConst().input());
@@ -26,12 +26,12 @@ public class SensorEditView extends AbstractEditView<SensorDto> implements Senso
 	}
 
 	@Override
-	public MaterialListBox getListBoxControllers() {
-		return listBoxControllers;
+	public MaterialListBox getListBoxRelayDrivers() {
+		return listBoxRelayDrivers;
 	}
 	
 	@Override
-	public MaterialIntegerBox getIntBoxControllerInputIdx() {
+	public MaterialIntegerBox getIntBoxRelayDriverInputIdx() {
 		return intBoxInputIndex;
 	}
 }

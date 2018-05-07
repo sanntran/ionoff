@@ -19,8 +19,8 @@ public interface ProjectConstants extends Constants {
 	@DefaultStringValue("Kịch bản")
 	String scene();
 
-	@DefaultStringValue("Bộ điều khiển")
-	String controller();
+	@DefaultStringValue("Bộ Rơle")
+	String relayDriver();
 
 	@DefaultStringValue("Chế độ")
 	String mode();

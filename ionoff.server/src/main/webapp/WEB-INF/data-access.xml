@@ -52,7 +52,7 @@
       <constructor-arg ref="sessionFactory" />    
     </bean>
     
-    <bean id="controllerDao" class="net.ionoff.center.server.persistence.dao.impl.ControllerDaoImpl">
+    <bean id="relayDriverDao" class="net.ionoff.center.server.persistence.dao.impl.RelayDriverDaoImpl">
       <constructor-arg ref="sessionFactory" />    
     </bean>
     
@@ -194,8 +194,8 @@
       <constructor-arg ref="zoneDao" />    
     </bean>
     
-    <bean id="controllerService" class="net.ionoff.center.server.persistence.service.impl.ControllerServiceImpl">
-      <constructor-arg ref="controllerDao" />   
+    <bean id="relayDriverService" class="net.ionoff.center.server.persistence.service.impl.RelayDriverServiceImpl">
+      <constructor-arg ref="relayDriverDao" />   
     </bean>
     
     <bean id="relayService" class="net.ionoff.center.server.persistence.service.impl.RelayServiceImpl">

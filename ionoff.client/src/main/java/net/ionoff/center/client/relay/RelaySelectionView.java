@@ -15,7 +15,7 @@ import gwt.material.design.client.ui.MaterialCollection;
 import gwt.material.design.client.ui.MaterialCollectionItem;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
-import net.ionoff.center.shared.dto.ControllerDto;
+import net.ionoff.center.shared.dto.RelayDriverDto;
 import net.ionoff.center.shared.dto.RelayDto;
 
 public class RelaySelectionView extends FlowPanel {
@@ -33,39 +33,39 @@ public class RelaySelectionView extends FlowPanel {
 		materialCollapsible.setVisible(false);
 	}
 	
-	public void setControllerOptions(List<ControllerDto> controllers) {
+	public void setRelayDriverOptions(List<RelayDriverDto> relayDrivers) {
 		materialCollapsible.clear();
 		
-		for (final ControllerDto controller : controllers) {
-			MaterialCollapsibleItem controllerCollapsibleItem = new MaterialCollapsibleItem();
-			materialCollapsible.add(controllerCollapsibleItem);
+		for (final RelayDriverDto relayDriver : relayDrivers) {
+			MaterialCollapsibleItem relayDriverCollapsibleItem = new MaterialCollapsibleItem();
+			materialCollapsible.add(relayDriverCollapsibleItem);
 			
-			MaterialCollapsibleHeader controllerCollapsibleHeader = new MaterialCollapsibleHeader();
-			controllerCollapsibleItem.add(controllerCollapsibleHeader);
+			MaterialCollapsibleHeader relayDriverCollapsibleHeader = new MaterialCollapsibleHeader();
+			relayDriverCollapsibleItem.add(relayDriverCollapsibleHeader);
 			
-			MaterialCollectionItem controllerHeaderContent = new MaterialCollectionItem();
+			MaterialCollectionItem relayDriverHeaderContent = new MaterialCollectionItem();
 			
-			MaterialIcon controllerIcon = new MaterialIcon();
-			controllerIcon.setIconType(IconType.MEMORY);
-			controllerIcon.setStyleName("icon");
-			controllerHeaderContent.add(controllerIcon);
+			MaterialIcon relayDriverIcon = new MaterialIcon();
+			relayDriverIcon.setIconType(IconType.MEMORY);
+			relayDriverIcon.setStyleName("icon");
+			relayDriverHeaderContent.add(relayDriverIcon);
 			
-			MaterialLabel lblControllerName = new MaterialLabel(controller.getName());
-			lblControllerName.setFontSize("15px");
-			controllerHeaderContent.add(lblControllerName);
+			MaterialLabel lblRelayDriverName = new MaterialLabel(relayDriver.getName());
+			lblRelayDriverName.setFontSize("15px");
+			relayDriverHeaderContent.add(lblRelayDriverName);
 			
-			MaterialLabel lblControllerKey = new MaterialLabel(controller.getKey());
-			lblControllerKey.addStyleName("key");
-			controllerHeaderContent.add(lblControllerKey);
+			MaterialLabel lblRelayDriverKey = new MaterialLabel(relayDriver.getKey());
+			lblRelayDriverKey.addStyleName("key");
+			relayDriverHeaderContent.add(lblRelayDriverKey);
 			
-			controllerCollapsibleHeader.add(controllerHeaderContent);
+			relayDriverCollapsibleHeader.add(relayDriverHeaderContent);
 			
-			MaterialCollapsibleBody controllerCollapsibleBody = new MaterialCollapsibleBody();
-			controllerCollapsibleItem.add(controllerCollapsibleBody);
+			MaterialCollapsibleBody relayDriverCollapsibleBody = new MaterialCollapsibleBody();
+			relayDriverCollapsibleItem.add(relayDriverCollapsibleBody);
 			MaterialCollection relaysCollection = new MaterialCollection();
-			controllerCollapsibleBody.add(relaysCollection);
+			relayDriverCollapsibleBody.add(relaysCollection);
 			
-			for (final RelayDto relay : controller.getRelays()) {
+			for (final RelayDto relay : relayDriver.getRelays()) {
 				MaterialCollectionItem relayItem = new MaterialCollectionItem();
 				relayItem.addStyleName("relay");
 				relaysCollection.add(relayItem);

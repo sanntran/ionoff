@@ -28,11 +28,11 @@ public interface AdminConstants extends Constants {
 	@DefaultStringValue("Thiết bị")
 	String device();
 
-	@DefaultStringValue("Bộ điều khiển")
-	String controller();
-
 	@DefaultStringValue("Rơ-le")
 	String relay();
+
+	@DefaultStringValue("Bộ Rơ-le")
+	String relayDriver();
 
 	@DefaultStringValue("Cảm biến")
 	String sensor();

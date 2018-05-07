@@ -62,12 +62,12 @@
             <one-to-many class="net.ionoff.center.server.entity.Sensor" />
         </set>
         
-		<set name="controllers" table="controllers" 
+		<set name="relayDrivers" table="relayDrivers" 
 				inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="project_id" not-null="true" />
             </key>
-            <one-to-many class="net.ionoff.center.server.entity.Controller" />
+            <one-to-many class="net.ionoff.center.server.entity.RelayDriver" />
         </set>
 		
 	</class>

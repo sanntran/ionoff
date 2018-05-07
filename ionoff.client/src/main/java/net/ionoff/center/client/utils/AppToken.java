@@ -25,8 +25,8 @@ public final class AppToken extends TokenUtil {
 	public static final String DLM = "/";
 	public static final String AREAS = "areas";
 	public static final String ZONES = "zones";
-	public static final String CONTROLLERS = "controllers";
 	public static final String RELAYS = "relays";
+	public static final String RELAY_DRIVERS = "relaydrivers";
 	public static final String SENSORS = "sensors";
 	public static final String USERS = "users";
 	public static final String SYSTEM = "system";
@@ -75,7 +75,7 @@ public final class AppToken extends TokenUtil {
 				|| hasTokenItem(tokenItems, ZONES)
 				|| hasTokenItem(tokenItems, ZONE)
 				|| hasTokenItem(tokenItems, DEVICES)
-				|| hasTokenItem(tokenItems, CONTROLLERS)
+				|| hasTokenItem(tokenItems, RELAY_DRIVERS)
 				|| hasTokenItem(tokenItems, SCENES) 
 				|| hasTokenItem(tokenItems, MODES)
 				|| hasTokenItem(tokenItems, SCHEDULES)
@@ -190,9 +190,9 @@ public final class AppToken extends TokenUtil {
 		
 	}
 	
-	public static String newControllerToken() {
+	public static String newRelayDriverToken() {
 		final String token = History.getToken();
-		return replaceTokenItem(token, CONTROLLERS);
+		return replaceTokenItem(token, RELAY_DRIVERS);
 	}
 	
 
@@ -224,8 +224,8 @@ public final class AppToken extends TokenUtil {
 		if (hasTokenItem(RELAYS)) {
 			return token.replace(RELAYS, newItem);
 		}
-		if (hasTokenItem(CONTROLLERS)) {
-			return token.replace(CONTROLLERS, newItem);
+		if (hasTokenItem(RELAY_DRIVERS)) {
+			return token.replace(RELAY_DRIVERS, newItem);
 		}
 		if (hasTokenItem(AREAS)) {
 			return token.replace(AREAS, newItem);
@@ -286,8 +286,8 @@ public final class AppToken extends TokenUtil {
 		if (hasTokenItem(token, MODES)) {
 			return MODES;
 		}
-		if (hasTokenItem(token, CONTROLLERS)) {
-			return CONTROLLERS;
+		if (hasTokenItem(token, RELAY_DRIVERS)) {
+			return RELAY_DRIVERS;
 		}
 		if (hasTokenItem(token, RELAYS)) {
 			return RELAYS;
@@ -395,7 +395,7 @@ public final class AppToken extends TokenUtil {
 	}
 	
 	public static String newTokenCotrollers(String projectId) {
-		return PROJECT + projectId + DLM + CONTROLLERS;
+		return PROJECT + projectId + DLM + RELAY_DRIVERS;
 	}
 	
 	public static String newTokenRelays(String projectId) {

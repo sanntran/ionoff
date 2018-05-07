@@ -168,8 +168,8 @@ public class AppControllerImpl implements IAppController {
 	}
 	
 	@Override
-	public void showControllers() {
-		getContentPresenter().showControllerTable();
+	public void showRelayDrivers() {
+		getContentPresenter().showRelayDriverTable();
 	}
 
 	@Override

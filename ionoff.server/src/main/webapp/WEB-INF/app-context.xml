@@ -90,25 +90,25 @@
 
 	<context:component-scan base-package="net.ionoff.center.server.restapi" />
 
-	<bean id="e4ControllerApi" class="net.ionoff.center.server.controller.api.E4ControllerApi">
+	<bean id="e4RelayDriverApi" class="net.ionoff.center.server.relaydriver.api.E4RelayDriverApi">
 	</bean>
 
-	<bean id="p4ControllerApi" class="net.ionoff.center.server.controller.api.P4ControllerApi">
+	<bean id="p4RelayDriverApi" class="net.ionoff.center.server.relaydriver.api.P4RelayDriverApi">
 	</bean>
 
-	<bean id="p8ControllerApi" class="net.ionoff.center.server.controller.api.P8ControllerApi">
+	<bean id="p8RelayDriverApi" class="net.ionoff.center.server.relaydriver.api.P8RelayDriverApi">
 	</bean>
 
-	<bean id="ec100ControllerApi"
-		class="net.ionoff.center.server.controller.api.EC100ControllerApi">
+	<bean id="ec100RelayDriverApi"
+		class="net.ionoff.center.server.relaydriver.api.EC100RelayDriverApi">
 	</bean>
 
 	<bean id="ep2"
-		class="net.ionoff.center.server.controller.api.EP2ControllerApi">
+		class="net.ionoff.center.server.relaydriver.api.EP2RelayDriverApi">
 	</bean>
 
-	<bean id="controllerApiProvider"
-		class="net.ionoff.center.server.controller.api.ControllerApiProvider">
+	<bean id="relayDriverApiProvider"
+		class="net.ionoff.center.server.relaydriver.api.RelayDriverApiProvider">
 	</bean>
 
 	<bean id="emailService" class="net.ionoff.center.server.email.service.EmailServiceImpl">
@@ -168,8 +168,8 @@
 		<constructor-arg ref="dataServiceApi" />
 	</bean>
 
-	<bean id="controllerConnectionPool"
-		class="net.ionoff.center.server.thread.ControllerConnectionPool">
+	<bean id="relayDriverConnectionPool"
+		class="net.ionoff.center.server.thread.RelayDriverConnectionPool">
 	</bean>
 
 	<bean id="dataService" class="net.xapxinh.center.server.service.data.DataServiceImpl">
@@ -183,7 +183,7 @@
 	<bean id="areaMapper" class="net.ionoff.center.server.objmapper.AreaMapper">
 	</bean>
 
-	<bean id="controllerMapper" class="net.ionoff.center.server.objmapper.ControllerMapper">
+	<bean id="relayDriverMapper" class="net.ionoff.center.server.objmapper.RelayDriverMapper">
 	</bean>
 
 	<bean id="deviceMapper" class="net.ionoff.center.server.objmapper.DeviceMapper">
@@ -222,7 +222,7 @@
 	<bean id="mqttClient" class="net.ionoff.center.server.thread.MosquittoClient">
 	</bean>
 	
-	<bean id="controllerStatusHandler" class="net.ionoff.center.server.thread.ControllerStatusHandler">
+	<bean id="relayDriverStatusHandler" class="net.ionoff.center.server.thread.RelayDriverStatusHandler">
 	</bean>
 
 </beans>

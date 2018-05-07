@@ -14,7 +14,7 @@ import net.ionoff.center.shared.dto.RelayDto;
 
 public class RelayEditView extends AbstractEditView<RelayDto> implements RelayEditPresenter.Display {
 	
-	private MaterialTextBox textBoxController;
+	private MaterialTextBox textBoxRelayDriver;
 	private MaterialTextBox textBoxIndex;
 	private MaterialListBox listBoxTypes;
 	private DevicesSelectionPanel devicesSelectionPanel;
@@ -31,11 +31,11 @@ public class RelayEditView extends AbstractEditView<RelayDto> implements RelayEd
 		panel.addStyleName("row");
 		contentPanel.add(panel);
 		
-		textBoxController = new MaterialTextBox();
-		textBoxController.setEnabled(false);
-		textBoxController.addStyleName("col s6 no-padding");
-		textBoxController.setLabel(AdminLocale.getAdminConst().controller());
-		panel.add(textBoxController);
+		textBoxRelayDriver = new MaterialTextBox();
+		textBoxRelayDriver.setEnabled(false);
+		textBoxRelayDriver.addStyleName("col s6 no-padding");
+		textBoxRelayDriver.setLabel(AdminLocale.getAdminConst().relayDriver());
+		panel.add(textBoxRelayDriver);
 		
 		textBoxIndex = new MaterialTextBox();
 		textBoxIndex.setEnabled(false);
@@ -64,8 +64,8 @@ public class RelayEditView extends AbstractEditView<RelayDto> implements RelayEd
 	}
 
 	@Override
-	public MaterialTextBox getTextBoxController() {
-		return textBoxController;
+	public MaterialTextBox getTextBoxRelayDriver() {
+		return textBoxRelayDriver;
 	}
 	
 	@Override

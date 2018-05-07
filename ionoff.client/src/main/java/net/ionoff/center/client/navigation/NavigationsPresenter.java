@@ -79,7 +79,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 	    MaterialLink getMenuItemScene();
 	    MaterialLink getMenuItemMode();
 	    MaterialLink getMenuItemSchedule();
-	    MaterialLink getMenuItemController();
+	    MaterialLink getMenuItemRelayDriver();
 	    MaterialLink getMenuItemRelay();
 	    MaterialLink getMenuItemUser();
 	    MaterialLink getMenuItemSensor();
@@ -294,10 +294,10 @@ public class NavigationsPresenter extends AbstractPresenter {
 			}
 		});
 		
-		display.getMenuItemController().addClickHandler(new ClickHandler() {
+		display.getMenuItemRelayDriver().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newControllerToken()));
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newRelayDriverToken()));
 			}
 		});
 		
@@ -345,7 +345,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 					display.getMenuItemSensor().setVisible(false);
 					display.getMenuItemUser().setVisible(false);
 					display.getMenuItemRelay().setVisible(false);
-					display.getMenuItemController().setVisible(false);
+					display.getMenuItemRelayDriver().setVisible(false);
 					display.getMenuItemArrow().setIconType(IconType.KEYBOARD_ARROW_DOWN);
 					expandMenu = false;
 				}
@@ -355,7 +355,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 					display.getMenuItemSensor().setVisible(true);
 					display.getMenuItemUser().setVisible(true);
 					display.getMenuItemRelay().setVisible(true);
-					display.getMenuItemController().setVisible(true);
+					display.getMenuItemRelayDriver().setVisible(true);
 					display.getMenuItemArrow().setIconType(IconType.KEYBOARD_ARROW_UP);
 					expandMenu = true;
 				}
@@ -367,7 +367,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 		display.getMenuItemSensor().setVisible(false);
 		display.getMenuItemUser().setVisible(false);
 		display.getMenuItemRelay().setVisible(false);
-		display.getMenuItemController().setVisible(false);
+		display.getMenuItemRelayDriver().setVisible(false);
 		display.getMenuItemArrow().setVisible(false);
 		
 		eventBus.addHandler(ChangeZoneEvent.TYPE, new ChangeZoneEventHandler() {
@@ -539,7 +539,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 		display.getMenuItemDevice().setVisible(false);
 		display.getMenuItemScene().setVisible(false);
 		display.getMenuItemMode().setVisible(false);
-		display.getMenuItemController().setVisible(false);
+		display.getMenuItemRelayDriver().setVisible(false);
 		display.getMenuItemSchedule().setVisible(false);
 		display.getMenuItemRelay().setVisible(false);
 		display.getMenuItemUser().setVisible(true);
@@ -578,7 +578,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 		
 		display.getMenuItemArrow().setVisible(true);
 		if (expandMenu) {
-			display.getMenuItemController().setVisible(true);
+			display.getMenuItemRelayDriver().setVisible(true);
 			display.getMenuItemRelay().setVisible(true);
 			display.getMenuItemUser().setVisible(true);
 			display.getMenuItemSensor().setVisible(true);
@@ -586,7 +586,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 			display.getMenuItemZone().setVisible(true);
 		}
 		else {
-			display.getMenuItemController().setVisible(false);
+			display.getMenuItemRelayDriver().setVisible(false);
 			display.getMenuItemRelay().setVisible(false);
 			display.getMenuItemUser().setVisible(false);
 			display.getMenuItemSensor().setVisible(false);
@@ -609,7 +609,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 		else if (AppToken.hasTokenItem(AppToken.SCHEDULES)) {
 			display.getSideNav().setActive(6);
 		}
-		else if (AppToken.hasTokenItem(AppToken.CONTROLLERS)) {
+		else if (AppToken.hasTokenItem(AppToken.RELAY_DRIVERS)) {
 			display.getSideNav().setActive(7);
 		}
 		else if (AppToken.hasTokenItem(AppToken.RELAYS)) {
@@ -654,7 +654,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 		display.getMenuItemDashboard().setVisible(true);
 		display.getMenuItemDevice().setVisible(true);
 		display.getMenuItemScene().setVisible(true);
-		display.getMenuItemController().setVisible(false);
+		display.getMenuItemRelayDriver().setVisible(false);
 		display.getMenuItemMode().setVisible(false);
 		display.getMenuItemSchedule().setVisible(false);
 		display.getMenuItemRelay().setVisible(false);

@@ -13,7 +13,7 @@ public class Project extends BaseObj {
 	private Set<UserProject> users;
 	private Set<Mode> modes;
 	private Set<Sensor> sensors;
-	private Set<Controller> controllers;
+	private Set<RelayDriver> relayDrivers;
 
 	public String getAddress() {
 		return address;
@@ -88,11 +88,11 @@ public class Project extends BaseObj {
 		return mode.getActivatedTime().longValue();
 	}
 
-	public Set<Controller> getControllers() {
-		return controllers;
+	public Set<RelayDriver> getRelayDrivers() {
+		return relayDrivers;
 	}
-	public void setControllers(Set<Controller> controllers) {
-		this.controllers = controllers;
+	public void setRelayDrivers(Set<RelayDriver> relayDrivers) {
+		this.relayDrivers = relayDrivers;
 	}
 
 	public boolean hasZone() {

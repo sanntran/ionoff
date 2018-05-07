@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import net.ionoff.center.server.control.IControlService;
-import net.ionoff.center.server.control.UnknownControllerModelException;
-import net.ionoff.center.server.controller.api.ControllerException;
+import net.ionoff.center.server.control.UnknownRelayDriverModelException;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.exception.ChangeEntityIdException;
 import net.ionoff.center.server.exception.DeleteEntityException;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.persistence.service.IDashboardService;
 import net.ionoff.center.server.persistence.service.IDeviceService;
+import net.ionoff.center.server.relaydriver.api.RelayDriverException;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
@@ -151,7 +151,7 @@ public class DeviceServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public StatusDto turnOnDevice(@PathVariable("deviceId") Long deviceId,
-			HttpServletRequest request) throws ControllerException, UnknownControllerModelException {
+			HttpServletRequest request) throws RelayDriverException, UnknownRelayDriverModelException {
 		User user = RequestContextHolder.getUser();
 		DeviceDto deviceDto = deviceService.requireDtoById(deviceId);
 		RequestContextHolder.checkZonePermission(user, deviceDto.getZoneId());
@@ -163,7 +163,7 @@ public class DeviceServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public StatusDto turnOffDevice(@PathVariable("deviceId") Long deviceId,
-			HttpServletRequest request) throws ControllerException, UnknownControllerModelException {
+			HttpServletRequest request) throws RelayDriverException, UnknownRelayDriverModelException {
 		User user = RequestContextHolder.getUser();
 		DeviceDto deviceDto = deviceService.requireDtoById(deviceId);
 		RequestContextHolder.checkZonePermission(user, deviceDto.getZoneId());
@@ -200,7 +200,7 @@ public class DeviceServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public DeviceDto addToZoneDashboard(@PathVariable("deviceId") Long deviceId, @RequestParam("zoneId") Long zoneId,
-			HttpServletRequest request) throws ControllerException, UnknownControllerModelException {
+			HttpServletRequest request) throws RelayDriverException, UnknownRelayDriverModelException {
 		User user = RequestContextHolder.getUser();
 		DeviceDto deviceDto = deviceService.requireDtoById(deviceId);
 		if (zoneId == null || !zoneId.equals(deviceDto.getZoneId())) {
@@ -217,7 +217,7 @@ public class DeviceServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public MessageDto addToProjectDashboard(@PathVariable("deviceId") Long deviceId, @RequestParam("projectId") Long projectId,
-			HttpServletRequest request) throws ControllerException, UnknownControllerModelException {
+			HttpServletRequest request) throws RelayDriverException, UnknownRelayDriverModelException {
 		User user = RequestContextHolder.getUser();
 		DeviceDto deviceDto = deviceService.requireDtoById(deviceId);
 		if (projectId == null || !projectId.equals(deviceDto.getProjectId())) {
@@ -234,7 +234,7 @@ public class DeviceServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public MessageDto removeFromZoneDashboard(@PathVariable("deviceId") Long deviceId, @RequestParam("zoneId") Long zoneId,
-			HttpServletRequest request) throws ControllerException, UnknownControllerModelException {
+			HttpServletRequest request) throws RelayDriverException, UnknownRelayDriverModelException {
 		User user = RequestContextHolder.getUser();
 		DeviceDto deviceDto = deviceService.requireDtoById(deviceId);
 		if (zoneId == null || !zoneId.equals(deviceDto.getZoneId())) {
@@ -251,7 +251,7 @@ public class DeviceServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public MessageDto removeFromProjectDashboard(@PathVariable("deviceId") Long deviceId, @RequestParam("projectId") Long projectId,
-			HttpServletRequest request) throws ControllerException, UnknownControllerModelException {
+			HttpServletRequest request) throws RelayDriverException, UnknownRelayDriverModelException {
 		User user = RequestContextHolder.getUser();
 		DeviceDto deviceDto = deviceService.requireDtoById(deviceId);
 		if (projectId == null || !projectId.equals(deviceDto.getProjectId())) {

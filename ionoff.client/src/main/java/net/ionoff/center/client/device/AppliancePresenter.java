@@ -181,7 +181,7 @@ public class AppliancePresenter extends DevicePresenter {
 			public void onFailure(Method method, Throwable exception) {
 				setLocked(false);
 				MessageDto message = ClientUtil.handleRpcFailure(method, exception, eventBus);
-				if (MessageDto.ControllerConnectException.equals(message.getCode())) {
+				if (MessageDto.RelayDriverConnectException.equals(message.getCode())) {
 					view.getBtnSwitch().setValue(true);
 				}
 				else {
@@ -215,7 +215,7 @@ public class AppliancePresenter extends DevicePresenter {
 			public void onFailure(Method method, Throwable exception) {
 				setLocked(false);
 				MessageDto message = ClientUtil.handleRpcFailure(method, exception, eventBus);
-				if (MessageDto.ControllerConnectException.equals(message.getCode())) {
+				if (MessageDto.RelayDriverConnectException.equals(message.getCode())) {
 					view.getBtnSwitch().setValue(false);
 				}
 				else {
@@ -327,7 +327,7 @@ public class AppliancePresenter extends DevicePresenter {
 			public void onFailure(Method method, Throwable exception) {
 				setLocked(false);
 				MessageDto message = ClientUtil.handleRpcFailure(method, exception, eventBus);
-				if (MessageDto.ControllerConnectException.equals(message.getCode())) {
+				if (MessageDto.RelayDriverConnectException.equals(message.getCode())) {
 					relayView.getRelay().setStatus(true);
 					relayView.displayStatus();
 					relayView.getBtnSwitch().setEnabled(true);
@@ -357,7 +357,7 @@ public class AppliancePresenter extends DevicePresenter {
 			public void onFailure(Method method, Throwable exception) {
 				setLocked(false);
 				MessageDto message = ClientUtil.handleRpcFailure(method, exception, eventBus);
-				if (MessageDto.ControllerConnectException.equals(message.getCode())) {
+				if (MessageDto.RelayDriverConnectException.equals(message.getCode())) {
 					relayView.getBtnSwitch().setEnabled(true);
 					relayView.getRelay().setStatus(false);
 					relayView.displayStatus();

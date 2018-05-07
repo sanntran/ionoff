@@ -14,12 +14,12 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import net.ionoff.center.server.config.AppConfig;
-import net.ionoff.center.server.entity.Controller;
+import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.WeighScale;
 import net.ionoff.center.server.exception.MqttConnectionException;
 import net.ionoff.center.server.exception.MqttPublishException;
-import net.ionoff.center.server.persistence.service.IControllerService;
+import net.ionoff.center.server.persistence.service.IRelayDriverService;
 import net.ionoff.center.server.persistence.service.IDeviceService;
 import net.ionoff.center.server.persistence.service.ISensorService;
 
@@ -40,13 +40,13 @@ public class MosquittoClient implements MqttCallback {
 	private IDeviceService deviceService;
 	
 	@Autowired
-	private IControllerService controllerService;
+	private IRelayDriverService relayDriverService;
 	
 	@Autowired
 	private ISensorService sensorService;
 	
 	@Autowired
-	private ControllerStatusHandler controllerStatusHandler;
+	private RelayDriverStatusHandler relayDriverStatusHandler;
 	
 	public MosquittoClient() {
 		new Thread() {
@@ -164,7 +164,7 @@ public class MosquittoClient implements MqttCallback {
 		
 		if (AppConfig.getInstance().MQTT_TOPIC_IONOFF_NET.equals(topic) ||
 				AppConfig.getInstance().MQTT_TOPIC_RELAY_DRIVER.equals(topic)) {
-			onControllerDriverMessageArrived(payload);
+			onRelayDriverDriverMessageArrived(payload);
 		}
 		else if (AppConfig.getInstance().MQTT_TOPIC_WEIGH_SCALE.equals(topic)) {
 			onWeighScaleMessageArrived(payload);
@@ -206,36 +206,36 @@ public class MosquittoClient implements MqttCallback {
 		}
 	}
 
-	private void onControllerDriverMessageArrived(String payload) {
+	private void onRelayDriverDriverMessageArrived(String payload) {
 		RelayDriverMqttPayload mqttPayload = new RelayDriverMqttPayload(payload);
 		if (mqttPayload.getId() == null) {
 			LOGGER.info("Message is not valid format " + payload);
 			return;
 		}
-		List<Controller> controllers = controllerService.findByMac(mqttPayload.getId());
-		if (controllers.isEmpty()) {
-			LOGGER.info("No controller found in the DB. Key: " + mqttPayload.getId());
+		List<RelayDriver> relayDrivers = relayDriverService.findByMac(mqttPayload.getId());
+		if (relayDrivers.isEmpty()) {
+			LOGGER.info("No relayDriver found in the DB. Key: " + mqttPayload.getId());
 			return;
 		}
 		
-		Controller controller = controllers.get(0);
-		controller.setConnectedTime(System.currentTimeMillis());
-		controllerService.update(controller);
-		if (!controller.isConnected()) {
-			LOGGER.info("Controller " + controller.getKey() + " is now connected");
+		RelayDriver relayDriver = relayDrivers.get(0);
+		relayDriver.setConnectedTime(System.currentTimeMillis());
+		relayDriverService.update(relayDriver);
+		if (!relayDriver.isConnected()) {
+			LOGGER.info("RelayDriver " + relayDriver.getKey() + " is now connected");
 		}
 		if (RelayDriverMqttPayload.STATUS.equals(mqttPayload.getCode())) {
-			//LOGGER.info("Controller " + controller.getKey() + " has been connected");
-			controllerStatusHandler.onReceivedControllerStatus(controller, mqttPayload.getIn(),  mqttPayload.getOut());
+			//LOGGER.info("RelayDriver " + relayDriver.getKey() + " has been connected");
+			relayDriverStatusHandler.onReceivedRelayDriverStatus(relayDriver, mqttPayload.getIn(),  mqttPayload.getOut());
 		} else if (RelayDriverMqttPayload.CHANGED.equals(mqttPayload.getCode())) {
-			LOGGER.info("Controller " + controller.getKey() + " input status has been changed");
-			controllerStatusHandler.onControllerStatusChanged(controller, mqttPayload.getIn(),  mqttPayload.getOut());
+			LOGGER.info("RelayDriver " + relayDriver.getKey() + " input status has been changed");
+			relayDriverStatusHandler.onRelayDriverStatusChanged(relayDriver, mqttPayload.getIn(),  mqttPayload.getOut());
 		} else if (RelayDriverMqttPayload.RESET.equals(mqttPayload.getCode())) {
-			LOGGER.info("Controller " + controller.getKey() + " has been started");
-			controllerStatusHandler.onControllerStarted(controller, null, mqttPayload.getIn(),  mqttPayload.getOut());
+			LOGGER.info("RelayDriver " + relayDriver.getKey() + " has been started");
+			relayDriverStatusHandler.onRelayDriverStarted(relayDriver, null, mqttPayload.getIn(),  mqttPayload.getOut());
 		} else if (RelayDriverMqttPayload.CRASH.equals(mqttPayload.getCode())) {
-			LOGGER.info("Controller " + controller.getKey() + " started due to crash");
-			controllerStatusHandler.onControllerCrashed(controller, mqttPayload.getIn(),  mqttPayload.getOut());
+			LOGGER.info("RelayDriver " + relayDriver.getKey() + " started due to crash");
+			relayDriverStatusHandler.onRelayDriverCrashed(relayDriver, mqttPayload.getIn(),  mqttPayload.getOut());
 		}
 	}
 

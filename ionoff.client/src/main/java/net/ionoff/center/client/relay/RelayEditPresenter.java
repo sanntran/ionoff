@@ -25,7 +25,7 @@ import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.AreaDto;
 import net.ionoff.center.shared.dto.BaseDto;
-import net.ionoff.center.shared.dto.ControllerDto;
+import net.ionoff.center.shared.dto.RelayDriverDto;
 import net.ionoff.center.shared.dto.RelayDto;
 import net.ionoff.center.shared.dto.RelayGroupDto;
 
@@ -33,7 +33,7 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 
 	public interface Display extends IEditView<RelayDto> {
 		
-		MaterialTextBox getTextBoxController();
+		MaterialTextBox getTextBoxRelayDriver();
 
 		MaterialTextBox getTextBoxIndex();
 
@@ -91,16 +91,16 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 		if (entityDto == null) {
 			return;
 		}
-		rpcProvider.getControllerService().findByProjectId(AppToken.getProjectIdLong(), 
-				new MethodCallback<List<ControllerDto>>() {
+		rpcProvider.getRelayDriverService().findByProjectId(AppToken.getProjectIdLong(), 
+				new MethodCallback<List<RelayDriverDto>>() {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
 				ClientUtil.handleRpcFailure(method, exception, eventBus);
 			}
 			@Override
-			public void onSuccess(Method method, List<ControllerDto> result) {
+			public void onSuccess(Method method, List<RelayDriverDto> result) {
 				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				view.getRelaySelectionView().setControllerOptions(result);
+				view.getRelaySelectionView().setRelayDriverOptions(result);
 			}
 		});
 		
@@ -275,7 +275,7 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 		view.getLblId().setText("#" + dto.getId());
 		view.getLblName().setText(dto.getName());
 		view.getTextBoxName().setText(dto.getName());
-		view.getTextBoxController().setText(BaseDto.formatNameID(dto.getControllerName(), dto.getControllerId()));
+		view.getTextBoxRelayDriver().setText(BaseDto.formatNameID(dto.getRelayDriverName(), dto.getRelayDriverId()));
 		view.getTextBoxIndex().setText(dto.getIndex() + "");
 		if (RelayDto.SWITCH.equals(entityDto.getType())) {
 			view.getListBoxTypes().setSelectedIndex(0);

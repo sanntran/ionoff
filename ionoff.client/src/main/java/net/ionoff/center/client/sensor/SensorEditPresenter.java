@@ -20,15 +20,15 @@ import net.ionoff.center.client.service.EntityService;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.BaseDto;
-import net.ionoff.center.shared.dto.ControllerDto;
+import net.ionoff.center.shared.dto.RelayDriverDto;
 import net.ionoff.center.shared.dto.SensorDto;
 
 public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 
 	public interface Display extends IEditView<SensorDto> {
-		MaterialListBox getListBoxControllers();
+		MaterialListBox getListBoxRelayDrivers();
 
-		MaterialIntegerBox getIntBoxControllerInputIdx();
+		MaterialIntegerBox getIntBoxRelayDriverInputIdx();
 	}
 	protected IRpcServiceProvider rpcProvider;
 	
@@ -89,9 +89,9 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		
 		entityDto.setName(newName);
 		
-		int selectedControllerIndex = view.getListBoxControllers().getSelectedIndex();
-		String selectedItem = view.getListBoxControllers().getItemText(selectedControllerIndex);
-		if (selectedControllerIndex == 0) {
+		int selectedRelayDriverIndex = view.getListBoxRelayDrivers().getSelectedIndex();
+		String selectedItem = view.getListBoxRelayDrivers().getItemText(selectedRelayDriverIndex);
+		if (selectedRelayDriverIndex == 0) {
 			entityDto.setDriverId(null);
 			entityDto.setDriverName(null);
 		}
@@ -99,7 +99,7 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 			entityDto.setDriverId(BaseDto.parseIdFromFormattedNameID(selectedItem));
 			entityDto.setDriverName(BaseDto.parseNameFromFormattedNameID(selectedItem));
 		}
-		int newInput = view.getIntBoxControllerInputIdx().getValue();
+		int newInput = view.getIntBoxRelayDriverInputIdx().getValue();
 		entityDto.setIndex(newInput);
 		
 		rpcProvider.getSensorService().save(entityDto.getId(), entityDto, 
@@ -136,28 +136,28 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		view.getTextBoxName().setText(dto.getName());
 		
 		if (dto.getDriverId() != null) {
-			view.getListBoxControllers().setSelectedValue(BaseDto.formatNameID(dto.getDriverName(), dto.getDriverId()));
+			view.getListBoxRelayDrivers().setSelectedValue(BaseDto.formatNameID(dto.getDriverName(), dto.getDriverId()));
 		}
 		else {
-			view.getListBoxControllers().setSelectedIndex(0);
+			view.getListBoxRelayDrivers().setSelectedIndex(0);
 		}
 		
 		if (dto.getIndex() == null) {
-			view.getIntBoxControllerInputIdx().setValue(0);
+			view.getIntBoxRelayDriverInputIdx().setValue(0);
 		}
 		else {
-			view.getIntBoxControllerInputIdx().setValue(dto.getIndex());
+			view.getIntBoxRelayDriverInputIdx().setValue(dto.getIndex());
 		}
 	}
 
-	public void setControllerOptions(List<ControllerDto> options) {
-		view.getListBoxControllers().clear();
-		view.getListBoxControllers().addItem(AdminLocale.getAdminConst().none());
+	public void setRelayDriverOptions(List<RelayDriverDto> options) {
+		view.getListBoxRelayDrivers().clear();
+		view.getListBoxRelayDrivers().addItem(AdminLocale.getAdminConst().none());
 		if (options == null || options.isEmpty()) {
 			return;
 		}
-		for (final ControllerDto option : options) {
-			view.getListBoxControllers().addItem(option.formatNameID());
+		for (final RelayDriverDto option : options) {
+			view.getListBoxRelayDrivers().addItem(option.formatNameID());
 		}
 	}
 }

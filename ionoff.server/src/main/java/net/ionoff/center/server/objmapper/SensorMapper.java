@@ -8,17 +8,17 @@ import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.SensorDataDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import net.ionoff.center.server.entity.Controller;
+import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.exception.UpdateEntityException;
-import net.ionoff.center.server.persistence.service.IControllerService;
+import net.ionoff.center.server.persistence.service.IRelayDriverService;
 import net.ionoff.center.server.persistence.service.IProjectService;
 import net.ionoff.center.shared.dto.SensorDto;
 
 public class SensorMapper {
 
 	@Autowired
-	private IControllerService controllerService;
+	private IRelayDriverService relayDriverService;
 	
 	@Autowired
 	private IProjectService projectService;
@@ -42,7 +42,7 @@ public class SensorMapper {
 		sensor.setType(sensorDto.getType());
 		sensor.setName(sensorDto.getName());
 		if (sensorDto.getDriverId() != null) {
-			Controller driver = controllerService.findById(sensorDto.getDriverId());
+			RelayDriver driver = relayDriverService.findById(sensorDto.getDriverId());
 			driver.getSwitchs().get(sensorDto.getIndex());
 			sensor.setProject(driver.getProject());
 		}

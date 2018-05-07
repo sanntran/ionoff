@@ -25,14 +25,14 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 		
 	}
 	
-	private long countByProjectIdControllerName(long projectId, String controllerName) {
+	private long countByProjectIdRelayDriverName(long projectId, String relayDriverName) {
 		String sql = "select count(relay)"
 				+ " from Relay as relay" 
-				+ " where relay.controller.project.id = :projectId"
-				+ " and lower(relay.controller.name) like :controllerName";
+				+ " where relay.driver.project.id = :projectId"
+				+ " and lower(relay.driver.name) like :relayDriverName";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("projectId", projectId)
-				.setParameter("controllerName", "%" + controllerName.toLowerCase() + "%");
+				.setParameter("relayDriverName", "%" + relayDriverName.toLowerCase() + "%");
 		return countObjects(query);
 	}
 	
@@ -42,7 +42,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 		}
 		String sql = "select count(relay)"
 					+ " from Relay as relay" 
-					+ " where relay.controller.project.id = :projectId"
+					+ " where relay.driver.project.id = :projectId"
 					+ " and lower(relay.name) like :name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("projectId", projectId)
@@ -53,7 +53,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 	private long countByProjectId(long projectId) {
 		String sql = "select count(relay)"
 				+ " from Relay as relay"
-				+ " where relay.controller.project.id = :projectId";
+				+ " where relay.driver.project.id = :projectId";
 		Query query = getCurrentSession().createQuery(sql)
 					.setParameter("projectId", projectId);;
 		return countObjects(query);
@@ -62,7 +62,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 	private long countByProjectIdDeviceName(long projectId, String deviceName) {
 		String sql = "select count(relay)"
 					+ " from Relay as relay" 
-					+ " where relay.controller.project.id = :projectId"
+					+ " where relay.driver.project.id = :projectId"
 					+ " and lower(relay.device.name) like :deviceName";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("projectId", projectId)
@@ -71,13 +71,13 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 	}
 	
 	
-	private List<Relay> findByProjectIdControllerName(long projectId, String controllerName, int fromIndex, int maxResults,
+	private List<Relay> findByProjectIdRelayDriverName(long projectId, String relayDriverName, int fromIndex, int maxResults,
 			String sortBy, boolean isAscending) {
 		
 		String sql = "select distinct relay" 
 				+ " from Relay as relay" 
-				+ " where relay.controller.project.id = :projectId"
-				+ " and lower(relay.controller.name) like :controllerName" 
+				+ " where relay.driver.project.id = :projectId"
+				+ " and lower(relay.driver.name) like :relayDriverName" 
 				+ " order by relay." + sortBy;
 		if (!isAscending) {
 			sql = sql + " desc"  + ", relay.index";
@@ -87,7 +87,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 		}
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("projectId", projectId)
-				.setParameter("controllerName", "%" + controllerName.toLowerCase() + "%");
+				.setParameter("relayDriverName", "%" + relayDriverName.toLowerCase() + "%");
 		return findMany(query, fromIndex, maxResults);
 	}
 
@@ -95,7 +95,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 			String sortBy, boolean isAscending) {
 		String sql = "select distinct relay" 
 				+ " from Relay as relay" 
-				+ " where relay.controller.project.id = :projectId"
+				+ " where relay.driver.project.id = :projectId"
 				+ " and lower(relay.device.name) like :deviceName" 
 				+ " order by relay." + sortBy;
 		if (!isAscending) {
@@ -117,7 +117,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 		}
 		String sql = "select distinct relay" 
 					+ " from Relay as relay" 
-					+ " where relay.controller.project.id = :projectId"
+					+ " where relay.driver.project.id = :projectId"
 					+ " and lower(relay.name) like :name" 
 					+ " order by relay." + sortBy;
 		if (!isAscending) {
@@ -136,7 +136,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 	private List<Relay> findByProjectId(long projectId, int fromIndex, int maxResults, String sortBy, boolean isAscending) {
 		String sql = "select distinct relay"
 					+ " from Relay as relay"
-					+ " where relay.controller.project.id = :projectId"
+					+ " where relay.driver.project.id = :projectId"
 					+ " order by relay." + sortBy;
 		if (!isAscending) {
 			sql = sql + " desc"  + ", relay.index";
@@ -153,21 +153,21 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 	public List<Relay> findByProjectId(long projectId) {
 		String sql = "select distinct relay"
 				+ " from Relay as relay"
-				+ " where relay.controller.project.id = :projectId"
-				+ " order by relay.controller.id, relay.index";
+				+ " where relay.driver.project.id = :projectId"
+				+ " order by relay.driver.id, relay.index";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("projectId", projectId);
 		return findMany(query);
 	}
 
 	@Override
-	public List<Relay> findByControllerId(long controllerId) {
+	public List<Relay> findByRelayDriverId(long relayDriverId) {
 		String sql = "select distinct relay"
 				+ " from Relay as relay"
-				+ " where relay.controller.id = :controllerId"
+				+ " where relay.driver.id = :relayDriverId"
 				+ " order by relay.index";
 		Query query = getCurrentSession().createQuery(sql)
-				.setParameter("controllerId", controllerId);
+				.setParameter("relayDriverId", relayDriverId);
 		return findMany(query);
 	}
 
@@ -176,7 +176,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 		String sql = "select distinct relay"
 				+ " from Relay as relay"
 				+ " where relay.device.id = :deviceId"
-				+ " order by relay.controller.id, relay.index";
+				+ " order by relay.driver.id, relay.index";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("deviceId", deviceId);
 		return findMany(query);
@@ -193,8 +193,8 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 		if (DEVICE_NAME.equals(criteria.getSearchField())) {
 			return countByProjectIdDeviceName(criteria.getProjectId(), criteria.getSearchKey());
 		}	
-		if (CONTROLLER_NAME.equals(criteria.getSearchField())) {
-			return countByProjectIdControllerName(criteria.getProjectId(), criteria.getSearchField());
+		if (RELAY_DRIVER_NAME.equals(criteria.getSearchField())) {
+			return countByProjectIdRelayDriverName(criteria.getProjectId(), criteria.getSearchField());
 		}
 		return 0;
 	}
@@ -213,8 +213,8 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 			return findByProjectIdDeviceName(criteria.getProjectId(), criteria.getSearchKey(), 
 					criteria.getFromIndex(), criteria.getMaxResults(), criteria.getSortBy(), criteria.getIsAscending());
 		}	
-		if (CONTROLLER_NAME.equals(criteria.getSearchField())) {
-			return findByProjectIdControllerName(criteria.getProjectId(), criteria.getSearchKey(), 
+		if (RELAY_DRIVER_NAME.equals(criteria.getSearchField())) {
+			return findByProjectIdRelayDriverName(criteria.getProjectId(), criteria.getSearchKey(), 
 					criteria.getFromIndex(), criteria.getMaxResults(), criteria.getSortBy(), criteria.getIsAscending());
 		}
 		return Collections.emptyList();

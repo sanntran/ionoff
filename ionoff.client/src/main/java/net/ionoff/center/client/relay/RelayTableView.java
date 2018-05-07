@@ -15,7 +15,7 @@ import net.ionoff.center.shared.dto.RelayDto;
 public class RelayTableView extends AbstractTableView<RelayDto> implements RelayTablePresenter.Display {
 	
 	private Column<RelayDto, String> nameColumn;
-	private Column<RelayDto, String> controllerColumn;
+	private Column<RelayDto, String> relayDriverColumn;
 	private Column<RelayDto, String> editColumn;
 	
 	private RelayEditView relayEditView;
@@ -42,10 +42,10 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
 		cellTable.setColumnWidth(nameColumn, COLUMN_NAME_WIDTH, Unit.PX);
 		
-		controllerColumn =  createControllerColumn();
-		controllerColumn.setSortable(true);
-		cellTable.addColumn(controllerColumn, AdminLocale.getAdminConst().controller());
-		cellTable.setColumnWidth(controllerColumn, 150.0, Unit.PX);
+		relayDriverColumn =  createRelayDriverColumn();
+		relayDriverColumn.setSortable(true);
+		cellTable.addColumn(relayDriverColumn, AdminLocale.getAdminConst().relayDriver());
+		cellTable.setColumnWidth(relayDriverColumn, 150.0, Unit.PX);
 		
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");
@@ -53,14 +53,14 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 		return cellTable;
 	}
 	
-	protected Column<RelayDto, String> createControllerColumn() {
+	protected Column<RelayDto, String> createRelayDriverColumn() {
 		TextColumn<RelayDto> column = new TextColumn<RelayDto>() {
 			@Override
 			public String getValue(RelayDto object) {
 				if (object == null) {
 					return "";
 				}
-				return BaseDto.formatNameID(object.getControllerName(), object.getControllerId());
+				return BaseDto.formatNameID(object.getRelayDriverName(), object.getRelayDriverId());
 			}
 		};
 		return column;
@@ -72,8 +72,8 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 	}
 
 	@Override
-	public Column<RelayDto, String> getControllerColumn() { 
-		return this.controllerColumn;
+	public Column<RelayDto, String> getRelayDriverColumn() { 
+		return this.relayDriverColumn;
 	}
 
 

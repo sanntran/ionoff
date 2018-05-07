@@ -3,15 +3,18 @@ package net.ionoff.center.server.entity;
 public class Sensor extends BaseObj {
 
 	private static final long serialVersionUID = 1L;
-	public static final int NULL_INPUT = -1;
+	
+	public static enum TYPE {
+		ANALOG, DIGITAL;
+	}
 	
 	private String unit;
 	private String type;
-	private SensorStatus status;
 	private Zone zone;
 	private Device device;
 	private Project project;
 	private Switch zwitch;
+	private SensorStatus status;
 	
 	public String getUnit() {
 		return unit;

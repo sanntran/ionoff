@@ -9,8 +9,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import net.ionoff.center.server.control.IControlService;
-import net.ionoff.center.server.control.UnknownControllerModelException;
-import net.ionoff.center.server.controller.api.ControllerException;
+import net.ionoff.center.server.control.UnknownRelayDriverModelException;
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.Mode;
 import net.ionoff.center.server.entity.Schedule;
@@ -19,6 +18,7 @@ import net.ionoff.center.server.entity.SchedulePlayerAction;
 import net.ionoff.center.server.entity.ScheduleRelayAction;
 import net.ionoff.center.server.persistence.service.IModeService;
 import net.ionoff.center.server.persistence.service.IScheduleService;
+import net.ionoff.center.server.relaydriver.api.RelayDriverException;
 import net.ionoff.center.shared.dto.ScheduleConst;
 import net.xapxinh.center.server.exception.DataServiceException;
 import net.xapxinh.center.server.exception.PlayerConnectException;
@@ -237,14 +237,14 @@ public class ProjectSchedulesExecutor extends Thread {
 			executeScheduleActions(schedule);
 			updateSchedule(schedule, now, true, 0);
 		}
-		catch (PlayerConnectException | DataServiceException | ControllerException | UnknownControllerModelException e) {
+		catch (PlayerConnectException | DataServiceException | RelayDriverException | UnknownRelayDriverModelException e) {
 			LOGGER.error(e.getMessage(), e);
 			updateSchedule(schedule, now, false, 0);
 		}
 	}
 
 	private void executeScheduleActions(Schedule schedule) throws PlayerConnectException, 
-	ControllerException, DataServiceException, UnknownControllerModelException {
+	RelayDriverException, DataServiceException, UnknownRelayDriverModelException {
 		if (schedule.getActions() == null) {
 			return;
 		}
@@ -258,7 +258,7 @@ public class ProjectSchedulesExecutor extends Thread {
 		}
 	}
 
-	private void executeScheduleRelayAction(ScheduleRelayAction scheduleAction) throws ControllerException, UnknownControllerModelException {
+	private void executeScheduleRelayAction(ScheduleRelayAction scheduleAction) throws RelayDriverException, UnknownRelayDriverModelException {
 		controlService.executeRelayAction(scheduleAction.getRelay(), scheduleAction.getAction());
 	}
 

@@ -20,7 +20,7 @@ public abstract class AbstractGenericDao<T extends Serializable> implements IGen
 	public static final String AREA_NAME = "areaName";
 	public static final String ZONE_NAME = "zoneName";
 	public static final String DEVICE_NAME = "deviceName";
-	public static final String CONTROLLER_NAME = "controllerName";
+	public static final String RELAY_DRIVER_NAME = "relayDriverName";
 
 	private Class<T> clazz;
 

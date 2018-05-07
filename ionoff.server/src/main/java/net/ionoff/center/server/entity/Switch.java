@@ -11,7 +11,7 @@ public class Switch extends BaseObj {
 	private Integer index;
 	private Date time;
 	private Boolean status;
-	private Controller driver;
+	private RelayDriver driver;
 	private List<Sensor> sensors;
 	
 	public Integer getIndex() {
@@ -35,10 +35,10 @@ public class Switch extends BaseObj {
 		this.status = status;
 	}
 	
-	public Controller getDriver() {
+	public RelayDriver getDriver() {
 		return driver;
 	}
-	public void setDriver(Controller driver) {
+	public void setDriver(RelayDriver driver) {
 		this.driver = driver;
 	}
 	

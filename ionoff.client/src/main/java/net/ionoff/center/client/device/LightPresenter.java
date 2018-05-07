@@ -153,7 +153,7 @@ public class LightPresenter extends DevicePresenter {
 			public void onFailure(Method method, Throwable exception) {
 				setLocked(false);
 				MessageDto message = ClientUtil.handleRpcFailure(method, exception, eventBus);
-				if (MessageDto.ControllerConnectException.equals(message.getCode())) {
+				if (MessageDto.RelayDriverConnectException.equals(message.getCode())) {
 					view.getBtnSwitch().setValue(true);
 				}
 				else {
@@ -179,7 +179,7 @@ public class LightPresenter extends DevicePresenter {
 			public void onFailure(Method method, Throwable exception) {
 				setLocked(false);
 				MessageDto message = ClientUtil.handleRpcFailure(method, exception, eventBus);
-				if (MessageDto.ControllerConnectException.equals(message.getCode())) {
+				if (MessageDto.RelayDriverConnectException.equals(message.getCode())) {
 					view.getBtnSwitch().setValue(false);
 				}
 				else {

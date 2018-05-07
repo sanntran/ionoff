@@ -27,7 +27,7 @@ public class RelayTablePresenter extends AbstractTablePresenter<RelayDto>{
 	
 	public interface Display extends ITableView<RelayDto> {
 		Column<RelayDto, String> getNameColumn();
-		Column<RelayDto, String> getControllerColumn();
+		Column<RelayDto, String> getRelayDriverColumn();
 		RelayEditPresenter.Display getRelayEditView();
 	}
 	
@@ -125,8 +125,8 @@ public class RelayTablePresenter extends AbstractTablePresenter<RelayDto>{
 		display.getToolBarView().getLisBoxSearchBy().addItem(AdminLocale.getAdminConst().name());
 		String deviceName = AdminLocale.getAdminConst().name() + " " + AdminLocale.getAdminConst().device();
 		display.getToolBarView().getLisBoxSearchBy().addItem(deviceName);
-		String controllerName = AdminLocale.getAdminConst().name() + " " + AdminLocale.getAdminConst().controller();
-		display.getToolBarView().getLisBoxSearchBy().addItem(controllerName);
+		String relayDriverName = AdminLocale.getAdminConst().name() + " " + AdminLocale.getAdminConst().relayDriver();
+		display.getToolBarView().getLisBoxSearchBy().addItem(relayDriverName);
 	}
 
 	@Override
@@ -148,7 +148,7 @@ public class RelayTablePresenter extends AbstractTablePresenter<RelayDto>{
 		if (selectedSearchByIndex == 1) {
 			return "deviceName";
 		}
-		return "controllerName";
+		return "relayDriverName";
 	}
 
 	@Override
@@ -159,7 +159,7 @@ public class RelayTablePresenter extends AbstractTablePresenter<RelayDto>{
 	@Override
 	protected String getSortByField(int columnIndex) {
 		if (columnIndex == 2) {
-			return RelayDto.CONTROLLER;
+			return RelayDto.RELAY_DRIVER;
 		}
 		if (columnIndex == 4) {
 			return RelayDto.DEVICE;

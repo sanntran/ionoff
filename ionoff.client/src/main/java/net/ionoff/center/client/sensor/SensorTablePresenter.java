@@ -22,14 +22,14 @@ import net.ionoff.center.client.service.EntityService;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.BaseDto;
-import net.ionoff.center.shared.dto.ControllerDto;
+import net.ionoff.center.shared.dto.RelayDriverDto;
 import net.ionoff.center.shared.dto.SensorDto;
 
 public class SensorTablePresenter extends AbstractTablePresenter<SensorDto> {
 	
 	public interface Display extends ITableView<SensorDto> {
 		Column<SensorDto, String> getNameColumn();
-		Column<SensorDto, String> getControllerColumn();
+		Column<SensorDto, String> getRelayDriverColumn();
 		SensorEditPresenter.Display getSensorEditView();
 	}
 	
@@ -62,21 +62,21 @@ public class SensorTablePresenter extends AbstractTablePresenter<SensorDto> {
 	public void show(HasWidgets container) {
 		container.clear();
 		container.add(display.asWidget());
-		loadControllersByProjectId();
+		loadRelayDriversByProjectId();
 	}
 
-	private void loadControllersByProjectId() {
-		rpcProvider.getControllerService().findByProjectId(getProjectId(), 
-				new MethodCallback<List<ControllerDto>>() {
+	private void loadRelayDriversByProjectId() {
+		rpcProvider.getRelayDriverService().findByProjectId(getProjectId(), 
+				new MethodCallback<List<RelayDriverDto>>() {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
 				ClientUtil.handleRpcFailure(method, exception, eventBus);
 			}
 
 			@Override
-			public void onSuccess(Method method, List<ControllerDto> result) {
+			public void onSuccess(Method method, List<RelayDriverDto> result) {
 				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				getSensorEditPresenter().setControllerOptions(result);
+				getSensorEditPresenter().setRelayDriverOptions(result);
 			}
 		});
 	}

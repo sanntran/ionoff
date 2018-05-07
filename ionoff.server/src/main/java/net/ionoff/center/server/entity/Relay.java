@@ -16,7 +16,7 @@ public class Relay extends BaseObj {
 	private Integer index;
 	private Boolean status;
 	private Boolean isLeader;
-	private Controller controller;
+	private RelayDriver driver;
 	private Device device;
 	private RelayGroup group;
 
@@ -66,11 +66,11 @@ public class Relay extends BaseObj {
 	public void setIsLeader(Boolean isLeader) {
 		this.isLeader = isLeader;
 	}
-	public Controller getController() {
-		return controller;
+	public RelayDriver getDriver() {
+		return driver;
 	}
-	public void setController(Controller controller) {
-		this.controller = controller;
+	public void setDriver(RelayDriver relayDriver) {
+		this.driver = relayDriver;
 	}
 
 	public Device getDevice() {

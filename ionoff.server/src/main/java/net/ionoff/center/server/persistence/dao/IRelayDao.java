@@ -10,6 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface IRelayDao extends IGenericDao<Relay> {
 	
 	List<Relay> findByProjectId(long projectId);
-	List<Relay> findByControllerId(long controllerId);
+	List<Relay> findByRelayDriverId(long relayDriverId);
 	List<Relay> findByDeviceId(long deviceId);
 }

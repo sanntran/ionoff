@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import net.ionoff.center.server.entity.Controller;
 import net.ionoff.center.server.entity.Mode;
 import net.ionoff.center.server.entity.Project;
+import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.persistence.service.IDashboardService;
 import net.ionoff.center.server.persistence.service.IDeviceService;
@@ -95,13 +95,13 @@ public class DashboardServiceController {
 		dashboardDto.setTotalScheduleCount(scheduleDtos.size());
 		dashboardDto.setTotalSceneCount(scenceDtos.size());
 		
-		dashboardDto.setTotalControllerCount(project.getControllers().size());
-		for (Controller controller : project.getControllers()) {
-			if (controller.isConnected()) {
-				dashboardDto.setOnlineControllerCount(dashboardDto.getOnlineControllerCount() + 1);
+		dashboardDto.setTotalRelayDriverCount(project.getRelayDrivers().size());
+		for (RelayDriver relayDriver : project.getRelayDrivers()) {
+			if (relayDriver.isConnected()) {
+				dashboardDto.setOnlineRelayDriverCount(dashboardDto.getOnlineRelayDriverCount() + 1);
 			}
 			else {
-				dashboardDto.setOfflineControllerCount(dashboardDto.getOfflineControllerCount() + 1);
+				dashboardDto.setOfflineRelayDriverCount(dashboardDto.getOfflineRelayDriverCount() + 1);
 			}
 		}
 		

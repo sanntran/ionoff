@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import net.ionoff.center.server.control.IControlService;
 import net.ionoff.center.server.entity.Project;
-import net.ionoff.center.server.persistence.service.IControllerService;
+import net.ionoff.center.server.persistence.service.IRelayDriverService;
 import net.ionoff.center.server.persistence.service.IDeviceService;
 import net.ionoff.center.server.persistence.service.IModeService;
 import net.ionoff.center.server.persistence.service.IProjectService;
@@ -23,7 +23,7 @@ public class ServerThreadPool {
 	@Autowired
 	private IProjectService projectService;
 	@Autowired
-	private IControllerService controllerService;
+	private IRelayDriverService relayDriverService;
 	@Autowired
 	private IScheduleService scheduleService;
 	@Autowired
@@ -33,7 +33,7 @@ public class ServerThreadPool {
 	@Autowired
 	private IRelayService relayService;
 	@Autowired 
-	private ControllerConnectionPool controllerConnectionPool;
+	private RelayDriverConnectionPool relayDriverConnectionPool;
 	@Autowired
 	private PlayerConnectionPool playerConnectionPool;
 	@Autowired
@@ -58,7 +58,7 @@ public class ServerThreadPool {
 		}
 		started = true;
 		playerConnectionPool.start();
-		controllerConnectionPool.start();
+		relayDriverConnectionPool.start();
 		startAllProjectThreadPools();
 	}
 	
@@ -85,7 +85,7 @@ public class ServerThreadPool {
 			return;
 		}
 		ProjectThreadPool projectThreadPool = new ProjectThreadPool(projectId, 
-				controllerService, 
+				relayDriverService, 
 				scheduleService, modeService, 
 				controlService, relayService, deviceService
 				);
@@ -99,8 +99,8 @@ public class ServerThreadPool {
 		LOGGER.info("PlayerConnectionPool is shutting down...");
 		playerConnectionPool.shutdown();
 		// iupdator is updating...
-		LOGGER.info("ControllerConnectionPool is shutting down...");
-		controllerConnectionPool.shutdown();
+		LOGGER.info("RelayDriverConnectionPool is shutting down...");
+		relayDriverConnectionPool.shutdown();
 		
 		for (Entry<Long, ProjectThreadPool> entry : projectThreadPoolMap.entrySet()) {
 			entry.getValue().shutdown();

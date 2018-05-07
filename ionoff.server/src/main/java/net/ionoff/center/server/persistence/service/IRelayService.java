@@ -14,7 +14,7 @@ public interface IRelayService extends IGenericService<Relay, RelayDto> {
 	
 	List<RelayDto> findDtoByProjectId(long projectId);
 	
-	List<RelayDto> findDtoByControllerId(long controllerId);
+	List<RelayDto> findDtoByRelayDriverId(long relayDriverId);
 	
 	List<RelayDto> findDtoByDeviceId(long deviceId);
 

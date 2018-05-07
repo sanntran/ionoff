@@ -61,11 +61,11 @@ public class DashboardPresenter extends AbstractPresenter {
 
 		MaterialLabel getLblNextSchedule();
 
-		MaterialLabel getLblTotalController();
+		MaterialLabel getLblTotalRelayDriver();
 
-		MaterialLabel getLblControllerOnline();
+		MaterialLabel getLblRelayDriverOnline();
 
-		MaterialLabel getLblControllerOffline();
+		MaterialLabel getLblRelayDriverOffline();
 
 		MaterialLabel getLblTotalMode();
 
@@ -81,7 +81,7 @@ public class DashboardPresenter extends AbstractPresenter {
 
 		MaterialCard getCartMode();
 
-		MaterialCard getCartController();
+		MaterialCard getCartRelayDriver();
 
 		MaterialCard getCartServerChart();
 
@@ -131,10 +131,10 @@ public class DashboardPresenter extends AbstractPresenter {
 				eventBus.fireEvent(new ChangeTokenEvent(token));
 			}
 		});
-		display.getCartController().addClickHandler(new ClickHandler() {
+		display.getCartRelayDriver().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				String token = AppToken.newControllerToken();
+				String token = AppToken.newRelayDriverToken();
 				eventBus.fireEvent(new ChangeTokenEvent(token));
 			}
 		});
@@ -290,10 +290,10 @@ public class DashboardPresenter extends AbstractPresenter {
 		display.getLblDeviceOn().setText(dashboard.getDeviceOnCount() + " On");
 		display.getLblDeviceOff().setText(dashboard.getDeviceOffCount() + " Off");
 		display.getLblTotalDevice().setText(dashboard.getTotalDeviceCount() + "");
-		// Controller
-		display.getLblControllerOnline().setText(dashboard.getOnlineControllerCount() + " Online");
-		display.getLblControllerOffline().setText(dashboard.getOfflineControllerCount() + " Offline");
-		display.getLblTotalController().setText(dashboard.getTotalControllerCount() + "");
+		// RelayDriver
+		display.getLblRelayDriverOnline().setText(dashboard.getOnlineRelayDriverCount() + " Online");
+		display.getLblRelayDriverOffline().setText(dashboard.getOfflineRelayDriverCount() + " Offline");
+		display.getLblTotalRelayDriver().setText(dashboard.getTotalRelayDriverCount() + "");
 		
 		// Mode
 		display.getLblTotalMode().setText(dashboard.getTotalModeCount() + "");
@@ -348,13 +348,13 @@ public class DashboardPresenter extends AbstractPresenter {
 		container.add(display.asPanel());
 		display.getDeviceWrapper().clear();
 		if (AppToken.hasTokenItem(AppToken.ZONE)) {
-			display.getCartController().setVisible(false);
+			display.getCartRelayDriver().setVisible(false);
 			display.getCartMode().setVisible(false);
 			display.getCartServerChart().setVisible(false);
 			display.getCartSchedule().setVisible(false);
 		}
 		else if (AppToken.hasTokenItem(AppToken.PROJECT)) {
-			display.getCartController().setVisible(true);
+			display.getCartRelayDriver().setVisible(true);
 			display.getCartMode().setVisible(true);
 			display.getCartServerChart().setVisible(true);
 			display.getCartSchedule().setVisible(true);

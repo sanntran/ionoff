@@ -57,7 +57,7 @@
 		<mapping resource="net/ionoff/center/server/entity/UserZone.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/UserDevice.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/UserScene.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/Controller.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/RelayDriver.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/Relay.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/Switch.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/RelayGroup.hbm.xml"/>

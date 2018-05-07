@@ -7,7 +7,7 @@ public class RelayDto extends BaseDto {
 	public static final String SWITCH = "Switch";
 	public static final String BUTTON = "Button";
 
-	public static final String CONTROLLER = "controller";
+	public static final String RELAY_DRIVER = "relayDriver";
 	public static final String DEVICE = "device";
 
 	private String type;
@@ -16,8 +16,8 @@ public class RelayDto extends BaseDto {
 	private Boolean status;
 	private String label;
 	private Boolean isLeader;
-	private Long controllerId;
-	private String controllerName;
+	private Long relayDriverId;
+	private String relayDriverName;
 	private Long deviceId;
 	private String deviceName;
 
@@ -42,18 +42,18 @@ public class RelayDto extends BaseDto {
 		this.status = status;
 	}
 
-	public Long getControllerId() {
-		return controllerId;
+	public Long getRelayDriverId() {
+		return relayDriverId;
 	}
-	public void setControllerId(Long controllerId) {
-		this.controllerId = controllerId;
+	public void setRelayDriverId(Long relayDriverId) {
+		this.relayDriverId = relayDriverId;
 	}
 
-	public String getControllerName() {
-		return controllerName;
+	public String getRelayDriverName() {
+		return relayDriverName;
 	}
-	public void setControllerName(String controllerName) {
-		this.controllerName = controllerName;
+	public void setRelayDriverName(String relayDriverName) {
+		this.relayDriverName = relayDriverName;
 	}
 
 	public Long getDeviceId() {

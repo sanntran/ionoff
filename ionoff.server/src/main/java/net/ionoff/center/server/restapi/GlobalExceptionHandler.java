@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import net.ionoff.center.server.control.UnknownControllerModelException;
-import net.ionoff.center.server.controller.api.ControllerConnectException;
+import net.ionoff.center.server.control.UnknownRelayDriverModelException;
 import net.ionoff.center.server.exception.DeleteEntityException;
 import net.ionoff.center.server.exception.EntityNotFoundException;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.locale.Messages;
+import net.ionoff.center.server.relaydriver.api.RelayDriverConnectException;
 import net.ionoff.center.server.security.InvalidTokenException;
 import net.ionoff.center.shared.dto.MessageDto;
 
@@ -52,31 +52,32 @@ public class GlobalExceptionHandler {
 				e.getMessage());
 	}
 	
-	@ExceptionHandler(ControllerConnectException.class)
+	@ExceptionHandler(RelayDriverConnectException.class)
 	@ResponseBody
-	public MessageDto handleControllerConnectException(HttpServletRequest request, HttpServletResponse response, ControllerConnectException e) {
+	public MessageDto handleRelayDriverConnectException(HttpServletRequest request, HttpServletResponse response, 
+			RelayDriverConnectException e) {
 		final String locale = (String) request.getAttribute("locale");
 		logger.error(e.getMessage(), e);
 		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		MessageDto message = new MessageDto(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-				Messages.get(locale).errorConnectController(e.getMessage()));
-		message.setCode(ControllerConnectException.class.getSimpleName());
+				Messages.get(locale).errorConnectRelayDriver(e.getMessage()));
+		message.setCode(RelayDriverConnectException.class.getSimpleName());
 		return message;
 	}
 	
-	@ExceptionHandler(UnknownControllerModelException.class)
+	@ExceptionHandler(UnknownRelayDriverModelException.class)
 	@ResponseBody
-	public MessageDto handleUnknownControllerModelException(HttpServletRequest request, HttpServletResponse response, UnknownControllerModelException e) {
+	public MessageDto handleUnknownRelayDriverModelException(HttpServletRequest request, HttpServletResponse response, UnknownRelayDriverModelException e) {
 		final String locale = (String) request.getAttribute("locale");
 		logger.error(e.getMessage(), e);
 		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		return new MessageDto(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-				Messages.get(locale).unknownControllerModel(e.getMessage()));
+				Messages.get(locale).unknownRelayDriverModel(e.getMessage()));
 	}
 	
 	@ExceptionHandler(EntityNotFoundException.class)
 	@ResponseBody
-	public MessageDto handleUnknownControllerModelException(HttpServletRequest request, HttpServletResponse response, EntityNotFoundException e) {
+	public MessageDto handleUnknownRelayDriverModelException(HttpServletRequest request, HttpServletResponse response, EntityNotFoundException e) {
 		logger.error(e.getMessage());
 		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		
@@ -96,7 +97,7 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(BadRequestException.class)
 	@ResponseBody
-	public MessageDto handleUnknownControllerModelException(HttpServletRequest request, HttpServletResponse response, BadRequestException e) {
+	public MessageDto handleUnknownRelayDriverModelException(HttpServletRequest request, HttpServletResponse response, BadRequestException e) {
 		logger.error(e.getMessage(), e);
 		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		return new MessageDto(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());

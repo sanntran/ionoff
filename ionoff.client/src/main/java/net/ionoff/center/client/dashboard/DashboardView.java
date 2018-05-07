@@ -50,15 +50,15 @@ public class DashboardView extends Composite implements DashboardPresenter.Displ
 	MaterialLabel lblActivatedMode;
 	
 	@UiField
-	MaterialCard cartController;
+	MaterialCard cartRelayDriver;
 	@UiField
-	MaterialCardTitle cartControllerTitle;
+	MaterialCardTitle cartRelayDriverTitle;
 	@UiField
-	MaterialLabel lblTotalController;
+	MaterialLabel lblTotalRelayDriver;
 	@UiField
-	MaterialLabel lblControllerOnline;
+	MaterialLabel lblRelayDriverOnline;
 	@UiField
-	MaterialLabel lblControllerOffline;
+	MaterialLabel lblRelayDriverOffline;
 	
 	@UiField
 	MaterialCard cartSchedule;
@@ -90,7 +90,7 @@ public class DashboardView extends Composite implements DashboardPresenter.Displ
 		uiBinder.createAndBindUi(this);
 		lblTitle.setText(ProjectLocale.getProjectConst().dashboard());
 		cartDeviceTitle.setText(ProjectLocale.getProjectConst().device());
-		cartControllerTitle.setText(ProjectLocale.getProjectConst().controller());
+		cartRelayDriverTitle.setText(ProjectLocale.getProjectConst().relayDriver());
 		cartModeTitle.setText(ProjectLocale.getProjectConst().mode());
 		cartScheduleTitle.setText(ProjectLocale.getProjectConst().schedule());
 		cartSceneTitle.setText(ProjectLocale.getProjectConst().scene());
@@ -140,18 +140,18 @@ public class DashboardView extends Composite implements DashboardPresenter.Displ
 	}
 
 	@Override
-	public MaterialLabel getLblTotalController() {
-		return lblTotalController;
+	public MaterialLabel getLblTotalRelayDriver() {
+		return lblTotalRelayDriver;
 	}
 
 	@Override
-	public MaterialLabel getLblControllerOnline() {
-		return lblControllerOnline;
+	public MaterialLabel getLblRelayDriverOnline() {
+		return lblRelayDriverOnline;
 	}
 
 	@Override
-	public MaterialLabel getLblControllerOffline() {
-		return lblControllerOffline;
+	public MaterialLabel getLblRelayDriverOffline() {
+		return lblRelayDriverOffline;
 	}
 
 	@Override
@@ -190,8 +190,8 @@ public class DashboardView extends Composite implements DashboardPresenter.Displ
 	}
 	
 	@Override
-	public MaterialCard getCartController() {
-		return cartController;
+	public MaterialCard getCartRelayDriver() {
+		return cartRelayDriver;
 	}
 	
 	@Override

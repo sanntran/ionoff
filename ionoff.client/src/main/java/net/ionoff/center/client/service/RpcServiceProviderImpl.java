@@ -18,7 +18,7 @@ public class RpcServiceProviderImpl implements IRpcServiceProvider {
 	@Inject
 	private AreaService areaService;
 	@Inject
-	private ControllerService controllerService;
+	private RelayDriverService relayDriverService;
 	@Inject
 	private DeviceService deviceService;
 	@Inject
@@ -74,9 +74,9 @@ public class RpcServiceProviderImpl implements IRpcServiceProvider {
 	}
 
 	@Override
-	public ControllerService getControllerService() {
+	public RelayDriverService getRelayDriverService() {
 		eventBus.fireEvent(ShowLoadingEvent.getInstance(true));
-		return controllerService;
+		return relayDriverService;
 	}
 
 	@Override

@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import net.ionoff.center.server.control.IControlService;
-import net.ionoff.center.server.control.UnknownControllerModelException;
-import net.ionoff.center.server.controller.api.ControllerException;
+import net.ionoff.center.server.control.UnknownRelayDriverModelException;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.exception.ChangeEntityIdException;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.persistence.service.IRelayGroupService;
 import net.ionoff.center.server.persistence.service.IRelayService;
+import net.ionoff.center.server.relaydriver.api.RelayDriverException;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
 import net.ionoff.center.shared.dto.RelayDto;
 import net.ionoff.center.shared.dto.RelayGroupDto;
@@ -96,7 +96,7 @@ public class RelayServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public StatusDto closeRelay(@PathVariable("relayId") Long relayId,
-			HttpServletRequest request) throws ControllerException, UnknownControllerModelException {
+			HttpServletRequest request) throws RelayDriverException, UnknownRelayDriverModelException {
 		User user = RequestContextHolder.getUser();
 		
 		logger.info("User " + user.getName() + " close relay. ID: " + relayId);

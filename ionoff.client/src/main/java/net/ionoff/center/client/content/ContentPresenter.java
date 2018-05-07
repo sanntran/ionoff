@@ -1,5 +1,8 @@
 package net.ionoff.center.client.content;
 
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
+
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Panel;
@@ -7,11 +10,14 @@ import com.google.gwt.user.client.ui.Panel;
 import net.ionoff.center.client.area.AreaTablePresenter;
 import net.ionoff.center.client.area.AreaTableView;
 import net.ionoff.center.client.base.AbstractPresenter;
-import net.ionoff.center.client.controller.ControllerTablePresenter;
-import net.ionoff.center.client.controller.ControllerTableView;
 import net.ionoff.center.client.dashboard.DashboardPresenter;
 import net.ionoff.center.client.dashboard.DashboardView;
-import net.ionoff.center.client.device.*;
+import net.ionoff.center.client.device.DeviceListPresenter;
+import net.ionoff.center.client.device.DeviceListView;
+import net.ionoff.center.client.device.DeviceTablePresenter;
+import net.ionoff.center.client.device.DeviceTableView;
+import net.ionoff.center.client.device.ScaleDataTablePresenter;
+import net.ionoff.center.client.device.ScaleDataTableView;
 import net.ionoff.center.client.event.ChangeTokenEvent;
 import net.ionoff.center.client.mode.ModeListPresenter;
 import net.ionoff.center.client.mode.ModeListView;
@@ -21,6 +27,8 @@ import net.ionoff.center.client.project.ProjectTablePresenter;
 import net.ionoff.center.client.project.ProjectTableView;
 import net.ionoff.center.client.relay.RelayTablePresenter;
 import net.ionoff.center.client.relay.RelayTableView;
+import net.ionoff.center.client.relaydriver.RelayDriverTablePresenter;
+import net.ionoff.center.client.relaydriver.RelayDriverTableView;
 import net.ionoff.center.client.scene.SceneListPresenter;
 import net.ionoff.center.client.scene.SceneListView;
 import net.ionoff.center.client.scene.SceneTablePresenter;
@@ -44,8 +52,6 @@ import net.ionoff.center.shared.dto.PlayerDto;
 import net.ionoff.center.shared.dto.WeighScaleDto;
 import net.xapxinh.center.client.player.PlayerPresenter;
 import net.xapxinh.center.client.player.PlayerView;
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.MethodCallback;
 
 public class ContentPresenter extends AbstractPresenter {
 
@@ -62,7 +68,7 @@ public class ContentPresenter extends AbstractPresenter {
 	private ScheduleTablePresenter scheduleTablePresenter;
 	private ModeTablePresenter modeTablePresenter;
 	private ModeListPresenter modeListPresenter;
-	private ControllerTablePresenter controllerTablePresenter;
+	private RelayDriverTablePresenter relayDriverTablePresenter;
 	private RelayTablePresenter relayTablePresenter;
 	private UserTablePresenter userTablePresenter;
 	private SensorTablePresenter sensorTablePresenter;
@@ -166,9 +172,9 @@ public class ContentPresenter extends AbstractPresenter {
 		getScheduleTablePresenter().show(display.asPanel());
 	}
 	
-	public void showControllerTable() {
+	public void showRelayDriverTable() {
 		display.asPanel().removeStyleName("player");
-		getControllerTablePresenter().show(display.asPanel());
+		getRelayDriverTablePresenter().show(display.asPanel());
 	}
 	
 	public void showRelayTable() {
@@ -291,15 +297,15 @@ public class ContentPresenter extends AbstractPresenter {
 	}
 	
 
-	public ControllerTablePresenter getControllerTablePresenter() {
-		if (controllerTablePresenter == null) {
-			controllerTablePresenter = new ControllerTablePresenter(rpcProvider, eventBus, new ControllerTableView());
-			controllerTablePresenter.go();
+	public RelayDriverTablePresenter getRelayDriverTablePresenter() {
+		if (relayDriverTablePresenter == null) {
+			relayDriverTablePresenter = new RelayDriverTablePresenter(rpcProvider, eventBus, new RelayDriverTableView());
+			relayDriverTablePresenter.go();
 		}
 		else {
-			controllerTablePresenter.refresh();
+			relayDriverTablePresenter.refresh();
 		}
-		return controllerTablePresenter;
+		return relayDriverTablePresenter;
 	}
 	
 	public DeviceListPresenter getDeviceListPresenter() {

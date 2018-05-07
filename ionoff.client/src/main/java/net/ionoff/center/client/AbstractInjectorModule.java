@@ -11,7 +11,7 @@ import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provider;
 
 import net.ionoff.center.client.service.AreaService;
-import net.ionoff.center.client.service.ControllerService;
+import net.ionoff.center.client.service.RelayDriverService;
 import net.ionoff.center.client.service.DashboardService;
 import net.ionoff.center.client.service.DeviceService;
 import net.ionoff.center.client.service.IRpcServiceProvider;
@@ -50,7 +50,7 @@ public class AbstractInjectorModule extends AbstractGinModule {
         bind(PlayerService.class).toProvider(PlayerServiceProvider.class).in(Singleton.class);
         
         bind(AreaService.class).toProvider(AreaServiceProvider.class).in(Singleton.class);
-        bind(ControllerService.class).toProvider(ControllerServiceProvider.class).in(Singleton.class);
+        bind(RelayDriverService.class).toProvider(RelayDriverServiceProvider.class).in(Singleton.class);
         bind(DeviceService.class).toProvider(DeviceServiceProvider.class).in(Singleton.class);
         bind(ProjectService.class).toProvider(ProjectServiceProvider.class).in(Singleton.class);
         bind(ModeSceneService.class).toProvider(ModeSceneServiceProvider.class).in(Singleton.class);
@@ -109,10 +109,10 @@ public class AbstractInjectorModule extends AbstractGinModule {
 			return service;
 		}    	
     }
-    public static class ControllerServiceProvider implements Provider<ControllerService> {
+    public static class RelayDriverServiceProvider implements Provider<RelayDriverService> {
 		@Override
-		public ControllerService get() {
-			final ControllerService service = GWT.create(ControllerService.class);
+		public RelayDriverService get() {
+			final RelayDriverService service = GWT.create(RelayDriverService.class);
 			setRestServiceProxyResource(service);
 			return service;
 		}    	

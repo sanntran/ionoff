@@ -15,7 +15,7 @@ import net.ionoff.center.shared.dto.SensorDto;
 public class SensorTableView extends AbstractTableView<SensorDto> implements SensorTablePresenter.Display {
 	
 	private Column<SensorDto, String> nameColumn;
-	private Column<SensorDto, String> controllerColumn;
+	private Column<SensorDto, String> relayDriverColumn;
 	private Column<SensorDto, String> editColumn;
 	
 	private SensorEditView sensorEditView;
@@ -40,9 +40,9 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
 		cellTable.setColumnWidth(nameColumn, COLUMN_NAME_WIDTH, Unit.PX);
 
-		controllerColumn =  createControllerColumn();
-		cellTable.addColumn(controllerColumn, AdminLocale.getAdminConst().controller());
-		cellTable.setColumnWidth(controllerColumn, COLUMN_NAME_WIDTH, Unit.PX);
+		relayDriverColumn =  createRelayDriverColumn();
+		cellTable.addColumn(relayDriverColumn, AdminLocale.getAdminConst().relayDriver());
+		cellTable.setColumnWidth(relayDriverColumn, COLUMN_NAME_WIDTH, Unit.PX);
 		
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");
@@ -50,7 +50,7 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 		return cellTable;
 	}
 
-	private Column<SensorDto, String> createControllerColumn() {
+	private Column<SensorDto, String> createRelayDriverColumn() {
 	    Column<SensorDto, String> column = new TextColumn<SensorDto>() {
 	    	@Override
 	    	public String getValue(SensorDto object) {
@@ -68,8 +68,8 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 		return nameColumn;
 	}
 	@Override
-	public Column<SensorDto, String> getControllerColumn() {
-		return controllerColumn;
+	public Column<SensorDto, String> getRelayDriverColumn() {
+		return relayDriverColumn;
 	}
 
 	@Override

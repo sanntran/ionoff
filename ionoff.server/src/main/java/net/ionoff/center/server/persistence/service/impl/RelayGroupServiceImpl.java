@@ -99,7 +99,7 @@ public class RelayGroupServiceImpl extends AbstractGenericService<RelayGroup, Re
 			}
 			else {
 				relayGroup = new RelayGroup();
-				relayGroup.setProject(relay.getController().getProject());
+				relayGroup.setProject(relay.getDriver().getProject());
 				insert(relayGroup);
 				
 				relay.setGroup(relayGroup);

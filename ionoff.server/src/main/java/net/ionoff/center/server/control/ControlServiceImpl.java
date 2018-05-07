@@ -8,17 +8,13 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import net.ionoff.center.server.controller.api.ControllerApiProvider;
-import net.ionoff.center.server.controller.api.ControllerApiUtil;
-import net.ionoff.center.server.controller.api.ControllerException;
-import net.ionoff.center.server.controller.api.ControllerStatus;
-import net.ionoff.center.server.entity.Controller;
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.Mode;
 import net.ionoff.center.server.entity.ModeScene;
 import net.ionoff.center.server.entity.Player;
 import net.ionoff.center.server.entity.Project;
 import net.ionoff.center.server.entity.Relay;
+import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.entity.Scene;
 import net.ionoff.center.server.entity.SceneAction;
 import net.ionoff.center.server.entity.SceneDevice;
@@ -30,6 +26,10 @@ import net.ionoff.center.server.persistence.service.IDeviceService;
 import net.ionoff.center.server.persistence.service.IModeService;
 import net.ionoff.center.server.persistence.service.IRelayService;
 import net.ionoff.center.server.persistence.service.ISceneService;
+import net.ionoff.center.server.relaydriver.api.RelayDriverApiProvider;
+import net.ionoff.center.server.relaydriver.api.RelayDriverApiUtil;
+import net.ionoff.center.server.relaydriver.api.RelayDriverException;
+import net.ionoff.center.server.relaydriver.api.RelayDriverStatus;
 import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.StatusDto;
 import net.ionoff.center.shared.entity.PlayerAction;
@@ -53,9 +53,9 @@ public class ControlServiceImpl implements IControlService {
 	
 	@Autowired
 	private IModeService modeService;
-	
+	 
 	@Autowired
-	private ControllerApiProvider controllerApiProvider;
+	private RelayDriverApiProvider relayDriverApiProvider;
 	
 	@Autowired
 	private IPlayerService playerService;
@@ -109,14 +109,14 @@ public class ControlServiceImpl implements IControlService {
 	@Override
 	public void setRelayState(Relay relay, Boolean state) {
 		if (Boolean.TRUE.equals(state)) {
-			Controller controller = relay.getController();
-			controllerApiProvider.getControllerApi(controller).closeRelay(controller, relay.getIndex());
+			RelayDriver relayDriver = relay.getDriver();
+			relayDriverApiProvider.getRelayDriverApi(relayDriver).closeRelay(relayDriver, relay.getIndex());
 			logger.info("Update relay status " + relay.getNameId() + ": true");
 			relayService.update(relay, true);
 		}
 		else if (Boolean.FALSE.equals(state)) {
-			Controller controller = relay.getController();
-			controllerApiProvider.getControllerApi(controller).openRelay(controller, relay.getIndex());
+			RelayDriver relayDriver = relay.getDriver();
+			relayDriverApiProvider.getRelayDriverApi(relayDriver).openRelay(relayDriver, relay.getIndex());
 			logger.info("Update relay status " + relay.getNameId() + ": false");
 			relayService.update(relay, false);
 		}
@@ -140,8 +140,8 @@ public class ControlServiceImpl implements IControlService {
 
 	@Override
 	public void switchRelayOnOff(Relay relay) {
-		Controller controller = relay.getController();
-		controllerApiProvider.getControllerApi(controller).closeOpenRelay(controller, relay.getIndex());
+		RelayDriver relayDriver = relay.getDriver();
+		relayDriverApiProvider.getRelayDriverApi(relayDriver).closeOpenRelay(relayDriver, relay.getIndex());
 		logger.info("Update relay status " + relay.getNameId() + ": false");
 		relayService.update(relay, false);
 	}
@@ -172,8 +172,8 @@ public class ControlServiceImpl implements IControlService {
 		for (final SceneAction sceneAction : sceneActions) {
 			try {
 				executeSceneAction(sceneAction);
-			} catch (PlayerConnectException | ControllerException
-					| DataServiceException | UnknownControllerModelException e) {
+			} catch (PlayerConnectException | RelayDriverException
+					| DataServiceException | UnknownRelayDriverModelException e) {
 				logger.error("Failed to execute scene action. " + e.getMessage());
 			}
 		}
@@ -346,13 +346,13 @@ public class ControlServiceImpl implements IControlService {
 	}
 
 	@Override
-	public ControllerStatus getControllerStatus(Controller controller) {
-		return controllerApiProvider.getControllerApi(controller).getStatus(controller);
+	public RelayDriverStatus getRelayDriverStatus(RelayDriver relayDriver) {
+		return relayDriverApiProvider.getRelayDriverApi(relayDriver).getStatus(relayDriver);
 	}
 
 	@Override
-	public boolean ping(Controller controller) {
-		return ControllerApiUtil.ping(controller.getIp(), controller.getPort());
+	public boolean ping(RelayDriver relayDriver) {
+		return RelayDriverApiUtil.ping(relayDriver.getIp(), relayDriver.getPort());
 	}
 
 	@Override

@@ -37,8 +37,8 @@ public class RelayMapper {
 		if (relay.getTime() != null) {
 			relayDto.setTime(DateTimeUtil.ddMMHHmmFormatter.format(relay.getTime()));
 		}
-		relayDto.setControllerId(relay.getController().getId());
-		relayDto.setControllerName(relay.getController().getName());
+		relayDto.setRelayDriverId(relay.getDriver().getId());
+		relayDto.setRelayDriverName(relay.getDriver().getName());
 		if (relay.getDevice() != null) {
 			relayDto.setDeviceId(relay.getDevice().getId());
 			relayDto.setDeviceName(relay.getDevice().getName());
@@ -59,7 +59,7 @@ public class RelayMapper {
 					relayDto.setDeviceId(relay.getDevice().getId());
 					relayDto.setDeviceName(relay.getDevice().getName());
 				}
-				relayDto.setControllerName(relay.getController().getName());
+				relayDto.setRelayDriverName(relay.getDriver().getName());
 				relayGroupDto.getRelays().add(relayDto);
 			}
 		}

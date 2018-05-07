@@ -7,10 +7,10 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import net.ionoff.center.server.entity.Controller;
+import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.entity.Version;
 import net.ionoff.center.server.license.LicenseManager;
-import net.ionoff.center.server.persistence.service.IControllerService;
+import net.ionoff.center.server.persistence.service.IRelayDriverService;
 import net.ionoff.center.server.persistence.service.IVersionService;
 import net.ionoff.center.server.thread.ServerThreadPool;
 
@@ -24,7 +24,7 @@ public class ApplicationStartupListener implements ApplicationListener<ContextRe
 	private IVersionService versionService;
 	
 	@Autowired
-	private IControllerService controllerService;
+	private IRelayDriverService relayDriverService;
 	
 	@Override
 	public void onApplicationEvent(final ContextRefreshedEvent event) {
@@ -46,9 +46,9 @@ public class ApplicationStartupListener implements ApplicationListener<ContextRe
 	}
 
 	private void insertSwitchesToRelayDrivers() {
-		List<Controller> relayDrivers = controllerService.loadAll();
-		for (Controller driver : relayDrivers) {
-			controllerService.insertSwitches(driver);
+		List<RelayDriver> relayDrivers = relayDriverService.loadAll();
+		for (RelayDriver driver : relayDrivers) {
+			relayDriverService.insertSwitches(driver);
 		}
 	}
 }
