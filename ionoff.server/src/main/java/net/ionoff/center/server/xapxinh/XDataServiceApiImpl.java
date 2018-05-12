@@ -12,7 +12,7 @@ public class XDataServiceApiImpl extends AbstractDataServiceApi {
 
 	@Override
 	public String getDataServiceUrl() {
-		return AppConfig.getInstance().XDATA_SERVICE_URL;
+		return AppConfig.getInstance().MEDIA_SERVICE_URL;
 	}
 
 }

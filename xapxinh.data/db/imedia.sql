@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.34, for Win32 (x86)
 --
--- Host: localhost    Database: xdataservice
+-- Host: localhost    Database: imedia
 -- ------------------------------------------------------
 -- Server version	5.5.34
 

@@ -442,7 +442,8 @@ public class AppliancePresenter extends DevicePresenter {
 			for (StatusDto child : status.getChildren()) {
 				for (RelayView relayView : view.getRelayViews()) {
 					if (child.getId().equals(relayView.getRelay().getId())) {
-						relayView.setStatus(status);
+						relayView.setStatus(child);
+						break;
 					}
 				}
 			}

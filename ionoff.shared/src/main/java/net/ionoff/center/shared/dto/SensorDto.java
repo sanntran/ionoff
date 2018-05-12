@@ -8,6 +8,8 @@ public class SensorDto extends BaseDto {
 	private Long driverId;
 	private String driverName;
 	private Integer index;
+	private Long deviceId;
+	private String deviceName;
 	private Long projectId;
 	
 	public String getType() {
@@ -37,6 +39,20 @@ public class SensorDto extends BaseDto {
 		this.index = index;
 	}
 	
+	public Long getDeviceId() {
+		return deviceId;
+	}
+	public void setDeviceId(Long deviceId) {
+		this.deviceId = deviceId;
+	}
+	
+	public String getDeviceName() {
+		return deviceName;
+	}
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
+	}
+
 	public Long getProjectId() {
 		return projectId;
 	}

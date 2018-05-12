@@ -1,4 +1,4 @@
-package net.ionoff.center.client.mode;
+package net.ionoff.center.client.sensor;
 
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;

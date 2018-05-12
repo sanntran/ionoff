@@ -99,11 +99,11 @@ public class UserServiceController {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkProjectPermission(user, projectId);
 
-		if (!userId.equals(userDto.getId()) && !userDto.isNew()) {
+		if (!userId.equals(userDto.getId()) && !userDto.izNew()) {
 			throw new ChangeEntityIdException(userDto.toString());
 		}
 		
-		if (userDto.isNew()) {
+		if (userDto.izNew()) {
 			logger.info("User " + user.getName() + " inserts user: " + userDto.toString());
 			return userService.insertDto(user, userDto, projectId);
 		}
@@ -123,11 +123,11 @@ public class UserServiceController {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkProjectPermission(user, null);
 
-		if (!userId.equals(userDto.getId()) && !userDto.isNew()) {
+		if (!userId.equals(userDto.getId()) && !userDto.izNew()) {
 			throw new ChangeEntityIdException(userDto.toString());
 		}
 		
-		if (userDto.isNew()) {
+		if (userDto.izNew()) {
 			logger.info("User " + user.getName() + " inserts user: " + userDto.toString());
 			return userService.insertDto(user, userDto);
 		}
@@ -212,7 +212,7 @@ public class UserServiceController {
 		if (!User.LORD.equals(user.getName())) {
 			RequestContextHolder.checkProjectPermission(user, userProjectDto.getProjectId());
 		}
-		if (!userProjectId.equals(userProjectDto.getId()) && !userProjectDto.isNew()) {
+		if (!userProjectId.equals(userProjectDto.getId()) && !userProjectDto.izNew()) {
 			throw new ChangeEntityIdException(userProjectDto.toString());
 		}
 		logger.info("User " + user.getName() + " update user-project: " + userProjectDto.toString() + ", Role: " + userProjectDto.getRole());

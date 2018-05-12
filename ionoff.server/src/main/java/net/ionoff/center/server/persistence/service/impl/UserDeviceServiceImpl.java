@@ -3,6 +3,7 @@ package net.ionoff.center.server.persistence.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +35,17 @@ public class UserDeviceServiceImpl extends AbstractGenericService<UserDevice, Us
 	protected IUserDeviceDao getDao() {
 		return userDeviceDao;
 	}
-
+	
+	@Override
+	public UserDevice update(UserDevice entity) {
+		super.update(entity);
+		Cache cache = getDao().getSessionFactory().getCache();
+		if (cache != null) {
+		    cache.evictAllRegions();
+		}
+		return entity;
+	}
+	
 	@Override
 	public List<UserDevice> findByUserProject(Long userId, Long projectId) {
 		return userDeviceDao.findByUserProjectId(userId, projectId);

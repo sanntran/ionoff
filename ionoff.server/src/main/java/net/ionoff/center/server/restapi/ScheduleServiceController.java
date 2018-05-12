@@ -59,13 +59,13 @@ public class ScheduleServiceController {
 	public ScheduleDto update(@PathVariable("scheduleId") Long scheduleId,
 			@RequestBody ScheduleDto scheduleDto, HttpServletRequest request) throws UpdateEntityException {
 
-		if (!scheduleId.equals(scheduleDto.getId()) && !scheduleDto.isNew()) {
+		if (!scheduleId.equals(scheduleDto.getId()) && !scheduleDto.izNew()) {
 			throw new ChangeEntityIdException(scheduleDto.toString());
 		}
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkProjectPermission(user, scheduleDto.getProjectId());
 		
-		if (scheduleDto.isNew()) {
+		if (scheduleDto.izNew()) {
 			logger.info("User " + user.getName() + " inserts schedule: " + scheduleDto.toString());
 			return scheduleService.insertDto(user, scheduleDto);
 		}

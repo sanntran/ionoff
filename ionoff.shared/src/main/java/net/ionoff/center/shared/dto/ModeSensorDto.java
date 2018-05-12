@@ -1,16 +1,19 @@
 package net.ionoff.center.shared.dto;
 
+import java.util.List;
+
 public class ModeSensorDto extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 	
 	private Boolean enabled;
-	private Boolean detected;
-	private Integer timeBuffer;
+	private String condition;
 	private Long modeId;
 	private String modeName;
 	private Long sensorId;
 	private String sensorName;
+	private List<ModeSensorSceneDto> scenes;
+	private List<ModeSensorUserDto> users;
 	
 	public Boolean getEnabled() {
 		return enabled != null ? enabled : false;
@@ -19,20 +22,12 @@ public class ModeSensorDto extends BaseDto {
 		this.enabled = enabled;
 	}
 	
-	public Boolean getDetected() {
-		return detected;
+	public String getCondition() {
+		return condition;
 	}
-	public void setDetected(Boolean detected) {
-		this.detected = detected;
+	public void setCondition(String condition) {
+		this.condition = condition;
 	}
-	
-	public Integer getTimeBuffer() {
-		return timeBuffer;
-	}
-	public void setTimeBuffer(Integer timeBuffer) {
-		this.timeBuffer = timeBuffer;
-	}
-	
 	public Long getModeId() {
 		return modeId;
 	}
@@ -59,5 +54,19 @@ public class ModeSensorDto extends BaseDto {
 	}
 	public void setSensorName(String sensorName) {
 		this.sensorName = sensorName;
+	}
+	
+	public List<ModeSensorSceneDto> getScenes() {
+		return scenes;
+	}
+	public void setScenes(List<ModeSensorSceneDto> scenes) {
+		this.scenes = scenes;
+	}
+	
+	public List<ModeSensorUserDto> getUsers() {
+		return users;
+	}
+	public void setUsers(List<ModeSensorUserDto> users) {
+		this.users = users;
 	}
 }

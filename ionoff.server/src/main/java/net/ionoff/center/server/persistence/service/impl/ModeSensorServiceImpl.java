@@ -1,13 +1,17 @@
 package net.ionoff.center.server.persistence.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.ionoff.center.server.entity.Mode;
 import net.ionoff.center.server.entity.ModeSensor;
 import net.ionoff.center.server.entity.ModeSensorScene;
 import net.ionoff.center.server.entity.ModeSensorUser;
+import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.UserProject;
 import net.ionoff.center.server.entity.Zone;
@@ -16,6 +20,8 @@ import net.ionoff.center.server.persistence.dao.IModeSensorDao;
 import net.ionoff.center.server.persistence.dao.IModeSensorSceneDao;
 import net.ionoff.center.server.persistence.dao.IModeSensorUserDao;
 import net.ionoff.center.server.persistence.service.IModeSensorService;
+import net.ionoff.center.server.persistence.service.IModeService;
+import net.ionoff.center.server.persistence.service.ISensorService;
 import net.ionoff.center.shared.dto.ModeSensorDto;
 
 @Transactional
@@ -25,6 +31,12 @@ public class ModeSensorServiceImpl extends AbstractGenericService<ModeSensor, Mo
 	
 	@Autowired
 	private ModeMapper modeMapper;
+	
+	@Autowired
+	private ISensorService sensorService;
+	
+	@Autowired
+	private IModeService modeService;
 	
 	@Autowired
 	private IModeSensorSceneDao modeSensorSceneDao;
@@ -50,16 +62,18 @@ public class ModeSensorServiceImpl extends AbstractGenericService<ModeSensor, Mo
 	}
 
 	private void insertModeSensorScenes(ModeSensor modeSensor) {
-		if (modeSensor.getMode().getProject().getZones() == null) {
+		modeSensor.setScenes(new HashSet<>());
+		if (modeSensor.getSensor().getProject().getZones() == null) {
 			return;
 		}
-		for (Zone zone : modeSensor.getMode().getProject().getZones()) {
+		for (Zone zone : modeSensor.getSensor().getProject().getZones()) {
 			insertModeSensorScene(modeSensor, zone);
 		}
 	}
 	
 	private void insertModeSensorUsers(ModeSensor modeSensor) {
-		for (UserProject userProject : modeSensor.getMode().getProject().getUsers()) {
+		modeSensor.setUsers(new HashSet<>());
+		for (UserProject userProject : modeSensor.getSensor().getProject().getUsers()) {
 			if (userProject.hasRole()) {
 				insertModeSensorUser(modeSensor, userProject.getUser());
 			}
@@ -72,8 +86,9 @@ public class ModeSensorServiceImpl extends AbstractGenericService<ModeSensor, Mo
 		modeSensorUser.setUser(user);
 		modeSensorUser.setSendEmail(false);
 		modeSensorUser.setSendSms(false);
-		modeSensorUser.setProject(modeSensor.getMode().getProject());
+		modeSensorUser.setProject(modeSensor.getSensor().getProject());
 		modeSensorUserDao.insert(modeSensorUser);
+		modeSensor.getUsers().add(modeSensorUser);
 	}
 
 	private void insertModeSensorScene(ModeSensor modeSensor, Zone zone) {
@@ -81,19 +96,33 @@ public class ModeSensorServiceImpl extends AbstractGenericService<ModeSensor, Mo
 		modeSensorScene.setModeSensor(modeSensor);
 		modeSensorScene.setZone(zone);
 		modeSensorSceneDao.insert(modeSensorScene);
+		modeSensor.getScenes().add(modeSensorScene);
 	}
 
 	@Override
-	public ModeSensorDto insertDto(User user, ModeSensorDto dto) {
-		throw new UnsupportedOperationException();
+	public ModeSensorDto insertDto(User user, ModeSensorDto modeSensorDto) {
+		final ModeSensor modeSensor = createModeSensor(modeSensorDto);
+		insert(modeSensor);
+		return modeMapper.createModeSensorDto(modeSensor);
+	}
+
+	private ModeSensor createModeSensor(ModeSensorDto modeSensorDto) {
+		ModeSensor modeSensor = new ModeSensor();
+		modeSensor.setEnabled(modeSensorDto.getEnabled());
+		Sensor sensor = sensorService.findById(modeSensorDto.getSensorId());
+		modeSensor.setSensor(sensor);
+		Mode mode = null;
+		if (modeSensorDto.getModeId() != null) {
+			mode = modeService.findById(modeSensorDto.getModeId());
+		}
+		modeSensor.setMode(mode);
+		return modeSensor;
 	}
 
 	@Override
 	public ModeSensorDto updateDto(User user, ModeSensorDto dto) {
-		
 		final ModeSensor modeSensor = requireById(dto.getId());
 		modeSensor.setEnabled(dto.getEnabled());
-		modeSensor.setTimeBuffer(dto.getTimeBuffer());
 		update(modeSensor);
 		return modeMapper.createModeSensorDto(modeSensor);
 	}
@@ -111,5 +140,15 @@ public class ModeSensorServiceImpl extends AbstractGenericService<ModeSensor, Mo
 	@Override
 	protected List<ModeSensorDto> createDtoList(List<ModeSensor> entities) {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public List<ModeSensorDto> findDtosBySensorId(Long sensorId) {
+		List<ModeSensor> modeSensors = modeSensorDao.findBySensorId(sensorId);
+		List<ModeSensorDto> modeSensorDtos = new ArrayList<>();
+		for (ModeSensor modeSensor : modeSensors) {
+			modeSensorDtos.add(modeMapper.createModeSensorDto(modeSensor));
+		}
+		return modeSensorDtos;
 	}
 }

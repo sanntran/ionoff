@@ -20,7 +20,7 @@ public class ProjectMenuItemView extends MaterialButton {
 		setWaves(WavesType.LIGHT);
 		addStyleName("project");
 		MaterialIcon icon = new MaterialIcon();
-		icon.setIconType(IconType.BORDER_OUTER);
+		icon.setIconType(IconType.BUSINESS);
 		add(icon);
 		lblTitle = new MaterialTitle();
 		add(lblTitle);

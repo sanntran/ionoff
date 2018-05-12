@@ -15,14 +15,12 @@ import com.google.gwt.view.client.HasData;
 
 import net.ionoff.center.client.base.AbstractTablePresenter;
 import net.ionoff.center.client.base.ITableView;
-import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.event.ShowMessageEvent;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.service.EntityService;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.BaseDto;
-import net.ionoff.center.shared.dto.RelayDriverDto;
 import net.ionoff.center.shared.dto.SensorDto;
 
 public class SensorTablePresenter extends AbstractTablePresenter<SensorDto> {
@@ -62,23 +60,6 @@ public class SensorTablePresenter extends AbstractTablePresenter<SensorDto> {
 	public void show(HasWidgets container) {
 		container.clear();
 		container.add(display.asWidget());
-		loadRelayDriversByProjectId();
-	}
-
-	private void loadRelayDriversByProjectId() {
-		rpcProvider.getRelayDriverService().findByProjectId(getProjectId(), 
-				new MethodCallback<List<RelayDriverDto>>() {
-			@Override
-			public void onFailure(Method method, Throwable exception) {
-				ClientUtil.handleRpcFailure(method, exception, eventBus);
-			}
-
-			@Override
-			public void onSuccess(Method method, List<RelayDriverDto> result) {
-				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				getSensorEditPresenter().setRelayDriverOptions(result);
-			}
-		});
 	}
 	
 	@Override
@@ -194,6 +175,5 @@ public class SensorTablePresenter extends AbstractTablePresenter<SensorDto> {
 
 	private void showEditForm() {
 		view.showEditForm();
-		
 	}
 }

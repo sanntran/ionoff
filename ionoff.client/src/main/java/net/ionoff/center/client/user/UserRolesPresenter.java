@@ -62,7 +62,7 @@ public class UserRolesPresenter extends AbstractPresenter {
 
 	public void setUser(UserDto userDto) {
 		user = userDto;
-		if (userDto.isNew()) {
+		if (userDto.izNew()) {
 			display.asPanel().setVisible(false);
 			return;
 		}

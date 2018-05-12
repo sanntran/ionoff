@@ -12,6 +12,7 @@ import net.ionoff.center.server.entity.ModeSensorScene;
 import net.ionoff.center.server.entity.ModeSensorUser;
 import net.ionoff.center.server.entity.Scene;
 import net.ionoff.center.server.persistence.service.IProjectService;
+import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.BaseDto;
 import net.ionoff.center.shared.dto.ModeDto;
 import net.ionoff.center.shared.dto.ModeSceneDto;
@@ -50,20 +51,17 @@ public class ModeMapper {
 		modeDto.setScheduleDay(mode.getScheduleDay());
 		modeDto.setScheduleTime(mode.getScheduleTime());
 		modeDto.setProjectId(mode.getProject().getId());
+		modeDto.setProjectName(mode.getProject().getName());
 		modeDto.setIsActivated(mode.getIsActivated());
+		if (mode.getTime() != null) {
+			modeDto.setTime(DateTimeUtil.ddMMHHmmFormatter.format(mode.getTime()));
+		}
 		if (mode.getScenes() != null) {
 			final List<ModeSceneDto> modeSceneDtos = new ArrayList<ModeSceneDto>();
 			for (final ModeScene modeScene : mode.getScenes()) {
 				modeSceneDtos.add(createModeSceneDto(modeScene));
 				modeDto.setScenes(modeSceneDtos);
 			}
-		}
-		if (mode.getSensors() != null) {
-			final List<ModeSensorDto> modeSensorDtos = new ArrayList<ModeSensorDto>();
-			for (final ModeSensor modeSensor : mode.getSensors()) {
-				modeSensorDtos.add(createModeSensorDto(modeSensor));
-			}
-			modeDto.setSensors(modeSensorDtos);
 		}
 		return modeDto;
 	}
@@ -72,10 +70,28 @@ public class ModeMapper {
 		final ModeSensorDto modeSensorDto = new ModeSensorDto();
 		modeSensorDto.setId(modeSensor.getId());
 		modeSensorDto.setEnabled(modeSensor.getEnabled());
-		modeSensorDto.setTimeBuffer(modeSensor.getTimeBuffer());
-		modeSensorDto.setModeId(modeSensor.getMode().getId());
+		
+		if (modeSensor.getMode() != null) {
+			modeSensorDto.setModeId(modeSensor.getMode().getId());
+			modeSensorDto.setModeName(modeSensor.getMode().getName());
+		}
+		
 		modeSensorDto.setSensorId(modeSensor.getSensor().getId());
 		modeSensorDto.setSensorName(modeSensor.getSensor().getName());
+		
+		modeSensorDto.setScenes(new ArrayList<>());
+		modeSensorDto.setUsers(new ArrayList<>());
+		
+		if (modeSensor.getScenes() != null) {
+			for (ModeSensorScene scene : modeSensor.getScenes()) {
+				modeSensorDto.getScenes().add(createModeSensorSceneDto(scene));
+			}
+		}
+		if (modeSensor.getUsers() != null) {
+			for (ModeSensorUser user : modeSensor.getUsers()) {
+				modeSensorDto.getUsers().add(createModeSensorUserDto(user));
+			}
+		}
 		return modeSensorDto;
 	}
 

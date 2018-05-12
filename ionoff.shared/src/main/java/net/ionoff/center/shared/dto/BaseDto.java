@@ -57,7 +57,7 @@ public class BaseDto implements IDto, Comparable<BaseDto> {
 	}
 	
 	@Override
-	public boolean isNew() {
+	public boolean izNew() {
 		return id == DEFAULT_ID;
 	}
 	

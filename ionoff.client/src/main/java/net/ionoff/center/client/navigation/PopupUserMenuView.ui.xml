@@ -1,0 +1,21 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:m="urn:import:gwt.material.design.client.ui"
+	xmlns:ma="urn:import:gwt.material.design.addins.client">
+
+	<g:HTMLPanel ui:field="root">
+		<g:PopupPanel ui:field="popup" addStyleNames="popupUserMenu">
+			<g:FlowPanel addStyleNames="userMenuWrapper"> 
+				<m:MaterialTitle ui:field="lblUser" title="User" description="user" addStyleNames="user">
+					<m:MaterialIcon iconType="ACCOUNT_CIRCLE" />
+				</m:MaterialTitle>
+				<m:MaterialButton ui:field="menuItemFullscreen" iconType="FULLSCREEN" text="" type="FLAT" waves="LIGHT" />
+				<m:MaterialButton ui:field="menuItemVi" iconType="CHECK" text="" type="FLAT" waves="LIGHT" />
+				<m:MaterialButton ui:field="menuItemEn" iconType="CHECK_BOX_OUTLINE_BLANK" text="" type="FLAT" waves="LIGHT" />
+				<m:MaterialButton ui:field="menuItemVersion" iconType="UPDATE" text="" type="FLAT" waves="LIGHT" />
+				<m:MaterialButton ui:field="menuItemLogout" iconType="EXIT_TO_APP" text="" type="FLAT" waves="LIGHT" />
+			</g:FlowPanel>
+		</g:PopupPanel>
+	</g:HTMLPanel>
+
+</ui:UiBinder>

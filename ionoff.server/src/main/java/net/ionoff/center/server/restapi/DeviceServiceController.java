@@ -90,14 +90,14 @@ public class DeviceServiceController {
 	public DeviceDto insertOrUpdate(@PathVariable("deviceId") Long deviceId,
 			@RequestBody DeviceDto deviceDto, HttpServletRequest request) throws UpdateEntityException {
 		
-		if (!deviceId.equals(deviceDto.getId()) && !deviceDto.isNew()) {
+		if (!deviceId.equals(deviceDto.getId()) && !deviceDto.izNew()) {
 			throw new ChangeEntityIdException(deviceDto.toString());
 		}
 		
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkZonePermission(user, deviceDto.getZoneId());
 		
-		if (deviceDto.isNew()) {
+		if (deviceDto.izNew()) {
 			logger.info("User " + user.getName() + " inserts device: " + deviceDto.toString());
 			return deviceService.insertDto(user, deviceDto);
 		}

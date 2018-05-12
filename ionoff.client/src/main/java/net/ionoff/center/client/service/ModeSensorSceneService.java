@@ -6,7 +6,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
@@ -26,6 +25,5 @@ public interface ModeSensorSceneService extends RestService {
 	@GET
 	@Path("api/modesensors/{modeSensorId}/modesensorscenes")
 	void findByModeSensorId(@PathParam("modeSensorId") Long modeSensorId,
-			@QueryParam("detected") boolean detected,
 			MethodCallback<List<ModeSensorSceneDto>> callback);
 }

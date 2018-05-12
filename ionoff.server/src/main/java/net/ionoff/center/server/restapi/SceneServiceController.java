@@ -66,10 +66,10 @@ public class SceneServiceController {
 		
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkZonePermission(user, sceneDto.getZoneId());
-		if (!sceneId.equals(sceneDto.getId()) && !sceneDto.isNew()) {
+		if (!sceneId.equals(sceneDto.getId()) && !sceneDto.izNew()) {
 			throw new ChangeEntityIdException(sceneDto.toString());
 		}
-		if (sceneDto.isNew()) {
+		if (sceneDto.izNew()) {
 			logger.info("User " + user.getName() + " inserts scene. " + sceneDto.toString());
 			return sceneService.insertDto(user, sceneDto);
 		}

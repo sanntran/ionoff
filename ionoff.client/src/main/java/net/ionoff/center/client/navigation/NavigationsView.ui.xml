@@ -44,7 +44,7 @@
 					<m:MaterialIcon ui:field="iconArowUp" textColor="GREY_LIGHTEN_4" iconType="KEYBOARD_ARROW_LEFT" />
 					<m:MaterialTitle ui:field="navTitle" title="Null" description="Null" addStyleNames="title" />
 				</m:MaterialButton>		
-				<m:MaterialIcon ui:field="btnUser" activates="userMenu" iconType="ACCOUNT_CIRCLE" iconColor="WHITE" waves="LIGHT" float="RIGHT"
+				<m:MaterialIcon ui:field="btnUser" iconType="ACCOUNT_CIRCLE" iconColor="WHITE" waves="LIGHT" float="RIGHT"
 					addStyleNames="button-user" />
 			</m:MaterialNavBar>
 		</m:MaterialHeader>
@@ -85,19 +85,6 @@
 			<m:MaterialLink ui:field="menuItemZone" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="CROP_3_2" />
 			<m:MaterialLink ui:field="menuItemArrow" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="KEYBOARD_ARROW_DOWN"/>
 		</m:MaterialSideNavDrawer>
-
-		<m:MaterialDropDown activator="userMenu" addStyleNames="userMenu"
-			belowOrigin="true" constrainWidth="false" width="250px"
-			backgroundColor="BLUE_GREY_DARKEN_1">
-			<m:MaterialTitle ui:field="lblUser" title="User" description="user" addStyleNames="user">
-				<m:MaterialIcon iconType="ACCOUNT_CIRCLE" />
-			</m:MaterialTitle>
-			<m:MaterialLink ui:field="menuItemFullscreen" iconType="FULLSCREEN" text="" />
-			<m:MaterialCheckBox ui:field="menuItemVi" text="" value="false" />
-			<m:MaterialCheckBox ui:field="menuItemEn" text="" value="false" />
-			<m:MaterialLink ui:field="menuItemVersion" iconType="UPDATE" text="" />
-			<m:MaterialLink ui:field="menuItemLogout" iconType="EXIT_TO_APP" text="" />
-		</m:MaterialDropDown>
 		
 	</g:HTMLPanel>
 

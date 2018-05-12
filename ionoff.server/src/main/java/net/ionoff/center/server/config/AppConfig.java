@@ -1,5 +1,6 @@
 package net.ionoff.center.server.config;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -8,14 +9,20 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 
 public class AppConfig {
+	
 	static Logger LOGGER = Logger.getLogger(AppConfig.class.getName());
 
 	private static AppConfig INSTANCE = null;
-
-	public final String XDATA_SERVICE_URL;
-	public final String NOTIFY_SERVICE_URL;
+	
 	public final int PLAYER_TCP_SERVER_PORT;
+	public final String MEDIA_SERVICE_URL;
+	public final String NOTIFY_SERVICE_URL;
 	public final String UPDATOR_SERVICE_CONTEXT;
+	public final String UPDATE_SITE;
+	public final String UPDATE_FOLDER;
+	public final String LATEST_VERSION_URL;
+	public final String LATEST_VERSION_FILE;
+	public final String CRON_FOLDER;
 	
 	public final String MQTT_USER;
 	public final String MQTT_PASS;
@@ -40,9 +47,20 @@ public class AppConfig {
 			LOGGER.error(e.getMessage(), e);
 		}
 
-		XDATA_SERVICE_URL = prop.getProperty("XDATA_SERVICE_URL");
+		MEDIA_SERVICE_URL = prop.getProperty("MEDIA_SERVICE_URL");
 		NOTIFY_SERVICE_URL = prop.getProperty("NOTIFY_SERVICE_URL");
 		UPDATOR_SERVICE_CONTEXT  = prop.getProperty("UPDATOR_SERVICE_CONTEXT");
+		UPDATE_SITE = prop.getProperty("UPDATE_SITE");
+		UPDATE_FOLDER  = System.getProperty("catalina.base") 
+							+ File.separator + prop.getProperty("UPDATE_FOLDER");
+		
+		LATEST_VERSION_FILE = System.getProperty("catalina.base") 
+				+ File.separator + prop.getProperty("LATEST_VERSION_FILE");
+		
+		CRON_FOLDER = System.getProperty("catalina.base") 
+				+ File.separator + prop.getProperty("CRON_FOLDER");
+		
+		LATEST_VERSION_URL = prop.getProperty("LATEST_VERSION_URL");
 		
 		MQTT_USER = prop.getProperty("MQTT_USER");
 		MQTT_PASS = prop.getProperty("MQTT_PASS");

@@ -62,14 +62,14 @@ public class SensorServiceController {
 	public SensorDto update(@PathVariable("sensorId") Long sensorId,
 			@RequestBody SensorDto sensorDto, HttpServletRequest request) throws UpdateEntityException {
 
-		if (!sensorId.equals(sensorDto.getId()) && !sensorDto.isNew()) {
+		if (!sensorId.equals(sensorDto.getId()) && !sensorDto.izNew()) {
 			throw new ChangeEntityIdException(sensorDto.toString());
 		}
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, sensorDto.getProjectId());
 		
-		if (sensorDto.isNew()) {
+		if (sensorDto.izNew()) {
 			logger.info("User " + user.getName() + " inserts sensor: " + sensorDto.toString());
 			return sensorService.insertDto(user, sensorDto);
 		}

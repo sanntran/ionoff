@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.ui.MaterialButton;
-import gwt.material.design.client.ui.MaterialCheckBox;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLabel;
@@ -18,7 +17,6 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialNavBar;
 import gwt.material.design.client.ui.MaterialSideNavDrawer;
 import gwt.material.design.client.ui.MaterialTitle;
-import net.ionoff.center.client.locale.ClientLocale;
 import net.ionoff.center.client.locale.ProjectLocale;
 
 public class NavigationsView extends Composite implements NavigationsPresenter.Display {
@@ -43,21 +41,8 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 	@UiField
 	MaterialTitle navTitle;
 	
-	
 	@UiField
 	MaterialIcon btnUser;
-	@UiField
-	MaterialTitle lblUser;
-	@UiField
-	MaterialLink menuItemFullscreen;
-	@UiField
-	MaterialCheckBox menuItemVi;
-	@UiField
-	MaterialCheckBox menuItemEn;
-	@UiField
-	MaterialLink menuItemVersion;
-	@UiField
-	MaterialLink menuItemLogout;
 	
 	@UiField
 	MaterialSideNavDrawer sideNav;
@@ -104,17 +89,10 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 	@UiField
 	MaterialLink menuItemArrow;
 	
-	
 	PopupProjectsView popupProjectsView;
 
 	public NavigationsView() {
 		uiBinder.createAndBindUi(this);
-		
-		menuItemFullscreen.setText(ClientLocale.getClientConst().fullScreen());
-		menuItemEn.setText(ClientLocale.getClientConst().english());
-		menuItemVi.setText(ClientLocale.getClientConst().vietnamese());
-		menuItemVersion.setText(ClientLocale.getClientConst().checkLatestVersion());
-		menuItemLogout.setText(ClientLocale.getClientConst().logout());
 		
 		menuItemProject.setText(ProjectLocale.getProjectConst().project());
 		menuItemDashboard.setText(ProjectLocale.getProjectConst().dashboard());
@@ -161,31 +139,6 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 	@Override
 	public MaterialIcon getBtnUser() {
 		return btnUser;
-	}
-	
-	@Override
-	public MaterialTitle getLblUser() {
-		return lblUser;
-	}
-	
-	@Override
-	public MaterialLink getUserMenuItemLogout() {
-		return menuItemLogout;
-	}
-	
-	@Override
-	public MaterialLink getUserMenuItemVersion() {
-		return menuItemVersion;
-	}
-	
-	@Override
-	public MaterialCheckBox getUserMenuItemVi() {
-		return menuItemVi;
-	}
-	
-	@Override
-	public MaterialCheckBox getUserMenuItemEn() {
-		return menuItemEn;
 	}
 	
 	@Override
@@ -300,11 +253,6 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 	@Override
 	public Panel asPanel() {
 		return this.root;
-	}
-
-	@Override
-	public MaterialLink getUserMenuItemFullscreen() {
-		return menuItemFullscreen;
 	}
 
 }

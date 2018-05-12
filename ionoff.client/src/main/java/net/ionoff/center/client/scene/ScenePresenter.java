@@ -26,6 +26,7 @@ public class ScenePresenter extends AbstractPresenter {
 		MaterialLabel getLblName();
 		MaterialLabel getLblTime();
 		MaterialIcon getBtnPlay();
+		MaterialLabel getLblZone();
 	}
 	
 	private Display display;
@@ -51,7 +52,7 @@ public class ScenePresenter extends AbstractPresenter {
 		if (scene.getTime() != null) {
 			display.getLblTime().setText(scene.getTime());
 		}
-		
+		display.getLblZone().setText(scene.getZoneName());
 		display.getBtnPlay().addClickHandler((e) -> playScene());
 	}
 

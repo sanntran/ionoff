@@ -9,7 +9,6 @@ public class ModeSensor extends BaseObj {
 	private Boolean enabled;
 	private Integer timeBuffer;
 	private Long resetTime;
-	private Double value;
 	private String condition;
 	private Mode mode;
 	private Sensor sensor;
@@ -36,14 +35,7 @@ public class ModeSensor extends BaseObj {
 	public void setResetTime(Long resetTime) {
 		this.resetTime = resetTime;
 	}
-	
-	public Double getValue() {
-		return value;
-	}
-	public void setValue(Double value) {
-		this.value = value;
-	}
-	
+
 	public String getCondition() {
 		return condition;
 	}

@@ -98,7 +98,7 @@ public class SceneEditPresenter extends AbstractEditPresenter<SceneDto> {
 		}
 		entityDto.setName(newName);
 		
-		if (entityDto.isNew()) {
+		if (entityDto.izNew()) {
 			String selectedValue = view.getListBoxZones().getSelectedValue().get(0).toString();
 			entityDto.setZoneId(BaseDto.parseIdFromFormattedNameID(selectedValue));
 			entityDto.setZoneName(BaseDto.parseNameFromFormattedNameID(selectedValue));

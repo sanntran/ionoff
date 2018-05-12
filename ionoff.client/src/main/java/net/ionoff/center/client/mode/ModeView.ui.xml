@@ -6,12 +6,12 @@
 	<ui:style>
 		.icon {
 			position: absolute;
-		    right: 20px;
+		    left: 15px;
 		    opacity: 0.25;
+		    bottom: 15px;
 		}
 		.btnSwitch {
-			position: absolute;
-		   
+			
 		}
 	</ui:style>
 	
@@ -22,6 +22,7 @@
 						<m:MaterialRow marginBottom="0">
 							<m:MaterialIcon ui:field="icon" addStyleNames="{style.icon}" iconType="SETTINGS_BRIGHTNESS" circle="true" iconSize="MEDIUM"/>
 							<m:MaterialLabel ui:field="lblName" addStyleNames="name" text="-" marginTop="3" fontSize="1.2em"/>
+							<m:MaterialLabel ui:field="lblProj" addStyleNames="proj" text="-" marginTop="5" textColor="GREY_LIGHTEN_2"/>
 							<m:MaterialLabel ui:field="lblTime" addStyleNames="time" text="-" textColor="GREY_LIGHTEN_1"/>
 							<m:MaterialSwitch ui:field="btnSwitch" value="false" float="RIGHT" addStyleNames="{style.btnSwitch} switch"/>
 						</m:MaterialRow>

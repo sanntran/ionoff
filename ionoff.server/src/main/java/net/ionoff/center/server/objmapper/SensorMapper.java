@@ -3,16 +3,16 @@ package net.ionoff.center.server.objmapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.ionoff.center.server.entity.SensorData;
-import net.ionoff.center.server.util.DateTimeUtil;
-import net.ionoff.center.shared.dto.SensorDataDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.entity.Sensor;
+import net.ionoff.center.server.entity.SensorData;
 import net.ionoff.center.server.exception.UpdateEntityException;
-import net.ionoff.center.server.persistence.service.IRelayDriverService;
 import net.ionoff.center.server.persistence.service.IProjectService;
+import net.ionoff.center.server.persistence.service.IRelayDriverService;
+import net.ionoff.center.server.util.DateTimeUtil;
+import net.ionoff.center.shared.dto.SensorDataDto;
 import net.ionoff.center.shared.dto.SensorDto;
 
 public class SensorMapper {
@@ -57,16 +57,14 @@ public class SensorMapper {
 		sensorDto.setId(sensor.getId());
 		sensorDto.setName(sensor.getName());
 		if (sensor.getDevice() != null) {
-			sensorDto.setDriverId(sensor.getDevice().getId());
-			sensorDto.setDriverName(sensor.getDevice().getName());
+			sensorDto.setIndex(null);
+			sensorDto.setDeviceId(sensor.getDevice().getId());
+			sensorDto.setDeviceName(sensor.getDevice().getName());
 		}
-		if (sensor.getZwitch() != null) {
+		else if (sensor.getZwitch() != null) {
 			sensorDto.setDriverId(sensor.getZwitch().getDriver().getId());
 			sensorDto.setDriverName(sensor.getZwitch().getDriver().getName());
 			sensorDto.setIndex(sensor.getZwitch().getIndex() + 1);
-		}
-		else {
-			sensorDto.setIndex(null);
 		}
 		sensorDto.setProjectId(sensor.getProject().getId());
 		return sensorDto;

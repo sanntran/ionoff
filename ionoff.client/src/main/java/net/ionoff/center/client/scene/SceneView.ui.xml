@@ -7,18 +7,19 @@
 		
 		.btnPlay {
 		    position: absolute;
-		    right: 20px;
+		    right: 15px;
 		    width: 50px!important;
 		    height: 45px!important;
-		    bottom: 20px;
+		    bottom: 15px;
 		    line-height: 45px;
 		    text-align: center !important;
 		    padding: 0px !important;
 		}
 		.icon {
 			position: absolute;
-		    right: 20px;
+		    left: 15px;
 		    opacity: 0.25;
+		    bottom: 15px;
 		}
 	</ui:style>
 
@@ -29,6 +30,7 @@
 						<m:MaterialRow marginBottom="0">
 							<m:MaterialIcon ui:field="icon" addStyleNames="{style.icon}" iconType="MOVIE" circle="true" iconSize="MEDIUM"/>
 							<m:MaterialLabel ui:field="lblName" addStyleNames="name" text="-" marginTop="3" fontSize="1.2em"/>
+							<m:MaterialLabel ui:field="lblZone" addStyleNames="zone" text="-" marginTop="5" textColor="GREY_LIGHTEN_2"/>
 							<m:MaterialLabel ui:field="lblTime" addStyleNames="time" text="-" textColor="GREY_LIGHTEN_1"/>
 							<m:MaterialIcon ui:field="btnPlay" addStyleNames="{style.btnPlay}" waves="LIGHT" iconType="PLAY_ARROW" circle="true" iconSize="MEDIUM"/>
 						</m:MaterialRow>

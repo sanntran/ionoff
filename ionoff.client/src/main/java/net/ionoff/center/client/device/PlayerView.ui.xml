@@ -50,7 +50,7 @@
 						<m:MaterialRow marginBottom="0">
 							<m:MaterialIcon ui:field="menuIcon" addStyleNames="{style.menuIcon}" iconType="MORE_VERT" iconSize="SMALL" waves="LIGHT"/>						
 							<m:MaterialPanel ui:field="playerCard" grid="s9"  waves="LIGHT">
-								<m:MaterialLabel ui:field="lblName" addStyleNames="name" text="-" marginTop="3" fontSize="1.2em" float="LEFT"/>
+								<m:MaterialLabel ui:field="lblName" addStyleNames="name" text="-" marginTop="3" fontSize="1.2em"/>
 								<m:MaterialLabel ui:field="lblZone" addStyleNames="zone" text="-" marginTop="5" textColor="GREY_LIGHTEN_2"/>
 							</m:MaterialPanel>
 							<m:MaterialPanel grid="s12" addStyleNames="{style.btnGroup}">

@@ -70,13 +70,13 @@ public class ModeServiceController {
 	public ModeDto update(@PathVariable("modeId") Long modeId,
 			@RequestBody ModeDto modeDto, HttpServletRequest request) {
 		
-		if (!modeId.equals(modeDto.getId()) && !modeDto.isNew()) {
+		if (!modeId.equals(modeDto.getId()) && !modeDto.izNew()) {
 			throw new ChangeEntityIdException(modeDto.toString());
 		}
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkProjectPermission(user, modeDto.getProjectId());
 
-		if (modeDto.isNew()) {
+		if (modeDto.izNew()) {
 			logger.info("User " + user.getName() + " inserts mode: " + modeDto.toString());
 			return modeService.insertDto(user, modeDto);
 		}

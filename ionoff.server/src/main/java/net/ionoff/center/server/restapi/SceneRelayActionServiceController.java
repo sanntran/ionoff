@@ -35,7 +35,7 @@ public class SceneRelayActionServiceController {
 			@RequestBody SceneRelayActionDto sceneRelayActionDto,
 			HttpServletRequest request) throws UpdateEntityException {
 
-		if (!sceneRelayActionId.equals(sceneRelayActionDto.getId()) && !sceneRelayActionDto.isNew()) {
+		if (!sceneRelayActionId.equals(sceneRelayActionDto.getId()) && !sceneRelayActionDto.izNew()) {
 			throw new ChangeEntityIdException(sceneRelayActionDto.toString());
 		}
 		

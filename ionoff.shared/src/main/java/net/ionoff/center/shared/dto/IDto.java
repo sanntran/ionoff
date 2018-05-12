@@ -18,6 +18,6 @@ public interface IDto extends Serializable {
 	
 	String formatNameID();
 	
-	boolean isNew();
+	boolean izNew();
 
 }

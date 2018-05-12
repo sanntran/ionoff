@@ -64,11 +64,11 @@ public class ZoneServiceController {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
 		
-		if (!zoneId.equals(zoneDto.getId()) && !zoneDto.isNew()) {
+		if (!zoneId.equals(zoneDto.getId()) && !zoneDto.izNew()) {
 			throw new ChangeEntityIdException(zoneDto.toString());
 		}
 		
-		if (zoneDto.isNew()) {
+		if (zoneDto.izNew()) {
 			logger.info("User " + user.getName() + " inserts zone: " + zoneDto.toString());
 			return zoneService.insertDto(user, zoneDto);
 		}

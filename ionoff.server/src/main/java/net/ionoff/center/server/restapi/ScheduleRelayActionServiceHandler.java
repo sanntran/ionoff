@@ -34,7 +34,7 @@ public class ScheduleRelayActionServiceHandler {
 			@RequestBody ScheduleRelayActionDto scheduleRelayActionDto,
 			HttpServletRequest request) throws UpdateEntityException {
 		
-		if (!scheduleRelayActionId.equals(scheduleRelayActionDto.getId()) && !scheduleRelayActionDto.isNew()) {
+		if (!scheduleRelayActionId.equals(scheduleRelayActionDto.getId()) && !scheduleRelayActionDto.izNew()) {
 			throw new ChangeEntityIdException(scheduleRelayActionDto.toString());
 		}
 		

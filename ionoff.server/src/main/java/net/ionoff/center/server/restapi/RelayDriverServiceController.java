@@ -41,12 +41,12 @@ public class RelayDriverServiceController {
 			@RequestBody RelayDriverDto relayDriverDto,
 			HttpServletRequest request) throws UpdateEntityException {
 		
-		if (!relayDriverId.equals(relayDriverDto.getId()) && !relayDriverDto.isNew()) {
+		if (!relayDriverId.equals(relayDriverDto.getId()) && !relayDriverDto.izNew()) {
 			throw new ChangeEntityIdException(relayDriverDto.toString());
 		}
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkProjectPermission(user, relayDriverDto.getProjectId());
-		if (relayDriverDto.isNew()) {
+		if (relayDriverDto.izNew()) {
 			logger.info("User " + user.getName() + " inserts relayDriver: " + relayDriverDto.toString());
 			return relayDriverService.insertDto(user, relayDriverDto);
 		} else {
@@ -68,7 +68,7 @@ public class RelayDriverServiceController {
 		return MessageDto.success(relayDriverId);
 	}
 
-	@RequestMapping(value = "relayDrivers", 
+	@RequestMapping(value = "relaydrivers", 
 			method = RequestMethod.GET, 
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
@@ -95,5 +95,5 @@ public class RelayDriverServiceController {
 		List<RelayDriverDto> relayDrivers = relayDriverService.searchByCriteria(criteriaDto);
 		return relayDrivers;
 	}
-
+	
 }

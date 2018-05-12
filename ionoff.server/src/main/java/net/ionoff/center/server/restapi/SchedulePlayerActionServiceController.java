@@ -34,7 +34,7 @@ public class SchedulePlayerActionServiceController {
 			@RequestBody SchedulePlayerActionDto schedulePlayerActionDto,
 			HttpServletRequest request) throws UpdateEntityException {
 
-		if (!schedulePlayerActionId.equals(schedulePlayerActionDto.getId()) && !schedulePlayerActionDto.isNew()) {
+		if (!schedulePlayerActionId.equals(schedulePlayerActionDto.getId()) && !schedulePlayerActionDto.izNew()) {
 			throw new ChangeEntityIdException(schedulePlayerActionDto.toString());
 		}
 		

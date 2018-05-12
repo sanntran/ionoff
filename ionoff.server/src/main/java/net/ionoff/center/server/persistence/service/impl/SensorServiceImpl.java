@@ -12,9 +12,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.ionoff.center.server.entity.Mode;
-import net.ionoff.center.server.entity.ModeSensor;
-import net.ionoff.center.server.entity.Project;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.SensorData;
 import net.ionoff.center.server.entity.SensorStatus;
@@ -79,23 +76,6 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor, SensorDto>
 	public Sensor insert(Sensor sensor) {
 		super.insert(sensor);
 		return sensor;
-	}
-
-	private void insertModeSensors(Sensor sensor) {
-		Project project = sensor.getProject();
-		if (project.getModes() == null) {
-			return;
-		}
-		for (Mode mode : project.getModes()) {
-			insertModeSensor(mode, sensor);
-		}
-	}
-
-	private void insertModeSensor(Mode mode, Sensor sensor) {
-		ModeSensor modeSensor = new ModeSensor();
-		modeSensor.setMode(mode);
-		modeSensor.setSensor(sensor);
-		modeSensorService.insert(modeSensor);
 	}
 
 	@Override

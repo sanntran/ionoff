@@ -9,32 +9,41 @@ import org.fusesource.restygwt.client.MethodCallback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialIntegerBox;
 import gwt.material.design.client.ui.MaterialListBox;
 import net.ionoff.center.client.base.AbstractEditPresenter;
 import net.ionoff.center.client.base.IEditView;
+import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.service.EntityService;
 import net.ionoff.center.client.service.IRpcServiceProvider;
+import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.BaseDto;
+import net.ionoff.center.shared.dto.ModeDto;
+import net.ionoff.center.shared.dto.ModeSensorDto;
 import net.ionoff.center.shared.dto.RelayDriverDto;
 import net.ionoff.center.shared.dto.SensorDto;
 
 public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 
 	public interface Display extends IEditView<SensorDto> {
-		MaterialListBox getListBoxRelayDrivers();
-
-		MaterialIntegerBox getIntBoxRelayDriverInputIdx();
+		MaterialIntegerBox getIntBoxInputIndex();
+		MaterialListBox getListBoxGateways();
+		FlowPanel getPanelActions();
+		FlowPanel getPanelAddAction();
+		MaterialListBox getListBoxModes();
+		MaterialButton getBtnAddModeAction();
 	}
-	protected IRpcServiceProvider rpcProvider;
 	
 	private final Display view;
 	private SensorDto entityDto;
 	private SensorTablePresenter sensorManager;
+	protected IRpcServiceProvider rpcProvider;
 
 	public SensorEditPresenter(IRpcServiceProvider rpcProvider, 
 			HandlerManager eventBus, Display view, SensorTablePresenter sensorManager) {
@@ -64,6 +73,35 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 				sensorManager.hideEditForm();
 			}
 		});
+		view.getBtnAddModeAction().addClickHandler(event -> createModeSensor());
+	}
+
+	private void createModeSensor() {
+		ModeSensorDto modeSensor = new ModeSensorDto();
+		String selectedMode = view.getListBoxModes().getSelectedValue();
+		Long modeId = null;
+		try {
+			modeId = BaseDto.parseIdFromFormattedNameID(selectedMode);
+		}
+		catch (Exception e) {
+			// no mode selecected
+		}
+		modeSensor.setModeId(modeId);
+		modeSensor.setSensorId(entityDto.getId());
+		modeSensor.setEnabled(true);
+		rpcProvider.getModeSensorService().save(modeSensor.getId(), modeSensor, 
+				new MethodCallback<ModeSensorDto>() {
+			@Override
+			public void onFailure(Method method, Throwable exception) {
+				ClientUtil.handleRpcFailure(method, exception, eventBus);
+			}
+
+			@Override
+			public void onSuccess(Method method, ModeSensorDto response) {
+				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
+				showModeSensor(response);
+			}
+		});
 	}
 
 	@Override
@@ -89,8 +127,8 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		
 		entityDto.setName(newName);
 		
-		int selectedRelayDriverIndex = view.getListBoxRelayDrivers().getSelectedIndex();
-		String selectedItem = view.getListBoxRelayDrivers().getItemText(selectedRelayDriverIndex);
+		int selectedRelayDriverIndex = view.getListBoxGateways().getSelectedIndex();
+		String selectedItem = view.getListBoxGateways().getItemText(selectedRelayDriverIndex);
 		if (selectedRelayDriverIndex == 0) {
 			entityDto.setDriverId(null);
 			entityDto.setDriverName(null);
@@ -99,7 +137,7 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 			entityDto.setDriverId(BaseDto.parseIdFromFormattedNameID(selectedItem));
 			entityDto.setDriverName(BaseDto.parseNameFromFormattedNameID(selectedItem));
 		}
-		int newInput = view.getIntBoxRelayDriverInputIdx().getValue();
+		int newInput = view.getIntBoxInputIndex().getValue();
 		entityDto.setIndex(newInput);
 		
 		rpcProvider.getSensorService().save(entityDto.getId(), entityDto, 
@@ -127,7 +165,91 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 
 	public void setEntityDto(SensorDto dto) {
 		entityDto = dto;
-		updateView(dto);
+		if (dto.getDriverId() != null || dto.izNew()) {
+			loadRelayDrivers();
+		}
+		else {
+			setGatewayOptions(BaseDto.formatNameID(dto.getDeviceName(), dto.getDeviceId()));
+			updateView(dto);
+		}
+		if (dto.izNew()) {
+			view.getPanelActions().setVisible(false);
+			view.getPanelAddAction().setVisible(false);
+		}
+		else {
+			loadModesByProject();
+			loadAndShowModeSensors();
+			view.getPanelActions().setVisible(true);
+			view.getPanelAddAction().setVisible(true);
+		}
+	}
+	
+	private void loadAndShowModeSensors() {
+		rpcProvider.getModeSensorService().findBySensorId(entityDto.getId(), new MethodCallback<List<ModeSensorDto>>() {
+			@Override
+			public void onSuccess(Method method, List<ModeSensorDto> response) {
+				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
+				showModeSensors(response);
+			}
+
+			@Override
+			public void onFailure(Method method, Throwable exception) {
+				ClientUtil.handleRpcFailure(method, exception, eventBus);	
+			}
+		});
+	}
+	private void showModeSensors(List<ModeSensorDto> modeSensors) {
+		view.getPanelActions().clear();
+		for (ModeSensorDto modeSensor : modeSensors) {
+			showModeSensor(modeSensor);
+		}
+	}
+	
+	private void showModeSensor(ModeSensorDto modeSensor) {
+		ModeSensorView modeSensorView = new ModeSensorView();
+		view.getPanelActions().add(modeSensorView);
+		ModeSensorPresenter modeSensorPresenter 
+					= new ModeSensorPresenter(rpcProvider, eventBus, modeSensor, modeSensorView);
+		modeSensorPresenter.go();
+	}
+
+	private void loadModesByProject() {
+		rpcProvider.getModeService().findByProjectId(getProjectId(), new MethodCallback<List<ModeDto>>() {
+			@Override
+			public void onSuccess(Method method, List<ModeDto> response) {
+				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
+				fillListBoxModes(response);
+			}
+			
+			@Override
+			public void onFailure(Method method, Throwable exception) {
+				ClientUtil.handleRpcFailure(method, exception, eventBus);	
+			}
+		});
+	}
+
+	private void loadRelayDrivers() {
+		rpcProvider.getRelayDriverService().findByProjectId(getProjectId(), 
+				new MethodCallback<List<RelayDriverDto>>() {
+			@Override
+			public void onFailure(Method method, Throwable exception) {
+				ClientUtil.handleRpcFailure(method, exception, eventBus);
+			}
+
+			@Override
+			public void onSuccess(Method method, List<RelayDriverDto> result) {
+				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
+				setGatewayOptions(result);
+				updateView(entityDto);
+			}
+		});
+	}
+
+	protected Long getProjectId() {
+		if (AppToken.hasTokenItem(AppToken.PROJECT)) {
+			return AppToken.getProjectIdLong();
+		}
+		return null;
 	}
 
 	private void updateView(SensorDto dto) {
@@ -136,28 +258,53 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		view.getTextBoxName().setText(dto.getName());
 		
 		if (dto.getDriverId() != null) {
-			view.getListBoxRelayDrivers().setSelectedValue(BaseDto.formatNameID(dto.getDriverName(), dto.getDriverId()));
+			view.getListBoxGateways().setSelectedValue(
+					BaseDto.formatNameID(dto.getDriverName(), dto.getDriverId()));
 		}
 		else {
-			view.getListBoxRelayDrivers().setSelectedIndex(0);
+			view.getListBoxGateways().setSelectedIndex(0);
 		}
 		
 		if (dto.getIndex() == null) {
-			view.getIntBoxRelayDriverInputIdx().setValue(0);
+			view.getIntBoxInputIndex().setValue(0);;
 		}
 		else {
-			view.getIntBoxRelayDriverInputIdx().setValue(dto.getIndex());
+			view.getIntBoxInputIndex().setValue(dto.getIndex());
 		}
 	}
 
-	public void setRelayDriverOptions(List<RelayDriverDto> options) {
-		view.getListBoxRelayDrivers().clear();
-		view.getListBoxRelayDrivers().addItem(AdminLocale.getAdminConst().none());
+	public void setGatewayOptions(List<RelayDriverDto> options) {
+		view.getListBoxGateways().clear();
+		view.getListBoxGateways().setEnabled(true);
+		view.getListBoxGateways().addItem(AdminLocale.getAdminConst().none());
 		if (options == null || options.isEmpty()) {
 			return;
 		}
 		for (final RelayDriverDto option : options) {
-			view.getListBoxRelayDrivers().addItem(option.formatNameID());
+			view.getListBoxGateways().addItem(option.formatNameID());
+		}
+		view.getIntBoxInputIndex().setVisible(true);
+	}
+
+	public void setGatewayOptions(String deviceNameId) {
+		view.getListBoxGateways().clear();
+		view.getListBoxGateways().addItem(deviceNameId);
+		view.getListBoxGateways().setEnabled(false);
+		view.getIntBoxInputIndex().setVisible(false);
+	}
+	
+	public void fillListBoxModes(List<ModeDto> modes) {
+		view.getListBoxModes().clear();
+		view.getListBoxModes().addItem(AdminLocale.getAdminConst().all());
+		if (modes == null) {
+			return;
+		}
+		for (final ModeDto mode : modes) {
+			view.getListBoxModes().addItem(mode.formatNameID());
+		}
+		if (!modes.isEmpty()) {
+			view.getListBoxModes().setSelectedIndex(0);
 		}
 	}
+	
 }

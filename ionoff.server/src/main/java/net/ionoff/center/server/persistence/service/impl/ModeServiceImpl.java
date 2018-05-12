@@ -7,15 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Mode;
 import net.ionoff.center.server.entity.ModeScene;
-import net.ionoff.center.server.entity.ModeSensor;
 import net.ionoff.center.server.entity.Project;
-import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.Zone;
 import net.ionoff.center.server.objmapper.ModeMapper;
 import net.ionoff.center.server.persistence.dao.IModeDao;
 import net.ionoff.center.server.persistence.dao.IModeSceneDao;
-import net.ionoff.center.server.persistence.service.IModeSensorService;
 import net.ionoff.center.server.persistence.service.IModeService;
 import net.ionoff.center.server.persistence.service.IProjectService;
 import net.ionoff.center.shared.dto.ModeDto;
@@ -28,9 +25,6 @@ public class ModeServiceImpl extends AbstractGenericService<Mode, ModeDto> imple
 	
 	@Autowired
 	private IModeSceneDao modeSceneDao;
-	
-	@Autowired
-	private IModeSensorService modeSensorService;
 
 	@Autowired
 	private IProjectService projectService;
@@ -51,22 +45,6 @@ public class ModeServiceImpl extends AbstractGenericService<Mode, ModeDto> imple
 		super.insert(mode);
 		insertModeScenes(mode);
 		return mode;
-	}
-
-	private void insertModeSensors(Mode mode) {
-		if (mode.getProject().getSensors() == null) {
-			return;
-		}
-		for (Sensor sensor :  mode.getProject().getSensors()) {
-			insertModeSensor(mode, sensor);
-		}
-	}
-
-	private void insertModeSensor(Mode mode, Sensor sensor) {
-		ModeSensor modeSensor = new ModeSensor();
-		modeSensor.setMode(mode);
-		modeSensor.setSensor(sensor);
-		modeSensorService.insert(modeSensor);
 	}
 
 	private void insertModeScenes(Mode mode) {

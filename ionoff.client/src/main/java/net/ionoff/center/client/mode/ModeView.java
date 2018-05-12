@@ -27,6 +27,8 @@ public class ModeView extends Composite implements ModePresenter.Display {
 	@UiField 
 	MaterialLabel lblName;
 	@UiField 
+	MaterialLabel lblProj;
+	@UiField 
 	MaterialLabel lblTime;
 	@UiField 
 	MaterialSwitch btnSwitch;
@@ -53,6 +55,11 @@ public class ModeView extends Composite implements ModePresenter.Display {
 	@Override
 	public MaterialLabel getLblName() {
 		return lblName;
+	}
+
+	@Override
+	public MaterialLabel getLblProj() {
+		return lblProj;
 	}
 	
 	@Override

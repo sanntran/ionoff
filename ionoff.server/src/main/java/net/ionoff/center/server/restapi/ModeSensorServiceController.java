@@ -1,5 +1,7 @@
 package net.ionoff.center.server.restapi;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -30,20 +33,42 @@ public class ModeSensorServiceController {
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public ModeSensorDto update(@PathVariable("modeSensorId") Long modeSensorId,
+	public ModeSensorDto insertOrUpdate(@PathVariable("modeSensorId") Long modeSensorId,
 			@RequestBody ModeSensorDto modeSensorDto,
 			HttpServletRequest request) {
-
-		if (!modeSensorId.equals(modeSensorDto.getId()) && !modeSensorDto.isNew()) {
+		
+		final User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
+		
+		if (!modeSensorId.equals(modeSensorDto.getId())) {
 			throw new ChangeEntityIdException(modeSensorDto.toString());
 		}
 		
-		final User user = RequestContextHolder.getUser();
-
-		logger.info("User " + user.getName() + " update mode sensor. Id: "
-				+ modeSensorDto.getId() + ", Enabled: " + modeSensorDto.getEnabled() 
-				+ ", Time buffer: " + modeSensorDto.getTimeBuffer());
+		if (modeSensorDto.izNew()) {
+			logger.info("User " + user.getName() + " insert mode sensor. Mode: " +
+						modeSensorDto.getModeId() + ", Sensor: " + modeSensorDto.getSensorId()  + 
+						", Enabled: " + modeSensorDto.getEnabled());
+			
+			return modeSensorService.insertDto(user, modeSensorDto);
+		}
+		else {
+			logger.info("User " + user.getName() + " update mode sensor. Id: "
+					+ modeSensorDto.getId() + ", Enabled: " + modeSensorDto.getEnabled());
+			
+			return modeSensorService.updateDto(user, modeSensorDto);
+		}
+	}
+	
+	@RequestMapping(value = "modesensors",
+			method = RequestMethod.GET,
+			produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public List<ModeSensorDto> findBySensorId(@RequestParam("sensorId") Long sensorId,
+			HttpServletRequest request) {
 		
-		return modeSensorService.updateDto(user, modeSensorDto);
+		final User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
+		
+		return modeSensorService.findDtosBySensorId(sensorId);
 	}
 }

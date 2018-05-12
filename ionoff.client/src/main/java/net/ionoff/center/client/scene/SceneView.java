@@ -26,6 +26,8 @@ public class SceneView extends Composite implements ScenePresenter.Display {
 	@UiField 
 	MaterialLabel lblName;
 	@UiField 
+	MaterialLabel lblZone;
+	@UiField 
 	MaterialLabel lblTime;
 	@UiField 
 	MaterialIcon btnPlay;
@@ -54,6 +56,12 @@ public class SceneView extends Composite implements ScenePresenter.Display {
 		return lblName;
 	}
 	
+	@Override
+	public MaterialLabel getLblZone() {
+		return lblZone;
+	}
+	
+	@Override
 	public MaterialIcon getBtnPlay() {
 		return btnPlay;
 	}

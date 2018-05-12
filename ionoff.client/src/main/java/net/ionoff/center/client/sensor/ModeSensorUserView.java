@@ -1,11 +1,11 @@
-package net.ionoff.center.client.mode;
-
-import net.ionoff.center.client.locale.AdminLocale;
-import net.ionoff.center.shared.dto.ModeSensorUserDto;
+package net.ionoff.center.client.sensor;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+
+import net.ionoff.center.client.locale.AdminLocale;
+import net.ionoff.center.shared.dto.ModeSensorUserDto;
 
 public class ModeSensorUserView extends FlowPanel implements ModeSensorUserPresenter.Display {
 	
@@ -15,7 +15,7 @@ public class ModeSensorUserView extends FlowPanel implements ModeSensorUserPrese
 	private final CheckBox checkBoxSendEmail;
 	
 	public ModeSensorUserView(ModeSensorUserDto modeSensorUser) {
-		setStyleName("sensorUser");
+		setStyleName("modeSensorUser");
 		
 		lblUserIcon = new Label();
 		lblUserIcon.setStyleName("userIcon");
@@ -26,12 +26,11 @@ public class ModeSensorUserView extends FlowPanel implements ModeSensorUserPrese
 		add(lblUserName);
 		
 		checkBoxSendSms = new CheckBox(AdminLocale.getAdminConst().sendSms());
-		checkBoxSendSms.setStyleName("checkBox");
 		add(checkBoxSendSms);
 		checkBoxSendSms.setValue(modeSensorUser.isSendSms());
 		
 		checkBoxSendEmail = new CheckBox(AdminLocale.getAdminConst().sendEmail());
-		checkBoxSendEmail.setStyleName("checkBox");
+		checkBoxSendEmail.setStyleName("checkBoxMail");
 		add(checkBoxSendEmail);
 		checkBoxSendEmail.setValue(modeSensorUser.isSendEmail());
 	}

@@ -26,7 +26,7 @@ public class ModeSceneListPresenter extends AbstractPresenter {
 		this.display = view;
 	}
 	
-	public void setModeAreaScenes(List<ModeSceneDto> modeSceneDtos) {
+	public void setModeScenes(List<ModeSceneDto> modeSceneDtos) {
 		display.asPanel().clear();
 		if (modeSceneDtos == null) {
 			return;

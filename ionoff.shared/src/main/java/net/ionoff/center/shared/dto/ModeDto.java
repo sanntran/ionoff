@@ -15,12 +15,11 @@ public class ModeDto extends BaseDto {
 	private String scheduleDay;
 	private Boolean isActivated;
 	private Long projectId;
+	private String projectName;
 	private List<ModeSceneDto> scenes;
-	private List<ModeSensorDto> sensors;
 
 	public ModeDto() {
 		scenes = new ArrayList<>();
-		sensors = new ArrayList<>();
 	}
 
 	public String getTime() {
@@ -73,17 +72,6 @@ public class ModeDto extends BaseDto {
 		Collections.sort(scenes);
 		this.scenes = scenes;
 	}
-	public boolean hasSensor() {
-		return sensors != null && !sensors.isEmpty();
-	}
-
-	public List<ModeSensorDto> getSensors() {
-		return sensors;
-	}
-	public void setSensors(List<ModeSensorDto> sensors) {
-		Collections.sort(sensors);
-		this.sensors = sensors;
-	}
 
 	public Boolean getIsActivated() {
 		return isActivated;
@@ -91,5 +79,13 @@ public class ModeDto extends BaseDto {
 
 	public void setIsActivated(Boolean isActivated) {
 		this.isActivated = isActivated;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
 }

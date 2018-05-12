@@ -25,6 +25,7 @@ public class ModePresenter extends AbstractPresenter {
 		MaterialLabel getLblName();
 		MaterialLabel getLblTime();
 		MaterialSwitch getBtnSwitch();
+		MaterialLabel getLblProj();
 	}
 	
 	private Display display;
@@ -47,8 +48,12 @@ public class ModePresenter extends AbstractPresenter {
 	
 	public void bind() {
 		display.getLblName().setText(mode.getName());
+		display.getLblProj().setText(mode.getProjectName());
 		if (mode.getTime() != null) {
 			display.getLblTime().setText(mode.getTime());
+		}
+		else {
+			display.getLblTime().setText("---");
 		}
 		if (Boolean.TRUE.equals(mode.getIsActivated())) {
 			display.getBtnSwitch().setValue(true);
@@ -95,6 +100,9 @@ public class ModePresenter extends AbstractPresenter {
 		mode.setTime(modeDto.getTime());
 		if (mode.getTime() != null) {
 			display.getLblTime().setText(mode.getTime());
+		}
+		else {
+			display.getLblTime().setText("---");
 		}
 		if (Boolean.TRUE.equals(mode.getIsActivated())) {
 			display.getBtnSwitch().setValue(true);

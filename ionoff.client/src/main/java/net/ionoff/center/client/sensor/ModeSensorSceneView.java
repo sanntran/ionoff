@@ -1,4 +1,4 @@
-package net.ionoff.center.client.mode;
+package net.ionoff.center.client.sensor;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -12,7 +12,7 @@ public class ModeSensorSceneView extends FlowPanel implements ModeSensorScenePre
 	private final MaterialListBox listBoxScenes;
 	
 	public ModeSensorSceneView() {
-		setStyleName("sensorScene");
+		setStyleName("modeSensorScene");
 		
 		lblZoneIcon = new Label();
 		lblZoneIcon.setStyleName("zoneIcon");

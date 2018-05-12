@@ -35,7 +35,7 @@ public class ScenePlayerActionServiceController {
 			@RequestBody ScenePlayerActionDto scenePlayerActionDto,
 			HttpServletRequest request) throws UpdateEntityException {
 
-		if (!scenePlayerActionId.equals(scenePlayerActionDto.getId()) && !scenePlayerActionDto.isNew()) {
+		if (!scenePlayerActionId.equals(scenePlayerActionDto.getId()) && !scenePlayerActionDto.izNew()) {
 			throw new ChangeEntityIdException(scenePlayerActionDto.toString());
 		}
 		

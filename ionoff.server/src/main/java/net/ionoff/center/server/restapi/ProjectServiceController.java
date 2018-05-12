@@ -78,11 +78,11 @@ public class ProjectServiceController {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkProjectPermission(user, null);
 		
-		if (!projectId.equals(projectDto.getId()) && !projectDto.isNew()) {
+		if (!projectId.equals(projectDto.getId()) && !projectDto.izNew()) {
 			throw new ChangeEntityIdException(projectDto.toString());
 		}
 		
-		if (projectDto.isNew()) {
+		if (projectDto.izNew()) {
 			logger.info("User " + user.getName() + " inserts project: " + projectDto.toString());
 			return projectService.insertDto(user, projectDto);
 		}

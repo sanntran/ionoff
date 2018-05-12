@@ -252,4 +252,13 @@ public interface AdminConstants extends Constants {
 
 	@DefaultStringValue("Tổng")
 	String total();
+	
+	@DefaultStringValue("Điều kiện")
+	String condition();
+
+	@DefaultStringValue("Bộ giao tiếp")
+	String gateway();
+
+	@DefaultStringValue("Tất cả")
+	String all();
 }

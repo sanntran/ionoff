@@ -2,6 +2,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,5 +26,16 @@ public class ModeSensorDaoImpl extends AbstractGenericDao<ModeSensor> implements
 	@Override
 	public List<ModeSensor> findByCriteria(QueryCriteria criteria) {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public List<ModeSensor> findBySensorId(Long sensorId) {
+		String sql = "select distinct modeSensor" 
+				+ " from ModeSensor as modeSensor" 
+				+ " where modeSensor.sensor.id = :sensorId";
+		
+		Query query = getCurrentSession().createQuery(sql)
+				.setParameter("sensorId", sensorId);
+		return findMany(query);
 	}
 }

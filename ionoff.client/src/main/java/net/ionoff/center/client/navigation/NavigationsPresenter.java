@@ -8,7 +8,6 @@ import org.fusesource.restygwt.client.MethodCallback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Panel;
@@ -17,7 +16,6 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.ProgressType;
 import gwt.material.design.client.ui.MaterialButton;
-import gwt.material.design.client.ui.MaterialCheckBox;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLabel;
@@ -26,15 +24,11 @@ import gwt.material.design.client.ui.MaterialNavBar;
 import gwt.material.design.client.ui.MaterialSideNavDrawer;
 import gwt.material.design.client.ui.MaterialTitle;
 import net.ionoff.center.client.base.AbstractPresenter;
-import net.ionoff.center.client.event.ChangeLanguageEvent;
 import net.ionoff.center.client.event.ChangeProjectEvent;
 import net.ionoff.center.client.event.ChangeTokenEvent;
 import net.ionoff.center.client.event.ChangeZoneEvent;
 import net.ionoff.center.client.event.ChangeZoneEventHandler;
-import net.ionoff.center.client.event.FullscreenEvent;
 import net.ionoff.center.client.event.ShowLoadingEvent;
-import net.ionoff.center.client.event.ShowMessageEvent;
-import net.ionoff.center.client.event.UserLogOutEvent;
 import net.ionoff.center.client.locale.ClientLocale;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.storage.StorageService;
@@ -43,7 +37,6 @@ import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.DateTimeDto;
 import net.ionoff.center.shared.dto.ProjectDto;
 import net.ionoff.center.shared.dto.UserDto;
-import net.ionoff.center.shared.dto.VersionDto;
 import net.ionoff.center.shared.dto.ZoneDto;
 
 public class NavigationsPresenter extends AbstractPresenter {
@@ -57,12 +50,6 @@ public class NavigationsPresenter extends AbstractPresenter {
 		MaterialButton getBtnNavTitle();
 		MaterialTitle getNavTitle();
 		MaterialIcon getBtnUser();
-		MaterialTitle getLblUser();
-		MaterialLink getUserMenuItemFullscreen();
-		MaterialLink getUserMenuItemLogout();
-		MaterialLink getUserMenuItemVersion();
-		MaterialCheckBox getUserMenuItemVi();
-		MaterialCheckBox getUserMenuItemEn();
 
 		MaterialSideNavDrawer getSideNav();
 		MaterialImage getBtnImgProject();
@@ -91,11 +78,11 @@ public class NavigationsPresenter extends AbstractPresenter {
 		MaterialLink getMenuItemArrow();
     }
 	
-	private String latestVersion;
-	private IRpcServiceProvider rpcService;
 	private Display display;
 	private Timer timer;
 	private boolean expandMenu;
+	private IRpcServiceProvider rpcService;
+	private PopupUserMenuPresenter popupUserMenuPresenter;
 	
 	public NavigationsPresenter(IRpcServiceProvider rpcService, HandlerManager eBus, Display view) {
 		super(eBus);
@@ -120,8 +107,6 @@ public class NavigationsPresenter extends AbstractPresenter {
 	public void go() {
 		UserDto user = StorageService.getInstance().getCookie().getUser();
 		if ( user != null) {
-			display.getLblUser().setTitle(StorageService.getInstance().getCookie().getUser().getFullName());
-			display.getLblUser().setDescription(StorageService.getInstance().getCookie().getUser().getName());
 			Long projectId = AppToken.getProjectIdLong();
 			Long zoneId = AppToken.getZoneIdLong();
 			if (zoneId != null) {
@@ -207,51 +192,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newTokenProjects()));
 			}
 		});
-		
-		display.getUserMenuItemLogout().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new UserLogOutEvent());
-			}
-		});
-		
-		display.getUserMenuItemVersion().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (latestVersion == null) {
-					checkLatestVersion();
-				}
-				else {
-					upgradeNewVersion();
-				}
-			}
-		});
-		
-		display.getUserMenuItemFullscreen().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new FullscreenEvent());
-			}
-		});
-		
-		display.getUserMenuItemVi().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!ClientLocale.vi_VN.equals(getLanguage())) {
-					changeLanguage(ClientLocale.vi_VN);
-				}
-			}
-		});
-		
-		display.getUserMenuItemEn().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!ClientLocale.en_EN.equals(getLanguage())) {
-					changeLanguage(ClientLocale.en_EN);
-				}
-			}
-		});
-		
+				
 		display.getMenuItemProject().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -335,6 +276,8 @@ public class NavigationsPresenter extends AbstractPresenter {
 				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newZoneListToken()));
 			}
 		});
+		
+		display.getBtnUser().addClickHandler(e -> showPopupUserMenu());
 
 		display.getMenuItemArrow().addClickHandler(new ClickHandler() {
 			@Override
@@ -378,17 +321,22 @@ public class NavigationsPresenter extends AbstractPresenter {
 		});
 	}
 
+	private PopupUserMenuPresenter getPopupUserMenuPresenter() {
+		if (popupUserMenuPresenter == null) {
+			popupUserMenuPresenter = new PopupUserMenuPresenter(rpcService, eventBus, new PopupUserMenuView());
+			popupUserMenuPresenter.go();
+		}
+		return popupUserMenuPresenter;
+	}
+	
+	private void showPopupUserMenu() {
+		getPopupUserMenuPresenter().show(null);
+	}
+
+
 	@Override
 	public void show(HasWidgets container) {
 		container.add(display.asPanel());
-		if (ClientLocale.en_EN.equals(getLanguage())) {
-			display.getUserMenuItemEn().setValue(true);
-			display.getUserMenuItemVi().setValue(false);
-		}
-		else {
-			display.getUserMenuItemEn().setValue(false);
-			display.getUserMenuItemVi().setValue(true);
-		}
 		
 		final String userName = StorageService.getInstance().getCookie().getUser().getName();
 		if (AppToken.LORD.equals(userName)) {
@@ -449,48 +397,6 @@ public class NavigationsPresenter extends AbstractPresenter {
 		display.getPopupProjectsView().setPopupPosition(left, top);
 		display.getPopupProjectsView().show();
 	}
-	
-	private void checkLatestVersion() {
-		rpcService.getUserService().checkLatestVersion(new MethodCallback<VersionDto>() {
-			@Override
-			public void onFailure(Method method, Throwable exception) {
-				ClientUtil.handleRpcFailure(method, exception, eventBus);
-			}
-			@Override
-			public void onSuccess(Method method, VersionDto response) {
-				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				latestVersion = response.getName();
-				if (latestVersion == null) {
-					display.getUserMenuItemVersion().setText(ClientLocale.getClientConst().checkLatestVersion());
-				}
-				else {
-					display.getUserMenuItemVersion().setText(ClientLocale.getClientConst().upgrade() + latestVersion);
-				}
-				if (latestVersion == null) {
-					eventBus.fireEvent(new ShowMessageEvent(ClientLocale.getClientMessage()
-							.currentVersionIsUptoDate(), ShowMessageEvent.NORMAL));
-				}
-			}
-		});
-	}
-
-	private void upgradeNewVersion() {
-		if (latestVersion == null) {
-			return;
-		}
-		rpcService.getUserService().updateNewVersion(new MethodCallback<VersionDto>() {
-			@Override
-			public void onFailure(Method method, Throwable exception) {
-				ClientUtil.handleRpcFailure(method, exception, eventBus);
-			}
-			@Override
-			public void onSuccess(Method method, VersionDto response) {
-				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				eventBus.fireEvent(new ShowMessageEvent(ClientLocale.getClientMessage()
-						.upgradingNewVersion(latestVersion), ShowMessageEvent.NORMAL));
-			}
-		});
-	}
 
 	private void getServerDateTime() {
 		rpcService.getSystemService().getServerDateTime(new MethodCallback<DateTimeDto>() {
@@ -505,18 +411,6 @@ public class NavigationsPresenter extends AbstractPresenter {
 				display.getLblSystemDate().setText(response.getDate());
 			}
 		});
-	}
-
-	private void changeLanguage(String language) {
-		eventBus.fireEvent(new ChangeLanguageEvent(language));
-	}
-
-	private String getLanguage() {
-		String language = ClientLocale.vi_VN;
-		if (LocaleInfo.getCurrentLocale().getLocaleName().equals(ClientLocale.en_EN)) {
-			language = ClientLocale.en_EN;
-		}
-		return language;
 	}
 
 	private boolean isVisible() {

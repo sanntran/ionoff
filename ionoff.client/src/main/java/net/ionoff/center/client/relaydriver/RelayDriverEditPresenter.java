@@ -70,7 +70,7 @@ public class RelayDriverEditPresenter extends AbstractEditPresenter<RelayDriverD
 		view.getListBoxModels().addValueChangeHandler(new ValueChangeHandler<String>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<String> event) {
-				if (entityDto != null && !entityDto.isNew()) {
+				if (entityDto != null && !entityDto.izNew()) {
 					eventBus.fireEvent(new ShowMessageEvent(AdminLocale.getAdminMessages().unsupportChangingRelayDriverModel(), 
 							ShowMessageEvent.ERROR));
 					view.getListBoxModels().setSelectedValue(entityDto.getModel().toString());
@@ -190,7 +190,7 @@ public class RelayDriverEditPresenter extends AbstractEditPresenter<RelayDriverD
 		}
 		view.getTextBoxKey().setText(dto.getKey());
 		view.getListBoxModels().setSelectedValue(dto.getModel().toString());
-		if (dto.isNew()) {
+		if (dto.izNew()) {
 			view.getListBoxModels().setEnabled(true);
 		}
 		else {

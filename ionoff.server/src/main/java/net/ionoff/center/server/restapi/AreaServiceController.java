@@ -49,12 +49,12 @@ public class AreaServiceController {
 	@ResponseBody
 	public AreaDto insertOrUpdate(@PathVariable("areaId" ) Long areaId,
 						  @RequestBody AreaDto areaDto, HttpServletRequest request) {
-		if (!areaId.equals(areaDto.getId()) && !areaDto.isNew()) {
+		if (!areaId.equals(areaDto.getId()) && !areaDto.izNew()) {
 			throw new ChangeEntityIdException(areaDto.toString());
 		}
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkProjectPermission(user, areaDto.getProjectId());
-		if (areaDto.isNew()) {
+		if (areaDto.izNew()) {
 			logger.info("User " + user.getName() + " inserts new area. " + areaDto.toString());
 			return areaService.insertDto(user, areaDto);
 		}

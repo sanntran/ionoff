@@ -83,7 +83,7 @@ public class RelayServiceController {
 		if (!user.hasAdminRole()) {
 			throw new AccessDeniedException("Access denied");
 		}
-		if (!relayId.equals(relayDto.getId()) && !relayDto.isNew()) {
+		if (!relayId.equals(relayDto.getId()) && !relayDto.izNew()) {
 			throw new ChangeEntityIdException(relayDto.toString());
 		}
 		
