@@ -1,6 +1,7 @@
 package net.ionoff.notify;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -38,15 +39,15 @@ public class NotifyServlet extends HttpServlet {
 	 *      response)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String pathInfo = request.getPathInfo();
 		try {
-			if ("/sms/sensor".equals(pathInfo)) {
+			if ("/sms".equals(pathInfo)) {
 				MessageDto messageDto = sendSensorSmsNotification(request, response);
 				response.getWriter().append(GSON.toJson(messageDto));
 			}
-			else if ("/email/sensor".equals(pathInfo)) {
+			else if ("/email".equals(pathInfo)) {
 				MessageDto messageDto = sendSensorEmailNotification(request, response);
 				response.getWriter().append(GSON.toJson(messageDto));
 			}
@@ -70,28 +71,17 @@ public class NotifyServlet extends HttpServlet {
 
 	private MessageDto sendSensorEmailNotification(HttpServletRequest request, HttpServletResponse response) throws AddressException, MessagingException, IOException {
 		String subscribers = request.getParameter("subscribers");
-		String sensor = request.getParameter("sensor");
-		String detected = request.getParameter("detected");
-		String language = request.getParameter("language");
-		String dateTime = request.getParameter("dateTime");
-		MessageDto messageDto = validateRequestParams(subscribers, sensor, detected, dateTime);
+		String payload = request.getReader().lines().collect(Collectors.joining());
+		MessageDto messageDto = validateRequestParams(subscribers, payload);
 		LOGGER.info("Request sending sensor email notification: ");
 		LOGGER.info("------ Subscribers: " + subscribers);
-		LOGGER.info("------ Sensor: " + sensor);
-		LOGGER.info("------ Detected: " + detected);
-		LOGGER.info("------ Language: " + language);
-		LOGGER.info("------ DateTime: " + dateTime);
+		LOGGER.info("------ Message: " + payload);
 		if (messageDto != null) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return messageDto;
 		}
 		String[] subcriberArr = subscribers.split(",");
-		boolean isDetected = false;
-		if ("true".equals(detected)) {
-			isDetected = true;
-		}
-		String message = mailService.sendGmailEmail(subcriberArr, "IOnOff Notification", 
-				NotifyConfig.getInstance().getSensorNotificationEmailMessage(language, sensor, isDetected, dateTime));
+		String message = mailService.sendGmailEmail(subcriberArr, "IOnOffNet", payload);
 		messageDto = new MessageDto();
 		messageDto.setStatus(HttpServletResponse.SC_OK);
 		messageDto.setMessage(message);
@@ -100,58 +90,35 @@ public class NotifyServlet extends HttpServlet {
 
 	private MessageDto sendSensorSmsNotification(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String subscribers = request.getParameter("subscribers");
-		String sensor = request.getParameter("sensor");
-		String detected = request.getParameter("detected");
-		String language = request.getParameter("language");
-		String dateTime = request.getParameter("dateTime");
-		LOGGER.info("Request sending sensor sms notification: ");
+		String payload = request.getReader().lines().collect(Collectors.joining());
+		LOGGER.info("Request sending sensor email notification: ");
 		LOGGER.info("------ Subscribers: " + subscribers);
-		LOGGER.info("------ Sensor: " + sensor);
-		LOGGER.info("------ Detected: " + detected);
-		LOGGER.info("------ Language: " + language);
-		LOGGER.info("------ DateTime: " + dateTime);
-		MessageDto messageDto = validateRequestParams(subscribers, sensor, detected, dateTime);
+		LOGGER.info("------ Message: " + payload);
+		MessageDto messageDto = validateRequestParams(subscribers, payload);
 		if (messageDto != null) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return messageDto;
 		}
 		String[] subcriberArr = subscribers.split(",");
-		boolean isDetected = false;
-		if ("true".equals(detected)) {
-			isDetected = true;
-		}
-		String message = smsService.sendSms(subcriberArr, 
-				NotifyConfig.getInstance().getSensorNotificationSmsMessage(language, sensor, isDetected, dateTime));
-		
+		String message = smsService.sendSms(subcriberArr, payload);
 		messageDto = new MessageDto();
 		messageDto.setStatus(HttpServletResponse.SC_OK);
 		messageDto.setMessage(message);
 		return messageDto;
 	}
 
-	private MessageDto validateRequestParams(String subcribers, String sensor, String detected, String dateTime) {
+	private MessageDto validateRequestParams(String subcribers, String message) {
 		MessageDto messageDto = new MessageDto();
 		if (subcribers == null || subcribers.isEmpty()) {
 			messageDto.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			messageDto.setMessage("Request parametter is not valid: subcribers");
 			return messageDto;
 		}
-		if (sensor == null || sensor.isEmpty()) {
+		if (message == null || message.isEmpty()) {
 			messageDto.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			messageDto.setMessage("Request parametter is not valid: sensor");
-			return messageDto;
-		}
-		if (detected == null || detected.isEmpty()) {
-			messageDto.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			messageDto.setMessage("Request parametter is not valid: detected");
+			messageDto.setMessage("Request body is not valid: message");
 			return messageDto;
 		}
 		return null;
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doGet(request, response);
 	}
 }

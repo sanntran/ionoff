@@ -22,7 +22,6 @@ public class LatestVersionUpdator {
 	private static final Logger LOGGER = Logger.getLogger(LatestVersionUpdator.class.getName());
 	
 	private static final Gson GSON = new Gson();
-	private boolean updating = false;
 	
 	@Scheduled(fixedDelay = 3600000) // 1 hour
     public void downloadLatestVersion() {

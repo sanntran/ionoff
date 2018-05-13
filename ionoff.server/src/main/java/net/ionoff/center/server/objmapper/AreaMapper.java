@@ -18,9 +18,6 @@ public class AreaMapper implements ObjMapper<Area, AreaDto> {
 	@Autowired
 	private ZoneMapper zoneMapper;
 	
-	@Autowired
-	private IProjectService projectService;
-
 	@Override
 	public AreaDto createDto(Area area) {
 		final AreaDto areaDto = new AreaDto();
@@ -53,7 +50,7 @@ public class AreaMapper implements ObjMapper<Area, AreaDto> {
 		return areaDtos;
 	}
 	
-	public Area createArea(AreaDto areaDto) {
+	public Area createArea(AreaDto areaDto, IProjectService projectService) {
 		Area area = new Area();
 		final Project project = projectService.findById(areaDto.getProjectId());
 		area.setProject(project);

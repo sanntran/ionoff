@@ -174,7 +174,7 @@ public class UserProjectServiceImpl extends AbstractGenericService<UserProject, 
 		modeSensorUser.setUser(user);
 		modeSensorUser.setSendEmail(false);
 		modeSensorUser.setSendSms(false);
-		modeSensorUser.setProject(modeSensor.getMode().getProject());
+		modeSensorUser.setProject(modeSensor.getSensor().getProject());
 		modeSensorUserDao.insert(modeSensorUser);
 	}
 

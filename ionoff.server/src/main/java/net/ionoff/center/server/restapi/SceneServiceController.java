@@ -142,7 +142,7 @@ public class SceneServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public Map<String, Boolean> playById(@PathVariable("sceneId") Long sceneId, HttpServletRequest request) {
-		controlService.playScene(sceneId);
+		controlService.playScene(sceneService.requireById(sceneId));
 		// Key: #SceneID#DeviceID || #SceneID#DeviceID#RelayID
 		// Value: boolean
 		return new HashMap<String, Boolean>();

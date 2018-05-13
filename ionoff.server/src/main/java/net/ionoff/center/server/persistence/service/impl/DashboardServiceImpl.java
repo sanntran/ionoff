@@ -13,16 +13,18 @@ import net.ionoff.center.server.entity.DashboardScene;
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.Scene;
 import net.ionoff.center.server.entity.User;
+import net.ionoff.center.server.exception.EntityNotFoundException;
 import net.ionoff.center.server.objmapper.DashboardMapper;
 import net.ionoff.center.server.objmapper.DeviceMapper;
 import net.ionoff.center.server.persistence.dao.IDashboardDao;
 import net.ionoff.center.server.persistence.dao.IDashboardDeviceDao;
 import net.ionoff.center.server.persistence.dao.IDashboardSceneDao;
+import net.ionoff.center.server.persistence.dao.IDeviceDao;
+import net.ionoff.center.server.persistence.dao.ISceneDao;
 import net.ionoff.center.server.persistence.service.IDashboardService;
-import net.ionoff.center.server.persistence.service.IDeviceService;
-import net.ionoff.center.server.persistence.service.ISceneService;
 import net.ionoff.center.shared.dto.DashboardDto;
 import net.ionoff.center.shared.dto.DeviceDto;
+import net.xapxinh.center.server.service.player.IPlayerService;
 
 @Transactional
 public class DashboardServiceImpl extends AbstractGenericService<Dashboard, DashboardDto> implements IDashboardService {
@@ -33,10 +35,10 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 	private DashboardMapper dashboardMapper;
 	
 	@Autowired
-	private IDeviceService deviceService;
+	private IDeviceDao deviceDao;
 	
 	@Autowired
-	private ISceneService sceneService;
+	private ISceneDao sceneDao;
 	
 	@Autowired
 	private IDashboardDeviceDao dashboardDeviceDao;
@@ -46,6 +48,9 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 	
 	@Autowired
 	private DeviceMapper deviceMapper;
+	
+	@Autowired
+	private IPlayerService playerService;
 	
 	public DashboardServiceImpl(IDashboardDao dashboardDao) {
 		this.dashboardDao = dashboardDao;
@@ -108,7 +113,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 		List<DeviceDto> deviceDtos = new ArrayList<>();
 		for (DashboardDevice dashboardDevice : dashboard.getDevices()) {
 			Device device = dashboardDevice.getDevice();
-			deviceDtos.add(deviceMapper.createDeviceDto(device));
+			deviceDtos.add(deviceMapper.createDeviceDto(device, playerService));
 		}
 		dashboardDto.setDevices(deviceDtos);
 		return dashboardDto;
@@ -121,7 +126,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 		List<DeviceDto> deviceDtos = new ArrayList<>();
 		for (DashboardDevice dashboardDevice : dashboard.getDevices()) {
 			Device device = dashboardDevice.getDevice();
-			deviceDtos.add(deviceMapper.createDeviceDto(device));
+			deviceDtos.add(deviceMapper.createDeviceDto(device, playerService));
 		}
 		dashboardDto.setDevices(deviceDtos);
 		return dashboardDto;
@@ -129,7 +134,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 
 	@Override
 	public void addDeviceToZoneDashboard(User user, Long deviceId) {
-		Device device = deviceService.requireById(deviceId);
+		Device device = requireDeviceById(deviceId);
 		Dashboard dashboard = dashboardDao.findByUserZoneId(user.getId(), device.getZone().getId());
 		for (DashboardDevice dashboardDevice : dashboard.getDevices()) {
 			if (dashboardDevice.getDevice().getId() == deviceId) {
@@ -149,7 +154,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 	
 	@Override
 	public void removeDeviceFromZoneDashboard(User user, Long deviceId) {
-		Device device = deviceService.requireById(deviceId);
+		Device device = requireDeviceById(deviceId);
 		Dashboard dashboard = dashboardDao.findByUserZoneId(user.getId(), device.getZone().getId());
 		DashboardDevice dashboardDevice = dashboardDeviceDao.findByDashboardDeviceId(dashboard.getId(), device.getId());
 		if (dashboardDevice != null) {
@@ -163,7 +168,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 
 	@Override
 	public void addDeviceToProjectDashboard(User user, Long deviceId) {
-		Device device = deviceService.requireById(deviceId);
+		Device device = requireDeviceById(deviceId);
 		Dashboard dashboard = dashboardDao.findByUserProjectId(user.getId(), device.getProject().getId());
 		for (DashboardDevice dashboardDevice : dashboard.getDevices()) {
 			if (dashboardDevice.getDevice().getId() == deviceId) {
@@ -183,7 +188,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 	
 	@Override
 	public void removeDeviceFromProjectDashboard(User user, Long deviceId) {
-		Device device = deviceService.requireById(deviceId);
+		Device device = requireDeviceById(deviceId);
 		Dashboard dashboard = dashboardDao.findByUserProjectId(user.getId(), device.getProject().getId());
 		DashboardDevice dashboardDevice = dashboardDeviceDao.findByDashboardDeviceId(dashboard.getId(), device.getId());
 		if (dashboardDevice != null) {
@@ -197,7 +202,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 	
 	@Override
 	public void addSceneToZoneDashboard(User user, Long sceneId) {
-		Scene scene = sceneService.requireById(sceneId);
+		Scene scene = requireSceneById(sceneId);
 		Dashboard dashboard = dashboardDao.findByUserZoneId(user.getId(), scene.getZone().getId());
 		DashboardScene dashboardScene = new DashboardScene();
 		dashboardScene.setDashboard(dashboard);
@@ -212,7 +217,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 	
 	@Override
 	public void removeSceneFromZoneDashboard(User user, Long sceneId) {
-		Scene scene = sceneService.requireById(sceneId);
+		Scene scene = requireSceneById(sceneId);
 		Dashboard dashboard = dashboardDao.findByUserZoneId(user.getId(), scene.getZone().getId());
 		DashboardScene dashboardScene = dashboardSceneDao.findByDashboardSceneId(dashboard.getId(), scene.getId());
 		if (dashboardScene != null) {
@@ -226,7 +231,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 
 	@Override
 	public void addSceneToProjectDashboard(User user, Long sceneId) {
-		Scene scene = sceneService.requireById(sceneId);
+		Scene scene = requireSceneById(sceneId);
 		Dashboard dashboard = dashboardDao.findByUserProjectId(user.getId(), scene.getZone().getProject().getId());
 		DashboardScene dashboardScene = new DashboardScene();
 		dashboardScene.setDashboard(dashboard);
@@ -241,7 +246,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 	
 	@Override
 	public void removeSceneFromProjectDashboard(User user, Long sceneId) {
-		Scene scene = sceneService.requireById(sceneId);
+		Scene scene = requireSceneById(sceneId);
 		Dashboard dashboard = dashboardDao.findByUserProjectId(user.getId(), scene.getZone().getProject().getId());
 		DashboardScene dashboardScene = dashboardSceneDao.findByDashboardSceneId(dashboard.getId(), scene.getId());
 		if (dashboardScene != null) {
@@ -251,6 +256,22 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 			    cache.evictAllRegions();
 			}
 		}
+	}
+	
+	private Device requireDeviceById(Long deviceId) {
+		Device d = deviceDao.findById(deviceId);
+		if (d == null) {
+			throw new EntityNotFoundException(deviceId, Device.class.getSimpleName());
+		}
+		return d;
+	}
+
+	private Scene requireSceneById(Long sceneId) {
+		Scene s = sceneDao.findById(sceneId);
+		if (s == null) {
+			throw new EntityNotFoundException(sceneId, Device.class.getSimpleName());
+		}
+		return s;
 	}
 
 }

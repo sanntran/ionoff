@@ -16,8 +16,8 @@ public class RelayDto extends BaseDto {
 	private Boolean status;
 	private String label;
 	private Boolean isLeader;
-	private Long relayDriverId;
-	private String relayDriverName;
+	private Long driverId;
+	private String driverName;
 	private Long deviceId;
 	private String deviceName;
 
@@ -42,18 +42,18 @@ public class RelayDto extends BaseDto {
 		this.status = status;
 	}
 
-	public Long getRelayDriverId() {
-		return relayDriverId;
+	public Long getDriverId() {
+		return driverId;
 	}
-	public void setRelayDriverId(Long relayDriverId) {
-		this.relayDriverId = relayDriverId;
+	public void setDriverId(Long driverId) {
+		this.driverId = driverId;
 	}
 
-	public String getRelayDriverName() {
-		return relayDriverName;
+	public String getDriverName() {
+		return driverName;
 	}
-	public void setRelayDriverName(String relayDriverName) {
-		this.relayDriverName = relayDriverName;
+	public void setDriverName(String driverName) {
+		this.driverName = driverName;
 	}
 
 	public Long getDeviceId() {

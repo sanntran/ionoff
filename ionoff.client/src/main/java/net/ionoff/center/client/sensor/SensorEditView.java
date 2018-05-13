@@ -32,8 +32,8 @@ public class SensorEditView extends AbstractEditView<SensorDto> implements Senso
 		
 		intBoxInputIndex = new MaterialIntegerBox();
 		intBoxInputIndex.setMin("0");
-		intBoxInputIndex.setLabel(AdminLocale.getAdminConst().input());
-		intBoxInputIndex.setPlaceholder(AdminLocale.getAdminConst().input());
+		intBoxInputIndex.setLabel(AdminLocale.getAdminConst().input() + AdminLocale.getAdminConst().inputNote());
+		intBoxInputIndex.setPlaceholder(AdminLocale.getAdminConst().input() + AdminLocale.getAdminConst().inputNote());
 		contentPanel.add(intBoxInputIndex);
 
 		Label lblAction = new InlineLabel(AdminLocale.getAdminConst().action());

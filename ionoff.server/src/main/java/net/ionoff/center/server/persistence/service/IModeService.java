@@ -12,7 +12,7 @@ public interface IModeService extends IGenericService<Mode, ModeDto> {
 	
 	List<Mode> findByProjectId(long projectId);
 
-	List<Mode> findByScheduleTime(long projectId, String scheduleTime);
+	List<Mode> findByScheduleTime(String scheduleTime);
 	
 	List<ModeDto> findDtoByProjectId(long projectId);
 

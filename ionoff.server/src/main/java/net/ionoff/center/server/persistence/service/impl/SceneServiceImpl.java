@@ -19,6 +19,7 @@ import net.ionoff.center.server.persistence.dao.IUserDao;
 import net.ionoff.center.server.persistence.dao.IUserSceneDao;
 import net.ionoff.center.server.persistence.service.ISceneDeviceService;
 import net.ionoff.center.server.persistence.service.ISceneService;
+import net.ionoff.center.server.persistence.service.IZoneService;
 import net.ionoff.center.shared.dto.SceneDto;
 
 @Transactional
@@ -28,6 +29,9 @@ public class SceneServiceImpl extends AbstractGenericService<Scene, SceneDto> im
 	
 	@Autowired
 	private IUserDao userDao;
+	
+	@Autowired
+	private IZoneService zoneService;
 	
 	@Autowired
 	private IUserSceneDao userSceneDao;
@@ -117,7 +121,7 @@ public class SceneServiceImpl extends AbstractGenericService<Scene, SceneDto> im
 
 	@Override
 	public SceneDto insertDto(User user, SceneDto dto) {
-		Scene scene = sceneMapper.createScene(dto);
+		Scene scene = sceneMapper.createScene(dto, zoneService);
 		insert(scene);
 		return sceneMapper.createSceneDto(scene);
 	}

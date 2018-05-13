@@ -25,9 +25,6 @@ public class SceneMapper {
 	@Autowired
 	private DeviceMapper deviceMapper;
 	
-	@Autowired
-	private IZoneService zoneService;
-	
 	public List<SceneDto> createSceneDtoList(List<Scene> scenes) {
 		final List<SceneDto> sceneDtos = new ArrayList<SceneDto>();
 		for (final Scene scene : scenes) {
@@ -36,7 +33,7 @@ public class SceneMapper {
 		return sceneDtos;
 	}
 	
-	public Scene createScene(SceneDto sceneDto) {
+	public Scene createScene(SceneDto sceneDto, IZoneService zoneService) {
 		final Scene scene = new Scene();
 		updateScene(scene, sceneDto);
 		final Zone zone = zoneService.findById(sceneDto.getZoneId());

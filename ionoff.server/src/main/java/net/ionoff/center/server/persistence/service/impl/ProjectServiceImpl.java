@@ -16,7 +16,6 @@ import net.ionoff.center.server.persistence.dao.IProjectDao;
 import net.ionoff.center.server.persistence.service.IProjectService;
 import net.ionoff.center.server.persistence.service.IUserProjectService;
 import net.ionoff.center.server.persistence.service.IUserService;
-import net.ionoff.center.server.thread.ServerThreadPool;
 import net.ionoff.center.shared.dto.ProjectDto;
 
 @Transactional
@@ -33,9 +32,6 @@ public class ProjectServiceImpl extends AbstractGenericService<Project, ProjectD
 	@Autowired
 	private IUserProjectService userProjectService;
 
-	@Autowired
-	private ServerThreadPool serverThreadPool;
-	
 	public ProjectServiceImpl(IProjectDao projectDao) {
 		this.projectDao = projectDao;
 	}
@@ -66,7 +62,6 @@ public class ProjectServiceImpl extends AbstractGenericService<Project, ProjectD
 	public ProjectDto insertDto(User user, ProjectDto dto) {
 		final Project project = projectMapper.createProject(dto);
 		insert(project);
-		serverThreadPool.startNewProjectThreadPool(project.getId());
 		return projectMapper.createProjectDto(project, false);
 	}
 
@@ -106,7 +101,6 @@ public class ProjectServiceImpl extends AbstractGenericService<Project, ProjectD
 			throw new DeleteEntityException(message);
 		}
 		delete(project);
-		serverThreadPool.removeProjectThreadPool(project.getId());
 	}
 
 	@Override

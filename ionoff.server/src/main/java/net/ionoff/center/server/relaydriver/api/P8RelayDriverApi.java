@@ -1,15 +1,9 @@
 package net.ionoff.center.server.relaydriver.api;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import net.ionoff.center.server.entity.RelayDriver;
-import net.ionoff.center.server.thread.RelayDriverConnectionPool;
 import net.ionoff.center.shared.entity.RelayDriverModel;
 
 public class P8RelayDriverApi implements IRelayDriverApi {
-	
-	@Autowired 
-	private RelayDriverConnectionPool relayDriverConnectionPool;
 	
 	@Override
 	public RelayDriverStatus getStatus(RelayDriver relayDriver) 
@@ -105,8 +99,7 @@ public class P8RelayDriverApi implements IRelayDriverApi {
 		}
 		return response;
 	}
-	
 	private RelayDriverConnection getConnection(RelayDriver relayDriver) throws RelayDriverConnectException {
-		return relayDriverConnectionPool.getRelayDriverConnection(relayDriver); 
+		return RelayDriverConnectionMap.getRelayDriverConnection(relayDriver); 
 	}
 }

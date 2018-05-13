@@ -1,60 +1,69 @@
 package net.ionoff.center.server.thread;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.annotation.Async;
 
 import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.Switch;
+import net.ionoff.center.server.message.event.RelayStatusChangedEvent;
+import net.ionoff.center.server.message.event.SensorStatusChangedEvent;
 import net.ionoff.center.server.notifier.RelayStatusNotifier;
 import net.ionoff.center.server.notifier.SensorStatusNotifier;
-import net.ionoff.center.server.notifier.event.RelayStatusChangedEvent;
-import net.ionoff.center.server.notifier.event.SensorStatusChangedEvent;
+import net.ionoff.center.server.persistence.dao.ISensorDao;
+import net.ionoff.center.server.persistence.dao.ISwitchDao;
 import net.ionoff.center.server.persistence.service.IRelayDriverService;
 import net.ionoff.center.server.persistence.service.IRelayService;
-import net.ionoff.center.server.persistence.service.ISensorService;
 import net.ionoff.center.server.relaydriver.api.RelayDriverStatus;
 import net.ionoff.center.shared.entity.RelayDriverModel;
 
 public class RelayDriverStatusHandler {
+
+	private static final Logger logger = Logger.getLogger(RelayDriverStatusHandler.class.getName());
+
+	@Autowired
+	private ISensorDao sensorDao;
 	
-	private static final Logger LOGGER = Logger.getLogger(RelayDriverStatusHandler.class.getName());
+	@Autowired
+	private IRelayService relayService;
+
+	@Autowired
+	private ISwitchDao switchDao;
 	
 	@Autowired
 	private IRelayDriverService relayDriverService;
 	
-	@Autowired
-	private IRelayService relayService;
-	
-	@Autowired
-	private ISensorService sensorService;
-	
+	@Lazy // very important to be lazy here due to cyclic dependency
 	@Autowired
 	private SensorStatusNotifier sensorStatusNotifier;
 	
+	@Lazy // very important to be lazy here due to cyclic dependency
 	@Autowired
 	private RelayStatusNotifier relayStatusNotifier;
 	
-	void onRelayDriverStarted(RelayDriver relayDriver, String relayDriverIp, String inStatus, String outStatus) {
-		relayDriver.setIp(relayDriverIp);
+	public void onStarted(RelayDriver relayDriver, String ip, String in, String out) {
+		relayDriver.setIp(ip);
 		relayDriverService.update(relayDriver);
-		onReceivedRelayDriverStatus(relayDriver, inStatus, outStatus);
+		onReceivedStatus(relayDriver, in, out);
 	}
 
-	RelayDriverStatus parseRelayDriverStatus(RelayDriver relayDriver, String inStatus, String outStatus) {
+	private RelayDriverStatus parseRelayDriverStatus(RelayDriver relayDriver, String in, String out) {
 		RelayDriverModel relayDriverModel = relayDriver.getModelObj();
 		if (relayDriverModel == null) {
-			LOGGER.error("Unknown relayDriver model: " + relayDriver.getModel());
+			logger.error("Unknown relayDriver model: " + relayDriver.getModel());
 			return null;
 		}
-		RelayDriverStatus relayDriverStatus = RelayDriverStatus.fromIOStatusesString(relayDriver.getModelObj(), inStatus,
-				outStatus);
+		RelayDriverStatus relayDriverStatus = RelayDriverStatus.fromIOStatusesString(relayDriver.getModelObj(), in,
+				out);
 		if (relayDriverStatus.getDigitalInputStatus().size() < relayDriverModel.getDigitalInput()
 				|| relayDriverStatus.getRelayOutputStatus().size() < relayDriverModel.getRelayOutput()) {
-			LOGGER.error("Inputs or outputs format is not valid: " + inStatus + " ; " + outStatus);
+			logger.error("Inputs or outputs format is not valid: " + in + " ; " + out);
 			return null;
 		}
 		if (relayDriverStatus.getDigitalInputStatus().size() > relayDriverModel.getDigitalInput()) {
@@ -69,50 +78,61 @@ public class RelayDriverStatusHandler {
 				relayDriverStatus.getRelayOutputStatus().remove(i);
 			}
 		}
-		for (Boolean in : relayDriverStatus.getDigitalInputStatus()) {
-			if (in == null) {
-				LOGGER.error("Inputs format is not valid: " + inStatus);
+		for (Boolean i : relayDriverStatus.getDigitalInputStatus()) {
+			if (i == null) {
+				logger.error("Inputs format is not valid: " + i);
 				return null;
 			}
 		}
-		for (Boolean out : relayDriverStatus.getRelayOutputStatus()) {
-			if (out == null) {
-				LOGGER.error("Outputs format is not valid: " + outStatus);
+		for (Boolean o : relayDriverStatus.getRelayOutputStatus()) {
+			if (o == null) {
+				logger.error("Outputs format is not valid: " + o);
 				return null;
 			}
 		}
 		return relayDriverStatus;
 	}
 
-	void onReceivedRelayDriverStatus(RelayDriver relayDriver, String inStatus, String outStatus) {
-		 
-		RelayDriverStatus relayDriverStatus = parseRelayDriverStatus(relayDriver, inStatus, outStatus);
+	public void onReceivedStatus(RelayDriver relayDriver, String in, String out) {
+		RelayDriverStatus relayDriverStatus = parseRelayDriverStatus(relayDriver, in, out);
 		if (relayDriverStatus == null) {
-			LOGGER.error("Invalid relayDriver status data format");
+			logger.error("Invalid relayDriver status data format");
 		}
 		// Update output status
 		for (Relay relay : relayDriver.getRelays()) {
 			if (relay.updateStatus(relayDriverStatus.getRelayOutputStatus().get(relay.getIndex()))) {
-				// LOGGER.info("Update relay status " + relay.getNameId() + ": "
+				// logger.info("Update relay status " + relay.getNameId() + ": "
 				// + relayDriverStatus.getRelayOutputStatus().get(relay.getIndex()));
 				relayService.update(relay, relayDriverStatus.getRelayOutputStatus().get(relay.getIndex()));
 			}
 		}
-		if (relayDriver.getSwitchs() != null) {
-			for (Switch zwitch : relayDriver.getSwitchs()) {
-				if (zwitch.updateStatus(relayDriverStatus.getDigitalInputStatus().get(zwitch.getIndex()))) {
-					// Sensor status is updated when update switch
-					relayDriverService.updateSwitch(zwitch);
-				}
+		if (relayDriver.getSwitchs() == null || relayDriver.getSwitchs().isEmpty()) {
+			insertSwitch(relayDriver);
+		}
+		for (Switch zwitch : relayDriver.getSwitchs()) {
+			boolean status = relayDriverStatus.getDigitalInputStatus().get(zwitch.getIndex());
+			if (zwitch.updateStatus(status)) {
+				// Sensor status is updated when update switch
+				relayDriverService.updateSwitch(zwitch);
 			}
 		}
-		
 	}
 
-	void onRelayDriverStatusChanged(RelayDriver relayDriver, String inStatus, String outStatus) {
-		RelayDriverStatus relayDriverStatus = parseRelayDriverStatus(relayDriver, inStatus, outStatus);
+	private void insertSwitch(RelayDriver relayDriver) {
+		relayDriver.setSwitchs(new ArrayList<>());
+		for (int i = 0; i < relayDriver.getModelObj().getDigitalInput(); i++) {
+			Switch zwitch = new Switch();
+			zwitch.setDriver(relayDriver);
+			zwitch.setIndex(i);
+			switchDao.insert(zwitch);
+			relayDriver.getSwitchs().add(zwitch);
+		}
+	}
+
+	public void onStatusChanged(RelayDriver relayDriver, String in, String out) {
+		RelayDriverStatus relayDriverStatus = parseRelayDriverStatus(relayDriver, in, out);
 		if (relayDriverStatus == null) {
-			LOGGER.error("Invalid relayDriver status data format");
+			logger.error("Invalid relayDriver status data format");
 		}
 		// Update output status
 		for (Relay relay : relayDriver.getRelays()) {
@@ -121,20 +141,21 @@ public class RelayDriverStatusHandler {
 				onRelayStatusChanged(relay);
 			}
 		}
-		if (relayDriver.getSwitchs() != null) {
-			for (Switch zwitch : relayDriver.getSwitchs()) {
-				if (zwitch.updateStatus(relayDriverStatus.getDigitalInputStatus().get(zwitch.getIndex()))) {
-					// Sensor status is updated when update switch
-					relayDriverService.updateSwitch(zwitch);
-					onSwitchStatusChanged(zwitch);
-				}
+		if (relayDriver.getSwitchs() == null || relayDriver.getSwitchs().isEmpty()) {
+			insertSwitch(relayDriver);
+		}
+		for (Switch zwitch : relayDriver.getSwitchs()) {
+			boolean status = relayDriverStatus.getDigitalInputStatus().get(zwitch.getIndex());
+			if (zwitch.updateStatus(status)) {
+				// Sensor status is updated when update switch
+				relayDriverService.updateSwitch(zwitch);
+				onSwitchStatusChanged(zwitch);
 			}
 		}
-		
 	}
 
 	private void onSwitchStatusChanged(Switch zwitch) {
-		List<Sensor> sensors = sensorService.findBySwitchId(zwitch.getId());
+		List<Sensor> sensors = sensorDao.findBySwitchId(zwitch.getId());
 		if (sensors == null || sensors.isEmpty()) {
 			return;
 		}
@@ -143,21 +164,18 @@ public class RelayDriverStatusHandler {
 		}
 	}
 
+	@Async
 	private void onRelayStatusChanged(Relay relay) {
 		relayStatusNotifier.notifyListeners(new RelayStatusChangedEvent(relay));
 	}
 
+	@Async
 	private void onSensorStatusChanged(Sensor sensor) {
-		new Thread() {
-			@Override
-			public void run() {
-				sensorStatusNotifier.notifyListeners(new SensorStatusChangedEvent(sensor));
-			}
-		}.start();
+		sensorStatusNotifier.notifyListeners(new SensorStatusChangedEvent(sensor));
 	}
 
-	public void onRelayDriverCrashed(RelayDriver relayDriver, String in, String out) {
-		onReceivedRelayDriverStatus(relayDriver, in, out);
+	public void onCrashed(RelayDriver relayDriver, String in, String out) {
+		onReceivedStatus(relayDriver, in, out);
 		if (relayDriver.getCrashCount() == null) {
 			relayDriver.setCrashCount(1);
 		}
@@ -166,4 +184,5 @@ public class RelayDriverStatusHandler {
 		}
 		relayDriverService.update(relayDriver);
 	}
+	
 }

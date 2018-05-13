@@ -3,7 +3,7 @@ package net.ionoff.center.server.notifier;
 import java.util.Observable;
 import java.util.Observer;
 
-import net.ionoff.center.server.notifier.event.RelayStatusChangedEvent;
+import net.ionoff.center.server.message.event.RelayStatusChangedEvent;
 
 public class RelayStatusNotifier extends Observable {
 

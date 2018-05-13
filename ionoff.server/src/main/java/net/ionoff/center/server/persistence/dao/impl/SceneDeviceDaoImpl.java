@@ -49,4 +49,14 @@ public class SceneDeviceDaoImpl extends AbstractGenericDao<SceneDevice> implemen
 	public List<SceneDevice> findByCriteria(QueryCriteria criteria) {
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public List<SceneDevice> findBySceneId(long sceneId) {
+		String sql = "select distinct sceneDevice"
+				+ " from SceneDevice as sceneDevice"
+				+ " where sceneDevice.scene.id = :sceneId";
+		Query query = getCurrentSession().createQuery(sql)
+				.setParameter("sceneId", sceneId);
+		return findMany(query);
+	}
 }

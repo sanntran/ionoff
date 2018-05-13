@@ -22,7 +22,12 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
 
 import net.ionoff.center.server.license.LicenseManager;
-import net.ionoff.center.server.persistence.service.IVersionService;
+import net.ionoff.center.server.notifier.RelayStatusNotifier;
+import net.ionoff.center.server.notifier.SensorStatusNotifier;
+import net.ionoff.center.server.notifier.handler.RelayStatusChangedHandler;
+import net.ionoff.center.server.notifier.handler.SensorStatusChangedHandler;
+import net.ionoff.center.server.notifier.listener.RelayStatusChangedListener;
+import net.ionoff.center.server.notifier.listener.SensorStatusChangedListener;
 import net.ionoff.center.server.thread.ServerThreadPool;
 
 @Component
@@ -33,9 +38,6 @@ public class ApplicationEventListener implements ApplicationListener<Application
 	@Autowired
 	private ServerThreadPool serverThreadPool;
 	
-	@Autowired
-	private IVersionService versionService;
-	
 	@Autowired 
 	private ThreadPoolTaskExecutor taskExecutor;
 	
@@ -43,12 +45,35 @@ public class ApplicationEventListener implements ApplicationListener<Application
     private ThreadPoolTaskScheduler taskScheduler;
     
     @Autowired
-	private LocalSessionFactoryBean sessionFactory;
+    private LocalSessionFactoryBean sessionFactory;
+
+    @Autowired
+    private RelayStatusChangedListener relayStatusChangedListener;
+    
+    @Autowired
+    private RelayStatusChangedHandler relayStatusChangedHandler;
+    
+    @Autowired
+    private SensorStatusChangedListener sensorStatusChangedListener;
+
+    @Autowired
+    private SensorStatusChangedHandler sensorStatusChangedHandler;
+
+	@Autowired
+	private SensorStatusNotifier sensorStatusNotifier;
 	
+	@Autowired
+	private RelayStatusNotifier relayStatusNotifier;
 
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event instanceof ContextRefreshedEvent) {
+			sensorStatusChangedListener.setHandler(sensorStatusChangedHandler);
+			sensorStatusNotifier.addObserver(sensorStatusChangedListener);
+			
+			relayStatusChangedListener.setHandler(relayStatusChangedHandler);
+			relayStatusNotifier.addObserver(relayStatusChangedListener);
+			
 			if (LicenseManager.checkLicense()) {
 				serverThreadPool.start();
 			}

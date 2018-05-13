@@ -60,7 +60,7 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 				if (object == null) {
 					return "";
 				}
-				return BaseDto.formatNameID(object.getRelayDriverName(), object.getRelayDriverId());
+				return BaseDto.formatNameID(object.getDriverName(), object.getDriverId());
 			}
 		};
 		return column;

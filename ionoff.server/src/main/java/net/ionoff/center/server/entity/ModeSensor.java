@@ -5,11 +5,13 @@ import java.util.Set;
 public class ModeSensor extends BaseObj {
 
 	private static final long serialVersionUID = 1L;
+	public static final String CONDITION_VARIABLE = "x";
 	
 	private Boolean enabled;
 	private Integer timeBuffer;
 	private Long resetTime;
 	private String condition;
+	private String message;
 	private Mode mode;
 	private Sensor sensor;
 	private Set<ModeSensorScene> scenes;
@@ -81,5 +83,17 @@ public class ModeSensor extends BaseObj {
 	}
 	public boolean hasUser() {
 		return users != null && !users.isEmpty();
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+	@Override
+	public String toString() {
+		return new StringBuilder().append("[ModeSensor] sensor: ").append(sensor.getNameId()).append(", mode: ")
+				.append(mode != null ? mode.getNameId() : "null").toString();
 	}
 }

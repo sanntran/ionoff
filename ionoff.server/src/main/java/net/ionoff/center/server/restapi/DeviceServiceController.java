@@ -155,7 +155,7 @@ public class DeviceServiceController {
 		User user = RequestContextHolder.getUser();
 		DeviceDto deviceDto = deviceService.requireDtoById(deviceId);
 		RequestContextHolder.checkZonePermission(user, deviceDto.getZoneId());
-		return controlService.turnOnDevice(deviceId);
+		return controlService.turnOnDevice(deviceService.requireById(deviceId));
 	}
 
 	@RequestMapping(value = "devices/{deviceId}/off",
@@ -167,7 +167,7 @@ public class DeviceServiceController {
 		User user = RequestContextHolder.getUser();
 		DeviceDto deviceDto = deviceService.requireDtoById(deviceId);
 		RequestContextHolder.checkZonePermission(user, deviceDto.getZoneId());
-		return controlService.turnOffDevice(deviceId);
+		return controlService.turnOffDevice(deviceService.requireById(deviceId));
 	}
 
 	@RequestMapping(value = "devices/status",

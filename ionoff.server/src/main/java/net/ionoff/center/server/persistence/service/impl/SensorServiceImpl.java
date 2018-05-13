@@ -10,20 +10,24 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.ionoff.center.server.entity.Project;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.SensorData;
 import net.ionoff.center.server.entity.SensorStatus;
+import net.ionoff.center.server.entity.Switch;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.locale.Messages;
 import net.ionoff.center.server.objmapper.QueryCriteriaMapper;
 import net.ionoff.center.server.objmapper.SensorMapper;
+import net.ionoff.center.server.persistence.dao.IProjectDao;
 import net.ionoff.center.server.persistence.dao.ISensorDao;
 import net.ionoff.center.server.persistence.dao.ISensorDataDao;
 import net.ionoff.center.server.persistence.dao.ISensorStatusDao;
-import net.ionoff.center.server.persistence.service.IModeSensorService;
+import net.ionoff.center.server.persistence.dao.ISwitchDao;
 import net.ionoff.center.server.persistence.service.ISensorService;
 import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
@@ -53,15 +57,20 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor, SensorDto>
 	
 	@Autowired
 	private SensorMapper sensorMapper;
+
+	@Lazy
+	@Autowired 
+	private ISwitchDao switchDao;
+	
+	@Lazy
+	@Autowired 
+	private IProjectDao projectDao;
 	
 	@Autowired
 	private ISensorDataDao sensorDataDao;
 	
 	@Autowired
 	private ISensorStatusDao sensorStatusDao;
-	
-	@Autowired
-	private IModeSensorService modeSensorService;
 	
 	public SensorServiceImpl(ISensorDao sensorDao) {
 		this.sensorDao = sensorDao;
@@ -74,7 +83,11 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor, SensorDto>
 	
 	@Override
 	public Sensor insert(Sensor sensor) {
+		SensorStatus status = new SensorStatus();
+		status.setSensor(sensor);
+		sensor.setStatus(status);
 		super.insert(sensor);
+		insertSensorStatus(status);
 		return sensor;
 	}
 
@@ -91,7 +104,12 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor, SensorDto>
 	@Override
 	public SensorDto insertDto(User user, SensorDto dto) {
 		validateSensor(dto, user.getLanguage());
-		Sensor sensor = sensorMapper.createSensor(dto);
+		Project project = projectDao.findById(dto.getProjectId());
+		Switch zwitch =  null;
+		if (dto.getDriverId() != null) {
+			zwitch = switchDao.findByDriverId(dto.getDriverId(), dto.getIndex());
+		}
+		Sensor sensor = sensorMapper.createSensor(dto, project, zwitch);
 		insert(sensor);
 		return sensorMapper.createSensorDto(sensor);
 	}
@@ -100,7 +118,11 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor, SensorDto>
 	public SensorDto updateDto(User user, SensorDto dto) {
 		validateSensor(dto, user.getLanguage());
 		Sensor sensor = requireById(dto.getId());
-		sensorMapper.updateSensor(sensor, dto);
+		Switch zwitch =  null;
+		if (dto.getDriverId() != null) {
+			zwitch = switchDao.findByDriverId(dto.getDriverId(), dto.getIndex());
+		}
+		sensorMapper.updateSensor(sensor, dto, zwitch);
 		update(sensor);
 		return sensorMapper.createSensorDto(sensor);
 	}

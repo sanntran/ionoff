@@ -1,9 +1,15 @@
-package net.ionoff.center.server.thread;
+package net.ionoff.center.server.scheduler;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import net.ionoff.center.server.control.IControlService;
 import net.ionoff.center.server.control.UnknownRelayDriverModelException;
@@ -14,73 +20,51 @@ import net.ionoff.center.server.persistence.service.IRelayService;
 import net.ionoff.center.server.relaydriver.api.RelayDriverConnectException;
 import net.ionoff.center.server.relaydriver.api.RelayDriverException;
 import net.ionoff.center.server.relaydriver.api.RelayDriverStatus;
+import net.ionoff.center.shared.entity.RelayDriverModel;
 
-public abstract class AbstractRelayDriverThread extends Thread {
-	private static final Logger LOGGER = Logger.getLogger(AbstractRelayDriverThread.class.getName());
+
+@Component
+@EnableAsync
+@EnableScheduling
+public class HbqRelayDriverThread {
+	
+	private static final Logger LOGGER = Logger.getLogger(HbqRelayDriverThread.class.getName());
 
 	private static final long INTERVAl = 5000; // 5 seconds
 
-	protected Long relayDriverId;
-	protected final String threadName;
-	protected final IControlService controlService;
-	protected final IRelayService relayService;
-	protected final IRelayDriverService relayDriverService;
+	@Autowired
+	IControlService controlService;
 	
-	public AbstractRelayDriverThread(Long relayDriverId,
-			IRelayDriverService relayDriverService,
-			IControlService controlService,
-			IRelayService relayService
-			) {
-		threadName = "[RelayDriver #" + relayDriverId + "]";
-		this.relayDriverId = relayDriverId;
-		this.controlService = controlService;
-		this.relayService = relayService;
-		this.relayDriverService = relayDriverService;
-	}
+	@Autowired
+	IRelayService relayService;
+	
+	@Autowired
+	IRelayDriverService relayDriverService;
 
-	@Override
-	public void run() {
-		LOGGER.info(threadName + " Thread has been started !");
-		for (; true;) {
-			try {
-				sleep(INTERVAl);
-				if (relayDriverId == null) {
-					throw new RelayDriverNotFoundException();
-				}
-				scanRelayDriverStatus();
-			}
-			catch (final Throwable e) {
-				if (e instanceof RelayDriverNotFoundException) {
-					LOGGER.error(threadName + " RelayDriver is null. Thread " + threadName + " is destroyed now!");
-					return;
-				}
-				LOGGER.error(e.getMessage(), e);
-				if (e instanceof OutOfMemoryError) {
-					System.gc();
-				}
-			}
+	@Scheduled(fixedRate = INTERVAl)
+    public void scanRelayDriversStatus() {
+		// LOGGER.info("Interval update HBQ relay driver status...");
+		List<RelayDriver> ec100RelayDrivers = relayDriverService.findByModel(RelayDriverModel.HBQ_EC100);
+		for (RelayDriver relayDriver : ec100RelayDrivers) {
+			scanRelayDriverStatus(relayDriver);
+		}
+		List<RelayDriver> ep2RelayDrivers = relayDriverService.findByModel(RelayDriverModel.HLAB_EP2);
+		for (RelayDriver relayDriver : ep2RelayDrivers) {
+			scanRelayDriverStatus(relayDriver);
 		}
 	}
 	
-	protected void scanRelayDriverStatus() throws RelayDriverNotFoundException, RelayDriverException, UnknownRelayDriverModelException {
-		final RelayDriver relayDriver = relayDriverService.findById(relayDriverId);
-		if (relayDriver == null) {
-			throw new RelayDriverNotFoundException();
-		}
-		scanRelayDriverStatus(relayDriver);
-	}
-	
-	protected void scanRelayDriverStatus(RelayDriver relayDriver) throws RelayDriverException, UnknownRelayDriverModelException {
+	@Async
+	protected void scanRelayDriverStatus(RelayDriver relayDriver) {
 		boolean oldStatus = relayDriver.isConnected();
 		try {
-			//LOGGER.info(threadName + " Send request status to " + relayDriver.getIp());
 			pingContoller(relayDriver);
 			relayDriver.setConnectedTime(System.currentTimeMillis());
 			relayDriverService.update(relayDriver);
 			final RelayDriverStatus relayDriverStatus = controlService.getRelayDriverStatus(relayDriver);
 			updateRelayDriverStatus(relayDriver, true, oldStatus, relayDriverStatus);
 		}
-		catch (final RelayDriverConnectException e) {
+		catch (final Exception e) {
 			try {
 				updateRelayDriverStatus(relayDriver, false, oldStatus, new RelayDriverStatus());
 			} catch (RelayDriverConnectException ex) {
@@ -96,7 +80,7 @@ public abstract class AbstractRelayDriverThread extends Thread {
 	}
 
 	private void updateRelayDriverStatus(RelayDriver relayDriver,
-			boolean newStatus, boolean oldStatus, RelayDriverStatus relayDriverStatus) throws RelayDriverException, UnknownRelayDriverModelException {
+			boolean newStatus, boolean oldStatus, RelayDriverStatus relayDriverStatus) {
 
 		if (newStatus == oldStatus) {
 			//relayDriver status is not changed
@@ -152,10 +136,5 @@ public abstract class AbstractRelayDriverThread extends Thread {
 		if (relay.updateStatus(newStatus)) {
 			relayService.update(relay, newStatus);
 		}
-	}
-
-	public void terminate() {
-		relayDriverId = null;
-		interrupt();
 	}
 }

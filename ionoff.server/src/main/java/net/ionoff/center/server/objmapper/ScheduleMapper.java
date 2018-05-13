@@ -4,16 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import net.ionoff.center.server.entity.BaseObj;
+import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.Schedule;
 import net.ionoff.center.server.entity.ScheduleAction;
 import net.ionoff.center.server.entity.SchedulePlayerAction;
 import net.ionoff.center.server.entity.ScheduleRelayAction;
 import net.ionoff.center.server.persistence.service.IDeviceService;
-import net.ionoff.center.server.persistence.service.IProjectService;
-import net.ionoff.center.server.persistence.service.IScheduleService;
 import net.ionoff.center.shared.dto.ScheduleActionDto;
 import net.ionoff.center.shared.dto.ScheduleDto;
 import net.ionoff.center.shared.dto.SchedulePlayerActionDto;
@@ -21,12 +17,7 @@ import net.ionoff.center.shared.dto.ScheduleRelayActionDto;
 
 public class ScheduleMapper {
 	
-	@Autowired
-	private IProjectService projectService;
-	@Autowired
-	private IDeviceService deviceService;
-	@Autowired
-	private IScheduleService scheduleService;
+	
 	
 	public List<ScheduleDto> createScheduleDtoList(List<Schedule> schedules) {
 		final List<ScheduleDto> scheduleDtos = new ArrayList<ScheduleDto>();
@@ -36,10 +27,11 @@ public class ScheduleMapper {
 		return scheduleDtos;
 	}
 	
-	public Schedule createSchedule(ScheduleDto scheduleDto) {
+	public Schedule createSchedule(ScheduleDto scheduleDto, IDeviceService deviceService) {
 		Schedule schedule = new Schedule();
-		schedule.setDevice(deviceService.findById(scheduleDto.getDeviceId()));
-		schedule.setProject(projectService.findById(scheduleDto.getProjectId()));
+		Device device = deviceService.findById(scheduleDto.getDeviceId());
+		schedule.setDevice(device);
+		schedule.setProject(device.getProject());
 		updateSchedule(schedule, scheduleDto);
 		return schedule;
 	}
@@ -52,30 +44,6 @@ public class ScheduleMapper {
 		schedule.setDay(scheduleDto.getDay());
 		return schedule;
 	}
-	
-	public Schedule toSchedule(ScheduleDto scheduleDto) {
-		final Schedule schedule = getOrCreateSchedule(scheduleDto.getId());
-		schedule.setName(scheduleDto.getName());
-		schedule.setEnabled(scheduleDto.getEnabled());
-		schedule.setRepeat(scheduleDto.getRepeat());
-		schedule.setTime(scheduleDto.getTime());
-		schedule.setDay(scheduleDto.getDay());
-		schedule.setDevice(deviceService.findById(scheduleDto.getDeviceId()));
-		schedule.setProject(projectService.findById(scheduleDto.getProjectId()));
-		return schedule;
-	}
-	
-	public Schedule getOrCreateSchedule(long scheduleId) {
-		if (BaseObj.isNew(scheduleId)) {
-			final Schedule schedule = new Schedule();
-			return schedule;
-		}
-		else {
-			final Schedule schedule = scheduleService.findById(scheduleId);
-			return schedule;
-		}
-	}
-	
 
 	public ScheduleDto createScheduleDto(Schedule schedule) {
 		final ScheduleDto scheduleDto = new ScheduleDto();

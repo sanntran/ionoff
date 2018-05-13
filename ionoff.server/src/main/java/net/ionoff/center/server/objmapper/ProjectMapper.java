@@ -15,7 +15,6 @@ public class ProjectMapper {
 
 	@Autowired
 	private ZoneMapper zoneMapper;
-	
 
 	public Project createProject(ProjectDto projectDto) {
 		final Project project = new Project();

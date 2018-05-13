@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.ModeSensor;
 import net.ionoff.center.server.entity.QueryCriteria;
+import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.persistence.dao.IModeSensorDao;
 
 @Transactional
@@ -36,6 +37,21 @@ public class ModeSensorDaoImpl extends AbstractGenericDao<ModeSensor> implements
 		
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("sensorId", sensorId);
+		return findMany(query);
+	}
+
+	@Override
+	public List<ModeSensor> findOnSensorStatusChanged(Sensor sensor) {
+		String sql = "SELECT DISTINCT modeSensor" 
+				+ " FROM ModeSensor AS modeSensor, Mode as mode" 
+				+ " WHERE modeSensor.sensor.id = :sensorId"
+				+ " AND ((modeSensor.mode.id = mode.id AND mode.isActivated = true)"
+					   + " OR (modeSensor.mode IS NULL))"
+				+ " AND modeSensor.enabled = true";
+		
+		Query query = getCurrentSession().createQuery(sql)
+				.setParameter("sensorId", sensor.getId());
+		
 		return findMany(query);
 	}
 }

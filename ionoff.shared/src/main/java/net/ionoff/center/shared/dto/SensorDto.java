@@ -4,6 +4,8 @@ public class SensorDto extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 	
+	private String unit;
+	private String formula;
 	private String type;
 	private Long driverId;
 	private String driverName;
@@ -58,5 +60,17 @@ public class SensorDto extends BaseDto {
 	}
 	public void setProjectId(Long projectId) {
 		this.projectId = projectId;
+	}
+	public String getUnit() {
+		return unit;
+	}
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+	public String getFormula() {
+		return formula;
+	}
+	public void setFormula(String formula) {
+		this.formula = formula;
 	}
 }

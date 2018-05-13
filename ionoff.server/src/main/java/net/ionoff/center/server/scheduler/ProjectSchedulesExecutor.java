@@ -1,12 +1,17 @@
-package net.ionoff.center.server.thread;
+package net.ionoff.center.server.scheduler;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import net.ionoff.center.server.control.IControlService;
 import net.ionoff.center.server.control.UnknownRelayDriverModelException;
@@ -23,7 +28,10 @@ import net.ionoff.center.shared.dto.ScheduleConst;
 import net.xapxinh.center.server.exception.DataServiceException;
 import net.xapxinh.center.server.exception.PlayerConnectException;
 
-public class ProjectSchedulesExecutor extends Thread {
+@Component
+@EnableAsync
+@EnableScheduling
+public class ProjectSchedulesExecutor {
 
 	private static Logger LOGGER = Logger.getLogger(ProjectSchedulesExecutor.class.getName());
 	
@@ -32,16 +40,15 @@ public class ProjectSchedulesExecutor extends Thread {
 	private final SimpleDateFormat scheduleDateFormat;
 	private final SimpleDateFormat simpleDateTimeFormat;
 	
-	private static final int INTERVAL = 1; // minutes
+	private static final int INTERVAL = 60000; // 1 minutes
 	
-	private Long projectId;
 	private IScheduleService scheduleService;
 	private IModeService modeService;
 	private IControlService controlService;
 	
-	public ProjectSchedulesExecutor(Long projectId, IScheduleService scheduleService, 
+	@Autowired
+	public ProjectSchedulesExecutor(IScheduleService scheduleService, 
 			IModeService modeService, IControlService controlService) {
-		this.projectId = projectId;
 		
 		this.controlService = controlService;
 		this.modeService = modeService;
@@ -53,52 +60,29 @@ public class ProjectSchedulesExecutor extends Thread {
 		simpleDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
 	}
 	
-	public void shutdown() {
-		projectId = null;
-		interrupt();
-	} 
-
-	@Override
-	public void run() {
-		LOGGER.info(getThreadName() + " Thread has been started !");
-		for (; true;) {
-			try {
-				waitForExcutableTime();
-				Date now = new Date();
-				excuteModes(now);
-				executeSchedules(now);
-			}
-			catch (ProjectNotFoundException e) {
-				LOGGER.error(getThreadName() + " ProjectId is null. Thread " + getThreadName() + " is destroyed now!");
-				return;
-			}
-			catch (Throwable e) {
-				LOGGER.error(e.getMessage(), e);
-				if (e instanceof OutOfMemoryError) {
-					System.gc();
-				}
-			}
-		}
-	}
-	
-	private String getThreadName() {
-		return "[Project #" + projectId + "]";
+	@Scheduled(fixedRate = INTERVAL)
+    public void findAndExecuteSchedules() {
+		Date now = new Date();
+		findAndExecuteModes(now);
+		findAndExecuteSchedules(now);
 	}
 
-	private void excuteModes(Date now) throws ProjectNotFoundException {
-		executeModes(getExecutableModes(now), now);
-	}
-
-	private void executeModes(List<Mode> executableModes, Date now) {
+	private void findAndExecuteModes(Date now) {
+		List<Mode> executableModes = getExecutableModes(now);
 		for (Mode mode : executableModes) {
-			LOGGER.info(getThreadName() + " Executes modes at " + simpleDateTimeFormat.format(now));
-			controlService.activateMode(mode);
+			doExecuteMode(mode, now);
 		}
 	}
 
-	private List<Mode> getExecutableModes(Date now) throws ProjectNotFoundException {
+	@Async
+	private void doExecuteMode(Mode mode, Date now) {
+		LOGGER.info("Executing mode: " + mode.getNameId() + " at " + simpleDateTimeFormat.format(now));
+		controlService.activateMode(mode);
+	}
+
+	private List<Mode> getExecutableModes(Date now) {
 		String hhMMAmPm = scheduleTimeFormat.format(now);
-		List<Mode> executableModes = modeService.findByScheduleTime(getProjectId(), hhMMAmPm);
+		List<Mode> executableModes = modeService.findByScheduleTime(hhMMAmPm);
 		
 		List<Mode> todayExcutableModes = new ArrayList<Mode>();
 		for (Mode mode : executableModes) {
@@ -109,42 +93,21 @@ public class ProjectSchedulesExecutor extends Thread {
 		return executableModes;
 	}
 
-	private void executeSchedules(Date now) throws ProjectNotFoundException {
+	private void findAndExecuteSchedules(Date now) {
 		executeFailedSchedules(getFailedSchedules());
 		executeSchedules(getExecutableSchedules(now), now);
 	}
 
 	private void executeSchedules(List<Schedule> executableSchedules, Date now) {
 		for (Schedule schedule : executableSchedules) {
-			LOGGER.info(getThreadName() + " Execute schedules at " + simpleDateTimeFormat.format(now));
+			LOGGER.info("Execute schedules at " + simpleDateTimeFormat.format(now));
 			executeSchedule(schedule);
 		}
 	}
 
-	private void waitForExcutableTime() {
-		Calendar cal = Calendar.getInstance();
-		int currentMinute = cal.get(Calendar.MINUTE);
-		int currentSecond = cal.get(Calendar.SECOND);
-		try {
-			//logger.info(getThreadName() + " Current system time: " + simpleDateTimeFormat.format(cal.getTime()));
-			int minutesSleep = INTERVAL - currentMinute % INTERVAL;
-			if (minutesSleep != 0) {
-				int ignoreSecond = 0;
-				if (currentSecond > 1) {
-					ignoreSecond = currentSecond - 1;
-					//logger.info(getThreadName() + " Ignores " + ignoreSecond + " seconds in sleep time");
-				}
-				sleep(minutesSleep * 60000 - ignoreSecond * 1000); // sleep
-			}
-		}
-		catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-	}
-
-	private List<Schedule> getExecutableSchedules(Date now) throws ProjectNotFoundException {
+	private List<Schedule> getExecutableSchedules(Date now) {
 		String hhMMAmPm = scheduleTimeFormat.format(now);
-		List<Schedule> excutableSchedules = scheduleService.findEnabledSchedules(getProjectId(), hhMMAmPm);
+		List<Schedule> excutableSchedules = scheduleService.findEnabledSchedules(hhMMAmPm);
 		List<Schedule> todayExcutableSchedules = new ArrayList<Schedule>();
 		for (Schedule schedule : excutableSchedules) {
 			if (isTodaySchedule(schedule.getRepeat(), schedule.getDay(), now)) {
@@ -152,13 +115,6 @@ public class ProjectSchedulesExecutor extends Thread {
 			}
 		}
 		return excutableSchedules;
-	}
-
-	private long getProjectId() throws ProjectNotFoundException {
-		if (projectId == null) {
-			throw new ProjectNotFoundException();
-		}
-		return projectId;
 	}
 
 	private boolean isTodaySchedule(String scheduleRepeat, String scheduleDay, Date now) {
@@ -176,8 +132,8 @@ public class ProjectSchedulesExecutor extends Thread {
 		return false;
 	}
 
-	private List<Schedule> getFailedSchedules() throws ProjectNotFoundException{
-		List<Schedule> failedSchedules = scheduleService.findFailedSchedules(getProjectId());
+	private List<Schedule> getFailedSchedules() {
+		List<Schedule> failedSchedules = scheduleService.findFailedSchedules();
 		List<Schedule> result = new ArrayList<Schedule>();
 		for (Schedule schedule : failedSchedules) {
 			if (schedule.getRetry() == null || schedule.getRetry().intValue() < 3) {
@@ -194,10 +150,12 @@ public class ProjectSchedulesExecutor extends Thread {
 		}
 	}
 	
+	@Async
 	private void executeFailedSchedule(Schedule schedule, long now) {
-		LOGGER.info(getThreadName() + " Retry to execute schedule, id: " + schedule.getId() + ", device: " + schedule.getDevice().getName());
+		LOGGER.info("Retry to execute schedule, id: " + schedule.getId() 
+				+ ", device: " + schedule.getDevice().getName());
 		if (isDeviceControlledAfterExecutingSchedule(schedule.getDevice(), schedule)) {
-			LOGGER.info(getThreadName() + " The device is controlled after executing the schedule. The schedule is ignored");
+			LOGGER.info("The device is controlled after executing the schedule. The schedule is ignored");
 			updateSchedule(schedule, now, true, 0);
 			return;
 		}
@@ -230,8 +188,9 @@ public class ProjectSchedulesExecutor extends Thread {
 				&& device.getTime().getTime() > schedule.getExecutedTime().longValue();
 	}
 
+	@Async
 	private void executeSchedule(Schedule schedule) {
-		LOGGER.info(getThreadName() + " Excuting schedule, id: " + schedule.getId() + ", device: " + schedule.getDevice().getName());
+		LOGGER.info("Excuting schedule, id: " + schedule.getId() + ", device: " + schedule.getDevice().getName());
 		long now = System.currentTimeMillis();
 		try {
 			executeScheduleActions(schedule);
@@ -244,7 +203,7 @@ public class ProjectSchedulesExecutor extends Thread {
 	}
 
 	private void executeScheduleActions(Schedule schedule) throws PlayerConnectException, 
-	RelayDriverException, DataServiceException, UnknownRelayDriverModelException {
+						RelayDriverException, DataServiceException, UnknownRelayDriverModelException {
 		if (schedule.getActions() == null) {
 			return;
 		}

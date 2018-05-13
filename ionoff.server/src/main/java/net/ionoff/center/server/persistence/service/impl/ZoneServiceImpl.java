@@ -24,10 +24,10 @@ import net.ionoff.center.server.locale.Constants;
 import net.ionoff.center.server.locale.Messages;
 import net.ionoff.center.server.objmapper.ZoneMapper;
 import net.ionoff.center.server.persistence.dao.IAreaDao;
+import net.ionoff.center.server.persistence.dao.IDashboardDao;
 import net.ionoff.center.server.persistence.dao.IModeSceneDao;
 import net.ionoff.center.server.persistence.dao.IModeSensorSceneDao;
 import net.ionoff.center.server.persistence.dao.IZoneDao;
-import net.ionoff.center.server.persistence.service.IDashboardService;
 import net.ionoff.center.server.persistence.service.IUserZoneService;
 import net.ionoff.center.server.persistence.service.IZoneService;
 import net.ionoff.center.shared.dto.ZoneDto;
@@ -50,7 +50,7 @@ public class ZoneServiceImpl extends AbstractGenericService<Zone, ZoneDto> imple
 	private IUserZoneService userZoneService;
 	
 	@Autowired
-	private IDashboardService dashboardService;
+	private IDashboardDao dashboardDao;
 
 	@Autowired
 	private ZoneMapper zoneMapper;
@@ -82,7 +82,7 @@ public class ZoneServiceImpl extends AbstractGenericService<Zone, ZoneDto> imple
 				dashboard.setUser(userProject.getUser());
 				dashboard.setZone(entity);
 				dashboard.setProject(entity.getProject());
-				dashboardService.insert(dashboard);
+				dashboardDao.insert(dashboard);
 			}
 		}
 	}

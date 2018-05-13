@@ -1,5 +1,6 @@
 package net.ionoff.center.server.control;
 
+import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.Mode;
 import net.ionoff.center.server.entity.Player;
 import net.ionoff.center.server.entity.Relay;
@@ -15,10 +16,6 @@ public interface IControlService {
 	void playScene(Scene scene);
 	
 	RelayDriverStatus getRelayDriverStatus(RelayDriver relayDriver);
-	
-	StatusDto turnOnDevice(long deviceId);
-	
-	StatusDto turnOffDevice(long deviceId);
 	
 	void setRelayOn(Relay relay);
 	
@@ -38,7 +35,9 @@ public interface IControlService {
 	
 	StatusDto switchOnOff(long relayId);
 
-	void playScene(long sceneId);
-
 	void setRelayState(Relay relay, Boolean state);
+
+	StatusDto turnOnDevice(Device device);
+
+	StatusDto turnOffDevice(Device device);
 }

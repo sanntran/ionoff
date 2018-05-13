@@ -5,10 +5,14 @@ import java.util.List;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
@@ -36,8 +40,13 @@ public class ModeSensorPresenter extends AbstractPresenter {
 		MaterialTextBox getTextBoxCondition();
 		FlowPanel getModeSensorScenesPanel();		
 		FlowPanel getModeSensorUsersPanel();
+
+		MaterialTextBox getTextBoxMesage();
 	}
-	
+
+	private enum EventType {
+		CLICK_ENABLED, TEXTBOX_ENTER;
+	}
 	private final Display display;
 	private ModeSensorDto modeSensor;
 	private final IRpcServiceProvider rpcProvider;
@@ -59,8 +68,15 @@ public class ModeSensorPresenter extends AbstractPresenter {
 		display.getLblModeName().setText(modeSensor.getModeName() == null ?
 				AdminLocale.getAdminConst().all() : 
 				BaseDto.formatNameID(modeSensor.getModeName(), modeSensor.getModeId()));
-		
+		if (Boolean.TRUE.equals(modeSensor.getEnabled())) {
+			display.getIconEnabled().setIconType(IconType.CHECK);
+		}
+		else {
+			display.getIconEnabled().setIconType(IconType.CHECK_BOX_OUTLINE_BLANK);
+		}
 		display.getLblCondition().setText(modeSensor.getCondition());
+		display.getTextBoxCondition().setText(modeSensor.getCondition());
+		display.getTextBoxMesage().setText(modeSensor.getMessage());
 		
 		display.getIconEnabled().addClickHandler(e -> {
 			if (Boolean.TRUE.equals(modeSensor.getEnabled())) {
@@ -69,8 +85,25 @@ public class ModeSensorPresenter extends AbstractPresenter {
 			else {
 				modeSensor.setEnabled(true);
 			}
-			onUpdateModeSensor();
+			updateModeSensor(EventType.CLICK_ENABLED);
 		});
+		display.getTextBoxCondition().addKeyUpHandler(new KeyUpHandler() {
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					updateModeSensor(EventType.TEXTBOX_ENTER);
+				}
+			}
+		});
+		display.getTextBoxMesage().addKeyUpHandler(new KeyUpHandler() {
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					updateModeSensor(EventType.TEXTBOX_ENTER);
+				}
+			}
+		});
+		
 		showModeSensorScenes(modeSensor.getScenes());
 		showModeSensorUsers(modeSensor.getUsers());
 	}
@@ -105,18 +138,37 @@ public class ModeSensorPresenter extends AbstractPresenter {
 		}
 	}
 
-	private void onUpdateModeSensor() {
+	private void updateModeSensor(EventType event) {
+		modeSensor.setCondition(display.getTextBoxCondition().getText());
+		modeSensor.setMessage(display.getTextBoxMesage().getText());
 		rpcProvider.getModeSensorService().save(modeSensor.getId(), modeSensor,  
 				new MethodCallback<ModeSensorDto>() {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
 				ClientUtil.handleRpcFailure(method, exception, eventBus);
+				if (EventType.CLICK_ENABLED.equals(event)) {
+					if (Boolean.TRUE.equals(modeSensor.getEnabled())) {
+						modeSensor.setEnabled(false);
+						display.getIconEnabled().setIconType(IconType.CHECK_BOX_OUTLINE_BLANK);
+					}
+					else {
+						modeSensor.setEnabled(true);
+						display.getIconEnabled().setIconType(IconType.CHECK);
+					}
+				}
 			}
 			@Override
 			public void onSuccess(Method method, ModeSensorDto result) {
 				eventBus.fireEvent(new ShowMessageEvent(AdminLocale.getAdminMessages().updateSuccess(),
 						ShowMessageEvent.SUCCESS));
 				modeSensor = result;
+				display.getLblCondition().setText(modeSensor.getCondition());
+				if (Boolean.TRUE.equals(modeSensor.getEnabled())) {
+					display.getIconEnabled().setIconType(IconType.CHECK);
+				}
+				else {
+					display.getIconEnabled().setIconType(IconType.CHECK_BOX_OUTLINE_BLANK);
+				}
 			}
 		});
 	}

@@ -3,8 +3,8 @@ package net.ionoff.center.client.sensor;
 import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-import gwt.material.design.client.constants.IconSize;
 import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialCollapsible;
 import gwt.material.design.client.ui.MaterialCollapsibleBody;
 import gwt.material.design.client.ui.MaterialCollapsibleHeader;
@@ -18,11 +18,12 @@ public class ModeSensorView extends MaterialCollapsible
 				implements ModeSensorPresenter.Display {
 	
 	private final MaterialIcon iconEnabled;
-	private final MaterialIcon iconDelete;
 	private final MaterialLabel lblModeName;
 	private final MaterialLabel lblCondition;
 	
+	private final MaterialIcon iconDelete;
 	private final MaterialTextBox textBoxCondition;
+	private final MaterialTextBox textBoxMessage;
 	private final FlowPanel modeSensorScenesPanel;
 	private final FlowPanel modeSensorUsersPanel;
 	
@@ -33,6 +34,20 @@ public class ModeSensorView extends MaterialCollapsible
 		MaterialCollapsibleHeader collapsibleHeader = new MaterialCollapsibleHeader();
 		collapsibleItem.add(collapsibleHeader);
 		
+		iconDelete = new MaterialIcon();
+		iconDelete.addStyleName("icon delete");
+		iconDelete.setWaves(WavesType.DEFAULT);
+		iconDelete.setIconType(IconType.DELETE);
+		iconDelete.setFloat(Float.RIGHT);
+		add(iconDelete);
+		
+		iconEnabled = new MaterialIcon();
+		iconEnabled.addStyleName("icon enable");
+		iconEnabled.setWaves(WavesType.DEFAULT);
+		iconEnabled.setFloat(Float.RIGHT);
+		iconEnabled.setIconType(IconType.CHECK);
+		add(iconEnabled);
+		
 		lblModeName = new MaterialLabel();
 		lblModeName.setFontSize("15px");
 		collapsibleHeader.add(lblModeName);
@@ -41,26 +56,20 @@ public class ModeSensorView extends MaterialCollapsible
 		lblCondition.addStyleName("condition");
 		collapsibleHeader.add(lblCondition);
 		
-		iconEnabled = new MaterialIcon();
-		iconEnabled.setFloat(Float.LEFT);
-		iconEnabled.setIconType(IconType.CHECK);
-		iconEnabled.setIconSize(IconSize.MEDIUM);
-		collapsibleHeader.add(iconEnabled);
-		
-		iconDelete = new MaterialIcon();
-		iconDelete.setIconType(IconType.DELETE);
-		iconDelete.setIconSize(IconSize.MEDIUM);
-		iconDelete.setFloat(Float.RIGHT);
-		collapsibleHeader.add(iconDelete);
-		
 		MaterialCollapsibleBody collapsibleBody = new MaterialCollapsibleBody();
 		collapsibleItem.add(collapsibleBody);
 		
 		textBoxCondition = new MaterialTextBox();
-		textBoxCondition.setLabel(AdminLocale.getAdminConst().condition());
-		textBoxCondition.setPlaceholder(AdminLocale.getAdminConst().condition());
+		textBoxCondition.setLabel(AdminLocale.getAdminConst().condition() 
+							+ " " + AdminLocale.getAdminMessages().xIsSensorValue());
+		textBoxCondition.setPlaceholder(AdminLocale.getAdminConst().conditionExample());
 		collapsibleBody.add(textBoxCondition);
 		
+		textBoxMessage = new MaterialTextBox();
+		textBoxMessage.setLabel(AdminLocale.getAdminConst().message());
+		textBoxMessage.setPlaceholder(AdminLocale.getAdminConst().message());
+		collapsibleBody.add(textBoxMessage);
+
 		modeSensorScenesPanel = new FlowPanel();
 		modeSensorScenesPanel.setStyleName("modeSensorScenes");
 		collapsibleBody.add(modeSensorScenesPanel);
@@ -102,6 +111,11 @@ public class ModeSensorView extends MaterialCollapsible
 		return textBoxCondition;
 	}
 
+	@Override
+	public MaterialTextBox getTextBoxMesage() {
+		return textBoxMessage;
+	}
+	
 	@Override
 	public FlowPanel getModeSensorScenesPanel() {
 		return modeSensorScenesPanel;

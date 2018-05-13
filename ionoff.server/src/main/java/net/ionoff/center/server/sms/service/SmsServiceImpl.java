@@ -1,7 +1,12 @@
 package net.ionoff.center.server.sms.service;
 
+import java.nio.charset.Charset;
+
 import org.apache.log4j.Logger;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
@@ -10,6 +15,7 @@ import net.ionoff.center.server.config.AppConfig;
 import net.ionoff.center.server.util.CommonUtil;
 import net.ionoff.center.shared.dto.MessageDto;
 
+@EnableAsync
 public class SmsServiceImpl implements SmsService {
 
 	private static Logger LOGGER = Logger.getLogger(SmsServiceImpl.class.getName());
@@ -20,22 +26,21 @@ public class SmsServiceImpl implements SmsService {
 	public SmsServiceImpl() {
 		gson = new Gson();
 		restTemplate = new RestTemplate();
+		restTemplate.getMessageConverters()
+        .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
 	}
-
+	
+	@Async
 	@Override
-	public MessageDto sendSms(String language, String[] subscribers, String sensor, boolean detected, String dateTime) {
+	public MessageDto sendSms(String[] subscribers, String message) {
 		String subcribersStr = CommonUtil.toString(subscribers);
-		LOGGER.info("Sending SMS to " + subcribersStr + ". Sensor: " + sensor + " - Detected: " + detected);
+		LOGGER.info("Sending SMS to " + subcribersStr);
 		
 		String url = AppConfig.getInstance().NOTIFY_SERVICE_URL + "/sms/sensor";
-		url = url + "?language=" + language;
-		url = url + "&subscribers=" + subcribersStr;
-		url = url + "&sensor=" + sensor;
-		url = url + "&dateTime=" + dateTime;
-		url = url + "&detected=" + detected;
+		url = url + "?subscribers=" + subcribersStr;
 		
 		try {
-			ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+			ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, message, String.class);
 			return gson.fromJson(responseEntity.getBody(), MessageDto.class);
 		}
 		catch (Exception e) {

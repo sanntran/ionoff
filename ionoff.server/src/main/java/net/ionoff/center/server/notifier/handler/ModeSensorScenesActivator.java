@@ -16,8 +16,7 @@ class ModeSensorScenesActivator extends Thread {
 	ModeSensorScenesActivator(ModeSensor modeSensor, IControlService controlService) {
 		this.modeSensor = modeSensor;
 		this.controlService = controlService;
-		threadName = "Thread of mode:" + modeSensor.getMode().getSId() 
-				+ " - sensor:" + modeSensor.getSensor().getSId();
+		threadName = "Thread of " + modeSensor.toString();
 	}
 	
 	@Override
@@ -39,7 +38,7 @@ class ModeSensorScenesActivator extends Thread {
 				logger.info(message);
 				return;
 			}
-			message = message + ", scene: " + sensorScene.getScene().getSId();
+			message = message + ", scene: " + sensorScene.getScene().getNameId();
 			logger.info(message);
 			controlService.playScene(sensorScene.getScene());
 		}

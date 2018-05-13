@@ -3,14 +3,11 @@ package net.ionoff.center.server.notifier.listener;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import net.ionoff.center.server.notifier.event.SensorStatusChangedEvent;
+import net.ionoff.center.server.message.event.SensorStatusChangedEvent;
 import net.ionoff.center.server.notifier.handler.SensorStatusChangedHandler;
 
 public class SensorStatusChangedListener implements Observer {
 	
-	@Autowired
 	private SensorStatusChangedHandler sensorStatusChangedHandler;
 	
 	public SensorStatusChangedListener() {
@@ -23,5 +20,9 @@ public class SensorStatusChangedListener implements Observer {
 			SensorStatusChangedEvent sensorStatusChangedEvent = (SensorStatusChangedEvent)event;
 			sensorStatusChangedHandler.onSensorStatusChanged(sensorStatusChangedEvent.getSensor());
 		}
+	}
+
+	public void setHandler(SensorStatusChangedHandler handler) {
+		this.sensorStatusChangedHandler = handler;
 	}
 }

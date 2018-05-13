@@ -39,4 +39,10 @@ public interface AdminMessages extends Messages {
 	
 	@DefaultMessage("Không đổi model bộ điều khiển đã thêm")
 	String unsupportChangingRelayDriverModel();
+	
+	@DefaultMessage("(x là giá trị cảm biến)")
+	String xIsSensorValue();
+
+	@DefaultMessage("Không xóa được cảm biến thuộc về thiết bị ''{0}''")
+	String errorDeleteSensorOfDevice(String deviceName);
 }

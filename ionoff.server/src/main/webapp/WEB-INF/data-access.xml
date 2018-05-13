@@ -277,4 +277,9 @@
     <bean id="dashboardService" class="net.ionoff.center.server.persistence.service.impl.DashboardServiceImpl">
       <constructor-arg ref="dashboardDao" />    
     </bean> 
+    
+    <bean id="switchService" class="net.ionoff.center.server.persistence.service.impl.SwitchServiceImpl">
+      <constructor-arg ref="switchDao" />    
+    </bean> 
+    
 </beans>

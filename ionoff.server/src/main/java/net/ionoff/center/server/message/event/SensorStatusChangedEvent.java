@@ -1,4 +1,4 @@
-package net.ionoff.center.server.notifier.event;
+package net.ionoff.center.server.message.event;
 
 import net.ionoff.center.server.entity.Sensor;
 

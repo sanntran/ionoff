@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.Mode;
@@ -20,12 +21,12 @@ import net.ionoff.center.server.entity.SceneAction;
 import net.ionoff.center.server.entity.SceneDevice;
 import net.ionoff.center.server.entity.ScenePlayerAction;
 import net.ionoff.center.server.entity.SceneRelayAction;
+import net.ionoff.center.server.message.event.RelayStatusChangedEvent;
 import net.ionoff.center.server.notifier.RelayStatusNotifier;
-import net.ionoff.center.server.notifier.event.RelayStatusChangedEvent;
-import net.ionoff.center.server.persistence.service.IDeviceService;
-import net.ionoff.center.server.persistence.service.IModeService;
+import net.ionoff.center.server.persistence.dao.IModeDao;
+import net.ionoff.center.server.persistence.dao.ISceneDao;
+import net.ionoff.center.server.persistence.dao.ISceneDeviceDao;
 import net.ionoff.center.server.persistence.service.IRelayService;
-import net.ionoff.center.server.persistence.service.ISceneService;
 import net.ionoff.center.server.relaydriver.api.RelayDriverApiProvider;
 import net.ionoff.center.server.relaydriver.api.RelayDriverApiUtil;
 import net.ionoff.center.server.relaydriver.api.RelayDriverException;
@@ -46,25 +47,26 @@ public class ControlServiceImpl implements IControlService {
 	private final Logger logger = Logger.getLogger(ControlServiceImpl.class.getName());
 	
 	@Autowired
-	private IDeviceService deviceService;
-	
-	@Autowired
 	private IRelayService relayService;
 	
 	@Autowired
-	private IModeService modeService;
-	 
-	@Autowired
-	private RelayDriverApiProvider relayDriverApiProvider;
+	private IModeDao modeDao;
 	
+	@Autowired
+	private ISceneDao sceneDao;
+
 	@Autowired
 	private IPlayerService playerService;
 	
 	@Autowired
-	private ISceneService sceneService;
+	private ISceneDeviceDao sceneDeviceDao;
 	
+	@Lazy
 	@Autowired
 	private RelayStatusNotifier relayStatusNotifier;
+
+	@Autowired
+	private RelayDriverApiProvider relayDriverApiProvider;
 	
 	@Override
 	public StatusDto switchOn(long relayId) {
@@ -157,12 +159,12 @@ public class ControlServiceImpl implements IControlService {
 		for (Mode m : proj.getModes()) {
 			if (m.getIsActivated() == null || m.getIsActivated().booleanValue() == true) {
 				m.setIsActivated(false);
-				modeService.update(m);
+				modeDao.update(m);
 			}
 		}
 		mode.setIsActivated(true);
 		mode.setTime(new Date());
-		modeService.update(mode);
+		modeDao.update(mode);
 	}
 
 	private void executeSceneActions(List<SceneAction> sceneActions) {
@@ -322,7 +324,7 @@ public class ControlServiceImpl implements IControlService {
 			return;
 		}
 		logger.info("Trigger playing scene " + scene.getNameId() + "...");
-		for (final SceneDevice sceneDevice : scene.getDevices()) {
+		for (final SceneDevice sceneDevice : sceneDeviceDao.findBySceneId(scene.getId())) {
 			logger.info("Play scene device " + sceneDevice.getDevice().getName() + " in (second) " + sceneDevice.getDuration());
 			long t1 = System.currentTimeMillis(); 
 			executeSceneActions(sceneDevice.getActions());
@@ -342,7 +344,7 @@ public class ControlServiceImpl implements IControlService {
 		}
 		
 		scene.setTime(new Date());
-		sceneService.update(scene);
+		sceneDao.update(scene);
 	}
 
 	@Override
@@ -356,8 +358,7 @@ public class ControlServiceImpl implements IControlService {
 	}
 
 	@Override
-	public StatusDto turnOnDevice(long deviceId) {
-		final Device device = deviceService.requireById(deviceId);
+	public StatusDto turnOnDevice(Device device) {
 		StatusDto statusDto = new StatusDto();
 		statusDto.setId(device.getId());
 		if (!device.isAbleToTurnOn()) {
@@ -371,8 +372,7 @@ public class ControlServiceImpl implements IControlService {
 	}
 
 	@Override
-	public StatusDto turnOffDevice(long deviceId) {
-		final Device device = deviceService.requireById(deviceId);
+	public StatusDto turnOffDevice(Device device) {
 		StatusDto statusDto = new StatusDto();
 		if (!device.isAbleToTurnOn()) {
 			return statusDto;
@@ -382,11 +382,5 @@ public class ControlServiceImpl implements IControlService {
 		statusDto.setValue(relay.getStatus());
 		statusDto.setTime(DateTimeUtil.yyyyMMddHHmmFormatter.format(relay.getTime()));
 		return statusDto;
-	}
-
-	@Override
-	public void playScene(long sceneId) {
-		Scene scene = sceneService.requireById(sceneId);
-		playScene(scene);
 	}
 }

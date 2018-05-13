@@ -17,7 +17,6 @@ class ModeSensorUserActivator extends Thread {
 	private static Logger LOGGER = Logger.getLogger(ModeSensorUserActivator.class.getName());
 	
 	private final String threadName;
-	private boolean detected;
 	private final ModeSensor modeSensor;
 	private final EmailService emailService;
 	private final SmsService smsService;
@@ -28,9 +27,7 @@ class ModeSensorUserActivator extends Thread {
 		this.modeSensor = modeSensor;
 		this.emailService = emailService;
 		this.smsService = smsService;
-		threadName = "Thread of mode:" + modeSensor.getMode().getSId() 
-				+ " - sensor:" + modeSensor.getSensor().getSId() 
-				+ " - detected:" + detected;;
+		threadName = "Thread of " + modeSensor.toString();
 	}
 	
 	@Override
@@ -41,10 +38,6 @@ class ModeSensorUserActivator extends Thread {
 				subscribers.add(sensorUser);
 			}
 			if (!subscribers.isEmpty()) {
-				String language = "vi";
-				String now = DATETIME_FORMAT.format(new Date());
-				String sensor = subscribers.get(0).getModeSensor().getSensor().getName();
-				sensor = AccentRemover.removeAccent(sensor);
 				List<String> subscriberPhones = new ArrayList<>();
 				List<String> subscriberMails = new ArrayList<>();
 				for (ModeSensorUser subscriber : subscribers) {
@@ -59,17 +52,24 @@ class ModeSensorUserActivator extends Thread {
 					LOGGER.info(threadName + " sends SMS to no one");
 				}
 				else {
-					smsService.sendSms(language, subscriberPhones.toArray(new String[subscriberPhones.size()]), sensor, detected, now);
+					smsService.sendSms(subscriberPhones.toArray(new String[subscriberPhones.size()]), createMessage());
 					LOGGER.info(threadName + " has finised sending SMS");
 				}
-				if (subscriberPhones.isEmpty()) {
+				
+				if (subscriberMails.isEmpty()) {
 					LOGGER.info(threadName + " sends email to no one");
 				}
 				else {
-					emailService.sendEmail(language, subscriberMails.toArray(new String[subscriberMails.size()]), sensor, detected, now);
+					emailService.sendEmail(subscriberMails.toArray(new String[subscriberMails.size()]), createMessage());
 					LOGGER.info(threadName + " has finised sending email");
 				}
 			}
 		}
+	}
+
+	private String createMessage() {
+		String now = DATETIME_FORMAT.format(new Date());
+		return new StringBuilder().append(modeSensor.getSensor().getNameId())
+				.append(" (").append(now).append("): ").append(modeSensor.getMessage()).toString();
 	}
 }

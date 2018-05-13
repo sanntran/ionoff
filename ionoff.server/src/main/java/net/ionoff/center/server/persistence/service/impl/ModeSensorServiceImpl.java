@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +19,9 @@ import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.UserProject;
 import net.ionoff.center.server.entity.Zone;
+import net.ionoff.center.server.exception.UpdateEntityException;
+import net.ionoff.center.server.locale.Constants;
+import net.ionoff.center.server.locale.Messages;
 import net.ionoff.center.server.objmapper.ModeMapper;
 import net.ionoff.center.server.persistence.dao.IModeSensorDao;
 import net.ionoff.center.server.persistence.dao.IModeSensorSceneDao;
@@ -27,6 +34,8 @@ import net.ionoff.center.shared.dto.ModeSensorDto;
 @Transactional
 public class ModeSensorServiceImpl extends AbstractGenericService<ModeSensor, ModeSensorDto> implements IModeSensorService {
 
+	private final Logger logger = Logger.getLogger(ModeSensorServiceImpl.class.getName());
+	
 	private IModeSensorDao modeSensorDao;
 	
 	@Autowired
@@ -109,6 +118,7 @@ public class ModeSensorServiceImpl extends AbstractGenericService<ModeSensor, Mo
 	private ModeSensor createModeSensor(ModeSensorDto modeSensorDto) {
 		ModeSensor modeSensor = new ModeSensor();
 		modeSensor.setEnabled(modeSensorDto.getEnabled());
+		modeSensor.setCondition(modeSensorDto.getCondition());
 		Sensor sensor = sensorService.findById(modeSensorDto.getSensorId());
 		modeSensor.setSensor(sensor);
 		Mode mode = null;
@@ -119,10 +129,33 @@ public class ModeSensorServiceImpl extends AbstractGenericService<ModeSensor, Mo
 		return modeSensor;
 	}
 
+	private void validateCondition(User user, String condition) {
+		if (condition == null || condition.isEmpty()) {
+			String locale = user.getLanguage();
+			throw new UpdateEntityException(Messages.get(locale)
+					.fieldInvalid(Constants.get(locale).condition(), condition));
+		}
+		try {
+			ScriptEngineManager mgr = new ScriptEngineManager();
+		    ScriptEngine engine = mgr.getEngineByName("JavaScript"); 
+		    String expr = condition.replace(ModeSensor.CONDITION_VARIABLE, "1").toLowerCase();
+		    boolean result = (Boolean) engine.eval(expr);
+		}
+		catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			String locale = user.getLanguage();
+			throw new UpdateEntityException(Messages.get(locale)
+					.fieldInvalid(Constants.get(locale).condition(), condition));
+		}
+	}
+
 	@Override
 	public ModeSensorDto updateDto(User user, ModeSensorDto dto) {
+		validateCondition(user, dto.getCondition());
 		final ModeSensor modeSensor = requireById(dto.getId());
 		modeSensor.setEnabled(dto.getEnabled());
+		modeSensor.setCondition(dto.getCondition());
+		modeSensor.setMessage(dto.getMessage());
 		update(modeSensor);
 		return modeMapper.createModeSensorDto(modeSensor);
 	}
@@ -134,7 +167,8 @@ public class ModeSensorServiceImpl extends AbstractGenericService<ModeSensor, Mo
 
 	@Override
 	public void deleteDtoById(User user, long id) {
-		throw new UnsupportedOperationException();
+		ModeSensor modeSensor = requireById(id);
+		super.delete(modeSensor);
 	}
 
 	@Override
@@ -151,4 +185,10 @@ public class ModeSensorServiceImpl extends AbstractGenericService<ModeSensor, Mo
 		}
 		return modeSensorDtos;
 	}
+	
+	@Override
+	public List<ModeSensor> findOnSensorStatusChanged(Sensor sensor) {
+		return modeSensorDao.findOnSensorStatusChanged(sensor);
+	}
+	
 }

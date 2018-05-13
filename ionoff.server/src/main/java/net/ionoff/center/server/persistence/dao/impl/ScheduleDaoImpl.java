@@ -124,15 +124,13 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 	}
 
 	@Override
-	public List<Schedule> findFailedSchedules(long projectId) {
+	public List<Schedule> findFailedSchedules() {
 		String sql = "select distinct schedule"
 				+ " from Schedule as schedule"
-				+ " where schedule.project.id = :projectId"
-				+ " and schedule.enabled = :enabled"
+				+ " where schedule.enabled = :enabled"
 				+ " and schedule.status = :status"
-				+ " order by schedule.name";
+				+ " order by schedule.project.id";
 		Query query = getCurrentSession().createQuery(sql)
-				.setParameter("projectId", projectId)
 				.setParameter("enabled", true)
 				.setParameter("status", false);
 		
@@ -140,15 +138,13 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 	}
 
 	@Override
-	public List<Schedule> findEnabledSchedules(long projectId, String scheduleTime) {
+	public List<Schedule> findEnabledSchedules(String scheduleTime) {
 		String sql = "select distinct schedule"
 				+ " from Schedule as schedule"
-				+ " where schedule.project.id = :projectId"
-				+ " and schedule.enabled = :enabled"
+				+ " where schedule.enabled = :enabled"
 				+ " and schedule.time = :scheduleTime"
-				+ " order by schedule.name";
+				+ " order by schedule.project.id";
 		Query query = getCurrentSession().createQuery(sql)
-				.setParameter("projectId", projectId)
 				.setParameter("enabled", true)
 				.setParameter("scheduleTime", scheduleTime);
 		

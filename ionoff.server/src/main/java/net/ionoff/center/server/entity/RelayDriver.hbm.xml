@@ -49,6 +49,14 @@
             <one-to-many class="net.ionoff.center.server.entity.Relay" />
         </bag>
         
+        <bag name="switchs" table="switchs" 
+				inverse="true" lazy="true" fetch="select"  order-by="index_">
+            <key>
+                <column name="driver_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.Switch" />
+        </bag>
+        
 		<many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">
             <column name="project_id" not-null="true" />
         </many-to-one>

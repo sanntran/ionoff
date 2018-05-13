@@ -35,14 +35,14 @@ public abstract class AbstractPlayerServiceImpl implements IPlayerService {
 	protected static final String TRACK = "track"; 
 	
 	protected final Gson gson;
-	private final IPlayerApi xmpPlayerApi;
+	private final IPlayerApi playerApi;
 	private final PlayerCaches playerCaches;
 	protected final DataServiceApi dataServiceApi;
 
-	public AbstractPlayerServiceImpl(IPlayerApi xmpPlayerApi, AbstractPlayerConnectionPool playerConnectionPool, 
+	public AbstractPlayerServiceImpl(IPlayerApi playerApi, AbstractPlayerConnectionPool playerConnectionPool, 
 			PlayerCaches playerCaches, DataServiceApi dataServiceApi) {
 		gson = new Gson();
-		this.xmpPlayerApi = xmpPlayerApi;
+		this.playerApi = playerApi;
 		this.playerCaches = playerCaches;
 		this.dataServiceApi = dataServiceApi;
 	}
@@ -219,7 +219,7 @@ public abstract class AbstractPlayerServiceImpl implements IPlayerService {
 	}
 	
 	protected IPlayerApi getPlayerApi(Player player) {
-		return xmpPlayerApi;
+		return playerApi;
 	}
 	
 	protected String getActualYoutubeVideoUrl(Player player, String videoId) {

@@ -9,8 +9,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.entity.Relay;
+import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.SensorStatus;
 import net.ionoff.center.server.entity.Switch;
@@ -20,8 +20,9 @@ import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.locale.Constants;
 import net.ionoff.center.server.locale.Messages;
 import net.ionoff.center.server.objmapper.RelayDriverMapper;
-import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
+import net.ionoff.center.server.persistence.dao.IProjectDao;
 import net.ionoff.center.server.persistence.dao.IRelayDao;
+import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
 import net.ionoff.center.server.persistence.dao.ISensorDao;
 import net.ionoff.center.server.persistence.dao.ISensorStatusDao;
 import net.ionoff.center.server.persistence.dao.ISwitchDao;
@@ -52,6 +53,9 @@ public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, 
 	@Autowired
 	private ISensorStatusDao sensorStatusDao;
 	
+	@Autowired
+	private IProjectDao projectDao;
+	
 	public RelayDriverServiceImpl(IRelayDriverDao relayDriverDao) {
 		this.relayDriverDao = relayDriverDao;
 	}
@@ -69,13 +73,39 @@ public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, 
 	public RelayDriver insert(RelayDriver relayDriver) {
 		super.insert(relayDriver);
 		insertRelays(relayDriver);
+		insertSWitchs(relayDriver);
 		return relayDriver;
 	}
-	
+
+	private void insertSWitchs(RelayDriver relayDriver) {
+		if (RelayDriverModel.IONOFF_P8.toString().equals(relayDriver.getModel())) {
+			for (int i = 0; i < RelayDriverModel.IONOFF_P8.getDigitalInput(); i++) {
+				insertSwitch(relayDriver, i);
+			}
+		}
+		else if (RelayDriverModel.IONOFF_E4.toString().equals(relayDriver.getModel())) {
+			for (int i = 0; i < RelayDriverModel.IONOFF_E4.getDigitalInput(); i++) {
+				insertSwitch(relayDriver, i);
+			}
+		}
+		else if (RelayDriverModel.IONOFF_P4.toString().equals(relayDriver.getModel())) {
+			for (int i = 0; i < RelayDriverModel.IONOFF_P4.getDigitalInput(); i++) {
+				insertSwitch(relayDriver, i);
+			}
+		}
+	}
+
+	private void insertSwitch(RelayDriver relayDriver, int index) {
+		Switch zwitch = new Switch();
+		zwitch.setIndex(index);
+		zwitch.setDriver(relayDriver);
+		switchDao.insert(zwitch);
+	}
 
 	@Override
 	public RelayDriverDto insertDto(User user, RelayDriverDto relayDriverDto) {
-		final RelayDriver relayDriver = relayDriverMapper.createRelayDriver(relayDriverDto);
+		final RelayDriver relayDriver = relayDriverMapper
+				.createRelayDriver(relayDriverDto, projectDao.findById(relayDriverDto.getProjectId()));
 		validateRelayDriver(relayDriver, user.getLanguage());
 		insert(relayDriver);
 		return relayDriverMapper.createRelayDriverDto(relayDriver);
@@ -84,7 +114,8 @@ public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, 
 	@Override
 	public RelayDriverDto updateDto(User user, RelayDriverDto relayDriverDto) {
 		RelayDriver relayDriver = requireById(relayDriverDto.getId());
-		relayDriverMapper.updateRelayDriver(relayDriver, relayDriverDto);
+		relayDriverMapper.updateRelayDriver(relayDriver, relayDriverDto, 
+				projectDao.findById(relayDriverDto.getProjectId()));
 		validateRelayDriver(relayDriver, user.getLanguage());
 		update(relayDriver);
 		return relayDriverMapper.createRelayDriverDto(relayDriver);
@@ -228,4 +259,10 @@ public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, 
 		}
 		return zwitch;
 	}
+
+	@Override
+	public List<RelayDriver> findByModel(RelayDriverModel model) {
+		return relayDriverDao.findByModel(model);
+	}
+
 }

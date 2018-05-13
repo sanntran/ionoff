@@ -17,7 +17,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.exception.ChangeEntityIdException;
+import net.ionoff.center.server.exception.DeleteEntityException;
 import net.ionoff.center.server.persistence.service.IModeSensorService;
+import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.ModeSensorDto;
 
 @RestController
@@ -57,6 +59,19 @@ public class ModeSensorServiceController {
 			
 			return modeSensorService.updateDto(user, modeSensorDto);
 		}
+	}
+
+	@RequestMapping(value = "modesensors/{modeSensorId}",
+			method = RequestMethod.DELETE,
+			produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public MessageDto delete(@PathVariable("modeSensorId") Long modeSensorId, 
+			HttpServletRequest request) throws DeleteEntityException {
+		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
+		logger.info("User " + user.getName() + " deletes mode-sensor. ID: " + modeSensorId);
+		modeSensorService.deleteDtoById(user, modeSensorId);
+		return MessageDto.success(modeSensorId);
 	}
 	
 	@RequestMapping(value = "modesensors",

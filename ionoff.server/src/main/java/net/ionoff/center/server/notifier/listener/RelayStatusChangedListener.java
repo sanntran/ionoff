@@ -3,15 +3,11 @@ package net.ionoff.center.server.notifier.listener;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import net.ionoff.center.server.notifier.event.RelayStatusChangedEvent;
+import net.ionoff.center.server.message.event.RelayStatusChangedEvent;
 import net.ionoff.center.server.notifier.handler.RelayStatusChangedHandler;
 
 public class RelayStatusChangedListener implements Observer {
 	
-	
-	@Autowired
 	private RelayStatusChangedHandler relayStatusChangedHandler;
 	
 	public RelayStatusChangedListener() {
@@ -24,5 +20,9 @@ public class RelayStatusChangedListener implements Observer {
 			RelayStatusChangedEvent relayStatusChangedEvent = (RelayStatusChangedEvent) event;
 			relayStatusChangedHandler.onRelayStatusChanged(relayStatusChangedEvent.getRelay());;
 		}
+	}
+
+	public void setHandler(RelayStatusChangedHandler handler) {
+		this.relayStatusChangedHandler = handler;			
 	}
 }

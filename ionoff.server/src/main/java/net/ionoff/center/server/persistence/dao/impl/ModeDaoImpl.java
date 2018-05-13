@@ -99,15 +99,13 @@ public class ModeDaoImpl extends AbstractGenericDao<Mode> implements IModeDao {
 	}
 
 	@Override
-	public List<Mode> findByScheduleTime(long projectId, String scheduleTime) {
+	public List<Mode> findByScheduleTime(String scheduleTime) {
 		String sql = "select distinct mode"
 				+ " from Mode as mode"
-				+ " where mode.project.id = :projectId"
-				+ " and mode.isScheduled = :isScheduled"
+				+ " where mode.isScheduled = :isScheduled"
 				+ " and mode.scheduleTime = :scheduleTime"
-				+ " order by mode.name";
+				+ " order by mode.project.id";
 		Query query = getCurrentSession().createQuery(sql)
-				.setParameter("projectId", projectId)
 				.setParameter("isScheduled", true)
 				.setParameter("scheduleTime", scheduleTime);
 		

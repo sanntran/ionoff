@@ -13,6 +13,7 @@ import net.ionoff.center.server.locale.Messages;
 import net.ionoff.center.server.objmapper.AreaMapper;
 import net.ionoff.center.server.persistence.dao.IAreaDao;
 import net.ionoff.center.server.persistence.service.IAreaService;
+import net.ionoff.center.server.persistence.service.IProjectService;
 import net.ionoff.center.shared.dto.AreaDto;
 
 @Transactional
@@ -22,6 +23,9 @@ public class AreaServiceImpl extends AbstractGenericService<Area, AreaDto> imple
 	
 	@Autowired
 	private AreaMapper areaMapper;
+	
+	@Autowired 
+	private IProjectService projectService;
 	
 	public AreaServiceImpl(IAreaDao areaDao) {
 		this.areaDao = areaDao;
@@ -34,7 +38,7 @@ public class AreaServiceImpl extends AbstractGenericService<Area, AreaDto> imple
 	
 	@Override
 	public AreaDto insertDto(User user, AreaDto areaDto) {
-		final Area area = areaMapper.createArea(areaDto);
+		final Area area = areaMapper.createArea(areaDto, projectService);
 		insert(area);
 		return areaMapper.createDto(area);
 	}

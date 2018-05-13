@@ -3,8 +3,6 @@ package net.ionoff.center.server.objmapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import net.ionoff.center.server.entity.Mode;
 import net.ionoff.center.server.entity.ModeScene;
 import net.ionoff.center.server.entity.ModeSensor;
@@ -21,12 +19,8 @@ import net.ionoff.center.shared.dto.ModeSensorSceneDto;
 import net.ionoff.center.shared.dto.ModeSensorUserDto;
 
 public class ModeMapper {
-
 	
-	@Autowired 
-	private IProjectService projectService;
-	
-	public Mode createMode(ModeDto modeDto) {
+	public Mode createMode(ModeDto modeDto, IProjectService projectService) {
 		final Mode mode = new Mode();
 		mode.setProject(projectService.findById(modeDto.getProjectId()));
 		updateMode(mode, modeDto);
@@ -70,7 +64,8 @@ public class ModeMapper {
 		final ModeSensorDto modeSensorDto = new ModeSensorDto();
 		modeSensorDto.setId(modeSensor.getId());
 		modeSensorDto.setEnabled(modeSensor.getEnabled());
-		
+		modeSensorDto.setCondition(modeSensor.getCondition());
+		modeSensorDto.setMessage(modeSensor.getMessage());
 		if (modeSensor.getMode() != null) {
 			modeSensorDto.setModeId(modeSensor.getMode().getId());
 			modeSensorDto.setModeName(modeSensor.getMode().getName());
@@ -158,4 +153,5 @@ public class ModeMapper {
 		}
 		return modeDtos;
 	}
+	
 }

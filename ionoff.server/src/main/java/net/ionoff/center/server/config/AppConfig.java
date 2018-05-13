@@ -17,7 +17,6 @@ public class AppConfig {
 	public final int PLAYER_TCP_SERVER_PORT;
 	public final String MEDIA_SERVICE_URL;
 	public final String NOTIFY_SERVICE_URL;
-	public final String UPDATOR_SERVICE_CONTEXT;
 	public final String UPDATE_SITE;
 	public final String UPDATE_FOLDER;
 	public final String LATEST_VERSION_URL;
@@ -49,7 +48,6 @@ public class AppConfig {
 
 		MEDIA_SERVICE_URL = prop.getProperty("MEDIA_SERVICE_URL");
 		NOTIFY_SERVICE_URL = prop.getProperty("NOTIFY_SERVICE_URL");
-		UPDATOR_SERVICE_CONTEXT  = prop.getProperty("UPDATOR_SERVICE_CONTEXT");
 		UPDATE_SITE = prop.getProperty("UPDATE_SITE");
 		UPDATE_FOLDER  = System.getProperty("catalina.base") 
 							+ File.separator + prop.getProperty("UPDATE_FOLDER");

@@ -48,20 +48,20 @@ public class ModeSensorUserPresenter extends AbstractPresenter {
 		display.getCheckBoxSendSms().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				modeSensorUser.setSendSms(display.getCheckBoxSendSms().getValue());
-				onChaneSensorUser();
+				onChangeSensorUser();
 			}
 		});
 		display.getCheckBoxSendEmail().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				modeSensorUser.setSendEmail(display.getCheckBoxSendEmail().getValue());
-				onChaneSensorUser();
+				onChangeSensorUser();
 			}
 		});
 	}
 
-	private void onChaneSensorUser() {
+	private void onChangeSensorUser() {
+		modeSensorUser.setSendSms(display.getCheckBoxSendSms().getValue());
+		modeSensorUser.setSendEmail(display.getCheckBoxSendEmail().getValue());
 		rpcProvider.getModeSensorUserService().update(modeSensorUser.getId(), modeSensorUser, 
 				new MethodCallback<ModeSensorUserDto>() {
 			@Override
@@ -72,6 +72,8 @@ public class ModeSensorUserPresenter extends AbstractPresenter {
 			public void onSuccess(Method method, ModeSensorUserDto result) {
 				eventBus.fireEvent(new ShowMessageEvent(AdminLocale.getAdminMessages().updateSuccess(),
 						ShowMessageEvent.SUCCESS));
+				display.getCheckBoxSendEmail().setValue(modeSensorUser.isSendEmail());
+				display.getCheckBoxSendSms().setValue(modeSensorUser.isSendSms());
 			}
 		});
 	}

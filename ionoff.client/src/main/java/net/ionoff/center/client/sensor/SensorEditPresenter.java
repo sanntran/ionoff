@@ -18,12 +18,14 @@ import gwt.material.design.client.ui.MaterialListBox;
 import net.ionoff.center.client.base.AbstractEditPresenter;
 import net.ionoff.center.client.base.IEditView;
 import net.ionoff.center.client.event.ShowLoadingEvent;
+import net.ionoff.center.client.event.ShowMessageEvent;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.service.EntityService;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.BaseDto;
+import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.ModeDto;
 import net.ionoff.center.shared.dto.ModeSensorDto;
 import net.ionoff.center.shared.dto.RelayDriverDto;
@@ -88,7 +90,7 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		}
 		modeSensor.setModeId(modeId);
 		modeSensor.setSensorId(entityDto.getId());
-		modeSensor.setEnabled(true);
+		modeSensor.setEnabled(false);
 		rpcProvider.getModeSensorService().save(modeSensor.getId(), modeSensor, 
 				new MethodCallback<ModeSensorDto>() {
 			@Override
@@ -165,7 +167,7 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 
 	public void setEntityDto(SensorDto dto) {
 		entityDto = dto;
-		if (dto.getDriverId() != null || dto.izNew()) {
+		if (dto.getDeviceId() == null || dto.izNew()) {
 			loadRelayDrivers();
 		}
 		else {
@@ -211,6 +213,25 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		ModeSensorPresenter modeSensorPresenter 
 					= new ModeSensorPresenter(rpcProvider, eventBus, modeSensor, modeSensorView);
 		modeSensorPresenter.go();
+
+		modeSensorView.getBtnDelete().addClickHandler(e -> {
+			deleteModeSensor(modeSensor, modeSensorView);
+		});
+	}
+
+	private void deleteModeSensor(ModeSensorDto modeSensor, final ModeSensorView modeSensorView) {
+		rpcProvider.getModeSensorService().delete(modeSensor.getId(), new MethodCallback<MessageDto>() {
+			@Override
+			public void onFailure(Method method, Throwable exception) {
+				ClientUtil.handleRpcFailure(method, exception, eventBus);
+			}
+			@Override
+			public void onSuccess(Method method, MessageDto result) {
+				eventBus.fireEvent(new ShowMessageEvent(AdminLocale.getAdminMessages().deleteSuccess(),
+						ShowMessageEvent.SUCCESS));
+				view.getPanelActions().remove(modeSensorView);
+			}
+		});
 	}
 
 	private void loadModesByProject() {
@@ -257,14 +278,17 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		view.getLblName().setText(dto.getName());
 		view.getTextBoxName().setText(dto.getName());
 		
-		if (dto.getDriverId() != null) {
+		if (dto.getDeviceId() == null) {
+			view.getListBoxGateways().setEnabled(true);
 			view.getListBoxGateways().setSelectedValue(
 					BaseDto.formatNameID(dto.getDriverName(), dto.getDriverId()));
+			view.getIntBoxInputIndex().setVisible(true);
 		}
 		else {
+			view.getListBoxGateways().setEnabled(false);
+			view.getIntBoxInputIndex().setVisible(false);
 			view.getListBoxGateways().setSelectedIndex(0);
 		}
-		
 		if (dto.getIndex() == null) {
 			view.getIntBoxInputIndex().setValue(0);;
 		}

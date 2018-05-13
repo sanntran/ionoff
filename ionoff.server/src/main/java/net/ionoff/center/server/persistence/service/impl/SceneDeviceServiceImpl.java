@@ -17,10 +17,9 @@ import net.ionoff.center.server.entity.SceneRelayAction;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.objmapper.SceneMapper;
 import net.ionoff.center.server.persistence.dao.ISceneActionDao;
+import net.ionoff.center.server.persistence.dao.ISceneDao;
 import net.ionoff.center.server.persistence.dao.ISceneDeviceDao;
-import net.ionoff.center.server.persistence.service.ISceneActionService;
 import net.ionoff.center.server.persistence.service.ISceneDeviceService;
-import net.ionoff.center.server.persistence.service.ISceneService;
 import net.ionoff.center.shared.dto.SceneActionDto;
 import net.ionoff.center.shared.dto.SceneDeviceDto;
 import net.ionoff.center.shared.dto.ScenePlayerActionDto;
@@ -35,10 +34,7 @@ public class SceneDeviceServiceImpl extends AbstractGenericService<SceneDevice, 
 	private ISceneActionDao sceneActionDao;
 	
 	@Autowired
-	private ISceneService sceneService;
-	
-	@Autowired
-	private ISceneActionService sceneActionService;
+	private ISceneDao sceneDao;
 	
 	@Autowired
 	private SceneMapper sceneMapper;
@@ -130,7 +126,7 @@ public class SceneDeviceServiceImpl extends AbstractGenericService<SceneDevice, 
 			SceneRelayActionDto sceneRelayActionDto = (SceneRelayActionDto) sceneActionDto;
 			SceneRelayAction sceneRelayAction = (SceneRelayAction) sceneAction;
 			sceneRelayAction.setAction(sceneRelayActionDto.getAction());
-			sceneActionService.update(sceneRelayAction);
+			sceneActionDao.update(sceneRelayAction);
 		}
 		else if (sceneActionDto instanceof ScenePlayerActionDto) {
 			ScenePlayerActionDto scenePlayerActionDto = (ScenePlayerActionDto) sceneActionDto;
@@ -139,7 +135,7 @@ public class SceneDeviceServiceImpl extends AbstractGenericService<SceneDevice, 
 			scenePlayerAction.setAlbum(scenePlayerActionDto.getAlbum());
 			scenePlayerAction.setVolume(scenePlayerActionDto.getVolume());
 			scenePlayerAction.setAlbumType(scenePlayerActionDto.getAlbumType());
-			sceneActionService.update(scenePlayerAction);
+			sceneActionDao.update(scenePlayerAction);
 		}
 	}
 
@@ -160,7 +156,7 @@ public class SceneDeviceServiceImpl extends AbstractGenericService<SceneDevice, 
 
 	@Override
 	public List<SceneDeviceDto> findDtoBySceneId(Long sceneId) {
-		Scene scene = sceneService.findById(sceneId);
+		Scene scene = sceneDao.findById(sceneId);
 		if (scene.getDevices() == null || scene.getDevices().isEmpty()) {
 			return Collections.emptyList();
 		}

@@ -21,6 +21,10 @@
 		<property name="condition">
 			<column name="condition_"/>
 		</property>
+
+		<property name="message">
+			<column name="message"/>
+		</property>
 		
 		<property name="resetTime">
 			<column name="reset_time" />

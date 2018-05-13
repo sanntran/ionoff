@@ -19,6 +19,7 @@ import net.ionoff.center.server.locale.Messages;
 import net.ionoff.center.server.objmapper.ScheduleMapper;
 import net.ionoff.center.server.persistence.dao.IScheduleActionDao;
 import net.ionoff.center.server.persistence.dao.IScheduleDao;
+import net.ionoff.center.server.persistence.service.IDeviceService;
 import net.ionoff.center.server.persistence.service.IScheduleService;
 import net.ionoff.center.shared.dto.ScheduleDto;
 
@@ -32,6 +33,9 @@ public class ScheduleServiceImpl extends AbstractGenericService<Schedule, Schedu
 	
 	@Autowired
 	private ScheduleMapper scheduleMapper;
+	
+	@Autowired
+	private IDeviceService deviceService;
 	
 	public ScheduleServiceImpl(IScheduleDao scheduleDao) {
 		this.scheduleDao = scheduleDao;
@@ -88,13 +92,13 @@ public class ScheduleServiceImpl extends AbstractGenericService<Schedule, Schedu
 	}
 
 	@Override
-	public List<Schedule> findFailedSchedules(long projectId) {
-		return getDao().findFailedSchedules(projectId);
+	public List<Schedule> findFailedSchedules() {
+		return getDao().findFailedSchedules();
 	}
 
 	@Override
-	public List<Schedule> findEnabledSchedules(long projectId, String scheduleTime) {
-		return getDao().findEnabledSchedules(projectId, scheduleTime);
+	public List<Schedule> findEnabledSchedules(String scheduleTime) {
+		return getDao().findEnabledSchedules(scheduleTime);
 	}
 	
 	@Override
@@ -116,7 +120,7 @@ public class ScheduleServiceImpl extends AbstractGenericService<Schedule, Schedu
 
 	@Override
 	public ScheduleDto insertDto(User user, ScheduleDto dto) {
-		Schedule schedule = scheduleMapper.createSchedule(dto);
+		Schedule schedule = scheduleMapper.createSchedule(dto, deviceService);
 		validateSchedule(schedule, user.getLanguage());
 		insert(schedule);
 		return scheduleMapper.createScheduleDto(schedule);

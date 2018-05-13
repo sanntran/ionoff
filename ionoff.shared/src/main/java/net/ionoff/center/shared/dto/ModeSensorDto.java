@@ -8,6 +8,7 @@ public class ModeSensorDto extends BaseDto {
 	
 	private Boolean enabled;
 	private String condition;
+	private String message;
 	private Long modeId;
 	private String modeName;
 	private Long sensorId;
@@ -68,5 +69,11 @@ public class ModeSensorDto extends BaseDto {
 	}
 	public void setUsers(List<ModeSensorUserDto> users) {
 		this.users = users;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

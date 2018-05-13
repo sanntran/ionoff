@@ -6,5 +6,7 @@ import net.ionoff.center.server.entity.Switch;
 
 @Transactional
 public interface ISwitchDao extends IGenericDao<Switch> {
+
+	Switch findByDriverId(Long driverId, Integer index);
 	
 }

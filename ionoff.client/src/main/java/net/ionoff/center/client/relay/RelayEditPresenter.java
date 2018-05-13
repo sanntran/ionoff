@@ -275,7 +275,7 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 		view.getLblId().setText("#" + dto.getId());
 		view.getLblName().setText(dto.getName());
 		view.getTextBoxName().setText(dto.getName());
-		view.getTextBoxRelayDriver().setText(BaseDto.formatNameID(dto.getRelayDriverName(), dto.getRelayDriverId()));
+		view.getTextBoxRelayDriver().setText(BaseDto.formatNameID(dto.getDriverName(), dto.getDriverId()));
 		view.getTextBoxIndex().setText(dto.getIndex() + "");
 		if (RelayDto.SWITCH.equals(entityDto.getType())) {
 			view.getListBoxTypes().setSelectedIndex(0);

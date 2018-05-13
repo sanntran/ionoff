@@ -1,15 +1,19 @@
 package net.ionoff.center.server.notifier.handler;
 
+import java.util.Collections;
+import java.util.List;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 
 import net.ionoff.center.server.control.IControlService;
 import net.ionoff.center.server.email.service.EmailService;
-import net.ionoff.center.server.entity.Mode;
 import net.ionoff.center.server.entity.ModeSensor;
 import net.ionoff.center.server.entity.Sensor;
-import net.ionoff.center.server.persistence.service.IModeSensorService;
+import net.ionoff.center.server.persistence.dao.IModeSensorDao;
 import net.ionoff.center.server.sms.service.SmsService;
 
 public class SensorStatusChangedHandler {
@@ -20,7 +24,7 @@ public class SensorStatusChangedHandler {
 	private IControlService controlService;
 	
 	@Autowired
-	private IModeSensorService modeSensorService;
+	private IModeSensorDao modeSensorDao;
 	
 	@Autowired
 	private SmsService smsService;
@@ -28,63 +32,63 @@ public class SensorStatusChangedHandler {
 	@Autowired
 	private EmailService emailService;
 
-	@Async	
 	public void onSensorStatusChanged(Sensor sensor) {
 		logger.info("Sensor " + sensor.getSId() + " status changed. New status: " + sensor.getStatus());
 		
-		ModeSensor modeSensor = getModeSensor(sensor);
-		if (modeSensor == null) {
+		List<ModeSensor> modeSensors = getEnabledModeSensors(sensor);
+		if (modeSensors == null || modeSensors.isEmpty()) {
+			logger.info("There is no mode-sensor handle for sensor status changed");
 			return;
 		}
-		
-		modeSensor.setResetTime(System.currentTimeMillis());
-		getModeSensorService().update(modeSensor);
-		
-		if (!modeSensor.isEnabled()) {
-			logger.info("Activated mode: " + modeSensor.getMode().getSId() + ". Sensor " + sensor.getSId() + " is disabled.");
-			return;
+		for (ModeSensor modeSensor : modeSensors) {
+			modeSensor.setResetTime(System.currentTimeMillis());
+			modeSensorDao.update(modeSensor);
 		}
 		Double newSensorValue = sensor.getStatus().getValue();
-		if (isMatchConditon(modeSensor, newSensorValue)) {
-			activateScenes(sensor, modeSensor);
-			notifyUsers(sensor, modeSensor);
+		for (ModeSensor modeSensor : modeSensors) {
+			if (isMatchConditon(modeSensor, newSensorValue)) {
+				activateScenes(sensor, modeSensor);
+				notifyUsers(sensor, modeSensor);
+			}
 		}
 	}
 
 	private boolean isMatchConditon(ModeSensor modeSensor, Double newSensorValue) {
-		// TODO check here
-		return false;
-	}
-
-	protected ModeSensor getModeSensor(Sensor sensor) {
-		if (sensor.getProject() == null) {
-			return null;
-		}
-		Mode mode = sensor.getProject().getActivatedMode();
-		if (mode == null) {
-			return null;
-		}
-		if (mode.getSensors() == null) {
-			return null;
-		}
-		for (ModeSensor modeSensor : mode.getSensors()) {
-			if (modeSensor.getSensor().getId() == sensor.getId()) {
-				return modeSensor;
-			}
-		}
-		return null;
-	}
-
-	public IModeSensorService getModeSensorService() {
-		return modeSensorService;
+		Boolean result = resolveConditionExpression(modeSensor.getCondition(), newSensorValue);
+		getLogger().info("Condition expression result " + result + ", x = " + newSensorValue 
+				+ ", expression: " + modeSensor.getCondition());
+		return result;
 	}
 	
+	public boolean resolveConditionExpression(String expression, Double sensorVale) {
+		if (expression == null || sensorVale == null) {
+			return false;
+		}
+		try {
+			String exp = expression.replaceAll(
+					ModeSensor.CONDITION_VARIABLE, sensorVale + "");
+			ScriptEngineManager mgr = new ScriptEngineManager();
+		    ScriptEngine engine = mgr.getEngineByName("JavaScript"); 
+		    return (Boolean) engine.eval(exp);
+		}
+		catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return false;
+		}
+	}
+
+	protected List<ModeSensor> getEnabledModeSensors(Sensor sensor) {
+		if (sensor.getProject() == null) {
+			Collections.emptyList();
+		}
+		return modeSensorDao.findOnSensorStatusChanged(sensor);
+	}
+
 	protected void activateScenes(Sensor sensor, ModeSensor modeSensor) {
 		if (!modeSensor.hasScene()) {
 			return;
 		}
-		getLogger().info("Mode " + modeSensor.getMode().getSId() 
-				+ ", sensor " + sensor.getSId() + " is starting new thread to activate scenes");
+		getLogger().info(modeSensor.toString() + " is starting new thread to activate scenes");
 		new ModeSensorScenesActivator(modeSensor, controlService).start();
 	}
 	
@@ -92,8 +96,7 @@ public class SensorStatusChangedHandler {
 		if (!modeSensor.hasUser()) {
 			return;
 		}
-		getLogger().info("Mode " + modeSensor.getMode().getSId() 
-				+ ", sensor " + sensor.getSId() + " is starting new thread to notify users");
+		getLogger().info(modeSensor.toString() + " is starting new thread to notify users");
 		new ModeSensorUserActivator(modeSensor, emailService, smsService).start();
 	}
 	

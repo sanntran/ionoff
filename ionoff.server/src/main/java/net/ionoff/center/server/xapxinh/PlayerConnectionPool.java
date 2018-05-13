@@ -6,9 +6,10 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import net.ionoff.center.server.config.AppConfig;
-import net.ionoff.center.server.persistence.service.IDeviceService;
+import net.ionoff.center.server.persistence.dao.IDeviceDao;
 import net.xapxinh.center.server.api.player.PlayerConnection;
 import net.xapxinh.center.server.entity.Player;
 import net.xapxinh.center.server.service.player.AbstractPlayerConnectionPool;
@@ -17,15 +18,12 @@ public class PlayerConnectionPool extends AbstractPlayerConnectionPool {
 
 	private static final Logger LOGGER = Logger.getLogger(PlayerConnectionPool.class.getName());
 
-	private final IDeviceService deviceService;
+	@Autowired
+	private IDeviceDao deviceDao;
 
-	public PlayerConnectionPool(IDeviceService deviceService) {
-		this.deviceService = deviceService;
-	}
-	
 	@Override
 	protected Player getPlayer(String mac){
-		net.ionoff.center.server.entity.Player iPlayer = deviceService.findPlayerByMac(mac);
+		net.ionoff.center.server.entity.Player iPlayer = deviceDao.findPlayerByMac(mac);
 		if (iPlayer == null) {
 			LOGGER.error("There is no player has MAC: " + mac);
 			return null;
@@ -49,10 +47,10 @@ public class PlayerConnectionPool extends AbstractPlayerConnectionPool {
 			if (obj.has("mac")) {
 				String mac = (String) obj.get("mac");
 				net.ionoff.center.server.entity.Player iPlayer 
-					= deviceService.findPlayerByMac(mac);
+					= deviceDao.findPlayerByMac(mac);
 				if (iPlayer != null) {
 					iPlayer.setTime(new Date());
-					deviceService.update(iPlayer);
+					deviceDao.update(iPlayer);
 				}
 				else {
 					LOGGER.error("There is no player has MAC: " + mac);
@@ -68,7 +66,7 @@ public class PlayerConnectionPool extends AbstractPlayerConnectionPool {
 	@Override
 	protected void onAcceptedConnection(PlayerConnection connection) {
 		net.ionoff.center.server.entity.Player iPlayer = 
-				(net.ionoff.center.server.entity.Player) deviceService.findById(connection.getId());
+				(net.ionoff.center.server.entity.Player) deviceDao.findById(connection.getId());
 		
 		if (iPlayer != null) {
 			InetAddress address = connection.getSocket().getInetAddress();
@@ -77,17 +75,18 @@ public class PlayerConnectionPool extends AbstractPlayerConnectionPool {
 			}
 			// make the player be connected
 			iPlayer.setTime(new Date());
-			deviceService.update(iPlayer);
+			deviceDao.update(iPlayer);
 		}
 	}
 
 	@Override
 	protected void onRemovedConnection(Long connectionId) {
-		net.ionoff.center.server.entity.Player iPlayer = (net.ionoff.center.server.entity.Player) deviceService.findById(connectionId);
+		net.ionoff.center.server.entity.Player iPlayer = 
+				(net.ionoff.center.server.entity.Player) deviceDao.findById(connectionId);
 		if (iPlayer != null) {
 			// make the player be not connected
 			iPlayer.setTime(new Date(System.currentTimeMillis() - 60000));
-			deviceService.update(iPlayer);
+			deviceDao.update(iPlayer);
 		}
 	}
 }

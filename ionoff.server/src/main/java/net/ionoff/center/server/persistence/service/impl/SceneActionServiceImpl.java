@@ -13,8 +13,8 @@ import net.ionoff.center.server.entity.SceneRelayAction;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.objmapper.SceneMapper;
 import net.ionoff.center.server.persistence.dao.ISceneActionDao;
+import net.ionoff.center.server.persistence.dao.ISceneDeviceDao;
 import net.ionoff.center.server.persistence.service.ISceneActionService;
-import net.ionoff.center.server.persistence.service.ISceneDeviceService;
 import net.ionoff.center.shared.dto.SceneActionDto;
 import net.ionoff.center.shared.dto.ScenePlayerActionDto;
 import net.ionoff.center.shared.dto.SceneRelayActionDto;
@@ -25,10 +25,10 @@ public class SceneActionServiceImpl extends AbstractGenericService<SceneAction, 
 	private ISceneActionDao sceneActionDao;
 	
 	@Autowired
-	private ISceneDeviceService sceneDeviceService;
+	private SceneMapper sceneMapper;
 	
 	@Autowired
-	private SceneMapper sceneMapper;
+	private ISceneDeviceDao sceneDeviceDao;
 	
 	public SceneActionServiceImpl(ISceneActionDao sceneActionDao) {
 		this.sceneActionDao = sceneActionDao;
@@ -61,7 +61,7 @@ public class SceneActionServiceImpl extends AbstractGenericService<SceneAction, 
 
 	@Override
 	public List<SceneActionDto> findDtoBySceneIdDeviceId(long sceneId, long deviceId) {
-		SceneDevice sceneDevice = sceneDeviceService.findBySceneIdDeviceId(sceneId, deviceId);
+		SceneDevice sceneDevice = sceneDeviceDao.findBySceneIdDeviceId(sceneId, deviceId);
 		if (sceneDevice == null) {
 			return new ArrayList<>();
 		}
@@ -94,7 +94,7 @@ public class SceneActionServiceImpl extends AbstractGenericService<SceneAction, 
 
 	@Override
 	public List<SceneActionDto> findDtoBySceneDeviceId(long sceneDeviceId) {
-		SceneDevice sceneDevice = sceneDeviceService.findById(sceneDeviceId);
+		SceneDevice sceneDevice = sceneDeviceDao.findById(sceneDeviceId);
 		if (sceneDevice == null) {
 			return new ArrayList<>();
 		}

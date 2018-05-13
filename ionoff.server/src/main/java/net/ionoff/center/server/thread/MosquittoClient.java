@@ -19,45 +19,32 @@ import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.WeighScale;
 import net.ionoff.center.server.exception.MqttConnectionException;
 import net.ionoff.center.server.exception.MqttPublishException;
-import net.ionoff.center.server.persistence.service.IRelayDriverService;
+import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
 import net.ionoff.center.server.persistence.service.IDeviceService;
-import net.ionoff.center.server.persistence.service.ISensorService;
 
 
 public class MosquittoClient implements MqttCallback {
 	
 	private static Logger LOGGER = Logger.getLogger(MosquittoClient.class.getName());
-	
+
+	private boolean shutdown;
 	private MqttClient client;
 	private MqttConnectOptions connOpt;
 	private boolean connected = false;
 	private String[] subscribleTopics;
-	
-	@Autowired
-	private ServerThreadPool threadPull; 
 
+	private Thread mosquittoThread;
+	
 	@Autowired
 	private IDeviceService deviceService;
 	
 	@Autowired
-	private IRelayDriverService relayDriverService;
-	
-	@Autowired
-	private ISensorService sensorService;
+	private IRelayDriverDao relayDriverDao;
 	
 	@Autowired
 	private RelayDriverStatusHandler relayDriverStatusHandler;
 	
-	public MosquittoClient() {
-		new Thread() {
-			@Override
-			public void run() {
-				init();
-			}
-		}.start();
-	}
-	
-	public void init() {
+	public void initAndConnectBroker() {
 		subscribleTopics = new String[] {AppConfig.getInstance().MQTT_TOPIC_IONOFF_NET, 
 				AppConfig.getInstance().MQTT_TOPIC_RELAY_DRIVER, AppConfig.getInstance().MQTT_TOPIC_WEIGH_SCALE};
 		try {
@@ -73,7 +60,7 @@ public class MosquittoClient implements MqttCallback {
 		connOpt.setUserName(AppConfig.getInstance().MQTT_USER);
 		connOpt.setPassword(AppConfig.getInstance().MQTT_PASS.toCharArray());
 		
-		connectBroker();
+		connectMqttBroker();
 	}
 
 	public void publishMessage(String topic, String payload) {
@@ -105,18 +92,13 @@ public class MosquittoClient implements MqttCallback {
 		} catch (InterruptedException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
-		new Thread() {
-			@Override
-			public void run() {
-				if (threadPull.isShutdown()) {
-					return;
-				}
-				connectBroker();
-			}
-		}.start();
+		connectMqttBroker();
 	}
 
-	public void connectBroker() {
+	public void connectMqttBroker() {
+		if (shutdown == true) {
+			return;
+		}
 		try {
 			LOGGER.info("Connecting to broker " + AppConfig.getInstance().MQTT_BROKER_URL);
 			client.connect(connOpt);
@@ -129,7 +111,7 @@ public class MosquittoClient implements MqttCallback {
 			} catch (InterruptedException ie) {
 				LOGGER.error(ie.getMessage(), ie);
 			}
-			connectBroker();
+			connectMqttBroker();
 		}
 	}
 	
@@ -164,7 +146,7 @@ public class MosquittoClient implements MqttCallback {
 		
 		if (AppConfig.getInstance().MQTT_TOPIC_IONOFF_NET.equals(topic) ||
 				AppConfig.getInstance().MQTT_TOPIC_RELAY_DRIVER.equals(topic)) {
-			onRelayDriverDriverMessageArrived(payload);
+			onRelayDriverMessageArrived(payload);
 		}
 		else if (AppConfig.getInstance().MQTT_TOPIC_WEIGH_SCALE.equals(topic)) {
 			onWeighScaleMessageArrived(payload);
@@ -197,22 +179,21 @@ public class MosquittoClient implements MqttCallback {
 		sensor.getStatus().setTime(now);
 		sensor.getStatus().setValue(data.getValue());
 		sensor.getStatus().setIndex(data.getIndex());
-		sensorService.update(sensor);
-		sensorService.updateStatus(sensor.getStatus());
-
+		
+		deviceService.updateSensorStatus(sensor);
 		if (WeighScaleMqttPayload.CHANGED.equals(data.getCode())) {
-			sensorService.insertSensorData(sensor.getStatus());
+			deviceService.onSensorStatusChanged(sensor);
 			publishMessage(scale.getMac(), "MessageIndexOK: " + data.getIndex());
 		}
 	}
 
-	private void onRelayDriverDriverMessageArrived(String payload) {
+	private void onRelayDriverMessageArrived(String payload) {
 		RelayDriverMqttPayload mqttPayload = new RelayDriverMqttPayload(payload);
 		if (mqttPayload.getId() == null) {
 			LOGGER.info("Message is not valid format " + payload);
 			return;
 		}
-		List<RelayDriver> relayDrivers = relayDriverService.findByMac(mqttPayload.getId());
+		List<RelayDriver> relayDrivers = relayDriverDao.findByMac(mqttPayload.getId());
 		if (relayDrivers.isEmpty()) {
 			LOGGER.info("No relayDriver found in the DB. Key: " + mqttPayload.getId());
 			return;
@@ -220,22 +201,22 @@ public class MosquittoClient implements MqttCallback {
 		
 		RelayDriver relayDriver = relayDrivers.get(0);
 		relayDriver.setConnectedTime(System.currentTimeMillis());
-		relayDriverService.update(relayDriver);
+		relayDriverDao.update(relayDriver);
 		if (!relayDriver.isConnected()) {
 			LOGGER.info("RelayDriver " + relayDriver.getKey() + " is now connected");
 		}
 		if (RelayDriverMqttPayload.STATUS.equals(mqttPayload.getCode())) {
 			//LOGGER.info("RelayDriver " + relayDriver.getKey() + " has been connected");
-			relayDriverStatusHandler.onReceivedRelayDriverStatus(relayDriver, mqttPayload.getIn(),  mqttPayload.getOut());
+			relayDriverStatusHandler.onReceivedStatus(relayDriver, mqttPayload.getIn(),  mqttPayload.getOut());
 		} else if (RelayDriverMqttPayload.CHANGED.equals(mqttPayload.getCode())) {
 			LOGGER.info("RelayDriver " + relayDriver.getKey() + " input status has been changed");
-			relayDriverStatusHandler.onRelayDriverStatusChanged(relayDriver, mqttPayload.getIn(),  mqttPayload.getOut());
+			relayDriverStatusHandler.onStatusChanged(relayDriver, mqttPayload.getIn(),  mqttPayload.getOut());
 		} else if (RelayDriverMqttPayload.RESET.equals(mqttPayload.getCode())) {
 			LOGGER.info("RelayDriver " + relayDriver.getKey() + " has been started");
-			relayDriverStatusHandler.onRelayDriverStarted(relayDriver, null, mqttPayload.getIn(),  mqttPayload.getOut());
+			relayDriverStatusHandler.onStarted(relayDriver, null, mqttPayload.getIn(),  mqttPayload.getOut());
 		} else if (RelayDriverMqttPayload.CRASH.equals(mqttPayload.getCode())) {
 			LOGGER.info("RelayDriver " + relayDriver.getKey() + " started due to crash");
-			relayDriverStatusHandler.onRelayDriverCrashed(relayDriver, mqttPayload.getIn(),  mqttPayload.getOut());
+			relayDriverStatusHandler.onCrashed(relayDriver, mqttPayload.getIn(),  mqttPayload.getOut());
 		}
 	}
 
@@ -254,6 +235,23 @@ public class MosquittoClient implements MqttCallback {
 
 	public boolean isConnected() {
 		return connected;
+	}
+
+	public void shutdown() {
+		shutdown = true;
+		if (mosquittoThread != null) {
+			mosquittoThread.interrupt();
+		}
+	}
+
+	public void start() {
+		mosquittoThread = new Thread() {
+			@Override
+			public void run() {
+				initAndConnectBroker();
+			}
+		};
+		mosquittoThread.start();
 	}
 	
 }

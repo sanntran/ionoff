@@ -36,9 +36,9 @@ public class PlayerServiceImpl extends net.xapxinh.center.server.service.player.
 	@Autowired
 	private IPlayNodeService playNodeService;
 	
-	public PlayerServiceImpl(IPlayerApi xmpPlayerApi, AbstractPlayerConnectionPool playerConnectionPool, 
+	public PlayerServiceImpl(IPlayerApi playerApi, AbstractPlayerConnectionPool playerConnectionPool, 
 			PlayerCaches playerCaches, DataServiceApi dataServiceApi) {
-		super(xmpPlayerApi, playerConnectionPool, playerCaches, dataServiceApi);
+		super(playerApi, playerConnectionPool, playerCaches, dataServiceApi);
 	}
 	
 	@Override

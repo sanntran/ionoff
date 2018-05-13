@@ -70,8 +70,8 @@ public class ModeServiceImpl extends AbstractGenericService<Mode, ModeDto> imple
 	}
 
 	@Override
-	public List<Mode> findByScheduleTime(long projectId, String scheduleTime) {
-		return getDao().findByScheduleTime(projectId, scheduleTime);
+	public List<Mode> findByScheduleTime(String scheduleTime) {
+		return getDao().findByScheduleTime(scheduleTime);
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class ModeServiceImpl extends AbstractGenericService<Mode, ModeDto> imple
 
 	@Override
 	public ModeDto insertDto(User user, ModeDto dto) {
-		Mode mode = modeMapper.createMode(dto);
+		Mode mode = modeMapper.createMode(dto, projectService);
 		insert(mode);
 		return modeMapper.createModeDto(mode);
 	}

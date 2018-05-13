@@ -11,31 +11,28 @@ import net.ionoff.center.server.entity.EntityUtil;
 import net.ionoff.center.server.entity.Light;
 import net.ionoff.center.server.entity.Player;
 import net.ionoff.center.server.entity.Relay;
+import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.WeighScale;
 import net.ionoff.center.server.entity.Zone;
-import net.ionoff.center.server.persistence.service.IDeviceService;
-import net.ionoff.center.server.persistence.service.IZoneService;
+import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.ApplianceDto;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.LightDto;
 import net.ionoff.center.shared.dto.PlayerDto;
 import net.ionoff.center.shared.dto.RelayDto;
+import net.ionoff.center.shared.dto.StatusDto;
 import net.ionoff.center.shared.dto.WeighScaleDto;
+import net.xapxinh.center.server.service.player.IPlayerService;
+import net.xapxinh.center.shared.dto.Status;
 
 public class DeviceMapper {
 	
 	@Autowired
 	private RelayMapper relayMappper;
-	@Autowired
-	private IZoneService zoneService;
-	@Autowired
-	private IDeviceService deviceService;
-
-
-	public Device createDevice(DeviceDto deviceDto) {
+	
+	public Device createDevice(DeviceDto deviceDto, Zone zone) {
 		final Device device = createNewDevice(deviceDto);
 		updateDevice(device, deviceDto);
-		final Zone zone = zoneService.findById(deviceDto.getZoneId());
 		device.setZone(zone);
 		device.setProject(zone.getProject());
 		return device;
@@ -74,17 +71,17 @@ public class DeviceMapper {
 		return new Appliance();
 	}
 	
-	public List<DeviceDto> toDeviceDtoList(List<? extends Device> devices) {
+	public List<DeviceDto> toDeviceDtoList(List<? extends Device> devices , IPlayerService playerService) {
 		final List<DeviceDto> deviceDtos = new ArrayList<DeviceDto>();
 		for (final Device device : devices) {
-			deviceDtos.add(createDeviceDto(device));
+			deviceDtos.add(createDeviceDto(device, playerService));
 		}
 		return deviceDtos;
 	}
 	
-	public DeviceDto createDeviceDto(Device device) {
+	public DeviceDto createDeviceDto(Device device, IPlayerService playerService) {
 		final DeviceDto deviceDto = newDeviceDto(EntityUtil.castUnproxy(device, Device.class));
-		deviceDto.setStatus(deviceService.getStatusDto(device));
+		deviceDto.setStatus(getStatusDto(device, playerService));
 		deviceDto.setId(device.getId());
 		deviceDto.setName(device.getName());
 		deviceDto.setOrder(device.getOrder());
@@ -95,7 +92,70 @@ public class DeviceMapper {
 		return deviceDto;
 	}
 
-	private DeviceDto newDeviceDto(Device device) {
+	public List<StatusDto> toStatusDto(List<Device> devices, IPlayerService playerService) {
+		List<StatusDto> statusDtos = new ArrayList<>();
+		for (Device device : devices) {
+			statusDtos.add(getStatusDto(device, playerService));
+		}
+		return statusDtos;
+	}
+	
+	public StatusDto getStatusDto(Device device, IPlayerService playerService) {
+		StatusDto statusDto = new StatusDto();
+		statusDto.setId(device.getId());
+		statusDto.setValue(device.getStatus());
+		if (device.getTime() != null) {
+			statusDto.setTime(DateTimeUtil.ddMMHHmmFormatter.format(device.getTime()));
+		}
+		if (device.instanceOf(Appliance.class)) {
+			for (Relay relay : device.getRelayList()) {
+				StatusDto child = new StatusDto();
+				child.setId(relay.getId());
+				child.setValue(relay.getStatus());
+				if (relay.getTime() != null) {
+					child.setTime(DateTimeUtil.ddMMHHmmFormatter.format(relay.getTime()));
+				}
+				statusDto.getChildren().add(child);
+			}
+		}
+		else if (device.instanceOf(WeighScale.class)) {
+			WeighScale scale = EntityUtil.castUnproxy(device, WeighScale.class);
+			if (scale.getSensors() != null && !scale.getSensors().isEmpty()) {
+				Sensor sensor = scale.getSensors().get(0);
+				if (sensor.getStatus().getTime() != null) {
+					statusDto.setTime(DateTimeUtil.ddMMHHmmFormatter.format(sensor.getStatus().getTime()));
+				}
+				statusDto.setLatestValue(sensor.getStatus().getValue() + " " + sensor.getUnit());
+			}
+		}
+		else if (device.instanceOf(Player.class) && playerService != null) {
+			try {
+				Status status = playerService.requesStatus(toPlayer(device), null);
+				statusDto.setState(status.getState());
+				statusDto.setTrack(status.getTitle());
+				if (status.getPosition() > 0) {
+					statusDto.setPosition(Math.round(status.getPosition() * 100));
+				}
+			} catch (Exception e) {
+				//
+			}
+		}
+		return statusDto;
+	}
+
+	public net.xapxinh.center.server.entity.Player toPlayer(Device device) {
+		Player player = (net.ionoff.center.server.entity.Player) EntityUtil.castUnproxy(device, Device.class);
+		net.xapxinh.center.server.entity.Player p = new net.xapxinh.center.server.entity.Player();
+		p.setId(player.getId());
+		p.setName(player.getName());
+		p.setMac(player.getMac());
+		p.setIp(player.getIp());
+		p.setPort(player.getPort());
+		p.setModel(player.getModel());
+		return p;
+	}
+
+	public DeviceDto newDeviceDto(Device device) {
 		if (device instanceof Player) {
 			return createPlayerDto(device);
 		}
@@ -118,7 +178,7 @@ public class DeviceMapper {
 		return applianceDto;
 	}
 	
-	private DeviceDto createPlayerDto(Device device) {
+	private static DeviceDto createPlayerDto(Device device) {
 		final PlayerDto playerDto = new PlayerDto();
 		final Player player = (Player) device;
 		playerDto.setMac(player.getMac());
@@ -127,7 +187,7 @@ public class DeviceMapper {
 		return playerDto;
 	}
 
-	private DeviceDto createWeighScaleDto(Device device) {
+	private static DeviceDto createWeighScaleDto(Device device) {
 		final WeighScaleDto scaleDto = new WeighScaleDto();
 		final WeighScale scale = (WeighScale) device;
 		scaleDto.setMac(scale.getMac());
@@ -135,5 +195,8 @@ public class DeviceMapper {
 		return scaleDto;
 	}
 
+	public DeviceDto createDeviceDto(Device device) {
+		return createDeviceDto(device, null);
+	}
 }
 

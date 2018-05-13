@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.entity.Switch;
 import net.ionoff.center.shared.dto.RelayDriverDto;
+import net.ionoff.center.shared.entity.RelayDriverModel;
 
 @Transactional
 public interface IRelayDriverService extends IGenericService<RelayDriver, RelayDriverDto> {
@@ -22,4 +23,6 @@ public interface IRelayDriverService extends IGenericService<RelayDriver, RelayD
 	void insertSwitches(RelayDriver relayDriver);
 	
 	Switch updateSwitch(Switch zwitch);
+
+	List<RelayDriver> findByModel(RelayDriverModel model);
 }

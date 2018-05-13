@@ -39,7 +39,7 @@ public class ModeSensorUserServiceController {
 		
 		logger.info("User " + user.getName() + " update mode-sensor-user. Id: "
 				+ modeSensorUserDto.getId() + ". Send sms: "
-				+ modeSensorUserDto.getSendSms() + ". Send email " + modeSensorUserDto.getSendSms());
+				+ modeSensorUserDto.getSendSms() + ". Send email " + modeSensorUserDto.getSendEmail());
 
 		return modeSensorUserService.updateDto(user, modeSensorUserDto);
 	}

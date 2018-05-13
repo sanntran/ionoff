@@ -128,7 +128,6 @@
 	</bean>
 
 	<bean id="sensorStatusNotifier" class="net.ionoff.center.server.notifier.SensorStatusNotifier">
-		<constructor-arg ref="sensorStatusChangedListener" />
 	</bean>
 
 	<bean id="sensorStatusChangedListener"
@@ -140,7 +139,6 @@
 	</bean>
 	
 	<bean id="relayStatusNotifier" class="net.ionoff.center.server.notifier.RelayStatusNotifier">
-		<constructor-arg ref="relayStatusChangedListener" />
 	</bean>
 	
 	<bean id="relayStatusChangedListener" 
@@ -155,7 +153,6 @@
 	</bean>
 
 	<bean id="playerConnectionPool" class="net.ionoff.center.server.xapxinh.PlayerConnectionPool">
-		<constructor-arg ref="deviceService" />
 	</bean>
 
 	<bean id="xmpPlayerApi" class="net.xapxinh.center.server.api.player.XmpPlayerApi">
@@ -226,10 +223,10 @@
 	<bean id="dashboardMapper" class="net.ionoff.center.server.objmapper.DashboardMapper">
 	</bean>
 	
-	<bean id="mqttClient" class="net.ionoff.center.server.thread.MosquittoClient">
+	<bean id="mosquittoClient" class="net.ionoff.center.server.thread.MosquittoClient">
 	</bean>
 	
 	<bean id="relayDriverStatusHandler" class="net.ionoff.center.server.thread.RelayDriverStatusHandler">
 	</bean>
-
+	
 </beans>

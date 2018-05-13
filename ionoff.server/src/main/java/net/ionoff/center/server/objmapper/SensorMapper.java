@@ -3,26 +3,16 @@ package net.ionoff.center.server.objmapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import net.ionoff.center.server.entity.RelayDriver;
+import net.ionoff.center.server.entity.Project;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.SensorData;
-import net.ionoff.center.server.exception.UpdateEntityException;
-import net.ionoff.center.server.persistence.service.IProjectService;
-import net.ionoff.center.server.persistence.service.IRelayDriverService;
+import net.ionoff.center.server.entity.Switch;
 import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.SensorDataDto;
 import net.ionoff.center.shared.dto.SensorDto;
 
 public class SensorMapper {
 
-	@Autowired
-	private IRelayDriverService relayDriverService;
-	
-	@Autowired
-	private IProjectService projectService;
-	
 	public List<SensorDto> createSerialDtoList(List<Sensor> sensors) {
 		final List<SensorDto> sensorDtos = new ArrayList<SensorDto>();
 		for (final Sensor sensor : sensors) {
@@ -31,24 +21,19 @@ public class SensorMapper {
 		return sensorDtos;
 	}
 	
-	public Sensor createSensor(SensorDto sensorDto) {
+	public Sensor createSensor(SensorDto sensorDto, Project project, Switch zwitch) {
 		Sensor sensor = new Sensor();
-		sensor.setProject(projectService.findById(sensorDto.getProjectId()));
-		updateSensor(sensor, sensorDto);
+		updateSensor(sensor, sensorDto, zwitch);
+		sensor.setProject(project);
 		return sensor;
 	}
 	
-	public Sensor updateSensor(Sensor sensor , SensorDto sensorDto) throws UpdateEntityException {
+	public Sensor updateSensor(Sensor sensor, SensorDto sensorDto, 
+			Switch zwitch) {
 		sensor.setType(sensorDto.getType());
+		sensor.setUnit(sensorDto.getUnit());
 		sensor.setName(sensorDto.getName());
-		if (sensorDto.getDriverId() != null) {
-			RelayDriver driver = relayDriverService.findById(sensorDto.getDriverId());
-			driver.getSwitchs().get(sensorDto.getIndex());
-			sensor.setProject(driver.getProject());
-		}
-		else {
-			sensor.setZwitch(null);
-		}
+		sensor.setZwitch(zwitch);
 		return sensor;
 	}
 
@@ -64,7 +49,7 @@ public class SensorMapper {
 		else if (sensor.getZwitch() != null) {
 			sensorDto.setDriverId(sensor.getZwitch().getDriver().getId());
 			sensorDto.setDriverName(sensor.getZwitch().getDriver().getName());
-			sensorDto.setIndex(sensor.getZwitch().getIndex() + 1);
+			sensorDto.setIndex(sensor.getZwitch().getIndex());
 		}
 		sensorDto.setProjectId(sensor.getProject().getId());
 		return sensorDto;

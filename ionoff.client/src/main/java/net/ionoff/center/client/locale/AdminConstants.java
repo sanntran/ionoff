@@ -261,4 +261,13 @@ public interface AdminConstants extends Constants {
 
 	@DefaultStringValue("Tất cả")
 	String all();
+
+	@DefaultStringValue("VD: x == 1")
+	String conditionExample();
+
+	@DefaultStringValue("Tin nhắn")
+	String message();
+	
+	@DefaultStringValue("(E4: 0,1,2)")
+	String inputNote();
 }

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.Player;
+import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.WeighScale;
 import net.ionoff.center.server.entity.Zone;
@@ -34,6 +35,8 @@ public interface IDeviceService extends IGenericService<Device, DeviceDto> {
 	
 	net.xapxinh.center.server.entity.Player getPlayer(Long playerId) throws UnknownPlayerException;
 
-	StatusDto getStatusDto(Device device);
+	void updateSensorStatus(Sensor sensor);
+
+	void onSensorStatusChanged(Sensor sensor);
 
 }

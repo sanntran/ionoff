@@ -3,35 +3,28 @@ package net.ionoff.center.server.objmapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import net.ionoff.center.server.entity.RelayDriver;
+import net.ionoff.center.server.entity.Project;
 import net.ionoff.center.server.entity.Relay;
-import net.ionoff.center.server.persistence.service.IProjectService;
+import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.shared.dto.RelayDriverDto;
 import net.ionoff.center.shared.dto.RelayDto;
 
 public class RelayDriverMapper {
 	
-	@Autowired
-	private IProjectService projectService;
-	
-	@Autowired
-	private RelayMapper relayMapper;
-	
-	public RelayDriver updateRelayDriver(RelayDriver relayDriver, RelayDriverDto relayDriverDto) {
+	public RelayDriver updateRelayDriver(RelayDriver relayDriver, 
+			RelayDriverDto relayDriverDto, Project project) {
 		relayDriver.setName(relayDriverDto.getName());
 		relayDriver.setIp(relayDriverDto.getIp());
 		relayDriver.setPort(relayDriverDto.getPort());
 		relayDriver.setKey(relayDriverDto.getKey());
 		relayDriver.setModel(relayDriverDto.getModel().toString());
-		relayDriver.setProject(projectService.findById(relayDriverDto.getProjectId()));
+		relayDriver.setProject(project);
 		return relayDriver;
 	}
 	
-	public RelayDriver createRelayDriver(RelayDriverDto relayDriverDto) {
+	public RelayDriver createRelayDriver(RelayDriverDto relayDriverDto, Project project) {
 		RelayDriver relayDriver = new RelayDriver();
-		updateRelayDriver(relayDriver, relayDriverDto);
+		updateRelayDriver(relayDriver, relayDriverDto, project);
 		return relayDriver;
 	}
 

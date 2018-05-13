@@ -22,6 +22,7 @@ import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.BaseDto;
 import net.ionoff.center.shared.dto.SensorDto;
+import net.ionoff.center.shared.entity.SensorType;
 
 public class SensorTablePresenter extends AbstractTablePresenter<SensorDto> {
 	
@@ -85,7 +86,7 @@ public class SensorTablePresenter extends AbstractTablePresenter<SensorDto> {
 		if (!validateInputNumberValue(AdminLocale.getAdminConst().input(), getUnsavedDto().getIndex() + "")) {
 			return false;
 		}
-		if ("0".equals(getUnsavedDto().getIndex() + "")) {
+		if (getUnsavedDto().getIndex() < 0) {
 			final String message = AdminLocale.getAdminMessages().invalidFieldValue(AdminLocale.getAdminConst().input());
 			eventBus.fireEvent(new ShowMessageEvent(message, ShowMessageEvent.ERROR));
 			return false;
@@ -107,9 +108,10 @@ public class SensorTablePresenter extends AbstractTablePresenter<SensorDto> {
 	private SensorDto newSensorDto() {
 		SensorDto newSensorDto = new SensorDto();
 		newSensorDto.setId(BaseDto.DEFAULT_ID);
+		newSensorDto.setType(SensorType.DIGITAL.toString());
 		newSensorDto.setProjectId(getProjectId());
 		newSensorDto.setName("*" + AdminLocale.getAdminConst().sensor());
-		newSensorDto.setIndex(1);
+		newSensorDto.setIndex(0);
 		return newSensorDto;
 	}
 
@@ -175,5 +177,16 @@ public class SensorTablePresenter extends AbstractTablePresenter<SensorDto> {
 
 	private void showEditForm() {
 		view.showEditForm();
+	}
+	
+	@Override
+	protected void delete() {
+		SensorDto sensor = getSelectedObject();
+		if (sensor.getDeviceId() != null) {
+			final String message = AdminLocale.getAdminMessages().errorDeleteSensorOfDevice(sensor.getDeviceName());
+			eventBus.fireEvent(new ShowMessageEvent(message, ShowMessageEvent.ERROR));
+			return;
+		}
+		super.delete();
 	}
 }

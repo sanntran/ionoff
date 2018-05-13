@@ -64,4 +64,8 @@ public class Constants {
 	public String key() {
 		return "Key";
 	}
+	
+	public String condition() {
+		return resourceBundle.getString("condition");
+	}
 }

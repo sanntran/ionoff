@@ -45,7 +45,7 @@ public class ModeSensorUserServiceImpl extends AbstractGenericService<ModeSensor
 
 		final ModeSensorUser modeSensorUser = requireById(dto.getId());
 		modeSensorUser.setSendSms(dto.getSendSms());
-		modeSensorUser.setSendEmail(dto.getSendSms());
+		modeSensorUser.setSendEmail(dto.getSendEmail());
 		update(modeSensorUser);
 		return modeMapper.createModeSensorUserDto(modeSensorUser);
 	}

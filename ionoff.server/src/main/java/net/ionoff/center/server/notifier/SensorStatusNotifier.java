@@ -3,7 +3,7 @@ package net.ionoff.center.server.notifier;
 import java.util.Observable;
 import java.util.Observer;
 
-import net.ionoff.center.server.notifier.event.SensorStatusChangedEvent;
+import net.ionoff.center.server.message.event.SensorStatusChangedEvent;
 
 public class SensorStatusNotifier extends Observable {
 

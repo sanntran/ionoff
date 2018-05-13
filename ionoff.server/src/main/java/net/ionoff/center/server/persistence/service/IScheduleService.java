@@ -11,11 +11,11 @@ import net.ionoff.center.shared.dto.ScheduleDto;
 @Transactional
 public interface IScheduleService extends IGenericService<Schedule, ScheduleDto> {
 	
+	List<Schedule> findEnabledSchedules(String scheduleTime);
+	
+	List<Schedule> findFailedSchedules();
+
 	List<Schedule> findByProjectId(long projectId);
-	
-	List<Schedule> findFailedSchedules(long projectId);
-	
-	List<Schedule> findEnabledSchedules(long projectId, String scheduleTime);
 	
 	List<ScheduleDto> findDtoByZoneId(long zoneId);
 

@@ -1,25 +1,25 @@
 package net.ionoff.center.server.persistence.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.ionoff.center.server.entity.Appliance;
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.EntityUtil;
 import net.ionoff.center.server.entity.Player;
-import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.Scene;
 import net.ionoff.center.server.entity.SceneDevice;
 import net.ionoff.center.server.entity.Sensor;
-import net.ionoff.center.server.entity.SensorStatus;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.UserDevice;
 import net.ionoff.center.server.entity.WeighScale;
 import net.ionoff.center.server.entity.Zone;
+import net.ionoff.center.server.message.event.SensorStatusChangedEvent;
+import net.ionoff.center.server.notifier.SensorStatusNotifier;
 import net.ionoff.center.server.objmapper.DeviceMapper;
 import net.ionoff.center.server.persistence.dao.IDeviceDao;
 import net.ionoff.center.server.persistence.dao.IUserDao;
@@ -28,14 +28,13 @@ import net.ionoff.center.server.persistence.dao.IZoneDao;
 import net.ionoff.center.server.persistence.service.IDeviceService;
 import net.ionoff.center.server.persistence.service.ISceneDeviceService;
 import net.ionoff.center.server.persistence.service.ISensorService;
-import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.StatusDto;
 import net.ionoff.center.shared.entity.SensorType;
 import net.xapxinh.center.server.exception.UnknownPlayerException;
 import net.xapxinh.center.server.service.player.IPlayerService;
-import net.xapxinh.center.shared.dto.Status;
 
+@EnableAsync
 @Transactional
 public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto> implements IDeviceService {
 
@@ -51,16 +50,19 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 	private IZoneDao zoneDao;
 	
 	@Autowired
-	protected IPlayerService playerService;
-	
+	private DeviceMapper deviceMapper;
+
 	@Autowired
 	protected ISensorService sensorService;
 	
 	@Autowired
-	private DeviceMapper deviceMapper;
-	
-	@Autowired
 	private ISceneDeviceService sceneDeviceService;
+	
+	@Autowired 
+	private IPlayerService playerService;
+
+	@Autowired
+	private SensorStatusNotifier sensorStatusNotifier;
 	
 	public DeviceServiceImpl(IDeviceDao deviceDao) {
 		this.deviceDao = deviceDao;
@@ -88,11 +90,7 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 			sensor.setType(SensorType.ANALOG.toString());
 			sensor.setUnit("kg");
 			sensor.setZone(device.getZone());
-			SensorStatus status = new SensorStatus();
-			status.setSensor(sensor);
-			sensor.setStatus(status);
 			sensorService.insert(sensor);
-			sensorService.insertSensorStatus(status);
 		}
 		Cache cache = getDao().getSessionFactory().getCache();
 		if (cache != null) {
@@ -187,59 +185,7 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 	@Override
 	public List<DeviceDto> findDtoByUserZoneId(User user, long zoneId) {
 		List<Device> devices = deviceDao.findByZoneId(user.getId(), zoneId);		
-		return deviceMapper.toDeviceDtoList(devices);
-	}
-
-	public List<StatusDto> toStatusDto(List<Device> devices) {
-		List<StatusDto> statusDtos = new ArrayList<>();
-		for (Device device : devices) {
-			statusDtos.add(getStatusDto(device));
-		}
-		return statusDtos;
-	}
-	
-	@Override
-	public StatusDto getStatusDto(Device device) {
-		StatusDto statusDto = new StatusDto();
-		statusDto.setId(device.getId());
-		statusDto.setValue(device.getStatus());
-		if (device.getTime() != null) {
-			statusDto.setTime(DateTimeUtil.ddMMHHmmFormatter.format(device.getTime()));
-		}
-		if (device.instanceOf(Appliance.class)) {
-			for (Relay relay : device.getRelayList()) {
-				StatusDto child = new StatusDto();
-				child.setId(relay.getId());
-				child.setValue(relay.getStatus());
-				if (relay.getTime() != null) {
-					child.setTime(DateTimeUtil.ddMMHHmmFormatter.format(relay.getTime()));
-				}
-				statusDto.getChildren().add(child);
-			}
-		}
-		else if (device.instanceOf(WeighScale.class)) {
-			WeighScale scale = EntityUtil.castUnproxy(device, WeighScale.class);
-			if (scale.getSensors() != null && !scale.getSensors().isEmpty()) {
-				Sensor sensor = scale.getSensors().get(0);
-				if (sensor.getStatus().getTime() != null) {
-					statusDto.setTime(DateTimeUtil.ddMMHHmmFormatter.format(sensor.getStatus().getTime()));
-				}
-				statusDto.setLatestValue(sensor.getStatus().getValue() + " " + sensor.getUnit());
-			}
-		}
-		else if (device.instanceOf(Player.class)) {
-			try {
-				Status status = playerService.requesStatus(getPlayer(device.getId()), null);
-				statusDto.setState(status.getState());
-				statusDto.setTrack(status.getTitle());
-				if (status.getPosition() > 0) {
-					statusDto.setPosition(Math.round(status.getPosition() * 100));
-				}
-			} catch (Exception e) {
-				//
-			}
-		}
-		return statusDto;
+		return deviceMapper.toDeviceDtoList(devices, playerService);
 	}
 
 	@Override
@@ -249,14 +195,7 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 			Player player = (net.ionoff.center.server.entity.Player) 
 					EntityUtil.castUnproxy(device, Device.class);
 			if (player != null) {
-				net.xapxinh.center.server.entity.Player p = new net.xapxinh.center.server.entity.Player();
-				p.setId(player.getId());
-				p.setName(player.getName());
-				p.setMac(player.getMac());
-				p.setIp(player.getIp());
-				p.setPort(player.getPort());
-				p.setModel(player.getModel());
-				return p;
+				return deviceMapper.toPlayer(device);
 			}
 		}
 		throw new UnknownPlayerException(playerId + "");
@@ -264,9 +203,9 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 
 	@Override
 	public DeviceDto insertDto(User user, DeviceDto dto) {
-		Device device = deviceMapper.createDevice(dto);
+		Device device = deviceMapper.createDevice(dto, zoneDao.findById(dto.getZoneId()));
 		insert(device);
-		return deviceMapper.createDeviceDto(device);
+		return deviceMapper.createDeviceDto(device, playerService);
 	}
 
 	@Override
@@ -274,13 +213,13 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 		Device device = requireById(dto.getId());
 		deviceMapper.updateDevice(device, dto);
 		update(device, dto.getZoneId());
-		return deviceMapper.createDeviceDto(device);
+		return deviceMapper.createDeviceDto(device, playerService);
 	}
 
 	@Override
 	public DeviceDto requireDtoById(long id) {
 		Device device = requireById(id);
-		return deviceMapper.createDeviceDto(device);
+		return deviceMapper.createDeviceDto(device, playerService);
 	}
 	
 	@Override
@@ -295,24 +234,37 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 	@Override
 	public List<StatusDto> getStatusByZoneId(User user, Long zoneId) {
 		List<Device> devices = getDao().findByZoneId(user.getId(), zoneId);
-		return toStatusDto(devices);
+		return deviceMapper.toStatusDto(devices, playerService);
 	}
 
 	@Override
 	public List<StatusDto> getStatusByProjectId(User user, Long projectId) {
 		List<Device> devices = getDao().findByUserProjectId(user.getId(), projectId);
-		return toStatusDto(devices);
+		return deviceMapper.toStatusDto(devices, playerService);
 	}
 
 	@Override
 	public List<DeviceDto> findDtoByUserProjectId(User user, long projectId) {
 		List<Device> devices = deviceDao.findByUserProjectId(user.getId(), projectId);
-		return deviceMapper.toDeviceDtoList(devices);
+		return deviceMapper.toDeviceDtoList(devices, playerService);
 	}
 
 	@Override
-	protected List<DeviceDto> createDtoList(List<Device> entities) {
-		return deviceMapper.toDeviceDtoList(entities);
+	protected List<DeviceDto> createDtoList(List<Device> devices) {
+		return deviceMapper.toDeviceDtoList(devices, playerService);
+	}
+
+	@Override
+	public void updateSensorStatus(Sensor sensor) {
+		sensorService.update(sensor);
+		sensorService.updateStatus(sensor.getStatus());
+	}
+
+	@Override
+	@Async
+	public void onSensorStatusChanged(Sensor sensor) {
+		sensorService.insertSensorData(sensor.getStatus());
+		sensorStatusNotifier.notifyListeners(new SensorStatusChangedEvent(sensor));
 	}
 	
 }
