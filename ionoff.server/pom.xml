@@ -228,7 +228,12 @@
 		    <version>4.2.1.violate</version>
 		</dependency>
 
-		
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>3.0</version>
+        </dependency>
+
 	</dependencies>
 
 	<build>

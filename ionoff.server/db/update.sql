@@ -1,6 +1,6 @@
 mysqladmin -u root -p"ubuntu$db" password "ionoff$db"
 
-CREATE SCHEMA  DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+CREATE SCHEMA ionoff DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 
 -- Import database
 -- Update database

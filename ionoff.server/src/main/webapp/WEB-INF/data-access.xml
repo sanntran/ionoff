@@ -10,18 +10,39 @@
 		http://www.springframework.org/schema/tx
 		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 	    
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+    <bean id="sessionFactory" depends-on="flyway" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
       <property name="dataSource" ref="dataSource"/>
-      <property name="configLocation" value="classpath:hibernate.cfg.xml" />      
+
+      <property name="configLocation" value="classpath:hibernate.cfg.xml" />
+      <property name="hibernateProperties">
+        <props>
+            <prop key="hibernate.connection.url">${hibernate.connection.url}</prop>
+            <prop key="hibernate.connection.username">${hibernate.connection.username}</prop>
+            <prop key="hibernate.connection.password">${hibernate.connection.password}</prop>
+            <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+            <prop key="hibernate.connection.driver_class">${hibernate.connection.driver_class}</prop>
+        </props>
+      </property>
     </bean>
+
+
+
+
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
       <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
-    
-    
+
+    <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate" >
+        <property name="dataSource" ref="dataSource" />
+        <property name="locations" value="classpath:/META-INF/db_migration" />
+        <property name="validateOnMigrate" value="false"/>
+        <property name="initOnMigrate" value="true" />
+        <property name="outOfOrder" value="true" />
+    </bean>
+
     <!--Daos  -->
     
     <bean id="userGroupDao" class="net.ionoff.center.server.persistence.dao.impl.UserGroupDaoImpl">

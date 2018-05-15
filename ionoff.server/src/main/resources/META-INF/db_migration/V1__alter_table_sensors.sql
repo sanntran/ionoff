@@ -12,13 +12,13 @@ CREATE TABLE `switchs` (
     REFERENCES `controllers` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
-    
+
 DELETE FROM `sensors` WHERE `id`>='1';
 
-ALTER TABLE `sensors` 
+ALTER TABLE `sensors`
 DROP FOREIGN KEY `sensors_fk_controller_id`;
 
-ALTER TABLE `sensors` 
+ALTER TABLE `sensors`
 DROP COLUMN `controller_input`,
 DROP COLUMN `status_`,
 DROP COLUMN `controller_id`,
@@ -31,7 +31,7 @@ ADD INDEX `sensors_fk_device_id_idx` (`device_id` ASC),
 ADD INDEX `sensors_fk_zone_id_idx` (`zone_id` ASC),
 ADD INDEX `sensors_fk_switch_id_idx` (`switch_id` ASC),
 DROP INDEX `sensors_fk_controller_id_idx` ;
-ALTER TABLE `sensors` 
+ALTER TABLE `sensors`
 ADD CONSTRAINT `sensors_fk_device_id`
   FOREIGN KEY (`device_id`)
   REFERENCES `devices` (`id`)
@@ -48,7 +48,6 @@ ADD CONSTRAINT `sensors_fk_switch_id`
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 
-  
   CREATE TABLE `sensors_data` (
   `id` BIGINT NOT NULL,
   `time_` DATETIME NULL,
@@ -61,7 +60,6 @@ ADD CONSTRAINT `sensors_fk_switch_id`
     REFERENCES `sensors` (`id`)
     ON DELETE SET NULL
     ON UPDATE CASCADE);
-    
 
 CREATE TABLE `sensors_status` (
   `sensor_id` BIGINT NOT NULL,
@@ -74,37 +72,19 @@ CREATE TABLE `sensors_status` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-    
-    DELETE FROM `modes_sensors` WHERE `id`>='1';
-    
-    ALTER TABLE `modes_sensors` 
-ADD COLUMN `condition` VARCHAR(63) NULL AFTER `enabled_`,
-ADD COLUMN `value_` DOUBLE NULL AFTER `condition`;
+DELETE FROM `modes_sensors` WHERE `id`>='1';
 
-ALTER TABLE `sensors_data` 
-ADD COLUMN `total` DOUBLE NULL AFTER `value_`;
+ALTER TABLE `modes_sensors`
+ADD COLUMN `condition_` VARCHAR(63) NULL AFTER `enabled_`;
 
-
-ALTER TABLE `sensors_status` 
-ADD COLUMN `total` DOUBLE NULL AFTER `value_`;
-
-ALTER TABLE `modes_sensors_users` 
+ALTER TABLE `modes_sensors_users`
 DROP COLUMN `detected_`;
 
-ALTER TABLE `modes_sensors_scenes` 
+ALTER TABLE `modes_sensors_scenes`
 DROP COLUMN `detected_`;
 
-ALTER TABLE `sensors_status` 
-CHANGE COLUMN `total` `total_` DOUBLE NULL DEFAULT NULL ;
+ALTER TABLE `sensors_status`
+ADD COLUMN `index_` BIGINT NULL AFTER `value_`;
 
-
-ALTER TABLE `sensors_data` 
-CHANGE COLUMN `total` `total_` DOUBLE NULL DEFAULT NULL ;
-
-
-ALTER TABLE `sensors_status` 
-ADD COLUMN `setup` DOUBLE NULL AFTER `total_`;
-
-
-ALTER TABLE `sensors_data` 
-ADD COLUMN `setup` DOUBLE NULL AFTER `total_`;
+ALTER TABLE `sensors_data`
+ADD COLUMN `index_` BIGINT NULL AFTER `value_`;
