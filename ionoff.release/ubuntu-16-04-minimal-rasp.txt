@@ -395,3 +395,19 @@ Remove # and change 22 to 2122.
 Restart the sshd service by running the following command:
 	service sshd restart
 		
+19. Install incron
+	sudo apt-get install incron
+
+    	sudo nano /etc/incron.allow
+    add 1 lines
+	root
+    
+    Edit incrontab config
+	incrontab -e
+    Add
+       	/opt/apache/tomcat-9.0.4/update/cron IN_CREATE,IN_MOVED_TO /opt/apache/tomcat-9.0.4/update/script.sh
+
+    Show incron log:
+	tail /var/log/syslog
+
+    

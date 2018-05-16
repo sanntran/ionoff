@@ -119,7 +119,7 @@ public class FileManagementUtil {
 		List<String> extractedFiles = new ArrayList<>();
 		File destDir = new File(destDirectory);
 		if (!destDir.exists()) {
-			destDir.mkdir();
+			destDir.mkdirs();
 		}
 		ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
 		ZipEntry entry = zipIn.getNextEntry();
@@ -133,7 +133,7 @@ public class FileManagementUtil {
 			} else {
 				// if the entry is a directory, make the directory
 				File dir = new File(filePath);
-				dir.mkdir();
+				dir.mkdirs();
 			}
 			zipIn.closeEntry();
 			entry = zipIn.getNextEntry();

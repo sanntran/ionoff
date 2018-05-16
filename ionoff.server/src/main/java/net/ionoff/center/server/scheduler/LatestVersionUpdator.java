@@ -2,6 +2,7 @@ package net.ionoff.center.server.scheduler;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -11,6 +12,7 @@ import com.google.gson.Gson;
 
 import net.ionoff.center.server.config.AppConfig;
 import net.ionoff.center.server.entity.Version;
+import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.server.util.FileDownloadUtil;
 import net.ionoff.center.server.util.FileManagementUtil;
 import net.ionoff.center.server.util.HttpRequestUtil;
@@ -92,7 +94,8 @@ public class LatestVersionUpdator {
 		if (!cronFolder.exists()) {
 			cronFolder.mkdirs();
 		}
-		File trigger = new File(AppConfig.getInstance().CRON_FOLDER + File.separator + "upgrade.cron");
+		String fileTrigger = DateTimeUtil.yyyyMMdd_HHmmssFormatter.format(new Date()) + "_trigger.txt";
+		File trigger = new File(AppConfig.getInstance().CRON_FOLDER + File.separator + fileTrigger);
 		trigger.createNewFile();
 	}
 
