@@ -1,0 +1,2 @@
+/opt/apache/tomcat-9.0.4/update/cron/ IN_CREATE sh /opt/apache/tomcat-9.0.4/update/script.sh
+/opt/apache/tomcat-9.0.4/update/stop/trigger.log IN_MODIFY sh /opt/apache/tomcat-9.0.4/update/stop.sh

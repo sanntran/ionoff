@@ -94,7 +94,7 @@ public class LatestVersionUpdator {
 		if (!cronFolder.exists()) {
 			cronFolder.mkdirs();
 		}
-		String fileTrigger = DateTimeUtil.yyyyMMdd_HHmmssFormatter.format(new Date()) + "_trigger.txt";
+		String fileTrigger = DateTimeUtil.yyyyMMdd_HHmmssFormatter.format(new Date()) + ".log";
 		File trigger = new File(AppConfig.getInstance().CRON_FOLDER + File.separator + fileTrigger);
 		trigger.createNewFile();
 	}

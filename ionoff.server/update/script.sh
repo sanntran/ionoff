@@ -5,7 +5,7 @@ TOMCAT_BIN=$TOMCAT_HOME/bin
 TOMCAT_WEBAPPS=$TOMCAT_HOME/webapps
 TOMCAT_UPDATE_LOG=$TOMCAT_HOME/update/log.txt
 TOMCAT_UPDATE_POOL=$TOMCAT_HOME/update/pool
-TOMCAT_STOP_TRIGGER=$TOMCAT_HOME/update/stop/trigger.txt
+TOMCAT_STOP_TRIGGER=$TOMCAT_HOME/update/stop/trigger.log
 
 echo "`date` Start running script to upgrade..." >> $TOMCAT_UPDATE_LOG
 
@@ -22,8 +22,8 @@ if test "$(ls -A "$TOMCAT_UPDATE_POOL")"; then
   echo "Deleting old log files..."  >> $TOMCAT_UPDATE_LOG
 
   rm -rf $TOMCAT_HOME/logs/catalina.out
-  find $TOMCAT_HOME/logs/ -mtime +7 -type f -delete
-  find $TOMCAT_HOME/logs/webapps/ -mtime +7 -type f -delete
+  find $TOMCAT_HOME/logs/ -mtime +30 -type f -delete
+  find $TOMCAT_HOME/logs/webapps/ -mtime +30 -type f -delete
 
   for entry in "$TOMCAT_UPDATE_POOL"/*
   do
