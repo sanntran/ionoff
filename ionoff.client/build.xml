@@ -10,7 +10,7 @@
 	<property name="bin.dir" location="target/classes" />
 	<property name="lib.dir" location="target/library" />
 	<property name="parent.dir" location=".."/>
-	<property name="gwt.sdk.dir" value="${parent.dir}/../eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.8.1/gwt-2.8.1" />
+	<property name="gwt.sdk.dir" value="${parent.dir}/../eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.8.1/gwt-2.8.2" />
 	
 	<property name="version" value="0.0.1"/>
 
