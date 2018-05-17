@@ -7,7 +7,7 @@ public class RelayDto extends BaseDto {
 	public static final String SWITCH = "Switch";
 	public static final String BUTTON = "Button";
 
-	public static final String RELAY_DRIVER = "relayDriver";
+	public static final String DRIVER = "driver";
 	public static final String DEVICE = "device";
 
 	private String type;

@@ -102,8 +102,8 @@ public class ModeTablePresenter extends AbstractTablePresenter<ModeDto>{
 		display.getToolBarView().getLisBoxSearchBy().addItem(AdminLocale.getAdminConst().name());
 		String deviceName = AdminLocale.getAdminConst().name() + " " + AdminLocale.getAdminConst().device();
 		display.getToolBarView().getLisBoxSearchBy().addItem(deviceName);
-		String relayDriverName = AdminLocale.getAdminConst().name() + " " + AdminLocale.getAdminConst().relayDriver();
-		display.getToolBarView().getLisBoxSearchBy().addItem(relayDriverName);
+		String driverName = AdminLocale.getAdminConst().name() + " " + AdminLocale.getAdminConst().relayDriver();
+		display.getToolBarView().getLisBoxSearchBy().addItem(driverName);
 	}
 
 	@Override
@@ -125,7 +125,7 @@ public class ModeTablePresenter extends AbstractTablePresenter<ModeDto>{
 		if (selectedSearchByIndex == 1) {
 			return "deviceName";
 		}
-		return "relayDriverName";
+		return "driverName";
 	}
 	
 	@Override

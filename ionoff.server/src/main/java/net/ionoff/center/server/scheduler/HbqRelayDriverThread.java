@@ -41,7 +41,7 @@ public class HbqRelayDriverThread {
 	@Autowired
 	IRelayDriverService relayDriverService;
 
-	@Scheduled(fixedRate = INTERVAl)
+	@Scheduled(fixedDelay = INTERVAl)
     public void scanRelayDriversStatus() {
 		// LOGGER.info("Interval update HBQ relay driver status...");
 		List<RelayDriver> ec100RelayDrivers = relayDriverService.findByModel(RelayDriverModel.HBQ_EC100);
@@ -61,14 +61,16 @@ public class HbqRelayDriverThread {
 			pingContoller(relayDriver);
 			relayDriver.setConnectedTime(System.currentTimeMillis());
 			relayDriverService.update(relayDriver);
+			oldStatus = true;
 			final RelayDriverStatus relayDriverStatus = controlService.getRelayDriverStatus(relayDriver);
 			updateRelayDriverStatus(relayDriver, true, oldStatus, relayDriverStatus);
 		}
 		catch (final Exception e) {
+			LOGGER.error("Error "  + relayDriver.getIp() + ":" + relayDriver.getPort() + ": "+ e.getMessage());
 			try {
 				updateRelayDriverStatus(relayDriver, false, oldStatus, new RelayDriverStatus());
 			} catch (RelayDriverConnectException ex) {
-				LOGGER.error(e.getMessage(), ex);
+				LOGGER.error(ex.getMessage(), ex);
 			}
 		}
 	}
