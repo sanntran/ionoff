@@ -153,5 +153,10 @@ public class Messages {
 	public String errorUserIsNotSystemAdmin() {
 		return resourceBundle.getString("errorUserIsNotSystemAdmin");
 	}
+
+	public String errorRelayLocked(String relayName) {
+		messageFormat.applyPattern(resourceBundle.getString("errorRelayLocked"));
+		return messageFormat.format(new Object[] {relayName});
+	}
 	
 }

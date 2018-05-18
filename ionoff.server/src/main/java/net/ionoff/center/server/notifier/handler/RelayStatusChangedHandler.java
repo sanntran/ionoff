@@ -8,6 +8,8 @@ import org.springframework.scheduling.annotation.Async;
 
 import net.ionoff.center.server.control.IControlService;
 import net.ionoff.center.server.entity.Relay;
+import net.ionoff.center.server.entity.RelayGroup;
+import net.ionoff.center.server.entity.RelayGroupRelay;
 
 public class RelayStatusChangedHandler {
 	
@@ -18,28 +20,33 @@ public class RelayStatusChangedHandler {
 	
 	@Async
 	public void onRelayStatusChanged(Relay relay) {
-		if (relay != null && relay.getGroup() != null) {
-			logger.info("Relay " + relay.getSId() + " status changed. Synchronizing relay group state");
-			List<Relay> relays = relay.getGroup().getRelays();
-			if (hasLeader(relays)) {
-				if (!Boolean.TRUE.equals(relay.getIsLeader())) {
-					return;
+		if (relay == null || relay.getGroupRelays() == null || relay.getGroupRelays().isEmpty()) {
+			return;
+		}
+		
+		logger.info("Relay " + relay.getSId() + " status changed. Synchronizing relay group state");
+		
+		for (RelayGroup relayGroup : relay.getGroups()) {
+			List<RelayGroupRelay> groupRelays = relayGroup.getGroupRelays();
+			if (relayGroup.hasLeader()) {
+				boolean isLeader = false;
+				for (RelayGroupRelay groupRelay : groupRelays) {
+					if (groupRelay.getRelay().getId() == relay.getId() && Boolean.TRUE.equals(groupRelay.getIsLeader())) {
+						isLeader = true;
+						break;
+					}
+				}
+				if (!isLeader) {
+					break;
 				}
 			}
-			for (Relay r : relays) {
+			
+			for (RelayGroupRelay groupRelay : groupRelays) {
+				Relay r = groupRelay.getRelay();
 				if (r.getId() != relay.getId()) {
 					controlService.setRelayState(r, relay.getStatus());
 				}
 			}
 		}
-	}
-	
-	private boolean hasLeader(List<Relay> relays) {
-		for (Relay r : relays) {
-			if (Boolean.TRUE.equals(r.getIsLeader())) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

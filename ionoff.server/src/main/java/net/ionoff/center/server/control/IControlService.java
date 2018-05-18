@@ -17,9 +17,9 @@ public interface IControlService {
 	
 	RelayDriverStatus getRelayDriverStatus(RelayDriver relayDriver);
 	
-	void setRelayOn(Relay relay);
+	void switchRelayToOn(Relay relay);
 	
-	void setRelayOff(Relay relay);
+	void switchRelayToOff(Relay relay);
 	
 	void switchRelayOnOff(Relay relay);
 	

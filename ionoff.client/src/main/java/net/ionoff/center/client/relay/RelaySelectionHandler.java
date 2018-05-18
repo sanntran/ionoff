@@ -4,13 +4,13 @@ import net.ionoff.center.shared.dto.RelayDto;
 
 class RelaySelectionHandler {
 	
-	private RelayEditPresenter relayEditPresenter;
+	private RelayGroupPresenter relayGroupPresenter;
 	
-	RelaySelectionHandler(RelayEditPresenter relayEditPresenter) {
-		this.relayEditPresenter = relayEditPresenter;
+	RelaySelectionHandler(RelayGroupPresenter relayGroupPresenter) {
+		this.relayGroupPresenter = relayGroupPresenter;
 	}
 
 	public void onRelaySelected(RelayDto relay) {
-		relayEditPresenter.addRelayToGroup(relay);
+		relayGroupPresenter.addRelayToGroup(relay);
 	}
 }

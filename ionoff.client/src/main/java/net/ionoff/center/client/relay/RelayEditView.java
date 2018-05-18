@@ -4,22 +4,28 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.WavesType;
+import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialCheckBox;
 import gwt.material.design.client.ui.MaterialListBox;
 import gwt.material.design.client.ui.MaterialTextBox;
 import net.ionoff.center.client.base.AbstractEditView;
-import net.ionoff.center.client.ui.DevicesSelectionPanel;
 import net.ionoff.center.client.locale.AdminLocale;
+import net.ionoff.center.client.locale.ProjectLocale;
+import net.ionoff.center.client.ui.DevicesSelectionPanel;
 import net.ionoff.center.shared.dto.RelayDto;
 
 public class RelayEditView extends AbstractEditView<RelayDto> implements RelayEditPresenter.Display {
 	
-	private MaterialTextBox textBoxRelayDriver;
+	private MaterialCheckBox checkBoxLocked;
+	private MaterialTextBox textBoxDriver;
 	private MaterialTextBox textBoxIndex;
 	private MaterialListBox listBoxTypes;
 	private DevicesSelectionPanel devicesSelectionPanel;
-	private RelayGroupView relayGroupView;
-	private RelaySelectionView relaySelectionView;
+	private final FlowPanel relayGroupListPanel;
+	private final MaterialButton btnAddRelayGroup;
 	
 	public RelayEditView() {
 		super();
@@ -31,11 +37,17 @@ public class RelayEditView extends AbstractEditView<RelayDto> implements RelayEd
 		panel.addStyleName("row");
 		contentPanel.add(panel);
 		
-		textBoxRelayDriver = new MaterialTextBox();
-		textBoxRelayDriver.setEnabled(false);
-		textBoxRelayDriver.addStyleName("col s6 no-padding");
-		textBoxRelayDriver.setLabel(AdminLocale.getAdminConst().relayDriver());
-		panel.add(textBoxRelayDriver);
+		checkBoxLocked = new MaterialCheckBox();
+		checkBoxLocked.addStyleName("lock");
+		checkBoxLocked.setText(AdminLocale.getAdminConst().lock());
+		checkBoxLocked.setValue(false);
+		contentPanel.add(checkBoxLocked);
+		
+		textBoxDriver = new MaterialTextBox();
+		textBoxDriver.setEnabled(false);
+		textBoxDriver.addStyleName("col s6 no-padding");
+		textBoxDriver.setLabel(AdminLocale.getAdminConst().relayDriver());
+		panel.add(textBoxDriver);
 		
 		textBoxIndex = new MaterialTextBox();
 		textBoxIndex.setEnabled(false);
@@ -56,16 +68,27 @@ public class RelayEditView extends AbstractEditView<RelayDto> implements RelayEd
 		lblGroup.setStyleName("lbl");
 		contentPanel.add(lblGroup);
 			
-		relayGroupView = new RelayGroupView();
-		contentPanel.add(relayGroupView);
+		relayGroupListPanel = new FlowPanel();
+		relayGroupListPanel.addStyleName("relayGroups");
+		contentPanel.add(relayGroupListPanel);
 		
-		relaySelectionView = new RelaySelectionView();
-		contentPanel.add(relaySelectionView);
+		btnAddRelayGroup = new MaterialButton(ProjectLocale.getProjectConst().add() 
+				+ " " + AdminLocale.getAdminConst().relayGroup());
+		btnAddRelayGroup.setBackgroundColor(Color.WHITE);
+		btnAddRelayGroup.setTextColor(Color.GREY_DARKEN_4);
+		btnAddRelayGroup.setWaves(WavesType.DEFAULT);
+		btnAddRelayGroup.addStyleName("add");
+		contentPanel.add(btnAddRelayGroup);
+	}
+	
+	@Override
+	public MaterialCheckBox getCheckBoxLocked() {
+		return checkBoxLocked;
 	}
 
 	@Override
-	public MaterialTextBox getTextBoxRelayDriver() {
-		return textBoxRelayDriver;
+	public MaterialTextBox getTextBoxDriver() {
+		return textBoxDriver;
 	}
 	
 	@Override
@@ -82,14 +105,14 @@ public class RelayEditView extends AbstractEditView<RelayDto> implements RelayEd
 	public DevicesSelectionPanel getDevicesSelectionPanel() {
 		return devicesSelectionPanel;
 	}
-	
+
 	@Override
-	public RelayGroupView getRelayGroupView() {
-		return relayGroupView;
+	public FlowPanel getRelayGroupListPanel() {
+		return relayGroupListPanel;
 	}
 
 	@Override
-	public RelaySelectionView getRelaySelectionView() {
-		return relaySelectionView;
+	public MaterialButton getBtnAddGroup() {
+		return btnAddRelayGroup;
 	}
 }

@@ -17,12 +17,12 @@
 			<column name="name" />
 		</property>
 		
-		<bag name="relays" table="relays" 
+		<bag name="groupRelays" table="relaygroups_relays" 
 				inverse="true" lazy="true" fetch="select" order-by="id">
             <key>
                 <column name="group_id" not-null="true" />
             </key>
-            <one-to-many class="net.ionoff.center.server.entity.Relay" />
+            <one-to-many class="net.ionoff.center.server.entity.RelayGroupRelay" />
         </bag>
         
 		<many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">

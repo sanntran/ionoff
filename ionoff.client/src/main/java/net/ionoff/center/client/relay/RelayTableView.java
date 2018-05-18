@@ -15,7 +15,8 @@ import net.ionoff.center.shared.dto.RelayDto;
 public class RelayTableView extends AbstractTableView<RelayDto> implements RelayTablePresenter.Display {
 	
 	private Column<RelayDto, String> nameColumn;
-	private Column<RelayDto, String> relayDriverColumn;
+	private Column<RelayDto, String> driverColumn;
+	private Column<RelayDto, String> deviceColumn;
 	private Column<RelayDto, String> editColumn;
 	
 	private RelayEditView relayEditView;
@@ -40,20 +41,25 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 		nameColumn = createNameColumn();
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
-		cellTable.setColumnWidth(nameColumn, COLUMN_NAME_WIDTH, Unit.PX);
+		cellTable.setColumnWidth(nameColumn, 100, Unit.PX);
 		
-		relayDriverColumn =  createRelayDriverColumn();
-		relayDriverColumn.setSortable(true);
-		cellTable.addColumn(relayDriverColumn, AdminLocale.getAdminConst().relayDriver());
-		cellTable.setColumnWidth(relayDriverColumn, 150.0, Unit.PX);
+		driverColumn =  createDriverColumn();
+		driverColumn.setSortable(true);
+		cellTable.addColumn(driverColumn, AdminLocale.getAdminConst().relayDriver());
+		
+		deviceColumn =  createDeviceColumn();
+		deviceColumn.setSortable(true);
+		cellTable.addColumn(deviceColumn, AdminLocale.getAdminConst().device());
+		cellTable.setColumnWidth(deviceColumn, 100.0, Unit.PX);
 		
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");
+		cellTable.setColumnWidth(editColumn, 70, Unit.PX);
 		
 		return cellTable;
 	}
 	
-	protected Column<RelayDto, String> createRelayDriverColumn() {
+	protected Column<RelayDto, String> createDriverColumn() {
 		TextColumn<RelayDto> column = new TextColumn<RelayDto>() {
 			@Override
 			public String getValue(RelayDto object) {
@@ -66,6 +72,19 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 		return column;
 	}
 	
+	protected Column<RelayDto, String> createDeviceColumn() {
+		TextColumn<RelayDto> column = new TextColumn<RelayDto>() {
+			@Override
+			public String getValue(RelayDto object) {
+				if (object == null) {
+					return "";
+				}
+				return BaseDto.formatNameID(object.getDeviceName(), object.getDeviceId());
+			}
+		};
+		return column;
+	}
+	
 	@Override
 	public Column<RelayDto, String> getNameColumn() { 
 		return this.nameColumn;
@@ -73,7 +92,7 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 
 	@Override
 	public Column<RelayDto, String> getRelayDriverColumn() { 
-		return this.relayDriverColumn;
+		return this.driverColumn;
 	}
 
 

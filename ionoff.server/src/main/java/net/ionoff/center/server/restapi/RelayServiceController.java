@@ -24,6 +24,7 @@ import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.persistence.service.IRelayGroupService;
 import net.ionoff.center.server.persistence.service.IRelayService;
 import net.ionoff.center.server.relaydriver.api.RelayDriverException;
+import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
 import net.ionoff.center.shared.dto.RelayDto;
 import net.ionoff.center.shared.dto.RelayGroupDto;
@@ -130,52 +131,78 @@ public class RelayServiceController {
 		return controlService.switchOnOff(relayId);
 	}
 	
-	@RequestMapping(value = "relays/{relayId}/group",
+	@RequestMapping(value = "relays/{relayId}/groups",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public RelayGroupDto getRelayGroup(@PathVariable("relayId") Long relayId,
+	public List<RelayGroupDto> getRelayGroups(@PathVariable("relayId") Long relayId, 
 			HttpServletRequest request) {
-		
 		User user = RequestContextHolder.getUser();
 		if (!user.hasAdminRole()) {
 			throw new AccessDeniedException("Access denied");
 		}
 		return relayGroupService.findByRelayId(relayId);
 	}
-	
-	@RequestMapping(value = "relays/{relayId}/group",
+
+	@RequestMapping(value = "relays/{relayId}/groups",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public RelayGroupDto addRelayToGroup(@PathVariable("relayId") Long relayId, 
+	public RelayGroupDto createRelayGroup(@PathVariable("relayId") Long relayId, HttpServletRequest request) {
+		User user = RequestContextHolder.getUser();
+		if (!user.hasAdminRole()) {
+			throw new AccessDeniedException("Access denied");
+		}
+		logger.info("User " + user.getName() + " create relay group. Relay id: " + relayId);
+		return relayGroupService.createRelayGroup(user, relayId);
+	}
+	
+	@RequestMapping(value = "relaygroups/{groupId}",
+			method = RequestMethod.DELETE,
+			produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public MessageDto deleteRelayGroup(@PathVariable("groupId") Long groupId, HttpServletRequest request) {
+		User user = RequestContextHolder.getUser();
+		if (!user.hasAdminRole()) {
+			throw new AccessDeniedException("Access denied");
+		}
+		logger.info("User " + user.getName() + " delete relay-group. Relay-group id: " + groupId);
+		relayGroupService.deleteDtoById(user, groupId);
+		return MessageDto.success(groupId);
+	}
+	
+	@RequestMapping(value = "relaygroups/{groupId}/relays",
+			method = RequestMethod.POST,
+			produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public RelayGroupDto addRelayToGroup(@PathVariable("groupId") Long groupId, 
 			@RequestBody RelayDto relayDto, HttpServletRequest request) {
 		
 		User user = RequestContextHolder.getUser();
 		if (!user.hasAdminRole()) {
 			throw new AccessDeniedException("Access denied");
 		}
-		return relayGroupService.addRelayToGroup(relayId, relayDto);
+		return relayGroupService.addRelayToGroup(groupId, relayDto);
 	}
 	
-	@RequestMapping(value = "relays/{relayId}/group",
+	@RequestMapping(value = "relaygroups/{groupId}/relays/{relayId}",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public RelayGroupDto removeRelayFromGroup(@PathVariable("relayId") Long relayId, 
-			@QueryParam("relayIdToRemove") Long relayIdToRemove, HttpServletRequest request) {
+	public RelayGroupDto removeRelayFromGroup(@PathVariable("groupId") Long groupId,
+			@PathVariable("relayId") Long relayId, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		if (!user.hasAdminRole()) {
 			throw new AccessDeniedException("Access denied");
 		}
-		return relayGroupService.removeRelayFromGroup(relayId, relayIdToRemove);
+		return relayGroupService.removeRelayFromGroup(groupId, relayId);
 	}
 	
-	@RequestMapping(value = "relays/{relayId}/leader",
+	@RequestMapping(value = "relaygroups/{groupId}/relays/{relayId}/leader",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public RelayDto update(@PathVariable("relayId") Long relayId,
+	public MessageDto updateRelayLeader(@PathVariable("groupId") Long groupId, @PathVariable("relayId") Long relayId,
 			@QueryParam("isLeader") Boolean isLeader, HttpServletRequest request) throws UpdateEntityException {
 
 		User user = RequestContextHolder.getUser();
@@ -183,6 +210,8 @@ public class RelayServiceController {
 			throw new AccessDeniedException("Access denied");
 		}
 		logger.info("User " + user.getName() + " update relay leader. Relay id: " + relayId + ", isLeader: " + isLeader);
-		return relayService.updateRelayLeader(user, relayId, isLeader);
+		relayGroupService.updateRelayLeader(user, groupId, relayId, isLeader);
+		return MessageDto.success("Update successful");
 	}
+	
 }

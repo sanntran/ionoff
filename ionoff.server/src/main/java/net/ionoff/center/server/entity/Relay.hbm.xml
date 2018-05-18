@@ -39,17 +39,21 @@
 			<column name="type_" />
 		</property>
 		
-		<property name="isLeader" type="java.lang.Boolean">
-			<column name="is_leader" sql-type="bit"/>
+		<property name="isLocked" type="java.lang.Boolean">
+			<column name="is_locked" sql-type="bit"/>
 		</property>
 		
 		<many-to-one name="driver" class="net.ionoff.center.server.entity.RelayDriver" fetch="select">
             <column name="driver_id" not-null="true" />
         </many-to-one>
         
-        <many-to-one name="group" class="net.ionoff.center.server.entity.RelayGroup" fetch="select">
-            <column name="group_id" not-null="false" />
-        </many-to-one>
+        <bag name="groupRelays" table="relaygroups_relays" 
+				inverse="true" lazy="true" fetch="select" order-by="id">
+            <key>
+                <column name="relay_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.RelayGroupRelay" />
+        </bag>
         
 		<many-to-one name="device" class="net.ionoff.center.server.entity.Device" fetch="select">
             <column name="device_id" not-null="false" />

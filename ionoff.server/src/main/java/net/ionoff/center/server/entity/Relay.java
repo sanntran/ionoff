@@ -1,6 +1,8 @@
 package net.ionoff.center.server.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Relay extends BaseObj {
 
@@ -15,10 +17,11 @@ public class Relay extends BaseObj {
 	private String type;
 	private Integer index;
 	private Boolean status;
-	private Boolean isLeader;
+	private Boolean isLocked;
 	private RelayDriver driver;
 	private Device device;
-	private RelayGroup group;
+	
+	private List<RelayGroupRelay> groupRelays;
 
 	public String getLabel() {
 		return label;
@@ -60,12 +63,13 @@ public class Relay extends BaseObj {
 		this.status = status;
 	}
 
-	public Boolean getIsLeader() {
-		return isLeader;
+	public Boolean getIsLocked() {
+		return isLocked;
 	}
-	public void setIsLeader(Boolean isLeader) {
-		this.isLeader = isLeader;
+	public void setIsLocked(Boolean isLocked) {
+		this.isLocked = isLocked;
 	}
+	
 	public RelayDriver getDriver() {
 		return driver;
 	}
@@ -108,10 +112,21 @@ public class Relay extends BaseObj {
 		return SWITCH.equals(type);
 	}
 	
-	public RelayGroup getGroup() {
-		return group;
+	public List<RelayGroup> getGroups() {
+		List<RelayGroup> relayGroups = new ArrayList<>();
+		if (groupRelays == null || groupRelays.isEmpty()) {
+			return relayGroups;
+		}
+		for (RelayGroupRelay groupRelay : groupRelays) {
+			relayGroups.add(groupRelay.getGroup());
+		}
+		return relayGroups;
 	}
-	public void setGroup(RelayGroup group) {
-		this.group = group;
+	
+	public List<RelayGroupRelay> getGroupRelays() {
+		return groupRelays;
+	}
+	public void setGroupRelays(List<RelayGroupRelay> groupRelays) {
+		this.groupRelays = groupRelays;
 	}
 }

@@ -54,6 +54,7 @@
 		<mapping resource="net/ionoff/center/server/entity/Relay.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/Switch.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/RelayGroup.hbm.xml"/>
+		<mapping resource="net/ionoff/center/server/entity/RelayGroupRelay.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/Sensor.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/SensorStatus.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/SensorData.hbm.xml"/>

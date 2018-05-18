@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import net.ionoff.center.server.control.UnknownRelayDriverModelException;
 import net.ionoff.center.server.exception.DeleteEntityException;
 import net.ionoff.center.server.exception.EntityNotFoundException;
+import net.ionoff.center.server.exception.RelayLockedException;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.locale.Messages;
 import net.ionoff.center.server.relaydriver.api.RelayDriverConnectException;
@@ -110,6 +111,19 @@ public class GlobalExceptionHandler {
 		logger.error(e.getMessage());
 		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		return new MessageDto(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
+	}
+	
+	@ExceptionHandler(RelayLockedException.class)
+	@ResponseBody
+	public MessageDto handleRelayDriverConnectException(HttpServletRequest request, HttpServletResponse response, 
+			RelayLockedException e) {
+		final String locale = (String) request.getAttribute("locale");
+		logger.error(e.getMessage(), e);
+		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		MessageDto message = new MessageDto(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+				Messages.get(locale).errorRelayLocked(e.getMessage()));
+		message.setCode(RelayDriverConnectException.class.getSimpleName());
+		return message;
 	}
 	
 }

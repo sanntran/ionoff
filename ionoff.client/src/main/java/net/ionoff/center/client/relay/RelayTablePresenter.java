@@ -161,7 +161,7 @@ public class RelayTablePresenter extends AbstractTablePresenter<RelayDto>{
 		if (columnIndex == 2) {
 			return RelayDto.DRIVER;
 		}
-		if (columnIndex == 4) {
+		if (columnIndex == 3) {
 			return RelayDto.DEVICE;
 		}
 		return BaseDto.ID ;

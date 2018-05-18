@@ -47,6 +47,7 @@ public class ModeSensorPresenter extends AbstractPresenter {
 	private enum EventType {
 		CLICK_ENABLED, TEXTBOX_ENTER;
 	}
+	private boolean isDirty;
 	private final Display display;
 	private ModeSensorDto modeSensor;
 	private final IRpcServiceProvider rpcProvider;
@@ -62,6 +63,7 @@ public class ModeSensorPresenter extends AbstractPresenter {
 	@Override
 	public void go() {
 		bind();
+		isDirty = false;
 	}
 
 	private void bind() {
@@ -79,6 +81,7 @@ public class ModeSensorPresenter extends AbstractPresenter {
 		display.getTextBoxMesage().setText(modeSensor.getMessage());
 		
 		display.getIconEnabled().addClickHandler(e -> {
+			isDirty = true;
 			if (Boolean.TRUE.equals(modeSensor.getEnabled())) {
 				modeSensor.setEnabled(false);
 			}
@@ -90,6 +93,7 @@ public class ModeSensorPresenter extends AbstractPresenter {
 		display.getTextBoxCondition().addKeyUpHandler(new KeyUpHandler() {
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
+				isDirty = true;
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					updateModeSensor(EventType.TEXTBOX_ENTER);
 				}
@@ -98,6 +102,7 @@ public class ModeSensorPresenter extends AbstractPresenter {
 		display.getTextBoxMesage().addKeyUpHandler(new KeyUpHandler() {
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
+				isDirty = true;
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					updateModeSensor(EventType.TEXTBOX_ENTER);
 				}
@@ -138,7 +143,10 @@ public class ModeSensorPresenter extends AbstractPresenter {
 		}
 	}
 
-	private void updateModeSensor(EventType event) {
+	void updateModeSensor(EventType event) {
+		if (!isDirty) {
+			return;
+		}
 		modeSensor.setCondition(display.getTextBoxCondition().getText());
 		modeSensor.setMessage(display.getTextBoxMesage().getText());
 		rpcProvider.getModeSensorService().save(modeSensor.getId(), modeSensor,  
@@ -169,6 +177,7 @@ public class ModeSensorPresenter extends AbstractPresenter {
 				else {
 					display.getIconEnabled().setIconType(IconType.CHECK_BOX_OUTLINE_BLANK);
 				}
+				isDirty = false;
 			}
 		});
 	}

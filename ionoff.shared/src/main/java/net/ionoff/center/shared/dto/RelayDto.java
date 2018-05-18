@@ -15,6 +15,7 @@ public class RelayDto extends BaseDto {
 	private Integer index;
 	private Boolean status;
 	private String label;
+	private Boolean isLocked;
 	private Boolean isLeader;
 	private Long driverId;
 	private String driverName;
@@ -100,5 +101,11 @@ public class RelayDto extends BaseDto {
 	}
 	public void setIsLeader(Boolean isLeader) {
 		this.isLeader = isLeader;
+	}
+	public Boolean getIsLocked() {
+		return isLocked;
+	}
+	public void setIsLocked(Boolean isLocked) {
+		this.isLocked = isLocked;
 	}
 }

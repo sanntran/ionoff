@@ -429,11 +429,23 @@
     float: left;
 }
 
+.main .content .table.relays .edit .body .lock {
+	height: 40px;
+}
+
+
+.main .content .table.relays .edit .body .relayGroups {
+	margin: 20px 0px;
+}
 
 .main .content .table.relays .edit .body .relayGroup {
 	border-top: 2px solid #d2d2d2;
     margin-top: 10px;
     border-bottom: 1px solid #d2d2d2;
+}
+
+.main .content .table.relays .edit .body .relayGroup .collapsible-header {
+	background-color: #efefef;
 }
 
 .main .content .table.relays .edit .body .relayGroup .relay {

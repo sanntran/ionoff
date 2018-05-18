@@ -12,9 +12,11 @@ import net.ionoff.center.client.base.AbstractEditView;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.locale.ProjectLocale;
 import net.ionoff.center.shared.dto.SensorDto;
+import net.ionoff.center.shared.entity.SensorType;
 
 public class SensorEditView extends AbstractEditView<SensorDto> implements SensorEditPresenter.Display {
 	
+	private MaterialListBox listBoxTypes;
 	private MaterialListBox listBoxGateways;
 	private MaterialIntegerBox intBoxInputIndex;
 	private FlowPanel actionPanel;
@@ -26,14 +28,20 @@ public class SensorEditView extends AbstractEditView<SensorDto> implements Senso
 		super();
 		getLblIcon().setIconType(IconType.WIFI_TETHERING);
 		
+		listBoxTypes = new MaterialListBox();
+		listBoxTypes.setPlaceholder(AdminLocale.getAdminConst().type());
+		listBoxTypes.addItem(SensorType.DIGITAL.toString());
+		listBoxTypes.addItem(SensorType.ANALOG.toString());
+		contentPanel.add(listBoxTypes);
+		
 		listBoxGateways = new MaterialListBox();
 		listBoxGateways.setPlaceholder(AdminLocale.getAdminConst().gateway());
 		contentPanel.add(listBoxGateways);
 		
 		intBoxInputIndex = new MaterialIntegerBox();
 		intBoxInputIndex.setMin("0");
-		intBoxInputIndex.setLabel(AdminLocale.getAdminConst().input() + AdminLocale.getAdminConst().inputNote());
-		intBoxInputIndex.setPlaceholder(AdminLocale.getAdminConst().input() + AdminLocale.getAdminConst().inputNote());
+		intBoxInputIndex.setLabel(AdminLocale.getAdminConst().input() + " " + AdminLocale.getAdminConst().inputNote());
+		intBoxInputIndex.setPlaceholder(AdminLocale.getAdminConst().input() + " " +  AdminLocale.getAdminConst().inputNote());
 		contentPanel.add(intBoxInputIndex);
 
 		Label lblAction = new InlineLabel(AdminLocale.getAdminConst().action());
@@ -55,6 +63,11 @@ public class SensorEditView extends AbstractEditView<SensorDto> implements Senso
 		addActionPanel.add(btnAddModeAction);
 		
 		contentPanel.add(addActionPanel);
+	}	
+	
+	@Override
+	public MaterialListBox getListBoxTypes() {
+		return listBoxTypes;
 	}
 
 	@Override

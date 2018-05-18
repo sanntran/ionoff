@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.Relay;
-import net.ionoff.center.server.entity.User;
 import net.ionoff.center.shared.dto.RelayDto;
 
 @Transactional
@@ -22,5 +21,4 @@ public interface IRelayService extends IGenericService<Relay, RelayDto> {
 
 	Relay update(Relay relay, boolean status);
 
-	RelayDto updateRelayLeader(User user, Long relayId, Boolean isLeader);
 }

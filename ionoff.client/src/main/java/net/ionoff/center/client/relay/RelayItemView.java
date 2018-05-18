@@ -22,7 +22,8 @@ public class RelayItemView extends FlowPanel {
 		add(lblName);
 		lblName.addStyleName("name");
 		
-		lblDriverName = new InlineLabel(relay.getDriverName());
+		lblDriverName = new InlineLabel(relay.getDriverName()
+				+ (relay.getDeviceName() == null ? "" : " - " + relay.getDeviceName()));
 		lblDriverName.addStyleName("driver");
 		add(lblDriverName);
 		

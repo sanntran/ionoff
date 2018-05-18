@@ -21,6 +21,7 @@ import net.ionoff.center.server.entity.SceneAction;
 import net.ionoff.center.server.entity.SceneDevice;
 import net.ionoff.center.server.entity.ScenePlayerAction;
 import net.ionoff.center.server.entity.SceneRelayAction;
+import net.ionoff.center.server.exception.RelayLockedException;
 import net.ionoff.center.server.message.event.RelayStatusChangedEvent;
 import net.ionoff.center.server.notifier.RelayStatusNotifier;
 import net.ionoff.center.server.persistence.dao.IModeDao;
@@ -72,7 +73,7 @@ public class ControlServiceImpl implements IControlService {
 	public StatusDto switchOn(long relayId) {
 		final Relay relay = relayService.requireById(relayId);
 		if (relay.isOpened()) {
-			setRelayOn(relay);
+			switchRelayToOn(relay);
 		}
 		return createStatusDto(relay);
 	}
@@ -81,7 +82,7 @@ public class ControlServiceImpl implements IControlService {
 	public StatusDto switchOff(long relayId) {
 		final Relay relay = relayService.requireById(relayId);
 		if (relay.isClosed()) {
-			setRelayOff(relay);
+			switchRelayToOff(relay);
 		}
 		return createStatusDto(relay);
 	}
@@ -90,7 +91,7 @@ public class ControlServiceImpl implements IControlService {
 	public StatusDto switchOnOff(long relayId) {
 		final Relay relay = relayService.requireById(relayId);
 		if (relay.isClosed()) {
-			setRelayOff(relay);
+			switchRelayToOff(relay);
 		}
 		if (relay.isOpened()) {
 			switchRelayOnOff(relay);
@@ -110,6 +111,9 @@ public class ControlServiceImpl implements IControlService {
 	
 	@Override
 	public void setRelayState(Relay relay, Boolean state) {
+		if (Boolean.TRUE.equals(relay.getIsLocked())) {
+			throw new RelayLockedException(relay.getName() + " (" + relay.getDriver().getName() + ")");
+		}
 		if (Boolean.TRUE.equals(state)) {
 			RelayDriver relayDriver = relay.getDriver();
 			relayDriverApiProvider.getRelayDriverApi(relayDriver).closeRelay(relayDriver, relay.getIndex());
@@ -125,7 +129,7 @@ public class ControlServiceImpl implements IControlService {
 	}
 	
 	@Override
-	public void setRelayOn(Relay relay) {
+	public void switchRelayToOn(Relay relay) {
 		setRelayState(relay, true);
 		notifyRelayStateChanged(relay);
 	}
@@ -135,15 +139,19 @@ public class ControlServiceImpl implements IControlService {
 	}
 
 	@Override
-	public void setRelayOff(Relay relay) {
+	public void switchRelayToOff(Relay relay) {
 		setRelayState(relay, false);
 		notifyRelayStateChanged(relay);
 	}
 
 	@Override
 	public void switchRelayOnOff(Relay relay) {
+		if (Boolean.TRUE.equals(relay.getIsLocked())) {
+			throw new RelayLockedException(relay.getName() + " (" + relay.getDriver().getName() + ")");
+		}
 		RelayDriver relayDriver = relay.getDriver();
-		relayDriverApiProvider.getRelayDriverApi(relayDriver).closeOpenRelay(relayDriver, relay.getIndex());
+		relayDriverApiProvider.getRelayDriverApi(relayDriver)
+					.closeOpenRelay(relayDriver, relay.getIndex());
 		logger.info("Update relay status " + relay.getNameId() + ": false");
 		relayService.update(relay, false);
 	}
@@ -197,10 +205,10 @@ public class ControlServiceImpl implements IControlService {
 	@Override
 	public void executeRelayAction(Relay relay, String action) {
 		if (RelayAction.OPEN.equalsIgnoreCase(action)) {
-			setRelayOff(relay);
+			switchRelayToOff(relay);
 		}
 		else if (RelayAction.CLOSE.equalsIgnoreCase(action)) {
-			setRelayOn(relay);
+			switchRelayToOn(relay);
 		}
 		else if (RelayAction.CLOSE_OPEN.equalsIgnoreCase(action)) {
 			switchRelayOnOff(relay);
@@ -365,7 +373,7 @@ public class ControlServiceImpl implements IControlService {
 			return statusDto;
 		}
 		Relay relay = device.getRelayList().get(0);
-		setRelayOn(relay);
+		switchRelayToOn(relay);
 		statusDto.setValue(relay.getStatus());
 		statusDto.setTime(DateTimeUtil.yyyyMMddHHmmFormatter.format(relay.getTime()));
 		return statusDto;
@@ -378,7 +386,7 @@ public class ControlServiceImpl implements IControlService {
 			return statusDto;
 		}
 		Relay relay = device.getRelayList().get(0);
-		setRelayOff(relay);
+		switchRelayToOff(relay);
 		statusDto.setValue(relay.getStatus());
 		statusDto.setTime(DateTimeUtil.yyyyMMddHHmmFormatter.format(relay.getTime()));
 		return statusDto;

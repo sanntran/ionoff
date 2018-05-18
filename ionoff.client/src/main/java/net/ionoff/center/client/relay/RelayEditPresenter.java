@@ -10,22 +10,25 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialCheckBox;
 import gwt.material.design.client.ui.MaterialListBox;
 import gwt.material.design.client.ui.MaterialTextBox;
 import net.ionoff.center.client.base.AbstractEditPresenter;
-import net.ionoff.center.client.ui.DevicesSelectionPanel;
 import net.ionoff.center.client.base.IEditView;
 import net.ionoff.center.client.event.ShowLoadingEvent;
+import net.ionoff.center.client.event.ShowMessageEvent;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.service.EntityService;
 import net.ionoff.center.client.service.IRpcServiceProvider;
-import net.ionoff.center.client.utils.AppToken;
+import net.ionoff.center.client.ui.DevicesSelectionPanel;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.AreaDto;
 import net.ionoff.center.shared.dto.BaseDto;
-import net.ionoff.center.shared.dto.RelayDriverDto;
+import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.RelayDto;
 import net.ionoff.center.shared.dto.RelayGroupDto;
 
@@ -33,17 +36,19 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 
 	public interface Display extends IEditView<RelayDto> {
 		
-		MaterialTextBox getTextBoxRelayDriver();
+		MaterialTextBox getTextBoxDriver();
 
 		MaterialTextBox getTextBoxIndex();
 
 		MaterialListBox getListBoxTypes();
+		
+		MaterialCheckBox getCheckBoxLocked();
 
 		DevicesSelectionPanel getDevicesSelectionPanel();
 		
-		RelayGroupView getRelayGroupView();
+		FlowPanel getRelayGroupListPanel();	
 		
-		RelaySelectionView getRelaySelectionView();
+		MaterialButton getBtnAddGroup();
 	}
 	
 	protected IRpcServiceProvider rpcProvider;
@@ -81,45 +86,7 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 				relayManager.hideEditForm();
 			}
 		});
-		
-		view.getRelaySelectionView().setRelaySelectionHandler(new RelaySelectionHandler(this));
-		
-		view.getRelayGroupView().getBtnAdd().addClickHandler((event) -> showRelaySelection());
-	}
-
-	private void showRelaySelection() {
-		if (entityDto == null) {
-			return;
-		}
-		rpcProvider.getRelayDriverService().findByProjectId(AppToken.getProjectIdLong(), 
-				new MethodCallback<List<RelayDriverDto>>() {
-			@Override
-			public void onFailure(Method method, Throwable exception) {
-				ClientUtil.handleRpcFailure(method, exception, eventBus);
-			}
-			@Override
-			public void onSuccess(Method method, List<RelayDriverDto> result) {
-				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				view.getRelaySelectionView().setRelayDriverOptions(result);
-			}
-		});
-		
-		view.getRelaySelectionView().setVisibility(true);
-	}
-	
-
-	public void addRelayToGroup(RelayDto relay) {
-		rpcProvider.getRelayService().addToRelayGroup(entityDto.getId(), relay, new MethodCallback<RelayGroupDto>() {
-			@Override
-			public void onFailure(Method method, Throwable exception) {
-				ClientUtil.handleRpcFailure(method, exception, eventBus);
-			}
-			@Override
-			public void onSuccess(Method method, RelayGroupDto result) {
-				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				showRelayGroup(result);
-			}
-		});
+		view.getBtnAddGroup().addClickHandler(event -> createNewRelayGroup());
 	}
 
 	@Override
@@ -142,6 +109,7 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 			return;
 		}
 		entityDto.setName(newName);
+		entityDto.setIsLocked(view.getCheckBoxLocked().getValue());
 		
 		int typeIndex = view.getListBoxTypes().getSelectedIndex();
 		if (typeIndex == 0) {
@@ -188,16 +156,14 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 	public void setEntityDto(RelayDto dto) {
 		entityDto = dto;
 		updateView(dto);
-		rpcLoadRelayGroup(dto);
-		view.getRelaySelectionView().setVisibility(false);
+		view.getRelayGroupListPanel().clear();
+		rpcLoadRelayGroups(dto);
 	}
 
-	private void rpcLoadRelayGroup(RelayDto dto) {
-		rpcProvider.getRelayService().getRelayGroup(dto.getId(), new MethodCallback<RelayGroupDto>() {
+	private void createNewRelayGroup() {
+		rpcProvider.getRelayService().createRelayGroups(entityDto.getId(), new MethodCallback<RelayGroupDto>() {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
-				view.getRelayGroupView().clear();
-				view.getRelayGroupView().add(view.getRelayGroupView().getBtnAdd());
 				final int statusCode = method.getResponse().getStatusCode();
 				if (statusCode == Response.SC_NOT_FOUND) {
 					// Ignore
@@ -214,59 +180,56 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 			}
 		});
 	}
-
-	private void showRelayGroup(RelayGroupDto relayGroup) {
-		view.getRelayGroupView().clear();
-		for (RelayDto relay : relayGroup.getRelays()) {
-			RelayItemView relayView = new RelayItemView(relay);
-			view.getRelayGroupView().add(relayView);
-			relayView.getBtnRemove().addClickHandler((event) -> removeRelayFromGroup(relay));
-			relayView.getBtnLeader().addClickHandler((event) -> setRelayAsGroupLeader(relay, relayView));
-		}
-		view.getRelayGroupView().add(view.getRelayGroupView().getBtnAdd());
-	}
-
-	private void setRelayAsGroupLeader(RelayDto relay, RelayItemView relayView) {
-		relayView.getBtnLeader().removeStyleName("none");
-		if (Boolean.TRUE.equals(relay.getIsLeader())) {
-			relay.setIsLeader(false);
-			relayView.getBtnLeader().addStyleName("none");
-		}
-		else {
-			relay.setIsLeader(true);
-		}
-		rpcProvider.getRelayService().updateLeader(relay.getId(), relay.getIsLeader(), new MethodCallback<RelayDto>() {
+	
+	private void rpcLoadRelayGroups(RelayDto dto) {
+		rpcProvider.getRelayService().getRelayGroups(dto.getId(), new MethodCallback<List<RelayGroupDto>>() {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
-				ClientUtil.handleRpcFailure(method, exception, eventBus);
-				relayView.getBtnLeader().removeStyleName("none");
-				if (Boolean.TRUE.equals(relay.getIsLeader())) {
-					relay.setIsLeader(false);
-					relayView.getBtnLeader().addStyleName("none");
+				final int statusCode = method.getResponse().getStatusCode();
+				if (statusCode == Response.SC_NOT_FOUND) {
+					// Ignore
+					eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
 				}
 				else {
-					relay.setIsLeader(true);
+					ClientUtil.handleRpcFailure(method, exception, eventBus);
 				}
 			}
 			@Override
-			public void onSuccess(Method method, RelayDto result) {
-				// does nothing
+			public void onSuccess(Method method, List<RelayGroupDto> result) {
 				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
+				showRelayGroupList(result);
 			}
 		});
 	}
 
-	private void removeRelayFromGroup(RelayDto relay) {
-		rpcProvider.getRelayService().removeFromRelayGroup(entityDto.getId(), relay.getId()
-				, new MethodCallback<RelayGroupDto>() {
+	private void showRelayGroupList(List<RelayGroupDto> relayGroups) {
+		view.getRelayGroupListPanel().clear();
+		for (RelayGroupDto relayGroup : relayGroups) {
+			showRelayGroup(relayGroup);
+		}
+	}
+
+	private void showRelayGroup(RelayGroupDto relayGroup) {
+		RelayGroupView relayGroupView = new RelayGroupView();
+		view.getRelayGroupListPanel().add(relayGroupView);
+		relayGroupView.getBtnDelete().addClickHandler(event -> deleteRelayGroup(relayGroup, relayGroupView));
+		RelayGroupPresenter relayGroupPresenter = new RelayGroupPresenter(
+				rpcProvider, eventBus, entityDto, relayGroup, relayGroupView);
+		relayGroupPresenter.go();
+	}
+
+	private void deleteRelayGroup(RelayGroupDto relayGroup, RelayGroupView relayGroupView) {
+		rpcProvider.getRelayService().deleteGroupById(relayGroup.getId(), new MethodCallback<MessageDto>() {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
 				ClientUtil.handleRpcFailure(method, exception, eventBus);
 			}
 			@Override
-			public void onSuccess(Method method, RelayGroupDto result) {
+			public void onSuccess(Method method, MessageDto result) {
 				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				showRelayGroup(result);
+				eventBus.fireEvent(new ShowMessageEvent(AdminLocale.getAdminMessages().deleteSuccess(),
+						ShowMessageEvent.SUCCESS));
+				view.getRelayGroupListPanel().remove(relayGroupView);
 			}
 		});
 	}
@@ -275,7 +238,8 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 		view.getLblId().setText("#" + dto.getId());
 		view.getLblName().setText(dto.getName());
 		view.getTextBoxName().setText(dto.getName());
-		view.getTextBoxRelayDriver().setText(BaseDto.formatNameID(dto.getDriverName(), dto.getDriverId()));
+		view.getCheckBoxLocked().setValue(entityDto.getIsLocked() == null ? false : entityDto.getIsLocked());
+		view.getTextBoxDriver().setText(BaseDto.formatNameID(dto.getDriverName(), dto.getDriverId()));
 		view.getTextBoxIndex().setText(dto.getIndex() + "");
 		if (RelayDto.SWITCH.equals(entityDto.getType())) {
 			view.getListBoxTypes().setSelectedIndex(0);
@@ -284,6 +248,13 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 			view.getListBoxTypes().setSelectedIndex(1);
 		}
 		view.getDevicesSelectionPanel().setSelectedItem(dto.getDeviceId(), dto.getDeviceName());
+
+		if (dto.izNew()) {
+			view.getBtnAddGroup().setVisible(false);
+		}
+		else {
+			view.getBtnAddGroup().setVisible(true);
+		}
 	}
 
 	public void setDeviceOptions(List<AreaDto> areaDtos) {

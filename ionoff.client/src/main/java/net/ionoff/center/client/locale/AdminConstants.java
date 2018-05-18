@@ -238,7 +238,7 @@ public interface AdminConstants extends Constants {
 	@DefaultStringValue("Port")
 	String port();
 	
-	@DefaultStringValue("Nhóm relay")
+	@DefaultStringValue("Nhóm Rơ-le")
 	String relayGroup();
 	
 	@DefaultStringValue("Thời gian (giây)")
@@ -270,4 +270,7 @@ public interface AdminConstants extends Constants {
 	
 	@DefaultStringValue("(E4: 0,1,2)")
 	String inputNote();
+	
+	@DefaultStringValue("Khóa")
+	String lock();
 }

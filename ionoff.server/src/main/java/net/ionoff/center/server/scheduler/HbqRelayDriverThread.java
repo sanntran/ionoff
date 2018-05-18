@@ -121,10 +121,10 @@ public class HbqRelayDriverThread {
 
 	private void applyStoredRelayStatusToRelayDriver(Relay relay) throws RelayDriverException, UnknownRelayDriverModelException {
 		if (relay.getStatus() == false) {
-			controlService.setRelayOff(relay);
+			controlService.switchRelayToOff(relay);
 		}
 		else if (relay.getStatus() == true) {
-			controlService.setRelayOn(relay);
+			controlService.switchRelayToOn(relay);
 		}
 	}
 

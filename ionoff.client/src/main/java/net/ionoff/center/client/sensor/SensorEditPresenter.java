@@ -1,6 +1,7 @@
 package net.ionoff.center.client.sensor;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.fusesource.restygwt.client.Method;
@@ -30,6 +31,7 @@ import net.ionoff.center.shared.dto.ModeDto;
 import net.ionoff.center.shared.dto.ModeSensorDto;
 import net.ionoff.center.shared.dto.RelayDriverDto;
 import net.ionoff.center.shared.dto.SensorDto;
+import net.ionoff.center.shared.entity.SensorType;
 
 public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 
@@ -40,12 +42,15 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		FlowPanel getPanelAddAction();
 		MaterialListBox getListBoxModes();
 		MaterialButton getBtnAddModeAction();
+		MaterialListBox getListBoxTypes();
 	}
 	
 	private final Display view;
+	private boolean isDirty;
 	private SensorDto entityDto;
 	private SensorTablePresenter sensorManager;
 	protected IRpcServiceProvider rpcProvider;
+	private final List<ModeSensorPresenter> modeSensorPresenters;
 
 	public SensorEditPresenter(IRpcServiceProvider rpcProvider, 
 			HandlerManager eventBus, Display view, SensorTablePresenter sensorManager) {
@@ -53,6 +58,7 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		this.rpcProvider = rpcProvider;
 		this.view = view;
 		this.sensorManager = sensorManager;
+		this.modeSensorPresenters = new ArrayList<>();
 	}
 
 	@Override
@@ -76,6 +82,10 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 			}
 		});
 		view.getBtnAddModeAction().addClickHandler(event -> createModeSensor());
+		
+		view.getTextBoxName().addKeyUpHandler(event -> isDirty = true);
+		view.getIntBoxInputIndex().addKeyUpHandler(event -> isDirty = true);
+		view.getListBoxGateways().addValueChangeHandler(event -> isDirty = true);
 	}
 
 	private void createModeSensor() {
@@ -121,26 +131,44 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		if (entityDto == null) {
 			return;
 		}
+		saveSensorDto();
+		saveAllModeSensors();
+	}
+
+	private void saveAllModeSensors() {
+		for (ModeSensorPresenter modeSensorPresenter : modeSensorPresenters) {
+			modeSensorPresenter.updateModeSensor(null);
+		}
+	}
+
+	private void saveSensorDto() {
+		if (!isDirty) {
+			return;
+		}
 		
 		String newName = view.getTextBoxName().getValue();
+		Long newDriverId = null;
+		String newDriverName = null;
+		int newInput = view.getIntBoxInputIndex().getValue();
+		
+		int selectedRelayDriverIndex = view.getListBoxGateways().getSelectedIndex();
+		String selectedItem = view.getListBoxGateways().getItemText(selectedRelayDriverIndex);
+		if (selectedRelayDriverIndex == 0) {
+			//
+		}
+		else {
+			newDriverId = BaseDto.parseIdFromFormattedNameID(selectedItem);
+			newDriverName = BaseDto.parseNameFromFormattedNameID(selectedItem);
+		}
+		
 		if (!validateInputStringValue(AdminLocale.getAdminConst().name(), newName)) {
 			return;
 		}
 		
 		entityDto.setName(newName);
-		
-		int selectedRelayDriverIndex = view.getListBoxGateways().getSelectedIndex();
-		String selectedItem = view.getListBoxGateways().getItemText(selectedRelayDriverIndex);
-		if (selectedRelayDriverIndex == 0) {
-			entityDto.setDriverId(null);
-			entityDto.setDriverName(null);
-		}
-		else {
-			entityDto.setDriverId(BaseDto.parseIdFromFormattedNameID(selectedItem));
-			entityDto.setDriverName(BaseDto.parseNameFromFormattedNameID(selectedItem));
-		}
-		int newInput = view.getIntBoxInputIndex().getValue();
 		entityDto.setIndex(newInput);
+		entityDto.setDriverId(newDriverId);
+		entityDto.setDriverName(newDriverName);
 		
 		rpcProvider.getSensorService().save(entityDto.getId(), entityDto, 
 				new MethodCallback<SensorDto>() {
@@ -151,6 +179,7 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 			@Override
 			public void onSuccess(Method method, SensorDto result) {
 				sensorManager.onSavedSucess(result);
+				
 			}
 		});
 	}
@@ -200,7 +229,9 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 			}
 		});
 	}
+	
 	private void showModeSensors(List<ModeSensorDto> modeSensors) {
+		modeSensorPresenters.clear();
 		view.getPanelActions().clear();
 		for (ModeSensorDto modeSensor : modeSensors) {
 			showModeSensor(modeSensor);
@@ -213,13 +244,14 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		ModeSensorPresenter modeSensorPresenter 
 					= new ModeSensorPresenter(rpcProvider, eventBus, modeSensor, modeSensorView);
 		modeSensorPresenter.go();
-
+		modeSensorPresenters.add(modeSensorPresenter);
 		modeSensorView.getBtnDelete().addClickHandler(e -> {
-			deleteModeSensor(modeSensor, modeSensorView);
+			deleteModeSensor(modeSensor, modeSensorView, modeSensorPresenter);
 		});
 	}
 
-	private void deleteModeSensor(ModeSensorDto modeSensor, final ModeSensorView modeSensorView) {
+	private void deleteModeSensor(ModeSensorDto modeSensor, final ModeSensorView modeSensorView, 
+						final ModeSensorPresenter modeSensorPresenter) {
 		rpcProvider.getModeSensorService().delete(modeSensor.getId(), new MethodCallback<MessageDto>() {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
@@ -230,6 +262,7 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 				eventBus.fireEvent(new ShowMessageEvent(AdminLocale.getAdminMessages().deleteSuccess(),
 						ShowMessageEvent.SUCCESS));
 				view.getPanelActions().remove(modeSensorView);
+				modeSensorPresenters.remove(modeSensorPresenter);
 			}
 		});
 	}
@@ -278,16 +311,19 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		view.getLblName().setText(dto.getName());
 		view.getTextBoxName().setText(dto.getName());
 		
+		view.getListBoxTypes().setEnabled(false);
 		if (dto.getDeviceId() == null) {
 			view.getListBoxGateways().setEnabled(true);
 			view.getListBoxGateways().setSelectedValue(
 					BaseDto.formatNameID(dto.getDriverName(), dto.getDriverId()));
 			view.getIntBoxInputIndex().setVisible(true);
+			view.getListBoxTypes().setSelectedValue(SensorType.DIGITAL.toString());
 		}
 		else {
 			view.getListBoxGateways().setEnabled(false);
 			view.getIntBoxInputIndex().setVisible(false);
 			view.getListBoxGateways().setSelectedIndex(0);
+			view.getListBoxTypes().setSelectedValue(SensorType.ANALOG.toString());
 		}
 		if (dto.getIndex() == null) {
 			view.getIntBoxInputIndex().setValue(0);;

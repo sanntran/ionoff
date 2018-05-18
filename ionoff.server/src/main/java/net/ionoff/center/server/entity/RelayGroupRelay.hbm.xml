@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.ionoff.center.server.entity.RelayGroupRelay" table="relaygroups_relays">
+		
+		<cache usage="read-write"/>
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+		
+		<property name="name">
+			<column name="name" />
+		</property>
+		
+		<property name="isLeader" type="java.lang.Boolean">
+			<column name="is_leader" sql-type="bit"/>
+		</property>
+		 
+        <many-to-one name="group" class="net.ionoff.center.server.entity.RelayGroup" fetch="select">
+            <column name="group_id" not-null="false" />
+        </many-to-one>
+        
+        <many-to-one name="relay" class="net.ionoff.center.server.entity.Relay" fetch="select">
+            <column name="relay_id" not-null="false" />
+        </many-to-one>
+		
+	</class>
+	
+</hibernate-mapping>

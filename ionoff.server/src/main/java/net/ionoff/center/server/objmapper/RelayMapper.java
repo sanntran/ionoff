@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.RelayGroup;
+import net.ionoff.center.server.entity.RelayGroupRelay;
 import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.RelayDto;
 import net.ionoff.center.shared.dto.RelayGroupDto;
@@ -22,6 +23,7 @@ public class RelayMapper {
 	public Relay updateRelay(Relay relay, RelayDto relayDto) {
 		relay.setName(relayDto.getName());
 		relay.setType(relayDto.getType());
+		relay.setIsLocked(relayDto.getIsLocked());
 		return relay;
 	}
 	
@@ -32,7 +34,7 @@ public class RelayMapper {
 		relayDto.setLabel(relay.getLabel());
 		relayDto.setIndex(relay.getIndex() + 1);
 		relayDto.setStatus(relay.getStatus());
-		relayDto.setIsLeader(relay.getIsLeader());
+		relayDto.setIsLocked(relay.getIsLocked());
 		relayDto.setType(relay.getType());
 		if (relay.getTime() != null) {
 			relayDto.setTime(DateTimeUtil.ddMMHHmmFormatter.format(relay.getTime()));
@@ -48,13 +50,15 @@ public class RelayMapper {
 	
 	public RelayGroupDto createRelayGroupDto(RelayGroup relayGroup) {
 		RelayGroupDto relayGroupDto = new RelayGroupDto();
+		relayGroupDto.setId(relayGroup.getId());
 		relayGroupDto.setRelays(new ArrayList<>());
-		if (relayGroup.getRelays() != null) {
-			for (Relay relay : relayGroup.getRelays()) {
+		if (relayGroup.getGroupRelays() != null) {
+			for (RelayGroupRelay groupRelay : relayGroup.getGroupRelays()) {
+				Relay relay = groupRelay.getRelay();
 				RelayDto relayDto = new RelayDto();
 				relayDto.setId(relay.getId());
 				relayDto.setName(relay.getName());
-				relayDto.setIsLeader(relay.getIsLeader());
+				relayDto.setIsLeader(groupRelay.getIsLeader());
 				if (relay.getDevice() != null) {
 					relayDto.setDeviceId(relay.getDevice().getId());
 					relayDto.setDeviceName(relay.getDevice().getName());

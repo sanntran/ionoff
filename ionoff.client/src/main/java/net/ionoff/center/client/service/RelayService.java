@@ -57,18 +57,29 @@ public interface RelayService extends EntityService<RelayDto> {
 	void closeRelay(@PathParam("relayId") Long relayId, MethodCallback<StatusDto> callback);
 	
 	@GET
-	@Path("api/relays/{relayId}/group")
-	void getRelayGroup(@PathParam("relayId") Long relayId, MethodCallback<RelayGroupDto> callback);
+	@Path("api/relays/{relayId}/groups")
+	void getRelayGroups(@PathParam("relayId") Long relayId, MethodCallback<List<RelayGroupDto>> callback);
 	
 	@POST
-	@Path("api/relays/{relayId}/group")
-	void addToRelayGroup(@PathParam("relayId") Long relayId, RelayDto relayDto, MethodCallback<RelayGroupDto> callback);
+	@Path("api/relays/{relayId}/groups")
+	void createRelayGroups(@PathParam("relayId") Long relayId, MethodCallback<RelayGroupDto> methodCallback);
 	
 	@DELETE
-	@Path("api/relays/{relayId}/group")
-	void removeFromRelayGroup(@PathParam("relayId") Long relayId, @QueryParam("relayIdToRemove") Long relayIdToRemove, MethodCallback<RelayGroupDto> callback);
+	@Path("api/relaygroups/{groupId}")
+	void deleteGroupById(@PathParam("groupId") Long groupId, MethodCallback<MessageDto> methodCallback);
+
+	@POST
+	@Path("api/relaygroups/{groupId}/relays")
+	void addToRelayGroup(@PathParam("groupId") Long groupId, RelayDto relayDto, MethodCallback<RelayGroupDto> callback);
 	
+	@DELETE
+	@Path("api/relaygroups/{groupId}/relays/{relayId}")
+	void removeFromRelayGroup(@PathParam("groupId") Long groupId, @PathParam("relayId") Long relayId,
+			MethodCallback<RelayGroupDto> callback);
+
 	@PUT
-	@Path("api/relays/{relayId}/leader")
-	void updateLeader(@PathParam("relayId") Long relayId, @QueryParam("isLeader") Boolean isLeader, MethodCallback<RelayDto> methodCallback);
+	@Path("api/relaygroups/{groupId}/relays/{relayId}/leader")
+	void updateLeader(@PathParam("groupId") Long groupId, @PathParam("relayId") Long relayId, 
+			@QueryParam("isLeader") Boolean isLeader, MethodCallback<MessageDto> methodCallback);
+
 }

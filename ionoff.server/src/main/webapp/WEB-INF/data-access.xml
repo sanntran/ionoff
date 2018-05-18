@@ -84,6 +84,10 @@
       <constructor-arg ref="sessionFactory" />    
     </bean>
     
+    <bean id="relayGroupRelayDao" class="net.ionoff.center.server.persistence.dao.impl.RelayGroupRelayDaoImpl">
+      <constructor-arg ref="sessionFactory" />    
+    </bean>
+    
     <bean id="sensorDao" class="net.ionoff.center.server.persistence.dao.impl.SensorDaoImpl">
       <constructor-arg ref="sessionFactory" />    
     </bean>

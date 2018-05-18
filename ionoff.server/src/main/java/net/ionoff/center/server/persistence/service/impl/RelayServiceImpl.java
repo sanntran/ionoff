@@ -227,11 +227,4 @@ public class RelayServiceImpl extends AbstractGenericService<Relay, RelayDto> im
 		return relayMapper.createRelayDtoList(entities);
 	}
 
-	@Override
-	public RelayDto updateRelayLeader(User user, Long relayId, Boolean isLeader) {
-		Relay relay = requireById(relayId); 
-		relay.setIsLeader(isLeader);
-		update(relay);
-		return relayMapper.createRelayDto(relay);
-	}
 }
