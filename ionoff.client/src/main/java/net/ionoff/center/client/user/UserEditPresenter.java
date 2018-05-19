@@ -21,8 +21,8 @@ import net.ionoff.center.client.service.EntityService;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
-import net.ionoff.center.shared.dto.UserGroupDto;
 import net.ionoff.center.shared.dto.UserDto;
+import net.ionoff.center.shared.dto.UserGroupDto;
 
 public class UserEditPresenter extends AbstractEditPresenter<UserDto> {
 
@@ -132,15 +132,16 @@ public class UserEditPresenter extends AbstractEditPresenter<UserDto> {
 		entityDto.setEmail(newEmail);
 		entityDto.setPhoneNo(newPhoneNo);
 		
-		int selectedGroupIndex = view.getListBoxUserGroups().getSelectedIndex();
-				
-		if (selectedGroupIndex == 2) {
-			entityDto.setGroupName(UserGroupDto.PROJECT_ADMIN);
+		if (!UserGroupDto.isSystemAdmin(entityDto.getGroupName())) {
+			int selectedGroupIndex = view.getListBoxUserGroups().getSelectedIndex();
+			
+			if (selectedGroupIndex == 1) {
+				entityDto.setGroupName(UserGroupDto.PROJECT_USER);
+			}
+			if (selectedGroupIndex == 2) {
+				entityDto.setGroupName(UserGroupDto.PROJECT_ADMIN);
+			}
 		}
-		else {
-			entityDto.setGroupName(UserGroupDto.PROJECT_USER);
-		}
-		
 		if (!AppToken.hasTokenItem(AppToken.PROJECT)) {
 			rpcProvider.getUserService().save(entityDto.getId(), entityDto, 
 					new MethodCallback<UserDto>() {
