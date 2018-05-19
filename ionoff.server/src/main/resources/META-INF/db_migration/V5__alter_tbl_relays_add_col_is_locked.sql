@@ -28,7 +28,7 @@ ADD COLUMN `is_leader` BIT NULL AFTER `name`;
 
   
  INSERT INTO `relaygroups_relays` (`id`, `name`, `is_leader`, `relay_id`, `group_id`)  
-SELECT `id`, `is_leader` , `id`, `group_id`
+SELECT `id`, null, `is_leader` , `id`, `group_id`
   FROM `relays`
  WHERE `group_id` is not null;
   
