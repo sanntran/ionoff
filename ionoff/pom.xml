@@ -16,10 +16,9 @@
 
 	<modules>
 		<module>../ionoff.shared</module>
-<!--   		<module>../ionoff.client</module> -->
+  		<module>../ionoff.client</module>
 		<module>../ionoff.server</module>
-		<!-- <module>../ionoff.updator</module> -->
-		<!-- <module>../ionoff.notify</module> -->
+		<module>../ionoff.notify</module>
 	</modules>
 
 </project>

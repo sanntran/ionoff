@@ -1,1 +1,0 @@
-UPDATE versions SET name='1.1.0', date_time='201705181020' WHERE id=1;
