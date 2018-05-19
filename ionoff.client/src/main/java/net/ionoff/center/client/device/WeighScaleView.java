@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.addins.client.window.MaterialWindow;
+import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;

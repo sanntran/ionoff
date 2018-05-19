@@ -53,6 +53,14 @@ public class LightPresenter extends DevicePresenter {
 		if (light.getStatus().getTime() != null) {
 			view.getLblTime().setText(light.getStatus().getTime());
 		}
+		
+		view.getBtnIcon().addClickHandler(new ClickHandler()  {
+			@Override
+			public void onClick(ClickEvent event) {
+				doSwitch();
+			}
+		});
+		
 		view.getBtnSwitch().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {

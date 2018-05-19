@@ -22,7 +22,7 @@
 					<m:MaterialRow marginBottom="0">
 						<m:MaterialIcon ui:field="menuIcon" addStyleNames="{style.menuIcon}" iconType="MORE_VERT" waves="LIGHT" iconSize="SMALL" float="LEFT"/>
 						<m:MaterialImage ui:field="imgIcon" url="imgs/device.png" waves="LIGHT" activates="relayDropdown" 
-							width="50" height="50" circle="true" addStyleNames="icon unknown" float="LEFT"/>
+							width="50" height="50" circle="true" addStyleNames="icon btnIcon unknown" float="LEFT"/>
 						<m:MaterialLabel ui:field="lblName" addStyleNames="name" text="-" marginTop="3" fontSize="1.2em"/>
 						<m:MaterialLabel ui:field="lblZone" addStyleNames="zone" text="-" marginTop="5" textColor="GREY_LIGHTEN_2"/>
 						<m:MaterialLabel ui:field="lblTime" addStyleNames="time" text="-" textColor="GREY_LIGHTEN_1"/>

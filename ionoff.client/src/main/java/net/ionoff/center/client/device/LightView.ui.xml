@@ -21,7 +21,9 @@
 					<m:MaterialCardContent textColor="YELLOW_LIGHTEN_5">
 						<m:MaterialRow marginBottom="0">
 							<m:MaterialIcon ui:field="menuIcon" addStyleNames="{style.menuIcon}" waves="LIGHT" iconType="MORE_VERT" iconSize="SMALL" float="LEFT"/>
-							<m:MaterialImage ui:field="imgIcon" url="imgs/light.png" width="50" height="50" circle="true" addStyleNames="icon" float="LEFT" />
+							<m:MaterialButton ui:field="btnIcon"  waves="LIGHT" type="FLAT" addStyleNames="btnIcon" float="LEFT">
+								<m:MaterialImage ui:field="imgIcon" url="imgs/light.png" width="50" height="50" circle="true" addStyleNames="icon" />
+							</m:MaterialButton>
 							<m:MaterialLabel ui:field="lblName" addStyleNames="name" text="-" marginTop="3" fontSize="1.2em"/>
 							<m:MaterialLabel ui:field="lblZone" addStyleNames="zone" text="-" marginTop="5" textColor="GREY_LIGHTEN_2"/>
 							<m:MaterialLabel ui:field="lblTime" addStyleNames="time" text="-" textColor="GREY_LIGHTEN_1"/>

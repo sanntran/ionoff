@@ -787,11 +787,19 @@ textarea.materialize-textarea[readonly="readonly"] {
 
 .main .content .devices .device .icon,
 .main .content .dashboard .device .icon {
+	
+}
+
+.main .content .devices .device .btnIcon,
+.main .content .dashboard .device .btnIcon {
 	cursor: pointer;
     position: absolute;
     bottom: 10px;
     left: 8px;
     opacity: 0.75;
+    height: 50px;
+    width: 50px;
+    padding: 0px;
 }
 
 .main .content .devices .device .icon.off,

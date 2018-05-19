@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
@@ -26,6 +27,8 @@ public class LightView extends Composite implements IDeviceView {
 	
 	@UiField
 	HTMLPanel root;
+	@UiField
+	MaterialButton btnIcon;
 	@UiField 
 	MaterialImage imgIcon;
 	@UiField 
@@ -59,6 +62,10 @@ public class LightView extends Composite implements IDeviceView {
 		return root;
 	}
 
+	public MaterialButton getBtnIcon() {
+		return btnIcon;
+	}
+	
 	@Override
 	public MaterialImage getImgIcon() {
 		return imgIcon;

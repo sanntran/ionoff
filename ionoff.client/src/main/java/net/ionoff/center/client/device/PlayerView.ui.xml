@@ -60,7 +60,7 @@
 							<m:MaterialPanel addStyleNames="{style.sliderWrapper}">
 								<m:MaterialLabel ui:field="lblPlayed" addStyleNames="{style.sliderPlayed}" backgroundColor="PINK_ACCENT_4"/>
 							</m:MaterialPanel>
-							<m:MaterialImage ui:field="imgIcon" addStyleNames="icon {style.icon}" url="imgs/player.png" width="50" height="50" circle="true" float="LEFT"/>
+							<m:MaterialImage ui:field="imgIcon" addStyleNames="icon {style.icon} btnIcon" url="imgs/player.png" width="50" height="50" circle="true" float="LEFT"/>
 							<m:MaterialLabel ui:field="lblTime" addStyleNames="time" text="" textColor="GREY_LIGHTEN_1" float="LEFT"/>
 						</m:MaterialRow>
 					</m:MaterialCardContent>
