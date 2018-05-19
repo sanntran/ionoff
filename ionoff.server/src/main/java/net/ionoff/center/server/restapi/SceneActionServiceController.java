@@ -3,7 +3,6 @@ package net.ionoff.center.server.restapi;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,9 +29,7 @@ public class SceneActionServiceController {
 	public List<SceneActionDto> findBySceneDevice(
 			@RequestParam("sceneDeviceId") long sceneDeviceId) {
 		User user = RequestContextHolder.getUser();
-		if (!user.hasAdminRole()) {
-			throw new AccessDeniedException("Access denied");
-		}
+		RequestContextHolder.checkAdminPermission(user);
 		List<SceneActionDto> sceneActionDtos = sceneActionService.findDtoBySceneDeviceId(sceneDeviceId);
 		return sceneActionDtos;
 	}

@@ -40,6 +40,7 @@ public class ZoneServiceController {
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
+		RequestContextHolder.checkProjectPermission(user, criteriaDto.getProjectId());
 		return zoneService.countByCriteria(criteriaDto);
 	}
 	
@@ -50,6 +51,7 @@ public class ZoneServiceController {
 	public List<ZoneDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
+		RequestContextHolder.checkProjectPermission(user, criteriaDto.getProjectId());
 		List<ZoneDto> zoneDtos = zoneService.searchByCriteria(criteriaDto);
 		return zoneDtos;
 	}

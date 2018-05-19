@@ -38,7 +38,9 @@ public class ScheduleServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
-		RequestContextHolder.checkProjectPermission(RequestContextHolder.getUser(), criteriaDto.getProjectId());
+		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
+		RequestContextHolder.checkProjectPermission(user, criteriaDto.getProjectId());
 		return scheduleService.countByCriteria(criteriaDto);
 	}
 	
@@ -47,7 +49,9 @@ public class ScheduleServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public List<ScheduleDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
-		RequestContextHolder.checkProjectPermission(RequestContextHolder.getUser(), criteriaDto.getProjectId());
+		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
+		RequestContextHolder.checkProjectPermission(user, criteriaDto.getProjectId());		
 		List<ScheduleDto> scheduleDtos = scheduleService.searchByCriteria(criteriaDto);
 		return scheduleDtos;
 	}
@@ -63,7 +67,7 @@ public class ScheduleServiceController {
 			throw new ChangeEntityIdException(scheduleDto.toString());
 		}
 		User user = RequestContextHolder.getUser();
-		RequestContextHolder.checkProjectPermission(user, scheduleDto.getProjectId());
+		RequestContextHolder.checkAdminPermission(user);
 		
 		if (scheduleDto.izNew()) {
 			logger.info("User " + user.getName() + " inserts schedule: " + scheduleDto.toString());
@@ -84,7 +88,7 @@ public class ScheduleServiceController {
 		
 		User user = RequestContextHolder.getUser();
 		ScheduleDto scheduleDto = scheduleService.requireDtoById(scheduleId);
-		RequestContextHolder.checkProjectPermission(user, scheduleDto.getProjectId());
+		RequestContextHolder.checkAdminPermission(user);
 		
 		logger.info("User " + user.getName() + " delete schedule: " + scheduleDto.toString());
 		scheduleService.deleteDtoById(user, scheduleId);

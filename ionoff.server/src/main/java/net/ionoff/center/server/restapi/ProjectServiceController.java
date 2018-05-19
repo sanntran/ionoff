@@ -51,8 +51,8 @@ public class ProjectServiceController {
 			@RequestBody QueryCriteriaDto criteriaDto,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, criteriaDto.getProjectId());
-		
 		return projectService.countByCriteria(criteriaDto);
 	}
 	
@@ -63,8 +63,8 @@ public class ProjectServiceController {
 	public List<ProjectDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, criteriaDto.getProjectId());
-		
 		return projectService.searchByCriteria(criteriaDto);
 	}
 	
@@ -76,6 +76,7 @@ public class ProjectServiceController {
 			@RequestBody ProjectDto projectDto, HttpServletRequest request) {
 
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, null);
 		
 		if (!projectId.equals(projectDto.getId()) && !projectDto.izNew()) {
@@ -100,6 +101,7 @@ public class ProjectServiceController {
 			HttpServletRequest request) throws DeleteEntityException {
 
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, null);
 		
 		logger.info("User " + user.getName() + " delete project: Project ID: " + projectId);

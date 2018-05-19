@@ -38,7 +38,6 @@ public class SensorServiceController {
 	@ResponseBody
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
-		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, criteriaDto.getProjectId());
 		return sensorService.countByCriteria(criteriaDto);
 	}
@@ -49,7 +48,6 @@ public class SensorServiceController {
 	@ResponseBody
 	public List<SensorDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
-		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, criteriaDto.getProjectId());
 		List<SensorDto> sensorDtoDtos = sensorService.searchByCriteria(criteriaDto);
 		return sensorDtoDtos;

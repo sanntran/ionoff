@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.exception.ChangeEntityIdException;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.persistence.service.IScheduleActionService;
@@ -33,7 +34,8 @@ public class SchedulePlayerActionServiceController {
 	public SchedulePlayerActionDto update(@PathVariable("schedulePlayerActionId") Long schedulePlayerActionId,
 			@RequestBody SchedulePlayerActionDto schedulePlayerActionDto,
 			HttpServletRequest request) throws UpdateEntityException {
-
+		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		if (!schedulePlayerActionId.equals(schedulePlayerActionDto.getId()) && !schedulePlayerActionDto.izNew()) {
 			throw new ChangeEntityIdException(schedulePlayerActionDto.toString());
 		}

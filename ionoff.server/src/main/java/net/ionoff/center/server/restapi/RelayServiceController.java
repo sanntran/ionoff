@@ -7,7 +7,6 @@ import javax.ws.rs.QueryParam;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,9 +49,7 @@ public class RelayServiceController {
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criretiaDto,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
-		if (!user.hasAdminRole()) {
-			throw new AccessDeniedException("Access denied");
-		}
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, criretiaDto.getProjectId());
 		return relayService.countByCriteria(criretiaDto);
 	}
@@ -65,9 +62,7 @@ public class RelayServiceController {
 			HttpServletRequest request) {
 
 		User user = RequestContextHolder.getUser();
-		if (!user.hasAdminRole()) {
-			throw new AccessDeniedException("Access denied");
-		}
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, criretiaDto.getProjectId());
 		return relayService.searchByCriteria(criretiaDto);
 	}
@@ -81,9 +76,7 @@ public class RelayServiceController {
 			@RequestBody RelayDto relayDto, HttpServletRequest request) throws UpdateEntityException {
 
 		User user = RequestContextHolder.getUser();
-		if (!user.hasAdminRole()) {
-			throw new AccessDeniedException("Access denied");
-		}
+		RequestContextHolder.checkAdminPermission(user);
 		if (!relayId.equals(relayDto.getId()) && !relayDto.izNew()) {
 			throw new ChangeEntityIdException(relayDto.toString());
 		}
@@ -138,9 +131,7 @@ public class RelayServiceController {
 	public List<RelayGroupDto> getRelayGroups(@PathVariable("relayId") Long relayId, 
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
-		if (!user.hasAdminRole()) {
-			throw new AccessDeniedException("Access denied");
-		}
+		RequestContextHolder.checkAdminPermission(user);
 		return relayGroupService.findByRelayId(relayId);
 	}
 
@@ -150,9 +141,7 @@ public class RelayServiceController {
 	@ResponseBody
 	public RelayGroupDto createRelayGroup(@PathVariable("relayId") Long relayId, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
-		if (!user.hasAdminRole()) {
-			throw new AccessDeniedException("Access denied");
-		}
+		RequestContextHolder.checkAdminPermission(user);
 		logger.info("User " + user.getName() + " create relay group. Relay id: " + relayId);
 		return relayGroupService.createRelayGroup(user, relayId);
 	}
@@ -163,9 +152,7 @@ public class RelayServiceController {
 	@ResponseBody
 	public MessageDto deleteRelayGroup(@PathVariable("groupId") Long groupId, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
-		if (!user.hasAdminRole()) {
-			throw new AccessDeniedException("Access denied");
-		}
+		RequestContextHolder.checkAdminPermission(user);
 		logger.info("User " + user.getName() + " delete relay-group. Relay-group id: " + groupId);
 		relayGroupService.deleteDtoById(user, groupId);
 		return MessageDto.success(groupId);
@@ -177,11 +164,8 @@ public class RelayServiceController {
 	@ResponseBody
 	public RelayGroupDto addRelayToGroup(@PathVariable("groupId") Long groupId, 
 			@RequestBody RelayDto relayDto, HttpServletRequest request) {
-		
 		User user = RequestContextHolder.getUser();
-		if (!user.hasAdminRole()) {
-			throw new AccessDeniedException("Access denied");
-		}
+		RequestContextHolder.checkAdminPermission(user);
 		return relayGroupService.addRelayToGroup(groupId, relayDto);
 	}
 	
@@ -192,9 +176,7 @@ public class RelayServiceController {
 	public RelayGroupDto removeRelayFromGroup(@PathVariable("groupId") Long groupId,
 			@PathVariable("relayId") Long relayId, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
-		if (!user.hasAdminRole()) {
-			throw new AccessDeniedException("Access denied");
-		}
+		RequestContextHolder.checkAdminPermission(user);
 		return relayGroupService.removeRelayFromGroup(groupId, relayId);
 	}
 	
@@ -206,9 +188,7 @@ public class RelayServiceController {
 			@QueryParam("isLeader") Boolean isLeader, HttpServletRequest request) throws UpdateEntityException {
 
 		User user = RequestContextHolder.getUser();
-		if (!user.hasAdminRole()) {
-			throw new AccessDeniedException("Access denied");
-		}
+		RequestContextHolder.checkAdminPermission(user);
 		logger.info("User " + user.getName() + " update relay leader. Relay id: " + relayId + ", isLeader: " + isLeader);
 		relayGroupService.updateRelayLeader(user, groupId, relayId, isLeader);
 		return MessageDto.success("Update successful");

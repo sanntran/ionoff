@@ -65,6 +65,7 @@ public class SceneServiceController {
 			@RequestBody SceneDto sceneDto, HttpServletRequest request) {
 		
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkZonePermission(user, sceneDto.getZoneId());
 		if (!sceneId.equals(sceneDto.getId()) && !sceneDto.izNew()) {
 			throw new ChangeEntityIdException(sceneDto.toString());
@@ -86,6 +87,7 @@ public class SceneServiceController {
 	public MessageDto delete(@PathVariable("sceneId") Long sceneId,
 			HttpServletRequest request) throws DeleteEntityException {
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		logger.info("User " + user.getName() + " delete scene. ID: " + sceneId);
 		sceneService.deleteDtoById(user, sceneId);
 		return MessageDto.success(sceneId);

@@ -36,7 +36,7 @@ public class ModeSensorUserServiceController {
 			HttpServletRequest request) {
 			
 		final User user = RequestContextHolder.getUser();
-		
+		RequestContextHolder.checkAdminPermission(user);
 		logger.info("User " + user.getName() + " update mode-sensor-user. Id: "
 				+ modeSensorUserDto.getId() + ". Send sms: "
 				+ modeSensorUserDto.getSendSms() + ". Send email " + modeSensorUserDto.getSendEmail());

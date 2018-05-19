@@ -45,6 +45,7 @@ public class ModeServiceController {
 			HttpServletRequest request) {
 
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, criteria.getProjectId());
 		
 		return modeService.countByCriteria(criteria);
@@ -58,6 +59,7 @@ public class ModeServiceController {
 			HttpServletRequest request) {
 		
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, criteria.getProjectId());
 		final List<ModeDto> modeDtos = modeService.searchByCriteria(criteria);
 		return modeDtos;
@@ -74,6 +76,7 @@ public class ModeServiceController {
 			throw new ChangeEntityIdException(modeDto.toString());
 		}
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, modeDto.getProjectId());
 
 		if (modeDto.izNew()) {
@@ -93,8 +96,9 @@ public class ModeServiceController {
 	public MessageDto delete(@PathVariable("modeId") Long modeId,
 			HttpServletRequest request) throws DeleteEntityException {
 
-		ModeDto modeDto = modeService.requireDtoById(modeId);
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
+		ModeDto modeDto = modeService.requireDtoById(modeId);
 		RequestContextHolder.checkProjectPermission(user, modeDto.getProjectId());
 
 		logger.info("User " + user.getName() + " delete mode: " + modeDto.toString());
@@ -121,6 +125,7 @@ public class ModeServiceController {
 	public ModeDto getActivatedMode(@RequestParam("projectId") Long projectId,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, projectId);
 		return modeService.findActivatedDtoByProjectId(projectId);
 	}
@@ -131,6 +136,8 @@ public class ModeServiceController {
 	@ResponseBody
 	public MessageDto activateMode(@PathVariable("modeId") Long modeId,
 			HttpServletRequest request) {
+		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		Mode mode = modeService.findById(modeId);
 		controlService.activateMode(mode);
 		return MessageDto.success(true);

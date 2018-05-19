@@ -53,6 +53,7 @@ public class DeviceServiceController {
 	public List<DeviceDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, criteriaDto.getProjectId());
 		final List<DeviceDto> devices = deviceService.searchByCriteria(criteriaDto);
 		return devices;
@@ -65,6 +66,7 @@ public class DeviceServiceController {
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, criteriaDto.getProjectId());
 		return deviceService.countByCriteria(criteriaDto);
 	}
@@ -89,13 +91,12 @@ public class DeviceServiceController {
 	@ResponseBody
 	public DeviceDto insertOrUpdate(@PathVariable("deviceId") Long deviceId,
 			@RequestBody DeviceDto deviceDto, HttpServletRequest request) throws UpdateEntityException {
-		
+		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
+		RequestContextHolder.checkZonePermission(user, deviceDto.getZoneId());
 		if (!deviceId.equals(deviceDto.getId()) && !deviceDto.izNew()) {
 			throw new ChangeEntityIdException(deviceDto.toString());
 		}
-		
-		User user = RequestContextHolder.getUser();
-		RequestContextHolder.checkZonePermission(user, deviceDto.getZoneId());
 		
 		if (deviceDto.izNew()) {
 			logger.info("User " + user.getName() + " inserts device: " + deviceDto.toString());
@@ -115,6 +116,7 @@ public class DeviceServiceController {
 			HttpServletRequest request) throws DeleteEntityException {
 
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		DeviceDto deviceDto = deviceService.requireDtoById(deviceId);
 		RequestContextHolder.checkZonePermission(user, deviceDto.getZoneId());
 		logger.info("User " + user.getName() + " deletes device: " + deviceDto.toString());

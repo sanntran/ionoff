@@ -40,7 +40,8 @@ public class ScenePlayerActionServiceController {
 		}
 		
 		User user = RequestContextHolder.getUser();
-		
+		RequestContextHolder.checkAdminPermission(user);
+
 		logger.info("User " + user.getName() + " update scene-player-action. Id: "
 				+ scenePlayerActionDto.getId() + " Action: " + scenePlayerActionDto.getAction());
 

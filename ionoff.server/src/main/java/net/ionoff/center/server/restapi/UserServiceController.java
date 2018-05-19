@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -97,7 +96,7 @@ public class UserServiceController {
 			@RequestBody UserDto userDto, HttpServletRequest request) throws Exception {
 
 		User user = RequestContextHolder.getUser();
-		RequestContextHolder.checkProjectPermission(user, projectId);
+		RequestContextHolder.checkAdminPermission(user);
 
 		if (!userId.equals(userDto.getId()) && !userDto.izNew()) {
 			throw new ChangeEntityIdException(userDto.toString());
@@ -121,7 +120,7 @@ public class UserServiceController {
 			@RequestBody UserDto userDto, HttpServletRequest request) throws Exception {
 
 		User user = RequestContextHolder.getUser();
-		RequestContextHolder.checkProjectPermission(user, null);
+		RequestContextHolder.checkAdminPermission(user);
 
 		if (!userId.equals(userDto.getId()) && !userDto.izNew()) {
 			throw new ChangeEntityIdException(userDto.toString());
@@ -145,9 +144,8 @@ public class UserServiceController {
 			HttpServletRequest request) {
 
 		User user = RequestContextHolder.getUser();
-		if (!user.hasAdminRole()) {
-			throw new AccessDeniedException("Access denied. (User: " + user.getName() + " is not admin)");
-		}
+		RequestContextHolder.checkAdminPermission(user);
+		
 		logger.info("User " + user.getName() + " delete user. ID: " + userId);
 		userService.deleteDtoById(user, userId);
 		return MessageDto.success(userId);
@@ -162,19 +160,19 @@ public class UserServiceController {
 			HttpServletRequest request) {
 
 		User user = RequestContextHolder.getUser();
-		RequestContextHolder.checkProjectPermission(user, projectId);
+		RequestContextHolder.checkAdminPermission(user);
 		
 		logger.info("User " + user.getName() + " delete user. ID: " + userId);
 		userService.deleteDtoById(user, userId, projectId);
 		return MessageDto.success(userId);
 	}
 
-	
 	@RequestMapping(value = "projects/{projectId}/users",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public List<UserDto> findByProjectId(@PathVariable("projectId") Long projectId) {
+		RequestContextHolder.checkProjectPermission(RequestContextHolder.getUser(), projectId);
 		final List<UserDto> userDtos = userService.findDtoByProjectId(projectId);
 		return userDtos;
 	}
@@ -210,7 +208,7 @@ public class UserServiceController {
 
 		User user = RequestContextHolder.getUser();
 		if (!User.LORD.equals(user.getName())) {
-			RequestContextHolder.checkProjectPermission(user, userProjectDto.getProjectId());
+			RequestContextHolder.checkAdminPermission(user);
 		}
 		if (!userProjectId.equals(userProjectDto.getId()) && !userProjectDto.izNew()) {
 			throw new ChangeEntityIdException(userProjectDto.toString());
@@ -240,7 +238,7 @@ public class UserServiceController {
 			@RequestBody UserZoneDto userZoneDto, HttpServletRequest request) {
 		
 		User user = RequestContextHolder.getUser();
-		RequestContextHolder.checkProjectPermission(user, userZoneDto.getProjectId());
+		RequestContextHolder.checkAdminPermission(user);
 		
 		logger.info("User " + user.getName()  + " update user-zone: "
 				+ userZoneDto.toString() + ", Role: " + userZoneDto.getRole());
@@ -256,7 +254,7 @@ public class UserServiceController {
 			@RequestBody UserDeviceDto userDeviceDto, HttpServletRequest request) {
 		
 		User user = RequestContextHolder.getUser();
-		RequestContextHolder.checkProjectPermission(user, userDeviceDto.getProjectId());
+		RequestContextHolder.checkAdminPermission(user);
 		
 		logger.info("User " + user.getName()  + " update user-device: "
 				+ userDeviceDto.toString() + ", Role: " + userDeviceDto.getRole());
@@ -272,7 +270,7 @@ public class UserServiceController {
 			@RequestBody UserSceneDto userSceneDto, HttpServletRequest request) {
 		
 		User user = RequestContextHolder.getUser();
-		RequestContextHolder.checkProjectPermission(user, userSceneDto.getProjectId());
+		RequestContextHolder.checkAdminPermission(user);
 		
 		logger.info("User " + user.getName()  + " update user-scene: "
 				+ userSceneDto.toString() + ", Role: " + userSceneDto.getRole());
@@ -287,9 +285,9 @@ public class UserServiceController {
 	public List<UserZoneDto> getUserZonesByProject(
 			@RequestParam("userId") Long userId,
 			@RequestParam("projectId") Long projectId) {
-		
+
 		User user = RequestContextHolder.getUser();
-		RequestContextHolder.checkProjectPermission(user, projectId);
+		RequestContextHolder.checkAdminPermission(user);
 		
 		return userZoneService.findDtoByUserProject(userId, projectId);
 	}
@@ -299,9 +297,9 @@ public class UserServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public List<UserProjectDto> getUserProjectsByUser(@RequestParam("userId") Long userId) {
-		
+
 		User user = RequestContextHolder.getUser();
-		RequestContextHolder.checkProjectPermission(user, null);
+		RequestContextHolder.checkAdminPermission(user);
 		
 		return userProjectService.findDtoByUserId(userId);
 	}

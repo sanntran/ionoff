@@ -40,12 +40,12 @@ public class RelayDriverServiceController {
 	public RelayDriverDto insertOrUpdate(@PathVariable("relayDriverId") Long relayDriverId, 
 			@RequestBody RelayDriverDto relayDriverDto,
 			HttpServletRequest request) throws UpdateEntityException {
-		
+		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
+		RequestContextHolder.checkProjectPermission(user, relayDriverDto.getProjectId());
 		if (!relayDriverId.equals(relayDriverDto.getId()) && !relayDriverDto.izNew()) {
 			throw new ChangeEntityIdException(relayDriverDto.toString());
 		}
-		User user = RequestContextHolder.getUser();
-		RequestContextHolder.checkProjectPermission(user, relayDriverDto.getProjectId());
 		if (relayDriverDto.izNew()) {
 			logger.info("User " + user.getName() + " inserts relayDriver: " + relayDriverDto.toString());
 			return relayDriverService.insertDto(user, relayDriverDto);
@@ -59,8 +59,8 @@ public class RelayDriverServiceController {
 	@ResponseBody
 	public MessageDto delete(@PathVariable("relayDriverId") Long relayDriverId, HttpServletRequest request)
 			throws DeleteEntityException {
-
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RelayDriverDto relayDriverDto = relayDriverService.requireDtoById(relayDriverId);
 		RequestContextHolder.checkProjectPermission(user, relayDriverDto.getProjectId());
 		logger.info("User " + user.getName() + " delete relayDriver. RelayDriver: " + relayDriverDto.toString());
@@ -82,6 +82,8 @@ public class RelayDriverServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
+		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(RequestContextHolder.getUser(), criteriaDto.getProjectId());
 		return relayDriverService.countByCriteria(criteriaDto);
 	}
@@ -91,6 +93,8 @@ public class RelayDriverServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public List<RelayDriverDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
+		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(RequestContextHolder.getUser(), criteriaDto.getProjectId());
 		List<RelayDriverDto> relayDrivers = relayDriverService.searchByCriteria(criteriaDto);
 		return relayDrivers;

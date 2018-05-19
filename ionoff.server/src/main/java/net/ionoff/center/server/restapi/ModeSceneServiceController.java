@@ -39,6 +39,7 @@ public class ModeSceneServiceController {
 			@RequestBody ModeSceneDto modeSceneDto,
 			HttpServletRequest request) {
 		final User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkZonePermission(user, modeSceneDto.getZoneId());
 		
 		logger.info("User " + user.getName() + " update mode scene" + modeSceneDto.toString()); 

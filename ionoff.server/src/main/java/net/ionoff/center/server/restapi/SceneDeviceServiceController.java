@@ -7,7 +7,6 @@ import javax.ws.rs.BadRequestException;
 import javax.ws.rs.QueryParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +34,7 @@ public class SceneDeviceServiceController {
 			@QueryParam("sceneId") Long sceneId,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
-		if (!user.hasAdminRole()) {
-			throw new AccessDeniedException("Access denied");
-		}
+		RequestContextHolder.checkAdminPermission(user);
 		List<SceneDeviceDto> sceneDeviceDtos = sceneDeviceService.findDtoBySceneId(sceneId);
 		return sceneDeviceDtos;
 	}
@@ -50,11 +47,9 @@ public class SceneDeviceServiceController {
 			@RequestBody SceneDeviceDto sceneDeviceDto, HttpServletRequest request) {
 		
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		if (!sceneDeviceId.equals(sceneDeviceDto.getId())) {
 			throw new BadRequestException("Id is not match");
-		}
-		if (!user.hasAdminRole()) {
-			throw new AccessDeniedException("Access denied");
 		}
 		return sceneDeviceService.updateDto(user, sceneDeviceDto);
 	}

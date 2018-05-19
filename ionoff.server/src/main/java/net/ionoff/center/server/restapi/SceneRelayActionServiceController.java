@@ -40,6 +40,7 @@ public class SceneRelayActionServiceController {
 		}
 		
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		
 		logger.info("User " + user.getName() + " update scene-relay-action. Id: "
 				+ sceneRelayActionDto.getId() + " Action: " + sceneRelayActionDto.getAction());

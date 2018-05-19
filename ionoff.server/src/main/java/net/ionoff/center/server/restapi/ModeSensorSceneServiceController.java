@@ -36,7 +36,7 @@ public class ModeSensorSceneServiceController {
 			HttpServletRequest request) {
 
 		User user = RequestContextHolder.getUser();
-		
+		RequestContextHolder.checkAdminPermission(user);
 		logger.info("User " + user.getName() + " update mode-sensor-scene. Id: "
 				+ modeSensorSceneDto.getId() + " scene: " + modeSensorSceneDto.getSceneName()); 
 		

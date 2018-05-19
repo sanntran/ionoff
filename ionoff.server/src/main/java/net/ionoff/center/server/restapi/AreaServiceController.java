@@ -38,6 +38,7 @@ public class AreaServiceController {
 	@ResponseBody
 	public AreaDto insert(@RequestBody AreaDto areaDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, areaDto.getProjectId());
 		logger.info("User " + user.getName() + " inserts new area. " + areaDto.toString());
 		return areaService.insertDto(user, areaDto);
@@ -52,7 +53,9 @@ public class AreaServiceController {
 		if (!areaId.equals(areaDto.getId()) && !areaDto.izNew()) {
 			throw new ChangeEntityIdException(areaDto.toString());
 		}
+		
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, areaDto.getProjectId());
 		if (areaDto.izNew()) {
 			logger.info("User " + user.getName() + " inserts new area. " + areaDto.toString());
@@ -71,6 +74,7 @@ public class AreaServiceController {
 	public MessageDto delete(@PathVariable("areaId") Long areaId, 
 			HttpServletRequest request) throws DeleteEntityException {
 		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkAreaPermission(user, areaId);
 		logger.info("User " + user.getName() + " deletes area. Area ID: " + areaId);
 		areaService.deleteDtoById(user, areaId);
@@ -97,7 +101,9 @@ public class AreaServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
-		RequestContextHolder.checkProjectPermission(RequestContextHolder.getUser(), criteriaDto.getProjectId());
+		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
+		RequestContextHolder.checkProjectPermission(user, criteriaDto.getProjectId());
 		return areaService.countByCriteria(criteriaDto);
 	}
 	
@@ -106,7 +112,9 @@ public class AreaServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public List<AreaDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
-		RequestContextHolder.checkProjectPermission(RequestContextHolder.getUser(), criteriaDto.getProjectId());
+		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkAdminPermission(user);
+		RequestContextHolder.checkProjectPermission(user, criteriaDto.getProjectId());
 		List<AreaDto> areas = areaService.searchByCriteria(criteriaDto);
 		return areas;
 	}
