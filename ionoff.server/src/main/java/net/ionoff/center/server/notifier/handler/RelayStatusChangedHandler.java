@@ -23,28 +23,34 @@ public class RelayStatusChangedHandler {
 		if (relay == null || relay.getGroupRelays() == null || relay.getGroupRelays().isEmpty()) {
 			return;
 		}
-		
+
 		logger.info("Relay " + relay.getSId() + " status changed. Synchronizing relay group state");
-		
+
 		for (RelayGroup relayGroup : relay.getGroups()) {
 			List<RelayGroupRelay> groupRelays = relayGroup.getGroupRelays();
+			if (groupRelays == null || groupRelays.isEmpty()) {
+				break;
+			}
+
+			boolean groupHasLeader = false;
+			boolean isLeaderOfGroup = false;
+
 			if (relayGroup.hasLeader()) {
-				boolean isLeader = false;
+				groupHasLeader = true;
 				for (RelayGroupRelay groupRelay : groupRelays) {
 					if (groupRelay.getRelay().getId() == relay.getId() && Boolean.TRUE.equals(groupRelay.getIsLeader())) {
-						isLeader = true;
+						isLeaderOfGroup = true;
 						break;
 					}
 				}
-				if (!isLeader) {
-					break;
-				}
 			}
-			
-			for (RelayGroupRelay groupRelay : groupRelays) {
-				Relay r = groupRelay.getRelay();
-				if (r.getId() != relay.getId()) {
-					controlService.setRelayState(r, relay.getStatus());
+
+			if (!groupHasLeader || isLeaderOfGroup) {
+				for (RelayGroupRelay groupRelay : groupRelays) {
+					Relay r = groupRelay.getRelay();
+					if (r.getId() != relay.getId()) {
+						controlService.setRelayState(r, relay.getStatus());
+					}
 				}
 			}
 		}
