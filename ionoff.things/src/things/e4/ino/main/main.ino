@@ -36,6 +36,8 @@ const byte SWITCH = 1;
 const byte BUTTON = 2;
 const boolean USE_SERIAL = true;
 
+const int TIMER_T = 20;
+
 const int ST_RESET = 1;
 const int ST_STATUS = 2;
 const int ST_CHANGED = 3;
@@ -51,7 +53,7 @@ const byte SERVER_CONNECTED = 8;
 
 const int TCP_PORT = 1883;
 const char TCP_SERVER[HOST_LENGTH] = "mqtt.ionoff.net";
-const char SERIAL_NO[ID_LENGTH] = "E411180101000000";
+const char SERIAL_ID[ID_LENGTH] = "E312180601";
 
 const int WIFI_LENGTH = 31;
 const char WIFI_ID[WIFI_LENGTH] = "IOnOffNet";
@@ -59,30 +61,30 @@ const char WIFI_PASS[WIFI_LENGTH] = "I0n0ffNet";
 
 int stType;
 byte espMode;
-byte espState;
 byte connState;
 
 boolean firstMsg;
-byte inputTypes[4];
+byte inputTypes[3];
 char tcpServer[HOST_LENGTH];
 
 char wifiId[WIFI_LENGTH];
 char wifiPass[WIFI_LENGTH];
 char serialStr[ID_LENGTH];
 
-char ioStatus[10];  // 1111,1111
-char stMessage[42]; // id=E410180101000000&code=status&io=1111,1111
-                    // id=E410180101000000&code=hello&io=1111,1111
-                    // id=E410180101000000&code=changed&io=1111,1111
-                    // id=E410180101000000&code=reset&io=1111,1111
-char ioMessage[42]; // id=E410180101000000&code=respio&io=1111,1111
-char cfMessage[255]; // id=E410180101000000&code=respcf&cf=E410180101000000,tcp.ionoff.net,2211,IOnOffNet,I0n0ffNet
+char ioStatus[8];  // 111,111
+char stMessage[40]; // id=E410180101000000&code=status&io=111,111
+                    // id=E410180101000000&code=hello&io=111,111
+                    // id=E410180101000000&code=changed&io=111,111
+                    // id=E410180101000000&code=reset&io=111,111
+char ioMessage[42]; // id=E410180101000000&code=respio&io=111,111
+char cfMessage[255]; // id=E410180101000000&code=respcf&cf=E410180101000000,tcp.ionoff.net,221,IOnOffNet,I0n0ffNet
 
-byte inputStates[] = {HIGH, HIGH, HIGH, HIGH};
-byte newInputStates[] = {HIGH, HIGH, HIGH, HIGH};
-boolean inputChanges[] = {false, false, false, false};
-long inputChangesTime[] = {0, 0, 0, 0};
-boolean controlDecisions[] = {false, false, false, false};
+long outputLocks[] = {0, 0, 0};
+byte inputStates[] = {HIGH, HIGH, HIGH};
+byte newInputStates[] = {HIGH, HIGH, HIGH};
+boolean inputChanges[] = {false, false, false};
+long inputChangesTime[] = {0, 0, 0};
+boolean controlDecisions[] = {false, false, false};
 unsigned long espModeLedSignal = 0;
 
 int wifiConn;
@@ -99,8 +101,33 @@ extern "C" {
 
 os_timer_t timer;
 
+void checkReleaseLocks() {
+  for (int i = 0; i < 3; i++) {
+    if (outputLocks[i] > 0) {
+      outputLocks[i] = outputLocks[i] - TIMER_T;
+      if (outputLocks[i] < 0) {
+        outputLocks[i] = 0;
+      }
+      if (outputLocks[i] == 0) {
+        if (i == 0) {
+          digitalWrite(OUT_1, !digitalRead(OUT_1));
+        }
+        else if (i == 1) {
+          digitalWrite(OUT_2, !digitalRead(OUT_2));
+        }
+        else if (i == 2) {
+          digitalWrite(OUT_3, !digitalRead(OUT_3));
+        }
+        writeOutputStateToEepRom();
+      }
+    }
+  }
+}
+
 void timerCallback(void *pArg) {
-  checkInputChange();  
+  checkInputChange();
+  checkReleaseLocks();
+  
   if (espMode == MODE_AP) {    
      if (espModeLedSignal >= 100) {
         espModeLedSignal = 0;
@@ -138,7 +165,7 @@ void timerCallback(void *pArg) {
 
 void user_init(void) {
   os_timer_setfn(&timer, timerCallback, NULL);
-  os_timer_arm(&timer, 20, true);
+  os_timer_arm(&timer, TIMER_T, true);
 } // End of user_init
 
 void setup() {
@@ -174,7 +201,7 @@ void setup() {
     delay(250);
     digitalWrite(ESP_LED, HIGH);
   }   
-
+  
   unsigned int adcValue = analogRead(IN_ADC);
   if (adcValue < 64 && espMode == MODE_AP) {
     // Mode AP is confirmed
@@ -183,37 +210,33 @@ void setup() {
   else {
     espMode = MODE_STA;
   }
-
-  delay(250);
-
-  firstMsg = true;
-  espState = EEPROM.read(0);
   
-  if (USE_SERIAL) {
-    char espStateStr [4];
-    Serial.print("\nESP state: ");
-    sprintf(espStateStr, "%d", espState);
-    Serial.println(espStateStr);
-  }
-
-  if (espState != ESP_READY) { //
-    if (USE_SERIAL) {
-      Serial.println("Write default EEP ROM...");
+  espMode = MODE_STA;
+  delay(250);
+  firstMsg = true;  
+  loadSnFromEEPRom();
+  if (checkSerialStr() == false) {
+    delay(200);
+    loadSnFromEEPRom();
+    if (checkSerialStr() == false) {
+      delay(200);
+      loadSnFromEEPRom();
+      if (checkSerialStr() == false) {
+        if (USE_SERIAL) {
+          Serial.println("Write default EEP ROM...");
+        }
+        resetSerial();
+        resetConfig();
+        writeSerialToEepRom();
+        writeConfigToEepRom(); 
+        writeOutputStateToEepRom();
+        delay(200);  
+        loadSnFromEEPRom();
+      }
     }
-    resetSerialNo();
-    resetConfig();
-    writeModeToEepRom(MODE_AP);
-    writeSerialNoToEepRom();
-    writeConfigToEepRom(); 
-    writeOutputStateToEepRom();
-    writeEspStateToEepRom(ESP_READY);
   }
-  else {
-    if (USE_SERIAL) {
-      Serial.println("Load data from EEP ROM...");
-    }
-    loadDataFromEepRom();
-  }
+  delay(200);  
+  loadStateFromEepRom();
   
   stType = ST_STATUS; 
   connState = WIFI_CONNECTING;
@@ -247,6 +270,14 @@ void setup() {
   }  
 }
 
+boolean checkSerialStr() {
+  for (int i = 0; i < 10; i++) {
+    if (serialStr[i] != SERIAL_ID[i]) {
+      return false;
+    }
+  }
+  return true;
+}
 
 void connectWifi() {
   connState = WIFI_CONNECTING;
@@ -315,8 +346,8 @@ void mqttCallback(char* topic, byte* payload, unsigned int length) {
 void handleMessage(String cmd) {
   if (cmd.indexOf("{io") == 0) {
     handleIOCmd(cmd);
-    sprintf(ioStatus, "%d%d%d%d,%d%d%d%d", inputStates[0], inputStates[1], inputStates[2], HIGH,
-            digitalRead(OUT_1), digitalRead(OUT_2), digitalRead(OUT_3), HIGH);
+    sprintf(ioStatus, "%d%d%d,%d%d%d", inputStates[0], inputStates[1], inputStates[2],
+            digitalRead(OUT_1), digitalRead(OUT_2), digitalRead(OUT_3));
     sprintf(stMessage, "id=%s&code=okcmd&io=%s", serialStr, ioStatus);
     if (USE_SERIAL) {
       Serial.print("Publish message: ");
@@ -328,8 +359,8 @@ void handleMessage(String cmd) {
   }
   else if (cmd.indexOf("{cf") == 0) {
     handleCFCmd(cmd); 
-    sprintf(cfMessage, "id=%s&code=okcmd&cf=%s,%d%d%d%d,%s,%s,%s", 
-      serialStr, serialStr, inputTypes[0], inputTypes[1], inputTypes[2], inputTypes[3], 
+    sprintf(cfMessage, "id=%s&code=okcmd&cf=%s,%d%d%d,%s,%s,%s", 
+      serialStr, serialStr, inputTypes[0], inputTypes[1], inputTypes[2], 
       tcpServer, wifiId, wifiPass);
     if (USE_SERIAL) {
       Serial.print("Publish message: ");
@@ -357,14 +388,19 @@ void handleMessage(String cmd) {
 }
 
 void handleIOCmd(String cmd) {
+  int t = 0;
+  if (cmd.indexOf('}') > 9) {
+    String s = cmd.substring(9, cmd.indexOf('}'));
+    t = atoi(s.c_str());
+  }  
   if (cmd.indexOf("{ioseto1") == 0) {
-    setOutputState(OUT_1, cmd.charAt(8));
+    setOutputState(OUT_1, cmd.charAt(8), t);
   }
   else if (cmd.indexOf("{ioseto2") == 0) {
-    setOutputState(OUT_2, cmd.charAt(8));
+    setOutputState(OUT_2, cmd.charAt(8), t);
   }
   else if (cmd.indexOf("{ioseto3") == 0) {
-    setOutputState(OUT_3, cmd.charAt(8));
+    setOutputState(OUT_3, cmd.charAt(8), t);
   }
   else {
     // does nothing
@@ -373,7 +409,7 @@ void handleIOCmd(String cmd) {
 
 void handleCFCmd(String cmd) {
   if (cmd.indexOf("{cfsetin") == 0) {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
       if (cmd.charAt(8 + i) == '1') {
         inputTypes[i] = SWITCH;
       }
@@ -386,17 +422,17 @@ void handleCFCmd(String cmd) {
   else if (cmd.indexOf("{cfsetsn") == 0) {
     String id = cmd.substring(8, cmd.indexOf('}'));
     sprintf(serialStr, "%s", id.c_str());
-    writeSerialNoToEepRom();
+    writeSerialToEepRom();
     if (USE_SERIAL) {
       Serial.print("New serial: ");
       Serial.println(serialStr);
     }    
-    writeSerialNoToEepRom();
+    writeSerialToEepRom();
   }
   else if (cmd.indexOf("{cfsetsv") == 0) {
     String srv = cmd.substring(8, cmd.indexOf('}'));
     sprintf(tcpServer, "%s", srv.c_str());
-    writeSerialNoToEepRom();
+    writeSerialToEepRom();
     if (USE_SERIAL) {
       Serial.print("New server: ");
       Serial.println(tcpServer);
@@ -436,17 +472,7 @@ void writeOutputStateToEepRom() {
   EEPROM.commit();
 }
 
-void writeEspStateToEepRom(byte value) {
-  EEPROM.write(0, value);
-  EEPROM.commit();
-}
-
-void writeModeToEepRom(byte value) {
-  EEPROM.write(0, value);
-  EEPROM.commit();
-}
-
-void writeSerialNoToEepRom() {
+void writeSerialToEepRom() {
   // Serial NO is from 1 to 16
   for (int i = 0; i < 16; i++) {
     EEPROM.write(i + 1, serialStr[i]);
@@ -456,7 +482,7 @@ void writeSerialNoToEepRom() {
 
 void writeInputTypesToEepRom() {
   // Wifi ID is from 17 - 20
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 3; i++) {
     EEPROM.write(i + 17, inputTypes[i]);
   }
   // next address (21) is of wifi id
@@ -504,11 +530,11 @@ void updateBtnStates() {
 void checkInputChange() {
   updateBtnStates();
 
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 3; i++) {
     controlDecisions[i] = false;
   }
 
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 3; i++) {
 
     if (inputChanges[i] == true) {
       if ((millis() - inputChangesTime[i]) >= 150) {
@@ -564,12 +590,14 @@ void checkInputChange() {
   }
 }
 
-void resetSerialNo() {
-  sprintf(serialStr, "%s", SERIAL_NO);
+void resetSerial() {
+  byte mac[6];
+  WiFi.macAddress(mac);
+  sprintf(serialStr, "%s%02X%02X%02X", SERIAL_ID, mac[3], mac[4], mac[5]);
 }
 
 void resetConfig() {  
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 3; i++) {
     inputTypes[i] = BUTTON;
   }
   sprintf(wifiId, "%s", WIFI_ID);
@@ -577,21 +605,35 @@ void resetConfig() {
   sprintf(tcpServer, "%s", TCP_SERVER);  
 }
 
-void loadDataFromEepRom() {
+void loadSnFromEEPRom() {
+  if (USE_SERIAL) {
+    Serial.println("Load serial from EEPROM...");
+  }  
   String idStr = "";
-  String wiStr = "";
-  String wpStr = "";  
-  String srvStr = "";
-  
   char c;
-
   int idLen = 16;
   for (int i = 0; i < idLen; i++) {
     c = EEPROM.read(i + 1);
     idStr.concat(c);
   }
+  sprintf(serialStr, "%s", idStr.c_str());  
+  if (USE_SERIAL) {
+    Serial.print("Serial no: ");
+    Serial.println(serialStr);
+  }
+}
+
+void loadStateFromEepRom() {
+  if (USE_SERIAL) {
+    Serial.println("Load state from EEPROM...");
+  }
+  String wiStr = "";
+  String wpStr = "";  
+  String srvStr = "";
   
-  for (int i = 0; i < 4; i++) {    
+  char c;
+  
+  for (int i = 0; i < 3; i++) {    
     inputTypes[i] = EEPROM.read(i + 17);
   }
 
@@ -612,16 +654,12 @@ void loadDataFromEepRom() {
     c = EEPROM.read(i + 86);
     srvStr.concat(c);
   }
-
-  sprintf(serialStr, "%s", idStr.c_str());  
+  
   sprintf(wifiId, "%s",  wiStr.c_str());
   sprintf(wifiPass, "%s",  wpStr.c_str());
   sprintf(tcpServer, "%s",  srvStr.c_str());
 
-  if (USE_SERIAL) {
-    Serial.print("Serial no: ");
-    Serial.println(serialStr);
-    
+  if (USE_SERIAL) {    
     Serial.print("Wifi id: ");
     Serial.println(wifiId);
 
@@ -633,9 +671,9 @@ void loadDataFromEepRom() {
   }
 
   // Read output status from byte index 117
-  byte outStatus[4];
+  byte outStatus[3];
   int i = 0;
-  for (i = 0; i < 4; i++) {
+  for (i = 0; i < 3; i++) {
      outStatus[i] = EEPROM.read(117 + i);
   }
 
@@ -663,21 +701,35 @@ void writeConfigToEepRom() {
   writeServerIpToEepRom();
 }
 
-void setOutputState(int outputPin, char state) {
-  byte value = HIGH;
-  if (state == '0') {
-    value = LOW;
+void setOutputState(int outputPin, char state, int second) {
+  int idx = 0;
+  if (OUT_1 == outputPin) {
+    idx = 0;
   }
-  else if (state == '1') {
-    value = HIGH;
+  else if (OUT_2 == outputPin) {
+    idx = 1;
   }
-  else if (state == '2') {
-    digitalWrite(outputPin, LOW);
-    delay(1000);
-    value = HIGH;
+  else if (OUT_3 == outputPin) {
+    idx = 2;
   }
-  digitalWrite(outputPin, value);
-  writeOutputStateToEepRom();
+  if (idx >= 3 || outputLocks[idx] != 0) {
+    // does nothing
+  }
+  else {
+    byte value = HIGH;
+    if (state == '0') {
+      value = LOW;
+    }
+    else if (state == '1') {
+      value = HIGH;
+    }
+    else if (state == '2') {
+      value = !digitalRead(outputPin);
+    }
+    digitalWrite(outputPin, value);
+    outputLocks[idx] = second * 1000;
+    writeOutputStateToEepRom();
+  }  
 }
 
 void changeOutputState(int outputPin) {
@@ -722,16 +774,16 @@ void apModeLoop() {
   
   if (cmd.indexOf("{io") == 0) {
      handleIOCmd(cmd);
-     sprintf(ioStatus, "%d%d%d%d,%d%d%d%d", inputStates[0], inputStates[1], inputStates[2], HIGH,
-              digitalRead(OUT_1), digitalRead(OUT_2), digitalRead(OUT_3), HIGH);
+     sprintf(ioStatus, "%d%d%d,%d%d%d", inputStates[0], inputStates[1], inputStates[2],
+              digitalRead(OUT_1), digitalRead(OUT_2), digitalRead(OUT_3));
      sprintf(stMessage, "IO:%s", ioStatus);
      resp += stMessage; 
      resp += "\n";
   }
   else if (cmd.indexOf("{cf") == 0) {
      handleCFCmd(cmd); 
-     sprintf(cfMessage, "CF:%s,%d%d%d%d,%s,%s,%s", 
-          serialStr, inputTypes[0], inputTypes[1], inputTypes[2], inputTypes[3], 
+     sprintf(cfMessage, "CF:%s,%d%d%d,%s,%s,%s", 
+          serialStr, inputTypes[0], inputTypes[1], inputTypes[2], 
           tcpServer, wifiId, wifiPass);
      resp += cfMessage;
      resp += "\n";
@@ -773,8 +825,8 @@ void staModeLoop() {
         // Turn on ESP MODE LED SIGNAL
         digitalWrite(ESP_LED, LOW);
         
-        sprintf(ioStatus, "%d%d%d%d,%d%d%d%d", inputStates[0], inputStates[1], inputStates[2], HIGH,
-              digitalRead(OUT_1), digitalRead(OUT_2), digitalRead(OUT_3), HIGH);
+        sprintf(ioStatus, "%d%d%d,%d%d%d", inputStates[0], inputStates[1], inputStates[2],
+              digitalRead(OUT_1), digitalRead(OUT_2), digitalRead(OUT_3));
         if (firstMsg == true) {
             sprintf(stMessage, "id=%s&code=reset&io=%s", serialStr, ioStatus);
         }
@@ -804,8 +856,8 @@ void staModeLoop() {
     }
     else {
         pubSubClient.loop();
-        sprintf(ioStatus, "%d%d%d%d,%d%d%d%d", inputStates[0], inputStates[1], inputStates[2], HIGH,
-              digitalRead(OUT_1), digitalRead(OUT_2), digitalRead(OUT_3), HIGH);
+        sprintf(ioStatus, "%d%d%d,%d%d%d", inputStates[0], inputStates[1], inputStates[2],
+              digitalRead(OUT_1), digitalRead(OUT_2), digitalRead(OUT_3));
           
         if (stType == ST_CHANGED) {
           sprintf(stMessage, "id=%s&code=changed&io=%s", serialStr, ioStatus);     
