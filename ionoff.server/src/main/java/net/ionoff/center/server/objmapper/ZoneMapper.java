@@ -51,12 +51,6 @@ public class ZoneMapper {
 		zoneDto.setOrder(zone.getOrder());
 		zoneDto.setAreaId(zone.getArea().getId());
 		zoneDto.setAreaName(zone.getArea().getName());
-		if (zone.hasDevices()) {
-			zoneDto.setDevicesCount(zone.getDevices().size());
-		}
-		else {
-			zoneDto.setDevicesCount(0);
-		}
 		if (includingDevice && zone.getDevices() != null) {
 			List<DeviceDto> deviceDtos = new ArrayList<>();
 			for (final Device device : zone.getDevices()) {

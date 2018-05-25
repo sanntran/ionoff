@@ -186,15 +186,17 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 	}
 
 	@Override
-	public List<Device> findByZoneId(long userId, long zoneId) {
+	public List<Device> findByUserZoneId(long userId, long zoneId) {
 		String sql = "select distinct device"
 				+ " from Device as device, UserDevice as userDevice"
 				+ " where userDevice.device.id = device.id"
 				+ " and device.zone.id = :zoneId"
+				+ " and userDevice.user.id = :userId"
 				+ " and userDevice.role = true"
 				+ " order by device.order, device.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("zoneId", zoneId)
+				.setParameter("userId", userId)
 				.setCacheable(true);
 		
 		return findMany(query);

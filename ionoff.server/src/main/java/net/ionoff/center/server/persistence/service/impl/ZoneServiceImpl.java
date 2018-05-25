@@ -25,6 +25,7 @@ import net.ionoff.center.server.locale.Messages;
 import net.ionoff.center.server.objmapper.ZoneMapper;
 import net.ionoff.center.server.persistence.dao.IAreaDao;
 import net.ionoff.center.server.persistence.dao.IDashboardDao;
+import net.ionoff.center.server.persistence.dao.IDeviceDao;
 import net.ionoff.center.server.persistence.dao.IModeSceneDao;
 import net.ionoff.center.server.persistence.dao.IModeSensorSceneDao;
 import net.ionoff.center.server.persistence.dao.IZoneDao;
@@ -54,6 +55,9 @@ public class ZoneServiceImpl extends AbstractGenericService<Zone, ZoneDto> imple
 
 	@Autowired
 	private ZoneMapper zoneMapper;
+	
+	@Autowired
+	private IDeviceDao deviceDao;
 	
 	public ZoneServiceImpl(IZoneDao zoneDao) {
 		this.zoneDao = zoneDao;
@@ -221,32 +225,14 @@ public class ZoneServiceImpl extends AbstractGenericService<Zone, ZoneDto> imple
 		List<ZoneDto> zoneDtos = new ArrayList<>();
 		for (Zone zone : zoneDao.findByUserProjectId(userId, projectId)) {
 			ZoneDto zoneDto = zoneMapper.createZoneDto(zone, false);
-			for (Device device : zone.getDevices()) {
+			List<Device> devices = deviceDao.findByUserZoneId(userId, zone.getId());
+			for (Device device : devices) {
 				if (device instanceof Light && Boolean.TRUE.equals(device.getStatus())) {
 					zoneDto.setLighting(true);
 					break;
 				}
 			}
-			zoneDtos.add(zoneDto);
-		}
-		return zoneDtos;
-	}
-
-	@Override
-	public List<ZoneDto> findDtoByProjectId(Long projectId, Boolean includingDevice) {
-		final List<Zone> zones = findByProjectId(projectId);
-		if (includingDevice == null) {
-			includingDevice = false;
-		}
-		final List<ZoneDto> zoneDtos = new ArrayList<ZoneDto>();
-		for (final Zone zone : zones) {
-			ZoneDto zoneDto = zoneMapper.createZoneDto(zone, includingDevice);
-			for (Device device : zone.getDevices()) {
-				if (device instanceof Light && Boolean.TRUE.equals(device.getStatus())) {
-					zoneDto.setLighting(true);
-					break;
-				}
-			}
+			zoneDto.setDevicesCount(devices.size());
 			zoneDtos.add(zoneDto);
 		}
 		return zoneDtos;

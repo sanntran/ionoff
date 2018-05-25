@@ -396,18 +396,8 @@ Restart the sshd service by running the following command:
 	service sshd restart
 		
 19. Install incron
-	sudo apt-get install incron
+	sudo apt-get install inotify-tools
 
-    	sudo nano /etc/incron.allow
-    add 1 lines
-	root
-    
-    Edit incrontab config
-	incrontab -e
-    Add
-       	/opt/apache/tomcat-9.0.4/update/cron IN_CREATE,IN_MOVED_TO /opt/apache/tomcat-9.0.4/update/script.sh
-
-    Show incron log:
-	tail /var/log/syslog
+    Copy iupdate.sh to /etc/init.d/iupdate.sh
 
     

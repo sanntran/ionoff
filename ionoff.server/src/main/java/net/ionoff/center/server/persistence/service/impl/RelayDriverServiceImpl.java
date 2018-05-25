@@ -179,7 +179,7 @@ public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, 
 				throw new DeleteEntityException(relayDriver.toString());
 			}
 		}
-		super.delete(relayDriver);
+		delete(relayDriver);
 	}
 	
 

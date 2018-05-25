@@ -47,6 +47,10 @@ public abstract class AbstractGenericService<T extends Serializable, D extends S
 	@Override
 	public void delete(final T entity) {
 		getDao().delete(entity);
+		Cache cache = getDao().getSessionFactory().getCache();
+		if (cache != null) {
+		    cache.evictAllRegions();
+		}
 	}
 	
 	@Override

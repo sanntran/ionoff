@@ -71,7 +71,7 @@ CREATE TABLE `dashboards` (
 
 LOCK TABLES `dashboards` WRITE;
 /*!40000 ALTER TABLE `dashboards` DISABLE KEYS */;
-INSERT INTO `dashboards` VALUES (6,1,NULL,1),(7,1,6,1),(8,4,NULL,5),(9,4,9,5),(12,2,NULL,4),(13,2,4,4),(14,2,7,4),(15,2,8,4),(16,2,3,4),(18,5,NULL,6),(19,5,10,6);
+INSERT INTO `dashboards` VALUES (6,1,NULL,1),(7,1,6,1),(8,4,NULL,5),(9,4,9,5),(12,2,NULL,4),(13,2,4,4),(14,2,7,4),(15,2,8,4),(16,2,3,4),(18,5,NULL,6),(19,5,10,6),(20,1,NULL,4),(21,1,3,4),(22,1,4,4),(23,1,7,4),(24,1,8,4);
 /*!40000 ALTER TABLE `dashboards` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -331,7 +331,7 @@ CREATE TABLE `modes_sensors_users` (
 
 LOCK TABLES `modes_sensors_users` WRITE;
 /*!40000 ALTER TABLE `modes_sensors_users` DISABLE KEYS */;
-INSERT INTO `modes_sensors_users` VALUES (2,2,2,'\0','\0',4),(3,3,2,'\0','',4),(4,4,2,'\0','',4);
+INSERT INTO `modes_sensors_users` VALUES (2,2,2,'\0','\0',4),(3,3,2,'\0','',4),(4,4,2,'\0','',4),(5,2,1,'\0','\0',4),(6,2,1,'\0','\0',4);
 /*!40000 ALTER TABLE `modes_sensors_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -991,7 +991,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'lord','Super Admin','dff00dce8c09cb2b1b1d9540130288f44c3e0d9f36e8663ec33ad43ba6882d58149df782d93c39ae','trancongsan@gmail.com',NULL,'0933439994',1),(2,'admin','Home Admin','27bec3835cb29f881ad306d8ffa1a3a56d82bb83cd6bbeef749f9369c765a66f9ae2223dc9dd8c9f','trancongsan@gmail.com','vi','0933439994',2),(4,'trung','Đức Trung','f6fa80d03bc3eee84c62b4e563946608cb5af5ab9babca8d193978cffb1ae89a1690762aba67f6d7','trancongsan@gmail.com',NULL,'0933439994',2),(5,'hien','Chất Hiển','55698dcddb33d38b05e5db1b6fc7a37c0ecb1d19fcbb2b8cf14463a43d2eac22577b1950b80b3965','hiennguyenchat@gmail.com',NULL,'0979173179',2);
+INSERT INTO `users` VALUES (1,'lord','Super Admin','b74b820db358adf6cd976a10542fbe88d14c7e5da8e8f2cde526a54235fdb6f486553d9340e328aa','trancongsan@gmail.com',NULL,'0933439994',1),(2,'admin','Home Admin','27bec3835cb29f881ad306d8ffa1a3a56d82bb83cd6bbeef749f9369c765a66f9ae2223dc9dd8c9f','trancongsan@gmail.com','vi','0933439994',2),(4,'trung','Đức Trung','f6fa80d03bc3eee84c62b4e563946608cb5af5ab9babca8d193978cffb1ae89a1690762aba67f6d7','trancongsan@gmail.com',NULL,'0933439994',2),(5,'hien','Chất Hiển','55698dcddb33d38b05e5db1b6fc7a37c0ecb1d19fcbb2b8cf14463a43d2eac22577b1950b80b3965','hiennguyenchat@gmail.com',NULL,'0979173179',2);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1024,7 +1024,7 @@ CREATE TABLE `users_devices` (
 
 LOCK TABLES `users_devices` WRITE;
 /*!40000 ALTER TABLE `users_devices` DISABLE KEYS */;
-INSERT INTO `users_devices` VALUES (14,'',4,33,5),(15,'',4,27,5),(16,'',4,28,5),(17,'',4,30,5),(18,'',4,29,5),(19,'',4,31,5),(20,'',4,34,5),(21,'',4,32,5),(22,'',2,36,4),(23,'',2,22,4),(24,'',2,20,4),(25,'',2,23,4),(26,'',2,26,4),(27,'',2,12,4),(28,'',2,35,4),(29,'',2,13,4),(30,'',2,21,4),(31,'',2,8,4),(32,'',2,9,4),(33,'',2,6,4),(34,'',2,10,4),(35,'',5,37,6),(38,'',2,40,4);
+INSERT INTO `users_devices` VALUES (14,'',4,33,5),(15,'',4,27,5),(16,'',4,28,5),(17,'',4,30,5),(18,'',4,29,5),(19,'',4,31,5),(20,'',4,34,5),(21,'',4,32,5),(22,'',2,36,4),(23,'',2,22,4),(24,'',2,20,4),(25,'',2,23,4),(26,'',2,26,4),(27,'',2,12,4),(28,'',2,35,4),(29,'',2,13,4),(30,'',2,21,4),(31,'',2,8,4),(32,'',2,9,4),(33,'',2,6,4),(34,'',2,10,4),(35,'',5,37,6),(38,'',2,40,4),(39,'',1,40,4),(40,'',1,6,4),(41,'',1,8,4),(42,'',1,9,4),(43,'',1,10,4),(44,'',1,20,4),(45,'',1,22,4),(46,'',1,36,4),(47,'\0',1,12,4),(48,'\0',1,13,4),(49,'',1,21,4),(50,'',1,23,4),(51,'',1,35,4),(52,'',1,26,4);
 /*!40000 ALTER TABLE `users_devices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1054,7 +1054,7 @@ CREATE TABLE `users_projects` (
 
 LOCK TABLES `users_projects` WRITE;
 /*!40000 ALTER TABLE `users_projects` DISABLE KEYS */;
-INSERT INTO `users_projects` VALUES (2,'',1,1),(3,'\0',2,1),(4,'\0',1,4),(5,'',2,4),(8,'\0',4,1),(9,'\0',4,4),(12,'\0',1,5),(13,'\0',2,5),(15,'',4,5),(16,'\0',1,6),(17,'\0',2,6),(18,'\0',4,6),(19,'\0',5,1),(20,'\0',5,4),(21,'\0',5,5),(22,'',5,6);
+INSERT INTO `users_projects` VALUES (2,'',1,1),(3,'\0',2,1),(4,'',1,4),(5,'',2,4),(8,'\0',4,1),(9,'\0',4,4),(12,'\0',1,5),(13,'\0',2,5),(15,'',4,5),(16,'\0',1,6),(17,'\0',2,6),(18,'\0',4,6),(19,'\0',5,1),(20,'\0',5,4),(21,'\0',5,5),(22,'',5,6);
 /*!40000 ALTER TABLE `users_projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1087,7 +1087,7 @@ CREATE TABLE `users_scenes` (
 
 LOCK TABLES `users_scenes` WRITE;
 /*!40000 ALTER TABLE `users_scenes` DISABLE KEYS */;
-INSERT INTO `users_scenes` VALUES (2,'',2,2,4);
+INSERT INTO `users_scenes` VALUES (2,'',2,2,4),(3,'',1,2,4);
 /*!40000 ALTER TABLE `users_scenes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1111,7 +1111,7 @@ CREATE TABLE `users_zones` (
   CONSTRAINT `users_zones_project_id_fk` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `users_zones_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `users_zones_zone_id_fk` FOREIGN KEY (`zone_id`) REFERENCES `zones` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1120,7 +1120,7 @@ CREATE TABLE `users_zones` (
 
 LOCK TABLES `users_zones` WRITE;
 /*!40000 ALTER TABLE `users_zones` DISABLE KEYS */;
-INSERT INTO `users_zones` VALUES (19,'',4,8,4),(21,'',2,9,5),(22,'',1,9,5),(27,'',1,6,1),(28,'',4,9,5),(29,'',2,4,4),(30,'',2,7,4),(31,'',2,8,4),(32,'',2,3,4),(33,'',5,10,6);
+INSERT INTO `users_zones` VALUES (19,'',4,8,4),(21,'',2,9,5),(22,'',1,9,5),(27,'',1,6,1),(28,'',4,9,5),(29,'',2,4,4),(30,'',2,7,4),(31,'',2,8,4),(32,'',2,3,4),(33,'',5,10,6),(34,'',1,3,4),(35,'',1,4,4),(36,'',1,7,4),(37,'',1,8,4);
 /*!40000 ALTER TABLE `users_zones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1189,4 +1189,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-19 11:32:56
+-- Dump completed on 2018-05-22  0:58:47

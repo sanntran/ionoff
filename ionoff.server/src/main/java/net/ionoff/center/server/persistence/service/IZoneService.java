@@ -18,5 +18,4 @@ public interface IZoneService extends IGenericService<Zone, ZoneDto> {
 
 	List<ZoneDto> findDtoByUserProjectId(long userId, long projectId);
 
-	List<ZoneDto> findDtoByProjectId(Long projectId, Boolean includingDevice);
 }

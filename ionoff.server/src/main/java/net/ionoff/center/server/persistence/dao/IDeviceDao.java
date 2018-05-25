@@ -17,7 +17,7 @@ public interface IDeviceDao extends IGenericDao<Device> {
 	
 	long countByProjectId(long projectId);
 
-	List<Device> findByZoneId(long userId, long zoneId);
+	List<Device> findByUserZoneId(long userId, long zoneId);
 	
 	List<Device> findByUserProjectId(long userId, long projectId);
 }

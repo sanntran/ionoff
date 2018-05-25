@@ -184,7 +184,7 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 
 	@Override
 	public List<DeviceDto> findDtoByUserZoneId(User user, long zoneId) {
-		List<Device> devices = deviceDao.findByZoneId(user.getId(), zoneId);		
+		List<Device> devices = deviceDao.findByUserZoneId(user.getId(), zoneId);		
 		return deviceMapper.toDeviceDtoList(devices, playerService);
 	}
 
@@ -233,7 +233,7 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 
 	@Override
 	public List<StatusDto> getStatusByZoneId(User user, Long zoneId) {
-		List<Device> devices = getDao().findByZoneId(user.getId(), zoneId);
+		List<Device> devices = getDao().findByUserZoneId(user.getId(), zoneId);
 		return deviceMapper.toStatusDto(devices, playerService);
 	}
 

@@ -90,12 +90,14 @@ public class LatestVersionUpdator {
 	}
 
 	private static void triggerCronToUpdate() throws IOException {
+		LOGGER.info("Trigger crom to run script to update...");
 		File cronFolder = new File(AppConfig.getInstance().CRON_FOLDER);
 		if (!cronFolder.exists()) {
 			cronFolder.mkdirs();
 		}
 		String fileTrigger = DateTimeUtil.yyyyMMdd_HHmmssFormatter.format(new Date()) + ".log";
 		File trigger = new File(AppConfig.getInstance().CRON_FOLDER + File.separator + fileTrigger);
+		LOGGER.info("Create new file " + trigger.getAbsolutePath());
 		trigger.createNewFile();
 	}
 
