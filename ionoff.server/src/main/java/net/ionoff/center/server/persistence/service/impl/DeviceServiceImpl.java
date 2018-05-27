@@ -16,7 +16,7 @@ import net.ionoff.center.server.entity.SceneDevice;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.UserDevice;
-import net.ionoff.center.server.entity.WeighScale;
+import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.entity.Zone;
 import net.ionoff.center.server.message.event.SensorStatusChangedEvent;
 import net.ionoff.center.server.notifier.SensorStatusNotifier;
@@ -82,7 +82,7 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 		super.insert(device);
 		insertSceneDevices(device);
 		insertUserDevices(device);
-		if (device instanceof WeighScale) {
+		if (device instanceof SensorDriver) {
 			Sensor sensor = new Sensor();
 			sensor.setDevice(device);
 			sensor.setName("Weigh Sensor");
@@ -178,8 +178,8 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 	}
 
 	@Override
-	public WeighScale findWeighScaleByMac(String mac) {
-		return getDao().findWeighScaleByMac(mac);
+	public SensorDriver findSensorDriverByMac(String mac) {
+		return getDao().findSensorDriverByMac(mac);
 	}
 
 	@Override

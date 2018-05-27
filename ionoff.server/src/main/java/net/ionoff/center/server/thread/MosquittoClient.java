@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import net.ionoff.center.server.config.AppConfig;
 import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.entity.Sensor;
-import net.ionoff.center.server.entity.WeighScale;
+import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.exception.MqttConnectionException;
 import net.ionoff.center.server.exception.MqttPublishException;
 import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
@@ -149,41 +149,41 @@ public class MosquittoClient implements MqttCallback {
 			onRelayDriverMessageArrived(payload);
 		}
 		else if (AppConfig.getInstance().MQTT_TOPIC_WEIGH_SCALE.equals(topic)) {
-			onWeighScaleMessageArrived(payload);
+			onSensorDriverMessageArrived(payload);
 		}
 	}
 	
-	private void onWeighScaleMessageArrived(String payload) {
+	private void onSensorDriverMessageArrived(String payload) {
 		LOGGER.info("Message arrived: " + payload);
-		WeighScaleMqttPayload data = new WeighScaleMqttPayload(payload);
-		WeighScale scale = deviceService.findWeighScaleByMac(data.getId());
-		if (scale == null) {
-			LOGGER.info("Found no weigh scale by id: " + data.getId());
+		SensorDriverMqttPayload data = new SensorDriverMqttPayload(payload);
+		SensorDriver sensorDriver = deviceService.findSensorDriverByMac(data.getId());
+		if (sensorDriver == null) {
+			LOGGER.info("Found no weigh sensorDriver by id: " + data.getId());
 			return;
 		}
 		Date now = new Date();
-		scale.setTime(now);
-		if (scale.getSensors() == null || scale.getSensors().isEmpty()) {
-			deviceService.update(scale);
+		sensorDriver.setTime(now);
+		if (sensorDriver.getSensors() == null || sensorDriver.getSensors().isEmpty()) {
+			deviceService.update(sensorDriver);
 			return;
 		}
 
 		if (data.getValue() == null || data.getIndex() == null) {
 			LOGGER.info("Invalid message format");
-			publishMessage(scale.getMac(), "InvalidMessage: " + payload);
-			deviceService.update(scale);
+			publishMessage(sensorDriver.getMac(), "InvalidMessage: " + payload);
+			deviceService.update(sensorDriver);
 			return;
 		}
 
-		Sensor sensor = scale.getSensors().get(0);
+		Sensor sensor = sensorDriver.getSensors().get(0);
 		sensor.getStatus().setTime(now);
 		sensor.getStatus().setValue(data.getValue());
 		sensor.getStatus().setIndex(data.getIndex());
 		
 		deviceService.updateSensorStatus(sensor);
-		if (WeighScaleMqttPayload.CHANGED.equals(data.getCode())) {
+		if (SensorDriverMqttPayload.CHANGED.equals(data.getCode())) {
 			deviceService.onSensorStatusChanged(sensor);
-			publishMessage(scale.getMac(), "MessageIndexOK: " + data.getIndex());
+			publishMessage(sensorDriver.getMac(), "MessageIndexOK: " + data.getIndex());
 		}
 	}
 

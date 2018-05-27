@@ -2,8 +2,8 @@ package net.ionoff.center.shared.dto;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-@JsonTypeName( "WeighScaleDto" )
-public class WeighScaleDto extends DeviceDto {
+@JsonTypeName( "SensorDriverDto" )
+public class SensorDriverDto extends DeviceDto {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -12,12 +12,12 @@ public class WeighScaleDto extends DeviceDto {
 	
 	@Override
 	public String getClazz() {
-		return "WeighScaleDto";
+		return "SensorDriverDto";
 	}
 	
 	@Override
 	public String getStyle() {
-		return "weighScale";
+		return "SensorDriver";
 	}
 	
 	public String getMac() {

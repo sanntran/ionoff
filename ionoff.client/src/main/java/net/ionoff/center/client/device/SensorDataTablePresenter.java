@@ -8,46 +8,38 @@ import org.fusesource.restygwt.client.MethodCallback;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 
-import gwt.material.design.client.ui.MaterialLink;
 import net.ionoff.center.client.base.AbstractTablePresenter;
 import net.ionoff.center.client.base.ITableView;
 import net.ionoff.center.client.event.ShowLoadingEvent;
-import net.ionoff.center.client.event.ShowMessageEvent;
 import net.ionoff.center.client.locale.AdminLocale;
-import net.ionoff.center.client.locale.ProjectLocale;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.service.SensorDataService;
 import net.ionoff.center.client.utils.ClientUtil;
-import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
 import net.ionoff.center.shared.dto.SensorDataDto;
-import net.ionoff.center.shared.dto.WeighScaleDto;
+import net.ionoff.center.shared.dto.SensorDriverDto;
 
-public class ScaleDataTablePresenter extends AbstractTablePresenter<SensorDataDto> {
+public class SensorDataTablePresenter extends AbstractTablePresenter<SensorDataDto> {
 
 
     public interface Display extends ITableView<SensorDataDto> {
         Column<SensorDataDto, String> getNameColumn();
-        ScaleDataEditPresenter.Display getScaleDataEditView();
-		MaterialLink getLinkDownloadPdfFile();
-		MaterialLink getLinkDownloadExcelFile();
-		MaterialLink getLinkDownloadWordFile();
+        SensorDataEditPresenter.Display getSensorDataEditView();
     }
 
     private final Display view;
-    private WeighScaleDto scaleDto;
-    private ScaleDataEditPresenter dataEditPresenter;
+    private SensorDriverDto sensorDriverDto;
+    private SensorDataEditPresenter dataEditPresenter;
 
-    public ScaleDataTablePresenter(IRpcServiceProvider rpcProvider, HandlerManager eventBus,
-                                   WeighScaleDto scaleDto, Display view) {
+    public SensorDataTablePresenter(IRpcServiceProvider rpcProvider, HandlerManager eventBus,
+                                   SensorDriverDto sensorDriverDto, Display view) {
         super(rpcProvider, eventBus, view);
-        setScale(scaleDto);
+        setDevice(sensorDriverDto);
         this.view = view;
     }
 
@@ -60,44 +52,13 @@ public class ScaleDataTablePresenter extends AbstractTablePresenter<SensorDataDt
                 showEditForm();
             }
         });
-        view.getLinkDownloadPdfFile().addClickHandler(event -> downloadReportFile("pdf"));
-        view.getLinkDownloadExcelFile().addClickHandler(event -> downloadReportFile("xlsx"));
-        view.getLinkDownloadWordFile().addClickHandler(event -> downloadReportFile("docx"));
     }
-
-    private void downloadReportFile(String fileType) {
-    	eventBus.fireEvent(new ShowMessageEvent(ProjectLocale.getProjectMessages().generatingReport(), 
-    			ShowMessageEvent.NORMAL));
-		QueryCriteriaDto criteria = buildSearchAllCriteria();
-		rpcProvider.getSensorDataService().exportToReportFile(criteria, fileType,
-				new MethodCallback<MessageDto>() {
-					@Override
-					public void onFailure(Method method, Throwable exception) {
-						eventBus.fireEvent(new ShowMessageEvent(ProjectLocale.getProjectMessages()
-								.errorGeneratingReport(), ShowMessageEvent.ERROR));
-						ClientUtil.handleRpcFailure(method, exception, eventBus);
-					}
-					@Override
-					public void onSuccess(Method method, MessageDto result) {
-						eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-						eventBus.fireEvent(new ShowMessageEvent(ProjectLocale.getProjectMessages()
-								.finishGeneratingReport(), ShowMessageEvent.SUCCESS));
-						String url = ClientUtil.getBaseUrl() + "/" + result.getMessage();
-						if (fileType.equals("pdf")) {
-							Window.open(url, "_blank", null);
-						}
-						else {
-							Window.open(url, "_self", null);
-						}
-					}
-				});
-	}
 
 	private QueryCriteriaDto buildSearchAllCriteria() {
 		QueryCriteriaDto criteriaDto = super.buildSearchCriteria(0);
 		criteriaDto.setFromIndex(0);
 		criteriaDto.setMaxResults(0);
-        criteriaDto.setDeviceId(scaleDto.getId());
+        criteriaDto.setDeviceId(sensorDriverDto.getId());
         return criteriaDto;
 	}
 
@@ -117,9 +78,9 @@ public class ScaleDataTablePresenter extends AbstractTablePresenter<SensorDataDt
         // does nothing
     }
 
-    public void setScale(WeighScaleDto scaleDto) {
-        this.scaleDto = scaleDto;
-        display.getToolBarView().getLblTitle().setText(scaleDto.getName());
+    public void setDevice(SensorDriverDto sensorDriverDto) {
+        this.sensorDriverDto = sensorDriverDto;
+        display.getToolBarView().getLblTitle().setText(sensorDriverDto.getName());
     }
 
     @Override
@@ -149,26 +110,26 @@ public class ScaleDataTablePresenter extends AbstractTablePresenter<SensorDataDt
     protected void loadByRange(final Long selectedId, final boolean onSort,
                                final int startIndex) {
 
-        getRpcService().calculateSumByDay(buildSearchCriteria(startIndex),
-                new MethodCallback<List<SensorDataDto>>() {
-                    @Override
-                    public void onFailure(Method method, Throwable exception) {
-                        ClientUtil.handleRpcFailure(method, exception, eventBus);
+        getRpcService().searchByDay(buildSearchCriteria(startIndex),
+            new MethodCallback<List<SensorDataDto>>() {
+                @Override
+                public void onFailure(Method method, Throwable exception) {
+                    ClientUtil.handleRpcFailure(method, exception, eventBus);
+                }
+                @Override
+                public void onSuccess(Method method, List<SensorDataDto> result) {
+                    eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
+                    if (onSort) {
+                        display.getPager().setPage(0);
                     }
-                    @Override
-                    public void onSuccess(Method method, List<SensorDataDto> result) {
-                        eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-                        if (onSort) {
-                            display.getPager().setPage(0);
-                        }
-                        showEntities(result, selectedId, startIndex);
-                    }
-                });
+                    showEntities(result, selectedId, startIndex);
+                }
+            });
     }
 
     @Override
     protected void loadData(final Long selectedId, final boolean onSort, final int startIndex) {
-        int days = 7;
+        int days = 1;
         if (display.getToolBarView().getDateBoxFrom().getValue() != null
             && display.getToolBarView().getDateBoxTo().getValue() != null) {
             days = CalendarUtil.getDaysBetween(
@@ -209,10 +170,10 @@ public class ScaleDataTablePresenter extends AbstractTablePresenter<SensorDataDt
         return "time";
     }
 
-    public ScaleDataEditPresenter getDataEditPresenter() {
+    public SensorDataEditPresenter getDataEditPresenter() {
         if (dataEditPresenter == null) {
-            dataEditPresenter = new ScaleDataEditPresenter(rpcProvider, eventBus,
-                    view.getScaleDataEditView(), this);
+            dataEditPresenter = new SensorDataEditPresenter(rpcProvider, eventBus,
+                    view.getSensorDataEditView(), this);
             dataEditPresenter.go();
         }
         return dataEditPresenter;
@@ -224,7 +185,6 @@ public class ScaleDataTablePresenter extends AbstractTablePresenter<SensorDataDt
 
     @Override
     protected void setSelectedObject(SensorDataDto selectedDto) {
-        getDataEditPresenter().setWeighScale(scaleDto);
         getDataEditPresenter().setEntityDto(selectedDto);
     }
 
@@ -241,14 +201,14 @@ public class ScaleDataTablePresenter extends AbstractTablePresenter<SensorDataDt
     @Override
     protected QueryCriteriaDto buildSearchCriteria(int startIndex) {
         QueryCriteriaDto criteriaDto = super.buildSearchCriteria(startIndex);
-        criteriaDto.setDeviceId(scaleDto.getId());
+        criteriaDto.setDeviceId(sensorDriverDto.getId());
         return criteriaDto;
     }
 
     @Override
     protected QueryCriteriaDto buildCountCriteria() {
         QueryCriteriaDto criteriaDto = super.buildCountCriteria();
-        criteriaDto.setDeviceId(scaleDto.getId());
+        criteriaDto.setDeviceId(sensorDriverDto.getId());
         return criteriaDto;
     }
 }

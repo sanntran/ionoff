@@ -16,8 +16,8 @@ import net.ionoff.center.client.device.DeviceListPresenter;
 import net.ionoff.center.client.device.DeviceListView;
 import net.ionoff.center.client.device.DeviceTablePresenter;
 import net.ionoff.center.client.device.DeviceTableView;
-import net.ionoff.center.client.device.ScaleDataTablePresenter;
-import net.ionoff.center.client.device.ScaleDataTableView;
+import net.ionoff.center.client.device.SensorDataTablePresenter;
+import net.ionoff.center.client.device.SensorDataTableView;
 import net.ionoff.center.client.event.ChangeTokenEvent;
 import net.ionoff.center.client.mode.ModeListPresenter;
 import net.ionoff.center.client.mode.ModeListView;
@@ -49,7 +49,7 @@ import net.ionoff.center.client.zone.ZoneTablePresenter;
 import net.ionoff.center.client.zone.ZoneTableView;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.PlayerDto;
-import net.ionoff.center.shared.dto.WeighScaleDto;
+import net.ionoff.center.shared.dto.SensorDriverDto;
 import net.xapxinh.center.client.player.PlayerPresenter;
 import net.xapxinh.center.client.player.PlayerView;
 
@@ -77,7 +77,7 @@ public class ContentPresenter extends AbstractPresenter {
 	private ZoneListPresenter zoneListPresenter;
 
 	private PlayerPresenter playerPresenter;
-	private ScaleDataTablePresenter scaleDataPresenter;
+	private SensorDataTablePresenter sensorDriverDataPresenter;
 
 	private IRpcServiceProvider rpcProvider;
 	private Display display;
@@ -112,17 +112,17 @@ public class ContentPresenter extends AbstractPresenter {
 					if (response instanceof PlayerDto) {
 						showPlayer(deviceId);
 					}
-					else if (response instanceof WeighScaleDto) {
-						showScaleData((WeighScaleDto) response);
+					else if (response instanceof SensorDriverDto) {
+						showSensorDriverData((SensorDriverDto) response);
 					}
 				}
 			});
 		}
 	}
 
-	private void showScaleData(WeighScaleDto scaleDto) {
+	private void showSensorDriverData(SensorDriverDto deviceDto) {
 		display.asPanel().removeStyleName("player");
-		getScaleDataPresenter(scaleDto).show(display.asPanel());
+		getScaleDataPresenter(deviceDto).show(display.asPanel());
 	}
 
 	private void showPlayer(Long playerId) {
@@ -226,16 +226,16 @@ public class ContentPresenter extends AbstractPresenter {
 		return playerPresenter;
 	}
 
-	public ScaleDataTablePresenter getScaleDataPresenter(WeighScaleDto scaleDto) {
-		if (scaleDataPresenter == null) {
-			scaleDataPresenter = new ScaleDataTablePresenter(rpcProvider, eventBus, scaleDto, new ScaleDataTableView());
-			scaleDataPresenter.go();
+	public SensorDataTablePresenter getScaleDataPresenter(SensorDriverDto deviceDto) {
+		if (sensorDriverDataPresenter == null) {
+			sensorDriverDataPresenter = new SensorDataTablePresenter(rpcProvider, eventBus, deviceDto, new SensorDataTableView());
+			sensorDriverDataPresenter.go();
 		}
 		else {
-			scaleDataPresenter.setScale(scaleDto);
-			scaleDataPresenter.refresh();
+			sensorDriverDataPresenter.setDevice(deviceDto);
+			sensorDriverDataPresenter.refresh();
 		}
-		return scaleDataPresenter;
+		return sensorDriverDataPresenter;
 	}
 
 	public ScheduleTablePresenter getScheduleTablePresenter() {

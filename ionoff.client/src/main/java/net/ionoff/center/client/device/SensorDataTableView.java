@@ -5,66 +5,28 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 
-import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
-import gwt.material.design.client.ui.MaterialButton;
-import gwt.material.design.client.ui.MaterialDropDown;
-import gwt.material.design.client.ui.MaterialLink;
 import net.ionoff.center.client.base.AbstractTableView;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.shared.dto.SensorDataDto;
 
-public class ScaleDataTableView extends AbstractTableView<SensorDataDto> implements ScaleDataTablePresenter.Display {
+public class SensorDataTableView extends AbstractTableView<SensorDataDto> implements SensorDataTablePresenter.Display {
 	
 	private Column<SensorDataDto, String> timeColumn;
 	private Column<SensorDataDto, String> valueColumn;
 	private Column<SensorDataDto, String> indexColumn;
 	private Column<SensorDataDto, String> editColumn;
-	private MaterialButton btnDownloadReport;
 
-	private ScaleDataEditView scaleDataEditView;
+	private SensorDataEditView sensorDataEditView;
 	
-	private MaterialDropDown dropDownReportFile;
-	private MaterialLink linkDownloadPdfFile;
-	private MaterialLink linkDownloadExcelFile;
-	private MaterialLink linkDownloadWordFile;
-	
-	public ScaleDataTableView() {
-		super("scaledata");
+	public SensorDataTableView() {
+		super("sensorData");
 		getToolBarView().getLblTitle().setIconType(IconType.DEVICES_OTHER);
 		getToolBarView().getBtnAdd().setVisible(false);
 		getToolBarView().getBtnRemove().setVisible(false);
 		getToolBarView().getTextBoxKeyWord().setVisible(false);
 		getToolBarView().getPanelDateInput().setVisible(true);
-		getToolBarView().setDayPeriod(7);
-		
-		btnDownloadReport = new MaterialButton();
-		btnDownloadReport.setActivates("dropDownReportFile");
-		btnDownloadReport.setIconType(IconType.FILE_DOWNLOAD);
-		btnDownloadReport.setIconColor(Color.WHITE);
-		getToolBarView().addBtn(btnDownloadReport);
-		
-		dropDownReportFile = new MaterialDropDown();
-		dropDownReportFile.setActivator("dropDownReportFile");
-		dropDownReportFile.setBelowOrigin(true);
-		dropDownReportFile.setBackgroundColor(Color.GREY_LIGHTEN_5);
-		dropDownReportFile.setConstrainWidth(false);
-		dropDownReportFile.setWidth("220px");
-		dropDownReportFile.setMarginTop(5);
-		
-		linkDownloadPdfFile = new MaterialLink("PDF (.pdf)");
-		linkDownloadPdfFile.setIconType(IconType.FILE_DOWNLOAD);
-		dropDownReportFile.add(linkDownloadPdfFile);
-		
-		linkDownloadExcelFile = new MaterialLink("EXEL (.xlsx)");
-		linkDownloadExcelFile.setIconType(IconType.FILE_DOWNLOAD);
-		dropDownReportFile.add(linkDownloadExcelFile);
-
-		linkDownloadWordFile = new MaterialLink("WORD (.docx)");
-		linkDownloadWordFile.setIconType(IconType.FILE_DOWNLOAD);
-		dropDownReportFile.add(linkDownloadWordFile);
-		
-		getToolBarView().add(dropDownReportFile);
+		getToolBarView().setDayPeriod(1);
 	}
 
 	@Override
@@ -132,40 +94,25 @@ public class ScaleDataTableView extends AbstractTableView<SensorDataDto> impleme
 	public Column<SensorDataDto, String> getNameColumn() {
 		return timeColumn;
 	}
-	
-	@Override
-	public MaterialLink getLinkDownloadPdfFile() {
-		return linkDownloadPdfFile;
-	}
 
 	@Override
-	public MaterialLink getLinkDownloadExcelFile() {
-		return linkDownloadExcelFile;
-	}
-
-	@Override
-	public MaterialLink getLinkDownloadWordFile() {
-		return linkDownloadWordFile;
-	}
-
-	@Override
-	public ScaleDataEditView getScaleDataEditView() {
-		if (scaleDataEditView == null) {
-			scaleDataEditView = new ScaleDataEditView();
-			add(scaleDataEditView);
+	public SensorDataEditView getSensorDataEditView() {
+		if (sensorDataEditView == null) {
+			sensorDataEditView = new SensorDataEditView();
+			add(sensorDataEditView);
 		}
-		return scaleDataEditView;
+		return sensorDataEditView;
 	}
 
 	@Override
 	public void hideEditForm() {
 		super.hideEditForm();
-		getScaleDataEditView().setStyleName("edit invisible");
+		getSensorDataEditView().setStyleName("edit invisible");
 	}
 
 	@Override
 	public void showEditForm() {
 		super.showEditForm();
-		getScaleDataEditView().setStyleName("edit visible");
+		getSensorDataEditView().setStyleName("edit visible");
 	}
 }

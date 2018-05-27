@@ -12,7 +12,7 @@ import net.ionoff.center.server.entity.Light;
 import net.ionoff.center.server.entity.Player;
 import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.Sensor;
-import net.ionoff.center.server.entity.WeighScale;
+import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.entity.Zone;
 import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.ApplianceDto;
@@ -21,7 +21,7 @@ import net.ionoff.center.shared.dto.LightDto;
 import net.ionoff.center.shared.dto.PlayerDto;
 import net.ionoff.center.shared.dto.RelayDto;
 import net.ionoff.center.shared.dto.StatusDto;
-import net.ionoff.center.shared.dto.WeighScaleDto;
+import net.ionoff.center.shared.dto.SensorDriverDto;
 import net.xapxinh.center.server.service.player.IPlayerService;
 import net.xapxinh.center.shared.dto.Status;
 
@@ -45,11 +45,11 @@ public class DeviceMapper {
 			player.setMac(playerDto.getMac());				
 			player.setModel(playerDto.getModel());
 		}
-		if (device instanceof WeighScale) {
-			final WeighScaleDto scaleDto = (WeighScaleDto)deviceDto;
-			WeighScale scale = (WeighScale) device;
-			scale.setMac(scaleDto.getMac());				
-			scale.setModel(scaleDto.getModel());
+		if (device instanceof SensorDriver) {
+			final SensorDriverDto sensorDriverDto = (SensorDriverDto)deviceDto;
+			SensorDriver sensorDriver = (SensorDriver) device;
+			sensorDriver.setMac(sensorDriverDto.getMac());				
+			sensorDriver.setModel(sensorDriverDto.getModel());
 		}
 		device.setName(deviceDto.getName());
 		device.setOrder(deviceDto.getOrder());
@@ -61,9 +61,9 @@ public class DeviceMapper {
 			final Player player = new Player();
 			return player;
 		}
-		if (deviceDto instanceof WeighScaleDto) {
-			final WeighScale scale = new WeighScale();
-			return scale;
+		if (deviceDto instanceof SensorDriverDto) {
+			final SensorDriver sensorDriver = new SensorDriver();
+			return sensorDriver;
 		}
 		else if (deviceDto instanceof LightDto) {
 			return new Light();
@@ -118,10 +118,10 @@ public class DeviceMapper {
 				statusDto.getChildren().add(child);
 			}
 		}
-		else if (device.instanceOf(WeighScale.class)) {
-			WeighScale scale = EntityUtil.castUnproxy(device, WeighScale.class);
-			if (scale.getSensors() != null && !scale.getSensors().isEmpty()) {
-				Sensor sensor = scale.getSensors().get(0);
+		else if (device.instanceOf(SensorDriver.class)) {
+			SensorDriver sensorDriver = EntityUtil.castUnproxy(device, SensorDriver.class);
+			if (sensorDriver.getSensors() != null && !sensorDriver.getSensors().isEmpty()) {
+				Sensor sensor = sensorDriver.getSensors().get(0);
 				if (sensor.getStatus().getTime() != null) {
 					statusDto.setTime(DateTimeUtil.ddMMHHmmFormatter.format(sensor.getStatus().getTime()));
 				}
@@ -159,8 +159,8 @@ public class DeviceMapper {
 		if (device instanceof Player) {
 			return createPlayerDto(device);
 		}
-		if (device instanceof WeighScale) {
-			return createWeighScaleDto(device);
+		if (device instanceof SensorDriver) {
+			return createSensorDriverDto(device);
 		}
 		if (device instanceof Light) {
 			return new LightDto();
@@ -187,12 +187,12 @@ public class DeviceMapper {
 		return playerDto;
 	}
 
-	private static DeviceDto createWeighScaleDto(Device device) {
-		final WeighScaleDto scaleDto = new WeighScaleDto();
-		final WeighScale scale = (WeighScale) device;
-		scaleDto.setMac(scale.getMac());
-		scaleDto.setModel(scale.getModel());
-		return scaleDto;
+	private static DeviceDto createSensorDriverDto(Device device) {
+		final SensorDriverDto sensorDriverDto = new SensorDriverDto();
+		final SensorDriver sensorDriver = (SensorDriver) device;
+		sensorDriverDto.setMac(sensorDriver.getMac());
+		sensorDriverDto.setModel(sensorDriver.getModel());
+		return sensorDriverDto;
 	}
 
 	public DeviceDto createDeviceDto(Device device) {

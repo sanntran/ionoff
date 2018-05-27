@@ -61,8 +61,8 @@ public interface AdminConstants extends Constants {
 	@DefaultStringValue("Media player")
 	String mediaPlayer();
 	
-	@DefaultStringValue("Cân điện tử")
-	String weighScale();
+	@DefaultStringValue("Bộ cảm biến")
+	String sensorDriver();
 
 	@DefaultStringValue("Bóng điện")
 	String light();

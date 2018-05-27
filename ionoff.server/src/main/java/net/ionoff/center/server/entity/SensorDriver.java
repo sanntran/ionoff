@@ -2,7 +2,7 @@ package net.ionoff.center.server.entity;
 
 import java.util.List;
 
-public class WeighScale extends Device {
+public class SensorDriver extends Device {
 
 	private static final long serialVersionUID = 1L;
 

@@ -891,10 +891,8 @@ textarea.materialize-textarea[readonly="readonly"] {
 	width: 100%;
 }
 
-.main .content .devices .device.player,
-.main .content .devices .device.scale,
 .main .content .dashboard .device.player,
-.main .content .dashboard .device.scale {
+.main .content .dashboard .device.sensorDriver {
 	height: 150px;
 }
 

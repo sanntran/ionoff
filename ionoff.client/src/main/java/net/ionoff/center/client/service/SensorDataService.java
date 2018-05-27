@@ -8,7 +8,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -33,17 +32,6 @@ public interface SensorDataService extends EntityService<SensorDataDto> {
 	@Path("api/sensordata/search")
 	void searchByCriteria(QueryCriteriaDto criteriaDto,
 						  MethodCallback<List<SensorDataDto>> callback);
-
-	@POST
-	@Path("api/sensordata/sumbyday")
-	void calculateSumByDay(QueryCriteriaDto criteriaDto,
-						 MethodCallback<List<SensorDataDto>> callback);
-	
-	@POST
-	@Path("api/sensordata/export")
-	void exportToReportFile(QueryCriteriaDto criteriaDto, 
-						 @QueryParam("fileType") String fileType,
-						 MethodCallback<MessageDto> callback);
 
 	@POST
 	@Path("api/sensordata/loadbyday")

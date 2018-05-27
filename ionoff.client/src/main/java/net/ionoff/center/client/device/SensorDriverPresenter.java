@@ -1,7 +1,5 @@
 package net.ionoff.center.client.device;
 
-import net.ionoff.center.client.event.ChangeTokenEvent;
-import net.ionoff.center.client.utils.TokenUtil;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -10,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+import net.ionoff.center.client.event.ChangeTokenEvent;
 import net.ionoff.center.client.event.ShowMessageEvent;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.service.IRpcServiceProvider;
@@ -17,20 +16,20 @@ import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.MessageDto;
+import net.ionoff.center.shared.dto.SensorDriverDto;
 import net.ionoff.center.shared.dto.StatusDto;
-import net.ionoff.center.shared.dto.WeighScaleDto;
 
-public class WeighScalePresenter extends DevicePresenter {
+public class SensorDriverPresenter extends DevicePresenter {
 
-	private WeighScaleDto scale;
-	private final WeighScaleView view;
+	private SensorDriverDto sensorDriver;
+	private final SensorDriverView view;
 	private final IRpcServiceProvider rpcService;
-
-	public WeighScalePresenter(IRpcServiceProvider rpcService, HandlerManager eventBus,
-			WeighScaleView view, WeighScaleDto scale) {
-		super(rpcService, eventBus, scale);
+ 
+	public SensorDriverPresenter(IRpcServiceProvider rpcService, HandlerManager eventBus,
+			SensorDriverView view, SensorDriverDto sensorDriver) {
+		super(rpcService, eventBus, sensorDriver);
 		this.view = view;
-		this.scale = scale;
+		this.sensorDriver = sensorDriver;
 		this.rpcService = rpcService;
 	}
 
@@ -55,14 +54,14 @@ public class WeighScalePresenter extends DevicePresenter {
 
 	@Override
 	public void bind() {
-		view.setMenuDropdownId(scale.getId());
+		view.setMenuDropdownId(sensorDriver.getId());
 		view.getLblName().setText(getDevice().getName());
 		view.getLblZone().setText(getDevice().getZoneName());
 		displayStatus();
 		view.getScaleCard().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				String token = AppToken.newDeviceToken(scale.getId());
+				String token = AppToken.newDeviceToken(sensorDriver.getId());
 				eventBus.fireEvent(new ChangeTokenEvent(token));
 			}
 		});
@@ -71,7 +70,7 @@ public class WeighScalePresenter extends DevicePresenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				getRpcProvider().getDeviceService().addToZoneDashboard(
-						scale.getId(), scale.getZoneId(), new MethodCallback<DeviceDto>() {
+						sensorDriver.getId(), sensorDriver.getZoneId(), new MethodCallback<DeviceDto>() {
 					@Override
 					public void onFailure(Method method, Throwable exception) {
 						ClientUtil.handleRpcFailure(method, exception, eventBus);
@@ -89,7 +88,7 @@ public class WeighScalePresenter extends DevicePresenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				getRpcProvider().getDeviceService().addToProjectDashboard(
-						scale.getId(), scale.getProjectId(), new MethodCallback<MessageDto>() {
+						sensorDriver.getId(), sensorDriver.getProjectId(), new MethodCallback<MessageDto>() {
 					@Override
 					public void onFailure(Method method, Throwable exception) {
 						ClientUtil.handleRpcFailure(method, exception, eventBus);
@@ -109,7 +108,7 @@ public class WeighScalePresenter extends DevicePresenter {
 				
 				if (AppToken.hasTokenItem(AppToken.ZONE)) {
 					getRpcProvider().getDeviceService().removeFromZoneDashboard(
-							scale.getId(), scale.getZoneId(), new MethodCallback<MessageDto>() {
+							sensorDriver.getId(), sensorDriver.getZoneId(), new MethodCallback<MessageDto>() {
 						@Override
 						public void onFailure(Method method, Throwable exception) {
 							ClientUtil.handleRpcFailure(method, exception, eventBus);
@@ -124,7 +123,7 @@ public class WeighScalePresenter extends DevicePresenter {
 				}
 				else {
 					getRpcProvider().getDeviceService().removeFromProjectDashboard(
-							scale.getId(), scale.getProjectId(), new MethodCallback<MessageDto>() {
+							sensorDriver.getId(), sensorDriver.getProjectId(), new MethodCallback<MessageDto>() {
 						@Override
 						public void onFailure(Method method, Throwable exception) {
 							ClientUtil.handleRpcFailure(method, exception, eventBus);
@@ -144,17 +143,17 @@ public class WeighScalePresenter extends DevicePresenter {
 	private void displayStatus() {
 		view.asPanel().removeStyleName("on");
 		
-		if (scale.getStatus().getTime() != null) {
-			view.getLblTime().setText(scale.getStatus().getTime());
+		if (sensorDriver.getStatus().getTime() != null) {
+			view.getLblTime().setText(sensorDriver.getStatus().getTime());
 		}
-		view.getLblLatestValue().setText(scale.getStatus().getLatestValue());
+		view.getLblLatestValue().setText(sensorDriver.getStatus().getLatestValue());
 		
-		if (Boolean.FALSE.equals(scale.getStatus().getValue())) {
+		if (Boolean.FALSE.equals(sensorDriver.getStatus().getValue())) {
 			view.getImgIcon().removeStyleName("on");
 			view.getImgIcon().removeStyleName("unknown");
 			view.getImgIcon().addStyleName("off");
 		}
-		else if (Boolean.TRUE.equals(scale.getStatus().getValue())) {
+		else if (Boolean.TRUE.equals(sensorDriver.getStatus().getValue())) {
 			view.getImgIcon().removeStyleName("off");
 			view.getImgIcon().removeStyleName("unknown");
 			view.getImgIcon().addStyleName("on");
@@ -169,14 +168,14 @@ public class WeighScalePresenter extends DevicePresenter {
 
 	@Override
 	public void updateStatus(StatusDto status) {
-		scale.getStatus().setValue(status.getValue());
-		scale.getStatus().setLatestValue(status.getLatestValue());
-		scale.getStatus().setTime(status.getTime());
+		sensorDriver.getStatus().setValue(status.getValue());
+		sensorDriver.getStatus().setLatestValue(status.getLatestValue());
+		sensorDriver.getStatus().setTime(status.getTime());
 		displayStatus();
 	}
 
 	@Override
-	protected WeighScaleView getDeviceView() {
+	protected SensorDriverView getDeviceView() {
 		return view;
 	}
 }

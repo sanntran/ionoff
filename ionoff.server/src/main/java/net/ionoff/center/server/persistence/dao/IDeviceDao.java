@@ -6,14 +6,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.Player;
-import net.ionoff.center.server.entity.WeighScale;
+import net.ionoff.center.server.entity.SensorDriver;
 
 @Transactional
 public interface IDeviceDao extends IGenericDao<Device> {
 
 	Player findPlayerByMac(String key);
 
-	WeighScale findWeighScaleByMac(String mac);
+	SensorDriver findSensorDriverByMac(String mac);
 	
 	long countByProjectId(long projectId);
 

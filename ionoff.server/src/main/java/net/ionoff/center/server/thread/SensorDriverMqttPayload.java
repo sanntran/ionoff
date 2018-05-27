@@ -1,6 +1,6 @@
 package net.ionoff.center.server.thread;
 
-public class WeighScaleMqttPayload {
+public class SensorDriverMqttPayload {
 	
 	public static final String ID = "id";
 	public static final String CODE = "code";
@@ -17,7 +17,7 @@ public class WeighScaleMqttPayload {
 	private Double value;
 	private Long index;
 	
-	public WeighScaleMqttPayload(String payload) {
+	public SensorDriverMqttPayload(String payload) {
 		String[] params = payload.split("&");
 		for (String param : params) {
 			String[] pairs = param.split("=");

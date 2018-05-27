@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.Player;
 import net.ionoff.center.server.entity.QueryCriteria;
-import net.ionoff.center.server.entity.WeighScale;
+import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.persistence.dao.IDeviceDao;
 
 @Transactional
@@ -43,11 +43,11 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 	}
 	
 	@Override
-	public WeighScale findWeighScaleByMac(String mac) {
+	public SensorDriver findSensorDriverByMac(String mac) {
 		
-		String sql = "select distinct scale"
-					+ " from net.ionoff.center.server.entity.WeighScale as scale"
-					+ " where scale.mac = :mac";
+		String sql = "select distinct sensorDriver"
+					+ " from net.ionoff.center.server.entity.SensorDriver as sensorDriver"
+					+ " where sensorDriver.mac = :mac";
 		
 		Query query = getCurrentSession().createQuery(sql)						
 					.setString("mac", mac);
@@ -57,7 +57,7 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 		Device device = getFirst(devices);
 		
 		if (device != null) {
-			return (WeighScale) device;
+			return (SensorDriver) device;
 		}
 		
 		return null;

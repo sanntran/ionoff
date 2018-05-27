@@ -8,8 +8,6 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import gwt.material.design.addins.client.window.MaterialWindow;
-import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
@@ -18,18 +16,18 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import net.ionoff.center.client.locale.ProjectLocale;
 
-public class WeighScaleView extends FocusPanel implements IDeviceView {
+public class SensorDriverView extends FocusPanel implements IDeviceView {
 
-	@UiTemplate("WeighScaleView.ui.xml")
-	interface WeighScaleViewUiBinder extends UiBinder<Widget, WeighScaleView> {
+	@UiTemplate("SensorDriverView.ui.xml")
+	interface SensorDriverViewUiBinder extends UiBinder<Widget, SensorDriverView> {
 	}
 
-	private static WeighScaleViewUiBinder uiBinder = GWT.create(WeighScaleViewUiBinder.class);
+	private static SensorDriverViewUiBinder uiBinder = GWT.create(SensorDriverViewUiBinder.class);
 
 	@UiField
 	HTMLPanel root;
 	@UiField
-	MaterialPanel scaleCard;
+	MaterialPanel sensorDriverCard;
 	@UiField 
 	MaterialImage imgIcon;
 	@UiField 
@@ -50,8 +48,8 @@ public class WeighScaleView extends FocusPanel implements IDeviceView {
 	MaterialLink menuItemAddToProjectDashboard;
 	@UiField 
 	MaterialLink menuItemRemoveFromDashboard;
-
-	public WeighScaleView() {
+ 
+	public SensorDriverView() {
 		uiBinder.createAndBindUi(this);
 		menuItemAddToZoneDashboard.setText(ProjectLocale.getProjectConst().addToZoneDashboard());
 		menuItemAddToProjectDashboard.setText(ProjectLocale.getProjectConst().addToProjectDashboard());
@@ -88,7 +86,7 @@ public class WeighScaleView extends FocusPanel implements IDeviceView {
 	}
 
 	public MaterialPanel getScaleCard() {
-		return scaleCard;
+		return sensorDriverCard;
 	}
 	
 	public MaterialLink getMenuItemAddToZoneDashboard() {
