@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCheckBox;
-import gwt.material.design.client.ui.MaterialListBox;
+import gwt.material.design.client.ui.MaterialIntegerBox;
 import gwt.material.design.client.ui.MaterialTextBox;
 import net.ionoff.center.client.base.AbstractEditPresenter;
 import net.ionoff.center.client.base.IEditView;
@@ -40,7 +40,7 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 
 		MaterialTextBox getTextBoxIndex();
 
-		MaterialListBox getListBoxTypes();
+		MaterialIntegerBox getIntBoxAutoRevert();
 		
 		MaterialCheckBox getCheckBoxLocked();
 
@@ -110,14 +110,7 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 		}
 		entityDto.setName(newName);
 		entityDto.setIsLocked(view.getCheckBoxLocked().getValue());
-		
-		int typeIndex = view.getListBoxTypes().getSelectedIndex();
-		if (typeIndex == 0) {
-			entityDto.setType(RelayDto.SWITCH);
-		}
-		else if (typeIndex == 1) {
-			entityDto.setType(RelayDto.BUTTON);
-		}
+		entityDto.setAutoRevert(view.getIntBoxAutoRevert().getValue());
 		
 		String selectedDeviceNameId = view.getDevicesSelectionPanel().getSelectedDevice();
 		if (selectedDeviceNameId == null || selectedDeviceNameId.isEmpty() 
@@ -241,12 +234,7 @@ public class RelayEditPresenter extends AbstractEditPresenter<RelayDto> {
 		view.getCheckBoxLocked().setValue(entityDto.getIsLocked() == null ? false : entityDto.getIsLocked());
 		view.getTextBoxDriver().setText(BaseDto.formatNameID(dto.getDriverName(), dto.getDriverId()));
 		view.getTextBoxIndex().setText(dto.getIndex() + "");
-		if (RelayDto.SWITCH.equals(entityDto.getType())) {
-			view.getListBoxTypes().setSelectedIndex(0);
-		}
-		else {
-			view.getListBoxTypes().setSelectedIndex(1);
-		}
+		view.getIntBoxAutoRevert().setValue(dto.getAutoRevert());
 		view.getDevicesSelectionPanel().setSelectedItem(dto.getDeviceId(), dto.getDeviceName());
 
 		if (dto.izNew()) {

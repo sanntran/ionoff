@@ -35,12 +35,12 @@
 			<column name="status_" sql-type="bit"/>
 		</property>
 		
-		<property name="type">
-			<column name="type_" />
-		</property>
-		
 		<property name="isLocked" type="java.lang.Boolean">
 			<column name="is_locked" sql-type="bit"/>
+		</property>
+		
+		<property name="autoRevert">
+			<column name="auto_revert"/>
 		</property>
 		
 		<many-to-one name="driver" class="net.ionoff.center.server.entity.RelayDriver" fetch="select">

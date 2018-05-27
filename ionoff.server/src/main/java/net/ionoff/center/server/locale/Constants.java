@@ -68,4 +68,8 @@ public class Constants {
 	public String condition() {
 		return resourceBundle.getString("condition");
 	}
+
+	public String model() {
+		return "Model";
+	}
 }

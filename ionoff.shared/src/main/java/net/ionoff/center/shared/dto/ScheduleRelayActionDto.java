@@ -11,7 +11,6 @@ public class ScheduleRelayActionDto extends ScheduleActionDto implements RelayAc
 
 	private Long relayId;
 	private String relayName;
-	private String relayType;
 
 	public String getClazz() {
 		return "ScheduleRelayActionDto";
@@ -31,10 +30,4 @@ public class ScheduleRelayActionDto extends ScheduleActionDto implements RelayAc
 		this.relayName = relayName;
 	}
 
-	public String getRelayType() {
-		return relayType;
-	}
-	public void setRelayType(String relayType) {
-		this.relayType = relayType;
-	}
 }

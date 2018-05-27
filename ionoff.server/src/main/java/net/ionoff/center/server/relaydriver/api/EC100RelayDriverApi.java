@@ -26,17 +26,17 @@ public class EC100RelayDriverApi implements IRelayDriverApi {
 	private static Logger LOGGER = Logger.getLogger(EC100RelayDriverApi.class.getName());
 	
 	@Override
-	public RelayDriverStatus getStatus(RelayDriver relayDriver) 
+	public RelayDriverStatus getStatus(RelayDriver driver) 
 			throws RelayDriverException {
 		
-		if (!relayDriver.isConnected()) {
-			throw new RelayDriverConnectException(relayDriver.getIp());
+		if (!driver.isConnected()) {
+			throw new RelayDriverConnectException(driver.getIp());
 		}
 		
-		RelayDriverStatus relayDriverStatus = new RelayDriverStatus();
+		RelayDriverStatus driverStatus = new RelayDriverStatus();
 		
 		//$SS/0630,0590,0000,0000/1,1,1,1,z,z,z,z/0,0,0,0,z,z,z,z
-		String[] responseRo1 = requestGetStatusArr(relayDriver.getIp(), relayDriver.getPort(), ROOM_ID.ROOM1.getValue());
+		String[] responseRo1 = requestGetStatusArr(driver.getIp(), driver.getPort(), ROOM_ID.ROOM1.getValue());
 		List<Boolean> inputStatusRo1 = getDigitalInputsStatus(responseRo1, ROOM_ID.ROOM1.getValue());
 		List<Boolean> relayStatusRo1 = getRelayOutputsStatus(responseRo1, ROOM_ID.ROOM1.getValue());
 		try {
@@ -45,7 +45,7 @@ public class EC100RelayDriverApi implements IRelayDriverApi {
 			// ignore this exception
 		}
 		
-		String[] responseRo2 = requestGetStatusArr(relayDriver.getIp(), relayDriver.getPort(), ROOM_ID.ROOM2.getValue());
+		String[] responseRo2 = requestGetStatusArr(driver.getIp(), driver.getPort(), ROOM_ID.ROOM2.getValue());
 		List<Boolean> inputStatusRo2 = getDigitalInputsStatus(responseRo2, ROOM_ID.ROOM2.getValue());
 		List<Boolean> relayStatusRo2 = getRelayOutputsStatus(responseRo2, ROOM_ID.ROOM2.getValue());
 		try {
@@ -54,7 +54,7 @@ public class EC100RelayDriverApi implements IRelayDriverApi {
 			// ignore this exception
 		}
 		
-		String[] responseRo3 = requestGetStatusArr(relayDriver.getIp(), relayDriver.getPort(), ROOM_ID.ROOM3.getValue());
+		String[] responseRo3 = requestGetStatusArr(driver.getIp(), driver.getPort(), ROOM_ID.ROOM3.getValue());
 		List<Boolean> inputStatusRo3 = getDigitalInputsStatus(responseRo3, ROOM_ID.ROOM3.getValue());
 		List<Boolean> relayStatusRo3 = getRelayOutputsStatus(responseRo3, ROOM_ID.ROOM3.getValue());
 		try {
@@ -63,38 +63,38 @@ public class EC100RelayDriverApi implements IRelayDriverApi {
 			// ignore this exception
 		}
 		
-		String[] responseR4 = requestGetStatusArr(relayDriver.getIp(), relayDriver.getPort(), ROOM_ID.ROOM4.getValue());
+		String[] responseR4 = requestGetStatusArr(driver.getIp(), driver.getPort(), ROOM_ID.ROOM4.getValue());
 		List<Boolean> inputStatusRo4 = getDigitalInputsStatus(responseR4, ROOM_ID.ROOM4.getValue());
 		List<Boolean> relayStatusRo4 = getRelayOutputsStatus(responseR4, ROOM_ID.ROOM4.getValue());
 		//LOGGER.info(Joiner.on(",").join(relayStatusRo4));
 	
-		relayDriverStatus.getDigitalInputStatus().addAll(inputStatusRo1);
-		relayDriverStatus.getDigitalInputStatus().addAll(inputStatusRo2);
-		relayDriverStatus.getDigitalInputStatus().addAll(inputStatusRo3);
-		relayDriverStatus.getDigitalInputStatus().addAll(inputStatusRo4);
+		driverStatus.getDigitalInputStatus().addAll(inputStatusRo1);
+		driverStatus.getDigitalInputStatus().addAll(inputStatusRo2);
+		driverStatus.getDigitalInputStatus().addAll(inputStatusRo3);
+		driverStatus.getDigitalInputStatus().addAll(inputStatusRo4);
 		
-		relayDriverStatus.getRelayOutputStatus().addAll(relayStatusRo1);
-		relayDriverStatus.getRelayOutputStatus().addAll(relayStatusRo2);
-		relayDriverStatus.getRelayOutputStatus().addAll(relayStatusRo3);
-		relayDriverStatus.getRelayOutputStatus().addAll(relayStatusRo4);
+		driverStatus.getRelayOutputStatus().addAll(relayStatusRo1);
+		driverStatus.getRelayOutputStatus().addAll(relayStatusRo2);
+		driverStatus.getRelayOutputStatus().addAll(relayStatusRo3);
+		driverStatus.getRelayOutputStatus().addAll(relayStatusRo4);
 		
-		return relayDriverStatus;
+		return driverStatus;
 	}
 	
 	@Override
-	public void openRelay(RelayDriver relayDriver, int relayIndex) 
+	public void openRelay(RelayDriver driver, int relayIndex) 
 			throws RelayDriverException {
-		if (!relayDriver.isConnected()) {
-			throw new RelayDriverConnectException(relayDriver.getIp());
+		if (!driver.isConnected()) {
+			throw new RelayDriverConnectException(driver.getIp());
 		}
 		String params = "zctl.cgi?" + getRoomId(relayIndex) + "" + getRelayId(relayIndex) + "=0&0=OFF";
 		String response;
 		try {
-			response = sendHttpGETRequest(buildRequestUrl(relayDriver.getIp(), relayDriver.getPort(), params));
+			response = sendHttpGETRequest(buildRequestUrl(driver.getIp(), driver.getPort(), params));
 		} catch (IOException e) {
-			throw new RelayDriverConnectException(relayDriver.getIp());
+			throw new RelayDriverConnectException(driver.getIp());
 		}
-		LOGGER.info("Change relay output status, relayDriver ip: " + relayDriver.getIp() + ". Response: " + response);
+		LOGGER.info("Change relay output status, driver ip: " + driver.getIp() + ". Response: " + response);
 	}
 	
 
@@ -131,34 +131,19 @@ public class EC100RelayDriverApi implements IRelayDriverApi {
 	}
 	
 	@Override
-	public void closeRelay(RelayDriver relayDriver, int relayIndex) 
+	public void closeRelay(RelayDriver driver, int relayIndex) 
 			throws RelayDriverException {
-		if (!relayDriver.isConnected()) {
-			throw new RelayDriverConnectException(relayDriver.getIp());
+		if (!driver.isConnected()) {
+			throw new RelayDriverConnectException(driver.getIp());
 		}
 		String params = "zctl.cgi?" + getRoomId(relayIndex) + "" + getRelayId(relayIndex) + "=0&0=ON";
 		String response;
 		try {
-			response = sendHttpGETRequest(buildRequestUrl(relayDriver.getIp(), relayDriver.getPort(), params));
+			response = sendHttpGETRequest(buildRequestUrl(driver.getIp(), driver.getPort(), params));
 		} catch (IOException e) {
-			throw new RelayDriverConnectException(relayDriver.getIp());
+			throw new RelayDriverConnectException(driver.getIp());
 		}
-		LOGGER.info("Change relay output status, relayDriver ip: " + relayDriver.getIp() + ". Response: " + response);
-	}
-	
-
-	@Override
-	public void closeOpenRelay(RelayDriver relayDriver, int relayIndex)
-			throws RelayDriverException {
-		if (!relayDriver.isConnected()) {
-			throw new RelayDriverConnectException(relayDriver.getIp());
-		}
-		closeRelay(relayDriver, relayIndex);
-		try {
-			Thread.sleep(750);
-		} catch (InterruptedException e) {
-			// ignore this exception
-		}
+		LOGGER.info("Change relay output status, driver ip: " + driver.getIp() + ". Response: " + response);
 	}
 
 	public enum ROOM_ID {
@@ -343,5 +328,15 @@ public class EC100RelayDriverApi implements IRelayDriverApi {
 		in.close();
 
 		return response.toString();
+	}
+
+	@Override
+	public void openRelay(RelayDriver driver, int relayIndex, Integer autoRevert) throws RelayDriverException {
+		openRelay(driver, relayIndex);
+	}
+
+	@Override
+	public void closeRelay(RelayDriver driver, int relayIndex, Integer autoRevert) throws RelayDriverException {
+		closeRelay(driver, relayIndex);
 	}
 }

@@ -4,11 +4,13 @@ import net.ionoff.center.server.entity.RelayDriver;
 
 public interface IRelayDriverApi {
 	
-	RelayDriverStatus getStatus(RelayDriver connection) throws RelayDriverException;
+	void openRelay(RelayDriver driver, int relayIndex) throws RelayDriverException;
 	
-	void openRelay(RelayDriver connection, int relayIndex) throws RelayDriverException;
+	void closeRelay(RelayDriver driver, int relayIndex) throws RelayDriverException;
 	
-	void closeRelay(RelayDriver connection, int relayIndex) throws RelayDriverException;
+	void openRelay(RelayDriver driver, int relayIndex, Integer autoRevert) throws RelayDriverException;
 	
-	void closeOpenRelay(RelayDriver connection, int relayIndex)throws RelayDriverException;
+	void closeRelay(RelayDriver driver, int relayIndex, Integer autoRevert) throws RelayDriverException;
+	
+	RelayDriverStatus getStatus(RelayDriver driver) throws RelayDriverException;
 }

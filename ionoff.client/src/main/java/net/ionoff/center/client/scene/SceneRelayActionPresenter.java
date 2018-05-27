@@ -50,11 +50,6 @@ public class SceneRelayActionPresenter extends RelayActionPresenter<SceneRelayAc
 	}
 
 	@Override
-	protected String getTargetRelayType() {
-		return sceneAction.getRelayType();
-	}
-
-	@Override
 	protected void setTargetAction(String action) {
 		sceneAction.setAction(action);
 	}

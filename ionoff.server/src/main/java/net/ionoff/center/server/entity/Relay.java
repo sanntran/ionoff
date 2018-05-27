@@ -7,17 +7,14 @@ import java.util.List;
 public class Relay extends BaseObj {
 
 	private static final long serialVersionUID = 1L;
-
-	public static final String SWITCH = "Switch";
-	public static final String BUTTON = "Button";
 	
 	private String label;
 	private Date time;
 	private Long version;
-	private String type;
 	private Integer index;
 	private Boolean status;
 	private Boolean isLocked;
+	private Integer autoRevert;
 	private RelayDriver driver;
 	private Device device;
 	
@@ -41,12 +38,6 @@ public class Relay extends BaseObj {
 	}
 	public void setVersion(Long version) {
 		this.version = version;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public Integer getIndex() {
@@ -96,20 +87,19 @@ public class Relay extends BaseObj {
 		return true;
 	}
 	
+	public Integer getAutoRevert() {
+		return autoRevert;
+	}
+	public void setAutoRevert(Integer autoRevert) {
+		this.autoRevert = autoRevert;
+	}
+	
 	public boolean isClosed() {
 		return status != null && status.booleanValue() == true;
 	}
 	
 	public boolean isOpened() {
 		return status != null && status.booleanValue() == false;
-	}
-	
-	public boolean isButton() {
-		return BUTTON.equals(type);
-	}
-	
-	public boolean isSwitch() {
-		return SWITCH.equals(type);
 	}
 	
 	public List<RelayGroup> getGroups() {
@@ -128,5 +118,9 @@ public class Relay extends BaseObj {
 	}
 	public void setGroupRelays(List<RelayGroupRelay> groupRelays) {
 		this.groupRelays = groupRelays;
+	}
+	
+	public boolean izAutoRevert() {
+		return autoRevert != null && autoRevert.intValue() > 0;
 	}
 }

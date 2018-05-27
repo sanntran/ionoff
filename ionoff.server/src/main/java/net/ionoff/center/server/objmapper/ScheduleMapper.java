@@ -87,7 +87,6 @@ public class ScheduleMapper {
 			final ScheduleRelayActionDto scheduleRelayActionDto = new ScheduleRelayActionDto();
 			scheduleRelayActionDto.setRelayId(scheduleRelayAction.getRelay().getId());
 			scheduleRelayActionDto.setRelayName(scheduleRelayAction.getRelay().getName());
-			scheduleRelayActionDto.setRelayType(scheduleRelayAction.getRelay().getType());
 
 			return scheduleRelayActionDto;
 		}

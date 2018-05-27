@@ -9,7 +9,6 @@ public class RelayDriver extends BaseObj {
 	private static final long serialVersionUID = 1L;
 	
 	public static final int KEY_LENGTH = 8;
-	public static final String DEFAULT_KEY = "A3000000";
 	
 	private String ip;
 	private Integer port;
@@ -78,7 +77,8 @@ public class RelayDriver extends BaseObj {
 	}
 	
 	public boolean isConnected() {
-		if (RelayDriverModel.IONOFF_E4.toString().equals(model)) {
+		if (RelayDriverModel.IONOFF_E4.toString().equals(model) || 
+				RelayDriverModel.IONOFF_E3.toString().equals(model)) {
 			if (connectedTime == null || System.currentTimeMillis() - connectedTime > 49000) {
 				return false;
 			}
@@ -123,8 +123,7 @@ public class RelayDriver extends BaseObj {
 	}
 	
 	public boolean isValidKey() {
-		return key != null && !key.trim().isEmpty() 
-				&& !DEFAULT_KEY.equals(key);
+		return key != null && !key.trim().isEmpty();
 	}
 	
 	@Override

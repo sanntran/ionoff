@@ -40,7 +40,7 @@ public class RelayView extends Composite {
 	public RelayView(RelayDto relay) {
 		uiBinder.createAndBindUi(this);
 		this.relay = relay;
-		if (relay.isButton()) {
+		if (relay.izAutoRevert()) {
 			btnSwitch.addStyleName("press");
 		}
 		if (relay.getLabel() != null && !relay.getLabel().isEmpty()) {

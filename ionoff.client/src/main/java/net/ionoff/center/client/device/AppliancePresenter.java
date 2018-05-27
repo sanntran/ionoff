@@ -132,19 +132,14 @@ public class AppliancePresenter extends DevicePresenter {
 		
 		if (view instanceof ApplianceCardView) {
 			RelayDto relay = appliance.getRelays().get(0);
-			if (relay.isButton()) {
+			if (relay.izAutoRevert()) {
 				view.getBtnSwitch().addStyleName("press");
 			}
 			view.getBtnSwitch().addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
 					view.getBtnSwitch().setEnabled(false);
-					if (relay.isButton()) {
-						pressBtn(relay);
-					}
-					else {
-						doSwitch(relay);
-					}
+					doSwitch(relay);
 				}
 			});
 		}
@@ -157,12 +152,7 @@ public class AppliancePresenter extends DevicePresenter {
 					@Override
 					public void onClick(ClickEvent event) {
 						relayView.getBtnSwitch().setEnabled(false);
-						if (relayView.getRelay().isButton()) {
-							pressBtn(relayView);
-						}
-						else {
-							doSwitch(relayView);
-						}
+						doSwitch(relayView);
 					}
 				});
 				collapsibleView.getRelayCollection().add(relayView.asPanel());
@@ -239,36 +229,6 @@ public class AppliancePresenter extends DevicePresenter {
 		});
 	}
 	
-	
-	/**
-	 * This method apply only for card view
-	 */
-	private void pressBtn(final RelayDto relay) {
-		setLocked(true);
-		getRpcProvider().getRelayService().closeOpenRelay(relay.getId(), new MethodCallback<StatusDto>() {
-			@Override
-			public void onFailure(Method method, Throwable exception) {
-				setLocked(false);
-				ClientUtil.handleRpcFailure(method, exception, eventBus);
-				relay.setStatus(false);
-				appliance.getStatus().setValue(false);
-				view.getBtnSwitch().setEnabled(true);
-				displayStatus();
-			}
-			@Override
-			public void onSuccess(Method method, StatusDto response) {
-				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				setLocked(false);
-				relay.setStatus(response.getValue());
-				relay.setTime(response.getTime());
-				appliance.getStatus().setValue(response.getValue());
-				appliance.getStatus().setTime(response.getTime());
-				view.getBtnSwitch().setEnabled(true);
-				displayStatus();
-			}
-		});
-	}
-	
 	/**
 	 * This method apply only for card view
 	 */
@@ -279,33 +239,6 @@ public class AppliancePresenter extends DevicePresenter {
 		else if (Boolean.TRUE.equals(relay.getStatus())) {
 			openRelay(relay);
 		}
-	}
-
-	private void pressBtn(final RelayView relayView) {
-		setLocked(true);
-		relayView.getRelay().setStatus(true);
-		relayView.displayStatus();
-		
-		getRpcProvider().getRelayService().closeOpenRelay(relayView.getRelay().getId(), new MethodCallback<StatusDto>() {
-			@Override
-			public void onFailure(Method method, Throwable exception) {
-				setLocked(false);
-				ClientUtil.handleRpcFailure(method, exception, eventBus);
-				relayView.getRelay().setStatus(false);
-				relayView.displayStatus();
-				relayView.getBtnSwitch().setEnabled(true);
-				displayStatus();
-			}
-			@Override
-			public void onSuccess(Method method, StatusDto response) {
-				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				setLocked(false);
-				relayView.getRelay().setStatus(false);
-				relayView.displayStatus();
-				relayView.getBtnSwitch().setEnabled(true);
-				displayStatus();
-			}
-		});
 	}
 	
 	private void doSwitch(RelayView relayView) {

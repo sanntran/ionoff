@@ -21,8 +21,6 @@ public interface IControlService {
 	
 	void switchRelayToOff(Relay relay);
 	
-	void switchRelayOnOff(Relay relay);
-	
 	void executeRelayAction(Relay relay, String action);
 	
 	void executePlayerAction(Player player, String action, String volume, String album, String albumType);
@@ -33,11 +31,11 @@ public interface IControlService {
 	
 	StatusDto switchOff(long relayId);
 	
-	StatusDto switchOnOff(long relayId);
-
 	void setRelayState(Relay relay, Boolean state);
 
 	StatusDto turnOnDevice(Device device);
 
 	StatusDto turnOffDevice(Device device);
+
+	StatusDto getStatusDto(Relay relay);
 }

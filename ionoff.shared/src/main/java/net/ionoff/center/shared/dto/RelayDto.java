@@ -4,30 +4,20 @@ public class RelayDto extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String SWITCH = "Switch";
-	public static final String BUTTON = "Button";
-
 	public static final String DRIVER = "driver";
 	public static final String DEVICE = "device";
 
-	private String type;
 	private String time;
 	private Integer index;
 	private Boolean status;
 	private String label;
 	private Boolean isLocked;
 	private Boolean isLeader;
+	private Integer autoRevert;
 	private Long driverId;
 	private String driverName;
 	private Long deviceId;
 	private String deviceName;
-
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
 
 	public Integer getIndex() {
 		return index;
@@ -43,6 +33,13 @@ public class RelayDto extends BaseDto {
 		this.status = status;
 	}
 
+	public Integer getAutoRevert() {
+		return autoRevert;
+	}
+	public void setAutoRevert(Integer autoRevert) {
+		this.autoRevert = autoRevert;
+	}
+	
 	public Long getDriverId() {
 		return driverId;
 	}
@@ -71,14 +68,6 @@ public class RelayDto extends BaseDto {
 		this.deviceName = deviceName;
 	}
 
-	public boolean isButton() {
-		return BUTTON.equals(type);
-	}
-	
-	public boolean isSwitch() {
-		return SWITCH.equals(type);
-	}
-	
 	public String getLabel() {
 		return label;
 	}
@@ -107,5 +96,9 @@ public class RelayDto extends BaseDto {
 	}
 	public void setIsLocked(Boolean isLocked) {
 		this.isLocked = isLocked;
+	}
+	
+	public boolean izAutoRevert() {
+		return autoRevert != null && autoRevert > 0;
 	}
 }

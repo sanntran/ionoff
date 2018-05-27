@@ -78,20 +78,13 @@ public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, 
 	}
 
 	private void insertSWitchs(RelayDriver relayDriver) {
-		if (RelayDriverModel.IONOFF_P8.toString().equals(relayDriver.getModel())) {
-			for (int i = 0; i < RelayDriverModel.IONOFF_P8.getDigitalInput(); i++) {
-				insertSwitch(relayDriver, i);
-			}
+		RelayDriverModel model = RelayDriverModel.fromString(relayDriver.getModel());
+		if (model == null) {
+			return;
 		}
-		else if (RelayDriverModel.IONOFF_E4.toString().equals(relayDriver.getModel())) {
-			for (int i = 0; i < RelayDriverModel.IONOFF_E4.getDigitalInput(); i++) {
-				insertSwitch(relayDriver, i);
-			}
-		}
-		else if (RelayDriverModel.IONOFF_P4.toString().equals(relayDriver.getModel())) {
-			for (int i = 0; i < RelayDriverModel.IONOFF_P4.getDigitalInput(); i++) {
-				insertSwitch(relayDriver, i);
-			}
+		
+		for (int i = 0; i < model.getDigitalInput(); i++) {
+			insertSwitch(relayDriver, i);
 		}
 	}
 
@@ -123,27 +116,31 @@ public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, 
 	
 
 	private void validateRelayDriver(RelayDriver relayDriver, String locale) throws UpdateEntityException {
-		
-		if (RelayDriverModel.IONOFF_E4.toString().equals(relayDriver.getModel().toString()) ||
-				RelayDriverModel.IONOFF_P4.toString().equals(relayDriver.getModel().toString()) ||
-				RelayDriverModel.IONOFF_P8.toString().equals(relayDriver.getModel().toString())) {
-			// does not validate ip and port
-			if (!relayDriver.isValidKey()) {
-				String message = Messages.get(locale).fieldInvalid(Constants.get(locale).key(), relayDriver.getKey() + "");
-				throw new UpdateEntityException(message);
-			}
+		RelayDriverModel model = RelayDriverModel.fromString(relayDriver.getModel());
+
+		if (model == null) {
+			String message = Messages.get(locale).fieldInvalid(Constants.get(locale).model(), relayDriver.getModel());
+			throw new UpdateEntityException(message);
 		}
-		else {
+		
+		if (RelayDriverModel.HLAB_EP2.toString().equals(relayDriver.getModel().toString()) ||
+				RelayDriverModel.HBQ_EC100.toString().equals(relayDriver.getModel().toString())) {
 			if (relayDriver.getPort() == null || relayDriver.getPort().intValue() == 0) {
-				String message = Messages.get(locale).fieldInvalid(Constants.get(locale).port(), relayDriver.getPort() + "");
+				String message = Messages.get(locale).fieldInvalid(
+									Constants.get(locale).port(), relayDriver.getPort() + "");
 				throw new UpdateEntityException(message);
 			}
 			if (relayDriver.getIp() == null || relayDriver.getIp().isEmpty()) {
-				throw new UpdateEntityException(Messages.get(locale).fieldInvalid(Constants.get(locale).ip(), relayDriver.getIp()));
+				throw new UpdateEntityException(Messages.get(locale).fieldInvalid(
+												Constants.get(locale).ip(), relayDriver.getIp()));
 			}
 			if (checkDuplicatedIp(relayDriver)) {
 				throw new UpdateEntityException(Messages.get(locale).relayDriverIpDuplicated(relayDriver.getIp()));
 			}
+		}
+		else if (!relayDriver.isValidKey()) {
+			String message = Messages.get(locale).fieldInvalid(Constants.get(locale).key(), relayDriver.getKey());
+			throw new UpdateEntityException(message);
 		}
 	}
 
@@ -154,7 +151,7 @@ public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, 
 		relay.setDriver(relayDriver);
 		relay.setName("Relay " + (index + 1));
 		relay.setIndex(index);
-		relay.setType(Relay.SWITCH);
+		relay.setAutoRevert(0);
 		getRelayDao().insert(relay);
 		
 		logger.info("Insert relay: " + relay.getName() + ", index: " + relay.getIndex() 

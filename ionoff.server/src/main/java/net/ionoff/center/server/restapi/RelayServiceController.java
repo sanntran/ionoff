@@ -111,19 +111,6 @@ public class RelayServiceController {
 		return controlService.switchOff(relayId);
 	}
 	
-	@RequestMapping(value = "relays/{relayId}/closeopen",
-			method = RequestMethod.POST,
-			produces = "application/json; charset=utf-8")
-	@ResponseBody
-	public StatusDto closeOpenRelay(@PathVariable("relayId") Long relayId,
-			HttpServletRequest request) {
-		
-		User user = RequestContextHolder.getUser();
-		
-		logger.info("User " + user.getName() + " close-open relay. ID: " + relayId);
-		return controlService.switchOnOff(relayId);
-	}
-	
 	@RequestMapping(value = "relays/{relayId}/groups",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")

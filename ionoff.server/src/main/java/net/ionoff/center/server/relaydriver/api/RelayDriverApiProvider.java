@@ -9,6 +9,8 @@ import net.ionoff.center.shared.entity.RelayDriverModel;
 public class RelayDriverApiProvider {
 	
 	@Autowired
+	private E3RelayDriverApi e3RelayDriverApi;
+	@Autowired
 	private E4RelayDriverApi e4RelayDriverApi;
 	@Autowired
 	private P4RelayDriverApi p4RelayDriverApi;
@@ -20,6 +22,9 @@ public class RelayDriverApiProvider {
 	private EP2RelayDriverApi ep2Api;
 	
 	public IRelayDriverApi getRelayDriverApi(RelayDriver relayDriver) throws UnknownRelayDriverModelException {
+		if (RelayDriverModel.IONOFF_E3.toString().equals(relayDriver.getModel())) {
+			return e3RelayDriverApi;
+		}
 		if (RelayDriverModel.IONOFF_E4.toString().equals(relayDriver.getModel())) {
 			return e4RelayDriverApi;
 		}

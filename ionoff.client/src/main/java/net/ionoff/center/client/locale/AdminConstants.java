@@ -86,7 +86,7 @@ public interface AdminConstants extends Constants {
 	String extended();
 
 	@DefaultStringValue("Công tắc")
-	String switch_();
+	String zwitch();
 
 	@DefaultStringValue("Nút nhấn")
 	String button();
@@ -268,9 +268,13 @@ public interface AdminConstants extends Constants {
 	@DefaultStringValue("Tin nhắn")
 	String message();
 	
-	@DefaultStringValue("(E4: 0,1,2)")
+	@DefaultStringValue("(IONOFF_E3 hoặc IONOFF_E4: 0, 1, 2)")
 	String inputNote();
 	
 	@DefaultStringValue("Khóa")
 	String lock();
+	
+	@DefaultStringValue("Tự chuyển trạng thái (giây)")
+	String autoRevert();
+	
 }

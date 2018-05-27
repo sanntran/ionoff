@@ -1,25 +1,36 @@
 package net.ionoff.center.server.persistence.dao.impl;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import net.ionoff.center.server.entity.*;
-import net.ionoff.center.server.persistence.dao.IDeviceDao;
-import net.ionoff.center.server.util.DateTimeUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.ionoff.center.server.entity.Device;
+import net.ionoff.center.server.entity.EntityUtil;
+import net.ionoff.center.server.entity.QueryCriteria;
+import net.ionoff.center.server.entity.Sensor;
+import net.ionoff.center.server.entity.SensorData;
+import net.ionoff.center.server.entity.WeighScale;
+import net.ionoff.center.server.persistence.dao.IDeviceDao;
 import net.ionoff.center.server.persistence.dao.ISensorDataDao;
+import net.ionoff.center.server.util.DateTimeUtil;
 
 @Transactional
 public class SensorDataDaoImpl extends AbstractGenericDao<SensorData> implements ISensorDataDao {
 
 	private static final Logger logger = Logger.getLogger(SensorDataDaoImpl.class.getName());
+	
+	private static final DecimalFormat TWO_DFORM = new DecimalFormat("#.##");
 
 	@Autowired
 	private IDeviceDao deviceDao;
@@ -193,7 +204,8 @@ public class SensorDataDaoImpl extends AbstractGenericDao<SensorData> implements
 					int m = cal.get(Calendar.MONTH) + 1;
 					int d = cal.get(Calendar.DAY_OF_MONTH);
 					if (y == year && m == month && d == day) {
-						data.setValue((Double) objArr[3]);
+						double val = Double.valueOf(TWO_DFORM.format(objArr[3]));
+						data.setValue(val);
 						data.setIndex((Long) objArr[4]);
 						break;
 					}

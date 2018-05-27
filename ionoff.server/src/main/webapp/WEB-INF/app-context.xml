@@ -97,6 +97,9 @@
 
 	<context:component-scan base-package="net.ionoff.center.server.restapi" />
 
+	<bean id="e3RelayDriverApi" class="net.ionoff.center.server.relaydriver.api.E3RelayDriverApi">
+	</bean>
+	
 	<bean id="e4RelayDriverApi" class="net.ionoff.center.server.relaydriver.api.E4RelayDriverApi">
 	</bean>
 
@@ -110,7 +113,7 @@
 		class="net.ionoff.center.server.relaydriver.api.EC100RelayDriverApi">
 	</bean>
 
-	<bean id="ep2"
+	<bean id="ep2RelayDriverApi"
 		class="net.ionoff.center.server.relaydriver.api.EP2RelayDriverApi">
 	</bean>
 

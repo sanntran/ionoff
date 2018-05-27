@@ -92,7 +92,6 @@ public class SceneMapper {
 			final SceneRelayActionDto sceneRelayActionDto = new SceneRelayActionDto();
 			sceneRelayActionDto.setRelayId(sceneRelayAction.getRelay().getId());
 			sceneRelayActionDto.setRelayName(sceneRelayAction.getRelay().getName());
-			sceneRelayActionDto.setRelayType(sceneRelayAction.getRelay().getType());
 
 			return sceneRelayActionDto;
 		}

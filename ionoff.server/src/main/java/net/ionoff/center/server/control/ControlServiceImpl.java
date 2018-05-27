@@ -75,7 +75,7 @@ public class ControlServiceImpl implements IControlService {
 		if (relay.isOpened()) {
 			switchRelayToOn(relay);
 		}
-		return createStatusDto(relay);
+		return getStatusDto(relay);
 	}
 
 	@Override
@@ -84,22 +84,11 @@ public class ControlServiceImpl implements IControlService {
 		if (relay.isClosed()) {
 			switchRelayToOff(relay);
 		}
-		return createStatusDto(relay);
-	}
-
-	@Override
-	public StatusDto switchOnOff(long relayId) {
-		final Relay relay = relayService.requireById(relayId);
-		if (relay.isClosed()) {
-			switchRelayToOff(relay);
-		}
-		if (relay.isOpened()) {
-			switchRelayOnOff(relay);
-		}
-		return createStatusDto(relay);
+		return getStatusDto(relay);
 	}
 	
-	private StatusDto createStatusDto(Relay relay) {
+	@Override
+	public StatusDto getStatusDto(Relay relay) {
 		StatusDto statusDto = new StatusDto();
 		statusDto.setId(relay.getId());
 		statusDto.setValue(relay.getStatus());
@@ -114,24 +103,57 @@ public class ControlServiceImpl implements IControlService {
 		if (Boolean.TRUE.equals(relay.getIsLocked())) {
 			throw new RelayLockedException(relay.getName() + " (" + relay.getDriver().getName() + ")");
 		}
+		if (state == null) {
+			return;
+		}
+		sendRelayCommand(relay, state, relay.getAutoRevert());
+		if (relay.izAutoRevert()) {
+			try {
+				Thread.sleep(relay.getAutoRevert() * 1000);
+			} catch (InterruptedException e) {
+				logger.error(e.getMessage(), e);
+			}
+			sendRelayCommand(relay, !state);
+		}
+	}
+	
+	private void sendRelayCommand(Relay relay, Boolean state) {
 		if (Boolean.TRUE.equals(state)) {
 			RelayDriver relayDriver = relay.getDriver();
 			relayDriverApiProvider.getRelayDriverApi(relayDriver).closeRelay(relayDriver, relay.getIndex());
 			logger.info("Update relay status " + relay.getNameId() + ": true");
 			relayService.update(relay, true);
+			notifyRelayStateChanged(relay);
 		}
 		else if (Boolean.FALSE.equals(state)) {
 			RelayDriver relayDriver = relay.getDriver();
 			relayDriverApiProvider.getRelayDriverApi(relayDriver).openRelay(relayDriver, relay.getIndex());
 			logger.info("Update relay status " + relay.getNameId() + ": false");
 			relayService.update(relay, false);
+			notifyRelayStateChanged(relay); 
+		}
+	}
+	
+	private void sendRelayCommand(Relay relay, Boolean state, Integer autoRevert) {
+		if (Boolean.TRUE.equals(state)) {
+			RelayDriver relayDriver = relay.getDriver();
+			relayDriverApiProvider.getRelayDriverApi(relayDriver).closeRelay(relayDriver, relay.getIndex(), autoRevert);
+			logger.info("Update relay status " + relay.getNameId() + ": true");
+			relayService.update(relay, true);
+			notifyRelayStateChanged(relay);
+		}
+		else if (Boolean.FALSE.equals(state)) {
+			RelayDriver relayDriver = relay.getDriver();
+			relayDriverApiProvider.getRelayDriverApi(relayDriver).openRelay(relayDriver, relay.getIndex(), autoRevert);
+			logger.info("Update relay status " + relay.getNameId() + ": false");
+			relayService.update(relay, false);
+			notifyRelayStateChanged(relay);
 		}
 	}
 	
 	@Override
 	public void switchRelayToOn(Relay relay) {
 		setRelayState(relay, true);
-		notifyRelayStateChanged(relay);
 	}
 
 	private void notifyRelayStateChanged(Relay relay) {
@@ -142,18 +164,6 @@ public class ControlServiceImpl implements IControlService {
 	public void switchRelayToOff(Relay relay) {
 		setRelayState(relay, false);
 		notifyRelayStateChanged(relay);
-	}
-
-	@Override
-	public void switchRelayOnOff(Relay relay) {
-		if (Boolean.TRUE.equals(relay.getIsLocked())) {
-			throw new RelayLockedException(relay.getName() + " (" + relay.getDriver().getName() + ")");
-		}
-		RelayDriver relayDriver = relay.getDriver();
-		relayDriverApiProvider.getRelayDriverApi(relayDriver)
-					.closeOpenRelay(relayDriver, relay.getIndex());
-		logger.info("Update relay status " + relay.getNameId() + ": false");
-		relayService.update(relay, false);
 	}
 
 	@Override
@@ -209,9 +219,6 @@ public class ControlServiceImpl implements IControlService {
 		}
 		else if (RelayAction.CLOSE.equalsIgnoreCase(action)) {
 			switchRelayToOn(relay);
-		}
-		else if (RelayAction.CLOSE_OPEN.equalsIgnoreCase(action)) {
-			switchRelayOnOff(relay);
 		}
 	}
 

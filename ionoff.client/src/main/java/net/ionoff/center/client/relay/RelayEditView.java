@@ -9,7 +9,7 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialCheckBox;
-import gwt.material.design.client.ui.MaterialListBox;
+import gwt.material.design.client.ui.MaterialIntegerBox;
 import gwt.material.design.client.ui.MaterialTextBox;
 import net.ionoff.center.client.base.AbstractEditView;
 import net.ionoff.center.client.locale.AdminLocale;
@@ -22,7 +22,7 @@ public class RelayEditView extends AbstractEditView<RelayDto> implements RelayEd
 	private MaterialCheckBox checkBoxLocked;
 	private MaterialTextBox textBoxDriver;
 	private MaterialTextBox textBoxIndex;
-	private MaterialListBox listBoxTypes;
+	private MaterialIntegerBox intBoxAutoRevert;
 	private DevicesSelectionPanel devicesSelectionPanel;
 	private final FlowPanel relayGroupListPanel;
 	private final MaterialButton btnAddRelayGroup;
@@ -37,12 +37,6 @@ public class RelayEditView extends AbstractEditView<RelayDto> implements RelayEd
 		panel.addStyleName("row");
 		contentPanel.add(panel);
 		
-		checkBoxLocked = new MaterialCheckBox();
-		checkBoxLocked.addStyleName("lock");
-		checkBoxLocked.setText(AdminLocale.getAdminConst().lock());
-		checkBoxLocked.setValue(false);
-		contentPanel.add(checkBoxLocked);
-		
 		textBoxDriver = new MaterialTextBox();
 		textBoxDriver.setEnabled(false);
 		textBoxDriver.addStyleName("col s6 no-padding");
@@ -55,11 +49,15 @@ public class RelayEditView extends AbstractEditView<RelayDto> implements RelayEd
 		textBoxIndex.setLabel(AdminLocale.getAdminConst().index());
 		panel.add(textBoxIndex);
 		
-		listBoxTypes = new MaterialListBox();
-		listBoxTypes.setPlaceholder(AdminLocale.getAdminConst().type());
-		listBoxTypes.addItem(AdminLocale.getAdminConst().switch_());
-		listBoxTypes.addItem(AdminLocale.getAdminConst().button());
-		contentPanel.add(listBoxTypes);
+		checkBoxLocked = new MaterialCheckBox();
+		checkBoxLocked.addStyleName("lock");
+		checkBoxLocked.setText(AdminLocale.getAdminConst().lock());
+		checkBoxLocked.setValue(false);
+		contentPanel.add(checkBoxLocked);
+		
+		intBoxAutoRevert = new MaterialIntegerBox();
+		intBoxAutoRevert.setLabel(AdminLocale.getAdminConst().autoRevert());
+		contentPanel.add(intBoxAutoRevert);
 		
 		devicesSelectionPanel = new DevicesSelectionPanel();
 		contentPanel.add(devicesSelectionPanel);
@@ -97,8 +95,8 @@ public class RelayEditView extends AbstractEditView<RelayDto> implements RelayEd
 	}
 	
 	@Override
-	public MaterialListBox getListBoxTypes() {
-		return listBoxTypes;
+	public MaterialIntegerBox getIntBoxAutoRevert() {
+		return intBoxAutoRevert;
 	}
 	
 	@Override

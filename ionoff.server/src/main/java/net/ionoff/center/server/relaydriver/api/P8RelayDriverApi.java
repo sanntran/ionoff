@@ -48,20 +48,6 @@ public class P8RelayDriverApi implements IRelayDriverApi {
 		sendTcpCommand(relayDriver, req);
 	}
 	
-	@Override
-	public void closeOpenRelay(RelayDriver relayDriver, int relayIndex)
-			throws RelayDriverException {
-		if (!relayDriver.isConnected()) {
-			throw new RelayDriverConnectException(relayDriver.getName());
-		}
-		if (!relayDriver.isValidKey()) {
-			throw new RelayDriverApiException("RelayDriver key invalid: " + relayDriver.getKey());
-		}
-		int outId = relayIndex + 1;
-		String req = "{ioseto" + outId + "2}";
-		sendTcpCommand(relayDriver, req);
-	}
-	
 	protected String sendTcpCommand(RelayDriver relayDriver, String command) throws RelayDriverException {
 		RelayDriverConnection connection = getConnection(relayDriver);
 		if (connection == null || connection.isClosed()) {
@@ -101,5 +87,32 @@ public class P8RelayDriverApi implements IRelayDriverApi {
 	}
 	private RelayDriverConnection getConnection(RelayDriver relayDriver) throws RelayDriverConnectException {
 		return RelayDriverConnectionMap.getRelayDriverConnection(relayDriver); 
+	}
+
+	@Override
+	public void openRelay(RelayDriver driver, int relayIndex, Integer autoRevert) throws RelayDriverException {
+		if (autoRevert == null || autoRevert.intValue() <= 0) {
+			openRelay(driver, relayIndex);
+		}
+		else {
+			int outId = relayIndex + 1;
+			String req = "{ioseto" + outId + "2}";
+			sendTcpCommand(driver, req);
+		}
+	}
+
+	@Override
+	public void closeRelay(RelayDriver driver, int relayIndex, Integer autoRevert) throws RelayDriverException {
+		if (!driver.isConnected()) {
+			throw new RelayDriverConnectException(driver.getName());
+		}
+		if (autoRevert == null || autoRevert.intValue() <= 0) {
+			closeRelay(driver, relayIndex);
+		}
+		else {
+			int outId = relayIndex + 1;
+			String req = "{ioseto" + outId + "2}";
+			sendTcpCommand(driver, req);
+		}
 	}
 }

@@ -29,9 +29,7 @@ public class Device extends BaseObj implements ISlice, Comparable<Device> {
 	public Boolean getStatus() {
 		if (hasOneRelay()) {
 			Relay relay =  relays.iterator().next();
-			if (relay.isSwitch()) {
-				return relay.getStatus();
-			}
+			return relay.getStatus();
 		}
 		return null; // unknown
 	}
@@ -105,7 +103,7 @@ public class Device extends BaseObj implements ISlice, Comparable<Device> {
 	}
 
 	public boolean isAbleToTurnOn() {
-		return hasOneRelay() && relays.iterator().next().isSwitch();
+		return hasOneRelay();
 	}
 	
 	private boolean hasOneRelay() {
@@ -113,7 +111,7 @@ public class Device extends BaseObj implements ISlice, Comparable<Device> {
 	}
 
 	public boolean isAbleToTurnOff() {
-		return hasOneRelay() && relays.iterator().next().isSwitch();
+		return hasOneRelay();
 	}
 
 	@Override

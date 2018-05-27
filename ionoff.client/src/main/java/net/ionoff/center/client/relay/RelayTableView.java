@@ -50,7 +50,6 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 		deviceColumn =  createDeviceColumn();
 		deviceColumn.setSortable(true);
 		cellTable.addColumn(deviceColumn, AdminLocale.getAdminConst().device());
-		cellTable.setColumnWidth(deviceColumn, 100.0, Unit.PX);
 		
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");

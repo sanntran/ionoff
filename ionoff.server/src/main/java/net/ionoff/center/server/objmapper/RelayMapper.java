@@ -22,7 +22,7 @@ public class RelayMapper {
 	
 	public Relay updateRelay(Relay relay, RelayDto relayDto) {
 		relay.setName(relayDto.getName());
-		relay.setType(relayDto.getType());
+		relay.setAutoRevert(relayDto.getAutoRevert());
 		relay.setIsLocked(relayDto.getIsLocked());
 		return relay;
 	}
@@ -35,7 +35,7 @@ public class RelayMapper {
 		relayDto.setIndex(relay.getIndex() + 1);
 		relayDto.setStatus(relay.getStatus());
 		relayDto.setIsLocked(relay.getIsLocked());
-		relayDto.setType(relay.getType());
+		relayDto.setAutoRevert(relay.getAutoRevert());
 		if (relay.getTime() != null) {
 			relayDto.setTime(DateTimeUtil.ddMMHHmmFormatter.format(relay.getTime()));
 		}

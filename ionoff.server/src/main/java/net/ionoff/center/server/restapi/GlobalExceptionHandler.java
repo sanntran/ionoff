@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
 	public MessageDto handleRelayDriverConnectException(HttpServletRequest request, HttpServletResponse response, 
 			RelayDriverConnectException e) {
 		final String locale = (String) request.getAttribute("locale");
-		logger.error(e.getMessage(), e);
+		logger.error(e.getMessage());
 		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		MessageDto message = new MessageDto(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 				Messages.get(locale).errorConnectRelayDriver(e.getMessage()));
@@ -115,10 +115,10 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(RelayLockedException.class)
 	@ResponseBody
-	public MessageDto handleRelayDriverConnectException(HttpServletRequest request, HttpServletResponse response, 
+	public MessageDto handleRelayLockedException(HttpServletRequest request, HttpServletResponse response, 
 			RelayLockedException e) {
 		final String locale = (String) request.getAttribute("locale");
-		logger.error(e.getMessage(), e);
+		logger.error(e.getMessage());
 		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		MessageDto message = new MessageDto(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 				Messages.get(locale).errorRelayLocked(e.getMessage()));

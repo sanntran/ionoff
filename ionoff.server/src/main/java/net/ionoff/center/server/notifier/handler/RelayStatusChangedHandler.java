@@ -10,6 +10,7 @@ import net.ionoff.center.server.control.IControlService;
 import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.RelayGroup;
 import net.ionoff.center.server.entity.RelayGroupRelay;
+import net.ionoff.center.server.persistence.dao.IRelayGroupDao;
 
 public class RelayStatusChangedHandler {
 	
@@ -18,15 +19,23 @@ public class RelayStatusChangedHandler {
 	@Autowired
 	private IControlService controlService;
 	
+	@Autowired
+	private IRelayGroupDao relayGroupDao;
+	
 	@Async
 	public void onRelayStatusChanged(Relay relay) {
 		if (relay == null || relay.getGroupRelays() == null || relay.getGroupRelays().isEmpty()) {
 			return;
 		}
-
+		
+		List<RelayGroup> relayGroups = relayGroupDao.findByRelayId(relay.getId());
+		if (relayGroups.isEmpty()) {
+			return;
+		}
+		
 		logger.info("Relay " + relay.getSId() + " status changed. Synchronizing relay group state");
 
-		for (RelayGroup relayGroup : relay.getGroups()) {
+		for (RelayGroup relayGroup : relayGroups) {
 			List<RelayGroupRelay> groupRelays = relayGroup.getGroupRelays();
 			if (groupRelays == null || groupRelays.isEmpty()) {
 				break;

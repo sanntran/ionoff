@@ -63,11 +63,13 @@ public class RelayServiceImpl extends AbstractGenericService<Relay, RelayDto> im
 	
 	@Override
 	public Relay update(Relay relay, boolean status) {
+		relay = relayDao.findById(relay.getId());
 		synchronized (this) {
 			relay.setStatus(status);
 			relay.setTime(new Date());
 			Device device = relay.getDevice();
 			if (device != null) {
+				device = deviceDao.findById(relay.getDevice().getId());
 				device.setTime(relay.getTime());
 				deviceDao.update(device);
 			}
@@ -198,9 +200,6 @@ public class RelayServiceImpl extends AbstractGenericService<Relay, RelayDto> im
 		
 		Device device = deviceDao.findById(dto.getDeviceId());
 		if (device instanceof Light) {
-			if (relay.isButton()) {
-				throw new UpdateEntityException(Messages.get(user.getLanguage()).errorSetRelayTypeButtonForLight());
-			}
 			if (device.hasRelay() && !device.hasRelays(relay)) {
 				throw new UpdateEntityException(Messages.get(user.getLanguage()).errorSetManyRelayForLight());
 			}

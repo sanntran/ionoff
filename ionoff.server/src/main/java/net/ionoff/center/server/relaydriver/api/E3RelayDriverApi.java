@@ -2,10 +2,11 @@ package net.ionoff.center.server.relaydriver.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.thread.MosquittoClient;
 
-public class E4RelayDriverApi implements IRelayDriverApi {
+public class E3RelayDriverApi implements IRelayDriverApi {
 	
 	@Autowired
 	private MosquittoClient mqttClient;
@@ -14,8 +15,7 @@ public class E4RelayDriverApi implements IRelayDriverApi {
 	public void openRelay(RelayDriver relayDriver, int relayIndex) 
 			throws RelayDriverException {
 		checkConnected(relayDriver);
-		int outId = relayIndex + 1;
-		String req = "{ioseto" + outId + "1}";
+		String req = getMqttMessage(relayIndex, 1, 0);
 		sendMqttMessage(relayDriver, req);
 	}
 	
@@ -27,9 +27,36 @@ public class E4RelayDriverApi implements IRelayDriverApi {
 	public void closeRelay(RelayDriver relayDriver, int relayIndex) 
 			throws RelayDriverException {
 		checkConnected(relayDriver);
-		int outId = relayIndex + 1;
-		String req = "{ioseto" + outId + "0}";
+		Relay relay = relayDriver.getRelayByIdx(relayIndex);
+		String req = getMqttMessage(relay.getIndex(), 0, 0);
 		sendMqttMessage(relayDriver, req);
+	}
+
+	public void openRelay(RelayDriver relayDriver, int relayIndex, Integer autoRevert) 
+			throws RelayDriverException {
+		checkConnected(relayDriver);
+		if (autoRevert == null || autoRevert.intValue() < 0) {
+			autoRevert = 0;
+		}
+		String req = getMqttMessage(relayIndex, 1, autoRevert);
+		sendMqttMessage(relayDriver, req);
+	}
+	
+	public void closeRelay(RelayDriver relayDriver, int relayIndex, Integer autoRevert) 
+			throws RelayDriverException {
+		checkConnected(relayDriver);
+		if (autoRevert == null || autoRevert.intValue() < 0) {
+			autoRevert = 0;
+		}
+		Relay relay = relayDriver.getRelayByIdx(relayIndex);
+		String req = getMqttMessage(relay.getIndex(), 0, 0);
+		sendMqttMessage(relayDriver, req);
+	}
+	
+	private String getMqttMessage(int index, int state, int time) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("{ioseto").append(index + 1).append(state).append(time).append("}");
+		return builder.toString();
 	}
 	
 	private void checkConnected(RelayDriver relayDriver) {
@@ -49,15 +76,4 @@ public class E4RelayDriverApi implements IRelayDriverApi {
 		}
 		return status;
 	}
-
-	@Override
-	public void openRelay(RelayDriver driver, int relayIndex, Integer autoRevert) throws RelayDriverException {
-		openRelay(driver, relayIndex);
-	}
-
-	@Override
-	public void closeRelay(RelayDriver driver, int relayIndex, Integer autoRevert) throws RelayDriverException {
-		closeRelay(driver, relayIndex);
-	}
-
 }

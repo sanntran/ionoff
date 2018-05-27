@@ -12,51 +12,41 @@ import net.ionoff.center.shared.entity.RelayDriverModel;
 public class EP2RelayDriverApi implements IRelayDriverApi {
 	
 	@Override
-	public RelayDriverStatus getStatus(RelayDriver relayDriver) 
+	public RelayDriverStatus getStatus(RelayDriver driver) 
 			throws RelayDriverException {
-		if (!relayDriver.isConnected()) {
-			throw new RelayDriverConnectException(relayDriver.getIp());
+		if (!driver.isConnected()) {
+			throw new RelayDriverConnectException(driver.getIp());
 		}
-		return sendHttpRequestStatus(relayDriver);
+		return sendHttpRequestStatus(driver);
 	}
 	
 	@Override
-	public void openRelay(RelayDriver relayDriver, int relayIndex) 
+	public void openRelay(RelayDriver driver, int relayIndex) 
 			throws RelayDriverException {
-		if (!relayDriver.isConnected()) {
-			throw new RelayDriverConnectException(relayDriver.getIp());
+		if (!driver.isConnected()) {
+			throw new RelayDriverConnectException(driver.getIp());
 		}
 		String params = getParamOpenRelay(relayIndex);
-		sendHttpRequestControl(relayDriver, params);
+		sendHttpRequestControl(driver, params);
 	}
 	
 	@Override
-	public void closeRelay(RelayDriver relayDriver, int relayIndex) 
+	public void closeRelay(RelayDriver driver, int relayIndex) 
 			throws RelayDriverException {
-		if (!relayDriver.isConnected()) {
-			throw new RelayDriverConnectException(relayDriver.getIp());
+		if (!driver.isConnected()) {
+			throw new RelayDriverConnectException(driver.getIp());
 		}
 		String params = getParamCloseRelay(relayIndex);
-		sendHttpRequestControl(relayDriver, params);
+		sendHttpRequestControl(driver, params);
 	}
 	
-	@Override
-	public void closeOpenRelay(RelayDriver relayDriver, int relayIndex)
-			throws RelayDriverException {
-		if (!relayDriver.isConnected()) {
-			throw new RelayDriverConnectException(relayDriver.getIp());
-		}
-		String params = getParamCloseOpenRelay(relayIndex);
-		sendHttpRequestControl(relayDriver, params);
-	}
-	
-	private RelayDriverStatus sendHttpRequestStatus(RelayDriver relayDriver) throws RelayDriverException {
+	private RelayDriverStatus sendHttpRequestStatus(RelayDriver driver) throws RelayDriverException {
 		String params = "AllIOS.cgi";
 		String resp = null;
 		try {
-			resp = sendHttpGETRequest(buildRequestUrl(relayDriver.getIp(), relayDriver.getPort(),  params));
+			resp = sendHttpGETRequest(buildRequestUrl(driver.getIp(), driver.getPort(),  params));
 		} catch (IOException e) {
-			throw new RelayDriverConnectException(relayDriver.getIp());
+			throw new RelayDriverConnectException(driver.getIp());
 		}
 		RelayDriverStatus status = new RelayDriverStatus();
 		String s[] = resp.split(" ");
@@ -74,12 +64,12 @@ public class EP2RelayDriverApi implements IRelayDriverApi {
 		return status;
 	}	
 	
-	private RelayDriverStatus sendHttpRequestControl(RelayDriver relayDriver, String params) throws RelayDriverException {
-		String reqUrl = buildRequestUrl(relayDriver.getIp(), relayDriver.getPort(), params);
+	private RelayDriverStatus sendHttpRequestControl(RelayDriver driver, String params) throws RelayDriverException {
+		String reqUrl = buildRequestUrl(driver.getIp(), driver.getPort(), params);
 		try {
 			getResponseCodeHttpGETRequest(reqUrl);
 		} catch (IOException e) {
-			throw new RelayDriverConnectException(relayDriver.getIp());
+			throw new RelayDriverConnectException(driver.getIp());
 		}
 		return null;
 	}
@@ -393,5 +383,15 @@ public class EP2RelayDriverApi implements IRelayDriverApi {
 		// add request header
 		con.setRequestProperty("User-Agent", "Mozilla/5.0");
 		return con.getResponseCode(); // 200; 404...
+	}
+
+	@Override
+	public void openRelay(RelayDriver driver, int relayIndex, Integer autoRevert) throws RelayDriverException {
+		openRelay(driver, relayIndex);
+	}
+
+	@Override
+	public void closeRelay(RelayDriver driver, int relayIndex, Integer autoRevert) throws RelayDriverException {
+		closeRelay(driver, relayIndex);
 	}
 }

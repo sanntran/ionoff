@@ -6,7 +6,6 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.shared.dto.BaseDto;
-import net.ionoff.center.shared.dto.RelayDto;
 import net.ionoff.center.shared.dto.ScheduleRelayActionDto;
 
 public abstract class RelayActionPresenter<T extends BaseDto> extends SceneActionPresenter {
@@ -26,19 +25,11 @@ public abstract class RelayActionPresenter<T extends BaseDto> extends SceneActio
 	
 	protected String getSelectedAction() {
 		String action = ScheduleRelayActionDto.NONE;
-		String relayType = getTargetRelayType();
-		if (RelayDto.BUTTON.equals(relayType)) {
-			if (display.getListBoxActions().getSelectedIndex() == 1) {
-				action = ScheduleRelayActionDto.CLOSE_OPEN;
-			}
+		if (display.getListBoxActions().getSelectedIndex() == 1) {
+			action = ScheduleRelayActionDto.OPEN;
 		}
-		else if (RelayDto.SWITCH.equals(relayType)) {
-			if (display.getListBoxActions().getSelectedIndex() == 1) {
-				action = ScheduleRelayActionDto.OPEN;
-			}
-			else if (display.getListBoxActions().getSelectedIndex() == 2) {
-				action = ScheduleRelayActionDto.CLOSE;
-			}
+		else if (display.getListBoxActions().getSelectedIndex() == 2) {
+			action = ScheduleRelayActionDto.CLOSE;
 		}
 		return action;
 	}
@@ -50,7 +41,6 @@ public abstract class RelayActionPresenter<T extends BaseDto> extends SceneActio
 	protected abstract Long getTargetRelayId();
 	protected abstract String getTargetRelayName();
 	protected abstract String getTargetAction();
-	protected abstract String getTargetRelayType();
 	
 	protected abstract void setTargetAction(String action);
 	
@@ -59,15 +49,9 @@ public abstract class RelayActionPresenter<T extends BaseDto> extends SceneActio
 	}
 	
 	protected void resetListBoxActions() {
-		if (RelayDto.SWITCH.equals(getTargetRelayType())) {
-			display.getListBoxActions().addItem(AdminLocale.getAdminConst().none());
-			display.getListBoxActions().addItem(AdminLocale.getAdminConst().open());
-			display.getListBoxActions().addItem(AdminLocale.getAdminConst().close());
-		}
-		else if (RelayDto.BUTTON.equals(getTargetRelayType())) {
-			display.getListBoxActions().addItem(AdminLocale.getAdminConst().none());
-			display.getListBoxActions().addItem(AdminLocale.getAdminConst().closeOpen());
-		}
+		display.getListBoxActions().addItem(AdminLocale.getAdminConst().none());
+		display.getListBoxActions().addItem(AdminLocale.getAdminConst().open());
+		display.getListBoxActions().addItem(AdminLocale.getAdminConst().close());
 		
 		if (ScheduleRelayActionDto.NONE.equals(getTargetAction())) {
 			display.getListBoxActions().setSelectedIndex(0);
@@ -77,9 +61,6 @@ public abstract class RelayActionPresenter<T extends BaseDto> extends SceneActio
 		}
 		else if (ScheduleRelayActionDto.CLOSE.equals(getTargetAction())) {
 			display.getListBoxActions().setSelectedIndex(2);
-		}
-		else if (ScheduleRelayActionDto.CLOSE_OPEN.equals(getTargetAction())) {
-			display.getListBoxActions().setSelectedIndex(1);
 		}
 	}
 	

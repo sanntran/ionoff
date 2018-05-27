@@ -54,11 +54,6 @@ public class ScheduleRelayActionPresenter extends RelayActionPresenter<ScheduleR
 	}
 
 	@Override
-	protected String getTargetRelayType() {
-		return scheduleAction.getRelayType();
-	}
-
-	@Override
 	protected void setTargetAction(String action) {
 		scheduleAction.setAction(action);
 	}

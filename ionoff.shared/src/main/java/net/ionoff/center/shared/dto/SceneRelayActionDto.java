@@ -11,8 +11,6 @@ public class SceneRelayActionDto extends SceneActionDto implements RelayAction {
 	
 	private Long relayId;
 	private String relayName;
-	private String relayType;
-	
 	
 	public String getClazz() {
 		return "SceneRelayActionDto";
@@ -31,10 +29,4 @@ public class SceneRelayActionDto extends SceneActionDto implements RelayAction {
 		this.relayName = relayName;
 	}
 	
-	public String getRelayType() {
-		return relayType;
-	}
-	public void setRelayType(String relayType) {
-		this.relayType = relayType;
-	}
 }

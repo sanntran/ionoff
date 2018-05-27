@@ -2,7 +2,7 @@ package net.ionoff.center.shared.entity;
 
 public enum RelayDriverModel {
 	
-	IONOFF_E4(4, 4), IONOFF_P8(8, 8), IONOFF_P4(4, 4), HBQ_EC100(28, 28), HLAB_EP2(0, 20);
+	IONOFF_E3(3, 3), IONOFF_E4(4, 4), IONOFF_P8(8, 8), IONOFF_P4(4, 4), HBQ_EC100(28, 28), HLAB_EP2(0, 20);
 	
 	private int digitalInput;	
 	private int relayOutput;
@@ -28,11 +28,11 @@ public enum RelayDriverModel {
 	}
 	
 	public static RelayDriverModel fromString(String modelName) {
+		if (IONOFF_E3.toString().equals(modelName)) {
+			return IONOFF_E3;
+		}
 		if (IONOFF_E4.toString().equals(modelName)) {
 			return IONOFF_E4;
-		}
-		if (IONOFF_P4.toString().equals(modelName)) {
-			return IONOFF_P4;
 		}
 		if (IONOFF_P8.toString().equals(modelName)) {
 			return IONOFF_P8;
@@ -42,6 +42,9 @@ public enum RelayDriverModel {
 		}
 		if (HLAB_EP2.toString().equals(modelName)) {
 			return HLAB_EP2;
+		}
+		if (IONOFF_P4.toString().equals(modelName)) {
+			return IONOFF_P4;
 		}
 		return null;
 	}
