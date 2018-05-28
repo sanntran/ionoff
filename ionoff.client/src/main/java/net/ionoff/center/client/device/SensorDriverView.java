@@ -85,7 +85,7 @@ public class SensorDriverView extends FocusPanel implements IDeviceView {
 		return lblZone;
 	}
 
-	public MaterialPanel getScaleCard() {
+	public MaterialPanel getSensorDriverCard() {
 		return sensorDriverCard;
 	}
 	

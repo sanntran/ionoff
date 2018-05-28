@@ -46,7 +46,8 @@ public class RelayDriverStatus {
 	}
 
 	private static Boolean getStatus(RelayDriverModel relayDriverModel, char c) {
-		if (RelayDriverModel.IONOFF_E4.equals(relayDriverModel)) {
+		if (RelayDriverModel.IONOFF_E4.equals(relayDriverModel) || 
+				RelayDriverModel.IONOFF_E3.equals(relayDriverModel)) {
 			if ('1' == c) {
 				return false;
 			}

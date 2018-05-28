@@ -58,7 +58,7 @@ public class SensorDriverPresenter extends DevicePresenter {
 		view.getLblName().setText(getDevice().getName());
 		view.getLblZone().setText(getDevice().getZoneName());
 		displayStatus();
-		view.getScaleCard().addClickHandler(new ClickHandler() {
+		view.getSensorDriverCard().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				String token = AppToken.newDeviceToken(sensorDriver.getId());

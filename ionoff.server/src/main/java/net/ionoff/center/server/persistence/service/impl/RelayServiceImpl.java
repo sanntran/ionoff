@@ -63,7 +63,6 @@ public class RelayServiceImpl extends AbstractGenericService<Relay, RelayDto> im
 	
 	@Override
 	public Relay update(Relay relay, boolean status) {
-		relay = relayDao.findById(relay.getId());
 		synchronized (this) {
 			relay.setStatus(status);
 			relay.setTime(new Date());

@@ -171,7 +171,7 @@ public class DeviceListPresenter extends AbstractPresenter {
 				showPlayer((PlayerDto) device);
 			}
 			else if (device instanceof SensorDriverDto) {
-				showScale((SensorDriverDto) device);
+				showSensorDriver((SensorDriverDto) device);
 			}
 			else if (device instanceof ApplianceDto) {
 				showAppliance((ApplianceDto) device);
@@ -180,7 +180,7 @@ public class DeviceListPresenter extends AbstractPresenter {
 		scheduleSyncDeviceStatus();
 	}
 	
-	private void showScale(SensorDriverDto sensorDriver) {
+	private void showSensorDriver(SensorDriverDto sensorDriver) {
 		SensorDriverView sensorDriverView = new SensorDriverView();
 		SensorDriverPresenter sensorDriverPresenter = new SensorDriverPresenter(rpcProvider, eventBus, sensorDriverView, sensorDriver);
 		sensorDriverPresenter.go();

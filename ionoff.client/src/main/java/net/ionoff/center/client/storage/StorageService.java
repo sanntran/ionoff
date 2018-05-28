@@ -36,8 +36,14 @@ public class StorageService {
 			else {
 				initDefaultServer();
 			}
+			
 			String cookieJson = storage.getItem(ICOOKIE);
-			cookie = toKookie(cookieJson);
+			if (cookieJson != null) {
+				cookie = toKookie(cookieJson);
+			}
+			else {
+				cookie = new Kookie();
+			}
 		}
 		else {
 			initDefaultServer();

@@ -318,7 +318,7 @@ textarea.materialize-textarea[readonly="readonly"] {
   width: 64px;
   height: 64px;
   margin: 0px auto;
-  margin-top: 300px;
+  margin-top: 50%;
 }
 .lds-ripple div {
   position: absolute;

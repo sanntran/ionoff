@@ -57,14 +57,29 @@ public class LightPresenter extends DevicePresenter {
 		view.getBtnIcon().addClickHandler(new ClickHandler()  {
 			@Override
 			public void onClick(ClickEvent event) {
-				doSwitch();
+				if (isLocked()) {
+					return;
+				}
+				else {
+					doSwitch();
+				}
 			}
 		});
 		
 		view.getBtnSwitch().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				doSwitch();
+				if (isLocked()) {
+					if (light.getStatus().getValue() != null) {
+						view.getBtnSwitch().setValue(light.getStatus().getValue());
+					}
+					else {
+						view.getBtnSwitch().setValue(false);
+					}
+				}
+				else {
+					doSwitch();
+				}
 			}
 		});
 		view.getMenuItemAddToZoneDashboard().addClickHandler(new ClickHandler() {
@@ -104,8 +119,6 @@ public class LightPresenter extends DevicePresenter {
 		});
 		
 		view.getMenuItemRemoveFromDashboard().addClickHandler(new ClickHandler() {
-			
-			
 			@Override
 			public void onClick(ClickEvent event) {
 				
@@ -146,7 +159,6 @@ public class LightPresenter extends DevicePresenter {
 
 	private void doSwitch() {
 		setLocked(true);
-		view.getBtnSwitch().setEnabled(false);
 		if (Boolean.FALSE.equals(light.getStatus().getValue())) {
 			switchOn();
 		}
@@ -236,6 +248,9 @@ public class LightPresenter extends DevicePresenter {
 
 	@Override
 	public void updateStatus(StatusDto status) {
+		if (isLocked()) {
+			return;
+		}
 		light.getStatus().setValue(status.getValue());
 		light.getStatus().setTime(status.getTime());
 		displayStatus();

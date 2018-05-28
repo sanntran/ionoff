@@ -77,7 +77,7 @@ public class ContentPresenter extends AbstractPresenter {
 	private ZoneListPresenter zoneListPresenter;
 
 	private PlayerPresenter playerPresenter;
-	private SensorDataTablePresenter sensorDriverDataPresenter;
+	private SensorDataTablePresenter sensorDataPresenter;
 
 	private IRpcServiceProvider rpcProvider;
 	private Display display;
@@ -122,7 +122,7 @@ public class ContentPresenter extends AbstractPresenter {
 
 	private void showSensorDriverData(SensorDriverDto deviceDto) {
 		display.asPanel().removeStyleName("player");
-		getScaleDataPresenter(deviceDto).show(display.asPanel());
+		getSensorDataPresenter(deviceDto).show(display.asPanel());
 	}
 
 	private void showPlayer(Long playerId) {
@@ -226,16 +226,16 @@ public class ContentPresenter extends AbstractPresenter {
 		return playerPresenter;
 	}
 
-	public SensorDataTablePresenter getScaleDataPresenter(SensorDriverDto deviceDto) {
-		if (sensorDriverDataPresenter == null) {
-			sensorDriverDataPresenter = new SensorDataTablePresenter(rpcProvider, eventBus, deviceDto, new SensorDataTableView());
-			sensorDriverDataPresenter.go();
+	public SensorDataTablePresenter getSensorDataPresenter(SensorDriverDto deviceDto) {
+		if (sensorDataPresenter == null) {
+			sensorDataPresenter = new SensorDataTablePresenter(rpcProvider, eventBus, deviceDto, new SensorDataTableView());
+			sensorDataPresenter.go();
 		}
 		else {
-			sensorDriverDataPresenter.setDevice(deviceDto);
-			sensorDriverDataPresenter.refresh();
+			sensorDataPresenter.setDevice(deviceDto);
+			sensorDataPresenter.refresh();
 		}
-		return sensorDriverDataPresenter;
+		return sensorDataPresenter;
 	}
 
 	public ScheduleTablePresenter getScheduleTablePresenter() {

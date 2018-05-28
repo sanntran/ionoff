@@ -22,15 +22,15 @@
 	
 	<g:HTMLPanel ui:field="root">
 		<m:MaterialColumn grid="l3 m3 s6">
-				<m:MaterialCard addStyleNames="device scale" backgroundColor="BLUE_GREY_DARKEN_2">
+				<m:MaterialCard addStyleNames="device sensorDriver" backgroundColor="BLUE_GREY_DARKEN_2">
 					<m:MaterialCardContent textColor="YELLOW_LIGHTEN_5" >
 						<m:MaterialRow marginBottom="0">
 							<m:MaterialIcon ui:field="menuIcon" addStyleNames="{style.menuIcon}" iconType="MORE_VERT" iconSize="SMALL" waves="LIGHT"/>						
-							<m:MaterialPanel ui:field="scaleCard" grid="s9"  waves="LIGHT">
+							<m:MaterialPanel ui:field="sensorDriverCard" grid="s9"  waves="LIGHT">
 								<m:MaterialLabel ui:field="lblName" addStyleNames="name" text="-" marginTop="3" fontSize="1.2em" float="LEFT"/>
 								<m:MaterialLabel ui:field="lblZone" addStyleNames="zone" text="-" marginTop="5" textColor="GREY_LIGHTEN_2"/>
 							</m:MaterialPanel>
-							<m:MaterialImage ui:field="imgIcon" addStyleNames="icon btnIcon" url="imgs/scale.png" width="50" height="50" circle="true" float="LEFT"/>
+							<m:MaterialImage ui:field="imgIcon" addStyleNames="icon btnIcon" url="imgs/appliance.png" width="50" height="50" circle="true" float="LEFT"/>
 							<m:MaterialLabel ui:field="lblTime" addStyleNames="time" text="" textColor="GREY_LIGHTEN_1" float="LEFT"/>
 							<m:MaterialLabel ui:field="lblLatestValue" addStyleNames="{style.latestValue}" text="-"/>
 

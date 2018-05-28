@@ -77,7 +77,7 @@ public class RelayDriverTablePresenter extends AbstractTablePresenter<RelayDrive
 		RelayDriverDto newRelayDriverDto = new RelayDriverDto();
 		newRelayDriverDto.setId(BaseDto.DEFAULT_ID);
 		newRelayDriverDto.setName("*" + AdminLocale.getAdminConst().relayDriver());
-		newRelayDriverDto.setModel(RelayDriverModel.IONOFF_E4);
+		newRelayDriverDto.setModel(RelayDriverModel.IONOFF_E3);
 		newRelayDriverDto.setProjectId(getProjectId());
 		return newRelayDriverDto;
 	}

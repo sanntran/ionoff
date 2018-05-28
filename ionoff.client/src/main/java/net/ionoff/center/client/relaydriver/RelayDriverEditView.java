@@ -35,11 +35,12 @@ public class RelayDriverEditView extends AbstractEditView<RelayDriverDto> implem
 		
 		listBoxModels = new MaterialListBox();
 		listBoxModels.setPlaceholder(AdminLocale.getAdminConst().model());
+		listBoxModels.addItem(RelayDriverModel.IONOFF_E3.toString());
 		listBoxModels.addItem(RelayDriverModel.IONOFF_E4.toString());
 		listBoxModels.addItem(RelayDriverModel.IONOFF_P4.toString());
 		listBoxModels.addItem(RelayDriverModel.IONOFF_P8.toString());
-		listBoxModels.addItem(RelayDriverModel.HBQ_EC100.toString());
 		listBoxModels.addItem(RelayDriverModel.HLAB_EP2.toString());
+		listBoxModels.addItem(RelayDriverModel.HBQ_EC100.toString());
 		listBoxModels.setSelectedIndex(0);
 		contentPanel.add(listBoxModels);
 	}

@@ -32,7 +32,7 @@ public class AppConfig {
 	public final String MQTT_BROKER_URL;
 	public final String MQTT_TOPIC_IONOFF_NET;
 	public final String MQTT_TOPIC_RELAY_DRIVER;
-	public final String MQTT_TOPIC_WEIGH_SCALE;
+	public final String MQTT_TOPIC_SENSOR_DRIVER;
 	
 	public AppConfig() {
 
@@ -69,7 +69,7 @@ public class AppConfig {
 		MQTT_BROKER_URL = prop.getProperty("MQTT_BROKER_URL");
 		MQTT_TOPIC_IONOFF_NET = prop.getProperty("MQTT_TOPIC_IONOFF_NET");
 		MQTT_TOPIC_RELAY_DRIVER = prop.getProperty("MQTT_TOPIC_RELAY_DRIVER");
-		MQTT_TOPIC_WEIGH_SCALE = prop.getProperty("MQTT_TOPIC_WEIGH_SCALE");
+		MQTT_TOPIC_SENSOR_DRIVER = prop.getProperty("MQTT_TOPIC_SENSOR_DRIVER");
 		
 		int port = 39994;	
 		try {

@@ -1,0 +1,6 @@
+.main .logo {
+	background-image: url(images/logo.png) !important;
+}
+.login .logo {
+	background-image: url(images/logo_login.png) !important;
+}

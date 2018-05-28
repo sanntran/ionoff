@@ -46,7 +46,7 @@ public class MosquittoClient implements MqttCallback {
 	
 	public void initAndConnectBroker() {
 		subscribleTopics = new String[] {AppConfig.getInstance().MQTT_TOPIC_IONOFF_NET, 
-				AppConfig.getInstance().MQTT_TOPIC_RELAY_DRIVER, AppConfig.getInstance().MQTT_TOPIC_WEIGH_SCALE};
+				AppConfig.getInstance().MQTT_TOPIC_RELAY_DRIVER, AppConfig.getInstance().MQTT_TOPIC_SENSOR_DRIVER};
 		try {
 			client = new MqttClient(AppConfig.getInstance().MQTT_BROKER_URL
 					, AppConfig.getInstance().MQTT_CLIENT_ID + System.currentTimeMillis());
@@ -148,7 +148,7 @@ public class MosquittoClient implements MqttCallback {
 				AppConfig.getInstance().MQTT_TOPIC_RELAY_DRIVER.equals(topic)) {
 			onRelayDriverMessageArrived(payload);
 		}
-		else if (AppConfig.getInstance().MQTT_TOPIC_WEIGH_SCALE.equals(topic)) {
+		else if (AppConfig.getInstance().MQTT_TOPIC_SENSOR_DRIVER.equals(topic)) {
 			onSensorDriverMessageArrived(payload);
 		}
 	}
@@ -158,7 +158,7 @@ public class MosquittoClient implements MqttCallback {
 		SensorDriverMqttPayload data = new SensorDriverMqttPayload(payload);
 		SensorDriver sensorDriver = deviceService.findSensorDriverByMac(data.getId());
 		if (sensorDriver == null) {
-			LOGGER.info("Found no weigh sensorDriver by id: " + data.getId());
+			LOGGER.info("Found no sensor-driver by id: " + data.getId());
 			return;
 		}
 		Date now = new Date();
@@ -170,7 +170,6 @@ public class MosquittoClient implements MqttCallback {
 
 		if (data.getValue() == null || data.getIndex() == null) {
 			LOGGER.info("Invalid message format");
-			publishMessage(sensorDriver.getMac(), "InvalidMessage: " + payload);
 			deviceService.update(sensorDriver);
 			return;
 		}
@@ -183,7 +182,6 @@ public class MosquittoClient implements MqttCallback {
 		deviceService.updateSensorStatus(sensor);
 		if (SensorDriverMqttPayload.CHANGED.equals(data.getCode())) {
 			deviceService.onSensorStatusChanged(sensor);
-			publishMessage(sensorDriver.getMac(), "MessageIndexOK: " + data.getIndex());
 		}
 	}
 
@@ -195,7 +193,7 @@ public class MosquittoClient implements MqttCallback {
 		}
 		List<RelayDriver> relayDrivers = relayDriverDao.findByMac(mqttPayload.getId());
 		if (relayDrivers.isEmpty()) {
-			LOGGER.info("No relayDriver found in the DB. Key: " + mqttPayload.getId());
+			LOGGER.info("No relay-driver found in the DB. Key: " + mqttPayload.getId());
 			return;
 		}
 		

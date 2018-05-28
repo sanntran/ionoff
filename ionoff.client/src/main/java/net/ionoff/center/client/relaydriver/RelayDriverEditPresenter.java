@@ -77,9 +77,8 @@ public class RelayDriverEditPresenter extends AbstractEditPresenter<RelayDriverD
 					return;
 				}
 				String model = view.getListBoxModels().getSelectedValue();
-				
-				
-				if (RelayDriverModel.IONOFF_E4.toString().equals(model) ||
+				if (RelayDriverModel.IONOFF_E3.toString().equals(model) ||
+						RelayDriverModel.IONOFF_E4.toString().equals(model) ||
 						RelayDriverModel.IONOFF_P4.toString().equals(model) ||
 						RelayDriverModel.IONOFF_P8.toString().equals(model)
 						) { 
@@ -119,7 +118,8 @@ public class RelayDriverEditPresenter extends AbstractEditPresenter<RelayDriverD
 		String newKey = view.getTextBoxKey().getValue();
 		String model = view.getListBoxModels().getSelectedValue();
 		
-		if (RelayDriverModel.IONOFF_E4.toString().equals(model) 
+		if (RelayDriverModel.IONOFF_E3.toString().equals(model)
+				|| RelayDriverModel.IONOFF_E4.toString().equals(model) 
 				|| RelayDriverModel.IONOFF_P4.toString().equals(model) 
 				|| RelayDriverModel.IONOFF_P8.toString().equals(model)) {
 			if (!validateInputStringValue(AdminLocale.getAdminConst().key(), newKey)) {
@@ -175,7 +175,8 @@ public class RelayDriverEditPresenter extends AbstractEditPresenter<RelayDriverD
 		view.getTextBoxName().setText(dto.getName());
 		view.getTextBoxIp().setText(dto.getIp());
 		view.getIntBoxPort().setValue(entityDto.getPort());
-		if (RelayDriverModel.IONOFF_E4.equals(dto.getModel()) ||
+		if (RelayDriverModel.IONOFF_E3.equals(dto.getModel())  || 
+				RelayDriverModel.IONOFF_E4.equals(dto.getModel()) ||
 				RelayDriverModel.IONOFF_P4.equals(dto.getModel()) ||
 				RelayDriverModel.IONOFF_P8.equals(dto.getModel())
 				) { 
