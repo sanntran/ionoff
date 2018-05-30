@@ -11,13 +11,13 @@ import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 
 import net.ionoff.center.server.config.AppConfig;
-import net.ionoff.center.server.entity.Version;
+import net.ionoff.center.shared.dto.VersionDto;
 
 public class HttpRequestUtil {
-
-	private static final Logger LOGGER = Logger.getLogger(HttpRequestUtil.class.getName());
 	
-	public static String sendHttpGETRequest(String url) throws IOException {
+	private static final Logger LOGGER = Logger.getLogger(HttpRequestUtil.class.getName());
+
+	public static String sendGetRequest(String url) throws IOException {
 		// logger.info("URL: " + url);
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -41,11 +41,11 @@ public class HttpRequestUtil {
 		return response.toString();
 	}
 	
-	public static Version sendHttpGETLatestVersion() throws IOException {
-		String updateSiteLatestVersionJson = HttpRequestUtil
-				.sendHttpGETRequest(AppConfig.getInstance().LATEST_VERSION_URL);
+
+	public static VersionDto getLatestVersion() throws IOException {
+		String updateSiteLatestVersionJson = sendGetRequest(AppConfig.getInstance().LATEST_VERSION_URL);
 		LOGGER.info("Latest version from update site: \n" + updateSiteLatestVersionJson);
-		Version latestVersion = new Gson().fromJson(updateSiteLatestVersionJson, Version.class);
+		VersionDto latestVersion = new Gson().fromJson(updateSiteLatestVersionJson, VersionDto.class);
 		return latestVersion;
 	}
 }

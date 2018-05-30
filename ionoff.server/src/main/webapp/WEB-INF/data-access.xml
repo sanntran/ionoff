@@ -48,10 +48,6 @@
       <constructor-arg ref="sessionFactory" />    
     </bean>
     
-    <bean id="versionDao" class="net.ionoff.center.server.persistence.dao.impl.VersionDaoImpl">
-      <constructor-arg ref="sessionFactory" />    
-    </bean>
-    
     <bean id="userDao" class="net.ionoff.center.server.persistence.dao.impl.UserDaoImpl">
       <constructor-arg ref="sessionFactory" />    
     </bean>
@@ -192,10 +188,6 @@
     
     <bean id="deviceService" class="net.ionoff.center.server.persistence.service.impl.DeviceServiceImpl">
       <constructor-arg ref="deviceDao" /> 
-    </bean>
-    
-    <bean id="versionService" class="net.ionoff.center.server.persistence.service.impl.VersionServiceImpl">
-      <constructor-arg ref="versionDao" />    
     </bean>
     
     <bean id="userService" class="net.ionoff.center.server.persistence.service.impl.UserServiceImpl">

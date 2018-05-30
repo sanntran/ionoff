@@ -1,2 +1,0 @@
-mvn install:install-file -Dfile=itext-4.2.1.violate.jar -DgroupId=com.lowagie -DartifactId=itext -Dversion=4.2.1.violate -Dpackaging=jar
-mvn install:install-file -Dfile=olap4j-0.9.7.309.JS3.jar -DgroupId=org.olap4j -DartifactId=olap4j -Dversion=0.9.7.309.JS3 -Dpackaging=jar

@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>net.ionoff</groupId>
 		<artifactId>ionoff</artifactId>
-		<version>1.2.0</version>
+		<version>1.6.4</version>
 		<relativePath>../ionoff/pom.xml</relativePath>
 	</parent>
 	
 	<artifactId>ionoff.server</artifactId>
 	<packaging>war</packaging>
-	<name>ionoff.server</name>
+	<name>ionoff.server</name> 
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -19,13 +19,13 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-
+ 
 	<dependencies>
 
 		<dependency>
 			<groupId>net.ionoff</groupId>
 			<artifactId>ionoff.shared</artifactId>
-			<version>1.2.0</version>
+			<version>1.6.4</version>
 		</dependency>
 
 		<dependency>
@@ -202,6 +202,7 @@
 				<excludes>
 					<exclude>**/*.java</exclude>
 				</excludes>
+				<filtering>true</filtering>
 			</resource>
 		</resources>
 

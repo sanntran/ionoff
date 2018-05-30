@@ -130,14 +130,11 @@ public class PopupUserMenuPresenter extends AbstractPresenter {
 				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
 				latestVersion = response.getName();
 				if (latestVersion == null) {
-					display.getUserMenuItemVersion().setText(ClientLocale.getClientConst().checkLatestVersion());
+					eventBus.fireEvent(new ShowMessageEvent(ClientLocale.getClientMessage()
+							.currentVersionIsUptoDate(), ShowMessageEvent.NORMAL));
 				}
 				else {
 					display.getUserMenuItemVersion().setText(ClientLocale.getClientConst().upgrade() + latestVersion);
-				}
-				if (latestVersion == null) {
-					eventBus.fireEvent(new ShowMessageEvent(ClientLocale.getClientMessage()
-							.currentVersionIsUptoDate(), ShowMessageEvent.NORMAL));
 				}
 			}
 		});

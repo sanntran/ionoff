@@ -1,6 +1,8 @@
 package net.ionoff.center.server.restapi;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,8 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import net.ionoff.center.server.entity.Version;
-import net.ionoff.center.server.persistence.service.IVersionService;
+import com.google.gson.Gson;
+
+import net.ionoff.center.server.config.AppConfig;
 import net.ionoff.center.server.scheduler.LatestVersionUpdator;
 import net.ionoff.center.server.util.HttpRequestUtil;
 import net.ionoff.center.shared.dto.VersionDto;
@@ -23,23 +26,24 @@ import net.ionoff.center.shared.dto.VersionDto;
 @EnableWebMvc
 public class VersionServiceController {
 	
-	private final Logger logger = Logger.getLogger(VersionServiceController.class.getName());
-
-	@Autowired
-	private IVersionService versionService;
-	
 	@RequestMapping(value = "versions/upgrade",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public VersionDto upgradeToLatestVersion(HttpServletRequest request) throws IOException {
-		Version latestVersion = HttpRequestUtil.sendHttpGETLatestVersion();
+	public VersionDto upgradeLatestVersion(HttpServletRequest request) throws IOException {
+		VersionDto latestVersion = HttpRequestUtil.getLatestVersion();
 		VersionDto currentVersion = getCurrentVersion();
-		if (currentVersion.getDateTime() != null && latestVersion.getDateTime() != null 
-				&& currentVersion.getDateTime().compareTo(latestVersion.getDateTime()) < 0) {
-			
-			LatestVersionUpdator.upgradeToLatestVersion(latestVersion);
+		if (currentVersion.getName().equals(latestVersion.getName())) {
+			LatestVersionUpdator.upgradeLatestVersion(latestVersion);
 		}
+		return getCurrentVersion();
+	}
+	
+	@RequestMapping(value = "version.json",
+			method = RequestMethod.GET,
+			produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public VersionDto getVersionJson() {
 		return getCurrentVersion();
 	}
 
@@ -49,23 +53,7 @@ public class VersionServiceController {
 	@ResponseBody
 	public VersionDto getCurrentVersion() {
 		VersionDto versionDto = new VersionDto();
-		List<Version> versions = versionService.loadAll();
-		if (versions == null || versions.isEmpty()) {
-			Version v = new Version();
-			v.setName("1.0.0");
-			v.setDateTime("201609131010");
-			versionService.insert(v);
-			if (v.getId() != 1L) {
-				v.setId(1L);
-				versionService.update(v);
-			}
-			versions.add(v);
-		}
-		Version version = versions.get(0); 
-		versionDto.setId(version.getId());
-		versionDto.setName(versionDto.getName() + "-" + version.getDateTime());
-		versionDto.setDateTime(version.getDateTime());
-		
+		versionDto.setName(AppConfig.getInstance().VERSION);
 		return versionDto;
 	}
 	
@@ -74,12 +62,8 @@ public class VersionServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public VersionDto getLatestVersion(HttpServletRequest request) throws IOException {
-		VersionDto latestVersionDto = new VersionDto();
-		Version latestVersion = HttpRequestUtil.sendHttpGETLatestVersion();
-		latestVersionDto.setDateTime(latestVersion.getDateTime());
-		latestVersionDto.setName(latestVersion.getName());
-		
-		return latestVersionDto;
+		VersionDto latestVersion = HttpRequestUtil.getLatestVersion();
+		return latestVersion;
 	}
 	
 	@RequestMapping(value = "versions/check",
@@ -89,11 +73,10 @@ public class VersionServiceController {
 	public VersionDto checkLatestVersion(HttpServletRequest request) throws IOException {
 		VersionDto latestVersion = getLatestVersion(request);
 		VersionDto currentVersion = getCurrentVersion();
-		if (currentVersion.getDateTime() != null && latestVersion.getDateTime() != null 
-				&& currentVersion.getDateTime().compareTo(latestVersion.getDateTime()) < 0) {
-			
+		if (currentVersion.getName().equals(latestVersion.getName())) {
 			return latestVersion;
 		}
 		return new VersionDto();
 	}
+
 }

@@ -355,6 +355,10 @@ public class PlayerControlPresenter extends AbstractPresenter {
 	public boolean isShowingPlaylist() {
 		return getPopupPlayingPresenter().isShowing();
 	}
+	
+	public void hidePlaylist() {
+		getPopupPlayingPresenter().hide();
+	}
 
 	public void setPlaylist(PlayListDto result) {
 		getPopupPlayingPresenter().showPlaylist(result);

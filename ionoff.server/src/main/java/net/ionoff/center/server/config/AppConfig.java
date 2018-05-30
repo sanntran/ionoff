@@ -14,6 +14,8 @@ public class AppConfig {
 
 	private static AppConfig INSTANCE = null;
 	
+	public final String VERSION;
+	
 	public final int PLAYER_TCP_SERVER_PORT;
 	public final String MEDIA_SERVICE_URL;
 	public final String NOTIFY_SERVICE_URL;
@@ -45,7 +47,8 @@ public class AppConfig {
 		catch (IOException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
-
+		VERSION = prop.getProperty("VERSION");
+		
 		MEDIA_SERVICE_URL = prop.getProperty("MEDIA_SERVICE_URL");
 		NOTIFY_SERVICE_URL = prop.getProperty("NOTIFY_SERVICE_URL");
 		UPDATE_SITE = prop.getProperty("UPDATE_SITE");

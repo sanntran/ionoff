@@ -6,11 +6,11 @@ public class PlayToken {
 
 	public static final String NULL = "null";
 	public static final String DLM = "/";
-	public static final String PLAYER = "player_";
+	public static final String DEVICE = "device_";
 	private static Long playerId;
 	
 	public static String newPlayerToken(Long playerId) {
-		return PLAYER + playerId;
+		return DEVICE + playerId;
 	}
 	
 	public static boolean hasTokenItem(String tokenItem) {
@@ -41,8 +41,8 @@ public class PlayToken {
 
 	public static String getTokenPlayerId() {
 		String token = History.getToken();
-		if (hasTokenItem(PLAYER)) {
-			return getTokenId(token, PLAYER);
+		if (hasTokenItem(DEVICE)) {
+			return getTokenId(token, DEVICE);
 		}
 		else {
 			return null;
@@ -59,8 +59,8 @@ public class PlayToken {
 		return "";
 	}
 
-	public static void setPlayerId(Long playerId) {
-		PlayToken.playerId = playerId;
+	public static void setPlayerId(Long id) {
+		playerId = id;
 	}
 	
 	public static Long getPlayerId() {

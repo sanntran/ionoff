@@ -11,12 +11,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import com.google.gson.Gson;
 
 import net.ionoff.center.server.config.AppConfig;
-import net.ionoff.center.server.entity.Version;
 import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.server.util.FileDownloadUtil;
 import net.ionoff.center.server.util.FileManagementUtil;
 import net.ionoff.center.server.util.HttpRequestUtil;
-
+import net.ionoff.center.shared.dto.VersionDto;
 
 @EnableScheduling
 public class LatestVersionUpdator {
@@ -28,14 +27,14 @@ public class LatestVersionUpdator {
 	@Scheduled(fixedDelay = 3600000) // 1 hour
     public void downloadLatestVersion() {
 		try {
-			Version latestVersion = HttpRequestUtil.sendHttpGETLatestVersion();
+			VersionDto latestVersion = HttpRequestUtil.getLatestVersion();
 			downloadLatestVersion(latestVersion);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 		}
 	}
 	
-	private static void downloadLatestVersion(Version latestVersion) throws IOException {
+	private static void downloadLatestVersion(VersionDto latestVersion) throws IOException {
 		File updateFolder = new File(AppConfig.getInstance().UPDATE_FOLDER);
 		if (!updateFolder.exists()) {
 			updateFolder.mkdirs();
@@ -51,7 +50,7 @@ public class LatestVersionUpdator {
 			
 		} else {
 			String downloadedVersionFileContent = FileManagementUtil.readFile(localDownloadedVersionJsonFile);
-			Version downloadedVersion = GSON.fromJson(downloadedVersionFileContent, Version.class);
+			VersionDto downloadedVersion = GSON.fromJson(downloadedVersionFileContent, VersionDto.class);
 			if (latestVersion.getFileName() != null) {
 				if (!latestVersion.getFileName().equals(downloadedVersion.getFileName())) {
 					downloadLatestVersionZipFile(latestVersion.getFileName());
@@ -76,7 +75,7 @@ public class LatestVersionUpdator {
 		return zipFile;
 	}
 
-	public static void upgradeToLatestVersion(Version latestVersion) throws IOException {
+	public static void upgradeLatestVersion(VersionDto latestVersion) throws IOException {
 		LOGGER.info("Updating to latest version: " + latestVersion.getName());
 		downloadLatestVersion(latestVersion);
 		unzipLatestVersion(latestVersion);
@@ -101,7 +100,7 @@ public class LatestVersionUpdator {
 		trigger.createNewFile();
 	}
 
-	private static void unzipLatestVersion(Version latestVersion) throws IOException {
+	private static void unzipLatestVersion(VersionDto latestVersion) throws IOException {
 		File zipFile = new File(AppConfig.getInstance().UPDATE_FOLDER + File.separator + latestVersion.getFileName());
 		if (!zipFile.exists()) {
 			return;
@@ -111,4 +110,5 @@ public class LatestVersionUpdator {
 			FileManagementUtil.unzipFile(zipFile.getAbsolutePath(), AppConfig.getInstance().UPDATE_FOLDER);
 		}
 	}
+
 }

@@ -132,6 +132,7 @@ public class PlayerPresenter extends AbstractPresenter  {
 	}
 
 	public void cancelTimers() {
+		getPlayingInstance().hidePlaylist();
 		if (syncStatusTimer != null) {
 			syncStatusTimer.cancel();
 			syncStatusTimer = null;
@@ -145,7 +146,7 @@ public class PlayerPresenter extends AbstractPresenter  {
 		syncStatusTimer = new Timer() {
 			@Override
 			public void run() {
-				if (!PlayToken.hasTokenItem(PlayToken.PLAYER)) {
+				if (!PlayToken.getTokenPlayerId().equals(playerId + "")) {
 					cancelTimers();
 				}
 				getStatus();
@@ -289,7 +290,7 @@ public class PlayerPresenter extends AbstractPresenter  {
 		}
 		getMenuInstance().setDefaultMenuItemsStyle();
 		getAlbumListInstance().reset();
-		showAlbumList();
+		showFileBrowse();
 	}
 
 	public void refreshMediaFiles(String path) {

@@ -328,8 +328,9 @@ public final class AppToken extends TokenUtil {
 	}
 
 	public static Long getZoneIdLong() {
+		String zoneId = getTokenId(getToken(), ZONE);
 		try {
-			return Long.parseLong(getTokenId(History.getToken(), ZONE));
+			return Long.parseLong(zoneId);
 		} catch (Exception e) {
 			return null;
 		}
