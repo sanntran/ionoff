@@ -14,6 +14,7 @@ import net.ionoff.center.shared.dto.ModeDto;
 public class ModeTableView extends AbstractTableView<ModeDto> implements ModeTablePresenter.Display {
 	
 	private Column<ModeDto, String> nameColumn;
+	private Column<ModeDto, String> orderColumn;
 	private Column<ModeDto, String> isScheduledColumn;
 	private Column<ModeDto, String> editColumn;
 	private ModeEditView modeEditView;
@@ -39,6 +40,11 @@ public class ModeTableView extends AbstractTableView<ModeDto> implements ModeTab
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
 		cellTable.setColumnWidth(nameColumn, COLUMN_NAME_WIDTH, Unit.PX);
 		
+		orderColumn = createOrderColumn();
+		orderColumn.setSortable(true);
+		cellTable.addColumn(orderColumn, AdminLocale.getAdminConst().order());
+		cellTable.setColumnWidth(orderColumn, 70, Unit.PX);
+		
 		isScheduledColumn =  createIsScheduledColumn();
 		cellTable.addColumn(isScheduledColumn, AdminLocale.getAdminConst().schedule());
 		cellTable.setColumnWidth(isScheduledColumn, 125.0, Unit.PX);
@@ -63,6 +69,16 @@ public class ModeTableView extends AbstractTableView<ModeDto> implements ModeTab
 		return column;
 	}
 
+	private Column<ModeDto, String> createOrderColumn() {
+		Column<ModeDto, String> column = new TextColumn<ModeDto>() {
+			@Override
+			public String getValue(ModeDto object) {
+			return object.getOrder() == null ? "" : object.getOrder().toString();
+			}
+		};
+		return column;
+	}
+	
 	@Override
 	public Column<ModeDto, String> getNameColumn() { 
 		return this.nameColumn;

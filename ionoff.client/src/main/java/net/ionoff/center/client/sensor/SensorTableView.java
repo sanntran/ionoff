@@ -16,7 +16,7 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 	
 	private Column<SensorDto, String> nameColumn;
 	private Column<SensorDto, String> orderColumn;
-	private Column<SensorDto, String> relayDriverColumn;
+	private Column<SensorDto, String> deviceColumn;
 	private Column<SensorDto, String> editColumn;
 	
 	private SensorEditView sensorEditView;
@@ -46,9 +46,10 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 		cellTable.addColumn(orderColumn, AdminLocale.getAdminConst().order());
 		cellTable.setColumnWidth(orderColumn, 70, Unit.PX);
 
-		relayDriverColumn =  createRelayDriverColumn();
-		cellTable.addColumn(relayDriverColumn, AdminLocale.getAdminConst().relayDriver());
-		cellTable.setColumnWidth(relayDriverColumn, COLUMN_NAME_WIDTH, Unit.PX);
+		deviceColumn =  createDeviceColumn();
+		deviceColumn.setSortable(true);
+		cellTable.addColumn(deviceColumn, AdminLocale.getAdminConst().sensorDriver());
+		cellTable.setColumnWidth(deviceColumn, COLUMN_NAME_WIDTH, Unit.PX);
 		
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");
@@ -66,7 +67,7 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 		return column;
 	}
 
-	private Column<SensorDto, String> createRelayDriverColumn() {
+	private Column<SensorDto, String> createDeviceColumn() {
 	    Column<SensorDto, String> column = new TextColumn<SensorDto>() {
 	    	@Override
 	    	public String getValue(SensorDto object) {
@@ -85,7 +86,7 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 	}
 	@Override
 	public Column<SensorDto, String> getRelayDriverColumn() {
-		return relayDriverColumn;
+		return deviceColumn;
 	}
 
 	@Override

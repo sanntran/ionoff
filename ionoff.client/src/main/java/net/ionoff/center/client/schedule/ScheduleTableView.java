@@ -48,6 +48,7 @@ public class ScheduleTableView extends AbstractTableView<ScheduleDto> implements
 		cellTable.setColumnWidth(orderColumn, 70, Unit.PX);
 
 		deviceColumn = createDeviceColumn();
+		deviceColumn.setSortable(true);
 		cellTable.addColumn(deviceColumn, AdminLocale.getAdminConst().device());
 		cellTable.setColumnWidth(deviceColumn, COLUMN_NAME_WIDTH, Unit.PX);
 		

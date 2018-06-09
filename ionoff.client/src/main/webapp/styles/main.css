@@ -298,6 +298,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 .popupZones .wrapper .zone div,
 .popupProjects .wrapper .project div {
 	display: inline-block;
+    width: calc(100% - 50px);
 }
 
 .popupZones .wrapper .zone p,
@@ -306,6 +307,9 @@ textarea.materialize-textarea[readonly="readonly"] {
     font-size: 12px;
     color: #8697a0;
     margin: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .main .lds-ripple, .login .lds-ripple {

@@ -11,8 +11,9 @@ public class Light extends Device {
 	@Override
 	public Boolean getStatus() {
 		return status;
-	}
+	} 
 
+	@Override
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}

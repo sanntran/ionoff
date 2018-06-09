@@ -155,7 +155,13 @@ public class SensorTablePresenter extends AbstractTablePresenter<SensorDto> {
 	
 	@Override
 	protected String getSortByField(int columnIndex) {
-		return BaseDto.NAME;
+		if (columnIndex == 1) {
+			return BaseDto.NAME;
+		}
+		else if (columnIndex == 2) {
+			return BaseDto.ORDER;
+		}
+		return "device";
 	}
 	
 	public SensorEditPresenter getSensorEditPresenter() {

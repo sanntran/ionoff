@@ -68,7 +68,6 @@
 		<mapping resource="net/ionoff/center/server/entity/ModeSensor.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/ModeSensorScene.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/ModeSensorUser.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/Version.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/PlayList.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/PlayNode.hbm.xml"/>
 		<mapping resource="net/ionoff/center/server/entity/PlayLeaf.hbm.xml"/>

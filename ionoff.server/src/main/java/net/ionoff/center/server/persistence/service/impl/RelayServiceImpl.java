@@ -66,7 +66,10 @@ public class RelayServiceImpl extends AbstractGenericService<Relay, RelayDto> im
 		synchronized (this) {
 			relay.setStatus(status);
 			relay.setTime(new Date());
-			Device device = relay.getDevice();
+			Relay r = findById(relay.getId());
+			r.setStatus(status);
+			r.setTime(new Date());
+			Device device = r.getDevice();
 			if (device != null) {
 				device = deviceDao.findById(relay.getDevice().getId());
 				if (device.hasOneRelay()) {
@@ -75,7 +78,7 @@ public class RelayServiceImpl extends AbstractGenericService<Relay, RelayDto> im
 				device.setTime(relay.getTime());
 				deviceDao.update(device);
 			}
-			return super.update(relay);
+			return super.update(r);
 		}
 	}
 	

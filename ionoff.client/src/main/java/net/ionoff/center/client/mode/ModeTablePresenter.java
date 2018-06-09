@@ -135,7 +135,10 @@ public class ModeTablePresenter extends AbstractTablePresenter<ModeDto>{
 	
 	@Override
 	protected String getSortByField(int columnIndex) {
-		return BaseDto.NAME;
+		if (columnIndex == 1) {
+			return BaseDto.NAME;
+		}
+		return BaseDto.ORDER;
 	}
 	
 	public void hideEditForm() {

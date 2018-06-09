@@ -196,7 +196,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 			return countByProjectIdDeviceName(criteria.getProjectId(), criteria.getSearchKey());
 		}	
 		if (DRIVER_NAME.equals(criteria.getSearchField())) {
-			return countByProjectIdRelayDriverName(criteria.getProjectId(), criteria.getSearchField());
+			return countByProjectIdRelayDriverName(criteria.getProjectId(), criteria.getSearchKey());
 		}
 		return 0;
 	}

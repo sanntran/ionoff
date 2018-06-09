@@ -63,7 +63,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 		String sql = "select distinct sensor"
 					+ " from Sensor as sensor"
 					+ " where sensor.project.id = :projectId"
-					+ " order scene.order, by sensor.name";
+					+ " order by sensor.order, sensor.name";
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
@@ -77,7 +77,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 		String sql = "select distinct sensor"
 				+ " from Sensor as sensor"
 				+ " where sensor.project.id = :projectId"
-				+ " order by scene.order, sensor.name";
+				+ " order by sensor.order, sensor.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("projectId", projectId);
 		return findMany(query);
@@ -105,7 +105,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 		String sql = "select distinct sensor"
 				+ " from Sensor as sensor"
 				+ " where sensor.zwitch.id = :switchId"
-				+ " order by scene.order, sensor.name";
+				+ " order by sensor.order, sensor.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("switchId", switchId);
 		return findMany(query);
@@ -116,7 +116,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 		String sql = "select distinct sensor"
 				+ " from Sensor as sensor"
 				+ " where sensor.device.id = :deviceId"
-				+ " order by scene.order, sensor.name";
+				+ " order by sensor.order, sensor.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("deviceId", deviceId);
 		return findMany(query);

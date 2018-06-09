@@ -10,7 +10,8 @@ import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.BaseDto;
 
 public abstract class AbstractEditPresenter<T extends BaseDto> extends AbstractPresenter {
-
+	
+	protected boolean isDirty;
 	protected IEditView<T> display;
 	protected IRpcServiceProvider rpcProvider;
 

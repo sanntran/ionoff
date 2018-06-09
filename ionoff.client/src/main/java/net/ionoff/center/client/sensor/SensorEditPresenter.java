@@ -47,7 +47,6 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 	}
 	
 	private final Display view;
-	private boolean isDirty;
 	private SensorDto entityDto;
 	private SensorTablePresenter sensorManager;
 	protected IRpcServiceProvider rpcProvider;
@@ -84,8 +83,9 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		});
 		view.getBtnAddModeAction().addClickHandler(event -> createModeSensor());
 		
-		view.getTextBoxName().addKeyUpHandler(event -> isDirty = true);
-		view.getIntBoxInputIndex().addKeyUpHandler(event -> isDirty = true);
+		view.getTextBoxName().addValueChangeHandler(event -> isDirty = true);
+		view.getIntBoxOrder().addValueChangeHandler(event -> isDirty = true);
+		view.getIntBoxInputIndex().addValueChangeHandler(event -> isDirty = true);
 		view.getListBoxGateways().addValueChangeHandler(event -> isDirty = true);
 	}
 
@@ -144,6 +144,8 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 
 	private void saveSensorDto() {
 		if (!isDirty) {
+			eventBus.fireEvent(new ShowMessageEvent(AdminLocale.getAdminMessages().updateSuccess(),
+					ShowMessageEvent.SUCCESS));
 			return;
 		}
 		
@@ -197,6 +199,7 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 	}
 
 	public void setEntityDto(SensorDto dto) {
+		isDirty = false;
 		entityDto = dto;
 		if (dto.getDeviceId() == null || dto.izNew()) {
 			loadRelayDrivers();

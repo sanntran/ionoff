@@ -9,7 +9,8 @@ public class Appliance extends Device {
 	public Boolean getStatus() {
 		return status;
 	}
-
+ 
+	@Override
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}

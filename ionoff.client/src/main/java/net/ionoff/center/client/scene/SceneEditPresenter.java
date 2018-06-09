@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import gwt.material.design.client.ui.MaterialIntegerBox;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -17,10 +16,12 @@ import com.google.gwt.user.client.ui.HasWidgets;
 
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
 import gwt.material.design.client.ui.MaterialCollapsible;
+import gwt.material.design.client.ui.MaterialIntegerBox;
 import gwt.material.design.client.ui.html.OptGroup;
 import net.ionoff.center.client.base.AbstractEditPresenter;
 import net.ionoff.center.client.base.IEditView;
 import net.ionoff.center.client.event.ShowLoadingEvent;
+import net.ionoff.center.client.event.ShowMessageEvent;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.service.EntityService;
 import net.ionoff.center.client.service.IRpcServiceProvider;
@@ -42,7 +43,6 @@ public class SceneEditPresenter extends AbstractEditPresenter<SceneDto> {
 	}
 	
 	protected IRpcServiceProvider rpcProvider;
-	
 	private final Display view;
 	private SceneDto entityDto;
 	private SceneTablePresenter sceneManager;
@@ -77,6 +77,9 @@ public class SceneEditPresenter extends AbstractEditPresenter<SceneDto> {
 				sceneManager.hideEditForm();
 			}
 		});
+		
+		view.getTextBoxName().addValueChangeHandler(event -> isDirty = true);
+		view.getIntBoxOrder().addValueChangeHandler(event -> isDirty = true);
 	}
 
 	@Override
@@ -115,6 +118,10 @@ public class SceneEditPresenter extends AbstractEditPresenter<SceneDto> {
 				}
 			}
 			final int totalRequest = edited;
+			if (totalRequest == 0) {
+				rpcSaveScene();
+				return;
+			}
 			MethodCallback<Integer> callback = new MethodCallback<Integer>() {
 				int successFullRequest = 0;
 				@Override
@@ -136,6 +143,11 @@ public class SceneEditPresenter extends AbstractEditPresenter<SceneDto> {
 	}
 	
 	private void rpcSaveScene() {
+		if (!isDirty) {
+			eventBus.fireEvent(new ShowMessageEvent(AdminLocale.getAdminMessages().updateSuccess(),
+					ShowMessageEvent.SUCCESS));
+			return;
+		}
 		rpcProvider.getSceneService().save(entityDto.getId(), entityDto, 
 				new MethodCallback<SceneDto>() {
 			@Override

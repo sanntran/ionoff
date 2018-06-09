@@ -159,7 +159,13 @@ public class SceneTablePresenter extends AbstractTablePresenter<SceneDto>{
 	
 	@Override
 	protected String getSortByField(int columnIndex) {
-		return BaseDto.NAME;
+		if (columnIndex == 1) {
+			return BaseDto.NAME;
+		}
+		else if (columnIndex == 2) {
+			return "zone";
+		}
+		return BaseDto.ORDER;
 	}
 	
 	public void hideEditForm() {

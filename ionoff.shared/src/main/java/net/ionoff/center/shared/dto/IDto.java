@@ -7,6 +7,7 @@ public interface IDto extends Serializable {
 	long DEFAULT_ID = 0;
 	String ID = "id";
 	String NAME = "name";
+	String ORDER = "order";
 	
 	long getId();
 	

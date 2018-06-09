@@ -100,4 +100,8 @@ public class Device extends BaseObj implements ISlice {
 		return null;
 	}
 
+	public void setStatus(Boolean status) {
+		// does nothing
+	}
+
 }

@@ -16,7 +16,8 @@ import net.ionoff.center.shared.dto.SceneDto;
 public class SceneTableView extends AbstractTableView<SceneDto> implements SceneTablePresenter.Display {
 	
 	private Column<SceneDto, String> nameColumn;
-	private Column<SceneDto, String> areaColumn;
+	private Column<SceneDto, String> zoneColumn;
+	private Column<SceneDto, String> orderColumn;
 	private Column<SceneDto, String> editColumn;
 	private SceneEditView sceneEditView;
 	
@@ -38,10 +39,16 @@ public class SceneTableView extends AbstractTableView<SceneDto> implements Scene
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
 		cellTable.setColumnWidth(nameColumn, COLUMN_NAME_WIDTH, Unit.PX);
+
+		zoneColumn = createZoneColumn();
+		zoneColumn.setSortable(true);
+		cellTable.addColumn(zoneColumn, AdminLocale.getAdminConst().zone());
+		cellTable.setColumnWidth(zoneColumn, 150.0, Unit.PX);
 		
-		areaColumn = createZoneColumn();
-		cellTable.addColumn(areaColumn, AdminLocale.getAdminConst().zone());
-		cellTable.setColumnWidth(areaColumn, 150.0, Unit.PX);
+		orderColumn = createOrderColumn();
+		orderColumn.setSortable(true);
+		cellTable.addColumn(orderColumn, AdminLocale.getAdminConst().order());
+		cellTable.setColumnWidth(orderColumn, 70, Unit.PX);
 
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");
@@ -67,10 +74,19 @@ public class SceneTableView extends AbstractTableView<SceneDto> implements Scene
 	    };
 		return column;
 	}
-	
+
+	private Column<SceneDto, String> createOrderColumn() {
+		Column<SceneDto, String> column = new TextColumn<SceneDto>() {
+			@Override
+			public String getValue(SceneDto object) {
+			return object.getOrder() == null ? "" : object.getOrder().toString();
+			}
+		};
+		return column;
+	}
 	@Override
 	public Column<SceneDto, String> getAreaColumn() {
-		return areaColumn;
+		return zoneColumn;
 	}
 
 	@Override

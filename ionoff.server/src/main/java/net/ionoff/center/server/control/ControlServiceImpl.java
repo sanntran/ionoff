@@ -106,8 +106,11 @@ public class ControlServiceImpl implements IControlService {
 		if (state == null) {
 			return;
 		}
-		sendRelayCommand(relay, state, relay.getAutoRevert());
-		if (relay.izAutoRevert()) {
+		if (!relay.izAutoRevert()) {
+			sendRelayCommand(relay, state);
+		}
+		else {
+			sendRelayCommand(relay, state, relay.getAutoRevert());
 			try {
 				Thread.sleep(relay.getAutoRevert() * 1000);
 			} catch (InterruptedException e) {
@@ -163,7 +166,6 @@ public class ControlServiceImpl implements IControlService {
 	@Override
 	public void switchRelayToOff(Relay relay) {
 		setRelayState(relay, false);
-		notifyRelayStateChanged(relay);
 	}
 
 	@Override

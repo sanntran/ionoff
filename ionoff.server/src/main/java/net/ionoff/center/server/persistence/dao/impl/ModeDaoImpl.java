@@ -51,23 +51,24 @@ public class ModeDaoImpl extends AbstractGenericDao<Mode> implements IModeDao {
 
 	@Override
 	public List<Mode> findByCriteria(QueryCriteria criteria) {
-		if (criteria.isBlankKey()) {
-			return findByProjectId(criteria.getProjectId(), 
-					criteria.getFromIndex(), criteria.getMaxResults(), criteria.getIsAscending());
+		String sql = "select distinct mode" 
+				+ " from Mode as mode" 
+				+ " where mode.project.id = :projectId";
+				
+		if (!criteria.isBlankKey()) {
+			sql = sql + " and mode.name like :name";
 		}
 		
-		String sql = "select distinct mode" 
-					+ " from Mode as mode" 
-					+ " where mode.project.id = :projectId"
-					+ " and mode.name like :name" 
-					+ " order by mode." + criteria.getSortBy();
+		sql = sql + " order by mode." + criteria.getSortBy();
 		if (!criteria.getIsAscending()) {
 			sql = sql + " desc";
 		}
 		
 		Query query = getCurrentSession().createQuery(sql)
-				.setParameter("projectId", criteria.getProjectId())
-				.setParameter("name", "%" + criteria.getSearchKey() + "%");
+				.setParameter("projectId", criteria.getProjectId());
+		if (!criteria.isBlankKey()) {
+			query.setParameter("name", "%" + criteria.getSearchKey() + "%");
+		}
 		return findMany(query, criteria.getFromIndex(), criteria.getMaxResults());
 	}
 
