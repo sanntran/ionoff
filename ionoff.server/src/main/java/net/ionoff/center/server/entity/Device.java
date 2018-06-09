@@ -1,13 +1,10 @@
 package net.ionoff.center.server.entity;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
-public class Device extends BaseObj implements ISlice, Comparable<Device> {
+public class Device extends BaseObj implements ISlice {
 
 	private static final long serialVersionUID = 1L;
 
@@ -16,7 +13,7 @@ public class Device extends BaseObj implements ISlice, Comparable<Device> {
 	private Integer order;
 	private Project project;
 	private Zone zone;
-	private Set<Relay> relays;
+	private List<Relay> relays;
 
 	public Long getVersion() {
 		return version;
@@ -26,14 +23,6 @@ public class Device extends BaseObj implements ISlice, Comparable<Device> {
 		this.version = version;
 	}
 
-	public Boolean getStatus() {
-		if (hasOneRelay()) {
-			Relay relay =  relays.iterator().next();
-			return relay.getStatus();
-		}
-		return null; // unknown
-	}
-	
 	public Date getTime() {
 		return time;
 	}
@@ -63,27 +52,15 @@ public class Device extends BaseObj implements ISlice, Comparable<Device> {
 		this.zone = zone;
 	}
 
-	public Set<Relay> getRelays() {
+	public List<Relay> getRelays() {
 		return relays;
 	}
-	public void setRelays(Set<Relay> relays) {
+	public void setRelays(List<Relay> relays) {
 		this.relays = relays;
 	}
 	
 	public List<Relay> getRelayList() {
-		List<Relay> relayList = new ArrayList<>();
-		if (relays == null || relays.isEmpty()) {
-			return relayList;
-		}
-		relayList.addAll(relays);
-		Collections.sort(relayList, new Comparator<Relay>() {
-			@Override
-			public int compare(Relay r1, Relay r2) {
-				return r1.getNameId().compareTo(r2.getNameId());
-			}
-		});
-		
-		return relayList;
+		return relays == null ? Collections.emptyList() : relays;
 	}
 
 	public boolean hasRelay() {
@@ -102,38 +79,8 @@ public class Device extends BaseObj implements ISlice, Comparable<Device> {
 		return false;
 	}
 
-	public boolean isAbleToTurnOn() {
-		return hasOneRelay();
-	}
-	
-	private boolean hasOneRelay() {
+	public boolean hasOneRelay() {
 		return relays != null && relays.size() == 1;
-	}
-
-	public boolean isAbleToTurnOff() {
-		return hasOneRelay();
-	}
-
-	@Override
-	public int compareTo(Device device) {
-		Zone zone1 = getZone();
-		Zone zone2 = device.getZone();
-		
-		if ((zone1.getId() != zone2.getId())) {
-			return getZone().compareTo(device.getZone());
-		}
-		if (getOrder() == null) {
-			if (device.getOrder() == null) {
-				return getName().compareTo(device.getName());
-			}
-			else {
-				return -1;
-			}
-		}
-		if (device.getOrder() == null) {
-			return 1;
-		}
-		return getOrder().compareTo(device.getOrder());
 	}
 
 	@Override
@@ -147,6 +94,10 @@ public class Device extends BaseObj implements ISlice, Comparable<Device> {
 	
 	public boolean instanceOf( Class<? extends Device> clazz) {
 		return clazz.getSimpleName().equals(getClass().getSimpleName());
+	}
+
+	public Boolean getStatus() {
+		return null;
 	}
 
 }

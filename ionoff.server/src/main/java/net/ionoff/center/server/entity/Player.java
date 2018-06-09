@@ -3,7 +3,9 @@ package net.ionoff.center.server.entity;
 public class Player extends Device {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	private static final long ONLINE_BUFFER = 60000;
+
 	public static final String XMP = "XMP";
 	public static final String IMP = "IMP";
 	
@@ -28,18 +30,6 @@ public class Player extends Device {
 		this.mac = mac;
 	}
 
-	@Override
-	public Boolean getStatus() {
-		if (getTime() == null || (System.currentTimeMillis() - getTime().getTime()) > 60000) {
-			return false;
-		}
-		return true;
-	}
-	
-	public boolean isOnline() {
-		return getStatus().booleanValue();
-	}
-
 	public Integer getPort() {
 		return port;
 	}
@@ -55,4 +45,17 @@ public class Player extends Device {
 	public void setModel(String model) {
 		this.model = model;
 	}
+
+	@Override
+	public Boolean getStatus() {
+		return isOnline();
+	}
+
+	public boolean isOnline() {
+		if (getTime() == null || (System.currentTimeMillis() - getTime().getTime()) > ONLINE_BUFFER) {
+			return false;
+		}
+		return true;
+	}
+
 }

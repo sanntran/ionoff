@@ -2,7 +2,7 @@ package net.ionoff.center.server.entity;
 
 import java.util.List;
 
-public class Zone extends BaseObj implements Comparable<Zone> {
+public class Zone extends BaseObj {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -51,27 +51,6 @@ public class Zone extends BaseObj implements Comparable<Zone> {
 		this.scenes = scenes;
 	}
 
-	@Override
-	public int compareTo(Zone zone) {
-		if (getArea().getId() != zone.getArea().getId()) {
-			return getArea().compareTo(zone.getArea());
-		}
-		if (getOrder() == null) {
-			if (zone.getOrder() == null) {
-				return getName().compareTo(zone.getName());
-			}
-			else {
-				return -1;
-			}
-		}
-		if (zone.getOrder() != null) {
-			return getOrder().compareTo(zone.getOrder());
-		}
-		else {
-			return -1;
-		}
-	}
-	
 	public boolean hasDevices() {
 		return devices != null && !devices.isEmpty();
 	}

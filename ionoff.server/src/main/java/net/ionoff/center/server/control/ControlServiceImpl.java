@@ -376,7 +376,7 @@ public class ControlServiceImpl implements IControlService {
 	public StatusDto turnOnDevice(Device device) {
 		StatusDto statusDto = new StatusDto();
 		statusDto.setId(device.getId());
-		if (!device.isAbleToTurnOn()) {
+		if (!device.hasOneRelay()) {
 			return statusDto;
 		}
 		Relay relay = device.getRelayList().get(0);
@@ -389,7 +389,7 @@ public class ControlServiceImpl implements IControlService {
 	@Override
 	public StatusDto turnOffDevice(Device device) {
 		StatusDto statusDto = new StatusDto();
-		if (!device.isAbleToTurnOn()) {
+		if (!device.hasOneRelay()) {
 			return statusDto;
 		}
 		Relay relay = device.getRelayList().get(0);

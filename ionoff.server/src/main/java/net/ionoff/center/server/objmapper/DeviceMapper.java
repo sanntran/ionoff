@@ -120,6 +120,7 @@ public class DeviceMapper {
 		}
 		else if (device.instanceOf(SensorDriver.class)) {
 			SensorDriver sensorDriver = EntityUtil.castUnproxy(device, SensorDriver.class);
+
 			if (sensorDriver.getSensors() != null && !sensorDriver.getSensors().isEmpty()) {
 				Sensor sensor = sensorDriver.getSensors().get(0);
 				if (sensor.getStatus().getTime() != null) {
@@ -130,7 +131,8 @@ public class DeviceMapper {
 		}
 		else if (device.instanceOf(Player.class) && playerService != null) {
 			try {
-				Status status = playerService.requesStatus(toPlayer(device), null);
+				Player player = EntityUtil.castUnproxy(device, Player.class);
+				Status status = playerService.requesStatus(toPlayer(player), null);
 				statusDto.setState(status.getState());
 				statusDto.setTrack(status.getTitle());
 				if (status.getPosition() > 0) {

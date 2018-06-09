@@ -70,6 +70,9 @@ public class RelayServiceImpl extends AbstractGenericService<Relay, RelayDto> im
 			Device device = relay.getDevice();
 			if (device != null) {
 				device = deviceDao.findById(relay.getDevice().getId());
+				if (device.hasOneRelay()) {
+					device.setStatus(relay.getStatus());
+				}
 				device.setTime(relay.getTime());
 				deviceDao.update(device);
 			}

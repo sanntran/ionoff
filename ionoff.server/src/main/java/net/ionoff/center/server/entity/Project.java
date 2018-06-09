@@ -1,5 +1,6 @@
 package net.ionoff.center.server.entity;
 
+import java.util.List;
 import java.util.Set;
 
 public class Project extends BaseObj {
@@ -8,8 +9,8 @@ public class Project extends BaseObj {
 	public static final long DEFAULT_ID = 1L;
 
 	private String address;
-	private Set<Zone> zones;
-	private Set<Area> areas;
+	private List<Zone> zones;
+	private List<Area> areas;
 	private Set<UserProject> users;
 	private Set<Mode> modes;
 	private Set<Sensor> sensors;
@@ -22,17 +23,17 @@ public class Project extends BaseObj {
 		this.address = address;
 	}
 
-	public Set<Zone> getZones() {
+	public List<Zone> getZones() {
 		return zones;
 	}
-	public void setZones(Set<Zone> zones) {
+	public void setZones(List<Zone> zones) {
 		this.zones = zones;
 	}
 	
-	public Set<Area> getAreas() {
+	public List<Area> getAreas() {
 		return areas;
 	}
-	public void setAreas(Set<Area> areas) {
+	public void setAreas(List<Area> areas) {
 		this.areas = areas;
 	}
 

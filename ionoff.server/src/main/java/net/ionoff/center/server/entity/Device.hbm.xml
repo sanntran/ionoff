@@ -37,26 +37,32 @@
             <column name="project_id" not-null="true" />
         </many-to-one>
         
-		<set name="relays" table="relays" 
-				inverse="true" lazy="true" fetch="select">
+		<bag name="relays" table="relays"
+				inverse="true" lazy="true" fetch="select" order-by="name">
             <cache usage="read-write"/>
             <key>
                 <column name="device_id" not-null="false" />
             </key>
             <one-to-many class="net.ionoff.center.server.entity.Relay" />
-        </set>
+        </bag>
         
 		<subclass name="net.ionoff.center.server.entity.Light"
 			discriminator-value="Light">
+			<property name="status" type="java.lang.Boolean">
+				<column name="status_" sql-type="bit"/>
+			</property>
 		</subclass>
 		
 		<subclass name="net.ionoff.center.server.entity.Appliance"
 			discriminator-value="Appliance">
+			<property name="status" type="java.lang.Boolean">
+				<column name="status_" sql-type="bit"/>
+			</property>
 		</subclass>
 		
 		
-		<subclass name="net.ionoff.center.server.entity.WeighScale"
-			discriminator-value="WeighScale">
+		<subclass name="net.ionoff.center.server.entity.SensorDriver"
+			discriminator-value="SensorDriver">
 			
 			<property name="mac">
 				<column name="mac" />

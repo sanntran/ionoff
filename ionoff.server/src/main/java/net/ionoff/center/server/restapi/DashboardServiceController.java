@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import net.ionoff.center.server.persistence.service.IModeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -57,14 +58,15 @@ public class DashboardServiceController {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkProjectPermission(user, projectId);
 		final DashboardDto dashboardDto = dashboardService.findDtoByUserProjectId(user, projectId);
-		
+
 		final Project project = projectService.findById(projectId);
+
 		final List<DeviceDto> devices = deviceService.findDtoByUserProjectId(user, projectId);
 		final List<ScheduleDto> scheduleDtos = scheduleService.findDtoByUserProject(user, projectId);
 		final List<SceneDto> scenceDtos = sceneService.findDtoByUserProject(user, projectId);
 		
 		dashboardDto.setTotalModeCount(project.getModes().size());
-		
+
 		Mode activatedMode = project.getActivatedMode();
 		if (activatedMode == null) {
 			dashboardDto.setActivatedModeName("");
@@ -72,7 +74,7 @@ public class DashboardServiceController {
 		else {
 			dashboardDto.setActivatedModeName(activatedMode.getName());
 		}
-		
+
 		dashboardDto.setTotalDeviceCount(devices.size());
 		for (DeviceDto device : devices) {
 			StatusDto status = device.getStatus();

@@ -37,7 +37,7 @@ public class ZoneServiceController {
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
+	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, criteriaDto.getProjectId());
@@ -48,7 +48,7 @@ public class ZoneServiceController {
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public List<ZoneDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
+	public List<ZoneDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
 		RequestContextHolder.checkProjectPermission(user, criteriaDto.getProjectId());
@@ -60,8 +60,7 @@ public class ZoneServiceController {
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public ZoneDto save(@PathVariable("zoneId") Long zoneId,
-			@RequestBody ZoneDto zoneDto, HttpServletRequest request) throws UpdateEntityException {
+	public ZoneDto save(@PathVariable("zoneId") Long zoneId, @RequestBody ZoneDto zoneDto) {
 		
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
@@ -84,8 +83,7 @@ public class ZoneServiceController {
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public MessageDto delete(@PathVariable("zoneId") Long zoneId,
-			HttpServletRequest request) throws DeleteEntityException {
+	public MessageDto delete(@PathVariable("zoneId") Long zoneId) {
 		
 		ZoneDto zoneDto = zoneService.requireDtoById(zoneId);
 		
@@ -102,8 +100,7 @@ public class ZoneServiceController {
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public ZoneDto findById(@PathVariable("zoneId") Long zoneId,
-			HttpServletRequest request) throws DeleteEntityException {
+	public ZoneDto findById(@PathVariable("zoneId") Long zoneId) {
 		
 		ZoneDto zoneDto = zoneService.requireDtoById(zoneId);
 		User user = RequestContextHolder.getUser();

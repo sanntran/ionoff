@@ -19,22 +19,21 @@
 			<column name="address" />
 		</property>
 		
-		<set name="zones" table="zones" 
-				inverse="true" lazy="true" fetch="select">
+		<bag name="zones" table="zones"
+				inverse="true" lazy="true" fetch="select" order-by="order_">
             <key>
                 <column name="project_id" not-null="true" />
             </key>
             <one-to-many class="net.ionoff.center.server.entity.Zone" />
-        </set>
-        
-		
-		<set name="areas" table="areas" 
-				inverse="true" lazy="true" fetch="select">
+        </bag>
+
+		<bag name="areas" table="areas"
+				inverse="true" lazy="true" fetch="select" order-by="order_">
             <key>
                 <column name="project_id" not-null="true" />
             </key>
             <one-to-many class="net.ionoff.center.server.entity.Area" />
-        </set>
+        </bag>
         
 		<set name="modes" table="modes" 
 				inverse="true" lazy="true" fetch="select">
