@@ -15,6 +15,7 @@ import net.ionoff.center.shared.dto.SensorDto;
 public class SensorTableView extends AbstractTableView<SensorDto> implements SensorTablePresenter.Display {
 	
 	private Column<SensorDto, String> nameColumn;
+	private Column<SensorDto, String> orderColumn;
 	private Column<SensorDto, String> relayDriverColumn;
 	private Column<SensorDto, String> editColumn;
 	
@@ -40,6 +41,11 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
 		cellTable.setColumnWidth(nameColumn, COLUMN_NAME_WIDTH, Unit.PX);
 
+		orderColumn = createOrderColumn();
+		orderColumn.setSortable(true);
+		cellTable.addColumn(orderColumn, AdminLocale.getAdminConst().order());
+		cellTable.setColumnWidth(orderColumn, 70, Unit.PX);
+
 		relayDriverColumn =  createRelayDriverColumn();
 		cellTable.addColumn(relayDriverColumn, AdminLocale.getAdminConst().relayDriver());
 		cellTable.setColumnWidth(relayDriverColumn, COLUMN_NAME_WIDTH, Unit.PX);
@@ -48,6 +54,16 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 		cellTable.addColumn(editColumn, "");
 		
 		return cellTable;
+	}
+
+	private Column<SensorDto, String> createOrderColumn() {
+		Column<SensorDto, String> column = new TextColumn<SensorDto>() {
+			@Override
+			public String getValue(SensorDto object) {
+			return object.getOrder() == null ? "" : object.getOrder().toString();
+			}
+		};
+		return column;
 	}
 
 	private Column<SensorDto, String> createRelayDriverColumn() {

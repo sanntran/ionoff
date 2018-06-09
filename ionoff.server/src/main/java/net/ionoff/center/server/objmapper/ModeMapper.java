@@ -29,6 +29,7 @@ public class ModeMapper {
 	
 	public Mode updateMode(Mode mode, ModeDto modeDto) {
 		mode.setName(modeDto.getName());
+		mode.setOrder(modeDto.getOrder());
 		mode.setIsScheduled(modeDto.getIsScheduled());
 		mode.setScheduleRepeat(modeDto.getScheduleRepeat());
 		mode.setScheduleTime(modeDto.getScheduleTime());
@@ -40,6 +41,7 @@ public class ModeMapper {
 		final ModeDto modeDto = new ModeDto();
 		modeDto.setId(mode.getId());
 		modeDto.setName(mode.getName());
+		modeDto.setOrder(mode.getOrder());
 		modeDto.setIsScheduled(mode.getIsScheduled());
 		modeDto.setScheduleRepeat(mode.getScheduleRepeat());
 		modeDto.setScheduleDay(mode.getScheduleDay());

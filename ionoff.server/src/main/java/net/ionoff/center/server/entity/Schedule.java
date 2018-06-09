@@ -5,7 +5,8 @@ import java.util.Set;
 public class Schedule extends BaseObj {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	private Integer order;
 	private Boolean enabled;
 	private String repeat;
 	private String time;
@@ -16,7 +17,15 @@ public class Schedule extends BaseObj {
 	private Device device;
 	private Project project;
 	private Set<ScheduleAction> actions;
-	
+
+	public Integer getOrder() {
+		return order;
+	}
+
+	public void setOrder(Integer order) {
+		this.order = order;
+	}
+
 	public Boolean getEnabled() {
 		return enabled;
 	}

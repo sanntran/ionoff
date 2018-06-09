@@ -8,6 +8,7 @@ public class SceneDto extends BaseDto {
 	private static final long serialVersionUID = 1L;
 	
 	private String time;
+	private Integer order;
 	private Long zoneId;
 	private String zoneName;
 	private Long projectId;
@@ -23,6 +24,14 @@ public class SceneDto extends BaseDto {
 
 	public void setTime(String time) {
 		this.time = time;
+	}
+
+	public Integer getOrder() {
+		return order;
+	}
+
+	public void setOrder(Integer order) {
+		this.order = order;
 	}
 
 	public Long getZoneId() {

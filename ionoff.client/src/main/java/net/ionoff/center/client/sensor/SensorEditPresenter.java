@@ -36,6 +36,7 @@ import net.ionoff.center.shared.entity.SensorType;
 public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 
 	public interface Display extends IEditView<SensorDto> {
+		MaterialIntegerBox getIntBoxOrder();
 		MaterialIntegerBox getIntBoxInputIndex();
 		MaterialListBox getListBoxGateways();
 		FlowPanel getPanelActions();
@@ -167,9 +168,10 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		
 		entityDto.setName(newName);
 		entityDto.setIndex(newInput);
+		entityDto.setOrder(view.getIntBoxOrder().getValue());
 		entityDto.setDriverId(newDriverId);
 		entityDto.setDriverName(newDriverName);
-		
+
 		rpcProvider.getSensorService().save(entityDto.getId(), entityDto, 
 				new MethodCallback<SensorDto>() {
 			@Override
@@ -309,6 +311,7 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 	private void updateView(SensorDto dto) {
 		view.getLblId().setText("#" + dto.getId());
 		view.getLblName().setText(dto.getName());
+		view.getIntBoxOrder().setValue(dto.getOrder());
 		view.getTextBoxName().setText(dto.getName());
 		
 		view.getListBoxTypes().setEnabled(false);

@@ -7,7 +7,7 @@ public class Sensor extends BaseObj {
 	public static enum TYPE {
 		ANALOG, DIGITAL;
 	}
-	
+	private Integer order;
 	private String unit;
 	private String type;
 	private Zone zone;
@@ -15,7 +15,15 @@ public class Sensor extends BaseObj {
 	private Project project;
 	private Switch zwitch;
 	private SensorStatus status;
-	
+
+	public Integer getOrder() {
+		return order;
+	}
+
+	public void setOrder(Integer order) {
+		this.order = order;
+	}
+
 	public String getUnit() {
 		return unit;
 	}

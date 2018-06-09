@@ -77,7 +77,7 @@ public class ModeDaoImpl extends AbstractGenericDao<Mode> implements IModeDao {
 		String sql = "select distinct mode"
 				+ " from Mode as mode"
 				+ " where mode.project.id = :projectId"
-				+ " order by mode.name";
+				+ " order by mode.order, mode.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("projectId", projectId);
 		
@@ -88,7 +88,7 @@ public class ModeDaoImpl extends AbstractGenericDao<Mode> implements IModeDao {
 		String sql = "select distinct mode"
 					+ " from Mode as mode"
 					+ " where mode.project.id = :projectId"
-					+ " order by mode.name";
+					+ " order by mode.order, mode.name";
 		
 		if (!isAscending) {
 			sql = sql + " desc";
@@ -104,7 +104,7 @@ public class ModeDaoImpl extends AbstractGenericDao<Mode> implements IModeDao {
 				+ " from Mode as mode"
 				+ " where mode.isScheduled = :isScheduled"
 				+ " and mode.scheduleTime = :scheduleTime"
-				+ " order by mode.project.id";
+				+ " order by mode.project.id, mode.order";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("isScheduled", true)
 				.setParameter("scheduleTime", scheduleTime);

@@ -16,6 +16,7 @@ import net.ionoff.center.shared.dto.ScheduleDto;
 public class ScheduleTableView extends AbstractTableView<ScheduleDto> implements ScheduleTablePresenter.Display {
 	
 	private Column<ScheduleDto, String> nameColumn;
+	private Column<ScheduleDto, String> orderColumn;
 	private Column<ScheduleDto, String> deviceColumn;
 	private Column<ScheduleDto, String> editColumn;
 	
@@ -40,7 +41,12 @@ public class ScheduleTableView extends AbstractTableView<ScheduleDto> implements
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
 		cellTable.setColumnWidth(nameColumn, COLUMN_NAME_WIDTH, Unit.PX);
-		
+
+		orderColumn = createOrderColumn();
+		orderColumn.setSortable(true);
+		cellTable.addColumn(orderColumn, AdminLocale.getAdminConst().order());
+		cellTable.setColumnWidth(orderColumn, 70, Unit.PX);
+
 		deviceColumn = createDeviceColumn();
 		cellTable.addColumn(deviceColumn, AdminLocale.getAdminConst().device());
 		cellTable.setColumnWidth(deviceColumn, COLUMN_NAME_WIDTH, Unit.PX);
@@ -50,7 +56,17 @@ public class ScheduleTableView extends AbstractTableView<ScheduleDto> implements
 		
 		return cellTable;
 	}
-	
+
+	private Column<ScheduleDto, String> createOrderColumn() {
+		Column<ScheduleDto, String> column = new TextColumn<ScheduleDto>() {
+			@Override
+			public String getValue(ScheduleDto object) {
+				return object.getOrder() == null ? "" : object.getOrder().toString();
+			}
+		};
+		return column;
+	}
+
 	private Column<ScheduleDto, String> createDeviceColumn() {
 		ClickableTextCell clickableTimeTextCell = new ClickableTextCell();
 	    Column<ScheduleDto, String> column = new Column<ScheduleDto, String>(clickableTimeTextCell) {

@@ -5,6 +5,7 @@ public class SensorDto extends BaseDto {
 	private static final long serialVersionUID = 1L;
 	
 	private String unit;
+	private Integer order;
 	private String formula;
 	private String type;
 	private Long driverId;
@@ -13,13 +14,22 @@ public class SensorDto extends BaseDto {
 	private Long deviceId;
 	private String deviceName;
 	private Long projectId;
-	
+
 	public String getType() {
 		return type;
 	}
 	public void setType(String type) {
 		this.type = type;
 	}
+
+	public Integer getOrder() {
+		return order;
+	}
+
+	public void setOrder(Integer order) {
+		this.order = order;
+	}
+
 	public Long getDriverId() {
 		return driverId;
 	}

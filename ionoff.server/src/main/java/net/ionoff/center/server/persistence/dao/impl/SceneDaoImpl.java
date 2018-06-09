@@ -104,7 +104,7 @@ public class SceneDaoImpl extends AbstractGenericDao<Scene> implements ISceneDao
 		String sql = "select distinct scene"
 				+ " from Scene as scene"
 				+ " where scene.zone.project.id = :projectId"
-				+ " order by scene.name";
+				+ " order by scene.order, scene.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("projectId", projectId);
 		return findMany(query);
@@ -149,7 +149,7 @@ public class SceneDaoImpl extends AbstractGenericDao<Scene> implements ISceneDao
 				+ " where scene.zone.id = :zoneId"
 				+ " and userScene.scene.id = scene.id"
 				+ " and userScene.user.id = :userId"
-				+ " order by scene.name";
+				+ " order by scene.order, scene.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("zoneId", zoneId)
 				.setParameter("userId", userId)
@@ -166,7 +166,7 @@ public class SceneDaoImpl extends AbstractGenericDao<Scene> implements ISceneDao
 				+ " and scene.zone.project.id = :projectId"
 				+ " and userScene.user.id = :userId"
 				+ " and userScene.role = true"
-				+ " order by scene.name";
+				+ " order by scene.order, scene.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("userId", userId)
 				.setParameter("projectId", projectId)

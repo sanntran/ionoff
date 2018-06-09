@@ -30,6 +30,7 @@ public class SensorMapper {
 	
 	public Sensor updateSensor(Sensor sensor, SensorDto sensorDto, 
 			Switch zwitch) {
+		sensor.setOrder(sensorDto.getOrder());
 		sensor.setType(sensorDto.getType());
 		sensor.setUnit(sensorDto.getUnit());
 		sensor.setName(sensorDto.getName());
@@ -41,6 +42,7 @@ public class SensorMapper {
 		final SensorDto sensorDto = new SensorDto();
 		sensorDto.setId(sensor.getId());
 		sensorDto.setName(sensor.getName());
+		sensorDto.setOrder(sensor.getOrder());
 		if (sensor.getDevice() != null) {
 			sensorDto.setIndex(null);
 			sensorDto.setDeviceId(sensor.getDevice().getId());

@@ -8,6 +8,7 @@ public class ScheduleDto extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
+	private Integer order;
 	private Boolean enabled;
 	private String repeat;
 	private String time;
@@ -19,6 +20,14 @@ public class ScheduleDto extends BaseDto {
 
 	public ScheduleDto() {
 		actions = new ArrayList<>();
+	}
+
+	public Integer getOrder() {
+		return order;
+	}
+
+	public void setOrder(Integer order) {
+		this.order = order;
 	}
 
 	public Boolean getEnabled() {

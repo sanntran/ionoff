@@ -38,6 +38,7 @@ public class ScheduleMapper {
 
 	public Schedule updateSchedule(Schedule schedule, ScheduleDto scheduleDto) {
 		schedule.setName(scheduleDto.getName());
+		schedule.setOrder(scheduleDto.getOrder());
 		schedule.setEnabled(scheduleDto.getEnabled());
 		schedule.setRepeat(scheduleDto.getRepeat());
 		schedule.setTime(scheduleDto.getTime());
@@ -49,6 +50,7 @@ public class ScheduleMapper {
 		final ScheduleDto scheduleDto = new ScheduleDto();
 		scheduleDto.setId(schedule.getId());
 		scheduleDto.setName(schedule.getName());
+		scheduleDto.setOrder(schedule.getOrder());
 		scheduleDto.setEnabled(schedule.getEnabled());
 		scheduleDto.setRepeat(schedule.getRepeat());
 		scheduleDto.setDay(schedule.getDay());

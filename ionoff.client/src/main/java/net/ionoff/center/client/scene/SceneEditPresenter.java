@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import gwt.material.design.client.ui.MaterialIntegerBox;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -35,6 +36,7 @@ public class SceneEditPresenter extends AbstractEditPresenter<SceneDto> {
 
 	public interface Display extends IEditView<SceneDto> {
 
+		MaterialIntegerBox getIntBoxOrder();
 		MaterialComboBox<String> getListBoxZones();
 		FlowPanel getSceneDevicesView();
 	}
@@ -97,7 +99,8 @@ public class SceneEditPresenter extends AbstractEditPresenter<SceneDto> {
 			return;
 		}
 		entityDto.setName(newName);
-		
+		entityDto.setOrder(view.getIntBoxOrder().getValue());
+
 		if (entityDto.izNew()) {
 			String selectedValue = view.getListBoxZones().getSelectedValue().get(0).toString();
 			entityDto.setZoneId(BaseDto.parseIdFromFormattedNameID(selectedValue));
@@ -224,6 +227,7 @@ public class SceneEditPresenter extends AbstractEditPresenter<SceneDto> {
 	private void updateView(SceneDto dto) {
 		view.getLblId().setText("#" + dto.getId());
 		view.getLblName().setText(dto.getName());
+		view.getIntBoxOrder().setValue(dto.getOrder());
 		view.getTextBoxName().setText(dto.getName());
 		if (dto.getId() != BaseDto.DEFAULT_ID) {
 			view.getListBoxZones().setEnabled(false);

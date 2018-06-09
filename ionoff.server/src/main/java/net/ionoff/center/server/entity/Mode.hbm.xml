@@ -16,7 +16,11 @@
 		<property name="name">
 			<column name="name" />
 		</property>
-		
+
+		<property name="order">
+			<column name="order_" />
+		</property>
+
 		<property name="time">
 			<column name="time_" sql-type="datetime"/>
 		</property>

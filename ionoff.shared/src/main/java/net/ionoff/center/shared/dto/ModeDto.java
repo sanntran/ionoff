@@ -9,6 +9,7 @@ public class ModeDto extends BaseDto {
 	private static final long serialVersionUID = 1L;
 
 	private String time;
+	private Integer order;
 	private Boolean isScheduled;
 	private String scheduleRepeat;
 	private String scheduleTime;
@@ -29,7 +30,15 @@ public class ModeDto extends BaseDto {
 	public void setTime(String time) {
 		this.time = time;
 	}
-	
+
+	public Integer getOrder() {
+		return order;
+	}
+
+	public void setOrder(Integer order) {
+		this.order = order;
+	}
+
 	public Boolean getIsScheduled() {
 		return isScheduled;
 	}

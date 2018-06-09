@@ -7,13 +7,15 @@ import com.google.gwt.user.client.ui.Label;
 
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCheckBox;
+import gwt.material.design.client.ui.MaterialIntegerBox;
 import net.ionoff.center.client.base.AbstractEditView;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.schedule.ScheduleTimeSettingPanel;
 import net.ionoff.center.shared.dto.ModeDto;
 
 public class ModeEditView extends AbstractEditView<ModeDto> implements ModeEditPresenter.Display {
-	
+
+	private MaterialIntegerBox intBoxOrder;
 	private final MaterialCheckBox checkBoxIsScheduled;
 	private final ScheduleTimeSettingPanel scheduleTimeSettingPanel;
 	private final ModeSceneListView sceneListView;
@@ -21,7 +23,13 @@ public class ModeEditView extends AbstractEditView<ModeDto> implements ModeEditP
 	public ModeEditView() {
 		super();
 		getLblIcon().setIconType(IconType.SETTINGS_BRIGHTNESS);
-		
+
+		intBoxOrder = new MaterialIntegerBox();
+		intBoxOrder.setMin("0");
+		intBoxOrder.setLabel(AdminLocale.getAdminConst().order());
+		intBoxOrder.setPlaceholder(AdminLocale.getAdminConst().order());
+		contentPanel.add(intBoxOrder);
+
 		checkBoxIsScheduled = new MaterialCheckBox();
 		checkBoxIsScheduled.addStyleName("isScheduledCheckBox");
 		checkBoxIsScheduled.setText(AdminLocale.getAdminConst().schedule());
@@ -54,6 +62,11 @@ public class ModeEditView extends AbstractEditView<ModeDto> implements ModeEditP
 		else {
 			scheduleTimeSettingPanel.setVisible(false);
 		}
+	}
+
+	@Override
+	public MaterialIntegerBox getIntBoxOrder() {
+		return intBoxOrder;
 	}
 
 	@Override

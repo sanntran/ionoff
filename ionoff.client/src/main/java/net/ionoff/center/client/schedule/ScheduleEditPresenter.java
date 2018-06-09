@@ -3,6 +3,7 @@ package net.ionoff.center.client.schedule;
 
 import java.util.List;
 
+import gwt.material.design.client.ui.MaterialIntegerBox;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -27,6 +28,7 @@ import net.ionoff.center.shared.dto.ScheduleDto;
 public class ScheduleEditPresenter extends AbstractEditPresenter<ScheduleDto> {
 
 	public interface Display extends IEditView<ScheduleDto> {
+		MaterialIntegerBox getIntBoxOrder();
 		ScheduleTimeSettingPanel getScheduleTimeSettingPanel();
 		DevicesSelectionPanel getDevicesSelectionPanel();
 		ScheduleActionsView getScheduleActionsView();
@@ -90,7 +92,8 @@ public class ScheduleEditPresenter extends AbstractEditPresenter<ScheduleDto> {
 			return;
 		}
 		entityDto.setName(newName);
-		
+		entityDto.setOrder(view.getIntBoxOrder().getValue());
+
 		String selectedDeviceNameId = view.getDevicesSelectionPanel().getSelectedDevice();
 		if (selectedDeviceNameId == null || selectedDeviceNameId.isEmpty()
 				|| AdminLocale.getAdminConst().none().equals(selectedDeviceNameId)) {
@@ -139,6 +142,7 @@ public class ScheduleEditPresenter extends AbstractEditPresenter<ScheduleDto> {
 	private void updateView(ScheduleDto dto) {
 		view.getLblId().setText("#" + dto.getId());
 		view.getLblName().setText(dto.getName());
+		view.getIntBoxOrder().setValue(dto.getOrder());
 		view.getTextBoxName().setText(dto.getName());
 		view.getCheckBoxEnable().setValue(dto.getEnabled());
 		view.getScheduleTimeSettingPanel().setScheduleData(dto.getRepeat(), dto.getDay(), dto.getTime());

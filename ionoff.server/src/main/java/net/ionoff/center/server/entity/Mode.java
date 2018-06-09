@@ -6,7 +6,7 @@ import java.util.Set;
 public class Mode extends BaseObj {
 
 	private static final long serialVersionUID = 1L;
-	
+	private Integer order;
 	private Date time;
 	private Boolean isScheduled;
 	private String scheduleRepeat;
@@ -17,6 +17,12 @@ public class Mode extends BaseObj {
 	private Set<ModeScene> scenes;
 	private Set<ModeSensor> sensors;
 
+	public Integer getOrder() {
+		return order;
+	}
+	public void setOrder(Integer order) {
+		this.order = order;
+	}
 	
 	public Date getTime() {
 		return time;

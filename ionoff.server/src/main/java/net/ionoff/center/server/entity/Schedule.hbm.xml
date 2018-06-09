@@ -16,7 +16,11 @@
 		<property name="name">
 			<column name="name" />
 		</property>
-		
+
+		<property name="order">
+			<column name="order_" />
+		</property>
+
 		<property name="repeat">
 			<column name="repeat_" />
 		</property>

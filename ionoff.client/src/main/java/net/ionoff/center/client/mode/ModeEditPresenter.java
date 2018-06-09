@@ -3,6 +3,7 @@ package net.ionoff.center.client.mode;
 
 import java.util.List;
 
+import gwt.material.design.client.ui.MaterialIntegerBox;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -26,6 +27,8 @@ import net.ionoff.center.shared.dto.ModeSceneDto;
 public class ModeEditPresenter extends AbstractEditPresenter<ModeDto> {
 
 	public interface Display extends IEditView<ModeDto> {
+
+		MaterialIntegerBox getIntBoxOrder();
 		MaterialCheckBox getCheckBoxScheduled();
 		ModeSceneListPresenter.Display getSceneListView();
 		ScheduleTimeSettingPanel getScheduleTimeSettingPanel();
@@ -91,6 +94,7 @@ public class ModeEditPresenter extends AbstractEditPresenter<ModeDto> {
 			return;
 		}
 		entityDto.setName(newName);
+		entityDto.setOrder(view.getIntBoxOrder().getValue());
 		
 		if (view.getCheckBoxScheduled().getValue() != null && view.getCheckBoxScheduled().getValue().booleanValue() == true) {
 			entityDto.setIsScheduled(true);
@@ -133,6 +137,7 @@ public class ModeEditPresenter extends AbstractEditPresenter<ModeDto> {
 	private void updateView(ModeDto dto) {
 		view.getLblId().setText("#" + dto.getId());
 		view.getLblName().setText(dto.getName());
+		view.getIntBoxOrder().setValue(dto.getOrder());
 		view.getTextBoxName().setText(dto.getName());
 		view.getCheckBoxScheduled().setValue(dto.getIsScheduled());
 		view.checkShowingScheduleTimeSettingPanel(dto.getIsScheduled());

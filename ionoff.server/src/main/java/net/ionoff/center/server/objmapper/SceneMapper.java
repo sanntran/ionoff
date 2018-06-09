@@ -43,6 +43,7 @@ public class SceneMapper {
 	
 	public Scene updateScene(Scene scene, SceneDto sceneDto) {
 		scene.setName(sceneDto.getName());
+		scene.setOrder(sceneDto.getOrder());
 		return scene;
 	}
 
@@ -50,6 +51,7 @@ public class SceneMapper {
 		final SceneDto sceneDto = new SceneDto();
 		sceneDto.setId(scene.getId());
 		sceneDto.setName(scene.getName());
+		sceneDto.setOrder(scene.getOrder());
 		if (scene.getTime() != null) {
 			sceneDto.setTime(DateTimeUtil.yyyyMMddHHmmFormatter.format(scene.getTime()));
 		}

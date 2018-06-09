@@ -15,7 +15,8 @@ import net.ionoff.center.shared.dto.SensorDto;
 import net.ionoff.center.shared.entity.SensorType;
 
 public class SensorEditView extends AbstractEditView<SensorDto> implements SensorEditPresenter.Display {
-	
+
+    private MaterialIntegerBox intBoxOrder;
 	private MaterialListBox listBoxTypes;
 	private MaterialListBox listBoxGateways;
 	private MaterialIntegerBox intBoxInputIndex;
@@ -27,7 +28,13 @@ public class SensorEditView extends AbstractEditView<SensorDto> implements Senso
 	public SensorEditView() {
 		super();
 		getLblIcon().setIconType(IconType.WIFI_TETHERING);
-		
+
+		intBoxOrder = new MaterialIntegerBox();
+        intBoxOrder.setMin("0");
+        intBoxOrder.setLabel(AdminLocale.getAdminConst().order());
+        intBoxOrder.setPlaceholder(AdminLocale.getAdminConst().order());
+		contentPanel.add(intBoxOrder);
+
 		listBoxTypes = new MaterialListBox();
 		listBoxTypes.setPlaceholder(AdminLocale.getAdminConst().type());
 		listBoxTypes.addItem(SensorType.DIGITAL.toString());
@@ -74,8 +81,13 @@ public class SensorEditView extends AbstractEditView<SensorDto> implements Senso
 	public MaterialListBox getListBoxGateways() {
 		return listBoxGateways;
 	}
-	
-	@Override
+
+    @Override
+    public MaterialIntegerBox getIntBoxOrder() {
+        return intBoxOrder;
+    }
+
+    @Override
 	public MaterialIntegerBox getIntBoxInputIndex() {
 		return intBoxInputIndex;
 	}
