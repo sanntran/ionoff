@@ -100,23 +100,29 @@ public class ControlServiceImpl implements IControlService {
 	
 	@Override
 	public void setRelayState(Relay relay, Boolean state) {
-		if (Boolean.TRUE.equals(relay.getIsLocked())) {
-			throw new RelayLockedException(relay.getName() + " (" + relay.getDriver().getName() + ")");
-		}
 		if (state == null) {
 			return;
 		}
-		if (!relay.izAutoRevert()) {
+		if (Boolean.TRUE.equals(relay.getIsLocked())) {
+			throw new RelayLockedException(relay.getName() + " (" + relay.getDriver().getName() + ")");
+		}
+		if (state.equals(relay.getStatus())) {
+			relayService.update(relay, state);
+			return;
+		}
+		if (!relay.izAutoRevert() || Boolean.FALSE.equals(state)) {
 			sendRelayCommand(relay, state);
 		}
 		else {
 			sendRelayCommand(relay, state, relay.getAutoRevert());
-			try {
-				Thread.sleep(relay.getAutoRevert() * 1000);
-			} catch (InterruptedException e) {
-				logger.error(e.getMessage(), e);
+			if (relay.izButton()) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					//
+				}
+				relayService.update(relay, false);
 			}
-			sendRelayCommand(relay, !state);
 		}
 	}
 	

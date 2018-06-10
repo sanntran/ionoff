@@ -123,4 +123,8 @@ public class Relay extends BaseObj {
 	public boolean izAutoRevert() {
 		return autoRevert != null && autoRevert.intValue() > 0;
 	}
+	
+	public boolean izButton() {
+		return izAutoRevert() && autoRevert.intValue() == 1;
+	}
 }

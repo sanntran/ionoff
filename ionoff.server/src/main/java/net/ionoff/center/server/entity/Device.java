@@ -8,6 +8,7 @@ public class Device extends BaseObj implements ISlice {
 
 	private static final long serialVersionUID = 1L;
 
+	private Boolean status;
 	private Long version;
 	private Date time;
 	private Integer order;
@@ -15,6 +16,14 @@ public class Device extends BaseObj implements ISlice {
 	private Zone zone;
 	private List<Relay> relays;
 
+	public Boolean getStatus() {
+		return status;
+	} 
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+	
 	public Long getVersion() {
 		return version;
 	}
@@ -94,14 +103,6 @@ public class Device extends BaseObj implements ISlice {
 	
 	public boolean instanceOf( Class<? extends Device> clazz) {
 		return clazz.getSimpleName().equals(getClass().getSimpleName());
-	}
-
-	public Boolean getStatus() {
-		return null;
-	}
-
-	public void setStatus(Boolean status) {
-		// does nothing
 	}
 
 }

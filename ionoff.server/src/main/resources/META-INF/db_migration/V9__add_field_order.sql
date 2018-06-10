@@ -12,3 +12,5 @@ ADD COLUMN `order_` INT NULL AFTER `name`;
 
 ALTER TABLE `schedules`
 ADD COLUMN `order_` INT NULL AFTER `name`;
+
+UPDATE `relays` SET `status_` = NULL;

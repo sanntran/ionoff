@@ -23,8 +23,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 
 	@Override
 	public synchronized Relay update(Relay relay) {
-		return super.update(relay);
-		
+		return super.update(relay);		
 	}
 	
 	private long countByProjectIdRelayDriverName(long projectId, String driverName) {

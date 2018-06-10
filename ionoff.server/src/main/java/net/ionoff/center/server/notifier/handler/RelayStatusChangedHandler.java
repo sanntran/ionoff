@@ -1,6 +1,8 @@
 package net.ionoff.center.server.notifier.handler;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +18,25 @@ public class RelayStatusChangedHandler {
 	
 	private static Logger logger = Logger.getLogger(RelayStatusChangedHandler.class.getName());
 
+	private Timer timer;
+	
 	@Autowired
 	private IControlService controlService;
 	
 	@Autowired
 	private IRelayGroupDao relayGroupDao;
 	
+	public RelayStatusChangedHandler() {
+		timer = new Timer();
+	}
+	
 	@Async
 	public void onRelayStatusChanged(Relay relay) {
-		if (relay == null || relay.getGroupRelays() == null || relay.getGroupRelays().isEmpty()) {
+		if (relay == null) {
 			return;
+		}
+		if (relay.izAutoRevert() && relay.isClosed()) {
+			scheduleRevertRelayState(relay);
 		}
 		
 		List<RelayGroup> relayGroups = relayGroupDao.findByRelayId(relay.getId());
@@ -63,5 +74,15 @@ public class RelayStatusChangedHandler {
 				}
 			}
 		}
+	}
+
+	private void scheduleRevertRelayState(Relay relay) {
+		logger.info("Schedule revert relay " + relay.getNameId() + " state for " + relay.getAutoRevert() + " second");
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				controlService.setRelayState(relay, false);
+			}
+		}, relay.getAutoRevert() * 1000);
 	}
 }

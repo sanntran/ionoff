@@ -137,7 +137,7 @@ public class RelayDriverStatusHandler {
 		// Update output status
 		for (Relay relay : relayDriver.getRelays()) {
 			if (relay.updateStatus(relayDriverStatus.getRelayOutputStatus().get(relay.getIndex()))) {
-				relayService.update(relay);
+				relayService.update(relay, relay.getStatus());
 				onRelayStatusChanged(relay);
 			}
 		}

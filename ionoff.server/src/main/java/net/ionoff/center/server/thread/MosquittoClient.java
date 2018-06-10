@@ -68,10 +68,10 @@ public class MosquittoClient implements MqttCallback {
 		if (!connected) {
 			throw new MqttConnectionException("Not connected to MQTT server: " + AppConfig.getInstance().MQTT_BROKER_URL);
 		}
-		
+		LOGGER.info("Publishing message:" + payload + " to topic: " + topic);
 		MqttMessage message = new MqttMessage(payload.getBytes());
         message.setQos(AppConfig.getInstance().MQTT_QOS);
-        LOGGER.info("Publishing message:" + message + " to topic: " + topic);
+        
         try {
 			client.publish(topic, message);
 		} catch (Exception e) {
@@ -143,7 +143,7 @@ public class MosquittoClient implements MqttCallback {
 		// Called when a message arrives from the server that matches any
 		// subscription made by the client
 		String payload = new String(message.getPayload());
-		
+		LOGGER.info("Message arrived on topic: " + topic + ". Message: " + payload);
 		if (AppConfig.getInstance().MQTT_TOPIC_IONOFF_NET.equals(topic) ||
 				AppConfig.getInstance().MQTT_TOPIC_RELAY_DRIVER.equals(topic)) {
 			onRelayDriverMessageArrived(payload);
@@ -153,8 +153,7 @@ public class MosquittoClient implements MqttCallback {
 		}
 	}
 	
-	private void onSensorDriverMessageArrived(String payload) {
-		LOGGER.info("Message arrived: " + payload);
+	private void onSensorDriverMessageArrived(String payload) {		
 		SensorDriverMqttPayload data = new SensorDriverMqttPayload(payload);
 		SensorDriver sensorDriver = deviceService.findSensorDriverByMac(data.getId());
 		if (sensorDriver == null) {
@@ -207,13 +206,13 @@ public class MosquittoClient implements MqttCallback {
 			//LOGGER.info("RelayDriver " + relayDriver.getKey() + " has been connected");
 			relayDriverStatusHandler.onReceivedStatus(relayDriver, mqttPayload.getIn(),  mqttPayload.getOut());
 		} else if (RelayDriverMqttPayload.CHANGED.equals(mqttPayload.getCode())) {
-			LOGGER.info("RelayDriver " + relayDriver.getKey() + " input status has been changed");
+			//LOGGER.info("RelayDriver " + relayDriver.getKey() + " input status has been changed");
 			relayDriverStatusHandler.onStatusChanged(relayDriver, mqttPayload.getIn(),  mqttPayload.getOut());
 		} else if (RelayDriverMqttPayload.RESET.equals(mqttPayload.getCode())) {
-			LOGGER.info("RelayDriver " + relayDriver.getKey() + " has been started");
+			//LOGGER.info("RelayDriver " + relayDriver.getKey() + " has been started");
 			relayDriverStatusHandler.onStarted(relayDriver, null, mqttPayload.getIn(),  mqttPayload.getOut());
 		} else if (RelayDriverMqttPayload.CRASH.equals(mqttPayload.getCode())) {
-			LOGGER.info("RelayDriver " + relayDriver.getKey() + " started due to crash");
+			//LOGGER.info("RelayDriver " + relayDriver.getKey() + " started due to crash");
 			relayDriverStatusHandler.onCrashed(relayDriver, mqttPayload.getIn(),  mqttPayload.getOut());
 		}
 	}

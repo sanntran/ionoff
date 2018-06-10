@@ -15,9 +15,9 @@
 	</properties>
 
 	<modules>
-		<!-- <module>../ionoff.shared</module>
+<!-- 		<module>../ionoff.shared</module> -->
   		<module>../ionoff.client</module>
-		<module>../ionoff.server</module> -->
+		<module>../ionoff.server</module>
 	</modules>
 
 </project>

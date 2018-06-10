@@ -34,6 +34,7 @@ const byte MODE_STA = 2;
 
 const byte SWITCH = 1;
 const byte BUTTON = 2;
+const byte SENSOR = 3;
 const boolean USE_SERIAL = true;
 
 const int TIMER_T = 20;
@@ -72,12 +73,12 @@ char wifiPass[WIFI_LENGTH];
 char serialStr[ID_LENGTH];
 
 char ioStatus[8];  // 111,111
-char stMessage[40]; // id=E410180101000000&code=status&io=111,111
-                    // id=E410180101000000&code=hello&io=111,111
-                    // id=E410180101000000&code=changed&io=111,111
-                    // id=E410180101000000&code=reset&io=111,111
-char ioMessage[42]; // id=E410180101000000&code=respio&io=111,111
-char cfMessage[255]; // id=E410180101000000&code=respcf&cf=E410180101000000,tcp.ionoff.net,221,IOnOffNet,I0n0ffNet
+char stMessage[40]; // id=E310180101000000&code=status&io=111,111
+                    // id=E310180101000000&code=hello&io=111,111
+                    // id=E310180101000000&code=changed&io=111,111
+                    // id=E310180101000000&code=reset&io=111,111
+char ioMessage[42]; // id=E310180101000000&code=respio&io=111,111
+char cfMessage[255]; // id=E310180101000000&code=respcf&cf=E310180101000000,mqtt.ionoff.net,221,IOnOffNet,I0n0ffNet
 
 long outputLocks[] = {0, 0, 0};
 byte inputStates[] = {HIGH, HIGH, HIGH};
@@ -537,7 +538,7 @@ void checkInputChange() {
   for (int i = 0; i < 3; i++) {
 
     if (inputChanges[i] == true) {
-      if ((millis() - inputChangesTime[i]) >= 150) {
+      if ((millis() - inputChangesTime[i]) >= 110) {
         if (newInputStates[i] != inputStates[i]) {
           inputStates[i] = newInputStates[i];
           // Accept input change
@@ -564,7 +565,7 @@ void checkInputChange() {
             }
             stType = ST_CHANGED;
             controlDecisions[i] = true;
-          }
+          }          
           // Reset input change
           inputChanges[i] = false;
         }
@@ -578,15 +579,30 @@ void checkInputChange() {
       inputChangesTime[i] = millis();
     }
   }
-
+  
   if (controlDecisions[0] == true) {
-    changeOutputState(OUT_1);
+    if (inputTypes[0] == SENSOR) {
+      setOutputState(OUT_1, newInputStates[0], 0);
+    }
+    else {
+      changeOutputState(OUT_1);
+    }
   }
   if (controlDecisions[1] == true) {
-    changeOutputState(OUT_2);
+    if (inputTypes[1] == SENSOR) {
+      setOutputState(OUT_2, newInputStates[1], 0);
+    }
+    else {
+      changeOutputState(OUT_2);
+    }
   }
   if (controlDecisions[2] == true) {
-    changeOutputState(OUT_3);
+    if (inputTypes[2] == SENSOR) {
+      setOutputState(OUT_3, newInputStates[2], 0);
+    }
+    else {
+      changeOutputState(OUT_3);
+    }
   }
 }
 

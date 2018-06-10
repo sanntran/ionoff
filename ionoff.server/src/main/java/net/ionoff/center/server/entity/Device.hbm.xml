@@ -21,6 +21,10 @@
 			<column name="name" />
 		</property>
 		
+		<property name="status" type="java.lang.Boolean">
+			<column name="status_" sql-type="bit"/>
+		</property>
+		
 		<property name="time">
 			<column name="time_" sql-type="datetime"/>
 		</property>
@@ -39,7 +43,6 @@
         
 		<bag name="relays" table="relays"
 				inverse="true" lazy="true" fetch="select" order-by="name">
-            <cache usage="read-write"/>
             <key>
                 <column name="device_id" not-null="false" />
             </key>
@@ -48,16 +51,10 @@
         
 		<subclass name="net.ionoff.center.server.entity.Light"
 			discriminator-value="Light">
-			<property name="status" type="java.lang.Boolean">
-				<column name="status_" sql-type="bit"/>
-			</property>
 		</subclass>
 		
 		<subclass name="net.ionoff.center.server.entity.Appliance"
 			discriminator-value="Appliance">
-			<property name="status" type="java.lang.Boolean">
-				<column name="status_" sql-type="bit"/>
-			</property>
 		</subclass>
 		
 		
