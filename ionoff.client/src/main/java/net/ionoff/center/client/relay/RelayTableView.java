@@ -57,6 +57,23 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 		
 		return cellTable;
 	}
+
+	@Override
+	protected Column<RelayDto, String> createNameColumn() {
+		TextColumn<RelayDto> column = new TextColumn<RelayDto>() {
+			@Override
+			public String getValue(RelayDto object) {
+			if (object == null) {
+				return "";
+			}
+			if (object.getLabel() != null) {
+				return object.getName() + " [" + object.getLabel() + "]";
+			}
+			return object.getName();
+			}
+		};
+		return column;
+	}
 	
 	protected Column<RelayDto, String> createDriverColumn() {
 		TextColumn<RelayDto> column = new TextColumn<RelayDto>() {
@@ -70,12 +87,15 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 		};
 		return column;
 	}
-	
+
 	protected Column<RelayDto, String> createDeviceColumn() {
 		TextColumn<RelayDto> column = new TextColumn<RelayDto>() {
 			@Override
 			public String getValue(RelayDto object) {
 				if (object == null) {
+					return "";
+				}
+				if (object.getDeviceId() == null) {
 					return "";
 				}
 				return BaseDto.formatNameID(object.getDeviceName(), object.getDeviceId());

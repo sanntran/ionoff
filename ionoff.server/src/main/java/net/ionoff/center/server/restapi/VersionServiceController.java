@@ -73,7 +73,7 @@ public class VersionServiceController {
 	public VersionDto checkLatestVersion(HttpServletRequest request) throws IOException {
 		VersionDto latestVersion = getLatestVersion(request);
 		VersionDto currentVersion = getCurrentVersion();
-		if (currentVersion.getName().equals(latestVersion.getName())) {
+		if (!currentVersion.getName().equals(latestVersion.getName())) {
 			return latestVersion;
 		}
 		return new VersionDto();

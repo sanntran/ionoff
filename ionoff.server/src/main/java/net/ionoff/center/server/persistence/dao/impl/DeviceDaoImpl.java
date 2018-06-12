@@ -223,4 +223,18 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 		 return devices;
 	}
 
+	@Override
+	public void updateDeviceStatus(Device device) {
+		if (device == null) {
+			return;
+		}
+		if (!device.hasRelay() || !device.hasOneRelay()) {
+			device.setStatus(null);
+		}
+		else {
+			device.setStatus(device.getRelays().get(0).getStatus());
+		}
+		update(device);
+	}
+
 }

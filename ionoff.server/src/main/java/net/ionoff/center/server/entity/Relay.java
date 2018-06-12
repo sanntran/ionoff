@@ -79,6 +79,9 @@ public class Relay extends BaseObj {
 		if (newStatus == null) {
 			return false;
 		}
+		if (device != null && device.hasOneRelay() && newStatus.equals(device.getStatus())) {
+			return true;
+		}
 		if (status != null && status.equals(newStatus)) {
 			return false;
 		}

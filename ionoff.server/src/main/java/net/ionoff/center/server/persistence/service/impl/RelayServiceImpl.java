@@ -83,14 +83,26 @@ public class RelayServiceImpl extends AbstractGenericService<Relay, RelayDto> im
 	}
 	
 	@Override
-	public Relay update(Relay relay, Device device) {
-		if (!isDeviceChanged(relay.getDevice(), device)) {
+	public Relay update(Relay relay, Device newDevice) {
+		Device oldDevice = relay.getDevice();
+		if (!isDeviceChanged(oldDevice, newDevice)) {
 			return update(relay);
 		}
 		deleteRelayActions(relay);
-		relay.setDevice(device);
+		relay.setDevice(newDevice);
+		if (relay.getDevice() != null) {
+			relay.setLabel(relay.getDevice().getNameId());
+		}
 		update(relay);
 		insertRelayActions(relay);
+		if (oldDevice != null) {
+			oldDevice.getRelays().remove(relay);
+		}
+		if (newDevice != null) {
+			newDevice.getRelays().add(relay);
+		}
+		deviceDao.updateDeviceStatus(oldDevice);
+		deviceDao.updateDeviceStatus(newDevice);
 		Cache cache = getDao().getSessionFactory().getCache();
 		if (cache != null) {
 		    cache.evictAllRegions();

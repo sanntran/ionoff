@@ -20,4 +20,6 @@ public interface IDeviceDao extends IGenericDao<Device> {
 	List<Device> findByUserZoneId(long userId, long zoneId);
 	
 	List<Device> findByUserProjectId(long userId, long projectId);
+
+    void updateDeviceStatus(Device device);
 }
