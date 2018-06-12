@@ -30,8 +30,8 @@ public interface ClientConstants extends Constants {
 	@DefaultStringValue("Cập nhật V-")
 	String upgrade();
 	
-	@DefaultStringValue("Kiểm tra phiên bản mới")
-	String checkLatestVersion();
+	@DefaultStringValue("Phiên bản V-")
+	String version();
 
 	@DefaultStringValue("Full screen")
 	String fullScreen();

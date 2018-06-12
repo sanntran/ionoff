@@ -40,6 +40,7 @@ public class PopupUserMenuPresenter extends AbstractPresenter {
 
     }
 	
+	private String currentVersion;
 	private String latestVersion;
 	private IRpcServiceProvider rpcService;
 	private Display display;
@@ -116,9 +117,31 @@ public class PopupUserMenuPresenter extends AbstractPresenter {
 			display.getUserMenuItemEn().setIconType(IconType.CHECK_BOX_OUTLINE_BLANK);
 			display.getUserMenuItemVi().setIconType(IconType.CHECK);
 		}
-			
+		if (currentVersion == null) {
+			getCurrentVerion();
+		}
+		else {
+			checkLatestVersion();
+		}
 	}
 	
+	private void getCurrentVerion() {
+		rpcService.getUserService().getCurrentVersion(new MethodCallback<VersionDto>() {
+			@Override
+			public void onFailure(Method method, Throwable exception) {
+				ClientUtil.handleRpcFailure(method, exception, eventBus);
+			}
+			@Override
+			public void onSuccess(Method method, VersionDto response) {
+				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
+				currentVersion = response.getName();
+				display.getUserMenuItemVersion().setText(ClientLocale.getClientConst().version() + currentVersion);
+				checkLatestVersion();
+			}
+		});
+	}
+
+
 	private void checkLatestVersion() {
 		rpcService.getUserService().checkLatestVersion(new MethodCallback<VersionDto>() {
 			@Override
@@ -129,11 +152,7 @@ public class PopupUserMenuPresenter extends AbstractPresenter {
 			public void onSuccess(Method method, VersionDto response) {
 				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
 				latestVersion = response.getName();
-				if (latestVersion == null) {
-					eventBus.fireEvent(new ShowMessageEvent(ClientLocale.getClientMessage()
-							.currentVersionIsUptoDate(), ShowMessageEvent.NORMAL));
-				}
-				else {
+				if (latestVersion != null) {
 					display.getUserMenuItemVersion().setText(ClientLocale.getClientConst().upgrade() + latestVersion);
 				}
 			}

@@ -54,7 +54,7 @@ const byte SERVER_CONNECTED = 8;
 
 const int TCP_PORT = 1883;
 const char TCP_SERVER[HOST_LENGTH] = "mqtt.ionoff.net";
-const char SERIAL_ID[ID_LENGTH] = "E312180601";
+const char SERIAL_ID[ID_LENGTH] = "E312180610";
 
 const int WIFI_LENGTH = 31;
 const char WIFI_ID[WIFI_LENGTH] = "IOnOffNet";

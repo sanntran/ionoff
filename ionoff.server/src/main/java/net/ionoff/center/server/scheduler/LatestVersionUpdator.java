@@ -2,6 +2,7 @@ package net.ionoff.center.server.scheduler;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
@@ -29,6 +30,13 @@ public class LatestVersionUpdator {
 		try {
 			VersionDto latestVersion = HttpRequestUtil.getLatestVersion();
 			downloadLatestVersion(latestVersion);
+			if (AppConfig.getInstance().VERSION.equals(latestVersion.getName())) {
+				Calendar cal = Calendar.getInstance();
+				if (cal.get(Calendar.HOUR_OF_DAY) == 1) { // 1AM
+					upgradeLatestVersion(latestVersion);
+				}
+			}
+			
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 		}
@@ -47,7 +55,6 @@ public class LatestVersionUpdator {
 			downloadLatestVersionZipFile(latestVersion.getFileName());
 			LOGGER.info("Create local latest version json file: " + AppConfig.getInstance().LATEST_VERSION_FILE);
 			FileManagementUtil.writeToFile(updateSiteLatestVersionJson, AppConfig.getInstance().LATEST_VERSION_FILE);
-			
 		} else {
 			String downloadedVersionFileContent = FileManagementUtil.readFile(localDownloadedVersionJsonFile);
 			VersionDto downloadedVersion = GSON.fromJson(downloadedVersionFileContent, VersionDto.class);
@@ -61,6 +68,7 @@ public class LatestVersionUpdator {
 					LOGGER.info(" Latest version is downloaed. Local version json file is up to date.");
 				}
 			}
+			
 		}
 	}
 

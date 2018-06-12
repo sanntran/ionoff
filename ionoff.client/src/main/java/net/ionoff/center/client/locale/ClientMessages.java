@@ -18,10 +18,7 @@ public interface ClientMessages extends Messages {
 	
 	@DefaultMessage("Đang cập nhật ''{0}''...")
 	String upgradingNewVersion(String version);
-	
-	@DefaultMessage("Chưa có phiên bản mới")
-	String currentVersionIsUptoDate();
-	
+		
 	@DefaultMessage("Không có dự án. Vui lòng liên hệ nhà quản trị")
 	String noProject();
 
