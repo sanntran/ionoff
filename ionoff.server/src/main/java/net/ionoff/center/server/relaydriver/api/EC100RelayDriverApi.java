@@ -338,5 +338,13 @@ public class EC100RelayDriverApi implements IRelayDriverApi {
 	@Override
 	public void closeRelay(RelayDriver driver, int relayIndex, Integer autoRevert) throws RelayDriverException {
 		closeRelay(driver, relayIndex);
+		if (autoRevert != null && autoRevert.intValue() == 1) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				//
+			}
+		}
+		openRelay(driver, relayIndex);
 	}
 }

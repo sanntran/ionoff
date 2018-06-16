@@ -392,6 +392,21 @@ public class EP2RelayDriverApi implements IRelayDriverApi {
 
 	@Override
 	public void closeRelay(RelayDriver driver, int relayIndex, Integer autoRevert) throws RelayDriverException {
-		closeRelay(driver, relayIndex);
+		if (autoRevert != null && autoRevert.intValue() == 1) {
+			if (!driver.isConnected()) {
+				throw new RelayDriverConnectException(driver.getIp());
+			}
+			String params = getParamCloseOpenRelay(relayIndex);
+			sendHttpRequestControl(driver, params);
+			try {
+				Thread.sleep(650);
+			} catch (InterruptedException e) {
+				//
+			}
+		}
+		else  {
+			closeRelay(driver, relayIndex);
+		}
+		
 	}
 }

@@ -115,12 +115,7 @@ public class ControlServiceImpl implements IControlService {
 		}
 		else {
 			sendRelayCommand(relay, state, relay.getAutoRevert());
-			if (relay.izButton()) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					//
-				}
+			if (relay.izButton()) {								
 				relayService.update(relay, false);
 			}
 		}

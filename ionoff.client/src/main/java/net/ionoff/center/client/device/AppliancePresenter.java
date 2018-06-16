@@ -275,7 +275,7 @@ public class AppliancePresenter extends DevicePresenter {
 			public void onSuccess(Method method, StatusDto response) {
 				setLocked(false);
 				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				relayView.getRelay().setStatus(false);
+				relayView.getRelay().setStatus(response.getValue());
 				relayView.displayStatus();
 				relayView.getBtnSwitch().setEnabled(true);
 			}
@@ -306,7 +306,7 @@ public class AppliancePresenter extends DevicePresenter {
 				setLocked(false);
 				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
 				relayView.getBtnSwitch().setEnabled(true);
-				relayView.getRelay().setStatus(true);
+				relayView.getRelay().setStatus(response.getValue());
 				relayView.getRelay().setTime(response.getTime());
 				relayView.displayStatus();
 			}

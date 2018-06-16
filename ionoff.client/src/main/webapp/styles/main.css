@@ -870,7 +870,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 .main .content .devices .device.appliance .collection-item,
 .main .content .dashboard .device.appliance .collection-item {
 	background-color: transparent;
-    padding: 15px 20px;
+    padding: 15px;
     position: relative;
     border-bottom: 1px solid #37474f;
     height: 65px;
@@ -889,10 +889,12 @@ textarea.materialize-textarea[readonly="readonly"] {
 .main .content .devices .device.appliance .collection-item .relayName,
 .main .content .dashboard .device.appliance .collection-item .relayName {
 	width: 100%;
+	font-size: 14px !important;
 }
 .main .content .devices .device.appliance .collection-item .relayTime,
 .main .content .dashboard .device.appliance .collection-item .relayTime {
 	width: 100%;
+	font-size: 11px !important;
 }
 
 .main .content .dashboard .device.player,

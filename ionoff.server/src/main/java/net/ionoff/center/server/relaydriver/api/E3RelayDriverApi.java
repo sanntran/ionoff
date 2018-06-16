@@ -32,6 +32,7 @@ public class E3RelayDriverApi implements IRelayDriverApi {
 		sendMqttMessage(relayDriver, req);
 	}
 
+	@Override
 	public void openRelay(RelayDriver relayDriver, int relayIndex, Integer autoRevert) 
 			throws RelayDriverException {
 		checkConnected(relayDriver);
@@ -40,8 +41,16 @@ public class E3RelayDriverApi implements IRelayDriverApi {
 		}
 		String req = getMqttMessage(relayIndex, 1, autoRevert);
 		sendMqttMessage(relayDriver, req);
+		if (autoRevert != null && autoRevert.intValue() == 1) {
+			try {
+				Thread.sleep(650);
+			} catch (InterruptedException e) {
+				//
+			}
+		}
 	}
 	
+	@Override
 	public void closeRelay(RelayDriver relayDriver, int relayIndex, Integer autoRevert) 
 			throws RelayDriverException {
 		checkConnected(relayDriver);
@@ -49,8 +58,15 @@ public class E3RelayDriverApi implements IRelayDriverApi {
 			autoRevert = 0;
 		}
 		Relay relay = relayDriver.getRelayByIdx(relayIndex);
-		String req = getMqttMessage(relay.getIndex(), 0, 0);
+		String req = getMqttMessage(relay.getIndex(), 0, autoRevert);
 		sendMqttMessage(relayDriver, req);
+		if (autoRevert != null && autoRevert.intValue() == 1) {
+			try {
+				Thread.sleep(650);
+			} catch (InterruptedException e) {
+				//
+			}
+		}
 	}
 	
 	private String getMqttMessage(int index, int state, int time) {

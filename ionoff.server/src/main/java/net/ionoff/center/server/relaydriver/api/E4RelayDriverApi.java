@@ -57,7 +57,20 @@ public class E4RelayDriverApi implements IRelayDriverApi {
 
 	@Override
 	public void closeRelay(RelayDriver driver, int relayIndex, Integer autoRevert) throws RelayDriverException {
-		closeRelay(driver, relayIndex);
+		if (autoRevert != null && autoRevert.intValue() == 1) {
+			checkConnected(driver);
+			int outId = relayIndex + 1;
+			String req = "{ioseto" + outId + "2}";
+			sendMqttMessage(driver, req);
+			try {
+				Thread.sleep(650);
+			} catch (InterruptedException e) {
+				//
+			}
+		}
+		else {
+			closeRelay(driver, relayIndex);
+		}
 	}
 
 }

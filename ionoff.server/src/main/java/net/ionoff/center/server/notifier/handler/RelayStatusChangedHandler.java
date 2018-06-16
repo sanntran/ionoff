@@ -35,7 +35,7 @@ public class RelayStatusChangedHandler {
 		if (relay == null) {
 			return;
 		}
-		if (relay.izAutoRevert() && relay.isClosed()) {
+		if (relay.izAutoRevert() && !relay.izButton() && relay.isClosed()) {
 			scheduleRevertRelayState(relay);
 		}
 		

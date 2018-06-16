@@ -27,12 +27,6 @@
 			<version>1.6.4</version>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>javax.ws.rs-api</artifactId>
-			<version>2.0.1</version>
-		</dependency>
-
 		<dependency> 
 			<groupId>com.google.gwt.inject</groupId>
 			<artifactId>gin</artifactId>
@@ -151,9 +145,7 @@
 						<phase>package</phase>
 						<configuration>
 							<tasks>
-								<!--
-  								<ant antfile="build.xml" target="build" />
-  								-->
+<!--   								<ant antfile="build.xml" target="build" /> -->
 							</tasks>
 						</configuration>
 						<goals>

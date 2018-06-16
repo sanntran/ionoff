@@ -43,12 +43,7 @@ public class RelayView extends Composite {
 		if (relay.izAutoRevert()) {
 			btnSwitch.addStyleName("press");
 		}
-		if (relay.getLabel() != null && !relay.getLabel().isEmpty()) {
-			lblName.setText(relay.getLabel());
-		}
-		else {
-			lblName.setText(relay.getName());
-		}
+		lblName.setText(relay.getName());
 		lblTime.setText(relay.getTime());
 	}
 
