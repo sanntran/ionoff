@@ -159,4 +159,8 @@ public class Messages {
 		return messageFormat.format(new Object[] {relayName});
 	}
 	
+	public String lordHaveToBelongToAproject() {
+		return resourceBundle.getString("lordHaveToBelongToAproject");
+	}
+	
 }

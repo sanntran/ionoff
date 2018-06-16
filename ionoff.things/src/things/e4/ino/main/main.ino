@@ -190,7 +190,8 @@ void setup() {
   EEPROM.begin(512); 
    
   delay(250);
-    
+  espMode = MODE_STA;
+
   // read adc value to set mode
   for (int i = 0; i < 3; i++) {
     unsigned int adcValue = analogRead(IN_ADC);
@@ -212,7 +213,6 @@ void setup() {
     espMode = MODE_STA;
   }
   
-  espMode = MODE_STA;
   delay(250);
   firstMsg = true;  
   loadSnFromEEPRom();

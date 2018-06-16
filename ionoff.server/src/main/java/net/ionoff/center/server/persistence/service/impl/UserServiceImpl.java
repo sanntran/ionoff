@@ -177,9 +177,11 @@ public class UserServiceImpl extends AbstractGenericService<User, UserDto> imple
 
 	private void validateUser(UserDto userDto, String locale) throws UpdateEntityException {
 		final User lord = findByName(User.LORD);
-		if (lord != null && lord.getId() == userDto.getId() && !lord.getName().equals(userDto.getName())) {
-			// update lord user name
-			throw new UpdateEntityException(Messages.get(locale).errorChangeSuperAdminUserName(User.LORD));
+		if (lord != null && lord.getId() == userDto.getId()) {
+			if (!lord.getName().equals(userDto.getName())) {
+				// update lord user name
+				throw new UpdateEntityException(Messages.get(locale).errorChangeSuperAdminUserName(User.LORD));
+			}
 		}
 		final User user = findByName(userDto.getName());
 		if (user != null && user.getId() != userDto.getId()) {

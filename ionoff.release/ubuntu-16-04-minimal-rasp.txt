@@ -399,5 +399,7 @@ Restart the sshd service by running the following command:
 	sudo apt-get install inotify-tools
 
     Copy iupdate.sh to /etc/init.d/iupdate.sh
+	sudo update-rc.d iupdate.sh defaults
+	
 
     

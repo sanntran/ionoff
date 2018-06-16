@@ -11,18 +11,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="098702f1-aa55-4299-819e-b0800ea988ff" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/META-INF/maven/net.ionoff/ionoff.client/.project" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/favicon.ico" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/iapp/0B0BBA45CCC2581ACB8D2EC31B2E1D3B.cache.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/iapp/5B94D0BBCF430BA003CAB1432D913BF3.cache.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/iapp/ABCE5077F3070DAC3AF2A1DAA2C61164.cache.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/iapp/D184FA32E9FB2A948231A6E01703C210.cache.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/iapp/D1ED907C8619F0F8C7A9A71A0B3956B7.cache.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/iapp/E6A6AE2EFD8371B4819AD58307321FE8.cache.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/styles/bootstrap.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/styles/home.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/styles/login.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/styles/style.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../ionoff.client/src/main/webapp/iapp/76253A63EC98605D66B7EB17E027F3F0.cache.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../ionoff.client/src/main/webapp/iapp/7CCFC9ABE67BD9FD6396FB4FD288D2B1.cache.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../ionoff.client/src/main/webapp/iapp/855469D6CC7B82535AF2A90C77787C75.cache.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../ionoff.client/src/main/webapp/iapp/8F17BD1EBFE56FE8227CAC1A93DF98ED.cache.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../ionoff.client/src/main/webapp/iapp/BA3CC244CA75F9CB0EF49F5EF5CF2826.cache.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../ionoff.client/src/main/webapp/iapp/E90E3D24EBA17ABB26485B7D0438DD35.cache.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/iapp/4C2409C563B6EFB4680553E51366991C.cache.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/iapp/54D4CD54B82C12D287501073A6A75C25.cache.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/iapp/747631E56719FCA1ACD6848F277BEE7B.cache.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/iapp/B4F2D161678FD746DA401CF46EF3DF36.cache.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/iapp/CBD6EEA6D636F6EF5A411C2F619DEB33.cache.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/www/iapp/DE26506FD405DF5B98115D6F5CFCD6EC.cache.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" />
@@ -32,20 +32,33 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/release/app-release.apk" afterPath="$PROJECT_DIR$/app/release/app-release.apk" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff.client/pom.xml" afterPath="$PROJECT_DIR$/../ionoff.client/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff.client/src/main/java/net/ionoff/center/client/device/AppliancePresenter.java" afterPath="$PROJECT_DIR$/../ionoff.client/src/main/java/net/ionoff/center/client/device/AppliancePresenter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff.client/src/main/java/net/ionoff/center/client/device/RelayView.java" afterPath="$PROJECT_DIR$/../ionoff.client/src/main/java/net/ionoff/center/client/device/RelayView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff.client/src/main/webapp/iapp/compilation-mappings.txt" afterPath="$PROJECT_DIR$/../ionoff.client/src/main/webapp/iapp/compilation-mappings.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff.client/src/main/webapp/iapp/iapp.nocache.js" afterPath="$PROJECT_DIR$/../ionoff.client/src/main/webapp/iapp/iapp.nocache.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff.client/src/main/webapp/styles/main.css" afterPath="$PROJECT_DIR$/../ionoff.client/src/main/webapp/styles/main.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff.client/src/main/webapp/version.json" afterPath="$PROJECT_DIR$/../ionoff.client/src/main/webapp/version.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff.server/src/main/java/net/ionoff/center/server/control/ControlServiceImpl.java" afterPath="$PROJECT_DIR$/../ionoff.server/src/main/java/net/ionoff/center/server/control/ControlServiceImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff.server/src/main/java/net/ionoff/center/server/notifier/handler/RelayStatusChangedHandler.java" afterPath="$PROJECT_DIR$/../ionoff.server/src/main/java/net/ionoff/center/server/notifier/handler/RelayStatusChangedHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff.server/src/main/java/net/ionoff/center/server/relaydriver/api/E3RelayDriverApi.java" afterPath="$PROJECT_DIR$/../ionoff.server/src/main/java/net/ionoff/center/server/relaydriver/api/E3RelayDriverApi.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff.server/src/main/java/net/ionoff/center/server/relaydriver/api/E4RelayDriverApi.java" afterPath="$PROJECT_DIR$/../ionoff.server/src/main/java/net/ionoff/center/server/relaydriver/api/E4RelayDriverApi.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff.server/src/main/java/net/ionoff/center/server/relaydriver/api/EC100RelayDriverApi.java" afterPath="$PROJECT_DIR$/../ionoff.server/src/main/java/net/ionoff/center/server/relaydriver/api/EC100RelayDriverApi.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff.server/src/main/java/net/ionoff/center/server/relaydriver/api/EP2RelayDriverApi.java" afterPath="$PROJECT_DIR$/../ionoff.server/src/main/java/net/ionoff/center/server/relaydriver/api/EP2RelayDriverApi.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff.server/src/main/java/net/ionoff/center/server/relaydriver/api/P8RelayDriverApi.java" afterPath="$PROJECT_DIR$/../ionoff.server/src/main/java/net/ionoff/center/server/relaydriver/api/P8RelayDriverApi.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff.server/src/main/resources/config.properties" afterPath="$PROJECT_DIR$/../ionoff.server/src/main/resources/config.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff.server/src/main/resources/log4j.properties" afterPath="$PROJECT_DIR$/../ionoff.server/src/main/resources/log4j.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/release/output.json" afterPath="$PROJECT_DIR$/app/release/output.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/www/META-INF/maven/net.ionoff/ionoff.client/pom.properties" afterPath="$PROJECT_DIR$/app/src/main/assets/www/META-INF/maven/net.ionoff/ionoff.client/pom.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/www/META-INF/maven/net.ionoff/ionoff.client/pom.xml" afterPath="$PROJECT_DIR$/app/src/main/assets/www/META-INF/maven/net.ionoff/ionoff.client/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/www/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/app/src/main/assets/www/WEB-INF/web.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/www/iapp/compilation-mappings.txt" afterPath="$PROJECT_DIR$/app/src/main/assets/www/iapp/compilation-mappings.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/www/iapp/iapp.devmode.js" afterPath="$PROJECT_DIR$/app/src/main/assets/www/iapp/iapp.devmode.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/www/iapp/iapp.nocache.js" afterPath="$PROJECT_DIR$/app/src/main/assets/www/iapp/iapp.nocache.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/www/index.html" afterPath="$PROJECT_DIR$/app/src/main/assets/www/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/www/styles/admin.css" afterPath="$PROJECT_DIR$/app/src/main/assets/www/styles/admin.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/www/styles/main.css" afterPath="$PROJECT_DIR$/app/src/main/assets/www/styles/main.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/www/version.json" afterPath="$PROJECT_DIR$/app/src/main/assets/www/version.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ionoff/pom.xml" afterPath="$PROJECT_DIR$/../ionoff/pom.xml" />
     </list>
     <ignored path="webview.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -128,11 +141,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="13" column="16" lean-forward="true" selection-start-line="13" selection-start-column="16" selection-end-line="13" selection-end-column="16" />
+            <state relative-caret-position="272">
+              <caret line="16" column="24" lean-forward="false" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -145,6 +158,19 @@
               <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
               <folding />
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="18" lean-forward="false" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-manifest">
+            <state />
           </provider>
         </entry>
       </file>
@@ -1789,7 +1815,7 @@
     </navigator>
     <panes>
       <pane id="ProjectPane" />
-      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1798,8 +1824,8 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Gradle Scripts" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidBuildScriptsGroupNode" />
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -1811,11 +1837,15 @@
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidManifestsGroupNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1956,7 +1986,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1528648149779" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1529130217247" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2004,7 +2034,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1528648149779" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1529130217247" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2166,7 +2196,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1528648149779" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1529130217249" />
       </method>
     </configuration>
     <list size="3">
@@ -2263,16 +2293,16 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32495812" sideWeight="0.5153374" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32328308" sideWeight="0.5184049" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33781514" sideWeight="0.49386504" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32495812" sideWeight="0.48466256" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32328308" sideWeight="0.4815951" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4639866" sideWeight="0.4815951" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32998326" sideWeight="0.4969325" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25460124" sideWeight="0.4920635" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25460124" sideWeight="0.4920635" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33282208" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -2346,23 +2376,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/app/MainActivity.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml">
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/build/generated/source/r/debug/com/example/app/R.java" />
@@ -2414,13 +2444,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/dimens.xml">
@@ -2458,13 +2488,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="11" lean-forward="false" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
@@ -2513,17 +2543,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="52" column="17" lean-forward="false" selection-start-line="52" selection-start-column="17" selection-end-line="52" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="18" lean-forward="false" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2577,6 +2596,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="24" lean-forward="false" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/assets/www/version.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -2585,12 +2612,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="13" column="16" lean-forward="true" selection-start-line="13" selection-start-column="16" selection-end-line="13" selection-end-column="16" />
+        <state relative-caret-position="102">
+          <caret line="6" column="18" lean-forward="false" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-manifest">
+        <state />
       </provider>
     </entry>
   </component>

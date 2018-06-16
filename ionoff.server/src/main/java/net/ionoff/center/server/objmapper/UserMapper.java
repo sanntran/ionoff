@@ -48,10 +48,12 @@ public class UserMapper {
 			final String encryptedPass = passwordEncoder.encode(userDto.getPassword());
 			user.setPassword(encryptedPass);
 		}
+		if (!User.LORD.equals(userDto.getName())) {
+			user.setGroup(groupService.findByName(userDto.getGroupName()));
+		}
 		user.setFullName(userDto.getFullName());
 		user.setPhoneNo(userDto.getPhoneNo());
 		user.setEmail(userDto.getEmail());
-		user.setGroup(groupService.findByName(userDto.getGroupName()));
 		return user;
 	}
 	

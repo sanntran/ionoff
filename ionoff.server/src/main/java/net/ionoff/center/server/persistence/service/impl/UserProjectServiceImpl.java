@@ -15,6 +15,8 @@ import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.UserProject;
 import net.ionoff.center.server.entity.UserZone;
 import net.ionoff.center.server.entity.Zone;
+import net.ionoff.center.server.exception.UpdateEntityException;
+import net.ionoff.center.server.locale.Messages;
 import net.ionoff.center.server.objmapper.UserMapper;
 import net.ionoff.center.server.persistence.dao.IModeSensorUserDao;
 import net.ionoff.center.server.persistence.dao.IUserProjectDao;
@@ -93,6 +95,19 @@ public class UserProjectServiceImpl extends AbstractGenericService<UserProject, 
 	@Override
 	public UserProjectDto updateDto(User user, UserProjectDto dto) {
 		final UserProject usrPrj = requireById(dto.getId());
+		
+		if (User.LORD.equals(dto.getUserName()) && !Boolean.TRUE.equals(dto.getRole())) {
+			int projectCount = 0;
+			List<UserProject> userProjects = userProjectDao.findByUserId(dto.getUserId());
+			for (UserProject userProj : userProjects) {
+				if (userProj.hasRole()) {
+					projectCount ++;
+				}
+			}
+			if (projectCount < 2) {
+				throw new UpdateEntityException(Messages.get(user.getLanguage()).lordHaveToBelongToAproject());
+			}
+		}
 		usrPrj.setRole(dto.getRole());
 		updateRole(usrPrj);
 		return userMapper.toUserProjectDto(usrPrj);
