@@ -9,10 +9,10 @@
 #define OUT_2 12
 #define OUT_3 14
 
+
 #define IN_1  0
 #define IN_2  4 
 #define IN_3  5
-#define IN_ADC A0
 
 #define MQTT_USER "ionoff"
 #define MQTT_PASS "I0n0FFNet"
@@ -53,8 +53,8 @@ const byte SERVER_CONNECTING = 7;
 const byte SERVER_CONNECTED = 8;
 
 const int TCP_PORT = 1883;
-const char TCP_SERVER[HOST_LENGTH] = "mqtt.ionoff.net";
-const char SERIAL_ID[ID_LENGTH] = "E312180610";
+const char TCP_SERVER[HOST_LENGTH] = "192.168.1.252";
+const char SERIAL_ID[ID_LENGTH] = "E313180610";
 
 const int WIFI_LENGTH = 31;
 const char WIFI_ID[WIFI_LENGTH] = "IOnOffNet";
@@ -194,8 +194,8 @@ void setup() {
 
   // read adc value to set mode
   for (int i = 0; i < 3; i++) {
-    unsigned int adcValue = analogRead(IN_ADC);
-    if (adcValue < 64) {
+    boolean in2 = digitalRead(IN_2);
+    if (in2 == false) {
       espMode = MODE_AP;
     }    
     delay(250);
@@ -204,8 +204,8 @@ void setup() {
     digitalWrite(ESP_LED, HIGH);
   }   
   
-  unsigned int adcValue = analogRead(IN_ADC);
-  if (adcValue < 64 && espMode == MODE_AP) {
+  boolean in2 = digitalRead(IN_2);
+  if (in2 == false && espMode == MODE_AP) {
     // Mode AP is confirmed
     espMode = MODE_AP;
   }
