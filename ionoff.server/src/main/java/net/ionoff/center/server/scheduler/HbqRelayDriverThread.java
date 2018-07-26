@@ -61,7 +61,6 @@ public class HbqRelayDriverThread {
 			pingContoller(relayDriver);
 			relayDriver.setConnectedTime(System.currentTimeMillis());
 			relayDriverService.update(relayDriver);
-			oldStatus = true;
 			final RelayDriverStatus relayDriverStatus = controlService.getRelayDriverStatus(relayDriver);
 			updateRelayDriverStatus(relayDriver, true, oldStatus, relayDriverStatus);
 		}
@@ -70,7 +69,7 @@ public class HbqRelayDriverThread {
 			try {
 				updateRelayDriverStatus(relayDriver, false, oldStatus, new RelayDriverStatus());
 			} catch (RelayDriverConnectException ex) {
-				LOGGER.error(ex.getMessage(), ex);
+				LOGGER.error("RelayDriverConnectException: " + ex.getMessage());
 			}
 		}
 	}
