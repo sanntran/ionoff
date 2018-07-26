@@ -41,6 +41,7 @@ public class RelayDriverTableView extends AbstractTableView<RelayDriverDto> impl
 		cellTable.setColumnWidth(nameColumn, COLUMN_NAME_WIDTH, Unit.PX);
 		
 		statusColumn =  createStatusColumn();
+		statusColumn.setSortable(true);
 		cellTable.addColumn(statusColumn, AdminLocale.getAdminConst().status());
 		cellTable.setColumnWidth(statusColumn, 150.0, Unit.PX);
 		

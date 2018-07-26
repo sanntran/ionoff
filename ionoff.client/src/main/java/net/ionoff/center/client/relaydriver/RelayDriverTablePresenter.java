@@ -122,6 +122,9 @@ public class RelayDriverTablePresenter extends AbstractTablePresenter<RelayDrive
 
 	@Override
 	protected String getSortByField(int columnIndex) {
+		if (columnIndex == 2) {
+			return "connectedTime";
+		}
 		return BaseDto.NAME;
 	}
 	

@@ -22,13 +22,7 @@ public class RelayDriverDaoImpl extends AbstractGenericDao<RelayDriver> implemen
 
 	private long countByProjectIdName(long projectId, String keyWord) {
 		if (keyWord == null || keyWord.isEmpty()) {
-			String sql = "select count(relayDriver)"
-					+ " from RelayDriver as relayDriver"
-					+ " where relayDriver.project.id = :projectId";
-			Query query = getCurrentSession().createQuery(sql)
-					.setParameter("projectId", projectId);
-			return countObjects(query);
-			
+			return countByProjectId(projectId);
 		}
 		String sql = "select count(relayDriver)"
 					+ " from RelayDriver as relayDriver" 
@@ -40,15 +34,25 @@ public class RelayDriverDaoImpl extends AbstractGenericDao<RelayDriver> implemen
 		return countObjects(query);
 	}
 	
-	private List<RelayDriver> findByName(long projectId, String keyWord, int fromIndex, int maxResults, boolean isAscending) {
+	private long countByProjectId(long projectId) {
+		String sql = "select count(relayDriver)"
+				+ " from RelayDriver as relayDriver"
+				+ " where relayDriver.project.id = :projectId";
+		Query query = getCurrentSession().createQuery(sql)
+				.setParameter("projectId", projectId);
+		return countObjects(query);
+	}
+
+	private List<RelayDriver> findByProjectIdName(long projectId, String keyWord, int fromIndex, int maxResults, 
+			String orderBy, boolean isAscending) {
 		if (keyWord == null || keyWord.isEmpty()) {
-			return findByProjectId(projectId, fromIndex, maxResults, isAscending);
+			return findByProjectId(projectId, fromIndex, maxResults, orderBy, isAscending);
 		}
 		String sql = "select distinct relayDriver" 
 					+ " from RelayDriver as relayDriver" 
 					+ " where relayDriver.name like :keyWord"
 					+ " and relayDriver.project.id = :projectId" 
-					+ " order by relayDriver.name";
+					+ " order by relayDriver." + orderBy;
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
@@ -59,11 +63,12 @@ public class RelayDriverDaoImpl extends AbstractGenericDao<RelayDriver> implemen
 		return findMany(query, fromIndex, maxResults);
 	}
 
-	private List<RelayDriver> findByProjectId(long projectId, int fromIndex, int maxResults, boolean isAscending) {
+	private List<RelayDriver> findByProjectId(long projectId, int fromIndex, int maxResults, 
+			String orderBy, boolean isAscending) {
 		String sql = "select distinct relayDriver"
 					+ " from RelayDriver as relayDriver"
 					+ " where relayDriver.project.id = :projectId"
-					+ " order by relayDriver.name";
+					+ " order by relayDriver." + orderBy;
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
@@ -94,8 +99,8 @@ public class RelayDriverDaoImpl extends AbstractGenericDao<RelayDriver> implemen
 	@Override
 	public List<RelayDriver> findByCriteria(QueryCriteria criteria) {
 		if (NAME.equals(criteria.getSearchField())) {
-			return findByName(criteria.getProjectId(), criteria.getSearchKey(), 
-					criteria.getFromIndex(), criteria.getMaxResults(), criteria.getIsAscending());
+			return findByProjectIdName(criteria.getProjectId(), criteria.getSearchKey(), 
+					criteria.getFromIndex(), criteria.getMaxResults(), criteria.getSortBy(), criteria.getIsAscending());
 		}
 		return Collections.emptyList();
 	}

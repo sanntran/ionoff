@@ -1,0 +1,29 @@
+#----------------------
+#Keystore:
+
+keytool -importcert -file cloud.ionoff.net.crt -keystore truststore.jks -alias "cloud.ionoff.net" -storepass 'ZM0AC+F5ozMACS7'
+keytool -list -v -keystore truststore.jks -storepass 'ZM0AC+F5ozMACS7'
+keytool -delete -alias "cloud.ionoff.net" -keystore truststore.jks -storepass 'ZM0AC+F5ozMACS7'
+keytool -storepasswd -new caS2j*bCerts -keystore server.keystore -storepass cbsacerts@jks'
+
+#----------------------
+#Keystore to P12
+
+keytool -importkeystore -srckeystore keystore.jks -destkeystore card_keystore.p12 -srcstoretype JKS -deststoretype PKCS12 -deststorepass changeit -srcstorepass changeit -srcalias card_pin -destalias card_pin -srckeypass changeit -destkeypass changeit -noprompt
+
+#----------------------
+#P12 to private key and public key
+
+openssl pkcs12 -in card_keystore.p12 -nocerts -out card_private.key -passin pass:changeit -passout pass:changeit
+
+openssl rsa -in card_private.key -out card_private.pem -passin pass:changeit
+
+openssl rsa -pubout -in card_private.pem -out card.pub.pem
+
+#
+# Generate Key-pair
+
+openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048
+openssl rsa -pubout -in private_key.pem -out public_key.pem
+openssl pkcs8 -topk8 -inform PEM -outform DER -in private_key.pem -out private_key.der -nocrypt
+

@@ -77,24 +77,12 @@ public class RelayDriver extends BaseObj {
 	}
 	
 	public boolean isConnected() {
-		if (RelayDriverModel.IONOFF_E4.toString().equals(model) || 
-				RelayDriverModel.IONOFF_E3.toString().equals(model)) {
-			if (connectedTime == null || System.currentTimeMillis() - connectedTime > 49000) {
-				return false;
-			}
+		RelayDriverModel modelEnum = getModelObj();
+		if (modelEnum == null) {
+			return false;
 		}
-		if (RelayDriverModel.IONOFF_P4.toString().equals(model) 
-				|| RelayDriverModel.IONOFF_P8.toString().equals(model) 
-				) {
-			if (connectedTime == null || System.currentTimeMillis() - connectedTime > 32000) {
-				return false;
-			}
-		}
-		else if (RelayDriverModel.HBQ_EC100.toString().equals(model) 
-				|| RelayDriverModel.HLAB_EP2.toString().equals(model)) {
-			if (connectedTime == null || System.currentTimeMillis() - connectedTime > 15000) {
-				return false;
-			}
+		if (connectedTime == null || System.currentTimeMillis() - connectedTime > modelEnum.getOnlineBuffer()) {
+			return false;
 		}
 		return true;
 	}
