@@ -36,6 +36,7 @@ import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.StatusDto;
 import net.ionoff.center.shared.entity.PlayerAction;
 import net.ionoff.center.shared.entity.RelayAction;
+import net.ionoff.center.shared.entity.RelayDriverModel;
 import net.xapxinh.center.server.exception.DataServiceException;
 import net.xapxinh.center.server.exception.PlayerConnectException;
 import net.xapxinh.center.server.service.player.IPlayerService;
@@ -107,8 +108,12 @@ public class ControlServiceImpl implements IControlService {
 			throw new RelayLockedException(relay.getName() + " (" + relay.getDriver().getName() + ")");
 		}
 		if (state.equals(relay.getStatus())) {
-			relayService.update(relay, state);
-			return;
+			RelayDriver relayDriver = relay.getDriver();
+			if (!RelayDriverModel.HBQ_EC100.toString().equals(relayDriver.getModel()) && 
+					RelayDriverModel.HLAB_EP2.toString().equals(relayDriver.getModel())) {
+				relayService.update(relay, state);
+				return;
+			}
 		}
 		if (!relay.izAutoRevert() || Boolean.FALSE.equals(state)) {
 			sendRelayCommand(relay, state);

@@ -86,7 +86,7 @@ public class HbqRelayDriverThread {
 		if (newStatus == oldStatus) {
 			//relayDriver status is not changed
 			if (newStatus == true) {
-				//LOGGER.info("RelayDriver " + relayDriver.getIp() + ":" + relayDriver.getPort() + " is connected");
+				//LOGGER.info("RelayDriver " + relayDriver.getIp() + ":" + relayDriver.getPort() + " is still connected");
 				//relayDriver is still connected
 				updateRelaysStatus(relayDriver, relayDriverStatus.getRelayOutputStatus());
 				return;
@@ -103,13 +103,16 @@ public class HbqRelayDriverThread {
 		}
 		else {
 			//relayDriver status is changed from connected to disconnected
-			LOGGER.info("RelayDriver " + relayDriver.getIp() + " is now disconnected");
+			LOGGER.info("RelayDriver " + relayDriver.getIp() + ": " + relayDriver.getPort() + " is now disconnected");
 		}
 	}
 
 	private void onRelayDriverConnected(RelayDriver relayDriver, RelayDriverStatus relayDriverStatus) throws RelayDriverException, UnknownRelayDriverModelException {
 		final List<Boolean> relayOutputsStatus = relayDriverStatus.getRelayOutputStatus();
-		LOGGER.info("Restore relay status " + relayDriver.getIp() + ": " + Arrays.toString(relayOutputsStatus.toArray()));
+		
+		LOGGER.info("Physical status: " +  Arrays.toString(relayOutputsStatus.toArray()));
+		LOGGER.info("Restore relay status from database to physical relay...");
+
 		for (final Relay relay : relayDriver.getRelays()) {
 			final Boolean newRelayStatus = relayOutputsStatus.get(relay.getIndex());
 			if (relay.getStatus() != null && !relay.getStatus().equals(newRelayStatus)) {
@@ -119,6 +122,7 @@ public class HbqRelayDriverThread {
 	}
 
 	private void applyStoredRelayStatusToRelayDriver(Relay relay) throws RelayDriverException, UnknownRelayDriverModelException {
+		LOGGER.info("Restore relay status: " + relay.getName() + ", index " + relay.getIndex() + ", status " + relay.getStatus());
 		if (relay.getStatus() == false) {
 			controlService.switchRelayToOff(relay);
 		}
