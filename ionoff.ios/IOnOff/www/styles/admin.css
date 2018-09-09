@@ -3,6 +3,9 @@
 	background: none !important;
 }
 
+.select-wrapper input.select-dropdown:disabled {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3) !important;
+}
 
 .popup.message {
 	bottom: 32px !important;
@@ -202,6 +205,10 @@
 	position: relative;
 }
 
+.main .content .table .edit .body .sceneDevices .deviceActions .collection-item {
+	padding: 10px 0px 10px 45px !important;
+}
+
 .main .content .table .edit .body .collection-item.userProject span,
 .main .content .table .edit .body .collection-item.userZone span {
 	margin-left: 10px;
@@ -254,11 +261,6 @@
 	position: relative;
 }
 
-.main .content .toolbar button {
-	width: 40px;
-    padding-left: 5px;
-}
-
 .main .content .toolbar .buttons {
 	display: inline-block;
 	width: 220px;
@@ -274,6 +276,8 @@
 	margin-right: 5px;
 	background-color: transparent !important;
 	box-shadow: none;
+	width: 40px;
+	padding-left: 5px;
 }
 .main .content .toolbar .buttons button i {
 	font-size: 30px;	
@@ -287,14 +291,38 @@
     position: relative;
 }
 
-.main .content .toolbar .searchbar .gwt-TextBox {
+.main .content .toolbar .searchbar .gwt-TextBox,
+.main .content .toolbar .searchbar .panelDate {
 	height: 32px;
-    float: left;
-    width: calc(100% - 160px);
-    border: 1px solid #d6d6d6;
+    float: right;
+    width: calc(100% - 140px);
     margin: 0px;
-    padding-left: 10px !important;
     box-sizing: border-box;
+}
+
+.main .content .toolbar .searchbar .panelDate .sep {
+	width: 10px;
+	display: inline-block;
+}
+
+.main .content .toolbar .searchbar .panelDate .date {
+	width: calc(40%);
+	display: inline-block;
+	height: 32px;
+	margin: 0px;
+}
+
+.main .content .toolbar .searchbar .panelDate .date input  {
+	padding-left: 5px;
+	box-sizing: border-box;
+	margin: 0px;
+	height: 32px;
+}
+
+
+.main .content .toolbar .searchbar .gwt-TextBox {
+	border: 1px solid #d6d6d6;
+	padding-left: 10px !important;
 }
 
 .main .content .toolbar .searchbar .input-field {
@@ -302,16 +330,22 @@
 }
 .main .content .toolbar .searchbar .input-field li span {
 	font-size: 13px;
-    line-height: 16px;
-    color: #37474f;
+	line-height: 10px;
+	color: #37474f;
+	border-bottom: 1px solid #f1f1f1;
+	height: 32px;
+	padding-left: 5px;
 }
 
 .main .content .toolbar .searchbar .close {
 	display: block;
 	position: absolute;
-	right: 180px;
-	height: 30px;
-    margin-top: 2px;
+	right: 0px;
+	height: 32px;
+	width: 50px;
+	text-align: center;
+	line-height: 32px;
+	top: 2px;
 }
 
 .main .content .toolbar .searchbar .close i {
@@ -319,14 +353,12 @@
 }
 
 .main .content .toolbar .searchbar .gwt-ListBox {
-	top: 1px;
-    position: absolute;
-    right: 0px;
-    width: 160px;
+	float: left;
+    width: 140px;
 }
 .main .content .toolbar .searchbar .gwt-ListBox input.select-dropdown {
 	height: 32px;
-    padding-left: 15px;
+    padding-left: 5px;
     margin: 0px;
     border: 1px solid #d6d6d6;
     box-sizing: border-box;
@@ -397,11 +429,23 @@
     float: left;
 }
 
+.main .content .table.relays .edit .body .lock {
+	height: 40px;
+}
+
+
+.main .content .table.relays .edit .body .relayGroups {
+	margin: 20px 0px;
+}
 
 .main .content .table.relays .edit .body .relayGroup {
 	border-top: 2px solid #d2d2d2;
     margin-top: 10px;
     border-bottom: 1px solid #d2d2d2;
+}
+
+.main .content .table.relays .edit .body .relayGroup .collapsible-header {
+	background-color: #efefef;
 }
 
 .main .content .table.relays .edit .body .relayGroup .relay {
@@ -414,7 +458,7 @@
 	display: block;
 }
 
-.main .content .table.relays .edit .body .relayGroup .relay .controller {
+.main .content .table.relays .edit .body .relayGroup .relay .driver {
 	font-size: 12px;
 	color: #737373;
 }
@@ -423,6 +467,15 @@
 	position: absolute;
 	right: 10px;
 	top: 15px;
+}
+.main .content .table.relays .edit .body .relayGroup .relay .leader {
+	cursor: pointer;
+    position: absolute;
+    right: 50px;
+    top: 15px;
+}
+.main .content .table.relays .edit .body .relayGroup .relay .leader.none {
+	color: #a1a1a1;
 }
 
 .main .content .table.relays .edit .body .relayGroup .add {
@@ -858,98 +911,6 @@
 	position: relative;
 }
 
-.main .content .table.modes .edit .detail .saveTimeBuffer {
-	position: absolute;
-    right: 20px;
-    bottom: 20px;
-    margin: 0px;
-    width: 40px;
-    padding-left: 15px;
-}
-
-.main .content .table.modes .edit .sensorSetting .tabsPanel {
-	padding-left: 1px;
-}
-
-.main .content .table.modes .edit .sensorSetting .tabsPanel .lblTab {
-	display: inline-block;
-	padding: 15px 20px 0px;
-	height: 40px;
-	background: #e0e0e0;
-	border-bottom: 1px solid #e0e0e0;
-}
-
-.main .content .table.modes .edit .sensorSetting .tabsPanel .lblTab:hover {
-	background: #f2f2f2;
-	cursor: pointer;
-}
-
-.main .content .table.modes .edit .sensorSetting .tabsPanel .lblTab.selected {
-	background: #f2f2f2;
-	background-color: #2196F3;
-	color: #fff;
-}
-
-.main .content .table.modes .edit .sensorSetting .sensorScenes {
-	border-top: 1px solid rgb(192, 66, 94);
-}
-
-.main .content .table.modes .edit .sensorSetting .sensorScenes .sensorScene  {
-	height: 50px;
-    padding: 5px 0px;
-	border-bottom: 1px solid #e0e0e0;
-}
-
-.main .content .table.modes .edit .sensorSetting .sensorScenes .sensorScene  .zoneIcon {
-	width: 40px;
-	height: 40px;
-	display: inline-block;
-	float: left;
-	background: url("images/system_icons_dark.png") no-repeat scroll center -40px transparent;
-}
-
-.main .content .table.modes .edit .sensorSetting .sensorScenes .sensorScene  .zoneName {
-	display: inline-block;
-	padding: 0px 5px;
-	position: relative;
-	width: 50%;
-}
-
-
-.main .content .table.modes .edit .sensorSetting .sensorUsers {
-	border-top: 1px solid rgb(192, 66, 94);
-}
-
-.main .content .table.modes .edit .sensorSetting .sensorUsers .sensorUser  {
-	height: 50px;
-    padding: 5px 0px;
-	border-bottom: 1px solid #e0e0e0;
-}
-
-.main .content .table.modes .edit .sensorSetting .sensorUsers .sensorUser  .userIcon {
-	width: 40px;
-	height: 40px;
-	display: inline-block;
-	float: left;
-	background: url("images/system_icons_dark.png") no-repeat scroll center -280px transparent;
-}
-
-.main .content .table.modes .edit .sensorSetting .sensorUsers .sensorUser  .userName {
-	display: inline-block;
-	padding: 0px 5px;
-	position: relative;
-	top: 15px;
-	min-width: 70px;
-}
-
-.main .content .table.modes .edit .sensorSetting .sensorUsers .sensorUser  .checkBox {
-	display: inline-block;
-	position: relative;
-	top: 15px;
-	padding: 0px 5px;
-	float: right;
-}
-
 .main .content .table.modes .edit .modeScene {
 	height: 50px;
 	padding: 5px 0px;
@@ -972,17 +933,150 @@
 	width: calc(50% - 40px);
 }
 
-
-.main .content .table.modes .edit .sensorSetting .sensorScenes .sensorScene  .listBox {
-	display: inline-block;
-	position: relative;
-	width: calc(50% - 40px);
-	margin-top: 0px;
-}
-
 .main .content .table.modes .edit .modeScene .listBox {
 	display: inline-block;
 	position: relative;
 	width: 50%;
 	margin-top: 4px;
+}
+
+.main .content .table.sensorData .edit .collection-item {
+	padding: 10px !important;
+	text-align: center;
+}
+.main .content .table.sensorData .edit .collection-item .time {
+	float: left;
+	font-size: 14px;
+}
+.main .content .table.sensorData .edit .collection-item .val {
+	font-weight: bold;
+}
+.main .content .table.sensorData .edit .collection-item .idx {
+	float: right;
+	font-size: 10px;
+}
+
+
+.main .content .table.sensors .edit .addModeSensor {
+	margin-top: 25px;
+	position: relative;
+}
+
+.main .content .table.sensors .edit .addModeSensor .input-field {
+	width: 65%;
+}
+
+.main .content .table.sensors .edit .addModeSensor .btn {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	width: 30%;
+}
+
+.main .content .table.sensors .edit .modeSensor {
+	position: relative;
+}
+
+.main .content .table.sensors .edit .modeSensor .icon {
+	position: absolute;
+    font-size: 24px;
+    width: 50px;
+    height: 50px;
+    line-height: 40px;
+    margin: 0px;
+}
+
+.main .content .table.sensors .edit .modeSensor .icon.delete {
+	right: 0px;
+}
+.main .content .table.sensors .edit .modeSensor .icon.enable {
+	right: 50px;
+}
+
+.main .content .table.sensors .edit .modeSensor .collapsible-header {
+	min-height: 55px;
+	background-color: #efefef;
+}
+
+.main .content .table.sensors .edit .modeSensor .collapsible-header .condition {
+	font-size: 12px;
+    height: 20px;
+    line-height: 20px;
+    margin-bottom: 15px;
+}
+
+.main .content .table.sensors .edit .modeSensor .modeSensorScenes {
+	
+}
+
+.main .content .table.sensors .edit .modeSensor .modeSensorScene  {
+	height: 55px;
+    padding: 5px 0px;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.main .content .table.sensors .edit .modeSensor .modeSensorScene .zoneIcon {
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	float: left;
+	background: url("images/system_icons_dark.png") no-repeat scroll center -40px transparent;
+}
+
+.main .content .table.sensors .edit .modeSensor .modeSensorScene .zoneName {
+	display: inline-block;
+	padding: 0px 5px;
+	position: relative;
+	width: calc(50% - 40px);
+    padding-top: 10px;
+}
+.main .content .table.sensors .edit .modeSensor .modeSensorScene .listBox {
+	display: inline-block;
+	padding: 0px 5px;
+	position: relative;
+	width: 50%;
+    float: right;
+    height: 45px;
+    margin: 0px;
+}
+
+.main .content .table.sensors .edit .modeSensor .modeSensorScene .listBox .select-wrapper {
+	 margin-bottom: 0px !important;
+}
+
+.main .content .table.sensors .edit .modeSensor .modeSensorScene .listBox input.select-dropdown {
+	 margin-bottom: 0px !important;
+}
+
+.main .content .table.sensors .edit .modeSensor .modeSensorUsers {
+	
+}
+
+.main .content .table.sensors .edit .modeSensor .modeSensorUser  {
+	height: 50px;
+    padding: 10px 0px;
+	border-bottom: 1px solid #e0e0e0;
+	position: relative;
+}
+
+.main .content .table.sensors .edit .modeSensor .modeSensorUser .userIcon {
+	position: absolute;
+	top: 0px;
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	float: left;
+	background: url("images/system_icons_dark.png") no-repeat scroll center -280px transparent;
+}
+
+.main .content .table.sensors .edit .modeSensor .modeSensorUser .userName {
+	display: inline-block;
+	padding-left: 40px;
+	position: relative;
+	width: 35%;
+}
+
+.main .content .table.sensors .edit .modeSensor .modeSensorUser .checkBoxMail {
+	float: right;
+    margin-right: 5px;
 }
