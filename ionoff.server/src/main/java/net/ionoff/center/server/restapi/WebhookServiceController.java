@@ -30,7 +30,11 @@ public class WebhookServiceController {
 	@ResponseBody
 	public WebhookResponse getServerInfo(@RequestBody WebhookRequest webhookRequest, HttpServletRequest request) {
 		 WebhookResponse resp = new WebhookResponse();
-		 resp.setFulfillmentText("Hello San");
+		 resp.setFulfillmentText("Ok the light is turn on");
+		 
+		 String query = webhookRequest.getQueryResult().getQueryText();
+		 System.out.println(query);
+		 
 		 return resp;
 	}
 }

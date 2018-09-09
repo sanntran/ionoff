@@ -17,8 +17,9 @@
 	sudo make install
 		
 	sudo mkdir /var/log/mpd
-	sudo chmod 777 -R /var/lib/mpd/
+	sudo mkdir /var/lib/mpd
 	sudo mkdir /var/lib/mpd/playlists
+	sudo chmod 777 -R /var/lib/mpd/
 		
 	sudo nano /etc/passwd
 			

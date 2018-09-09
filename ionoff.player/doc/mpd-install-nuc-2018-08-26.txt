@@ -1,0 +1,60 @@
+
+15. Install MPD
+15.1	Download latest version from https://www.musicpd.org or https://github.com/MusicPlayerDaemon/MPD
+		
+15.2
+	
+	tar xf mpd-version.tar.xz
+	cd mpd-version
+
+15.3 	Install library and dependencies
+	sudo apt-get update
+	sudo apt-get upgrade		
+	sudo apt-get install g++ libmad0-dev libmpg123-dev libid3tag0-dev libflac-dev libvorbis-dev libopus-dev libadplug-dev libaudiofile-dev libsndfile1-dev libfaad-dev libfluidsynth-dev libgme-dev libmikmod-dev libmodplug-dev libmpcdec-dev libwavpack-dev libwildmidi-dev libsidplay2-dev libsidutils-dev libresid-builder-dev libavcodec-dev libavformat-dev libmp3lame-dev libsamplerate0-dev libsoxr-dev libbz2-dev libcdio-paranoia-dev libiso9660-dev libmms-dev libzzip-dev libcurl4-gnutls-dev libyajl-dev libexpat-dev libasound2-dev libao-dev libjack-jackd2-dev libopenal-dev libpulse-dev libroar-dev libshout3-dev libmpdclient-dev libnfs-dev libsmbclient-dev libupnp-dev libavahi-client-dev libsqlite3-dev libsystemd-dev libwrap0-dev libcppunit-dev xmlto libboost-dev libicu-dev
+
+15.4 	sudo ./configure
+	sudo make
+	sudo make install
+		
+	sudo mkdir /var/log/mpd
+	sudo mkdir /var/lib/mpd
+	sudo mkdir /run/mpd
+	sudo mkdir /var/lib/mpd/playlists
+	sudo chmod 777 -R /var/lib/mpd/
+	sudo chmod 777 -R /run/mpd
+		
+	sudo nano /etc/passwd
+			
+	->> Add line 
+	mpd:x:109:29::/var/lib/mpd:/bin/false
+	
+  
+	apt-get install alsa-utils
+
+	usermod -G audio -a mpd
+
+
+	Copy mpd.conf [intel-nuc] file to /etc/init.d/mpd.conf
+  	
+	Copy mpd [intel-nuc] file to /etc/init.d/mpd
+	
+	chmod 755 /etc/init.d/mpd
+	sudo update-rc.d mpd defaults
+	
+	Run /usr/local/bin/mpd --no-daemon /etc/mpd.conf
+
+
+	Run /etc/init.d/mpd start -> no sound
+	
+	speaker-test -Dhw:0,0 -c2 -tw -> no sound
+	amixer set Master 100%
+	speaker-test -Dhw:0,0 -c2 -tw -> no sound
+	
+	
+	apt-get upgrade
+	speaker-test -Dhw:0,0 -c2 -tw -> no sound
+	reboot
+	speaker-test -Dhw:0,0 -c2 -tw -> ok
+	
+
+	But cannot change volume ->> change mixer_type to software (See mpd.conf)

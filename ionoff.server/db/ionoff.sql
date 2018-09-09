@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.23, for Linux (x86_64)
 --
 -- Host: localhost    Database: ionoff
 -- ------------------------------------------------------
--- Server version	5.7.20-log
+-- Server version	5.7.23-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -39,7 +39,7 @@ CREATE TABLE `areas` (
 
 LOCK TABLES `areas` WRITE;
 /*!40000 ALTER TABLE `areas` DISABLE KEYS */;
-INSERT INTO `areas` VALUES (10,'Tầng trệt',0,4),(11,'Tầng lầu',1,4),(12,'Tầng trệt',0,1),(13,'Tầng trệt',0,5),(14,'khulau1',1,6);
+INSERT INTO `areas` VALUES (10,'Tầng trệt',0,4),(11,'Tầng lầu',1,4),(12,'Tầng trệt',0,1);
 /*!40000 ALTER TABLE `areas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -71,7 +71,7 @@ CREATE TABLE `dashboards` (
 
 LOCK TABLES `dashboards` WRITE;
 /*!40000 ALTER TABLE `dashboards` DISABLE KEYS */;
-INSERT INTO `dashboards` VALUES (6,1,NULL,1),(7,1,6,1),(8,4,NULL,5),(9,4,9,5),(12,2,NULL,4),(13,2,4,4),(14,2,7,4),(15,2,8,4),(16,2,3,4),(18,5,NULL,6),(19,5,10,6),(20,1,NULL,4),(21,1,3,4),(22,1,4,4),(23,1,7,4),(24,1,8,4);
+INSERT INTO `dashboards` VALUES (6,1,NULL,1),(7,1,6,1),(12,2,NULL,4),(13,2,4,4),(14,2,7,4),(15,2,8,4),(16,2,3,4),(40,1,NULL,4),(41,1,3,4),(42,1,4,4),(43,1,7,4),(44,1,8,4),(45,1,15,4),(46,2,15,4),(47,1,16,4),(48,2,16,4);
 /*!40000 ALTER TABLE `dashboards` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,7 +167,7 @@ CREATE TABLE `devices` (
 
 LOCK TABLES `devices` WRITE;
 /*!40000 ALTER TABLE `devices` DISABLE KEYS */;
-INSERT INTO `devices` VALUES (6,39,'Đèn trần 1','','Appliance','2018-06-16 12:46:35',301,NULL,NULL,NULL,NULL,4,3),(8,42,'Đèn trần 2','\0','Light','2018-06-16 12:46:35',302,NULL,NULL,NULL,NULL,4,3),(9,1532,'Mini Server','\0','Player','2018-03-02 11:23:14',303,'1.52.38.147',6600,'b827ebd1e3e5','IMP',4,3),(10,6279,'HPEliteBook','\0','Player','2018-05-14 01:35:43',304,'127.0.0.1',6600,'CND04104CQ','XMP',4,3),(12,290,'Đfn trần 1','\0','Light','2018-06-16 12:35:32',100,NULL,NULL,NULL,NULL,4,8),(13,244,'Đèn trần 2','\0','Light','2018-06-16 12:35:32',101,NULL,NULL,NULL,NULL,4,8),(20,200315,'IMP Raspberry','\0','Player','2018-04-02 22:51:01',200,'1.52.33.58',NULL,'b827ebd1e3e4','IMP',4,7),(21,492,'Đèn bảng hiệu','\0','Light','2018-06-16 12:46:42',102,NULL,NULL,NULL,NULL,4,8),(22,192,'Đèn tường tranh','\0','Light','2018-06-16 12:46:52',201,NULL,NULL,NULL,NULL,4,7),(23,501,'Đèn ngoài thềm','\0','Light','2018-06-16 12:46:42',103,NULL,NULL,NULL,NULL,4,8),(26,19228,'XMP Delux','\0','Player','2018-04-09 16:12:55',105,'1.52.33.34',NULL,'UH81410011855','XMP',4,8),(27,18,'Đèn 1','\0','Light','2018-01-14 21:09:21',1,NULL,NULL,NULL,NULL,5,9),(28,0,'Đèn 2','\0','Light',NULL,1,NULL,NULL,NULL,NULL,5,9),(29,0,'Đèn 3','\0','Light',NULL,1,NULL,NULL,NULL,NULL,5,9),(30,0,'Đèn 4','\0','Light',NULL,1,NULL,NULL,NULL,NULL,5,9),(31,0,'Đèn 5','\0','Light',NULL,1,NULL,NULL,NULL,NULL,5,9),(32,0,'Đèn 6','\0','Light',NULL,1,NULL,NULL,NULL,NULL,5,9),(33,0,'Đèn 7','\0','Light',NULL,1,NULL,NULL,NULL,NULL,5,9),(34,0,'Đèn 8','\0','Light',NULL,1,NULL,NULL,NULL,NULL,5,9),(35,264,'Quạt treo tường',NULL,'Appliance','2018-06-16 12:41:24',104,NULL,NULL,NULL,NULL,4,8),(36,188,'Đèn tường giá sách','\0','Light','2018-06-16 12:46:52',202,NULL,NULL,NULL,NULL,4,7),(37,119,'Đèn ngủ','\0','Light','2018-06-16 12:46:20',1,NULL,NULL,NULL,NULL,6,10);
+INSERT INTO `devices` VALUES (13,140894,'Đèn trần',_binary '\0','Light','2018-08-26 21:16:56',101,NULL,NULL,NULL,NULL,4,8),(20,200318,'Music player',_binary '\0','Player','2018-04-02 22:51:01',200,'1.52.33.58',NULL,'b8aeed7980c4','IMP',4,7),(21,209561,'Đèn bảng hiệu',_binary '','Light','2018-08-26 21:17:34',102,NULL,NULL,NULL,NULL,4,8),(23,209576,'Đèn ngoài thềm',_binary '','Light','2018-08-26 21:17:34',103,NULL,NULL,NULL,NULL,4,8),(35,133065,'Quạt tường',_binary '\0','Appliance','2018-08-26 21:16:56',104,NULL,NULL,NULL,NULL,4,8),(36,201343,'Đèn tường',_binary '','Light','2018-08-26 21:17:39',202,NULL,NULL,NULL,NULL,4,7),(53,126810,'Đèn tường',_binary '\0','Light','2018-08-26 21:17:25',3,NULL,NULL,NULL,NULL,4,4);
 /*!40000 ALTER TABLE `devices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,7 +201,7 @@ CREATE TABLE `modes` (
 
 LOCK TABLES `modes` WRITE;
 /*!40000 ALTER TABLE `modes` DISABLE KEYS */;
-INSERT INTO `modes` VALUES (1,'Ngay moi',3,'2018-04-09 06:30:01','','Daily','06:30 AM','Sun, Mon, Tue, Wed, Thu, Fri, Sat','',4),(2,'Di ngu',2,'2017-12-11 23:19:09','\0',NULL,NULL,NULL,'\0',4),(3,'Đi ngủ',NULL,'2018-05-07 23:30:02','','Daily','11:30 PM','Sun, Mon, Tue, Wed, Thu, Fri, Sat','',6);
+INSERT INTO `modes` VALUES (1,'Ngày mới',NULL,'2018-08-26 06:30:43',_binary '','Daily','06:30 AM','Sun, Mon, Tue, Wed, Thu, Fri, Sat',_binary '',4),(2,'Đi ngủ',NULL,'2017-12-11 23:19:09',_binary '\0',NULL,NULL,NULL,_binary '\0',4);
 /*!40000 ALTER TABLE `modes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,7 +233,7 @@ CREATE TABLE `modes_scenes` (
 
 LOCK TABLES `modes_scenes` WRITE;
 /*!40000 ALTER TABLE `modes_scenes` DISABLE KEYS */;
-INSERT INTO `modes_scenes` VALUES (1,1,3,NULL),(2,1,4,NULL),(3,1,7,NULL),(4,2,3,2),(5,2,4,NULL),(6,2,7,NULL),(7,2,8,NULL),(8,1,8,NULL),(9,3,10,NULL);
+INSERT INTO `modes_scenes` VALUES (1,1,3,NULL),(2,1,4,NULL),(3,1,7,NULL),(4,2,3,NULL),(5,2,4,NULL),(6,2,7,NULL),(7,2,8,NULL),(8,1,8,NULL),(11,1,15,NULL),(12,2,15,NULL),(13,1,16,NULL),(14,2,16,NULL);
 /*!40000 ALTER TABLE `modes_scenes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -247,7 +247,9 @@ DROP TABLE IF EXISTS `modes_sensors`;
 CREATE TABLE `modes_sensors` (
   `id` bigint(20) NOT NULL,
   `enabled_` bit(1) DEFAULT NULL,
-  `condition_` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `condition_` varchar(63) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `condition` varchar(63) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `value_` double DEFAULT NULL,
   `time_buffer` int(11) DEFAULT NULL,
   `reset_time` bigint(20) DEFAULT NULL,
   `mode_id` bigint(20) DEFAULT NULL,
@@ -267,7 +269,6 @@ CREATE TABLE `modes_sensors` (
 
 LOCK TABLES `modes_sensors` WRITE;
 /*!40000 ALTER TABLE `modes_sensors` DISABLE KEYS */;
-INSERT INTO `modes_sensors` VALUES (4,'','x == 1',NULL,1526236483729,NULL,4,'Báo động, có người');
 /*!40000 ALTER TABLE `modes_sensors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -299,7 +300,6 @@ CREATE TABLE `modes_sensors_scenes` (
 
 LOCK TABLES `modes_sensors_scenes` WRITE;
 /*!40000 ALTER TABLE `modes_sensors_scenes` DISABLE KEYS */;
-INSERT INTO `modes_sensors_scenes` VALUES (13,4,3,2),(14,4,4,NULL),(15,4,7,NULL),(16,4,8,NULL);
 /*!40000 ALTER TABLE `modes_sensors_scenes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -333,7 +333,6 @@ CREATE TABLE `modes_sensors_users` (
 
 LOCK TABLES `modes_sensors_users` WRITE;
 /*!40000 ALTER TABLE `modes_sensors_users` DISABLE KEYS */;
-INSERT INTO `modes_sensors_users` VALUES (4,4,2,'\0','',4);
 /*!40000 ALTER TABLE `modes_sensors_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -451,7 +450,7 @@ CREATE TABLE `projects` (
 
 LOCK TABLES `projects` WRITE;
 /*!40000 ALTER TABLE `projects` DISABLE KEYS */;
-INSERT INTO `projects` VALUES (1,'IOnOff','61/40 st.48, Thu Duc, HCMC'),(4,'NK Sông Đà','61/40 st. 48, Thu Duc, HCMC'),(5,'Trung\'s Home','Da Lat, Lam Dong, VN'),(6,'Hien\'s Home','Lâm Thị Hố, Q.12. HCM');
+INSERT INTO `projects` VALUES (1,'Lord\'s Home','IOnOff Technology'),(4,'Admin\'s Home','IOnOff Technology');
 /*!40000 ALTER TABLE `projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -484,7 +483,7 @@ CREATE TABLE `relaydrivers` (
 
 LOCK TABLES `relaydrivers` WRITE;
 /*!40000 ALTER TABLE `relaydrivers` DISABLE KEYS */;
-INSERT INTO `relaydrivers` VALUES (5,'P8-A30000EF','183.81.14.122',80,'A30000EF','IONOFF_P8',1513941082411,NULL,4),(8,'E410171221Agc5Xr','1.52.34.158',NULL,'E410171221Agc5Xr','IONOFF_E4',1529128001836,NULL,4),(9,'A30000EE','58.187.168.232',NULL,'A30000EE','IONOFF_P8',1515979569519,NULL,5),(10,'E411180101000000','',NULL,'E411180101000000','IONOFF_E4',1529127331730,NULL,4),(11,'E410171221XrC5Fr',NULL,NULL,'E410171221XrC5Fr','IONOFF_E4',1529128011470,13,4),(12,'E312180610853833','',NULL,'E312180610853833','IONOFF_E3',1529127995194,NULL,4),(13,'E4101802128539A6','',NULL,'E4101802128539A6','IONOFF_E4',1529127979920,NULL,6);
+INSERT INTO `relaydrivers` VALUES (12,'E411180603E1E2E3',NULL,NULL,'E411180603E1E2E3','IONOFF_E4',1535293035257,NULL,4),(18,'E312180601170312',NULL,NULL,'E312180601170312','IONOFF_E3',1535293015792,NULL,4);
 /*!40000 ALTER TABLE `relaydrivers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -511,7 +510,7 @@ CREATE TABLE `relaygroups` (
 
 LOCK TABLES `relaygroups` WRITE;
 /*!40000 ALTER TABLE `relaygroups` DISABLE KEYS */;
-INSERT INTO `relaygroups` VALUES (1,NULL,4),(2,NULL,4),(3,NULL,4),(5,NULL,4),(7,NULL,4);
+INSERT INTO `relaygroups` VALUES (1,NULL,4),(2,NULL,4);
 /*!40000 ALTER TABLE `relaygroups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -524,7 +523,7 @@ DROP TABLE IF EXISTS `relaygroups_relays`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `relaygroups_relays` (
   `id` bigint(20) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `is_leader` bit(1) DEFAULT NULL,
   `relay_id` bigint(20) DEFAULT NULL,
   `group_id` bigint(20) DEFAULT NULL,
@@ -533,7 +532,7 @@ CREATE TABLE `relaygroups_relays` (
   KEY `relaygroups_relays_fk_group_id_idx` (`group_id`),
   CONSTRAINT `relaygroups_relays_fk_group_id` FOREIGN KEY (`group_id`) REFERENCES `relaygroups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `relaygroups_relays_fk_relay_id` FOREIGN KEY (`relay_id`) REFERENCES `relays` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -542,7 +541,6 @@ CREATE TABLE `relaygroups_relays` (
 
 LOCK TABLES `relaygroups_relays` WRITE;
 /*!40000 ALTER TABLE `relaygroups_relays` DISABLE KEYS */;
-INSERT INTO `relaygroups_relays` VALUES (82,NULL,NULL,82,3),(95,NULL,'',95,3);
 /*!40000 ALTER TABLE `relaygroups_relays` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -579,7 +577,7 @@ CREATE TABLE `relays` (
 
 LOCK TABLES `relays` WRITE;
 /*!40000 ALTER TABLE `relays` DISABLE KEYS */;
-INSERT INTO `relays` VALUES (49,624,'Relay 1',NULL,'2017-12-22 16:36:08',0,'',NULL,NULL,5,NULL),(50,355,'Relay 2',NULL,'2017-11-26 17:28:52',1,'\0',NULL,NULL,5,NULL),(51,158,'Relay 3',NULL,'2017-12-16 20:54:28',2,'\0',NULL,NULL,5,NULL),(52,99,'Relay 4',NULL,'2017-12-10 13:57:54',3,'\0',NULL,NULL,5,NULL),(53,50,'Relay 5','Quạt treo tường','2017-12-10 13:57:52',4,'\0','\0',NULL,5,NULL),(54,33,'Relay 6','Quạt treo tường',NULL,5,'\0','\0',NULL,5,NULL),(55,49,'Relay 7',NULL,'2017-12-16 10:25:11',6,'\0',NULL,NULL,5,NULL),(56,23,'Relay 8',NULL,NULL,7,'\0',NULL,NULL,5,NULL),(81,579,'Relay 1','Đèn bảng hiệu','2018-06-16 12:46:42',0,'\0',NULL,NULL,8,21),(82,653,'Relay 2','Đèn ngoài thềm','2018-06-16 12:46:42',1,'\0','\0',1,8,23),(83,74,'Relay 3','Quạt treo tường #35','2018-06-16 12:10:28',2,'\0','\0',1,8,NULL),(84,36,'Relay 4',NULL,'2018-06-16 12:10:34',3,'\0',NULL,NULL,8,NULL),(85,123,'Relay 1','Đèn 1','2018-01-14 21:09:21',0,'\0',NULL,NULL,9,27),(86,1,'Relay 2','Đèn 2',NULL,1,'\0',NULL,NULL,9,28),(87,1,'Relay 3','Đèn 3',NULL,2,'\0',NULL,NULL,9,29),(88,1,'Relay 4','Đèn 4',NULL,3,'\0',NULL,NULL,9,30),(89,1,'Relay 5','Đèn 5',NULL,4,'\0',NULL,NULL,9,31),(90,1,'Relay 6','Đèn 6',NULL,5,'\0',NULL,NULL,9,32),(91,1,'Relay 7','Đèn 7',NULL,6,'\0',NULL,NULL,9,33),(92,0,'Relay 8',NULL,NULL,7,'\0',NULL,NULL,9,NULL),(93,592,'Relay 1','Quạt treo tường #35','2018-06-16 12:35:32',0,'\0','\0',1,10,35),(94,665,'Relay 2','Đèn trần 2','2018-06-16 12:35:32',1,'\0',NULL,NULL,10,13),(95,3829,'Relay 3','Đfn trần 1','2018-06-16 12:35:32',2,'\0',NULL,NULL,10,12),(96,126,'Relay 4',NULL,'2017-12-28 14:59:54',3,'\0',NULL,NULL,10,NULL),(97,39,'Relay 1',NULL,'2018-05-28 23:57:04',0,'',NULL,NULL,11,NULL),(98,38,'Relay 2',NULL,'2018-05-28 23:57:04',1,'\0',NULL,NULL,11,NULL),(99,298,'Relay 3','Đèn tường tranh','2018-06-16 12:46:52',2,'\0',NULL,NULL,11,22),(100,525,'Relay 4','Đèn tường giá sách','2018-06-16 12:46:52',3,'\0',NULL,NULL,11,36),(101,47,'Relay 1','Đèn trần 1','2018-06-16 12:46:35',0,'',NULL,NULL,12,6),(102,49,'Relay 2','Đèn trần 2','2018-06-16 12:46:35',1,'\0',NULL,NULL,12,8),(103,48,'Relay 3','Quạt treo tường #35','2018-06-16 12:41:24',2,'\0','\0',4,12,35),(105,10,'Relay 1',NULL,'2018-05-28 23:57:09',0,'\0',NULL,NULL,13,NULL),(106,131,'Relay 2','Đèn ngủ','2018-06-16 12:46:20',1,'\0',NULL,NULL,13,37),(107,6,'Relay 3',NULL,'2018-06-10 22:50:34',2,'\0',NULL,NULL,13,NULL),(108,0,'Relay 4',NULL,NULL,3,'\0',NULL,NULL,13,NULL);
+INSERT INTO `relays` VALUES (101,116076,'Relay 1','Đèn Gần P. R&D','2018-08-26 21:17:15',0,_binary '\0',_binary '\0',NULL,12,NULL),(102,115941,'Relay 2','Đèn Gần Toilet','2018-08-26 21:17:15',1,_binary '',_binary '\0',NULL,12,NULL),(103,2746,'Relay 3',NULL,'2018-08-25 22:08:11',2,_binary '\0',_binary '\0',NULL,12,NULL),(104,1,'Relay 4',NULL,'2018-06-10 23:32:31',3,_binary '\0',NULL,NULL,12,NULL),(125,140687,'Relay 1','Đfn trần 1 #12','2018-08-26 21:16:56',0,_binary '\0',_binary '\0',0,18,NULL),(126,140647,'Relay 2','Đèn trần 2','2018-08-26 21:16:56',1,_binary '\0',_binary '\0',0,18,13),(127,132936,'Relay 3','Quạt treo tường #35','2018-08-26 21:16:56',2,_binary '\0',_binary '\0',1,18,35);
 /*!40000 ALTER TABLE `relays` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -608,7 +606,7 @@ CREATE TABLE `scenes` (
 
 LOCK TABLES `scenes` WRITE;
 /*!40000 ALTER TABLE `scenes` DISABLE KEYS */;
-INSERT INTO `scenes` VALUES (2,'Nhạc',2,'2018-05-14 01:34:51',3),(3,'*Kịch bản',3,NULL,4);
+INSERT INTO `scenes` VALUES (2,'Nhạc',NULL,'2018-03-21 01:35:53',3);
 /*!40000 ALTER TABLE `scenes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -645,7 +643,6 @@ CREATE TABLE `scenes_actions` (
 
 LOCK TABLES `scenes_actions` WRITE;
 /*!40000 ALTER TABLE `scenes_actions` DISABLE KEYS */;
-INSERT INTO `scenes_actions` VALUES (4,'SceneRelayAction','None',NULL,NULL,NULL,101,4,NULL),(5,'SceneRelayAction','None',NULL,NULL,NULL,102,5,NULL),(6,'ScenePlayerAction','Play','','.albums\\sdasd#456456.album','file',NULL,6,9),(7,'ScenePlayerAction','Play','75','D:\\Media\\.Albums\\Anh Sẽ Đến ... Giấc Mơ Buồn#161.album','file',NULL,7,10);
 /*!40000 ALTER TABLE `scenes_actions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -676,7 +673,6 @@ CREATE TABLE `scenes_devices` (
 
 LOCK TABLES `scenes_devices` WRITE;
 /*!40000 ALTER TABLE `scenes_devices` DISABLE KEYS */;
-INSERT INTO `scenes_devices` VALUES (4,NULL,NULL,2,6),(5,NULL,NULL,2,8),(6,NULL,NULL,2,9),(7,1,2,2,10);
 /*!40000 ALTER TABLE `scenes_devices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -713,7 +709,7 @@ CREATE TABLE `schedules` (
 
 LOCK TABLES `schedules` WRITE;
 /*!40000 ALTER TABLE `schedules` DISABLE KEYS */;
-INSERT INTO `schedules` VALUES (1,'Bật đèn bảng hiệu',1,'Daily','06:30 PM','Sun, Mon, Tue, Wed, Thu, Fri, Sat','',0,'',21,4),(2,'Tắt đèn bảng hiệu',NULL,'Daily','11:00 PM','Sun, Mon, Tue, Wed, Thu, Fri, Sat','',0,'',21,4),(3,'Bật đèn thềm',NULL,'Daily','06:00 PM','Sun, Mon, Tue, Wed, Thu, Fri, Sat','',0,'',23,4),(4,'Tắt đèn thềm',NULL,'Daily','08:30 PM','Sun, Mon, Tue, Wed, Thu, Fri, Sat','',0,'',23,4),(5,'Bật đèn bảng hiệu sáng',NULL,'Daily','04:30 AM','Sun, Mon, Tue, Wed, Thu, Fri, Sat','',0,'\0',21,4),(6,'Tắt đèn bảng hiệu sáng',NULL,'Daily','05:30 AM','Sun, Mon, Tue, Wed, Thu, Fri, Sat','',0,'\0',21,4),(7,'Bật đèn phòng ngủ',NULL,'Daily','08:30 PM','Sun, Mon, Tue, Wed, Thu, Fri, Sat','',0,'\0',22,4),(8,'Tắt đèn phòng ngủ',NULL,'Daily','01:00 AM','Sun, Mon, Tue, Wed, Thu, Fri, Sat','',0,'\0',22,4),(9,'Bật đèn phòng khách',NULL,'Daily','06:30 PM','Sun, Mon, Tue, Wed, Thu, Fri, Sat','',0,'',13,4),(10,'Tắt đèn phòng khách',NULL,'Daily','11:30 PM','Sun, Mon, Tue, Wed, Thu, Fri, Sat','',0,'',13,4);
+INSERT INTO `schedules` VALUES (1,'Bật đèn bảng hiệu',NULL,'Daily','06:30 PM','Sun, Mon, Tue, Wed, Thu, Fri, Sat',_binary '',0,_binary '',21,4),(2,'Tắt đèn bảng hiệu',NULL,'Daily','11:00 PM','Sun, Mon, Tue, Wed, Thu, Fri, Sat',_binary '',0,_binary '',21,4),(3,'Bật đèn thềm',NULL,'Daily','06:00 PM','Sun, Mon, Tue, Wed, Thu, Fri, Sat',_binary '',0,_binary '',23,4),(4,'Tắt đèn thềm',NULL,'Daily','09:30 PM','Sun, Mon, Tue, Wed, Thu, Fri, Sat',_binary '',0,_binary '',23,4);
 /*!40000 ALTER TABLE `schedules` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -750,7 +746,6 @@ CREATE TABLE `schedules_actions` (
 
 LOCK TABLES `schedules_actions` WRITE;
 /*!40000 ALTER TABLE `schedules_actions` DISABLE KEYS */;
-INSERT INTO `schedules_actions` VALUES (1,'ScheduleRelayAction','Close',NULL,NULL,NULL,81,1,NULL),(2,'ScheduleRelayAction','Open',NULL,NULL,NULL,81,2,NULL),(3,'ScheduleRelayAction','Close',NULL,NULL,NULL,82,3,NULL),(4,'ScheduleRelayAction','Open',NULL,NULL,NULL,82,4,NULL),(5,'ScheduleRelayAction','Close',NULL,NULL,NULL,81,5,NULL),(6,'ScheduleRelayAction','Open',NULL,NULL,NULL,81,6,NULL),(7,'ScheduleRelayAction','Close',NULL,NULL,NULL,99,7,NULL),(8,'ScheduleRelayAction','Open',NULL,NULL,NULL,99,8,NULL),(9,'ScheduleRelayAction','Close',NULL,NULL,NULL,94,9,NULL),(10,'ScheduleRelayAction','Open',NULL,NULL,NULL,94,10,NULL);
 /*!40000 ALTER TABLE `schedules_actions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -777,7 +772,7 @@ CREATE TABLE `schema_version` (
   KEY `schema_version_vr_idx` (`version_rank`),
   KEY `schema_version_ir_idx` (`installed_rank`),
   KEY `schema_version_s_idx` (`success`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=ucs2;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -786,7 +781,7 @@ CREATE TABLE `schema_version` (
 
 LOCK TABLES `schema_version` WRITE;
 /*!40000 ALTER TABLE `schema_version` DISABLE KEYS */;
-INSERT INTO `schema_version` VALUES (1,1,'1','<< Flyway Init >>','INIT','<< Flyway Init >>',NULL,'root','2018-05-18 16:21:11',0,1),(10,10,'10','set relay label','SQL','V10__set_relay_label.sql',-691159078,'root','2018-06-16 04:45:15',203,1),(2,2,'2','alter table sensors','SQL','V2__alter_table_sensors.sql',-650510190,'root','2018-05-18 16:21:11',15,1),(3,3,'3','alter_tabler_controllers_relays','SQL','V3__alter_tabler_controllers_relays.sql',-650510190,'root','2018-05-18 16:21:11',15,1),(4,4,'4','alter_tabler_modes_ensors','SQL','V4__alter_tabler_modes_ensors.sql',-650510190,'root','2018-05-18 16:21:11',15,1),(5,5,'5','alter_tbl_relays_add_col_is_locked','SQL','V5__alter_tbl_relays_add_col_is_locked.sql',-650510190,'root','2018-05-18 16:21:11',15,1),(6,6,'6','alter tbl relays add col auto revert','SQL','V6__alter_tbl_relays_add_col_auto_revert.sql',1899611256,'root','2018-05-27 09:22:39',29,1),(7,7,'7','delete weigh scale','SQL','V7__delete_weigh_scale.sql',242201596,'root','2018-05-28 16:06:56',86,1),(8,8,'8','delete tbl versions','SQL','V8__delete_tbl_versions.sql',-1000040228,'root','2018-06-09 14:44:17',235,1),(9,9,'9','add field order','SQL','V9__add_field_order.sql',-398955826,'root','2018-06-09 14:44:23',6025,1);
+INSERT INTO `schema_version` VALUES (1,1,'1','<< Flyway Init >>','INIT','<< Flyway Init >>',NULL,'root','2018-05-16 15:21:09',0,1),(10,10,'10','set relay label','SQL','V10__set_relay_label.sql',-691159078,'root','2018-06-12 17:51:42',45,1),(2,2,'2','alter table sensors','SQL','V2__alter_table_sensors.sql',-650510190,'root','2018-05-16 15:21:15',5960,1),(3,3,'3','alter tabler controllers relays','SQL','V3__alter_tabler_controllers_relays.sql',1469277880,'root','2018-05-16 15:21:17',2383,1),(4,4,'4','alter tabler modes ensors','SQL','V4__alter_tabler_modes_ensors.sql',1346754495,'root','2018-05-16 15:21:18',634,1),(5,5,'5','alter tbl relays add col is locked','SQL','V5__alter_tbl_relays_add_col_is_locked.sql',429648576,'root','2018-05-19 06:49:18',2791,1),(6,6,'6','alter tbl relays add col auto revert','SQL','V6__alter_tbl_relays_add_col_auto_revert.sql',1899611256,'root','2018-05-31 01:48:26',2121,1),(7,7,'7','delete weigh scale','SQL','V7__delete_weigh_scale.sql',242201596,'root','2018-05-31 01:48:26',42,1),(8,8,'8','delete tbl versions','SQL','V8__delete_tbl_versions.sql',-1000040228,'root','2018-06-10 15:00:45',36,1),(9,9,'9','add field order','SQL','V9__add_field_order.sql',-398955826,'root','2018-06-10 15:00:45',313,1);
 /*!40000 ALTER TABLE `schema_version` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -825,7 +820,6 @@ CREATE TABLE `sensors` (
 
 LOCK TABLES `sensors` WRITE;
 /*!40000 ALTER TABLE `sensors` DISABLE KEYS */;
-INSERT INTO `sensors` VALUES (4,'*Cảm biến',2,NULL,NULL,NULL,NULL,13,4);
 /*!40000 ALTER TABLE `sensors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -845,7 +839,7 @@ CREATE TABLE `sensors_data` (
   PRIMARY KEY (`id`),
   KEY `sensors_data_fk_sensor_id_idx` (`sensor_id`),
   CONSTRAINT `sensors_data_fk_sensor_id` FOREIGN KEY (`sensor_id`) REFERENCES `sensors` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -854,7 +848,7 @@ CREATE TABLE `sensors_data` (
 
 LOCK TABLES `sensors_data` WRITE;
 /*!40000 ALTER TABLE `sensors_data` DISABLE KEYS */;
-INSERT INTO `sensors_data` VALUES (1,'2018-04-23 02:11:20',86.1,34,NULL),(2,'2018-04-23 02:13:23',99.1,35,NULL),(3,'2018-05-13 22:19:56',2,38,NULL),(4,'2018-05-13 22:20:46',2,38,NULL),(5,'2018-05-13 22:31:29',2,38,NULL),(6,'2018-05-13 22:34:07',2,38,NULL),(7,'2018-05-13 23:26:29',2,38,NULL),(8,'2018-05-13 23:29:07',2,38,NULL),(9,'2018-05-13 23:33:33',2,38,NULL),(10,'2018-05-13 23:47:53',2,38,NULL),(11,'2018-05-13 23:51:59',2,38,NULL),(12,'2018-05-13 23:59:33',2,38,NULL),(13,'2018-05-14 00:02:19',2,38,NULL),(14,'2018-05-14 00:04:54',2,38,NULL),(15,'2018-05-14 00:05:47',2,38,NULL),(16,'2018-05-14 00:06:02',2,38,NULL),(17,'2018-05-14 00:09:32',2,38,NULL);
+INSERT INTO `sensors_data` VALUES (1,'2018-05-09 07:20:04',1,1,NULL),(2,'2018-05-09 07:20:39',5,1,NULL),(3,'2018-05-09 07:21:28',5.5,2,NULL),(4,'2018-05-13 10:51:41',1.1,1,NULL),(5,'2018-05-13 10:53:10',2,2,NULL),(6,'2018-05-13 10:54:01',1.15,3,NULL),(7,'2018-05-13 10:58:13',1.35,1,NULL),(8,'2018-05-13 22:19:58',2,38,NULL),(9,'2018-05-13 22:20:49',2,38,NULL),(10,'2018-05-13 22:22:44',2,38,NULL),(11,'2018-05-13 22:31:32',2,38,NULL),(12,'2018-05-13 22:34:09',2,38,NULL),(13,'2018-05-13 22:35:59',2,38,NULL),(14,'2018-05-13 22:38:07',2,38,NULL),(15,'2018-05-13 22:42:36',2,38,NULL),(16,'2018-05-13 22:43:28',2,38,NULL),(17,'2018-05-13 23:00:29',1.5,1,NULL),(18,'2018-05-13 23:19:19',2,38,NULL),(19,'2018-05-13 23:20:11',2,38,NULL),(20,'2018-05-13 23:26:31',2,38,NULL),(21,'2018-05-13 23:29:10',2,38,NULL),(22,'2018-05-13 23:33:36',2,38,NULL),(23,'2018-05-13 23:47:56',2,38,NULL),(24,'2018-05-13 23:52:03',2,38,NULL),(25,'2018-05-13 23:57:20',2,38,NULL),(26,'2018-05-13 23:59:36',2,38,NULL),(27,'2018-05-14 00:02:22',2,38,NULL),(28,'2018-05-14 00:04:56',2,38,NULL),(29,'2018-05-14 00:05:49',2,38,NULL),(30,'2018-05-14 00:06:04',2,38,NULL),(31,'2018-05-14 00:09:37',2,38,NULL),(32,'2018-05-14 14:31:58',110.6,1,NULL),(33,'2018-05-14 14:32:14',28.2,2,NULL),(34,'2018-05-14 14:32:38',29.15,3,NULL),(35,'2018-05-14 14:33:04',60.6,4,NULL),(36,'2018-05-14 14:33:22',34.05,5,NULL),(37,'2018-05-14 14:33:42',110.6,6,NULL),(38,'2018-05-14 14:33:58',45.6,7,NULL),(39,'2018-05-14 17:02:11',18.15,1,NULL),(40,'2018-05-14 17:03:11',32,2,NULL),(41,'2018-05-17 15:53:03',550,1,NULL),(42,'2018-05-21 10:50:39',25.9,1,NULL),(43,'2018-05-21 10:51:09',25.4,2,NULL),(44,'2018-05-21 10:55:55',28.3,3,NULL),(45,'2018-05-21 10:56:29',25.5,4,NULL),(46,'2018-05-21 10:56:56',25.45,5,NULL),(47,'2018-05-21 11:15:14',26.7,1,NULL),(48,'2018-05-21 11:16:02',27.9,2,NULL),(49,'2018-05-21 11:18:18',4.4,3,NULL),(50,'2018-05-21 11:26:24',2.4,4,NULL),(51,'2018-05-21 11:27:21',2.4,5,NULL),(52,'2018-05-22 07:18:18',2.9,1,NULL),(53,'2018-05-22 07:18:42',2.55,2,NULL),(54,'2018-05-22 07:18:56',2.4,3,NULL),(55,'2018-05-22 07:19:07',2.5,4,NULL),(56,'2018-05-22 07:19:21',2.45,5,NULL),(57,'2018-05-22 07:19:33',2.3,6,NULL),(58,'2018-05-22 07:19:49',2.45,7,NULL),(59,'2018-05-22 07:19:57',2.45,8,NULL),(60,'2018-05-22 07:20:05',2.4,9,NULL),(61,'2018-05-22 07:20:14',2.8,10,NULL),(62,'2018-05-22 07:20:22',2.45,11,NULL),(63,'2018-05-22 07:20:29',2.45,12,NULL),(64,'2018-05-22 07:20:38',3.7,13,NULL),(65,'2018-05-22 07:20:47',2.4,14,NULL),(66,'2018-05-22 07:20:55',2.55,15,NULL),(67,'2018-05-22 07:21:03',2.45,16,NULL),(68,'2018-05-22 07:21:11',2.4,17,NULL),(69,'2018-05-22 07:21:17',2.5,18,NULL),(70,'2018-05-22 07:21:25',2.5,19,NULL),(71,'2018-05-22 07:23:05',2.4,20,NULL),(72,'2018-05-22 07:23:18',2.5,21,NULL),(73,'2018-05-22 07:23:31',2.6,22,NULL),(74,'2018-05-22 07:24:19',2.6,23,NULL);
 /*!40000 ALTER TABLE `sensors_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -872,7 +866,7 @@ CREATE TABLE `sensors_status` (
   `index_` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`sensor_id`),
   CONSTRAINT `sensors_status_fk_sensor_id` FOREIGN KEY (`sensor_id`) REFERENCES `sensors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -881,7 +875,6 @@ CREATE TABLE `sensors_status` (
 
 LOCK TABLES `sensors_status` WRITE;
 /*!40000 ALTER TABLE `sensors_status` DISABLE KEYS */;
-INSERT INTO `sensors_status` VALUES (4,'2018-06-16 12:32:59',0,NULL);
 /*!40000 ALTER TABLE `sensors_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -894,7 +887,7 @@ DROP TABLE IF EXISTS `switchs`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `switchs` (
   `id` bigint(20) NOT NULL,
-  `name` varchar(127) DEFAULT NULL,
+  `name` varchar(127) COLLATE utf8_unicode_ci DEFAULT NULL,
   `index_` int(11) DEFAULT NULL,
   `time_` datetime DEFAULT NULL,
   `status_` bit(1) DEFAULT NULL,
@@ -902,7 +895,7 @@ CREATE TABLE `switchs` (
   PRIMARY KEY (`id`),
   KEY `switchs_fk_driver_id_idx` (`driver_id`),
   CONSTRAINT `switchs_fk_driver_id` FOREIGN KEY (`driver_id`) REFERENCES `relaydrivers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -911,7 +904,7 @@ CREATE TABLE `switchs` (
 
 LOCK TABLES `switchs` WRITE;
 /*!40000 ALTER TABLE `switchs` DISABLE KEYS */;
-INSERT INTO `switchs` VALUES (1,NULL,0,NULL,'\0',11),(2,NULL,1,NULL,'\0',11),(3,NULL,2,NULL,'\0',11),(4,NULL,3,NULL,'\0',11),(5,NULL,0,NULL,'\0',8),(6,NULL,1,NULL,'\0',8),(7,NULL,2,NULL,'\0',8),(8,NULL,3,NULL,'\0',8),(9,NULL,0,NULL,'\0',13),(10,NULL,1,NULL,'\0',13),(11,NULL,2,NULL,'\0',13),(12,NULL,3,NULL,'\0',13),(13,NULL,0,NULL,'\0',12),(14,NULL,0,NULL,'\0',10),(15,NULL,1,NULL,'\0',10),(16,NULL,2,NULL,'\0',10),(17,NULL,3,NULL,'\0',10);
+INSERT INTO `switchs` VALUES (33,NULL,0,NULL,_binary '\0',12),(34,NULL,1,NULL,_binary '\0',12),(35,NULL,2,NULL,_binary '\0',12),(36,NULL,3,NULL,_binary '\0',12),(37,NULL,0,NULL,_binary '\0',18),(38,NULL,1,NULL,_binary '\0',18),(39,NULL,2,NULL,_binary '\0',18);
 /*!40000 ALTER TABLE `switchs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -996,7 +989,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'lord','Super Admin','b74b820db358adf6cd976a10542fbe88d14c7e5da8e8f2cde526a54235fdb6f486553d9340e328aa','trancongsan@gmail.com',NULL,'0933439994',1),(2,'admin','Home Admin','27bec3835cb29f881ad306d8ffa1a3a56d82bb83cd6bbeef749f9369c765a66f9ae2223dc9dd8c9f','trancongsan@gmail.com','vi','0933439994',2),(4,'trung','Đức Trung','f6fa80d03bc3eee84c62b4e563946608cb5af5ab9babca8d193978cffb1ae89a1690762aba67f6d7','trancongsan@gmail.com',NULL,'0933439994',2),(5,'hien','Chất Hiển','55698dcddb33d38b05e5db1b6fc7a37c0ecb1d19fcbb2b8cf14463a43d2eac22577b1950b80b3965','hiennguyenchat@gmail.com',NULL,'0979173179',2);
+INSERT INTO `users` VALUES (1,'lord','Super Admin','9fa6033770d560bf216251a9c9fb3db884311de98f1bfdd7add0628ae444825a0301ac666143d1de','trancongsan@gmail.com',NULL,'0933439994',1),(2,'admin','Home Admin','a19880ed5f109d2ee1c7fb7908ba82e3977bbff60c0806dafceb85298691614566946be5e587f87c','trancongsan@gmail.com',NULL,'0933439994',2);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1029,7 +1022,7 @@ CREATE TABLE `users_devices` (
 
 LOCK TABLES `users_devices` WRITE;
 /*!40000 ALTER TABLE `users_devices` DISABLE KEYS */;
-INSERT INTO `users_devices` VALUES (14,'',4,33,5),(15,'',4,27,5),(16,'',4,28,5),(17,'',4,30,5),(18,'',4,29,5),(19,'',4,31,5),(20,'',4,34,5),(21,'',4,32,5),(22,'',2,36,4),(23,'',2,22,4),(24,'',2,20,4),(25,'',2,23,4),(26,'',2,26,4),(27,'',2,12,4),(28,'',2,35,4),(29,'',2,13,4),(30,'',2,21,4),(31,'',2,8,4),(32,'',2,9,4),(33,'',2,6,4),(34,'',2,10,4),(35,'',5,37,6),(40,'',1,6,4),(41,'',1,8,4),(42,'',1,9,4),(43,'',1,10,4),(44,'',1,20,4),(45,'',1,22,4),(46,'',1,36,4),(47,'\0',1,12,4),(48,'\0',1,13,4),(49,'',1,21,4),(50,'',1,23,4),(51,'',1,35,4),(52,'',1,26,4);
+INSERT INTO `users_devices` VALUES (22,_binary '',2,36,4),(24,_binary '',2,20,4),(25,_binary '',2,23,4),(28,_binary '',2,35,4),(29,_binary '',2,13,4),(30,_binary '',2,21,4),(72,_binary '',1,20,4),(74,_binary '',1,36,4),(76,_binary '',1,13,4),(77,_binary '',1,21,4),(78,_binary '',1,23,4),(79,_binary '',1,35,4),(87,_binary '',2,53,4),(88,_binary '',1,53,4);
 /*!40000 ALTER TABLE `users_devices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1050,7 +1043,7 @@ CREATE TABLE `users_projects` (
   KEY `users_projects_project_id_fk_idx` (`project_id`),
   CONSTRAINT `users_projects_project_id_fk` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `users_projects_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1059,7 +1052,7 @@ CREATE TABLE `users_projects` (
 
 LOCK TABLES `users_projects` WRITE;
 /*!40000 ALTER TABLE `users_projects` DISABLE KEYS */;
-INSERT INTO `users_projects` VALUES (2,'',1,1),(3,'\0',2,1),(4,'',1,4),(5,'',2,4),(8,'\0',4,1),(9,'\0',4,4),(12,'\0',1,5),(13,'\0',2,5),(15,'',4,5),(16,'\0',1,6),(17,'\0',2,6),(18,'\0',4,6),(19,'\0',5,1),(20,'\0',5,4),(21,'\0',5,5),(22,'',5,6);
+INSERT INTO `users_projects` VALUES (2,_binary '',1,1),(3,_binary '\0',2,1),(4,_binary '',1,4),(5,_binary '',2,4);
 /*!40000 ALTER TABLE `users_projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1092,7 +1085,7 @@ CREATE TABLE `users_scenes` (
 
 LOCK TABLES `users_scenes` WRITE;
 /*!40000 ALTER TABLE `users_scenes` DISABLE KEYS */;
-INSERT INTO `users_scenes` VALUES (2,'',2,2,4),(3,'',1,2,4),(4,'',2,3,4),(5,'',1,3,4);
+INSERT INTO `users_scenes` VALUES (2,_binary '',2,2,4),(3,_binary '',1,2,4);
 /*!40000 ALTER TABLE `users_scenes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1116,7 +1109,7 @@ CREATE TABLE `users_zones` (
   CONSTRAINT `users_zones_project_id_fk` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `users_zones_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `users_zones_zone_id_fk` FOREIGN KEY (`zone_id`) REFERENCES `zones` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1125,7 +1118,7 @@ CREATE TABLE `users_zones` (
 
 LOCK TABLES `users_zones` WRITE;
 /*!40000 ALTER TABLE `users_zones` DISABLE KEYS */;
-INSERT INTO `users_zones` VALUES (19,'',4,8,4),(21,'',2,9,5),(22,'',1,9,5),(27,'',1,6,1),(28,'',4,9,5),(29,'',2,4,4),(30,'',2,7,4),(31,'',2,8,4),(32,'',2,3,4),(33,'',5,10,6),(34,'',1,3,4),(35,'',1,4,4),(36,'',1,7,4),(37,'',1,8,4);
+INSERT INTO `users_zones` VALUES (27,_binary '',1,6,1),(29,_binary '',2,4,4),(30,_binary '',2,7,4),(31,_binary '',2,8,4),(32,_binary '',2,3,4),(48,_binary '',1,3,4),(49,_binary '',1,4,4),(50,_binary '',1,7,4),(51,_binary '',1,8,4),(52,_binary '',1,15,4),(53,_binary '',2,15,4),(54,_binary '',1,16,4),(55,_binary '',2,16,4);
 /*!40000 ALTER TABLE `users_zones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1156,7 +1149,7 @@ CREATE TABLE `zones` (
 
 LOCK TABLES `zones` WRITE;
 /*!40000 ALTER TABLE `zones` DISABLE KEYS */;
-INSERT INTO `zones` VALUES (3,'Phòng R&D',100,4,10),(4,'Phòng Bếp',1,4,10),(6,'*Vùng',NULL,1,12),(7,'Phòng ngủ',1,4,11),(8,'Phòng Khách',1,4,10),(9,'Phòng Khách',0,5,13),(10,'Phòng Khách',1,6,14);
+INSERT INTO `zones` VALUES (3,'Phòng R&D',23,4,10),(4,'Phòng Bếp',12,4,10),(6,'*Vùng',NULL,1,12),(7,'Phòng Ngủ',22,4,11),(8,'Phòng Khách',11,4,10),(15,'Hành Lang',21,4,11),(16,'Bên Ngoài',10,4,10);
 /*!40000 ALTER TABLE `zones` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1169,4 +1162,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-17 11:41:45
+-- Dump completed on 2018-08-26 21:53:38
