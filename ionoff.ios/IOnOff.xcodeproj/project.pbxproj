@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5320079F2146C979000C12BD /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5320079E2146C979000C12BD /* Default-568h@2x.png */; };
 		536C2165205D1BE2009E3F42 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 536C2164205D1BE2009E3F42 /* www */; };
-		53C9A2692143D4A4003E354C /* IOnOff.app in Resources */ = {isa = PBXBuildFile; fileRef = 99BABCB5202C7DC5006FFC7B /* IOnOff.app */; };
 		99BABCB9202C7DC5006FFC7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99BABCB8202C7DC5006FFC7B /* AppDelegate.swift */; };
 		99BABCBB202C7DC5006FFC7B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99BABCBA202C7DC5006FFC7B /* ViewController.swift */; };
 		99BABCBE202C7DC5006FFC7B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 99BABCBC202C7DC5006FFC7B /* Main.storyboard */; };
@@ -20,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5320079E2146C979000C12BD /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		536C2164205D1BE2009E3F42 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		99BABCB5202C7DC5006FFC7B /* IOnOff.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOnOff.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99BABCB8202C7DC5006FFC7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +48,7 @@
 		99BABCAC202C7DC5006FFC7B = {
 			isa = PBXGroup;
 			children = (
+				5320079E2146C979000C12BD /* Default-568h@2x.png */,
 				99BABCB7202C7DC5006FFC7B /* IOnOff */,
 				99BABCB6202C7DC5006FFC7B /* Products */,
 			);
@@ -162,10 +164,10 @@
 			files = (
 				99BABCD2202C8138006FFC7B /* test.js in Resources */,
 				536C2165205D1BE2009E3F42 /* www in Resources */,
-				53C9A2692143D4A4003E354C /* IOnOff.app in Resources */,
 				99BABCC3202C7DC5006FFC7B /* LaunchScreen.storyboard in Resources */,
 				99BABCCD202C7DFA006FFC7B /* index.html in Resources */,
 				99BABCC0202C7DC5006FFC7B /* Assets.xcassets in Resources */,
+				5320079F2146C979000C12BD /* Default-568h@2x.png in Resources */,
 				99BABCCF202C7E2C006FFC7B /* styles.css in Resources */,
 				99BABCBE202C7DC5006FFC7B /* Main.storyboard in Resources */,
 			);
@@ -324,7 +326,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SF36DY5LWB;
-				INFOPLIST_FILE = LocalWKWebView/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/IOnOff/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -342,7 +344,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SF36DY5LWB;
-				INFOPLIST_FILE = LocalWKWebView/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/IOnOff/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
