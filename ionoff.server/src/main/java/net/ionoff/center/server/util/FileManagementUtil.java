@@ -15,8 +15,6 @@ import java.util.zip.ZipInputStream;
 
 import org.apache.log4j.Logger;
 
-import net.ionoff.center.server.config.AppConfig;
-
 public class FileManagementUtil {
 	
 	private static final Logger LOGGER = Logger.getLogger(FileManagementUtil.class.getName());
@@ -99,7 +97,7 @@ public class FileManagementUtil {
 	}
 	
 	public static List<String> unzipFile(String downloadedFile, String toFolder) throws IOException {
-		return unzip(downloadedFile, AppConfig.getInstance().UPDATE_FOLDER);
+		return unzip(downloadedFile, toFolder);
 	}
 	
 	/**

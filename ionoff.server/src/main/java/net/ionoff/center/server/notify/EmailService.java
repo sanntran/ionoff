@@ -1,4 +1,4 @@
-package net.ionoff.center.server.email.service;
+package net.ionoff.center.server.notify;
 
 import net.ionoff.center.shared.dto.MessageDto;
 

@@ -1,4 +1,4 @@
-package net.ionoff.center.server.notifier.handler;
+package net.ionoff.center.server.util;
 
 import java.util.Arrays;
 

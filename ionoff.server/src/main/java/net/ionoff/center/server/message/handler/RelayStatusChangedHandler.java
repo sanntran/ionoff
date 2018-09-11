@@ -1,4 +1,4 @@
-package net.ionoff.center.server.notifier.handler;
+package net.ionoff.center.server.message.handler;
 
 import java.util.List;
 import java.util.Timer;

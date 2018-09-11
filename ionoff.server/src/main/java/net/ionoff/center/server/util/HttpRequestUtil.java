@@ -8,11 +8,6 @@ import java.net.URL;
 
 import org.apache.log4j.Logger;
 
-import com.google.gson.Gson;
-
-import net.ionoff.center.server.config.AppConfig;
-import net.ionoff.center.shared.dto.VersionDto;
-
 public class HttpRequestUtil {
 	
 	private static final Logger LOGGER = Logger.getLogger(HttpRequestUtil.class.getName());
@@ -40,12 +35,5 @@ public class HttpRequestUtil {
 		// logger.info("Response: " + response);
 		return response.toString();
 	}
-	
 
-	public static VersionDto getLatestVersion() throws IOException {
-		String updateSiteLatestVersionJson = sendGetRequest(AppConfig.getInstance().LATEST_VERSION_URL);
-		LOGGER.info("Latest version from update site: \n" + updateSiteLatestVersionJson);
-		VersionDto latestVersion = new Gson().fromJson(updateSiteLatestVersionJson, VersionDto.class);
-		return latestVersion;
-	}
 }

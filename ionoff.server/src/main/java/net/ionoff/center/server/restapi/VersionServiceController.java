@@ -4,30 +4,33 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import net.ionoff.center.server.config.AppConfig;
 import net.ionoff.center.server.scheduler.LatestVersionUpdator;
-import net.ionoff.center.server.util.HttpRequestUtil;
 import net.ionoff.center.shared.dto.VersionDto;
 
 @RestController
 @EnableWebMvc
 public class VersionServiceController {
-	
+
+	@Autowired
+	LatestVersionUpdator latestVersionUpdator;
+
+
 	@RequestMapping(value = "versions/upgrade",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public VersionDto upgradeLatestVersion(HttpServletRequest request) throws IOException {
-		VersionDto latestVersion = HttpRequestUtil.getLatestVersion();
+		VersionDto latestVersion = latestVersionUpdator.getLatestVersion();
 		VersionDto currentVersion = getCurrentVersion();
 		if (!currentVersion.getName().equals(latestVersion.getName())) {
-			LatestVersionUpdator.upgradeLatestVersion(latestVersion);
+			latestVersionUpdator.upgradeLatestVersion(latestVersion);
 		}
 		return getCurrentVersion();
 	}
@@ -46,7 +49,7 @@ public class VersionServiceController {
 	@ResponseBody
 	public VersionDto getCurrentVersion() {
 		VersionDto versionDto = new VersionDto();
-		versionDto.setName(AppConfig.getInstance().VERSION);
+		versionDto.setName(latestVersionUpdator.getAppVersion());
 		return versionDto;
 	}
 	
@@ -55,7 +58,7 @@ public class VersionServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public VersionDto getLatestVersion(HttpServletRequest request) throws IOException {
-		VersionDto latestVersion = HttpRequestUtil.getLatestVersion();
+		VersionDto latestVersion = latestVersionUpdator.getLatestVersion();
 		return latestVersion;
 	}
 	

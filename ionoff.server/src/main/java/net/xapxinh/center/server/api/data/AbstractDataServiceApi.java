@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 
+import net.ionoff.center.server.util.AccentRemover;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
@@ -16,7 +17,6 @@ import org.springframework.http.client.support.HttpRequestWrapper;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import net.ionoff.center.server.notifier.handler.AccentRemover;
 import net.xapxinh.center.server.entity.Player;
 import net.xapxinh.center.server.exception.DataServiceException;
 import net.xapxinh.center.shared.dto.Album;

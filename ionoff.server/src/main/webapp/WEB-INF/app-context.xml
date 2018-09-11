@@ -121,38 +121,38 @@
 		class="net.ionoff.center.server.relaydriver.api.RelayDriverApiProvider">
 	</bean>
 
-	<bean id="emailService" class="net.ionoff.center.server.email.service.EmailServiceImpl">
+	<bean id="emailService" class="net.ionoff.center.server.notify.EmailServiceImpl">
 	</bean>
 
-	<bean id="smsService" class="net.ionoff.center.server.sms.service.SmsServiceImpl">
+	<bean id="smsService" class="net.ionoff.center.server.notify.SmsServiceImpl">
 	</bean>
 
 	<bean id="controlService" class="net.ionoff.center.server.control.ControlServiceImpl">
 	</bean>
 
-	<bean id="sensorStatusNotifier" class="net.ionoff.center.server.notifier.SensorStatusNotifier">
+	<bean id="sensorStatusNotifier" class="net.ionoff.center.server.message.SensorStatusNotifier">
 	</bean>
 
 	<bean id="sensorStatusChangedListener"
-		class="net.ionoff.center.server.notifier.listener.SensorStatusChangedListener">
+		class="net.ionoff.center.server.message.listener.SensorStatusChangedListener">
 	</bean>
 	
 	<bean id="sensorStatusChangedHandler"
-		class="net.ionoff.center.server.notifier.handler.SensorStatusChangedHandler">
+		class="net.ionoff.center.server.message.handler.SensorStatusChangedHandler">
 	</bean>
 	
-	<bean id="relayStatusNotifier" class="net.ionoff.center.server.notifier.RelayStatusNotifier">
+	<bean id="relayStatusNotifier" class="net.ionoff.center.server.message.RelayStatusNotifier">
 	</bean>
 	
 	<bean id="relayStatusChangedListener" 
-				class="net.ionoff.center.server.notifier.listener.RelayStatusChangedListener">
+				class="net.ionoff.center.server.message.listener.RelayStatusChangedListener">
 	</bean>
 
 	<bean id="relayStatusChangedHandler"
-				class="net.ionoff.center.server.notifier.handler.RelayStatusChangedHandler">
+				class="net.ionoff.center.server.message.handler.RelayStatusChangedHandler">
 	</bean>
 
-	<bean id="dataServiceApi" class="net.ionoff.center.server.xapxinh.XDataServiceApiImpl">
+	<bean id="mediaServiceApi" class="net.ionoff.center.server.xapxinh.MediaServiceApiImpl">
 	</bean>
 
 	<bean id="playerConnectionPool" class="net.ionoff.center.server.xapxinh.PlayerConnectionPool">

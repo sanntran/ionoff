@@ -13,7 +13,6 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import net.ionoff.center.server.config.AppConfig;
 import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.SensorDriver;
@@ -21,6 +20,7 @@ import net.ionoff.center.server.exception.MqttConnectionException;
 import net.ionoff.center.server.exception.MqttPublishException;
 import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
 import net.ionoff.center.server.persistence.service.IDeviceService;
+import org.springframework.beans.factory.annotation.Value;
 
 
 public class MosquittoClient implements MqttCallback {
@@ -34,22 +34,44 @@ public class MosquittoClient implements MqttCallback {
 	private String[] subscribleTopics;
 
 	private Thread mosquittoThread;
-	
+
+	@Value("${mqtt.user}")
+	private String user;
+
+	@Value("${mqtt.pass}")
+	private String password;
+
+	@Value("${mqtt.qos:2}")
+	private Integer qos;
+
+	private String clientId;
+
+	@Value("${mqtt.broker.url}")
+	private String brockerUrl;
+
+	@Value("${mqtt.topic.ionoff.net}")
+	private String defaultTopic;
+
+	@Value("${mqtt.topic.ionoff.relaydriver}")
+	private String topicRelayDriver;
+
+	@Value("${mqtt.topic.ionoff.sensordriver}")
+	private String topicSensorDriver;
+
 	@Autowired
 	private IDeviceService deviceService;
 	
 	@Autowired
 	private IRelayDriverDao relayDriverDao;
-	
+
 	@Autowired
 	private RelayDriverStatusHandler relayDriverStatusHandler;
 	
 	public void initAndConnectBroker() {
-		subscribleTopics = new String[] {AppConfig.getInstance().MQTT_TOPIC_IONOFF_NET, 
-				AppConfig.getInstance().MQTT_TOPIC_RELAY_DRIVER, AppConfig.getInstance().MQTT_TOPIC_SENSOR_DRIVER};
+		clientId = "ionoff-" + hashCode() + "";
+		subscribleTopics = new String[] {defaultTopic, topicRelayDriver, topicSensorDriver};
 		try {
-			client = new MqttClient(AppConfig.getInstance().MQTT_BROKER_URL
-					, AppConfig.getInstance().MQTT_CLIENT_ID + System.currentTimeMillis());
+			client = new MqttClient(brockerUrl, clientId);
 		} catch (MqttException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
@@ -57,8 +79,8 @@ public class MosquittoClient implements MqttCallback {
 		connOpt = new MqttConnectOptions();
 		connOpt.setCleanSession(true);
 		//connOpt.setKeepAliveInterval(60);
-		connOpt.setUserName(AppConfig.getInstance().MQTT_USER);
-		connOpt.setPassword(AppConfig.getInstance().MQTT_PASS.toCharArray());
+		connOpt.setUserName(user);
+		connOpt.setPassword(password.toCharArray());
 		
 		connectMqttBroker();
 	}
@@ -66,11 +88,11 @@ public class MosquittoClient implements MqttCallback {
 	public void publishMessage(String topic, String payload) {
 		
 		if (!connected) {
-			throw new MqttConnectionException("Not connected to MQTT server: " + AppConfig.getInstance().MQTT_BROKER_URL);
+			throw new MqttConnectionException("Not connected to MQTT server: " + brockerUrl);
 		}
 		LOGGER.info("Publishing message:" + payload + " to topic: " + topic);
 		MqttMessage message = new MqttMessage(payload.getBytes());
-        message.setQos(AppConfig.getInstance().MQTT_QOS);
+        message.setQos(qos);
         
         try {
 			client.publish(topic, message);
@@ -90,7 +112,7 @@ public class MosquittoClient implements MqttCallback {
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
-			LOGGER.error(e.getMessage(), e);
+			LOGGER.error("InterruptedException: " + e.getMessage());
 		}
 		connectMqttBroker();
 	}
@@ -100,16 +122,16 @@ public class MosquittoClient implements MqttCallback {
 			return;
 		}
 		try {
-			LOGGER.info("Connecting to broker " + AppConfig.getInstance().MQTT_BROKER_URL);
+			LOGGER.info("Connecting to broker " + brockerUrl);
 			client.connect(connOpt);
-			LOGGER.info("Connected to broker" + AppConfig.getInstance().MQTT_BROKER_URL);
+			LOGGER.info("Connected to broker" + brockerUrl);
 			setConnected(true);
 		} catch (MqttException e) {
 			LOGGER.error("Cannot connect to broker. " + e.getMessage());
 			try {
 				Thread.sleep(15000);
 			} catch (InterruptedException ie) {
-				LOGGER.error(ie.getMessage(), ie);
+				LOGGER.error("InterruptedException: " + ie.getMessage());
 			}
 			connectMqttBroker();
 		}
@@ -144,11 +166,10 @@ public class MosquittoClient implements MqttCallback {
 		// subscription made by the client
 		String payload = new String(message.getPayload());
 		LOGGER.info("Message arrived on topic: " + topic + ". Message: " + payload);
-		if (AppConfig.getInstance().MQTT_TOPIC_IONOFF_NET.equals(topic) ||
-				AppConfig.getInstance().MQTT_TOPIC_RELAY_DRIVER.equals(topic)) {
+		if (defaultTopic.equals(topic) || topicRelayDriver.equals(topic)) {
 			onRelayDriverMessageArrived(payload);
 		}
-		else if (AppConfig.getInstance().MQTT_TOPIC_SENSOR_DRIVER.equals(topic)) {
+		else if (topicSensorDriver.equals(topic)) {
 			onSensorDriverMessageArrived(payload);
 		}
 	}

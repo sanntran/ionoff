@@ -1,10 +1,10 @@
-package net.ionoff.center.server.notifier.listener;
+package net.ionoff.center.server.message.listener;
 
 import java.util.Observable;
 import java.util.Observer;
 
 import net.ionoff.center.server.message.event.SensorStatusChangedEvent;
-import net.ionoff.center.server.notifier.handler.SensorStatusChangedHandler;
+import net.ionoff.center.server.message.handler.SensorStatusChangedHandler;
 
 public class SensorStatusChangedListener implements Observer {
 	

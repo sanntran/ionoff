@@ -23,7 +23,7 @@ import net.ionoff.center.server.entity.ScenePlayerAction;
 import net.ionoff.center.server.entity.SceneRelayAction;
 import net.ionoff.center.server.exception.RelayLockedException;
 import net.ionoff.center.server.message.event.RelayStatusChangedEvent;
-import net.ionoff.center.server.notifier.RelayStatusNotifier;
+import net.ionoff.center.server.message.RelayStatusNotifier;
 import net.ionoff.center.server.persistence.dao.IModeDao;
 import net.ionoff.center.server.persistence.dao.ISceneDao;
 import net.ionoff.center.server.persistence.dao.ISceneDeviceDao;

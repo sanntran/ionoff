@@ -8,15 +8,18 @@ import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import net.ionoff.center.server.config.AppConfig;
 import net.ionoff.center.server.persistence.dao.IDeviceDao;
 import net.xapxinh.center.server.api.player.PlayerConnection;
 import net.xapxinh.center.server.entity.Player;
 import net.xapxinh.center.server.service.player.AbstractPlayerConnectionPool;
+import org.springframework.beans.factory.annotation.Value;
 
 public class PlayerConnectionPool extends AbstractPlayerConnectionPool {
 
 	private static final Logger LOGGER = Logger.getLogger(PlayerConnectionPool.class.getName());
+
+	@Value("${tcpserver.player.port}")
+	private Integer  tcpServerPlayerPort;
 
 	@Autowired
 	private IDeviceDao deviceDao;
@@ -37,7 +40,7 @@ public class PlayerConnectionPool extends AbstractPlayerConnectionPool {
 
 	@Override
 	protected int getTcpPort() {
-		return AppConfig.getInstance().PLAYER_TCP_SERVER_PORT;
+		return tcpServerPlayerPort;
 	}
 	
 	@Override

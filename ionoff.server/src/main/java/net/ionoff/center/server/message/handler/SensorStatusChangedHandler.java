@@ -1,4 +1,4 @@
-package net.ionoff.center.server.notifier.handler;
+package net.ionoff.center.server.message.handler;
 
 import java.util.Collections;
 import java.util.List;
@@ -10,11 +10,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import net.ionoff.center.server.control.IControlService;
-import net.ionoff.center.server.email.service.EmailService;
+import net.ionoff.center.server.notify.EmailService;
 import net.ionoff.center.server.entity.ModeSensor;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.persistence.dao.IModeSensorDao;
-import net.ionoff.center.server.sms.service.SmsService;
+import net.ionoff.center.server.notify.SmsService;
 
 public class SensorStatusChangedHandler {
 	

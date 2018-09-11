@@ -19,7 +19,7 @@ import net.ionoff.center.server.entity.UserDevice;
 import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.entity.Zone;
 import net.ionoff.center.server.message.event.SensorStatusChangedEvent;
-import net.ionoff.center.server.notifier.SensorStatusNotifier;
+import net.ionoff.center.server.message.SensorStatusNotifier;
 import net.ionoff.center.server.objmapper.DeviceMapper;
 import net.ionoff.center.server.persistence.dao.IDeviceDao;
 import net.ionoff.center.server.persistence.dao.IUserDao;

@@ -1,4 +1,4 @@
-package net.ionoff.center.server.notifier.handler;
+package net.ionoff.center.server.message.handler;
 
 import org.apache.log4j.Logger;
 

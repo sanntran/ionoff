@@ -22,12 +22,12 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
 
 import net.ionoff.center.server.license.LicenseManager;
-import net.ionoff.center.server.notifier.RelayStatusNotifier;
-import net.ionoff.center.server.notifier.SensorStatusNotifier;
-import net.ionoff.center.server.notifier.handler.RelayStatusChangedHandler;
-import net.ionoff.center.server.notifier.handler.SensorStatusChangedHandler;
-import net.ionoff.center.server.notifier.listener.RelayStatusChangedListener;
-import net.ionoff.center.server.notifier.listener.SensorStatusChangedListener;
+import net.ionoff.center.server.message.RelayStatusNotifier;
+import net.ionoff.center.server.message.SensorStatusNotifier;
+import net.ionoff.center.server.message.handler.RelayStatusChangedHandler;
+import net.ionoff.center.server.message.handler.SensorStatusChangedHandler;
+import net.ionoff.center.server.message.listener.RelayStatusChangedListener;
+import net.ionoff.center.server.message.listener.SensorStatusChangedListener;
 import net.ionoff.center.server.thread.ServerThreadPool;
 
 @Component

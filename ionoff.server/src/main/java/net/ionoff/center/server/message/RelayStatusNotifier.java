@@ -1,4 +1,4 @@
-package net.ionoff.center.server.notifier;
+package net.ionoff.center.server.message;
 
 import java.util.Observable;
 import java.util.Observer;
