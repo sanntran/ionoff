@@ -18,18 +18,12 @@ public class RelayStatusChangedHandler {
 	
 	private static Logger logger = Logger.getLogger(RelayStatusChangedHandler.class.getName());
 
-	private Timer timer;
-	
 	@Autowired
 	private IControlService controlService;
 	
 	@Autowired
 	private IRelayGroupDao relayGroupDao;
-	
-	public RelayStatusChangedHandler() {
-		timer = new Timer();
-	}
-	
+
 	@Async
 	public void onRelayStatusChanged(Relay relay) {
 		if (relay == null) {
@@ -77,6 +71,7 @@ public class RelayStatusChangedHandler {
 	}
 
 	private void scheduleRevertRelayState(Relay relay) {
+		Timer timer = new Timer();
 		logger.info("Schedule revert relay " + relay.getNameId() + " state for " + relay.getAutoRevert() + " second");
 		timer.schedule(new TimerTask() {
 			@Override

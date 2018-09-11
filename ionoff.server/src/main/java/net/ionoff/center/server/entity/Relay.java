@@ -79,14 +79,14 @@ public class Relay extends BaseObj {
 		if (newStatus == null) {
 			return false;
 		}
-		if (device != null && device.hasOneRelay() && newStatus.equals(device.getStatus())) {
+		if (device != null && device.hasOneRelay() && !newStatus.equals(device.getStatus())) {
+			status = newStatus;
 			return true;
 		}
 		if (status != null && status.equals(newStatus)) {
 			return false;
 		}
 		status = newStatus;
-		time = new Date();
 		return true;
 	}
 	
