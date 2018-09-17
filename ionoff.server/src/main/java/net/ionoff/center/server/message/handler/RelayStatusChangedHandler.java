@@ -1,8 +1,9 @@
 package net.ionoff.center.server.message.handler;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import net.ionoff.center.server.persistence.dao.IRelayGroupDao;
 public class RelayStatusChangedHandler {
 	
 	private static Logger logger = Logger.getLogger(RelayStatusChangedHandler.class.getName());
+
+	private static final ScheduledExecutorService SCHEDULER_EXECUTOR = Executors.newScheduledThreadPool(1);
 
 	@Autowired
 	private IControlService controlService;
@@ -71,13 +74,36 @@ public class RelayStatusChangedHandler {
 	}
 
 	private void scheduleRevertRelayState(Relay relay) {
-		Timer timer = new Timer();
 		logger.info("Schedule revert relay " + relay.getNameId() + " state for " + relay.getAutoRevert() + " second");
-		timer.schedule(new TimerTask() {
+		SCHEDULER_EXECUTOR.schedule(new Runnable() {
 			@Override
 			public void run() {
-				controlService.setRelayState(relay, false);
+				logger.info("Execute revert relay " + relay.getNameId() + " after " + relay.getAutoRevert() + " second");
+				tryToRevertRelayState(relay, 1);
+			}}, relay.getAutoRevert(), TimeUnit.SECONDS);
+	}
+	
+	private void tryToRevertRelayState(Relay relay, int retry) {
+		if (retry > 1) {
+			if (retry > 3) {
+				logger.error("Failed to revert relay state " + relay.getNameId());
+				return;
 			}
-		}, relay.getAutoRevert() * 1000);
+			else {
+				logger.error("Retry (" + retry + ") to revert relay state " + relay.getNameId());
+			}
+		}
+		try {
+			controlService.setRelayState(relay, false);
+		}
+		catch (Exception e) {
+			logger.error("Error when revert relay state " + relay.getNameId(), e);
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException ie) {
+				logger.error("InterruptedException " + ie.getMessage());
+			}
+			tryToRevertRelayState(relay, retry + 1);
+		}
 	}
 }

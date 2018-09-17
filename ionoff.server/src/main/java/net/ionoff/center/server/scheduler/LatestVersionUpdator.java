@@ -29,19 +29,22 @@ public class LatestVersionUpdator {
 	private String poolFolderPath;
 	private String latestJsonPath;
 	private String cronFolderPath;
-	private String latestVesionUrl;
+	private String latestReleaseUrl;
+	private String releaseSiteUrl;
 
 	public LatestVersionUpdator(@Value("${version}") String appVersion,
 								@Value("${tomcat.update.cron}") String cronFolder,
 								@Value("${tomcat.update.pool}") String poolFolder,
 								@Value("${tomcat.update.latest}") String latestJson,
-								@Value("${service.release.latest}") String latestVesionUrl) {
+								@Value("${service.release.site}") String releaseSiteUrl,
+								@Value("${service.release.latest}") String latestReleaseUrl) {
 		this.appVersion = appVersion;
 		String catalinaBase = getCatalinaBase();
 		this.poolFolderPath = catalinaBase + File.separator + poolFolder;
 		this.latestJsonPath = catalinaBase + File.separator + latestJson;
 		this.cronFolderPath = catalinaBase + File.separator + cronFolder;
-		this.latestVesionUrl = latestVesionUrl;
+		this.latestReleaseUrl = latestReleaseUrl;
+		this.releaseSiteUrl = releaseSiteUrl;
 	}
 
 	@Scheduled(fixedDelay = 3600000) // 1 hour
@@ -66,7 +69,7 @@ public class LatestVersionUpdator {
 	}
 
 	public VersionDto getLatestVersion() throws IOException {
-		String updateSiteLatestVersionJson = HttpRequestUtil.sendGetRequest(latestVesionUrl);
+		String updateSiteLatestVersionJson = HttpRequestUtil.sendGetRequest(latestReleaseUrl);
 		LOGGER.info("Latest version from update site: \n" + updateSiteLatestVersionJson);
 		VersionDto latestVersion = new Gson().fromJson(updateSiteLatestVersionJson, VersionDto.class);
 		return latestVersion;
@@ -107,7 +110,7 @@ public class LatestVersionUpdator {
 		FileManagementUtil.deleteFile(poolFolderPath);
 		File updateFolder = new File(poolFolderPath);
 		updateFolder.mkdir();
-		String zipFileUrl = poolFolderPath + File.separator + zipFileName;
+		String zipFileUrl = releaseSiteUrl + zipFileName;
 		String localDownloadFile = poolFolderPath + File.separator + zipFileName;
 		String zipFile = FileDownloadUtil.downloadFile(zipFileUrl, localDownloadFile);
 		return zipFile;

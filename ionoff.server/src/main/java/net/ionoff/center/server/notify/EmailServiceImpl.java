@@ -23,7 +23,7 @@ public class EmailServiceImpl implements EmailService {
 	private RestTemplate restTemplate;
 	private Gson gson;
 
-	@Value("${ service.notify.url}")
+	@Value("${service.notify.url}")
 	private String  notifyServiceUrl;
 
 	public EmailServiceImpl() {

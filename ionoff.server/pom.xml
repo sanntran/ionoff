@@ -9,6 +9,7 @@
 		<relativePath>../ionoff/pom.xml</relativePath>
 	</parent>
 	
+	<groupId>net.ionoff</groupId>
 	<artifactId>ionoff.server</artifactId>
 	<packaging>war</packaging>
 	<name>ionoff.server</name> 

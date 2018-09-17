@@ -22,9 +22,10 @@ import net.ionoff.center.server.entity.SceneDevice;
 import net.ionoff.center.server.entity.ScenePlayerAction;
 import net.ionoff.center.server.entity.SceneRelayAction;
 import net.ionoff.center.server.exception.RelayLockedException;
-import net.ionoff.center.server.message.event.RelayStatusChangedEvent;
 import net.ionoff.center.server.message.RelayStatusNotifier;
+import net.ionoff.center.server.message.event.RelayStatusChangedEvent;
 import net.ionoff.center.server.persistence.dao.IModeDao;
+import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
 import net.ionoff.center.server.persistence.dao.ISceneDao;
 import net.ionoff.center.server.persistence.dao.ISceneDeviceDao;
 import net.ionoff.center.server.persistence.service.IRelayService;
@@ -70,6 +71,9 @@ public class ControlServiceImpl implements IControlService {
 	@Autowired
 	private RelayDriverApiProvider relayDriverApiProvider;
 	
+	@Autowired
+	private IRelayDriverDao relayDriverDao;
+	
 	@Override
 	public StatusDto switchOn(long relayId) {
 		final Relay relay = relayService.requireById(relayId);
@@ -104,55 +108,56 @@ public class ControlServiceImpl implements IControlService {
 		if (state == null) {
 			return;
 		}
+		Long driverId  = relay.getDriver().getId();
+		RelayDriver relayDriver = relayDriverDao.findById(driverId);
+		
 		if (Boolean.TRUE.equals(relay.getIsLocked())) {
-			throw new RelayLockedException(relay.getName() + " (" + relay.getDriver().getName() + ")");
+			throw new RelayLockedException(relay.getName() + " (" + relayDriver.getName() + ")");
 		}
 		if (state.equals(relay.getStatus())) {
-			RelayDriver relayDriver = relay.getDriver();
+			
 			if (!RelayDriverModel.HBQ_EC100.toString().equals(relayDriver.getModel()) && 
 					RelayDriverModel.HLAB_EP2.toString().equals(relayDriver.getModel())) {
+				logger.info("Update relay state of relay "
+						+ relay.getLabel() + " of " +  relayDriver.getModel() + " to " + state);
 				relayService.update(relay, state);
 				return;
 			}
 		}
 		if (!relay.izAutoRevert() || Boolean.FALSE.equals(state)) {
-			sendRelayCommand(relay, state);
+			sendRelayCommand(relayDriver, relay, state);
 		}
 		else {
-			sendRelayCommand(relay, state, relay.getAutoRevert());
+			sendRelayCommand(relayDriver, relay, state, relay.getAutoRevert());
 			if (relay.izButton()) {								
 				relayService.update(relay, false);
 			}
 		}
 	}
 	
-	private void sendRelayCommand(Relay relay, Boolean state) {
+	private void sendRelayCommand(RelayDriver relayDriver, Relay relay, Boolean state) {
 		if (Boolean.TRUE.equals(state)) {
-			RelayDriver relayDriver = relay.getDriver();
-			relayDriverApiProvider.getRelayDriverApi(relayDriver).closeRelay(relayDriver, relay.getIndex());
 			logger.info("Update relay status " + relay.getNameId() + ": true");
+			relayDriverApiProvider.getRelayDriverApi(relayDriver).closeRelay(relayDriver, relay.getIndex());
 			relayService.update(relay, true);
 			notifyRelayStateChanged(relay);
 		}
 		else if (Boolean.FALSE.equals(state)) {
-			RelayDriver relayDriver = relay.getDriver();
-			relayDriverApiProvider.getRelayDriverApi(relayDriver).openRelay(relayDriver, relay.getIndex());
 			logger.info("Update relay status " + relay.getNameId() + ": false");
+			relayDriverApiProvider.getRelayDriverApi(relayDriver).openRelay(relayDriver, relay.getIndex());
 			relayService.update(relay, false);
 			notifyRelayStateChanged(relay); 
 		}
 	}
 	
-	private void sendRelayCommand(Relay relay, Boolean state, Integer autoRevert) {
+	private void sendRelayCommand(RelayDriver relayDriver, Relay relay, Boolean state, Integer autoRevert) {
 		if (Boolean.TRUE.equals(state)) {
-			RelayDriver relayDriver = relay.getDriver();
 			relayDriverApiProvider.getRelayDriverApi(relayDriver).closeRelay(relayDriver, relay.getIndex(), autoRevert);
 			logger.info("Update relay status " + relay.getNameId() + ": true");
 			relayService.update(relay, true);
 			notifyRelayStateChanged(relay);
 		}
 		else if (Boolean.FALSE.equals(state)) {
-			RelayDriver relayDriver = relay.getDriver();
 			relayDriverApiProvider.getRelayDriverApi(relayDriver).openRelay(relayDriver, relay.getIndex(), autoRevert);
 			logger.info("Update relay status " + relay.getNameId() + ": false");
 			relayService.update(relay, false);

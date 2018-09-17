@@ -10,8 +10,8 @@
 		http://www.springframework.org/schema/tx
 		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
-	<context:property-placeholder location="classpath:persistence.properties"/>
-	<context:property-placeholder location="file:${catalina.home}/conf/ionoff/persistence.properties"/>
+	<context:property-placeholder location="classpath:application.properties,
+											classpath:persistence.properties"/>
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
