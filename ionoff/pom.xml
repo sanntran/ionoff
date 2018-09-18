@@ -19,6 +19,7 @@
   		<module>../ionoff.client</module>
  		<module>../ionoff.server</module>
 		<module>../ionoff.webhook</module>
+		<module>../ionoff.broker</module>
 	</modules>
 
 </project>
