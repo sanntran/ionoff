@@ -1,6 +1,7 @@
 package net.ionoff.broker.tcp;
 
 
+import net.ionoff.broker.tcp.handler.SocketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,11 +20,13 @@ public class SocketManager extends Thread {
 
 	@Override
 	public void run() {
-		try {
-			Thread.sleep(100);
-			closeSocketIfTimeOut();
-		} catch (InterruptedException e) {
-			LOGGER.error("InterruptedException: " + e.getMessage());
+		for (; true; ) {
+			try {
+				Thread.sleep(100);
+				closeSocketIfTimeOut();
+ 			} catch (Throwable t) {
+				LOGGER.error(t.getClass().getSimpleName() + ": " + t.getMessage());
+			}
 		}
 	}
 
@@ -32,7 +35,7 @@ public class SocketManager extends Thread {
 		while (iterator.hasNext()) {
 			Map.Entry<String, SocketHandler> entry = iterator.next();
 			if (entry.getValue().isTimeOut()) {
-
+				entry.getValue().close();
 			}
 		}
 	}
@@ -74,15 +77,10 @@ public class SocketManager extends Thread {
 		return socketHandler;
 	}
 
-	public void removeSocketHandler(String clientId) {
-		if (clientId == null) {
-			return;
-		}
-		String socketId = socketIds.get(clientId);
+	public void removeSocketHandler(String socketId) {
 		if (socketId == null) {
 			return;
 		}
-		socketIds.remove(clientId);
 		socketHandlers.remove(socketId);
 	}
 
@@ -90,7 +88,11 @@ public class SocketManager extends Thread {
 		if (clientId == null) {
 			return null;
 		}
-		return socketHandlers.get(socketIds.get(clientId));
+		String socketId = socketIds.get(clientId);
+		if (socketId == null) {
+			return null;
+		}
+		return socketHandlers.get(socketId);
 	}
 
 	public void putToSocketIds(String clientId, String socketId) {

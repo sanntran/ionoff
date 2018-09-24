@@ -1,5 +1,7 @@
 package net.ionoff.broker.tcp;
 
+import net.ionoff.broker.mqtt.MqttBroker;
+import net.ionoff.broker.tcp.handler.SocketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,37 +14,22 @@ public class TcpBroker extends Thread {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TcpBroker.class);
 
 	private static final SocketManager SOCKET_MANAGER = new SocketManager();
-
 	private static final int TCP_SERVER_PORT = 8118;
-	private static final String STARTED = "RS";
-	private static final String CHANGED = "CH";
-	private static final String STATUSS = "ST";
 
-	private boolean shutdownFlag;
 	private ServerSocket serverSocket;
+	private final MqttBroker mqttBroker;
 
-
-	public TcpBroker() {
-		shutdownFlag = false;
+	public TcpBroker(MqttBroker mqttBroker) {
+		this.mqttBroker = mqttBroker;
 	}
 
 	@Override
 	public void run() {
-		LOGGER.info("Thread has been started !");
+		LOGGER.info("TCP server is listening on port " + TCP_SERVER_PORT);
 		try {
+			SOCKET_MANAGER.start();
 			serverSocket = new ServerSocket(TCP_SERVER_PORT);
 			for (; true;) {
-				if (shutdownFlag) {
-					for (; !serverSocket.isClosed();) {
-						try {
-							LOGGER.info("Closing server socket...");
-							serverSocket.close();
-						} catch (IOException e) {
-							LOGGER.error(e.getMessage(), e);
-						}
-					}
-					return;
-				}
 				try {
 					if (serverSocket.isClosed()) {
 						break;
@@ -64,31 +51,20 @@ public class TcpBroker extends Thread {
 	}
 
 	private void handleSocket(Socket socket) throws Exception {
-		SocketHandler requestHandler = new SocketHandler(socket, SOCKET_MANAGER);
+		SocketHandler requestHandler = new SocketHandler(socket, this, mqttBroker);
+		SOCKET_MANAGER.putToSocketHandlers(requestHandler.getSocketId(), requestHandler);
 		requestHandler.start();
 	}
 
-
-	public void shutdown() {
-		shutdownFlag = true;
-		for (; !serverSocket.isClosed();) {
-			try {
-				LOGGER.info("Closing relayDriver server socket...");
-				serverSocket.close();
-			} catch (Exception e) {
-				LOGGER.error(e.getMessage(), e);
-			}
-		}
-		LOGGER.info("Stopping the connection pool...");
-		interrupt();
-	}
-
 	public String sendCommand(String clientId, String command) throws IOException {
-		SocketHandler connection = SOCKET_MANAGER.getSocketHandler(clientId);
-		if (connection == null || connection.isLocked()) {
+		SocketHandler socketHandler = SOCKET_MANAGER.getSocketHandler(clientId);
+		if (socketHandler == null || socketHandler.isLocked()) {
 			throw new NoSocketException(clientId);
 		}
-		return connection.sendCommand(command);
+		return socketHandler.sendCommand(command);
 	}
 
+	public SocketManager getSocketManager() {
+		return SOCKET_MANAGER;
+	}
 }

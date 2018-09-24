@@ -48,19 +48,16 @@ public class HttpRequest {
         try {
             // Read the request line
             String inLine = in.readLine();
-            if (inLine == null) {
-                return;
-            }
-            if (inLine.split(":").length == 2) {
-                throw new ClientException(Status.BAD_REQUEST.getStatus(), inLine);
+            if (inLine == null || !inLine.contains("HTTP")) {
+                throw new HttpException(inLine);
             }
             StringTokenizer st = new StringTokenizer(inLine);
             if (!st.hasMoreTokens()) {
-               throw new ClientException(Status.BAD_REQUEST.getStatus(), "Syntax error. Missing method");
+               throw new ClientException(Status.BAD_REQUEST, "Syntax error. Missing method");
             }
             pre.put("method", st.nextToken());
             if (!st.hasMoreTokens()) {
-               throw new ClientException(Status.BAD_REQUEST.getStatus(), "Syntax error. Missing URI");
+               throw new ClientException(Status.BAD_REQUEST, "Syntax error. Missing URI");
             }
             String uri = st.nextToken();
             // Decode parameters from the URI
@@ -143,7 +140,6 @@ public class HttpRequest {
         }
     }
 
-   
     public void readRequest() throws IOException {
         // Read the first 8192 bytes.
         // The full header should fit in here.
@@ -170,6 +166,14 @@ public class HttpRequest {
         while (read > 0) {
             this.rlen += read;
             this.splitbyte = findHeaderEnd(buf, this.rlen);
+            if (splitbyte == 0) {
+                for (int i = 0; i < read; i++) {
+                    if ((char) buf[i] == ':') {
+                       splitbyte = 2;
+                       break;
+                    }
+                }
+            }
             if (this.splitbyte > 0) {
                 break;
             }
@@ -185,7 +189,6 @@ public class HttpRequest {
         } else {
             this.headers.clear();
         }
-        // Create a BufferedReader for parsing the header.
         BufferedReader hin = new BufferedReader(
                 new InputStreamReader(new ByteArrayInputStream(buf, 0, this.rlen)));
         // Decode the header into parms and header java properties
@@ -194,7 +197,7 @@ public class HttpRequest {
 
         this.method = Method.lookup(pre.get("method"));
         if (this.method == null) {
-            throw new ClientException(Status.BAD_REQUEST.getStatus(),
+            throw new ClientException(Status.BAD_REQUEST,
                     "Syntax error. HTTP verb " + pre.get("method") + " unhandled.");
         }
         this.uri = pre.get("uri");
@@ -299,4 +302,7 @@ public class HttpRequest {
         }
     }
 
+    public String getBody() {
+        return body;
+    }
 }

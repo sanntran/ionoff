@@ -2,14 +2,14 @@ package net.ionoff.broker.tcp;
 
 public class ClientException extends RuntimeException {
 
-    private int status;
+    private Status status;
 
-    public ClientException(int status, String message) {
+    public ClientException(Status status, String message) {
         super(message);
         this.status = status;
     }
 
-    public int getStatus() {
+    public Status getStatus() {
         return status;
     }
 }
