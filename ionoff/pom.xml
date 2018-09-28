@@ -20,6 +20,7 @@
  		<module>../ionoff.server</module>
 		<module>../ionoff.webhook</module>
 		<module>../ionoff.broker</module>
+		<module>../ionoff.player</module>
 	</modules>
 
 </project>
