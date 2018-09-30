@@ -1,6 +1,6 @@
-package net.ionoff.server.webhook.controller;
+package net.ionoff.webhook.controller;
 
-import net.ionoff.server.webhook.model.MessageDto;
+import net.ionoff.webhook.dto.MessageDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;

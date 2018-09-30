@@ -1,4 +1,4 @@
-package net.ionoff.server.webhook.model;
+package net.ionoff.webhook.dto;
 
 import java.io.Serializable;
 
