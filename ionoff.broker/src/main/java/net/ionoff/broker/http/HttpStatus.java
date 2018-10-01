@@ -1,6 +1,6 @@
-package net.ionoff.broker.tcp;
+package net.ionoff.broker.http;
 
-public enum Status {
+public enum HttpStatus {
     SWITCH_PROTOCOL(101, "Switching Protocols"),
 
     OK(200, "OK"),
@@ -8,7 +8,7 @@ public enum Status {
     ACCEPTED(202, "Accepted"),
     NO_CONTENT(204, "No Content"),
     PARTIAL_CONTENT(206, "Partial Content"),
-    MULTI_STATUS(207, "Multi-Status"),
+    MULTI_STATUS(207, "Multi-HttpStatus"),
 
     REDIRECT(301, "Moved Permanently"),
     /**
@@ -27,7 +27,7 @@ public enum Status {
     UNAUTHORIZED(401, "Unauthorized"),
     FORBIDDEN(403, "Forbidden"),
     NOT_FOUND(404, "Not Found"),
-    METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
+    METHOD_NOT_ALLOWED(405, "HttpMethod Not Allowed"),
     NOT_ACCEPTABLE(406, "Not Acceptable"),
     REQUEST_TIMEOUT(408, "Request Timeout"),
     CONFLICT(409, "Conflict"),
@@ -49,13 +49,13 @@ public enum Status {
 
     private final String description;
 
-    Status(int status, String description) {
+    HttpStatus(int status, String description) {
         this.status = status;
         this.description = description;
     }
 
-    public static Status lookup(int status) {
-        for (Status s : Status.values()) {
+    public static HttpStatus lookup(int status) {
+        for (HttpStatus s : HttpStatus.values()) {
             if (s.getStatus() == status) {
                 return s;
             }

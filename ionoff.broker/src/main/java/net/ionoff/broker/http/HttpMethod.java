@@ -1,6 +1,6 @@
-package net.ionoff.broker.tcp;
+package net.ionoff.broker.http;
 
-public enum Method {
+public enum HttpMethod {
     GET,
     PUT,
     POST,
@@ -20,7 +20,7 @@ public enum Method {
     NOTIFY,
     SUBSCRIBE;
 
-    public static Method lookup(String method) {
+    public static HttpMethod lookup(String method) {
         if (method == null)
             return null;
 

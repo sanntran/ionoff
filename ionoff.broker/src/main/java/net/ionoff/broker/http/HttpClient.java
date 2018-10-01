@@ -1,6 +1,5 @@
-package net.ionoff.broker.tcp.handler;
+package net.ionoff.broker.http;
 
-import net.ionoff.broker.MainRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

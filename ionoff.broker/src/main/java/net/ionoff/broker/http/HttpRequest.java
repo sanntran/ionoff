@@ -1,5 +1,8 @@
-package net.ionoff.broker.tcp;
+package net.ionoff.broker.http;
 
+import net.ionoff.broker.tcp.ClientException;
+import net.ionoff.broker.tcp.ContentType;
+import net.ionoff.broker.tcp.ServerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +30,7 @@ public class HttpRequest {
 
     private String uri;
 
-    private Method method;
+    private HttpMethod method;
 
     private Map<String, List<String>> parms;
 
@@ -53,11 +56,11 @@ public class HttpRequest {
             }
             StringTokenizer st = new StringTokenizer(inLine);
             if (!st.hasMoreTokens()) {
-               throw new ClientException(Status.BAD_REQUEST, "Syntax error. Missing method");
+               throw new ClientException(HttpStatus.BAD_REQUEST, "Syntax error. Missing method");
             }
             pre.put("method", st.nextToken());
             if (!st.hasMoreTokens()) {
-               throw new ClientException(Status.BAD_REQUEST, "Syntax error. Missing URI");
+               throw new ClientException(HttpStatus.BAD_REQUEST, "Syntax error. Missing URI");
             }
             String uri = st.nextToken();
             // Decode parameters from the URI
@@ -195,9 +198,9 @@ public class HttpRequest {
         Map<String, String> pre = new HashMap<>();
         decodeHeader(hin, pre, this.parms, this.headers);
 
-        this.method = Method.lookup(pre.get("method"));
+        this.method = HttpMethod.lookup(pre.get("method"));
         if (this.method == null) {
-            throw new ClientException(Status.BAD_REQUEST,
+            throw new ClientException(HttpStatus.BAD_REQUEST,
                     "Syntax error. HTTP verb " + pre.get("method") + " unhandled.");
         }
         this.uri = pre.get("uri");
@@ -231,7 +234,7 @@ public class HttpRequest {
     }
 
    
-    public final Method getMethod() {
+    public final HttpMethod getMethod() {
         return this.method;
     }
 
@@ -284,7 +287,7 @@ public class HttpRequest {
         }
         // If the method is POST, there may be parameters
         // in data section, too, read it:
-        if (Method.POST.equals(this.method) || Method.PUT.equals(this.method)) {
+        if (HttpMethod.POST.equals(this.method) || HttpMethod.PUT.equals(this.method)) {
             ContentType contentType = new ContentType(this.headers.get("content-type"));
             if (contentType.isMultipart()) {
                 throw new ServerException("Not support content type multipart/form-data");

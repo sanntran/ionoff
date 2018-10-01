@@ -1,6 +1,10 @@
 package net.ionoff.broker.tcp.handler;
 
 import com.google.gson.Gson;
+import net.ionoff.broker.http.HttpException;
+import net.ionoff.broker.http.HttpRequest;
+import net.ionoff.broker.http.HttpResponse;
+import net.ionoff.broker.http.HttpStatus;
 import net.ionoff.broker.mqtt.MqttBroker;
 import net.ionoff.broker.tcp.*;
 import org.slf4j.Logger;
@@ -62,7 +66,7 @@ public class SocketHandler extends Thread {
 		}
 		catch (HttpException he) {
 			String message = he.getMessage();
-			if (message != null && message.split(":").length == 2) {
+			if (message != null) {
 				handlePicMessage(message);
 			}
 			else {
@@ -76,21 +80,21 @@ public class SocketHandler extends Thread {
 			sendResponse(ce.getStatus(), data);
 
 		} catch (ServerException se) {
-			ResponseBody response = new ResponseBody(Status.INTERNAL_ERROR.getStatus(),
-					Status.INTERNAL_ERROR.getDescription(), se.getMessage());
+			ResponseBody response = new ResponseBody(HttpStatus.INTERNAL_ERROR.getStatus(),
+					HttpStatus.INTERNAL_ERROR.getDescription(), se.getMessage());
 			String data = GSON.toJson(response);
-			sendResponse(Status.INTERNAL_ERROR, data);
+			sendResponse(HttpStatus.INTERNAL_ERROR, data);
 		} catch (Throwable t) {
-			ResponseBody response = new ResponseBody(Status.INTERNAL_ERROR.getStatus(),
-					Status.INTERNAL_ERROR.getDescription(), t.getMessage());
+			ResponseBody response = new ResponseBody(HttpStatus.INTERNAL_ERROR.getStatus(),
+					HttpStatus.INTERNAL_ERROR.getDescription(), t.getMessage());
 			String data = GSON.toJson(response);
-			sendResponse(Status.INTERNAL_ERROR, data);
+			sendResponse(HttpStatus.INTERNAL_ERROR, data);
 		}
 	}
 
 	private void handlePicMessage(String message) {
-		PicMessage picMessage = new PicMessage(message);
-		addClientIdToSocketManager(picMessage);
+		TcpMessage tcpMessage = new TcpMessage(message);
+		addClientIdToSocketManager(tcpMessage);
 		publishMessageToCollector(message);
 	}
 
@@ -100,7 +104,7 @@ public class SocketHandler extends Thread {
 
 	private void handleHttpRequest(HttpRequest httpRequest) {
 		ResponseBody response = new HttpHandler(tcpBroker, mqttBroker).handleHttpRequest(httpRequest);
-		sendResponse(Status.OK, GSON.toJson(response));
+		sendResponse(HttpStatus.OK, GSON.toJson(response));
 	}
 
 	@Override
@@ -108,13 +112,13 @@ public class SocketHandler extends Thread {
 		handleSocket();
 	}
 
-	private void addClientIdToSocketManager(PicMessage picMessage) {
-		SocketHandler socketHandler = tcpBroker.getSocketManager().findSocketHandler(picMessage.getKeyId());
+	private void addClientIdToSocketManager(TcpMessage tcpMessage) {
+		SocketHandler socketHandler = tcpBroker.getSocketManager().findSocketHandler(tcpMessage.getKeyId());
 		if (socketHandler != null) {
 			socketHandler.close();
-			tcpBroker.getSocketManager().removeSocketHandler(picMessage.getKeyId());
+			tcpBroker.getSocketManager().removeSocketHandler(tcpMessage.getKeyId());
 		}
-		tcpBroker.getSocketManager().putToSocketIds(picMessage.getKeyId(), socketId);
+		tcpBroker.getSocketManager().putToSocketIds(tcpMessage.getKeyId(), socketId);
 	}
 
 	public synchronized String sendCommand(String command) throws IOException {
@@ -125,7 +129,7 @@ public class SocketHandler extends Thread {
 		return resp;
 	}
 
-	synchronized void sendResponse(Status status, String response) {
+	synchronized void sendResponse(HttpStatus status, String response) {
 		timeOut = System.currentTimeMillis() + 5000;
 		try {
 			HttpResponse.newFixedLengthResponse(status, response).send(outputStream);

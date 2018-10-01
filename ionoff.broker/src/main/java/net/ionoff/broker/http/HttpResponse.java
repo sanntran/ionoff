@@ -1,5 +1,6 @@
-package net.ionoff.broker.tcp;
+package net.ionoff.broker.http;
 
+import net.ionoff.broker.tcp.ContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +28,7 @@ public class HttpResponse implements Closeable {
     public static final String MIME_JSON = "application/json";
 
 
-    private Status status;
+    private HttpStatus status;
 
     private String mimeType;
 
@@ -49,11 +50,11 @@ public class HttpResponse implements Closeable {
 
     private final Map<String, String> lowerCaseHeader = new HashMap<String, String>();
 
-    private Method requestMethod;
+    private HttpMethod requestMethod;
 
     private boolean keepAlive;
 
-    protected HttpResponse(Status status, String mimeType, InputStream data, long totalBytes) {
+    protected HttpResponse(HttpStatus status, String mimeType, InputStream data, long totalBytes) {
         this.status = status;
         this.mimeType = mimeType;
         if (data == null) {
@@ -100,11 +101,11 @@ public class HttpResponse implements Closeable {
         return this.mimeType;
     }
 
-    public Method getRequestMethod() {
+    public HttpMethod getRequestMethod() {
         return this.requestMethod;
     }
 
-    public Status getStatus() {
+    public HttpStatus getStatus() {
         return this.status;
     }
 
@@ -117,7 +118,7 @@ public class HttpResponse implements Closeable {
         gmtFrmt.setTimeZone(TimeZone.getTimeZone("GMT"));
         try {
             if (this.status == null) {
-                throw new Error("sendResponse(): Status can't be null.");
+                throw new Error("sendResponse(): HttpStatus can't be null.");
             }
             PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(outputStream, new ContentType(this.mimeType).getEncoding())), false);
             pw.append("HTTP/1.1 ").append(this.status.getDescription()).append(" \r\n");
@@ -199,23 +200,23 @@ public class HttpResponse implements Closeable {
         this.mimeType = mimeType;
     }
 
-    public void setRequestMethod(Method requestMethod) {
+    public void setRequestMethod(HttpMethod requestMethod) {
         this.requestMethod = requestMethod;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(HttpStatus status) {
         this.status = status;
     }
 
-    public static HttpResponse newFixedLengthResponse(Status status, String mimeType, byte[] data) {
+    public static HttpResponse newFixedLengthResponse(HttpStatus status, String mimeType, byte[] data) {
         return newFixedLengthResponse(status, mimeType, new ByteArrayInputStream(data), data.length);
     }
 
-    public static HttpResponse newFixedLengthResponse(Status status, String mimeType, InputStream data, long totalBytes) {
+    public static HttpResponse newFixedLengthResponse(HttpStatus status, String mimeType, InputStream data, long totalBytes) {
         return new HttpResponse(status, mimeType, data, totalBytes);
     }
 
-    public static HttpResponse newFixedLengthResponse(Status status, String mimeType, String txt) {
+    public static HttpResponse newFixedLengthResponse(HttpStatus status, String mimeType, String txt) {
         ContentType contentType = new ContentType(mimeType);
         if (txt == null) {
             return newFixedLengthResponse(status, mimeType, new ByteArrayInputStream(new byte[0]), 0);
@@ -235,12 +236,12 @@ public class HttpResponse implements Closeable {
         }
     }
 
-    public static HttpResponse newFixedLengthResponse(Status status, String msg) {
+    public static HttpResponse newFixedLengthResponse(HttpStatus status, String msg) {
         return newFixedLengthResponse(status, MIME_JSON, msg);
     }
 
     public static HttpResponse newFixedLengthResponse(String msg) {
-        return newFixedLengthResponse(Status.OK, MIME_JSON, msg);
+        return newFixedLengthResponse(HttpStatus.OK, MIME_JSON, msg);
     }
 
 }

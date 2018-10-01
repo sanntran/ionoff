@@ -1,9 +1,9 @@
 package net.ionoff.broker.tcp;
 
-public class PicMessage {
+public class TcpMessage {
     private String keyId;
 
-    public PicMessage(String message) {
+    public TcpMessage(String message) {
         String messageItems[] = message.split(":");
         String dataItems[] = messageItems[1].split(",");
         if (dataItems.length == 3) {

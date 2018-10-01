@@ -49,13 +49,13 @@ public class MosquittoClient implements MqttCallback {
 	@Value("${mqtt.broker.url}")
 	private String brockerUrl;
 
-	@Value("${mqtt.topic.ionoff.net}")
+	@Value("${mqtt.topic.ionoffnet}")
 	private String defaultTopic;
 
-	@Value("${mqtt.topic.ionoff.relaydriver}")
+	@Value("${mqtt.topic.relaydriver}")
 	private String topicRelayDriver;
 
-	@Value("${mqtt.topic.ionoff.sensordriver}")
+	@Value("${mqtt.topic.sensordriver}")
 	private String topicSensorDriver;
 
 	@Autowired

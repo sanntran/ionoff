@@ -3,14 +3,14 @@ package net.ionoff.broker.mqtt;
 import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 
-public class MqttClient {
+public class MqttRequest {
 
     private String uuid;
     private String topic;
     private String response;
     private MqttBroker mqttBroker;
 
-    public MqttClient(MqttBroker mqttBroker) {
+    public MqttRequest(MqttBroker mqttBroker) {
         uuid = UUID.randomUUID().toString();
         this.mqttBroker = mqttBroker;
     }
@@ -38,7 +38,7 @@ public class MqttClient {
 
     public String sendMqttRequest(String topic, String payload) throws TimeoutException {
         this.topic = topic;
-        mqttBroker.addPendingClient(this);
+        mqttBroker.addPendingRequest(this);
         mqttBroker.publishMessage(topic, payload);
         for (int i = 0; i < 100; i++) { // 10000 milisecond
             try {

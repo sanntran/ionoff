@@ -25,7 +25,7 @@ public class MqttBroker extends AbstractVerticle {
 
     public static final List<String> PUBLISH_TOPIC_LIST = Arrays.asList(TOPIC_IONOFF, TOPIC_RELAYDRIVER, TOPIC_MEDIAPLAYER, TOPIC_SENSORDRIVER);
 
-    private static final List<MqttClient> PENDING_HTTP_HANDLERS = Collections.synchronizedList(new ArrayList<>());
+    private static final List<MqttRequest> PENDING_MQTT_REQUESTS = Collections.synchronizedList(new ArrayList<>());
 
     private static final Map<String, List<MqttEndpoint>> MQTT_ENDPOINTS = new ConcurrentHashMap<>();
 
@@ -93,8 +93,8 @@ public class MqttBroker extends AbstractVerticle {
                     endpoint.publishReceived(message.messageId());
                 }
                 boolean consume = false;
-                for (int i = 0; i < PENDING_HTTP_HANDLERS.size(); i++) {
-                    if (PENDING_HTTP_HANDLERS.get(i).onMessageArrived(message.topicName(), message.payload().toString())) {
+                for (int i = 0; i < PENDING_MQTT_REQUESTS.size(); i++) {
+                    if (PENDING_MQTT_REQUESTS.get(i).onMessageArrived(message.topicName(), message.payload().toString())) {
                         consume = true;
                         break;
                     }
@@ -165,11 +165,11 @@ public class MqttBroker extends AbstractVerticle {
         MQTT_ENDPOINTS.get(topicSubscription.topicName()).add(endpoint);
     }
 
-    public void addPendingClient(MqttClient syncClient) {
-        PENDING_HTTP_HANDLERS.add(syncClient);
+    public void addPendingRequest(MqttRequest syncRequest) {
+        PENDING_MQTT_REQUESTS.add(syncRequest);
     }
 
-    public void removePendingClient(MqttClient syncClient) {
-        PENDING_HTTP_HANDLERS.remove(syncClient);
+    public void removePendingClient(MqttRequest syncRequest) {
+        PENDING_MQTT_REQUESTS.remove(syncRequest);
     }
 }
