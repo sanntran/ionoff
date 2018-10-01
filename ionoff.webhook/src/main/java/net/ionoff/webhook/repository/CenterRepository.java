@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ICenterRepository extends CrudRepository<Center, Long> {
+public interface CenterRepository extends CrudRepository<Center, Long> {
 
     List<Center> findByKey(String key);
 }

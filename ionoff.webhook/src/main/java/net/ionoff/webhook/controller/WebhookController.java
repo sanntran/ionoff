@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import net.ionoff.webhook.dto.WebhookRequest;
 import net.ionoff.webhook.dto.WebhookResponse;
 import net.ionoff.webhook.model.Center;
-import net.ionoff.webhook.repository.ICenterRepository;
+import net.ionoff.webhook.repository.CenterRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class WebhookController {
 
 
 	@Autowired
-	ICenterRepository repo;
+    CenterRepository repo;
 
 	@RequestMapping(value = "/webhook",
 			method = RequestMethod.POST,

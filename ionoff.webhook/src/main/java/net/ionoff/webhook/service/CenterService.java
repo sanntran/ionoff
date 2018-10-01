@@ -1,7 +1,7 @@
 package net.ionoff.webhook.service;
 
 import net.ionoff.webhook.model.Center;
-import net.ionoff.webhook.repository.ICenterRepository;
+import net.ionoff.webhook.repository.CenterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class CenterService {
 
 	@Autowired
-	ICenterRepository centerRepository;
+    CenterRepository centerRepository;
 
 	@Transactional
 	public List<Center> getAllCenters() {
