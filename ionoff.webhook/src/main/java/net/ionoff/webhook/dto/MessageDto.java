@@ -1,15 +1,13 @@
 package net.ionoff.webhook.dto;
 
+import org.springframework.http.HttpStatus;
+
 import java.io.Serializable;
 
 public class MessageDto implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	
-	public static final int SC_200 = 200;
-	public static final int SC_400 = 400;
-	public static final String RelayDriverConnectException = "RelayDriverConnectException";
-	
+
 
 	private int status;
 	private String code;
@@ -47,8 +45,8 @@ public class MessageDto implements Serializable {
 		this.message = message;
 	}
 	
-	public static MessageDto error(String message) {
-		return new MessageDto(SC_400, message);
+	public static MessageDto error(String message) {return new MessageDto(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+			HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), message);
 	}
 	
 	public String getCode() {
@@ -60,14 +58,7 @@ public class MessageDto implements Serializable {
 	}
 
 	public static MessageDto success(String message) {
-		return new MessageDto(SC_200, message);
+		return new MessageDto(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), message);
 	}
-	
-	public static MessageDto success(long message) {
-		return new MessageDto(SC_200, String.valueOf(message));
-	}
-	
-	public static MessageDto success(boolean message) {
-		return new MessageDto(SC_200, String.valueOf(message));
-	}
+
 }

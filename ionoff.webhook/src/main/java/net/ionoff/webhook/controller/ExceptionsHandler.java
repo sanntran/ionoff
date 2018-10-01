@@ -18,7 +18,7 @@ public class ExceptionsHandler {
 
 	@ExceptionHandler(NoHandlerFoundException.class)
 	@ResponseBody
-	public MessageDto handleUnknownRelayDriverModelException(HttpServletRequest request, HttpServletResponse response,
+	public MessageDto handleNoHandlerFoundException(HttpServletRequest request, HttpServletResponse response,
 															 NoHandlerFoundException e) {
 		logger.error(e.getMessage());
 		response.setStatus(HttpServletResponse.SC_NOT_FOUND);

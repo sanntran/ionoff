@@ -1,7 +1,6 @@
 CREATE TABLE `centers` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `id` VARCHAR(255) NOT NULL,
   `ip` VARCHAR(127) NULL,
-  `key_` VARCHAR(255) NULL,
   `time_` DATETIME NULL,
-  PRIMARY KEY (`id`),
-  INDEX `centers_key_idx` (`key_` ASC));
+  `token` VARCHAR(1023) NOT NULL,
+  PRIMARY KEY (`id`));

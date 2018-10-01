@@ -1,29 +1,15 @@
-package net.ionoff.webhook.model;
+package net.ionoff.webhook.dto;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
-@Entity
-@Table(name = "centers")
-public class Center {
+public class CenterDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotEmpty
     private String id;
-
-    @Column(name = "ip")
     private String ip;
-
-    @Column(name = "time_")
     private Date time;
-
-    @Column(name = "token")
     private String token;
 
     public String getId() {
