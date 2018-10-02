@@ -1,14 +1,10 @@
 package net.ionoff.broker.http.handler;
 
 import com.google.gson.Gson;
-import net.ionoff.broker.http.HttpClient;
-import net.ionoff.broker.http.HttpMethod;
-import net.ionoff.broker.http.HttpRequest;
-import net.ionoff.broker.http.HttpStatus;
+import net.ionoff.broker.http.*;
 import net.ionoff.broker.mqtt.MqttBroker;
 import net.ionoff.broker.mqtt.MqttRequest;
 import net.ionoff.broker.tcp.*;
-import net.ionoff.broker.tcp.handler.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,7 +68,8 @@ public class HttpHandler {
                 return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), resp);
             }
             else if ("mqtt".equals(command.getProtocol())) {
-                String resp = sendMqttMessage(command.getAddress(), command.getContent());
+                String resp = sendMqttMessage(command.getAddress(), command.getSubscription(),
+                        command.getKeyword(), command.getContent());
                 return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), resp);
             }
             else {
@@ -96,9 +93,10 @@ public class HttpHandler {
         }
     }
 
-    private String sendMqttMessage(String address, String content) {
+    private String sendMqttMessage(String address, String subscription,
+                                   String keyword, String content) {
         try {
-            return new MqttRequest(mqttBroker).sendMqttRequest(address, content);
+            return new MqttRequest(mqttBroker, subscription, keyword).sendMqttRequest(address, content);
         } catch (Exception e) {
             String msg = "Error sending mqtt request to " + address + ": " + e.getClass().getSimpleName() + " " + e.getMessage();
             LOGGER.error(e.getMessage(), e);

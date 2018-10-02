@@ -5,13 +5,17 @@ import org.json.JSONException;
 
 import java.util.Map;
 
-public class RequestMessage {
+public class MqttRequestMessage {
 
 	private static final Gson GSON = new Gson();
 	private Map<String, String> params;
 	
-	public RequestMessage(String request) throws JSONException {
+	public MqttRequestMessage(String request) throws JSONException {
 		params = GSON.fromJson(request, Map.class);
+	}
+
+	public String getSubscription() throws JSONException {
+		return params.get("subscription");
 	}
 
 	public String getContext() throws JSONException {

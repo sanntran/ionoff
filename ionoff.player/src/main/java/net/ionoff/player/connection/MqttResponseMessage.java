@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 
-public class ResponseMessage {
+public class MqttResponseMessage {
 
 	private String uid;
 	private String status;
@@ -14,7 +14,7 @@ public class ResponseMessage {
 	private String clazz;	
 	private static final Gson GSON = new Gson();
 	
-	public ResponseMessage(String uid, String message, Object obj) {
+	public MqttResponseMessage(String message, Object obj) {
 		this.message = message;
 		this.clazz = obj.getClass().getSimpleName();
 		if (obj instanceof Exception) {			

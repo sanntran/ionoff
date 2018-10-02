@@ -1,12 +1,20 @@
 package net.ionoff.broker.http.handler;
 
+import com.google.gson.Gson;
+import net.ionoff.broker.http.HttpClient;
 import net.ionoff.broker.mqtt.MqttBroker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class DeviceThread extends Thread {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MqttBroker.class);
+    private static final Gson GSON = new Gson();
 
     private boolean quit;
     private final MqttBroker mqttBroker;
@@ -35,7 +43,25 @@ public class DeviceThread extends Thread {
     }
 
     private void update() {
-
+        if (device == null || device.getUrls() == null || device.getUrls().isEmpty()
+                || device.getTopic() == null || device.getTopic().isEmpty()) {
+            return;
+        }
+        List<String> responses = new ArrayList<>();
+        for (String url : device.getUrls()) {
+            try {
+                String response = HttpClient.sendGetRequest(url);
+                responses.add(response);
+            } catch (Exception e) {
+                LOGGER.error(e.getClass().getSimpleName() + " GET " + url + " " + e.getMessage());
+                String response = "Error:" + e.getMessage();
+                responses.add(response);
+            }
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("uid", device.getUid());
+        map.put("status", responses);
+        mqttBroker.publishMessage(device.getTopic(), GSON.toJson(map));
     }
 
     void setDevice(Device device) {

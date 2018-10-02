@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.mqtt.messages.MqttUnsubscribeMessage;
+import net.ionoff.broker.AppProperties;
 import net.ionoff.broker.tcp.TcpBroker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,12 +19,11 @@ import org.slf4j.LoggerFactory;
 public class MqttBroker extends AbstractVerticle {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MqttBroker.class);
-    public static final String TOPIC_IONOFF = "IOnOffNet";
-    public static final String TOPIC_RELAYDRIVER = "RelayDriver";
-    public static final String TOPIC_SENSORDRIVER = "SensorDriver";
-    public static final String TOPIC_MEDIAPLAYER = "MediaPlayer";
 
-    public static final List<String> PUBLISH_TOPIC_LIST = Arrays.asList(TOPIC_IONOFF, TOPIC_RELAYDRIVER, TOPIC_MEDIAPLAYER, TOPIC_SENSORDRIVER);
+    /**
+     * Topics that are allowed to publish and subscribe.
+     */
+    private static final List<String> PUBLISH_TOPIC_LIST = AppProperties.getBrokerTopics();
 
     private static final List<MqttRequest> PENDING_MQTT_REQUESTS = Collections.synchronizedList(new ArrayList<>());
 

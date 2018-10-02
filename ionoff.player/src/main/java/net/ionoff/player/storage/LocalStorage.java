@@ -51,6 +51,7 @@ public class LocalStorage {
 				Gson gson = new Gson();
 				JsonReader reader = new JsonReader(new FileReader(f));
 				data = gson.fromJson(reader, Data.class);
+				data.setPassword(randomNumber() + "");
 			} catch (Exception e) {
 				data = newData();
 				LOGGER.error("Error reading local data: " + e.getMessage(), e);
@@ -60,11 +61,14 @@ public class LocalStorage {
 
 	private Data newData() {
 		data = new Data();
-        int pass = (int) (Math.random()*10000);
-        data.setPassword(pass + "");
+        data.setPassword(randomNumber() + "");
 		data.setVolume(50);
 		data.setSchedule(newSchedule());
 		return data;
+	}
+
+	private int randomNumber() {
+		return (int) (Math.random()*10000);
 	}
 
 	private static Schedule newSchedule() {

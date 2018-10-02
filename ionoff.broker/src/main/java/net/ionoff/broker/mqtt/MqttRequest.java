@@ -1,24 +1,25 @@
 package net.ionoff.broker.mqtt;
 
-import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 
 public class MqttRequest {
 
-    private String uuid;
-    private String topic;
-    private String response;
+    private final String keyword;
+    private final String subscription;
+    private String responseMessage;
+
     private MqttBroker mqttBroker;
 
-    public MqttRequest(MqttBroker mqttBroker) {
-        uuid = UUID.randomUUID().toString();
+    public MqttRequest(MqttBroker mqttBroker, String subscription, String keyword) {
         this.mqttBroker = mqttBroker;
+        this.subscription = subscription;
+        this.keyword = keyword;
     }
 
     public boolean onMessageArrived(String topic, String message) {
-        if (this.topic.equals(topic)) {
-            if (message.startsWith("id=" + this.topic)) {
-                response = message;
+        if (topic.equals(this.subscription)) {
+            if (keyword == null || keyword.isEmpty() || message.contains(keyword)) {
+                responseMessage = message;
                 mqttBroker.removePendingClient(this);
                 return true;
             }
@@ -27,19 +28,18 @@ public class MqttRequest {
     }
 
     public String sendMqttRequest(String topic, String payload) throws TimeoutException {
-        this.topic = "Response/" + topic;
         mqttBroker.addPendingRequest(this);
         mqttBroker.publishMessage(topic, payload);
         for (int i = 0; i < 100; i++) { // 10000 milisecond
             try {
                 Thread.sleep(100);
-                if (response != null) {
-                    return response;
+                if (responseMessage != null) {
+                    return responseMessage;
                 }
             } catch (InterruptedException e) {
                 // Ignore
             }
         }
-        throw new TimeoutException("Timeout MQTT message response from " + topic);
+        throw new TimeoutException("Timeout MQTT message responseMessage from " + topic);
     }
 }

@@ -1,4 +1,4 @@
-package net.ionoff.broker.tcp;
+package net.ionoff.broker.http;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

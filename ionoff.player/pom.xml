@@ -29,8 +29,8 @@
 						<archive>
 							<manifest>
 								<mainClass>
-									net.ionoff.player.EntryPoint
-								</mainClass>
+                                    net.ionoff.player.MainRunner
+                                </mainClass>
 							</manifest>
 						</archive>
 						<descriptorRefs>

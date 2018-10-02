@@ -12,7 +12,6 @@ public class DeviceManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MqttBroker.class);
 
-    private boolean running;
     private final MqttBroker mqttBroker;
     private final List<DeviceThread> deviceThreads;
 

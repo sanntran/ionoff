@@ -1,7 +1,6 @@
 package net.ionoff.broker.tcp;
 
 import net.ionoff.broker.mqtt.MqttBroker;
-import net.ionoff.broker.tcp.handler.SocketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

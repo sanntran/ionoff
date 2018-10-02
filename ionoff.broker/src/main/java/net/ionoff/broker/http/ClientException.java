@@ -1,4 +1,4 @@
-package net.ionoff.broker.tcp;
+package net.ionoff.broker.http;
 
 import net.ionoff.broker.http.HttpStatus;
 

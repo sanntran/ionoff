@@ -1,13 +1,11 @@
-package net.ionoff.broker.tcp.handler;
+package net.ionoff.broker.tcp;
 
 import com.google.gson.Gson;
-import net.ionoff.broker.http.HttpException;
+import net.ionoff.broker.AppProperties;
+import net.ionoff.broker.http.*;
 import net.ionoff.broker.http.handler.HttpHandler;
-import net.ionoff.broker.http.HttpRequest;
-import net.ionoff.broker.http.HttpResponse;
-import net.ionoff.broker.http.HttpStatus;
+import net.ionoff.broker.http.handler.ResponseBody;
 import net.ionoff.broker.mqtt.MqttBroker;
-import net.ionoff.broker.tcp.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,10 +66,10 @@ public class SocketHandler extends Thread {
 		catch (HttpException he) {
 			String message = he.getMessage();
 			if (message != null) {
-				handlePicMessage(message);
+				handleTcpMessage(message);
 			}
 			else {
-				printWriter.println("Bad Request: " + message);
+				printWriter.println("Bad message: " + message);
 				close();
 			}
 		} catch (ClientException ce) {
@@ -93,14 +91,14 @@ public class SocketHandler extends Thread {
 		}
 	}
 
-	private void handlePicMessage(String message) {
+	private void handleTcpMessage(String message) {
 		TcpMessage tcpMessage = new TcpMessage(message);
 		addClientIdToSocketManager(tcpMessage);
-		publishMessageToCollector(message);
+		publishTcpMessage(message);
 	}
 
-	private void publishMessageToCollector(String message) {
-		mqttBroker.publishMessage(MqttBroker.TOPIC_IONOFF, message);
+	private void publishTcpMessage(String message) {
+		mqttBroker.publishMessage(AppProperties.getTcpTopic(), message);
 	}
 
 	private void handleHttpRequest(HttpRequest httpRequest) {

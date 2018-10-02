@@ -1,6 +1,5 @@
 package net.ionoff.broker.http;
 
-import net.ionoff.broker.tcp.ContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

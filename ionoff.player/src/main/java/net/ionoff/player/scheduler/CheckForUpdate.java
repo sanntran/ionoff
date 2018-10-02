@@ -13,39 +13,37 @@ import net.ionoff.player.util.FileUtil;
 import net.ionoff.player.util.HttpClient;
 import net.ionoff.player.config.AppConfig;
 
-public class LatestVersionDownloader extends Thread {
+public class CheckForUpdate extends Thread {
 	
-	private static final Logger LOGGER = Logger.getLogger(LatestVersionDownloader.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(CheckForUpdate.class.getName());
 	
 	private static final long INTERVAL = 3600000; // 1 hour
-
-	private static LatestVersionDownloader instance;
 
 	@Override
 	public void run() {
 		for (; true;) {
 			try {
-				dowloadLatestVersion();
+				downloadLatestVersion();
 				sleep(INTERVAL);
 			} catch (Throwable t) {
 				LOGGER.error(t.getMessage(), t);
 				try {
 					sleep(INTERVAL);
 				} catch (InterruptedException e) {
-					LOGGER.error(t.getMessage(), t);
+					LOGGER.error("InterruptedException " + e.getMessage());
 				}
 			}
 		}
 	}
 
-	private void dowloadLatestVersion() throws IOException {
+	private void downloadLatestVersion() throws IOException {
 		String latestVersion = retrieveLatestVersion();
 		LOGGER.info("Latest version from update site: " + latestVersion);
 		if (AppConfig.INSTANCE.VERSION.equals(latestVersion)) {
 			LOGGER.info("Current version is the latest version");
 			return;
 		}
-		String targetDirectory = getDowloadFolder();
+		String targetDirectory = getDownloadFolder();
 		File targetDir = new File(targetDirectory);
 		if (targetDir.exists() && targetDir.isDirectory()) {
 			for (File f : targetDir.listFiles()) {
@@ -77,19 +75,11 @@ public class LatestVersionDownloader extends Thread {
 		return HttpClient.sendHttpGETRequest(sourceUrl);
 	}
 
-	public static LatestVersionDownloader getInstance() {
-		if (instance == null) {
-			instance = new LatestVersionDownloader();
-		}
-		return instance;
-	}
-
-
 	public static String getUpdateFolder() {
 		return AppConfig.INSTANCE.APP_DIR + File.separator + "ext";
 	}
 
-	public static String getDowloadFolder() {
+	public static String getDownloadFolder() {
 		return AppConfig.INSTANCE.APP_DIR + File.separator + "dist";
 	}
 }

@@ -3,19 +3,17 @@ package net.ionoff.player.handler;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
-import net.ionoff.player.connection.RequestMessage;
-import net.ionoff.player.connection.ResponseMessage;
+import net.ionoff.player.connection.MqttRequestMessage;
+import net.ionoff.player.connection.MqttResponseMessage;
 import org.apache.log4j.Logger;
 
 import net.ionoff.player.DeamonPlayer;
 import net.ionoff.player.config.UserConfig;
-import net.ionoff.player.exception.DateTimeFormatException;
-import net.ionoff.player.exception.MpdConnectException;
-import net.ionoff.player.exception.UnknownCommandException;
 import net.ionoff.player.exception.UnknownContextException;
 import net.ionoff.player.model.Album;
 import net.ionoff.player.model.MediaFile;
@@ -35,24 +33,22 @@ public class RequestHandler {
 	public static final String PLAYLEAF = "playleaf";
 	public static final String PLAYNODE = "playnode";
 	public static final String PLAYLIST = "playlist";
-	
-	protected static final String COMMAND = "command";
+
+	private static final String COMMAND = "command";
 	private static final String CONTEXT_STATUS = "/status";
 	private static final String CONTEXT_PLAYLIST = "/playlist";
 	private static final String CONTEXT_BROWSE = "/browse";
 	private static final String CONTEXT_SCHEDULE = "/scheduler";
 
-	private final Map<String, String> params;
-
-	RequestHandler(RequestMessage request) {
-		params = request.getParameters();
+	private RequestHandler() {
 	}
 
-	public String handleRequest() {
+	public static String handleRequest(MqttRequestMessage request) {
+		Map<String, String> params = request.getParameters();
 		return handleRequest(params);
 	}
 
-	private String handleRequest(Map<String, String> params) {
+	private static String handleRequest(Map<String, String> params) {
 		final String context = params.get(RequestContext.CONTEXT);
 		params.remove(RequestContext.CONTEXT);
 
@@ -71,39 +67,38 @@ public class RequestHandler {
 		throw new UnknownContextException(context);
 	}
 
-	private String handleScheduleRequest(Map<String, String> params) {
+	private static String handleScheduleRequest(Map<String, String> params) {
 		Schedule schedule = new ScheduleRequestHandler().handleRequest(params);
-		return new ResponseMessage("schedule", schedule).toJSONString();
+		return new MqttResponseMessage("schedule", schedule).toJSONString();
 	}
 
-	private String handleStatusRequest(final Map<String, String> params) {
-		String command = params.get("command");
+	private static String handleStatusRequest(final Map<String, String> params) {
+		String command = params.get(COMMAND);
 		final Status status = handleStatusRequest(command, params);
-		return new ResponseMessage("status", status).toJSONString();
+		return new MqttResponseMessage("status", status).toJSONString();
 	}
 
-	private String handlePlaylistRequest(final Map<String, String> params) {
-		String command = params.get("command");
+	private static String handlePlaylistRequest(final Map<String, String> params) {
+		String command = params.get(COMMAND);
 		if (!params.isEmpty() && "pl_update".equals(command)) {
 			updatePlaylist(params);
 		}
 		PlayList playlist = getPlayer().getPlaylist();
-		return new ResponseMessage("playlist", playlist).toJSONString();
+		return new MqttResponseMessage("playlist", playlist).toJSONString();
 	}
 
-	private String handleBrowseRequest(final Map<String, String> params) {
+	private static String handleBrowseRequest(final Map<String, String> params) {
 		List<MediaFile> files = getBrowse(params);
-		return new ResponseMessage("files", files).toJSONString();
+		return new MqttResponseMessage("files", files).toJSONString();
 	}
 
-	private List<MediaFile> getBrowse(Map<String, String> params) {
+	private static List<MediaFile> getBrowse(Map<String, String> params) {
 		String dir = params.get("dir");
-		String command = params.get("command");
+		String command = params.get(COMMAND);
 		return getMediaFiles(dir, command);
 	}
 
-	private List<MediaFile> getMediaFiles(String dir, String command) {
-		System.out.println(dir);
+	private static List<MediaFile> getMediaFiles(String dir, String command) {
 		if (dir == null || dir.isEmpty()) {
 			if ("refresh".equals(command)) {
 				getPlayer().updateFileDatabase();
@@ -174,14 +169,18 @@ public class RequestHandler {
 
 	private static DeamonPlayer deamonPlayer;
 
-	private synchronized DeamonPlayer getPlayer() {
+	private static synchronized DeamonPlayer getPlayer() {
 		if (deamonPlayer == null) {
 			deamonPlayer = new DeamonPlayer();
 		}
 		return deamonPlayer;
 	}
 
-	private Status handleStatusRequest(String command, Map<String, String> parameters) {
+	public static Status handleStatusRequest() {
+		return handleStatusRequest(null, Collections.emptyMap());
+	}
+
+	private static Status handleStatusRequest(String command, Map<String, String> parameters) {
 		if (command == null || parameters.isEmpty()) {
 			return getPlayer().loadStatus();
 		}
@@ -225,11 +224,11 @@ public class RequestHandler {
 		return getPlayer().loadStatus();
 	}
 
-	private void fullscreen(Map<String, String> parameters) {
+	private static void fullscreen(Map<String, String> parameters) {
 		return;
 	}
 
-	private void volume(Map<String, String> parameters) {
+	private static void volume(Map<String, String> parameters) {
 		String val = parameters.get("val");
 		if (val.equals("mute")) {
 			getPlayer().mute();
@@ -245,45 +244,45 @@ public class RequestHandler {
 		}
 	}
 
-	private void pl_repeat(Map<String, String> parameters) {
+	private static void pl_repeat(Map<String, String> parameters) {
 		getPlayer().plRepeat();
 	}
 
-	private void pl_random(Map<String, String> parameters) {
+	private static void pl_random(Map<String, String> parameters) {
 		getPlayer().randomizePlay();
 	}
 
-	private void pl_loop(Map<String, String> parameters) {
+	private static void pl_loop(Map<String, String> parameters) {
 		// does nothing // ???
 	}
 
-	private void pl_empty(Map<String, String> parameters) {
+	private static void pl_empty(Map<String, String> parameters) {
 		getPlayer().emtyPlaylist();
 		getPlayer().getPlaylist().setId(0L);
 		getPlayer().getPlaylist().setName(null);
 	}
 
-	private void pl_stop(Map<String, String> parameters) {
+	private static void pl_stop(Map<String, String> parameters) {
 		getPlayer().stop();
 	}
 
-	private void pl_forcepause(Map<String, String> parameters) {
+	private static void pl_forcepause(Map<String, String> parameters) {
 		getPlayer().pause();
 	}
 
-	private void pl_resume(Map<String, String> parameters) {
+	private static void pl_resume(Map<String, String> parameters) {
 		getPlayer().play();
 	}
 
-	private void pl_forceresume(Map<String, String> parameters) {
+	private static void pl_forceresume(Map<String, String> parameters) {
 		getPlayer().play();
 	}
 
-	private void pl_pause(Map<String, String> parameters) {
+	private static void pl_pause(Map<String, String> parameters) {
 		getPlayer().pause();
 	}
 
-	private void seek(Map<String, String> parameters) {
+	private static void seek(Map<String, String> parameters) {
 		String val = parameters.get("val");
 		if (val.equals("+")) {
 			getPlayer().seekFw();
@@ -292,7 +291,7 @@ public class RequestHandler {
 		}
 	}
 
-	private void pl_delete(Map<String, String> parameters) {
+	private static void pl_delete(Map<String, String> parameters) {
 		String id = parameters.get("id");
 		String type = parameters.get("type");
 		if (PLAYLEAF.equals(type)) {
@@ -302,15 +301,15 @@ public class RequestHandler {
 		}
 	}
 
-	private void pl_next(Map<String, String> parameters) {
+	private static void pl_next(Map<String, String> parameters) {
 		getPlayer().playNext();
 	}
 
-	private void pl_previous(Map<String, String> parameters) {
+	private static void pl_previous(Map<String, String> parameters) {
 		getPlayer().playPrevious();
 	}
 
-	private void in_enqueue(Map<String, String> parameters, boolean isPlay) {
+	private static void in_enqueue(Map<String, String> parameters, boolean isPlay) {
 		String input = parameters.get("input");
 		String inputType = parameters.get("input_type");
 		
@@ -348,11 +347,11 @@ public class RequestHandler {
 		}
 	}
 
-	private void in_play(Map<String, String> parameters) {
+	private static void in_play(Map<String, String> parameters) {
 		in_enqueue(parameters, true);
 	}
 
-	private void addAlbumFile(Album album) {
+	private static void addAlbumFile(Album album) {
 		File albumFolder = new File(UserConfig.getInstance().getAlbumFolder());
 		String albumFileName = getAlbumFileName(album);
 		if (!albumFolder.exists()) {
@@ -368,7 +367,7 @@ public class RequestHandler {
 		}
 	}
 
-	private boolean hasAlbum(File albumFolder, String albumFileName) {
+	private static boolean hasAlbum(File albumFolder, String albumFileName) {
 		for (File file : albumFolder.listFiles()) {
 			if (file.getName().equals(albumFileName)) {
 				return true;
@@ -377,12 +376,12 @@ public class RequestHandler {
 		return false;
 	}
 
-	private String getAlbumFileName(Album album) {
+	private static String getAlbumFileName(Album album) {
 		return AccentRemover.removeAccent(album.getTitle()) + "#" + album.getId() + ".album";
 	}
 
 
-	private void pl_play(Map<String, String> parameters) {
+	private static void pl_play(Map<String, String> parameters) {
 		String id = parameters.get("id");
 		String type = parameters.get("type");
 		if (PLAYLEAF.equals(type)) {
@@ -394,7 +393,7 @@ public class RequestHandler {
 		}
 	}
 	
-	private void updatePlaylist(Map<String, String> params) {
+	private static void updatePlaylist(Map<String, String> params) {
  		String plJson = params.get("playlist");
  		PlayList playlist = GSON.fromJson(plJson, PlayList.class);
 		PlayList playingList = getPlayer().getPlaylist();
@@ -409,7 +408,7 @@ public class RequestHandler {
 		}
 	}
 
-	private void updatePlayNode(PlayNode playingNode, PlayNode node) {
+	private static void updatePlayNode(PlayNode playingNode, PlayNode node) {
 		playingNode.setId(node.getId());
 		for (PlayLeaf leaf : node.getLeafs()) {
 			for (PlayLeaf playingLeaf : playingNode.getLeafs()) {
@@ -419,4 +418,9 @@ public class RequestHandler {
 			}
 		}
  	}
+
+	public static PlayList handlePlayListRequest() {
+		PlayList playlist = getPlayer().getPlaylist();
+		return playlist;
+	}
 }

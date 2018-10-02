@@ -1,5 +1,6 @@
 package net.ionoff.player.connection;
 
+import com.google.gson.Gson;
 import net.ionoff.player.config.UserConfig;
 import net.ionoff.player.exception.BadRequestException;
 import net.ionoff.player.exception.MpdConnectException;
@@ -8,24 +9,25 @@ import net.ionoff.player.storage.LocalStorage;
 import org.apache.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.net.SocketException;
-import java.util.IllegalFormatException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class MqttConnection implements MqttCallback {
 
 	private static final Logger LOGGER = Logger.getLogger(MqttConnection.class.getName());
+	private static final Gson GSON = new Gson();
+
 
 	private String clientId;
 	private String status;
-	private PublishMessageSchedule publishMessageSchedule;
+	private StatusPublisher publishMessageScheduler;
 
 	private Thread mqttThread;
 	private String brokerUrl;
 
 	private static final String PUBLISH_TOPIC = "MediaPlayer";
+
 	private static final String CONNECTING =   "Connecting...";
 	private static final String CONNECTED =    "Connected";
 	private static final String DISCONNECTED = "Disconnected";
@@ -52,9 +54,20 @@ public class MqttConnection implements MqttCallback {
 		connectMqttBroker();
 	}
 
+	@Override
+	public void messageArrived(String topic, MqttMessage message) {
+		// Called when a message arrives from the server that matches any
+		// subscription made by the client
+		String payload = new String(message.getPayload());
+		LOGGER.info("Message arrived on topic: " + topic + ". Message: " + payload);
+		handleMessage(payload);
+	}
 
 	public void publishMessage(String topic, String payload) {
-		LOGGER.info("Publishing message:" + payload + " to topic: " + topic);
+		if (!isConnected()) {
+			LOGGER.error("Error publishing message, disconnected");
+			return;
+		}
 		MqttMessage message = new MqttMessage(payload.getBytes());
 		message.setQos(2);
 		try {
@@ -66,8 +79,8 @@ public class MqttConnection implements MqttCallback {
 
 	@Override
 	public void connectionLost(Throwable cause) {
+		status = DISCONNECTED;
 		setConnected(false);
-		informStatus(DISCONNECTED);
 		// Called when the connection to the server has been lost.
 		// An application may choose to implement reconnection logic at this
 		// point.
@@ -80,94 +93,48 @@ public class MqttConnection implements MqttCallback {
 		connectMqttBroker();
 	}
 
-	public void run() {
-		publishMessageSchedule = new PublishMessageSchedule();
-		publishMessageSchedule.start();
-	}
-
-	private synchronized String handleMesage(String message) {
+	private synchronized void handleMessage(String message) {
+		String subscription = null;
+		String response = null;
 		try {
 			if (message == null) {
-				throw new SocketException("Request is null");
+				throw new BadRequestException("Request message is null");
 			}
-			final RequestMessage request = new RequestMessage(message);
+			final MqttRequestMessage request = new MqttRequestMessage(message);
+			if (request.getSubscription() == null || request.getSubscription().isEmpty()) {
+				throw new BadRequestException("Request message subscription is empty");
+			}
+			subscription = request.getSubscription();
 			if (request.getParameters() == null) {
-				throw new BadRequestException("Request parametter is null, message: " + message);
+				throw new BadRequestException("Request message parametters is null");
 			}
-			return new RequestHandler(request).handleRequest();
+			response = RequestHandler.handleRequest(request);
 		}
 		catch (final Throwable e) {
 			if (e instanceof BadRequestException) {
-				LOGGER.error(e.getMessage());
+				LOGGER.error("BadRequestException: " + e.getMessage());
 			}
 			if (e instanceof MpdConnectException) {
-				LOGGER.error("Error connect MPD ");
+				LOGGER.error("MpdConnectException: Error connect MPD ");
 			}
 			else {
-				LOGGER.error("Error handle message " + e.getMessage(), e);
+				LOGGER.error(e.getClass().getSimpleName() + ": " + e.getMessage(), e);
 			}
-			return new ResponseMessage(e.getMessage(), e).toJSONString();
+			response = new MqttResponseMessage(e.getMessage(), e).toJSONString();
+		}
+		if (subscription != null && !subscription.isEmpty() && response != null) {
+			publishMessage(subscription, response);
 		}
 	}
 
-	public void connect() {
-		try {
-
-
-
-			final JSONObject param = new JSONObject();
-
-			param.put("mac", AppProperties.getHardwareId());
-			param.put("pass", AppProperties.getRandomPassword());
-			param.put("password", UserConfig.getInstance().LOGIN_PASSWORD);
-
-			publishMessage(PUBLISH_TOPIC, param.toString());
-
-		}
-		catch (final Throwable e) {
-			try {
-				Thread.sleep(10000);
-			}
-			catch (final InterruptedException ie) {
-				LOGGER.error(ie);
-			}
-			LOGGER.error(e);
-			connect();
-		}
-	}
-
-	private void onRecievedResponse(String received) {
-		LOGGER.info("Response: " + received);
-		try {
-			final JSONObject info = new JSONObject(received);
-
-		}
-		catch (final JSONException e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-	}
-
-	private void informStatus(String status) {
-		LOGGER.info("Status: " + status);
-		this.status = status;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public boolean isConected() {
-		return CONNECTED.equals(status);
-	}
-	
-	private class PublishMessageSchedule extends Thread {
-		
+	private class StatusPublisher extends Thread {
 		@Override
 		public void run() {
 			try {
 				for (; true; ) {
 					try {
-						sleep(5000);
+						sleep(25000);
+						publishStatusMessage();
 					} catch (Exception e) {
 						LOGGER.error(e.getMessage(), e);
 					}
@@ -179,18 +146,30 @@ public class MqttConnection implements MqttCallback {
 		}
 	}
 
+	private void publishStatusMessage() {
+		if (!isConnected()) {
+			return;
+		}
+		Map<String, Object> map = new LinkedHashMap<>();
+		map.put("mac", UserConfig.getInstance().LICENSE_KEY);
+		map.put("status", RequestHandler.handleStatusRequest());
+		map.put("playlist", RequestHandler.handlePlayListRequest());
+		String payload = GSON.toJson(map);
+		publishMessage(PUBLISH_TOPIC, payload);
+	}
 
 	public void connectMqttBroker() {
 		try {
-			informStatus(CONNECTING);
+			status = CONNECTING;
 			LOGGER.info("Connecting to broker " + brokerUrl);
 			client.connect(connOpt);
-			informStatus(CONNECTED);
+
+			status = CONNECTED;
 			LOGGER.info("Connected to broker" + brokerUrl);
 			setConnected(true);
+			setSubscribleTopic(subscribleTopics);
 		} catch (MqttException e) {
 			LOGGER.error("Cannot connect to broker. " + e.getMessage());
-			informStatus(DISCONNECTED);
 			try {
 				Thread.sleep(10000);
 			} catch (InterruptedException ie) {
@@ -202,9 +181,6 @@ public class MqttConnection implements MqttCallback {
 
 	private void setConnected(boolean value) {
 		this.connected = value;
-		if (connected) {
-			setSubscribleTopic(subscribleTopics);
-		}
 	}
 
 	@Override
@@ -223,23 +199,15 @@ public class MqttConnection implements MqttCallback {
 		LOGGER.info("Delivery message to broker complete. " + token.getMessageId());
 	}
 
-	@Override
-	public void messageArrived(String topic, MqttMessage message) throws Exception {
-		// Called when a message arrives from the server that matches any
-		// subscription made by the client
-		String payload = new String(message.getPayload());
-		LOGGER.info("Message arrived on topic: " + topic + ". Message: " + payload);
-		handleMesage(payload);
-	}
-
-	private void setSubscribleTopic(String subscribleTopic[]) {
+	private void setSubscribleTopic(String subscribleTopics[]) {
 		try {
-			client.unsubscribe(subscribleTopics);
+			client.unsubscribe(this.subscribleTopics);
 		} catch (MqttException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
 		try {
-			client.subscribe(subscribleTopics);
+			this.subscribleTopics = subscribleTopics;
+			client.subscribe(this.subscribleTopics);
 		} catch (MqttException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
@@ -257,6 +225,7 @@ public class MqttConnection implements MqttCallback {
 			}
 		};
 		mqttThread.start();
+		new StatusPublisher().start();
 	}
 
 }
