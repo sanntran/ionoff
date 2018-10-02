@@ -50,12 +50,12 @@ public interface PlayerService extends RestService {
 			MethodCallback<List<MediaFile>> callback);
 	
 	@GET
-	@Path("api/players/{playerId}/schedule")
+	@Path("api/players/{playerId}/scheduler")
 	public void getSchedule(@PathParam("playerId") Long playerId,
 			MethodCallback<Schedule> callback);
 
 	@POST
-	@Path("api/players/{playerId}/schedule")
+	@Path("api/players/{playerId}/scheduler")
 	public void updateSchedule(@PathParam("playerId") Long playerId, Schedule schedule,
 			MethodCallback<Schedule> callback);
 

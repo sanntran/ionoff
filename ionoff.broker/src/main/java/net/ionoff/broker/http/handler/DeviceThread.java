@@ -1,11 +1,8 @@
-package net.ionoff.broker.tcp.handler;
+package net.ionoff.broker.http.handler;
 
 import net.ionoff.broker.mqtt.MqttBroker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Collections;
-import java.util.List;
 
 public class DeviceThread extends Thread {
 

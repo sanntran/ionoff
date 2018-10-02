@@ -1,10 +1,10 @@
 package net.ionoff.player;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import net.ionoff.player.util.HttpClient;
 import org.apache.log4j.Logger;
 import org.bff.javampd.command.MPDCommandExecutor;
 import org.bff.javampd.file.MPDFile;
@@ -41,10 +41,10 @@ public class DeamonPlayer {
 	
 	public DeamonPlayer() throws MpdConnectException {
 		this.playlist = new PlayList();
-		playlist.setNodes(new ArrayList<PlayNode>());
+		playlist.setNodes(new ArrayList<>());
 		try {
-			mpd = new MPD.Builder().server(AppConfig.getInstance().MPD_HOST)
-					.port(AppConfig.getInstance().MPD_PORT).build();
+			mpd = new MPD.Builder().server(AppConfig.INSTANCE.MPD_HOST)
+					.port(AppConfig.INSTANCE.MPD_PORT).build();
 			commandExecutor = new MPDCommandExecutor();
 			commandExecutor.setMpd(mpd);
 			
@@ -57,7 +57,7 @@ public class DeamonPlayer {
 			});
 			mpd.getPlaylist().clearPlaylist();
 		} catch (Exception e) {
-			throw new MpdConnectException(AppConfig.getInstance().MPD_HOST);
+			throw new MpdConnectException(AppConfig.INSTANCE.MPD_HOST);
 		}
 	}
 
@@ -546,7 +546,7 @@ public class DeamonPlayer {
 
 	private String getYoutubeMrl(String youtubeId) {
 		try {
-			String mrl = HttpRequestUtil.sendHttpGETRequest(AppConfig.getInstance().DATA_SERVER_URL 
+			String mrl = HttpClient.sendHttpGETRequest(AppConfig.INSTANCE.MEDIA_SERVER_URL
 					+ "videos/" + youtubeId + "/audiourl?mac=" + UserConfig.getInstance().LICENSE_KEY);
 			return mrl;
 		}

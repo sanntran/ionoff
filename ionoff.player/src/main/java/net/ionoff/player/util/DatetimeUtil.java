@@ -23,7 +23,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public final class TimeUtil {
+public final class DatetimeUtil {
 	
 	private static final SimpleDateFormat DATETIME_FORMAT = new SimpleDateFormat ("yyyyMMddhhmma");
 	

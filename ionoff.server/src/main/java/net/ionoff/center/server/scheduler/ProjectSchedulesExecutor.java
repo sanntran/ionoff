@@ -152,10 +152,10 @@ public class ProjectSchedulesExecutor {
 	
 	@Async
 	private void executeFailedSchedule(Schedule schedule, long now) {
-		LOGGER.info("Retry to execute schedule, id: " + schedule.getId() 
+		LOGGER.info("Retry to execute scheduler, id: " + schedule.getId()
 				+ ", device: " + schedule.getDevice().getName());
 		if (isDeviceControlledAfterExecutingSchedule(schedule.getDevice(), schedule)) {
-			LOGGER.info("The device is controlled after executing the schedule. The schedule is ignored");
+			LOGGER.info("The device is controlled after executing the scheduler. The scheduler is ignored");
 			updateSchedule(schedule, now, true, 0);
 			return;
 		}
@@ -190,7 +190,7 @@ public class ProjectSchedulesExecutor {
 
 	@Async
 	private void executeSchedule(Schedule schedule) {
-		LOGGER.info("Excuting schedule, id: " + schedule.getId() + ", device: " + schedule.getDevice().getName());
+		LOGGER.info("Excuting scheduler, id: " + schedule.getId() + ", device: " + schedule.getDevice().getName());
 		long now = System.currentTimeMillis();
 		try {
 			executeScheduleActions(schedule);

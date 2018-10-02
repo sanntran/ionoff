@@ -89,7 +89,7 @@ public abstract class AbstractPlayerServiceController {
 		return playerService.requestMediaFiles(player, params);
 	}
 	
-	@RequestMapping(value = "players/{playerId}/schedule",
+	@RequestMapping(value = "players/{playerId}/scheduler",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
 	public Schedule getSchedule(@PathVariable("playerId") Long playerId)
@@ -100,7 +100,7 @@ public abstract class AbstractPlayerServiceController {
 		return playerService.requestSchedule(player, params);
 	}
 
-	@RequestMapping(value = "players/{playerId}/schedule",
+	@RequestMapping(value = "players/{playerId}/scheduler",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
 	public Schedule getSchedule(@PathVariable("playerId") Long playerId, @RequestBody Schedule schedule)

@@ -1,6 +1,8 @@
 package net.ionoff.player.config;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -8,48 +10,64 @@ import org.apache.log4j.Logger;
 public class AppConfig {
 	
 	private static final Logger LOGGER = Logger.getLogger(AppConfig.class.getName());
-	
-	private static final AppConfig INSTANCE = new AppConfig();
+
+	public static final AppConfig INSTANCE = new AppConfig();
 	
 	public final String UPDATE_SITE;
-	public final String DATA_SERVER_URL;
-	public String MPD_HOST;
-	public int MPD_PORT;
-	public boolean INTERVAL_UPDATE;
-	public String VERSION;
+	public final String MEDIA_SERVER_URL;
+	public final String MPD_HOST;
+	public final int MPD_PORT;
+	public final boolean INTERVAL_UPDATE;
+	public final String VERSION;
+	public final String APP_DIR;
 	
-	public AppConfig() {
+	private AppConfig() {
 		
 		final Properties appProperties = new Properties();
 		try {
 			// load a properties file
-			appProperties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties"));
+			appProperties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties"));
 		}
 		catch (final IOException ex) {
-			ex.printStackTrace();
+			LOGGER.error("Error reading application.properties " + ex.getMessage(), ex);
 		}
+
 		UPDATE_SITE = appProperties.getProperty("update_site");
-		DATA_SERVER_URL = appProperties.getProperty("data_server_url");
+		MEDIA_SERVER_URL = appProperties.getProperty("media_server_url");
 		MPD_HOST = appProperties.getProperty("mpd_host");
-		try {
-			MPD_PORT = Integer.parseInt(appProperties.getProperty("mpd_port"));
-		}
-		catch (Exception e) {
-			MPD_PORT = 6600;
-			LOGGER.info("MPD_PORT is not set. Use default value");
-		}
-		try {
-			INTERVAL_UPDATE = Boolean.parseBoolean(appProperties.getProperty("interval_update"));
-		}
-		
-		catch (Exception e) {
-			INTERVAL_UPDATE = false;
-			LOGGER.info("INTERVAL_UPDATE is not set. Use default value");
-		}
+		MPD_PORT = getMpdPortProperty(appProperties);
+		INTERVAL_UPDATE = getIntervalUpdateProperty(appProperties);
 		VERSION = appProperties.getProperty("version");
+		APP_DIR = getAppDir();
 	}
-	
-	public static AppConfig getInstance() {
-		return INSTANCE;
+
+	private boolean getIntervalUpdateProperty(Properties appProperties) {
+		try {
+			return Boolean.parseBoolean(appProperties.getProperty("interval_update"));
+		}
+		catch (Exception e) {
+			LOGGER.info("INTERVAL_UPDATE is not set. Use default value");
+			return true;
+		}
 	}
+
+	private int getMpdPortProperty(Properties appProperties) {
+		try {
+			return Integer.parseInt(appProperties.getProperty("mpd_port"));
+		}
+		catch (Exception e) {
+			LOGGER.info("MPD_PORT is not set. Use default value");
+			return 6600;
+		}
+	}
+
+	private static String getAppDir() {
+		String dir = ClassLoader.getSystemClassLoader().getResource(".").getPath();
+		URL source = AppConfig.class.getProtectionDomain().getCodeSource().getLocation();
+		if (dir.equals(source.getPath())) {
+			return new File(dir).getParent();
+		}
+		return dir;
+	}
+
 }

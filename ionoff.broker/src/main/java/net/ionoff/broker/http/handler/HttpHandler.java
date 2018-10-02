@@ -1,4 +1,4 @@
-package net.ionoff.broker.tcp.handler;
+package net.ionoff.broker.http.handler;
 
 import com.google.gson.Gson;
 import net.ionoff.broker.http.HttpClient;
@@ -8,6 +8,7 @@ import net.ionoff.broker.http.HttpStatus;
 import net.ionoff.broker.mqtt.MqttBroker;
 import net.ionoff.broker.mqtt.MqttRequest;
 import net.ionoff.broker.tcp.*;
+import net.ionoff.broker.tcp.handler.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

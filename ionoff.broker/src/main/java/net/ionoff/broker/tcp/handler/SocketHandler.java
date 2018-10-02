@@ -2,6 +2,7 @@ package net.ionoff.broker.tcp.handler;
 
 import com.google.gson.Gson;
 import net.ionoff.broker.http.HttpException;
+import net.ionoff.broker.http.handler.HttpHandler;
 import net.ionoff.broker.http.HttpRequest;
 import net.ionoff.broker.http.HttpResponse;
 import net.ionoff.broker.http.HttpStatus;

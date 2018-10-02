@@ -1,21 +1,20 @@
-package net.ionoff.player.handler;
+package net.ionoff.player.connection;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
 
-public class PlayerResponse {
-	public static String ERROR = "error";
-	
+public class ResponseMessage {
+
+	private String uid;
 	private String status;
 	private String message;
 	private String object;	
 	private String clazz;	
-	private final Gson gson;
+	private static final Gson GSON = new Gson();
 	
-	public PlayerResponse(String message, Object obj) {
-		this.gson = new Gson();
+	public ResponseMessage(String uid, String message, Object obj) {
 		this.message = message;
 		this.clazz = obj.getClass().getSimpleName();
 		if (obj instanceof Exception) {			
@@ -27,7 +26,7 @@ public class PlayerResponse {
 				this.object = (String)obj;
 			}
 			else {
-				this.object = gson.toJson(obj);
+				this.object = GSON.toJson(obj);
 			}
 		}
 	}

@@ -7,11 +7,12 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
 
+import net.ionoff.player.connection.ResponseMessage;
+import net.ionoff.player.storage.LocalStorage;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import net.ionoff.player.AppProperties;
 import net.ionoff.player.config.UserConfig;
 import net.ionoff.player.exception.PlayerException;
 
@@ -84,7 +85,7 @@ public class TcpConnection extends Thread {
 				LOGGER.error(e.getMessage(), e);
 				throw new SocketException();
 			}
-			return new PlayerResponse(e.getMessage(), e).toJSONString();
+			return new ResponseMessage(e.getMessage(), e).toJSONString();
 		}
 	}
 
@@ -102,7 +103,7 @@ public class TcpConnection extends Thread {
 			final JSONObject param = new JSONObject();
 
 			param.put("mac", UserConfig.getInstance().LICENSE_KEY);
-			param.put("pass", AppProperties.getRandomPassword());
+			param.put("pass", LocalStorage.INSTANCE.getData().getPassword());
 			param.put("password", UserConfig.getInstance().LOGIN_PASSWORD);
 
 			writer.println(param.toString());

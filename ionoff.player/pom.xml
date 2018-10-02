@@ -29,7 +29,7 @@
 						<archive>
 							<manifest>
 								<mainClass>
-									net.ionoff.player.AppMain
+									net.ionoff.player.EntryPoint
 								</mainClass>
 							</manifest>
 						</archive>

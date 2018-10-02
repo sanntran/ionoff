@@ -1,6 +1,6 @@
 package net.ionoff.player.exception;
 
-public class DateTimeFormatException extends Exception {
+public class DateTimeFormatException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 

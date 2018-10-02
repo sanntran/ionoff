@@ -70,11 +70,11 @@ public class ScheduleServiceController {
 		RequestContextHolder.checkAdminPermission(user);
 		
 		if (scheduleDto.izNew()) {
-			logger.info("User " + user.getName() + " inserts schedule: " + scheduleDto.toString());
+			logger.info("User " + user.getName() + " inserts scheduler: " + scheduleDto.toString());
 			return scheduleService.insertDto(user, scheduleDto);
 		}
 		else {
-			logger.info("User " + user.getName() + " updates schedule: " + scheduleDto.toString());
+			logger.info("User " + user.getName() + " updates scheduler: " + scheduleDto.toString());
 			return scheduleService.updateDto(user, scheduleDto);
 		}
 	}
@@ -90,7 +90,7 @@ public class ScheduleServiceController {
 		ScheduleDto scheduleDto = scheduleService.requireDtoById(scheduleId);
 		RequestContextHolder.checkAdminPermission(user);
 		
-		logger.info("User " + user.getName() + " delete schedule: " + scheduleDto.toString());
+		logger.info("User " + user.getName() + " delete scheduler: " + scheduleDto.toString());
 		scheduleService.deleteDtoById(user, scheduleId);
 		return MessageDto.success(scheduleId);
 	}

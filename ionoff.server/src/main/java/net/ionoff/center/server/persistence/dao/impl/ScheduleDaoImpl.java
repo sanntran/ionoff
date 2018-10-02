@@ -20,19 +20,19 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 	}
 	
 	private long countByProjectId(long projectId) {
-		String sql = "select count(schedule)"
-				+ " from Schedule as schedule"
-				+ " where schedule.project.id = :projectId";
+		String sql = "select count(scheduler)"
+				+ " from Schedule as scheduler"
+				+ " where scheduler.project.id = :projectId";
 		Query query = getCurrentSession().createQuery(sql)
 					.setParameter("projectId", projectId);
 		return countObjects(query);
 	}
 
 	private long countByProjectIdName(long projectId, String name) {
-		String sql = "select count(schedule)"
-				+ " from Schedule as schedule"
-				+ " where schedule.project.id = :projectId"
-				+ " and lower(schedule.name) like :name";
+		String sql = "select count(scheduler)"
+				+ " from Schedule as scheduler"
+				+ " where scheduler.project.id = :projectId"
+				+ " and lower(scheduler.name) like :name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("name", "%" + name + "%");
@@ -40,10 +40,10 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 	}
 	
 	private long countByProjectIdDeviceName(long projectId, String keyWord) {
-		String sql = "select count(schedule)"
-				+ " from Schedule as schedule"
-				+ " where schedule.project.id = :projectId"
-				+ " and lower(schedule.device.name) like :keyWord";
+		String sql = "select count(scheduler)"
+				+ " from Schedule as scheduler"
+				+ " where scheduler.project.id = :projectId"
+				+ " and lower(scheduler.device.name) like :keyWord";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("keyWord", "%" + keyWord.toLowerCase() + "%");
@@ -52,11 +52,11 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 
 	private List<Schedule> findByProjectIdDeviceName(long projectId, String keyWord,
 			int fromIndex, int maxResults, String sortBy, boolean isAscending) {
-		String sql = "select distinct schedule" 
-				+ " from Schedule as schedule" 
-				+ " where schedule.project.id = :projectId"
-				+ " and lower(schedule.device.name) like :keyWord" 
-				+ " order by schedule." + sortBy;
+		String sql = "select distinct scheduler"
+				+ " from Schedule as scheduler"
+				+ " where scheduler.project.id = :projectId"
+				+ " and lower(scheduler.device.name) like :keyWord"
+				+ " order by scheduler." + sortBy;
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
@@ -69,11 +69,11 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 
 	private List<Schedule> findByProjectIdName(long projectId, String keyWord, int fromIndex, int maxResults, 
 			String sortBy, boolean isAscending) {
-		String sql = "select distinct schedule" 
-				+ " from Schedule as schedule" 
-				+ " where schedule.project.id = :projectId"
-				+ " and lower(schedule.name like) :name" 
-				+ " order by schedule." + sortBy;
+		String sql = "select distinct scheduler"
+				+ " from Schedule as scheduler"
+				+ " where scheduler.project.id = :projectId"
+				+ " and lower(scheduler.name like) :name"
+				+ " order by scheduler." + sortBy;
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
@@ -87,10 +87,10 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 	@Override
 	public List<Schedule> findByProjectId(long projectId) {
 		
-		String sql = "select distinct schedule"
-				+ " from Schedule as schedule"
-				+ " where schedule.project.id = :projectId"
-				+ " order by schedule.name";
+		String sql = "select distinct scheduler"
+				+ " from Schedule as scheduler"
+				+ " where scheduler.project.id = :projectId"
+				+ " order by scheduler.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("projectId", projectId);
 		
@@ -98,10 +98,10 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 	}
 	
 	private List<Schedule> findByProjectId(long projectId, int fromIndex, int maxResults, String sortBy, boolean isAscending) {
-		String sql = "select distinct schedule"
-					+ " from Schedule as schedule"
-					+ " where schedule.project.id = :projectId"
-					+ " order by schedule." + sortBy;
+		String sql = "select distinct scheduler"
+					+ " from Schedule as scheduler"
+					+ " where scheduler.project.id = :projectId"
+					+ " order by scheduler." + sortBy;
 		
 		if (!isAscending) {
 			sql = sql + " desc";
@@ -113,10 +113,10 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 
 	@Override
 	public List<Schedule> findByDeviceId(long deviceId) {
-		String sql = "select distinct schedule"
-				+ " from Schedule as schedule"
-				+ " where schedule.device.id = :deviceId"
-				+ " order by schedule.name";
+		String sql = "select distinct scheduler"
+				+ " from Schedule as scheduler"
+				+ " where scheduler.device.id = :deviceId"
+				+ " order by scheduler.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("deviceId", deviceId);
 		
@@ -125,11 +125,11 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 
 	@Override
 	public List<Schedule> findFailedSchedules() {
-		String sql = "select distinct schedule"
-				+ " from Schedule as schedule"
-				+ " where schedule.enabled = :enabled"
-				+ " and schedule.status = :status"
-				+ " order by schedule.project.id";
+		String sql = "select distinct scheduler"
+				+ " from Schedule as scheduler"
+				+ " where scheduler.enabled = :enabled"
+				+ " and scheduler.status = :status"
+				+ " order by scheduler.project.id";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("enabled", true)
 				.setParameter("status", false);
@@ -139,11 +139,11 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 
 	@Override
 	public List<Schedule> findEnabledSchedules(String scheduleTime) {
-		String sql = "select distinct schedule"
-				+ " from Schedule as schedule"
-				+ " where schedule.enabled = :enabled"
-				+ " and schedule.time = :scheduleTime"
-				+ " order by schedule.project.id";
+		String sql = "select distinct scheduler"
+				+ " from Schedule as scheduler"
+				+ " where scheduler.enabled = :enabled"
+				+ " and scheduler.time = :scheduleTime"
+				+ " order by scheduler.project.id";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("enabled", true)
 				.setParameter("scheduleTime", scheduleTime);
@@ -153,9 +153,9 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 
 	@Override
 	public List<Schedule> findByZoneId(long zoneId) {
-		String sql = "select distinct schedule"
-				+ " from Schedule as schedule"
-				+ " where schedule.device.zone.id = :zoneId";
+		String sql = "select distinct scheduler"
+				+ " from Schedule as scheduler"
+				+ " where scheduler.device.zone.id = :zoneId";
 	
 		Query query = getCurrentSession().createQuery(sql)
 					.setParameter("zoneId", zoneId);
@@ -198,13 +198,13 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 
 	@Override
 	public List<Schedule> findByUserZoneId(long userId, Long zoneId) {
-		String sql = "select distinct schedule"
-				+ " from Schedule as schedule, UserDevice as userDevice"
+		String sql = "select distinct scheduler"
+				+ " from Schedule as scheduler, UserDevice as userDevice"
 				+ " where userDevice.user.id = :userId"
-				+ " and userDevice.device.id = schedule.device.id"
+				+ " and userDevice.device.id = scheduler.device.id"
 				+ " and userDevice.device.zone.id = :zoneId"
 				+ " and userDevice.role = true"
-				+ " order by schedule.name";
+				+ " order by scheduler.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("userId", userId)
 				.setParameter("zoneId", zoneId)
@@ -215,13 +215,13 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 
 	@Override
 	public List<Schedule> findByUserProjectId(long userId, long projectId) {
-		String sql = "select distinct schedule"
-				+ " from Schedule as schedule, UserDevice as userDevice"
+		String sql = "select distinct scheduler"
+				+ " from Schedule as scheduler, UserDevice as userDevice"
 				+ " where userDevice.user.id = :userId"
-				+ " and userDevice.device.id = schedule.device.id"
+				+ " and userDevice.device.id = scheduler.device.id"
 				+ " and userDevice.role = true"
 				+ " and userDevice.project.id = :projectId"
-				+ " order by schedule.name";
+				+ " order by scheduler.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("userId", userId)
 				.setParameter("projectId", projectId)

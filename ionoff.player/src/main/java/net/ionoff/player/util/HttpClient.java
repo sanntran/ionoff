@@ -1,4 +1,4 @@
-package net.ionoff.player;
+package net.ionoff.player.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class HttpRequestUtil {
+public class HttpClient {
 	public static String sendHttpGETRequest(String url) throws IOException {
 		// logger.info("URL: " + url);
 		URL obj = new URL(url);

@@ -1,6 +1,7 @@
 package net.ionoff.broker.tcp.handler;
 
 public class Command {
+
     private String protocol;
     private String address;
     private String content;

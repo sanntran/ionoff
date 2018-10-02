@@ -1,4 +1,4 @@
-package net.ionoff.player.thread;
+package net.ionoff.player.scheduler;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,13 +6,12 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+
 import org.apache.log4j.Logger;
 
-import net.ionoff.player.AppProperties;
-import net.ionoff.player.FileManager;
-import net.ionoff.player.HttpRequestUtil;
+import net.ionoff.player.util.FileUtil;
+import net.ionoff.player.util.HttpClient;
 import net.ionoff.player.config.AppConfig;
-import net.ionoff.player.config.AppUtil;
 
 public class LatestVersionDownloader extends Thread {
 	
@@ -42,11 +41,11 @@ public class LatestVersionDownloader extends Thread {
 	private void dowloadLatestVersion() throws IOException {
 		String latestVersion = retrieveLatestVersion();
 		LOGGER.info("Latest version from update site: " + latestVersion);
-		if (AppProperties.getVersion().equals(latestVersion)) {
+		if (AppConfig.INSTANCE.VERSION.equals(latestVersion)) {
 			LOGGER.info("Current version is the latest version");
 			return;
 		}
-		String targetDirectory = AppProperties.getDowloadFolder();
+		String targetDirectory = getDowloadFolder();
 		File targetDir = new File(targetDirectory);
 		if (targetDir.exists() && targetDir.isDirectory()) {
 			for (File f : targetDir.listFiles()) {
@@ -58,24 +57,24 @@ public class LatestVersionDownloader extends Thread {
 		}
 		LOGGER.info("Downloading new version: " + latestVersion);
 		if (!targetDir.exists()) {
-			AppUtil.mkDir(targetDir);
+			targetDir.mkdirs();
 		}
-		String sourceUrl = AppConfig.getInstance().UPDATE_SITE + "/" + latestVersion + ".zip";
+		String sourceUrl = AppConfig.INSTANCE.UPDATE_SITE + "/" + latestVersion + ".zip";
 		URL url = new URL(sourceUrl);
 		String fileName = latestVersion + ".zip";
 		Path targetPath = new File(targetDirectory + File.separator + fileName).toPath();
 		Files.copy(url.openStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
 		
 		
-		String updateFolder = AppProperties.getUpdateFolder();
-		FileManager.deleteFile(updateFolder);
+		String updateFolder = getUpdateFolder();
+		FileUtil.deleteFile(updateFolder);
 		LOGGER.info("Extracting file " + latestVersion + ".zip to " + updateFolder);
-		FileManager.unzip(targetPath.toString(), updateFolder);
+		FileUtil.unzip(targetPath.toString(), updateFolder);
 	}
 	
 	private String retrieveLatestVersion() throws IOException {
-		String sourceUrl = AppConfig.getInstance().UPDATE_SITE + "/latest.json";
-		return HttpRequestUtil.sendHttpGETRequest(sourceUrl);
+		String sourceUrl = AppConfig.INSTANCE.UPDATE_SITE + "/latest.json";
+		return HttpClient.sendHttpGETRequest(sourceUrl);
 	}
 
 	public static LatestVersionDownloader getInstance() {
@@ -83,5 +82,14 @@ public class LatestVersionDownloader extends Thread {
 			instance = new LatestVersionDownloader();
 		}
 		return instance;
+	}
+
+
+	public static String getUpdateFolder() {
+		return AppConfig.INSTANCE.APP_DIR + File.separator + "ext";
+	}
+
+	public static String getDowloadFolder() {
+		return AppConfig.INSTANCE.APP_DIR + File.separator + "dist";
 	}
 }

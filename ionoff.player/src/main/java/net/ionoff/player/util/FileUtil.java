@@ -1,4 +1,4 @@
-package net.ionoff.player;
+package net.ionoff.player.util;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -15,10 +16,10 @@ import java.util.zip.ZipInputStream;
 
 import org.apache.log4j.Logger;
 
-public class FileManager {
+public class FileUtil {
 	
-	private static final Logger LOGGER = Logger.getLogger(FileManager.class.getName());
-	
+	private static final Logger LOGGER = Logger.getLogger(FileUtil.class.getName());
+
 	public static void deleteFile(String filePath) {
 		File file = new File(filePath);
 		// make sure directory exists

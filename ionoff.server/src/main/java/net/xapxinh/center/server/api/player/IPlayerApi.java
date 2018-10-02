@@ -15,7 +15,7 @@ public interface IPlayerApi {
 	static final String CONTEXT_STATUS = "/requests/status";
 	static final String CONTEXT_PLAYLIST = "/requests/playlist";
 	static final String CONTEXT_BROWSE = "/requests/browse";
-	static final String CONTEXT_SCHEDULE = "/requests/schedule";
+	static final String CONTEXT_SCHEDULE = "/requests/scheduler";
 	
 	Status requestStatus(Player player, Map<String, Object> params) throws PlayerConnectException;
 

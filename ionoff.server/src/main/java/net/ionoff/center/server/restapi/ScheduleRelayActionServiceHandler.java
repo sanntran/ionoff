@@ -43,7 +43,7 @@ public class ScheduleRelayActionServiceHandler {
 		
 		final String userName = RequestContextHolder.getUserName();
 		
-		logger.info("User " + userName + " update schedule-relay-action. ID: " 
+		logger.info("User " + userName + " update scheduler-relay-action. ID: "
 				+ scheduleRelayActionDto.getId() + ", Action: " + scheduleRelayActionDto.getAction());
 		
 		return scheduleActionService.updateScheduleRelayActionDto(scheduleRelayActionDto);

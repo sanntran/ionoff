@@ -2,19 +2,18 @@ package net.ionoff.player.handler;
 
 import java.util.Map;
 
-import net.ionoff.player.AppProperties;
-import net.ionoff.player.exception.DateTimeFormatException;
 import net.ionoff.player.exception.UnknownCommandException;
 import net.ionoff.player.model.Schedule;
+import net.ionoff.player.storage.LocalStorage;
 
 public class ScheduleRequestHandler {
 	
-	public Schedule handleRequest(Map<String, String> parameters) throws UnknownCommandException, DateTimeFormatException {
+	public Schedule handleRequest(Map<String, String> parameters) {
 		String command = parameters.get("command");
 		return handleRequest(command, parameters);
 	}
 	
-	private Schedule handleRequest(String command, Map<String, String> parameters) throws UnknownCommandException, DateTimeFormatException {
+	private Schedule handleRequest(String command, Map<String, String> parameters) {
 		if ("get".equals(command)) {
 			return getSchedule();
 		}
@@ -24,16 +23,16 @@ public class ScheduleRequestHandler {
 		throw new UnknownCommandException(command);
 	}
 	
-	private Schedule updateSchedule(Map<String, String> params) throws DateTimeFormatException {
+	private Schedule updateSchedule(Map<String, String> params) {
 		String action = params.get("action");
 		String dateTime = params.get("dateTime");
-		AppProperties.getSchedule().setAction(action);
-		AppProperties.getSchedule().setDateTime(dateTime);
-		AppProperties.writeProperties();
-		return AppProperties.getSchedule();
+		LocalStorage.INSTANCE.getData().getSchedule().setAction(action);
+		LocalStorage.INSTANCE.getData().getSchedule().setDateTime(dateTime);
+		LocalStorage.INSTANCE.write();
+		return LocalStorage.INSTANCE.getData().getSchedule();
 	}
 
 	private Schedule getSchedule() {
-		return AppProperties.getSchedule();
+		return LocalStorage.INSTANCE.getData().getSchedule();
 	}
 }

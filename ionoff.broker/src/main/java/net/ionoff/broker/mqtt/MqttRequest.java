@@ -16,18 +16,8 @@ public class MqttRequest {
     }
 
     public boolean onMessageArrived(String topic, String message) {
-        if (MqttBroker.TOPIC_IONOFF.equals(topic) ||
-                MqttBroker.TOPIC_RELAYDRIVER.equals(topic) ||
-                MqttBroker.TOPIC_SENSORDRIVER.equals(topic)) {
+        if (this.topic.equals(topic)) {
             if (message.startsWith("id=" + this.topic)) {
-                response = message;
-                mqttBroker.removePendingClient(this);
-                return true;
-            }
-
-        }
-        else if (MqttBroker.TOPIC_MEDIAPLAYER.equals(topic)) {
-            if (message.contains("\"uuid\":\"" + uuid + "\"")) {
                 response = message;
                 mqttBroker.removePendingClient(this);
                 return true;
@@ -37,7 +27,7 @@ public class MqttRequest {
     }
 
     public String sendMqttRequest(String topic, String payload) throws TimeoutException {
-        this.topic = topic;
+        this.topic = "Response/" + topic;
         mqttBroker.addPendingRequest(this);
         mqttBroker.publishMessage(topic, payload);
         for (int i = 0; i < 100; i++) { // 10000 milisecond

@@ -1,4 +1,4 @@
-package net.ionoff.broker.tcp.handler;
+package net.ionoff.broker.http.handler;
 
 import net.ionoff.broker.mqtt.MqttBroker;
 import org.slf4j.Logger;

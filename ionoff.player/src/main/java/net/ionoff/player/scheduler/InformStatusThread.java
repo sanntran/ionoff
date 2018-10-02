@@ -1,4 +1,4 @@
-package net.ionoff.player.thread;
+package net.ionoff.player.scheduler;
 
 import java.io.BufferedReader;
 import java.io.IOException;

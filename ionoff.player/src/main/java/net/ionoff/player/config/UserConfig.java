@@ -22,26 +22,25 @@ public class UserConfig {
 	public String LICENSE_KEY;
 
 	public static final String DEFAULT_SERVER_HOST = "localhost";
-	public static final int DEFAULT_SERVER_PORT = 8118;
+	public static final int DEFAULT_SERVER_PORT = 1883;
 	public static final String DEFAULT_LOGIN_PASSWORD = "1234";
 	public static final String DEFAULT_ROOT_BROWSE_DIR = "/home/ubuntu/music";
 	public static final String DEFAULT_MPD_MUSIC_DIRECTORY = DEFAULT_ROOT_BROWSE_DIR;
-	public static final String DEFAULT_LICENSE_KEY = AppUtil.getMacAddresses().get(0);
 
 	public UserConfig() {
 		final Properties userConfig = new Properties();
 		try {
 			// load a properties file
-			File currentDirUserConfigFile = new File(AppUtil.getCurrentDir() + File.separator + "imp.properties");
+			File currentDirUserConfigFile = new File(AppConfig.INSTANCE.APP_DIR + File.separator + "config.properties");
 			if (currentDirUserConfigFile.exists()) {
 				InputStream appConfigInput = new FileInputStream(currentDirUserConfigFile.getAbsolutePath());
 				userConfig.load(appConfigInput);
 			}
 			else {
-				SERVER_HOST = "localhost";
-				SERVER_PORT = 8118;
+				SERVER_HOST = DEFAULT_SERVER_HOST;
+				SERVER_PORT = DEFAULT_SERVER_PORT;
 				LOGIN_PASSWORD = DEFAULT_LOGIN_PASSWORD;
-				MPD_MUSIC_DIRECTORY = "/home/ubuntu/music";
+				MPD_MUSIC_DIRECTORY = DEFAULT_MPD_MUSIC_DIRECTORY;
 				ROOT_BROWSE_DIR = MPD_MUSIC_DIRECTORY;
 				return;
 			}
@@ -63,7 +62,7 @@ public class UserConfig {
 		
 		File mpdMusicDirectory = new File(MPD_MUSIC_DIRECTORY);
 		if (!mpdMusicDirectory.exists()) {
-			AppUtil.mkDir(mpdMusicDirectory);
+			mpdMusicDirectory.mkdirs();
 		}
 		ROOT_BROWSE_DIR = MPD_MUSIC_DIRECTORY;
 	}
