@@ -1,47 +1,56 @@
 package net.ionoff.player.connection;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.google.gson.Gson;
 
 public class MqttResponseMessage {
 
-	private String uid;
 	private String status;
 	private String message;
-	private String object;	
+	private Object object;
 	private String clazz;	
-	private static final Gson GSON = new Gson();
-	
+
 	public MqttResponseMessage(String message, Object obj) {
 		this.message = message;
 		this.clazz = obj.getClass().getSimpleName();
 		if (obj instanceof Exception) {			
 			this.status = "error";
+			this.object = obj.getClass().getSimpleName() + ": " + ((Exception) obj).getMessage();
 		}
 		else {
 			this.status = "success";
-			if (obj instanceof String) {
-				this.object = (String)obj;
-			}
-			else {
-				this.object = GSON.toJson(obj);
-			}
+			this.object = obj;
 		}
 	}
-	
-	public String toJSONString() {
-		JSONObject json = new JSONObject();
-		try {
-			json.put("status", status);
-			json.put("message", message);
-			json.put("object", object);
-			json.put("clazz", clazz);
-			return json.toString();
-		}
-		catch (JSONException e) {
-			return "{\"status\":\"error\",\"clazz\":\"JSONException\",\"message\":\"" + e.getMessage() + "\"}";
-		}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public Object getObject() {
+		return object;
+	}
+
+	public void setObject(Object object) {
+		this.object = object;
+	}
+
+	public String getClazz() {
+		return clazz;
+	}
+
+	public void setClazz(String clazz) {
+		this.clazz = clazz;
 	}
 }

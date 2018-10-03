@@ -1,12 +1,15 @@
 package net.ionoff.broker.http.handler;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import net.ionoff.broker.http.*;
 import net.ionoff.broker.mqtt.MqttBroker;
 import net.ionoff.broker.mqtt.MqttRequest;
 import net.ionoff.broker.tcp.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
 
 public class HttpHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpHandler.class);
@@ -34,21 +37,22 @@ public class HttpHandler {
                 if (HttpMethod.DELETE.equals(httpRequest.getMethod())) {
                     Device device = GSON.fromJson(body, Device.class);
                     deviceManager.removeDevice(device);
+                    return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), device);
                 }
                 else if (HttpMethod.PUT.equals(httpRequest.getMethod())) {
                     Device device = GSON.fromJson(body, Device.class);
                     deviceManager.addDevice(device);
+                    return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), device);
                 }
                 else if (HttpMethod.POST.equals(httpRequest.getMethod())) {
                     DeviceList devices = GSON.fromJson(body, DeviceList.class);
                     deviceManager.setDevices(devices);
+                    return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), devices);
                 }
                 else {
                     String message = "Method not allowed " + httpRequest.getMethod().name();
                     throw new ClientException(HttpStatus.METHOD_NOT_ALLOWED, message);
                 }
-                String resp = "";
-                return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), resp);
             } catch (ClientException e) {
                 throw e;
             } catch (Exception e) {
@@ -60,16 +64,16 @@ public class HttpHandler {
             String body = httpRequest.getBody();
             Command command = toRequestModel(body);
             if ("http".equals(command.getProtocol())) {
-                String resp = sendHttpRequest(command.getAddress());
+                Object resp = sendHttpRequest(command.getMethod(), command.getAddress(), getContent(command));
                 return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), resp);
             }
             else if ("tcp".equals(command.getProtocol())) {
-                String resp = sendTcpCommand(command.getAddress(), command.getContent());
+                Object resp = sendTcpCommand(command.getAddress(), getContent(command));
                 return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), resp);
             }
             else if ("mqtt".equals(command.getProtocol())) {
-                String resp = sendMqttMessage(command.getAddress(), command.getSubscription(),
-                        command.getKeyword(), command.getContent());
+                Object resp = sendMqttMessage(command.getAddress(), command.getSubscription(),
+                        command.getKeyword(), getContent(command));
                 return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), resp);
             }
             else {
@@ -82,10 +86,23 @@ public class HttpHandler {
         }
     }
 
+    private String getContent(Command command) {
+        if (command.getContent() instanceof String) {
+            return (String) command.getContent();
+        }
+        else {
+            return GSON.toJson(command.getContent());
+        }
+    }
 
-    private String sendTcpCommand(String address, String content) {
+    private Object sendTcpCommand(String address, String content) {
         try {
-            return tcpBroker.sendCommand(address, content);
+            String resp =  tcpBroker.sendCommand(address, content);
+            try {
+                return GSON.fromJson(resp, JsonObject.class);
+            } catch (Exception e) {
+                return resp;
+            }
         } catch (Exception e) {
             String msg = "Error sending tcp command to " + address + ": " + e.getClass().getSimpleName() + " " + e.getMessage();
             LOGGER.error(msg, e);
@@ -93,10 +110,15 @@ public class HttpHandler {
         }
     }
 
-    private String sendMqttMessage(String address, String subscription,
+    private Object sendMqttMessage(String address, String subscription,
                                    String keyword, String content) {
         try {
-            return new MqttRequest(mqttBroker, subscription, keyword).sendMqttRequest(address, content);
+            String resp = new MqttRequest(mqttBroker, subscription, keyword).sendMqttRequest(address, content);
+            try {
+                return GSON.fromJson(resp, JsonObject.class);
+            } catch (Exception e) {
+                return resp;
+            }
         } catch (Exception e) {
             String msg = "Error sending mqtt request to " + address + ": " + e.getClass().getSimpleName() + " " + e.getMessage();
             LOGGER.error(e.getMessage(), e);
@@ -104,9 +126,14 @@ public class HttpHandler {
         }
     }
 
-    private String sendHttpRequest(String address) {
+    private Object sendHttpRequest(String method, String address, String content) {
         try {
-            return HttpClient.sendGetRequest(address);
+            String resp = HttpClient.sendGetRequest(address);
+            try {
+                return GSON.fromJson(resp, JsonObject.class);
+            } catch (Exception e) {
+                return resp;
+            }
         } catch (Exception e) {
             String msg = "Error sending http request to " + address + ": " + e.getClass().getSimpleName() + " " + e.getMessage();
             LOGGER.error(msg, e);

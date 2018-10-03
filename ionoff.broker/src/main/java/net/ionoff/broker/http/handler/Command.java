@@ -4,9 +4,10 @@ public class Command {
 
     private String protocol;
     private String address;
+    private String method;
     private String subscription;
     private String keyword;
-    private String content;
+    private Object content;
 
     public String getProtocol() {
         return protocol;
@@ -24,6 +25,14 @@ public class Command {
         this.address = address;
     }
 
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
     public String getSubscription() {
         return subscription;
     }
@@ -32,11 +41,11 @@ public class Command {
         this.subscription = subscription;
     }
 
-    public String getContent() {
+    public Object getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(Object content) {
         this.content = content;
     }
 

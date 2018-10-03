@@ -43,12 +43,12 @@ public class RequestHandler {
 	private RequestHandler() {
 	}
 
-	public static String handleRequest(MqttRequestMessage request) {
+	public static MqttResponseMessage handleRequest(MqttRequestMessage request) {
 		Map<String, String> params = request.getParameters();
 		return handleRequest(params);
 	}
 
-	private static String handleRequest(Map<String, String> params) {
+	private static MqttResponseMessage handleRequest(Map<String, String> params) {
 		final String context = params.get(RequestContext.CONTEXT);
 		params.remove(RequestContext.CONTEXT);
 
@@ -67,29 +67,29 @@ public class RequestHandler {
 		throw new UnknownContextException(context);
 	}
 
-	private static String handleScheduleRequest(Map<String, String> params) {
+	private static MqttResponseMessage handleScheduleRequest(Map<String, String> params) {
 		Schedule schedule = new ScheduleRequestHandler().handleRequest(params);
-		return new MqttResponseMessage("schedule", schedule).toJSONString();
+		return new MqttResponseMessage("schedule", schedule);
 	}
 
-	private static String handleStatusRequest(final Map<String, String> params) {
+	private static MqttResponseMessage handleStatusRequest(final Map<String, String> params) {
 		String command = params.get(COMMAND);
 		final Status status = handleStatusRequest(command, params);
-		return new MqttResponseMessage("status", status).toJSONString();
+		return new MqttResponseMessage("status", status);
 	}
 
-	private static String handlePlaylistRequest(final Map<String, String> params) {
+	private static MqttResponseMessage handlePlaylistRequest(final Map<String, String> params) {
 		String command = params.get(COMMAND);
 		if (!params.isEmpty() && "pl_update".equals(command)) {
 			updatePlaylist(params);
 		}
 		PlayList playlist = getPlayer().getPlaylist();
-		return new MqttResponseMessage("playlist", playlist).toJSONString();
+		return new MqttResponseMessage("playlist", playlist);
 	}
 
-	private static String handleBrowseRequest(final Map<String, String> params) {
+	private static MqttResponseMessage handleBrowseRequest(final Map<String, String> params) {
 		List<MediaFile> files = getBrowse(params);
-		return new MqttResponseMessage("files", files).toJSONString();
+		return new MqttResponseMessage("files", files);
 	}
 
 	private static List<MediaFile> getBrowse(Map<String, String> params) {
@@ -332,7 +332,6 @@ public class RequestHandler {
 			YoutubeVideo video = GSON.fromJson(input, YoutubeVideo.class);
 			getPlayer().inEnqueue(video, isPlay);
 		}
-		
 		else if (PLAYLIST.equals(inputType)) {
 			PlayList playlist = GSON.fromJson(input, PlayList.class);
 			getPlayer().inEnqueue(playlist, isPlay);

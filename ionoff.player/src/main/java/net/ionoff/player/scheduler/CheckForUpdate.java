@@ -40,7 +40,7 @@ public class CheckForUpdate extends Thread {
 		String latestVersion = retrieveLatestVersion();
 		LOGGER.info("Latest version from update site: " + latestVersion);
 		if (AppConfig.INSTANCE.VERSION.equals(latestVersion)) {
-			LOGGER.info("Current version is the latest version");
+			LOGGER.info("No new version to download");
 			return;
 		}
 		String targetDirectory = getDownloadFolder();
@@ -48,7 +48,7 @@ public class CheckForUpdate extends Thread {
 		if (targetDir.exists() && targetDir.isDirectory()) {
 			for (File f : targetDir.listFiles()) {
 				if (f.getName().equals(latestVersion + ".zip")) {
-					LOGGER.info("The latest version was downloaded");
+					LOGGER.info("New version was downloaded: " + f.getName());
 					return;
 				}
 			}

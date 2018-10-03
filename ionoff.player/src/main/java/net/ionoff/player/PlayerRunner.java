@@ -7,7 +7,7 @@ import net.ionoff.player.scheduler.CheckForUpdate;
 /**
  * Application entry-point.
  */
-public class MainRunner {
+public class PlayerRunner {
 
 	public static void main(String[] args) {
 		System.setProperty("app.dir", AppConfig.INSTANCE.APP_DIR);

@@ -23,11 +23,11 @@ public class MqttBroker extends AbstractVerticle {
     /**
      * Topics that are allowed to publish and subscribe.
      */
-    private static final List<String> PUBLISH_TOPIC_LIST = AppProperties.getBrokerTopics();
+    private final List<String> PUBLISH_TOPIC_LIST = AppProperties.getBrokerTopics();
 
-    private static final List<MqttRequest> PENDING_MQTT_REQUESTS = Collections.synchronizedList(new ArrayList<>());
+    private final List<MqttRequest> PENDING_MQTT_REQUESTS = Collections.synchronizedList(new ArrayList<>());
 
-    private static final Map<String, List<MqttEndpoint>> MQTT_ENDPOINTS = new ConcurrentHashMap<>();
+    private final Map<String, List<MqttEndpoint>> MQTT_ENDPOINTS = new ConcurrentHashMap<>();
 
     @Override
     public void start() {

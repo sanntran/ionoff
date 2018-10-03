@@ -4,7 +4,6 @@ import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import net.ionoff.broker.mqtt.MqttBroker;
-import net.ionoff.broker.tcp.TcpBroker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,16 +11,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-public class MainRunner {
+public class BrokerRunner {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MainRunner.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BrokerRunner.class);
 
     private static final String MQTT_DIR = "ibroker";
     private static final String MQTT_JAVA_DIR = MQTT_DIR + "/src/main/java/";
 
     public static void main(String[] args) {
         System.out.println("Log is written to: " + System.getProperty("user.dir"));
-        MainRunner.run(MqttBroker.class);
+        BrokerRunner.run(MqttBroker.class);
     }
 
     public static void run(Class clazz) {

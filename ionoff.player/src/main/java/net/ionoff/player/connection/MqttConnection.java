@@ -21,7 +21,6 @@ public class MqttConnection implements MqttCallback {
 
 	private String clientId;
 	private String status;
-	private StatusPublisher publishMessageScheduler;
 
 	private Thread mqttThread;
 	private String brokerUrl;
@@ -40,7 +39,7 @@ public class MqttConnection implements MqttCallback {
 	public void initConnection() {
 		MqttDefaultFilePersistence filePersistence = new MqttDefaultFilePersistence(LocalStorage.INSTANCE.getDir());
 		clientId = UserConfig.getInstance().LICENSE_KEY;
-		subscribleTopics = new String[] {};
+		subscribleTopics = new String[] {clientId};
 		brokerUrl = "tcp://" + UserConfig.getInstance().SERVER_HOST + ":" + UserConfig.getInstance().SERVER_PORT;
 		try {
 			client = new MqttClient(brokerUrl, clientId, filePersistence);
@@ -63,7 +62,42 @@ public class MqttConnection implements MqttCallback {
 		handleMessage(payload);
 	}
 
+	private synchronized void handleMessage(String message) {
+		String subscription = null;
+		Object response;
+		try {
+			if (message == null) {
+				throw new BadRequestException("Request message is null");
+			}
+			final MqttRequestMessage request = new MqttRequestMessage(message);
+			if (request.getSubscription() == null || request.getSubscription().isEmpty()) {
+				throw new BadRequestException("Request message subscription is empty");
+			}
+			subscription = request.getSubscription();
+			if (request.getParameters() == null) {
+				throw new BadRequestException("Request message parametters is null");
+			}
+			response = RequestHandler.handleRequest(request);
+		}
+		catch (final Throwable e) {
+			if (e instanceof BadRequestException) {
+				LOGGER.error("BadRequestException: " + e.getMessage());
+			}
+			if (e instanceof MpdConnectException) {
+				LOGGER.error("MpdConnectException: Error connect MPD ");
+			}
+			else {
+				LOGGER.error(e.getClass().getSimpleName() + ": " + e.getMessage(), e);
+			}
+			response = new MqttResponseMessage(e.getMessage(), e);
+		}
+		if (subscription != null && !subscription.isEmpty() && response != null) {
+			publishMessage(subscription, GSON.toJson(response));
+		}
+	}
+
 	public void publishMessage(String topic, String payload) {
+		LOGGER.debug("Publish message to topic: " + topic + ". Message: " + payload);
 		if (!isConnected()) {
 			LOGGER.error("Error publishing message, disconnected");
 			return;
@@ -93,39 +127,6 @@ public class MqttConnection implements MqttCallback {
 		connectMqttBroker();
 	}
 
-	private synchronized void handleMessage(String message) {
-		String subscription = null;
-		String response = null;
-		try {
-			if (message == null) {
-				throw new BadRequestException("Request message is null");
-			}
-			final MqttRequestMessage request = new MqttRequestMessage(message);
-			if (request.getSubscription() == null || request.getSubscription().isEmpty()) {
-				throw new BadRequestException("Request message subscription is empty");
-			}
-			subscription = request.getSubscription();
-			if (request.getParameters() == null) {
-				throw new BadRequestException("Request message parametters is null");
-			}
-			response = RequestHandler.handleRequest(request);
-		}
-		catch (final Throwable e) {
-			if (e instanceof BadRequestException) {
-				LOGGER.error("BadRequestException: " + e.getMessage());
-			}
-			if (e instanceof MpdConnectException) {
-				LOGGER.error("MpdConnectException: Error connect MPD ");
-			}
-			else {
-				LOGGER.error(e.getClass().getSimpleName() + ": " + e.getMessage(), e);
-			}
-			response = new MqttResponseMessage(e.getMessage(), e).toJSONString();
-		}
-		if (subscription != null && !subscription.isEmpty() && response != null) {
-			publishMessage(subscription, response);
-		}
-	}
 
 	private class StatusPublisher extends Thread {
 		@Override
@@ -165,7 +166,7 @@ public class MqttConnection implements MqttCallback {
 			client.connect(connOpt);
 
 			status = CONNECTED;
-			LOGGER.info("Connected to broker" + brokerUrl);
+			LOGGER.info("Connected to broker " + brokerUrl);
 			setConnected(true);
 			setSubscribleTopic(subscribleTopics);
 		} catch (MqttException e) {
@@ -196,7 +197,7 @@ public class MqttConnection implements MqttCallback {
 		// re-connected.
 		// The getPendingTokens method will provide tokens for any messages
 		// that are still to be delivered.
-		LOGGER.info("Delivery message to broker complete. " + token.getMessageId());
+		LOGGER.debug("Delivery message to broker complete. " + token.getMessageId());
 	}
 
 	private void setSubscribleTopic(String subscribleTopics[]) {

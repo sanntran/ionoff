@@ -32,6 +32,7 @@ public class UserConfig {
 		try {
 			// load a properties file
 			File currentDirUserConfigFile = new File(AppConfig.INSTANCE.APP_DIR + File.separator + "config.properties");
+			LOGGER.info("Reading user-config file: " + currentDirUserConfigFile);
 			if (currentDirUserConfigFile.exists()) {
 				InputStream appConfigInput = new FileInputStream(currentDirUserConfigFile.getAbsolutePath());
 				userConfig.load(appConfigInput);
