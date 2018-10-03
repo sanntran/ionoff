@@ -4,16 +4,16 @@ import java.util.List;
 
 public class Device {
 
-    private String uid;
+    private String key;
     private String topic;
     private List<String> urls;
 
-    public String getUid() {
-        return uid;
+    public String getKey() {
+        return key;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getTopic() {

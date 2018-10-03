@@ -47,21 +47,28 @@ public class DeviceThread extends Thread {
                 || device.getTopic() == null || device.getTopic().isEmpty()) {
             return;
         }
-        List<String> responses = new ArrayList<>();
-        for (String url : device.getUrls()) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("key=").append(device.getKey());
+        sb.append("&status=");
+        for (int i = 0; i < device.getUrls().size(); i++) {
+            String url = device.getUrls().get(i);
+            if (i > 0) {
+                sb.append(";");
+            }
             try {
                 String response = HttpClient.sendGetRequest(url);
-                responses.add(response);
+                sb.append(response);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    LOGGER.error("InterruptedException " + e.getMessage());
+                }
             } catch (Exception e) {
                 LOGGER.error(e.getClass().getSimpleName() + " GET " + url + " " + e.getMessage());
-                String response = "Error:" + e.getMessage();
-                responses.add(response);
+                sb.append("error");
             }
         }
-        Map<String, Object> map = new HashMap<>();
-        map.put("uid", device.getUid());
-        map.put("status", responses);
-        mqttBroker.publishMessage(device.getTopic(), GSON.toJson(map));
+        mqttBroker.publishMessage(device.getTopic(), sb.toString());
     }
 
     void setDevice(Device device) {
@@ -69,7 +76,7 @@ public class DeviceThread extends Thread {
     }
 
     public String getUid() {
-        return device.getUid();
+        return device.getKey();
     }
 
     public void shutdown() {

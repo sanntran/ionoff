@@ -30,7 +30,7 @@
     <task:scheduler id="taskScheduler" pool-size="8"/>
 
 
-	<context:component-scan base-package="net.ionoff.center.server.restapi, net.ionoff.center.server.scheduler" />
+	<context:component-scan base-package="net.ionoff.center.server.controller, net.ionoff.center.server.scheduler" />
 
 	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
 	  <property name="corePoolSize" value="5" />
@@ -96,7 +96,7 @@
 		class="net.ionoff.center.server.security.JwtAuthenticationTokenFilter">
 	</bean>
 
-	<context:component-scan base-package="net.ionoff.center.server.restapi" />
+	<context:component-scan base-package="net.ionoff.center.server.controller" />
 
 	<bean id="e3RelayDriverApi" class="net.ionoff.center.server.relaydriver.api.E3RelayDriverApi">
 	</bean>

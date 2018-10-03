@@ -35,7 +35,6 @@
         <property name="dataSource" ref="dataSource" />
         <property name="locations" value="classpath:/META-INF/db_migration" />
         <property name="validateOnMigrate" value="false"/>
-        <property name="initOnMigrate" value="true" />
     </bean>
 
     <!--Daos  -->

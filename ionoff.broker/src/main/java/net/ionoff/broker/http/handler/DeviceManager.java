@@ -23,7 +23,7 @@ public class DeviceManager {
     synchronized void addDevice(Device device) {
         boolean existed = false;
         for (int i = 0; i < deviceThreads.size(); i++) {
-            if (deviceThreads.get(i).getUid().equals(device.getUid())) {
+            if (deviceThreads.get(i).getUid().equals(device.getKey())) {
                 existed = true;
                 deviceThreads.get(i).setDevice(device);
                 break;
@@ -38,7 +38,7 @@ public class DeviceManager {
 
     void removeDevice(Device device) {
         for (int i = 0; i < deviceThreads.size(); i++) {
-            if (deviceThreads.get(i).getUid().equals(device.getUid())) {
+            if (deviceThreads.get(i).getUid().equals(device.getKey())) {
                 deviceThreads.remove(i);
                 break;
             }

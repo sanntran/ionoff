@@ -4,6 +4,7 @@ package net.ionoff.center.server.thread;
 import java.util.Date;
 import java.util.List;
 
+import net.ionoff.center.server.relaydriver.*;
 import org.apache.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -206,17 +207,29 @@ public class MosquittoClient implements MqttCallback {
 	}
 
 	private void onRelayDriverMessageArrived(String payload) {
-		RelayDriverMqttPayload mqttPayload = new RelayDriverMqttPayload(payload);
-		if (mqttPayload.getId() == null) {
-			LOGGER.info("Message is not valid format " + payload);
+		BaseIOStatus status = null;
+		try {
+			if (ExIOStatus.accept(payload)) {
+				status = new ExIOStatus(payload);
+			} else if (PxIOStatus.accept(payload)) {
+				status = new PxIOStatus(payload);
+			} else if (EcIOStatus.accept(payload)) {
+				status = new EcIOStatus(payload);
+			} else if (EpIOStatus.accept(payload)) {
+				status = new EpIOStatus(payload);
+			}
+		} catch (Exception e) {
+			LOGGER.error(e.getClass().getSimpleName() + " Error parsing message " + e.getMessage());
+		}
+		if (status == null) {
+			LOGGER.error("Unknown message format " + payload);
 			return;
 		}
-		List<RelayDriver> relayDrivers = relayDriverDao.findByMac(mqttPayload.getId());
+		List<RelayDriver> relayDrivers = relayDriverDao.findByMac(status.getKey());
 		if (relayDrivers.isEmpty()) {
-			LOGGER.info("No relay-driver found in the DB. Key: " + mqttPayload.getId());
+			LOGGER.info("No relay-driver found. Key: " + status.getKey());
 			return;
 		}
-		
 		RelayDriver relayDriver = relayDrivers.get(0);
 		relayDriver.setConnectedTime(System.currentTimeMillis());
 		relayDriverDao.update(relayDriver);
@@ -237,6 +250,7 @@ public class MosquittoClient implements MqttCallback {
 			relayDriverStatusHandler.onCrashed(relayDriver, mqttPayload.getIn(),  mqttPayload.getOut());
 		}
 	}
+
 
 	private void setSubscribleTopic(String subscribleTopic[]) {
 		try {
