@@ -5,7 +5,7 @@
 
 <hibernate-mapping>
     
-	<class name="net.xapxinh.center.server.entity.PlayNode" table="playnodes">
+	<class name="net.ionoff.center.server.entity.PlayNode" table="playnodes">
 		
 		<id name="id" type="long" column="id">
 			<generator class="increment" />
@@ -27,7 +27,7 @@
 			fetch="select" order-by="idx">
 			<key column="playnode_id" not-null="true">
 			</key>
-			<one-to-many entity-name="net.xapxinh.center.server.entity.PlayLeaf" />
+			<one-to-many entity-name="net.ionoff.center.server.entity.PlayLeaf" />
 		</bag>
 				
 		<many-to-one name="playList" class="net.ionoff.center.server.entity.PlayList" fetch="select">

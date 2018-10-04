@@ -15,8 +15,8 @@ import net.xapxinh.center.client.player.PlayerPresenter;
 import net.xapxinh.center.client.player.PlayerUtil;
 import net.xapxinh.center.shared.dto.PlayListDto;
 import net.xapxinh.center.shared.dto.PlayerApi;
-import net.xapxinh.center.shared.dto.State;
-import net.xapxinh.center.shared.dto.Status;
+import net.xapxinh.center.shared.dto.StateDto;
+import net.xapxinh.center.shared.dto.StatusDto;
 
 /**
  * @author Sann Tran
@@ -75,7 +75,7 @@ public class PlayerControlPresenter extends AbstractPresenter {
 	protected final Display display;
 	protected Timer playingTimer;
 	protected String prevTitle = null;
-	protected Status currentStatus = null;
+	protected StatusDto currentStatus = null;
 	protected long playingTime = 0;
 	private final PlayerPresenter playerPresenter;
 	private PopupPlayingPresenter popupPlayingPresenter;
@@ -174,7 +174,7 @@ public class PlayerControlPresenter extends AbstractPresenter {
 		});
 	}
 
-	public void setStatus(Status status) {	
+	public void setStatus(StatusDto status) {
 		currentStatus = status;
 		getPopupPlayingPresenter().setStatus(status);
 		if (currentStatus == null) {
@@ -320,15 +320,15 @@ public class PlayerControlPresenter extends AbstractPresenter {
 	}
 
 	private boolean isPlaying() {
-		return currentStatus != null && State.playing.toString().equalsIgnoreCase(currentStatus.getState());
+		return currentStatus != null && StateDto.playing.toString().equalsIgnoreCase(currentStatus.getState());
 	}
 	
 	private boolean isStopped() {
-		return currentStatus != null && State.stopped.toString().equals(currentStatus.getState());
+		return currentStatus != null && StateDto.stopped.toString().equals(currentStatus.getState());
 	}
 	
 	private boolean isPaused() {
-		return currentStatus != null && State.paused.toString().equals(currentStatus.getState());
+		return currentStatus != null && StateDto.paused.toString().equals(currentStatus.getState());
 	}
 	
 	private void setPlayingTitle(String title) {

@@ -15,10 +15,10 @@ import net.xapxinh.center.shared.dto.MediaFile;
 import net.xapxinh.center.shared.dto.PlayLeafDto;
 import net.xapxinh.center.shared.dto.PlayListDto;
 import net.xapxinh.center.shared.dto.PlayNodeDto;
-import net.xapxinh.center.shared.dto.Schedule;
-import net.xapxinh.center.shared.dto.Song;
-import net.xapxinh.center.shared.dto.Status;
-import net.xapxinh.center.shared.dto.YoutubeVideo;
+import net.xapxinh.center.shared.dto.ScheduleDto;
+import net.xapxinh.center.shared.dto.SongDto;
+import net.xapxinh.center.shared.dto.StatusDto;
+import net.xapxinh.center.shared.dto.YoutubeVideoDto;
 
 public abstract class AbstractPlayerServiceImpl implements IPlayerService {
 	protected static final String INPUT = "input"; 
@@ -39,7 +39,7 @@ public abstract class AbstractPlayerServiceImpl implements IPlayerService {
 	private final PlayerCaches playerCaches;
 	protected final DataServiceApi dataServiceApi;
 
-	public AbstractPlayerServiceImpl(IPlayerApi playerApi, AbstractPlayerConnectionPool playerConnectionPool, 
+	public AbstractPlayerServiceImpl(IPlayerApi playerApi,
 			PlayerCaches playerCaches, DataServiceApi dataServiceApi) {
 		gson = new Gson();
 		this.playerApi = playerApi;
@@ -52,7 +52,7 @@ public abstract class AbstractPlayerServiceImpl implements IPlayerService {
 	abstract protected PlayLeafDto getPlayLeaf(Player player, Long playLeafId);
 	
 	@Override
-	public Status requesStatus(Player player, Map<String, Object> params) {
+	public StatusDto requesStatus(Player player, Map<String, Object> params) {
 		if (params == null) {
 			params = new HashMap<String, Object>();
 		}
@@ -68,7 +68,7 @@ public abstract class AbstractPlayerServiceImpl implements IPlayerService {
 			putAlbumParam(player, params, album);
 		}
 		else if (isInputYoutube(params)) {
-			YoutubeVideo youtubeVideo = new YoutubeVideo();
+			YoutubeVideoDto youtubeVideo = new YoutubeVideoDto();
 			youtubeVideo.setId((String)params.get(INPUT));
 			youtubeVideo.setTitle((String)params.get(TITLE));
 			String mrl = getActualYoutubeVideoUrl(player, youtubeVideo.getId());
@@ -82,7 +82,7 @@ public abstract class AbstractPlayerServiceImpl implements IPlayerService {
 		}
 		else if (isInputAlbumTrack(params)) {
 			Long songId = Long.parseLong((String)params.get(INPUT));		
-			Song song = dataServiceApi.getSong(player, songId);
+			SongDto song = dataServiceApi.getSong(player, songId);
 			params.put(INPUT, gson.toJson(song));
 		}
 		else if (isInputPlayNode(params)) {
@@ -96,7 +96,7 @@ public abstract class AbstractPlayerServiceImpl implements IPlayerService {
 			params.put(INPUT, gson.toJson(playLeaf));
 		}
 		try {
-			final Status status = getPlayerApi(player).requestStatus(player, params);
+			final StatusDto status = getPlayerApi(player).requestStatus(player, params);
 			playerCaches.storeStatus(player.getId(), status);
 			return status;
 		}
@@ -213,8 +213,8 @@ public abstract class AbstractPlayerServiceImpl implements IPlayerService {
 	}
 
 	@Override
-	public Schedule requestSchedule(Player player, Map<String, Object> params) {
-		final Schedule schedule = getPlayerApi(player).requestSchedule(player, params);
+	public ScheduleDto requestSchedule(Player player, Map<String, Object> params) {
+		final ScheduleDto schedule = getPlayerApi(player).requestSchedule(player, params);
 		return schedule;
 	}
 	

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import net.xapxinh.center.server.entity.PlayNode;
+import net.ionoff.center.server.entity.PlayNode;
 
 @Transactional
 public interface IPlayNodeDao extends IGenericDao<PlayNode> {

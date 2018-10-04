@@ -20,13 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import net.ionoff.center.server.control.IControlService;
-import net.ionoff.center.server.control.UnknownRelayDriverModelException;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.exception.ChangeEntityIdException;
 import net.ionoff.center.server.exception.DeleteEntityException;
 import net.ionoff.center.server.persistence.service.IDashboardService;
 import net.ionoff.center.server.persistence.service.ISceneService;
-import net.ionoff.center.server.driver.api.RelayDriverException;
+import net.ionoff.center.server.relaydriver.exception.RelayDriverException;
 import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
 import net.ionoff.center.shared.dto.SceneDto;
@@ -156,7 +155,7 @@ public class SceneServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public SceneDto addToZoneDashboard(@PathVariable("sceneId") Long sceneId, @RequestParam("zoneId") Long zoneId,
-			HttpServletRequest request) throws RelayDriverException, UnknownRelayDriverModelException {
+			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		SceneDto sceneDto = sceneService.requireDtoById(sceneId);
 		if (zoneId == null || !zoneId.equals(sceneDto.getZoneId())) {
@@ -173,7 +172,7 @@ public class SceneServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public SceneDto addToProjectDashboard(@PathVariable("sceneId") Long sceneId, @RequestParam("projectId") Long projectId,
-			HttpServletRequest request) throws RelayDriverException, UnknownRelayDriverModelException {
+			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		SceneDto sceneDto = sceneService.requireDtoById(sceneId);
 		if (projectId == null || !projectId.equals(sceneDto.getProjectId())) {
@@ -190,7 +189,7 @@ public class SceneServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public SceneDto removeFromZoneDashboard(@PathVariable("sceneId") Long sceneId, @RequestParam("zoneId") Long zoneId,
-			HttpServletRequest request) throws RelayDriverException, UnknownRelayDriverModelException {
+			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		SceneDto sceneDto = sceneService.requireDtoById(sceneId);
 		if (zoneId == null || !zoneId.equals(sceneDto.getZoneId())) {
@@ -207,7 +206,7 @@ public class SceneServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public SceneDto removeFromProjectDashboard(@PathVariable("sceneId") Long sceneId, @RequestParam("projectId") Long projectId,
-			HttpServletRequest request) throws RelayDriverException, UnknownRelayDriverModelException {
+			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		SceneDto sceneDto = sceneService.requireDtoById(sceneId);
 		if (projectId == null || !projectId.equals(sceneDto.getProjectId())) {

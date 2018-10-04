@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static net.ionoff.center.server.broker.RelayDriverCommandBuilder.*;
+import net.ionoff.center.server.broker.BrokerHttpClient;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -29,21 +31,16 @@ import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
 import net.ionoff.center.server.persistence.dao.ISceneDao;
 import net.ionoff.center.server.persistence.dao.ISceneDeviceDao;
 import net.ionoff.center.server.persistence.service.IRelayService;
-import net.ionoff.center.server.driver.api.RelayDriverProvider;
-import net.ionoff.center.server.driver.api.RelayDriverApiUtil;
-import net.ionoff.center.server.driver.api.RelayDriverException;
-import net.ionoff.center.server.driver.api.RelayDriverStatus;
+import net.ionoff.center.server.relaydriver.exception.RelayDriverException;
 import net.ionoff.center.server.util.DateTimeUtil;
-import net.ionoff.center.shared.dto.StatusDto;
 import net.ionoff.center.shared.entity.PlayerAction;
 import net.ionoff.center.shared.entity.RelayAction;
-import net.ionoff.center.shared.entity.RelayDriverModel;
 import net.xapxinh.center.server.exception.DataServiceException;
 import net.xapxinh.center.server.exception.PlayerConnectException;
 import net.xapxinh.center.server.service.player.IPlayerService;
 import net.xapxinh.center.shared.dto.Command;
 import net.xapxinh.center.shared.dto.PlayerApi;
-import net.xapxinh.center.shared.dto.Status;
+import net.xapxinh.center.shared.dto.StatusDto;
 
 public class ControlServiceImpl implements IControlService {
 
@@ -69,13 +66,13 @@ public class ControlServiceImpl implements IControlService {
 	private RelayStatusNotifier relayStatusNotifier;
 
 	@Autowired
-	private RelayDriverProvider relayDriverApiProvider;
+	private BrokerHttpClient brokerHttpClient;
 	
 	@Autowired
 	private IRelayDriverDao relayDriverDao;
 	
 	@Override
-	public StatusDto switchOn(long relayId) {
+	public net.ionoff.center.shared.dto.StatusDto switchOn(long relayId) {
 		final Relay relay = relayService.requireById(relayId);
 		if (relay.isOpened()) {
 			switchRelayToOn(relay);
@@ -84,7 +81,7 @@ public class ControlServiceImpl implements IControlService {
 	}
 
 	@Override
-	public StatusDto switchOff(long relayId) {
+	public net.ionoff.center.shared.dto.StatusDto switchOff(long relayId) {
 		final Relay relay = relayService.requireById(relayId);
 		if (relay.isClosed()) {
 			switchRelayToOff(relay);
@@ -93,8 +90,8 @@ public class ControlServiceImpl implements IControlService {
 	}
 	
 	@Override
-	public StatusDto getStatusDto(Relay relay) {
-		StatusDto statusDto = new StatusDto();
+	public net.ionoff.center.shared.dto.StatusDto getStatusDto(Relay relay) {
+		net.ionoff.center.shared.dto.StatusDto statusDto = new net.ionoff.center.shared.dto.StatusDto();
 		statusDto.setId(relay.getId());
 		statusDto.setValue(relay.getStatus());
 		if (relay.getTime() != null) {
@@ -115,9 +112,7 @@ public class ControlServiceImpl implements IControlService {
 			throw new RelayLockedException(relay.getName() + " (" + relayDriver.getName() + ")");
 		}
 		if (state.equals(relay.getStatus())) {
-			
-			if (!RelayDriverModel.HBQ_EC100.toString().equals(relayDriver.getModel()) && 
-					RelayDriverModel.HLAB_EP2.toString().equals(relayDriver.getModel())) {
+			if (relayDriver.autoPublish()) {
 				logger.info("Update relay state of relay "
 						+ relay.getLabel() + " of " +  relayDriver.getModel() + " to " + state);
 				relayService.update(relay, state);
@@ -138,13 +133,13 @@ public class ControlServiceImpl implements IControlService {
 	private void sendRelayCommand(RelayDriver relayDriver, Relay relay, Boolean state) {
 		if (Boolean.TRUE.equals(state)) {
 			logger.info("Update relay status " + relay.getNameId() + ": true");
-			relayDriverApiProvider.getRelayDriverApi(relayDriver).closeRelay(relayDriver, relay.getIndex());
+			brokerHttpClient.sendCommand(buildCommandCloseRelay(relayDriver, relay.getIndex()));
 			relayService.update(relay, true);
 			notifyRelayStateChanged(relay);
 		}
 		else if (Boolean.FALSE.equals(state)) {
 			logger.info("Update relay status " + relay.getNameId() + ": false");
-			relayDriverApiProvider.getRelayDriverApi(relayDriver).openRelay(relayDriver, relay.getIndex());
+			brokerHttpClient.sendCommand(buildCommandOpenRelay(relayDriver, relay.getIndex()));
 			relayService.update(relay, false);
 			notifyRelayStateChanged(relay); 
 		}
@@ -152,13 +147,13 @@ public class ControlServiceImpl implements IControlService {
 	
 	private void sendRelayCommand(RelayDriver relayDriver, Relay relay, Boolean state, Integer autoRevert) {
 		if (Boolean.TRUE.equals(state)) {
-			relayDriverApiProvider.getRelayDriverApi(relayDriver).closeRelay(relayDriver, relay.getIndex(), autoRevert);
+			brokerHttpClient.sendCommand(buildCommandCloseRelay(relayDriver, relay.getIndex(), autoRevert));
 			logger.info("Update relay status " + relay.getNameId() + ": true");
 			relayService.update(relay, true);
 			notifyRelayStateChanged(relay);
 		}
 		else if (Boolean.FALSE.equals(state)) {
-			relayDriverApiProvider.getRelayDriverApi(relayDriver).openRelay(relayDriver, relay.getIndex(), autoRevert);
+			brokerHttpClient.sendCommand(buildCommandOpenRelay(relayDriver, relay.getIndex(), autoRevert));
 			logger.info("Update relay status " + relay.getNameId() + ": false");
 			relayService.update(relay, false);
 			notifyRelayStateChanged(relay);
@@ -206,7 +201,7 @@ public class ControlServiceImpl implements IControlService {
 			try {
 				executeSceneAction(sceneAction);
 			} catch (PlayerConnectException | RelayDriverException
-					| DataServiceException | UnknownRelayDriverModelException e) {
+					| DataServiceException e) {
 				logger.error("Failed to execute scene action. " + e.getMessage());
 			}
 		}
@@ -254,7 +249,7 @@ public class ControlServiceImpl implements IControlService {
 			throws DataServiceException, PlayerConnectException {
 		
 		net.xapxinh.center.server.entity.Player p = toPlayer(player);
-		Status status = null;
+		StatusDto status = null;
 		
 		try {
 			status = playerService.requesStatus(p, new HashMap<String, Object>());
@@ -274,10 +269,10 @@ public class ControlServiceImpl implements IControlService {
 		}
 
 		if (album != null && albumType != null) {
-			logger.info("Clear current player playlist... ");
+			logger.info("Clear current mediaplayer playlist... ");
 			playerService.requesStatus(p, toParamMap(PlayerApi.emptyPlaylist()));
 			sleep(1000);
-			logger.info("Play album in player, album name: " + album);
+			logger.info("Play album in mediaplayer, album name: " + album);
 			if (PlayerApi.DIR.equals(albumType)) {
 				playerService.requesStatus(p, toParamMap(PlayerApi.addPlayDir(album)));
 			}
@@ -330,12 +325,12 @@ public class ControlServiceImpl implements IControlService {
 
 	protected void stopPlaying(Player player) {
 		net.xapxinh.center.server.entity.Player p = toPlayer(player);
-		Status status = null;
+		StatusDto status = null;
 		
 		try {
 			status = playerService.requesStatus(p, new HashMap<String, Object>());
 			if ("playing".equals(status.getState())) {
-				logger.info("Player is playing. Stop player now");
+				logger.info("Player is playing. Stop mediaplayer now");
 				playerService.requesStatus(p, toParamMap(PlayerApi.stopPlaylist()));
 			}
 		}
@@ -376,18 +371,8 @@ public class ControlServiceImpl implements IControlService {
 	}
 
 	@Override
-	public RelayDriverStatus getRelayDriverStatus(RelayDriver relayDriver) {
-		return relayDriverApiProvider.getRelayDriverApi(relayDriver).getStatus(relayDriver);
-	}
-
-	@Override
-	public boolean ping(RelayDriver relayDriver) {
-		return RelayDriverApiUtil.ping(relayDriver.getIp(), relayDriver.getPort());
-	}
-
-	@Override
-	public StatusDto turnOnDevice(Device device) {
-		StatusDto statusDto = new StatusDto();
+	public net.ionoff.center.shared.dto.StatusDto turnOnDevice(Device device) {
+		net.ionoff.center.shared.dto.StatusDto statusDto = new net.ionoff.center.shared.dto.StatusDto();
 		statusDto.setId(device.getId());
 		if (!device.hasOneRelay()) {
 			return statusDto;
@@ -400,8 +385,8 @@ public class ControlServiceImpl implements IControlService {
 	}
 
 	@Override
-	public StatusDto turnOffDevice(Device device) {
-		StatusDto statusDto = new StatusDto();
+	public net.ionoff.center.shared.dto.StatusDto turnOffDevice(Device device) {
+		net.ionoff.center.shared.dto.StatusDto statusDto = new net.ionoff.center.shared.dto.StatusDto();
 		if (!device.hasOneRelay()) {
 			return statusDto;
 		}

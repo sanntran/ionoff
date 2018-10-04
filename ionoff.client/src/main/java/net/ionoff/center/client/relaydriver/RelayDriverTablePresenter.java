@@ -17,7 +17,6 @@ import net.ionoff.center.client.service.EntityService;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.shared.dto.BaseDto;
 import net.ionoff.center.shared.dto.RelayDriverDto;
-import net.ionoff.center.shared.entity.RelayDriverModel;
 
 public class RelayDriverTablePresenter extends AbstractTablePresenter<RelayDriverDto>{
 	
@@ -77,7 +76,7 @@ public class RelayDriverTablePresenter extends AbstractTablePresenter<RelayDrive
 		RelayDriverDto newRelayDriverDto = new RelayDriverDto();
 		newRelayDriverDto.setId(BaseDto.DEFAULT_ID);
 		newRelayDriverDto.setName("*" + AdminLocale.getAdminConst().relayDriver());
-		newRelayDriverDto.setModel(RelayDriverModel.IONOFF_E3);
+		newRelayDriverDto.setModel(RelayDriverModel.IONOFF_E3.toString());
 		newRelayDriverDto.setProjectId(getProjectId());
 		return newRelayDriverDto;
 	}

@@ -7,8 +7,8 @@ import net.xapxinh.center.server.entity.Player;
 import net.xapxinh.center.server.exception.PlayerConnectException;
 import net.xapxinh.center.shared.dto.MediaFile;
 import net.xapxinh.center.shared.dto.PlayListDto;
-import net.xapxinh.center.shared.dto.Schedule;
-import net.xapxinh.center.shared.dto.Status;
+import net.xapxinh.center.shared.dto.ScheduleDto;
+import net.xapxinh.center.shared.dto.StatusDto;
 
 public interface IPlayerApi {
 	
@@ -17,13 +17,13 @@ public interface IPlayerApi {
 	static final String CONTEXT_BROWSE = "/requests/browse";
 	static final String CONTEXT_SCHEDULE = "/requests/scheduler";
 	
-	Status requestStatus(Player player, Map<String, Object> params) throws PlayerConnectException;
+	StatusDto requestStatus(Player player, Map<String, Object> params) throws PlayerConnectException;
 
 	PlayListDto requestPlaylist(Player player) throws PlayerConnectException;
 
 	List<MediaFile> requestBrowse(Player player, Map<String, Object> params) throws PlayerConnectException;
 
-	Schedule requestSchedule(Player player, Map<String, Object> params) throws PlayerConnectException;
+	ScheduleDto requestSchedule(Player player, Map<String, Object> params) throws PlayerConnectException;
 
 	boolean hasPlayerConnection(Player player);
 

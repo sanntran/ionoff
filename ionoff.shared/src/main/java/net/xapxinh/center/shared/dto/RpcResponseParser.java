@@ -31,9 +31,9 @@ public final class RpcResponseParser {
 		return objs;
 	}
 
-	public static YoutubeVideos parseYoutubeVideoDtos(RpcResponseDto response) {
+	public static YoutubeVideosDto parseYoutubeVideoDtos(RpcResponseDto response) {
 		SingleSerialDto serial = (SingleSerialDto) response;
-		return (YoutubeVideos) serial.getSerializableDto();
+		return (YoutubeVideosDto) serial.getSerializableDto();
 	}
 
 	public static List<Album> parseAlbumDtos(ArrayListSerialDto result) {
@@ -47,12 +47,12 @@ public final class RpcResponseParser {
 		return objs;
 	}
 
-	public static List<Song> parseSongDtos(ArrayListSerialDto result) {
-		List<Song> objs = new ArrayList<Song>();
+	public static List<SongDto> parseSongDtos(ArrayListSerialDto result) {
+		List<SongDto> objs = new ArrayList<SongDto>();
 		if (result != null) {
 			ArrayListSerialDto dtos = (ArrayListSerialDto) result;
 			for (int i = 0; i < dtos.size(); i++) {
-				objs.add((Song) dtos.get(i));
+				objs.add((SongDto) dtos.get(i));
 			}
 		}
 		return objs;

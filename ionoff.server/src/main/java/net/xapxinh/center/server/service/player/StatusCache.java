@@ -1,16 +1,16 @@
 package net.xapxinh.center.server.service.player;
 
-import net.xapxinh.center.shared.dto.Status;
+import net.xapxinh.center.shared.dto.StatusDto;
 
 public class StatusCache extends PlayerCache {
 	
-	private Status status;
+	private StatusDto status;
 
-	public Status getStatus() {
+	public StatusDto getStatus() {
 		return status;
 	}
 	
-	public void setStatus(Status status) {
+	public void setStatus(StatusDto status) {
 		this.status = status;
 	}
 

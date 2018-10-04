@@ -6,12 +6,12 @@ import java.util.Map;
 import net.xapxinh.center.server.entity.Player;
 import net.xapxinh.center.shared.dto.MediaFile;
 import net.xapxinh.center.shared.dto.PlayListDto;
-import net.xapxinh.center.shared.dto.Schedule;
-import net.xapxinh.center.shared.dto.Status;
+import net.xapxinh.center.shared.dto.ScheduleDto;
+import net.xapxinh.center.shared.dto.StatusDto;
 
 public interface IPlayerService {
 
-	Status requesStatus(Player player, Map<String, Object> params);
+	StatusDto requesStatus(Player player, Map<String, Object> params);
 
 	PlayListDto requestPlaylist(Player player);
 
@@ -21,7 +21,7 @@ public interface IPlayerService {
 
 	boolean hasConnection(Player player);
 
-	Schedule requestSchedule(Player player, Map<String, Object> params);
+	ScheduleDto requestSchedule(Player player, Map<String, Object> params);
 
 	PlayListDto updatePlaylist(Player player, PlayListDto playlist);
 }

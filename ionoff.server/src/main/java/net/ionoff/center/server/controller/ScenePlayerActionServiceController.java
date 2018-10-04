@@ -42,7 +42,7 @@ public class ScenePlayerActionServiceController {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
 
-		logger.info("User " + user.getName() + " update scene-player-action. Id: "
+		logger.info("User " + user.getName() + " update scene-mediaplayer-action. Id: "
 				+ scenePlayerActionDto.getId() + " Action: " + scenePlayerActionDto.getAction());
 
 		return sceneActionService.updateScenePlayerActionDto(scenePlayerActionDto);

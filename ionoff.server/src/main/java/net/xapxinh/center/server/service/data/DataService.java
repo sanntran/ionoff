@@ -7,7 +7,7 @@ import net.xapxinh.center.server.entity.Player;
 import net.xapxinh.center.server.exception.DataServiceException;
 import net.xapxinh.center.server.exception.PlayerConnectException;
 import net.xapxinh.center.shared.dto.Album;
-import net.xapxinh.center.shared.dto.YoutubeVideos;
+import net.xapxinh.center.shared.dto.YoutubeVideosDto;
 
 public interface DataService {
 	
@@ -24,5 +24,5 @@ public interface DataService {
 	
 	List<Album> getSpecialAlbums(Player player) throws PlayerConnectException, DataServiceException;
 	
-	YoutubeVideos searchYoutubeVideos(Player player, final String key, final String pageToken) throws PlayerConnectException, IOException;
+	YoutubeVideosDto searchYoutubeVideos(Player player, final String key, final String pageToken) throws PlayerConnectException, IOException;
 }

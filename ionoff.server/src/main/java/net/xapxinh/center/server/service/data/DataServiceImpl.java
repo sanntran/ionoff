@@ -10,7 +10,7 @@ import net.xapxinh.center.server.exception.DataServiceException;
 import net.xapxinh.center.server.exception.PlayerConnectException;
 import net.xapxinh.center.server.service.player.IPlayerService;
 import net.xapxinh.center.shared.dto.Album;
-import net.xapxinh.center.shared.dto.YoutubeVideos;
+import net.xapxinh.center.shared.dto.YoutubeVideosDto;
 
 public class DataServiceImpl implements DataService {
 
@@ -86,7 +86,7 @@ public class DataServiceImpl implements DataService {
 	}
 
 	@Override
-	public YoutubeVideos searchYoutubeVideos(Player player, String key, String pageToken)
+	public YoutubeVideosDto searchYoutubeVideos(Player player, String key, String pageToken)
 			throws PlayerConnectException, IOException {
 		if (!playerService.hasConnection(player)) {
 			throw new PlayerConnectException();

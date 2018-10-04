@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.xapxinh.center.shared.dto.ScheduleDto;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -17,11 +17,9 @@ import com.google.gson.reflect.TypeToken;
 
 import net.xapxinh.center.server.entity.Player;
 import net.xapxinh.center.server.exception.PlayerConnectException;
-import net.xapxinh.center.server.service.player.AbstractPlayerConnectionPool;
 import net.xapxinh.center.shared.dto.MediaFile;
 import net.xapxinh.center.shared.dto.PlayListDto;
-import net.xapxinh.center.shared.dto.Schedule;
-import net.xapxinh.center.shared.dto.Status;
+import net.xapxinh.center.shared.dto.StatusDto;
 
 public class XmpPlayerApi implements IPlayerApi {
 	
@@ -29,11 +27,8 @@ public class XmpPlayerApi implements IPlayerApi {
 	
 	private final Type typeOfMediaFileList = new TypeToken<ArrayList<MediaFile>>(){}.getType();
 	
-	@Autowired
-	private AbstractPlayerConnectionPool playerConnectionPool;
-
 	private PlayerConnection getPlayerConnection(Player player) {
-		return playerConnectionPool.getPlayerConnection(player.getId());
+		return null;
 	}
 
 	public XmpPlayerApi() {
@@ -46,14 +41,13 @@ public class XmpPlayerApi implements IPlayerApi {
 	}
 
 	@Override
-	public Status requestStatus(Player player, Map<String, Object> params) throws PlayerConnectException {
+	public StatusDto requestStatus(Player player, Map<String, Object> params) throws PlayerConnectException {
 		try {
 			final String statusJson = requestPlayer(player, putContext(params, CONTEXT_STATUS), getPlayerConnection(player));
-			final Status status = parseStatus(statusJson);
+			final StatusDto status = parseStatus(statusJson);
 			return status;
 		}
 		catch (IOException e) {
-			playerConnectionPool.removePlayerConnection(player.getId());
 			throw new PlayerConnectException("Connection of " + player.getName() + " is reset");
 		}
 	}
@@ -66,7 +60,6 @@ public class XmpPlayerApi implements IPlayerApi {
 			return playlist;
 		}
 		catch (IOException e) {
-			playerConnectionPool.removePlayerConnection(player.getId());
 			throw new PlayerConnectException("Connection of " + player.getName() + " is reset");
 		}
 	}
@@ -78,7 +71,6 @@ public class XmpPlayerApi implements IPlayerApi {
 			return parseMediaFiles(filesJson);
 		}
 		catch (IOException e) {
-			playerConnectionPool.removePlayerConnection(player.getId());
 			throw new PlayerConnectException(player.getName());
 		}
 	}
@@ -99,28 +91,27 @@ public class XmpPlayerApi implements IPlayerApi {
 	}
 
 	@Override
-	public Schedule requestSchedule(Player player, Map<String, Object> params)
+	public ScheduleDto requestSchedule(Player player, Map<String, Object> params)
 			throws PlayerConnectException {
 		try {
 			final String scheduleJson = requestPlayer(player, putContext(params, CONTEXT_SCHEDULE),  getPlayerConnection(player));
 			return parseSchedule(scheduleJson);
 		}
 		catch (final IOException e) {
-			playerConnectionPool.removePlayerConnection(player.getId());
 			throw new PlayerConnectException("Connection of " + player.getName() + " is reset");
 		}
 	}
 
 	@Override
 	public boolean hasPlayerConnection(Player player) {
-		return playerConnectionPool.hasPlayerConnection(player.getId());
+		return false;
 	}
 	
 
-	private Status parseStatus(String statusJson) throws PlayerConnectException {
+	private StatusDto parseStatus(String statusJson) throws PlayerConnectException {
 		final JSONObject jsonObj = analyzePlayerResponse(statusJson);
 		try {
-			return gson.fromJson(getObject(jsonObj), Status.class);
+			return gson.fromJson(getObject(jsonObj), StatusDto.class);
 		}
 		catch (JsonSyntaxException | JSONException e) {
 			throw new PlayerConnectException(e.getMessage());
@@ -164,10 +155,10 @@ public class XmpPlayerApi implements IPlayerApi {
 	}
 	
 
-	private Schedule parseSchedule(String scheduleJson) throws PlayerConnectException {
+	private ScheduleDto parseSchedule(String scheduleJson) throws PlayerConnectException {
 		final JSONObject jsonObj = analyzePlayerResponse(scheduleJson);
 		try {
-			return gson.fromJson(getObject(jsonObj), Schedule.class);
+			return gson.fromJson(getObject(jsonObj), ScheduleDto.class);
 		}
 		catch (JsonSyntaxException | JSONException e) {
 			throw new PlayerConnectException(e.getMessage());
@@ -196,7 +187,6 @@ public class XmpPlayerApi implements IPlayerApi {
 			return pl;
 		}
 		catch (IOException e) {
-			playerConnectionPool.removePlayerConnection(player.getId());
 			throw new PlayerConnectException("Connection of " + player.getName() + " is reset");
 		}
 	}

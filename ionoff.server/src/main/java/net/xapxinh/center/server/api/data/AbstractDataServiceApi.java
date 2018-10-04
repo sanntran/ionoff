@@ -20,8 +20,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import net.xapxinh.center.server.entity.Player;
 import net.xapxinh.center.server.exception.DataServiceException;
 import net.xapxinh.center.shared.dto.Album;
-import net.xapxinh.center.shared.dto.Song;
-import net.xapxinh.center.shared.dto.YoutubeVideos;
+import net.xapxinh.center.shared.dto.SongDto;
+import net.xapxinh.center.shared.dto.YoutubeVideosDto;
 
 public abstract class AbstractDataServiceApi implements DataServiceApi {
 	
@@ -139,7 +139,7 @@ public abstract class AbstractDataServiceApi implements DataServiceApi {
 	
 
 	@Override
-	public YoutubeVideos searchYoutubeVideos(Player player, String key, String pageToken) {
+	public YoutubeVideosDto searchYoutubeVideos(Player player, String key, String pageToken) {
 		try {
 			final URI targetUrl = UriComponentsBuilder.fromUriString(getDataServiceUrl())
 				    .path("/videos/search")
@@ -148,7 +148,7 @@ public abstract class AbstractDataServiceApi implements DataServiceApi {
 				    .queryParam("pageToken", pageToken)
 				    .build()
 				    .toUri();
-			return restClient.getForObject(targetUrl, YoutubeVideos.class);
+			return restClient.getForObject(targetUrl, YoutubeVideosDto.class);
 		}
 		catch (final Exception e) {
 			throw handleException(e);
@@ -190,12 +190,12 @@ public abstract class AbstractDataServiceApi implements DataServiceApi {
 	
 
 	@Override
-	public Song getSong(Player player, Long songId) {
+	public SongDto getSong(Player player, Long songId) {
 		final URI targetUrl = UriComponentsBuilder.fromUriString(getDataServiceUrl())
 			    .path("/songs/" + songId) // /songs/{albumId}
 			    .queryParam("mac", player.getMac())
 			    .build()
 			    .toUri();
-		return restClient.getForObject(targetUrl.toString(), Song.class);
+		return restClient.getForObject(targetUrl.toString(), SongDto.class);
 	}
 }

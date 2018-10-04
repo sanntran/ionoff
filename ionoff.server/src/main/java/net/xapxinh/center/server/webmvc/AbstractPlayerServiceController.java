@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.xapxinh.center.shared.dto.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,13 +28,7 @@ import net.xapxinh.center.server.exception.UnknownPlayerException;
 import net.xapxinh.center.server.locale.PlayMessages;
 import net.xapxinh.center.server.service.data.DataService;
 import net.xapxinh.center.server.service.player.IPlayerService;
-import net.xapxinh.center.shared.dto.Album;
-import net.xapxinh.center.shared.dto.Command;
-import net.xapxinh.center.shared.dto.MediaFile;
-import net.xapxinh.center.shared.dto.PlayListDto;
-import net.xapxinh.center.shared.dto.Schedule;
-import net.xapxinh.center.shared.dto.Status;
-import net.xapxinh.center.shared.dto.YoutubeVideos;
+import net.xapxinh.center.shared.dto.ScheduleDto;
 
 public abstract class AbstractPlayerServiceController {
 
@@ -50,7 +45,7 @@ public abstract class AbstractPlayerServiceController {
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public Status getStatus(@PathVariable("playerId") Long playerId) throws UnknownPlayerException, PlayerConnectException, DataServiceException {
+	public StatusDto getStatus(@PathVariable("playerId") Long playerId) throws UnknownPlayerException, PlayerConnectException, DataServiceException {
 		final Player player = getPlayer(playerId);
 		return playerService.requesStatus(player, new HashMap<String, Object>()); 
 	}
@@ -92,7 +87,7 @@ public abstract class AbstractPlayerServiceController {
 	@RequestMapping(value = "players/{playerId}/scheduler",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	public Schedule getSchedule(@PathVariable("playerId") Long playerId)
+	public ScheduleDto getSchedule(@PathVariable("playerId") Long playerId)
 			throws PlayerConnectException, UnknownPlayerException {
 		final Player player = getPlayer(playerId);
 		final Map<String, Object> params = new HashMap<String, Object>();
@@ -103,7 +98,7 @@ public abstract class AbstractPlayerServiceController {
 	@RequestMapping(value = "players/{playerId}/scheduler",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	public Schedule getSchedule(@PathVariable("playerId") Long playerId, @RequestBody Schedule schedule)
+	public ScheduleDto getSchedule(@PathVariable("playerId") Long playerId, @RequestBody ScheduleDto schedule)
 			throws PlayerConnectException, UnknownPlayerException {
 		final Player player = getPlayer(playerId);
 		final Map<String, Object> params = new HashMap<String, Object>();
@@ -116,7 +111,7 @@ public abstract class AbstractPlayerServiceController {
 	@RequestMapping(value = "players/{playerId}/command",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	public Status sendCommand(@PathVariable("playerId") Long playerId, @RequestBody Command command)
+	public StatusDto sendCommand(@PathVariable("playerId") Long playerId, @RequestBody Command command)
 			throws PlayerConnectException, UnknownPlayerException, DataServiceException {
 		final Player player = getPlayer(playerId);
 		final Map<String, Object> params = new HashMap<String, Object>();
@@ -133,9 +128,9 @@ public abstract class AbstractPlayerServiceController {
 	@RequestMapping(value = "youtubevideos/search",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	public YoutubeVideos searchYoutubeVideos(@RequestParam("playerId") Long playerId,
-			@RequestParam("searchKey") String searchKey,
-			@RequestParam("pageToken") String pageToken)
+	public YoutubeVideosDto searchYoutubeVideos(@RequestParam("playerId") Long playerId,
+												@RequestParam("searchKey") String searchKey,
+												@RequestParam("pageToken") String pageToken)
 			throws PlayerConnectException, UnknownPlayerException, IOException {
 		final Player player = getPlayer(playerId);
 		

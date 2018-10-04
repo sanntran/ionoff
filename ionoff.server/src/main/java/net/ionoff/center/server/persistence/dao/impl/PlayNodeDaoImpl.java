@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.persistence.dao.IPlayNodeDao;
-import net.xapxinh.center.server.entity.PlayNode;
+import net.ionoff.center.server.entity.PlayNode;
 
 @Transactional
 public class PlayNodeDaoImpl extends AbstractGenericDao<PlayNode> implements IPlayNodeDao {

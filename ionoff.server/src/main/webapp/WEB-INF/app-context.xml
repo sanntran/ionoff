@@ -98,30 +98,6 @@
 
 	<context:component-scan base-package="net.ionoff.center.server.controller" />
 
-	<bean id="e3RelayDriverApi" class="net.ionoff.center.server.driver.api.E3RelayDriver">
-	</bean>
-	
-	<bean id="e4RelayDriverApi" class="net.ionoff.center.server.driver.api.E4RelayDriver">
-	</bean>
-
-	<bean id="p4RelayDriverApi" class="net.ionoff.center.server.driver.api.P4RelayDriver">
-	</bean>
-
-	<bean id="p8RelayDriverApi" class="net.ionoff.center.server.driver.api.P8RelayDriver">
-	</bean>
-
-	<bean id="ec100RelayDriverApi"
-		class="net.ionoff.center.server.driver.api.EC100RelayDriver">
-	</bean>
-
-	<bean id="ep2RelayDriverApi"
-		class="net.ionoff.center.server.driver.api.EP2RelayDriver">
-	</bean>
-
-	<bean id="relayDriverApiProvider"
-		class="net.ionoff.center.server.driver.api.RelayDriverProvider">
-	</bean>
-
 	<bean id="emailService" class="net.ionoff.center.server.notify.EmailServiceImpl">
 	</bean>
 
@@ -153,31 +129,23 @@
 				class="net.ionoff.center.server.message.handler.RelayStatusChangedHandler">
 	</bean>
 
-	<bean id="mediaServiceApi" class="net.ionoff.center.server.player.MediaServiceApiImpl">
-	</bean>
-
-	<bean id="playerConnectionPool" class="net.ionoff.center.server.player.PlayerConnectionPool">
+	<bean id="mediaServiceApi" class="net.ionoff.center.server.mediaplayer.MediaServiceApiImpl">
 	</bean>
 
 	<bean id="xmpPlayerApi" class="net.xapxinh.center.server.api.player.XmpPlayerApi">
 	</bean>
 
-	<bean id="impPlayerApi" class="net.ionoff.center.server.player.api.ImpPlayerApi">
+	<bean id="impPlayerApi" class="net.ionoff.center.server.mediaplayer.api.ImpPlayerApi">
 	</bean>
 
 	<bean id="playerCaches" class="net.xapxinh.center.server.service.player.PlayerCaches">
 	</bean>
 
 	<bean id="playerService"
-		class="net.ionoff.center.server.player.service.PlayerServiceImpl">
+		class="net.ionoff.center.server.mediaplayer.service.PlayerServiceImpl">
 		<constructor-arg ref="xmpPlayerApi" />
-		<constructor-arg ref="playerConnectionPool" />
 		<constructor-arg ref="playerCaches" />
 		<constructor-arg ref="mediaServiceApi" />
-	</bean>
-
-	<bean id="relayDriverConnectionPool"
-		class="net.ionoff.center.server.thread.RelayDriverConnectionPool">
 	</bean>
 
 	<bean id="dataService" class="net.xapxinh.center.server.service.data.DataServiceImpl">
@@ -229,11 +197,20 @@
 	
 	<bean id="dashboardMapper" class="net.ionoff.center.server.objmapper.DashboardMapper">
 	</bean>
-	
-	<bean id="mosquittoClient" class="net.ionoff.center.server.broker.MqttConnection">
+
+	<bean id="brokerHttpClient" class="net.ionoff.center.server.broker.BrokerHttpClient">
+	</bean>
+
+	<bean id="mqttConnection" class="net.ionoff.center.server.broker.MqttConnection">
 	</bean>
 	
-	<bean id="relayDriverStatusHandler" class="net.ionoff.center.server.driver.RelayDriverHandler">
+	<bean id="relayDriverHandler" class="net.ionoff.center.server.relaydriver.RelayDriverHandler">
+	</bean>
+
+	<bean id="sensorDriverHandler" class="net.ionoff.center.server.sensordriver.SensorDriverHandler">
+	</bean>
+
+	<bean id="mesiaPlayerHandler" class="net.ionoff.center.server.mediaplayer.MediaPlayerHandler">
 	</bean>
 	
 </beans>

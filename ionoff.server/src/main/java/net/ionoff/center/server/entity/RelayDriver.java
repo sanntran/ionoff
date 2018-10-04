@@ -1,96 +1,83 @@
 package net.ionoff.center.server.entity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import net.ionoff.center.shared.entity.RelayDriverModel;
+public abstract class RelayDriver extends BaseObj {
 
-public class RelayDriver extends BaseObj {
-	
+	public static final Map<String, Class> MODELS = new HashMap<>();
+
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int KEY_LENGTH = 8;
-	
+
 	private String ip;
 	private Integer port;
 	private String key;
-	private String model;
 	private Long connectedTime;
 	private Integer crashCount;
 	private Project project;
 	private List<Relay> relays;
 	private List<Switch> switchs;
-	
+
 	public String getIp() {
 		return ip;
 	}
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-	
+
 	public Integer getPort() {
 		return port;
-	}	
+	}
 	public void setPort(Integer port) {
 		this.port = port;
 	}
-	
+
 	public String getKey() {
 		return key;
 	}
 	public void setKey(String key) {
 		this.key = key;
 	}
-	
+
 	public Long getConnectedTime() {
 		return connectedTime;
 	}
 	public void setConnectedTime(Long connectedTime) {
 		this.connectedTime = connectedTime;
 	}
-	
+
 	public Integer getCrashCount() {
 		return crashCount;
 	}
 	public void setCrashCount(Integer crashCount) {
 		this.crashCount = crashCount;
 	}
-	
+
 	public List<Relay> getRelays() {
 		return relays;
 	}
 	public void setRelays(List<Relay> relays) {
 		this.relays = relays;
 	}
-	
-	public String getModel() {
-		return model;
-	}	
-	public void setModel(String model) {
-		this.model = model;
-	}
-	
+
+
 	public Project getProject() {
 		return project;
-	}	
+	}
 	public void setProject(Project project) {
 		this.project = project;
 	}
-	
+
 	public boolean isConnected() {
-		RelayDriverModel modelEnum = getModelObj();
-		if (modelEnum == null) {
-			return false;
-		}
-		if (connectedTime == null || System.currentTimeMillis() - connectedTime > modelEnum.getOnlineBuffer()) {
+		if (connectedTime == null || System.currentTimeMillis() - connectedTime > getOnlineBuffer()) {
 			return false;
 		}
 		return true;
 	}
-	
-	public RelayDriverModel getModelObj() {
-		return RelayDriverModel.fromString(model);
-	}
-	
+
 	public Relay getRelayByIdx(int relayIndex) {
 		if (relays == null || relays.isEmpty()) {
 			return null;
@@ -102,26 +89,54 @@ public class RelayDriver extends BaseObj {
 		}
 		return null;
 	}
-	
+
 	public List<Switch> getSwitchs() {
 		return switchs;
 	}
 	public void setSwitchs(List<Switch> switchs) {
 		this.switchs = switchs;
 	}
-	
+
 	public boolean isValidKey() {
 		return key != null && !key.trim().isEmpty();
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		
+
 		builder.append(super.toString())
 				.append(", Key: ").append(key)
-				.append(", Model: ").append(model);
-		
+				.append(", Model: ").append(getModel());
+
 		return builder.toString();
 	}
+
+	public boolean autoPublish() {
+		return true;
+	}
+
+	public boolean autoRevert() {
+		return false;
+	}
+
+	public abstract int getInput();
+
+	public abstract int getOutput();
+
+	public abstract String getModel();
+
+	public abstract int getOnlineBuffer();
+
+	public abstract String getProtocol();
+
+	public abstract String getCommandStatus();
+
+	public abstract String getCommandOpenRelay(int relayIndex);
+
+	public abstract String getCommandCloseRelay(int relayIndex);
+
+	public abstract String getCommandOpenRelay(int relayIndex, Integer autoRevert);
+
+	public abstract String getCommandCloseRelay(int relayIndex, Integer autoRevert);
 }

@@ -27,7 +27,7 @@
 			fetch="select" order-by="idx">
 			<key column="playlist_id" not-null="true">
 			</key>
-			<one-to-many entity-name="net.xapxinh.center.server.entity.PlayNode" />
+			<one-to-many entity-name="net.ionoff.center.server.entity.PlayNode" />
 		</bag>
 		
 		<many-to-one name="user" class="net.ionoff.center.server.entity.User" fetch="select">

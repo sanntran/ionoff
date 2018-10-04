@@ -14,7 +14,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import net.ionoff.center.server.control.IControlService;
-import net.ionoff.center.server.control.UnknownRelayDriverModelException;
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.Mode;
 import net.ionoff.center.server.entity.Schedule;
@@ -23,7 +22,7 @@ import net.ionoff.center.server.entity.SchedulePlayerAction;
 import net.ionoff.center.server.entity.ScheduleRelayAction;
 import net.ionoff.center.server.persistence.service.IModeService;
 import net.ionoff.center.server.persistence.service.IScheduleService;
-import net.ionoff.center.server.driver.api.RelayDriverException;
+import net.ionoff.center.server.relaydriver.exception.RelayDriverException;
 import net.ionoff.center.shared.dto.ScheduleConst;
 import net.xapxinh.center.server.exception.DataServiceException;
 import net.xapxinh.center.server.exception.PlayerConnectException;
@@ -196,14 +195,13 @@ public class ProjectSchedulesExecutor {
 			executeScheduleActions(schedule);
 			updateSchedule(schedule, now, true, 0);
 		}
-		catch (PlayerConnectException | DataServiceException | RelayDriverException | UnknownRelayDriverModelException e) {
-			LOGGER.error(e.getMessage(), e);
+		catch (PlayerConnectException | DataServiceException | RelayDriverException e) {
+			LOGGER.error("Error execute schedule " + schedule.getName() + " " + e.getMessage(), e);
 			updateSchedule(schedule, now, false, 0);
 		}
 	}
 
-	private void executeScheduleActions(Schedule schedule) throws PlayerConnectException, 
-						RelayDriverException, DataServiceException, UnknownRelayDriverModelException {
+	private void executeScheduleActions(Schedule schedule) {
 		if (schedule.getActions() == null) {
 			return;
 		}
@@ -217,11 +215,11 @@ public class ProjectSchedulesExecutor {
 		}
 	}
 
-	private void executeScheduleRelayAction(ScheduleRelayAction scheduleAction) throws RelayDriverException, UnknownRelayDriverModelException {
+	private void executeScheduleRelayAction(ScheduleRelayAction scheduleAction) {
 		controlService.executeRelayAction(scheduleAction.getRelay(), scheduleAction.getAction());
 	}
 
-	private void executeSchedulePlayerAction(SchedulePlayerAction scheduleAction) throws PlayerConnectException, DataServiceException {
+	private void executeSchedulePlayerAction(SchedulePlayerAction scheduleAction) {
 		controlService.executePlayerAction(scheduleAction.getPlayer(), scheduleAction.getAction(),
 				scheduleAction.getVolume(), scheduleAction.getAlbum(), scheduleAction.getAlbumType());
 	}

@@ -16,8 +16,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import net.xapxinh.center.client.player.AbstractPresenter;
 import net.xapxinh.center.client.player.PlayerPresenter;
 import net.xapxinh.center.client.player.PlayerUtil;
-import net.xapxinh.center.shared.dto.YoutubeVideo;
-import net.xapxinh.center.shared.dto.YoutubeVideos;
+import net.xapxinh.center.shared.dto.YoutubeVideoDto;
+import net.xapxinh.center.shared.dto.YoutubeVideosDto;
 
 public class YoutubeVideoListPresenter extends AbstractPresenter {
 
@@ -39,7 +39,7 @@ public class YoutubeVideoListPresenter extends AbstractPresenter {
 	
 	private final HandlerManager eventBus;
 	private final PlayerPresenter playerPresenter;
-	private YoutubeVideos youtubeVideos;
+	private YoutubeVideosDto youtubeVideos;
 	private int pageNumber;
 	
 	protected final Display display;
@@ -111,7 +111,7 @@ public class YoutubeVideoListPresenter extends AbstractPresenter {
 		playerPresenter.searchYoutubeVideo(key, youtubeVideos.getNextPageToken());
 	}
 	
-	public void showYoutubeVideos(YoutubeVideos youTubeVideos) {
+	public void showYoutubeVideos(YoutubeVideosDto youTubeVideos) {
 		youtubeVideos = youTubeVideos;
 		
 		if (pageNumber == 1) {
@@ -129,12 +129,12 @@ public class YoutubeVideoListPresenter extends AbstractPresenter {
 		display.getPanelVideos().add(display.getBtnShowMore());
 	}
 	
-	protected void addYoutubeVideo(List<YoutubeVideo> videos, int index) {
+	protected void addYoutubeVideo(List<YoutubeVideoDto> videos, int index) {
 		YoutubeVideoPresenter videoPresenter = createYoutubeVideoInstance(videos.get(index));
 		display.getPanelVideos().add(videoPresenter.getDisplay().asWidget());
 	}
 
-	protected YoutubeVideoPresenter createYoutubeVideoInstance(final YoutubeVideo youtubeVideo) {
+	protected YoutubeVideoPresenter createYoutubeVideoInstance(final YoutubeVideoDto youtubeVideo) {
 		String thumnail = "";
 		if (youtubeVideo.getThumbnail() != null) {
 			thumnail = youtubeVideo.getThumbnail();

@@ -8,8 +8,12 @@ import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.shared.dto.RelayDriverDto;
 import net.ionoff.center.shared.dto.RelayDto;
+import org.apache.log4j.Logger;
 
 public class RelayDriverMapper {
+
+	private static final Logger LOGGER = Logger.getLogger(RelayDriverMapper.class.getName());
+
 	
 	public RelayDriver updateRelayDriver(RelayDriver relayDriver, 
 			RelayDriverDto relayDriverDto, Project project) {
@@ -17,15 +21,29 @@ public class RelayDriverMapper {
 		relayDriver.setIp(relayDriverDto.getIp());
 		relayDriver.setPort(relayDriverDto.getPort());
 		relayDriver.setKey(relayDriverDto.getKey());
-		relayDriver.setModel(relayDriverDto.getModel().toString());
 		relayDriver.setProject(project);
 		return relayDriver;
 	}
 	
 	public RelayDriver createRelayDriver(RelayDriverDto relayDriverDto, Project project) {
-		RelayDriver relayDriver = new RelayDriver();
+		RelayDriver relayDriver = newRelayDriver(relayDriverDto.getModel());
 		updateRelayDriver(relayDriver, relayDriverDto, project);
 		return relayDriver;
+	}
+
+	private RelayDriver newRelayDriver(String model) {
+		Class clazz = RelayDriver.MODELS.get(model);
+		if (clazz == null) {
+			throw new RuntimeException("No relay driver class map with model " + model);
+		}
+		else {
+			try {
+				return (RelayDriver) clazz.newInstance();
+			} catch (Exception e) {
+				LOGGER.error("Error create instanse for class " + clazz.getName());
+				throw new RuntimeException("Error create instanse for class " + clazz.getName());
+			}
+		}
 	}
 
 	public List<RelayDriverDto> createRelayDriverDtoList(List<RelayDriver> relayDrivers) {
@@ -56,7 +74,7 @@ public class RelayDriverMapper {
 		relayDriverDto.setIp(relayDriver.getIp());
 		relayDriverDto.setPort(relayDriver.getPort());
 		relayDriverDto.setKey(relayDriver.getKey());
-		relayDriverDto.setModel(relayDriver.getModelObj());
+		relayDriverDto.setModel(relayDriver.getModel());
 		relayDriverDto.setProjectId(relayDriver.getProject().getId());
 		relayDriverDto.setIsOnline(relayDriver.isConnected());
 		return relayDriverDto;

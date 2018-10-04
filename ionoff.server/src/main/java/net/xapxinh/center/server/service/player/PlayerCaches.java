@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.xapxinh.center.shared.dto.PlayListDto;
-import net.xapxinh.center.shared.dto.Status;
+import net.xapxinh.center.shared.dto.StatusDto;
 
 public class PlayerCaches {
 
@@ -24,7 +24,7 @@ public class PlayerCaches {
 		return playlistCaches;
 	}
 
-	public Status getStatus(long playerId) {
+	public StatusDto getStatus(long playerId) {
 		if (statusCaches.containsKey(playerId)) {
 			final StatusCache cache = statusCaches.get(playerId);
 			if (cache.isLiving()) {
@@ -49,7 +49,7 @@ public class PlayerCaches {
 		return null;
 	}
 
-	public void storeStatus(long playerId, Status status) {
+	public void storeStatus(long playerId, StatusDto status) {
 		final long time = System.currentTimeMillis();
 		final StatusCache cache = getStatusCache(playerId);
 		cache.setTime(time);

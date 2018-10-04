@@ -23,9 +23,9 @@ import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.BaseDto;
 import net.ionoff.center.shared.dto.RelayDriverDto;
-import net.ionoff.center.shared.entity.RelayDriverModel;
 
 public class RelayDriverEditPresenter extends AbstractEditPresenter<RelayDriverDto> {
+
 
 	public interface Display extends IEditView<RelayDriverDto> {
 		MaterialListBox getListBoxModels();
@@ -138,7 +138,7 @@ public class RelayDriverEditPresenter extends AbstractEditPresenter<RelayDriverD
 		entityDto.setPort(view.getIntBoxPort().getValue());
 		
 		if (entityDto.getId() == BaseDto.DEFAULT_ID) {
-			entityDto.setModel(RelayDriverModel.fromString(model));
+			entityDto.setModel(model);
 		}
 		
 		rpcProvider.getRelayDriverService().save(entityDto.getId(), entityDto, 

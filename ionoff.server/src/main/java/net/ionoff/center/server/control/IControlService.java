@@ -6,7 +6,6 @@ import net.ionoff.center.server.entity.Player;
 import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.entity.Scene;
-import net.ionoff.center.server.driver.api.RelayDriverStatus;
 import net.ionoff.center.shared.dto.StatusDto;
 
 public interface IControlService {
@@ -14,8 +13,6 @@ public interface IControlService {
 	void activateMode(Mode mode);
 	
 	void playScene(Scene scene);
-	
-	RelayDriverStatus getRelayDriverStatus(RelayDriver relayDriver);
 	
 	void switchRelayToOn(Relay relay);
 	
@@ -25,8 +22,6 @@ public interface IControlService {
 	
 	void executePlayerAction(Player player, String action, String volume, String album, String albumType);
 	
-	boolean ping(RelayDriver relayDriver);
-
 	StatusDto switchOn(long relayId);
 	
 	StatusDto switchOff(long relayId);

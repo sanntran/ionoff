@@ -16,7 +16,7 @@ public class Album extends SerializableDto {
 	private String author;
 	private Integer listenCount;
 	private String uploadedDate;
-	private List<Song> songs;
+	private List<SongDto> songs;
 
 	public long getId() {
 		return id;
@@ -54,10 +54,10 @@ public class Album extends SerializableDto {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	public List<Song> getSongs() {
+	public List<SongDto> getSongs() {
 		return songs;
 	}
-	public void setSongs(List<Song> songs) {
+	public void setSongs(List<SongDto> songs) {
 		this.songs = songs;
 	}
 	public String getReleaseDate() {

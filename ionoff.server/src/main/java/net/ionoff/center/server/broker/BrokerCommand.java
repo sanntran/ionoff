@@ -9,6 +9,11 @@ public class BrokerCommand {
     private String keyword;
     private Object content;
 
+    /**
+     * Delay after sending to address (second)
+     */
+    private Integer delay;
+
     public String getProtocol() {
         return protocol;
     }
@@ -55,5 +60,13 @@ public class BrokerCommand {
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    public Integer getDelay() {
+        return delay;
+    }
+
+    public void setDelay(Integer delay) {
+        this.delay = delay;
     }
 }

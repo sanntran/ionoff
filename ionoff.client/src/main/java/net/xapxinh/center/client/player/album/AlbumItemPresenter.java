@@ -10,7 +10,7 @@ import net.xapxinh.center.client.player.PlayerPresenter;
 import net.xapxinh.center.client.player.event.ShowLoadingEvent;
 import net.xapxinh.center.shared.dto.Album;
 import net.xapxinh.center.shared.dto.PlayerApi;
-import net.xapxinh.center.shared.dto.Song;
+import net.xapxinh.center.shared.dto.SongDto;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -28,7 +28,7 @@ public class AlbumItemPresenter extends AbstractPresenter {
 		Button getBtnPlay();
 		Button getBtnEnqueue();
 
-		void showOrHidePanelTracks(List<Song> songs);
+		void showOrHidePanelTracks(List<SongDto> songs);
 	}
 	private final Display display;
 	private final Album album;

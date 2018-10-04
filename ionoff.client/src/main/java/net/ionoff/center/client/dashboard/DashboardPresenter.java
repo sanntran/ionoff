@@ -299,7 +299,7 @@ public class DashboardPresenter extends AbstractPresenter {
 		display.getLblTotalMode().setText(dashboard.getTotalModeCount() + "");
 		display.getLblActivatedMode().setText(dashboard.getActivatedModeName());
 		
-		// Schedule
+		// ScheduleDto
 		display.getLblTotalSchedule().setText(dashboard.getTotalScheduleCount() + "");
 		if (dashboard.getNextSchedule() != null) {
 			display.getLblNextSchedule().setText(dashboard.getNextSchedule() + ": " + dashboard.getNextScheduleTime());

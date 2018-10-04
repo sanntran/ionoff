@@ -27,8 +27,8 @@ import net.xapxinh.center.shared.dto.Command;
 import net.xapxinh.center.shared.dto.MediaFile;
 import net.xapxinh.center.shared.dto.PlayListDto;
 import net.xapxinh.center.shared.dto.PlayerDto;
-import net.xapxinh.center.shared.dto.Status;
-import net.xapxinh.center.shared.dto.YoutubeVideos;
+import net.xapxinh.center.shared.dto.StatusDto;
+import net.xapxinh.center.shared.dto.YoutubeVideosDto;
 
 public class PlayerPresenter extends AbstractPresenter  {
 	
@@ -61,14 +61,14 @@ public class PlayerPresenter extends AbstractPresenter  {
 		if (playerId == null) {
 			return;
 		}
-		getPlayerService().sendCommand(playerId, command, new MethodCallback<Status>() {
+		getPlayerService().sendCommand(playerId, command, new MethodCallback<StatusDto>() {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
 				handleException(method, exception);
 			}
 
 			@Override
-			public void onSuccess(Method method, Status response) {
+			public void onSuccess(Method method, StatusDto response) {
 				eventBus.fireEvent(new ShowLoadingEvent(false));
 				setStatus(response);
 				setIconStyle(PlayerDto.STATUS.CONNECTED);
@@ -87,14 +87,14 @@ public class PlayerPresenter extends AbstractPresenter  {
 		if (playerId == null) {
 			return;
 		}
-		getPlayerService().getStatus(playerId, new MethodCallback<Status>() {
+		getPlayerService().getStatus(playerId, new MethodCallback<StatusDto>() {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
 				handleException(method, exception);
 			}
 
 			@Override
-			public void onSuccess(Method method, Status response) {
+			public void onSuccess(Method method, StatusDto response) {
 				eventBus.fireEvent(new ShowLoadingEvent(false));
 				setStatus(response);
 				setIconStyle(PlayerDto.STATUS.CONNECTED);
@@ -105,7 +105,7 @@ public class PlayerPresenter extends AbstractPresenter  {
 		});
 	}
 
-	private void setStatus(Status status) {
+	private void setStatus(StatusDto status) {
 		getPlayingInstance().setStatus(status);
 	}
 
@@ -333,14 +333,14 @@ public class PlayerPresenter extends AbstractPresenter  {
 		if (playerId == null) {
 			return;
 		}
-		getPlayerService().searchYoutubeVideos(playerId, key, pageToken, new MethodCallback<YoutubeVideos>() {
+		getPlayerService().searchYoutubeVideos(playerId, key, pageToken, new MethodCallback<YoutubeVideosDto>() {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
 				handleException(method, exception);
 			}
 
 			@Override
-			public void onSuccess(Method method, YoutubeVideos response) {
+			public void onSuccess(Method method, YoutubeVideosDto response) {
 				eventBus.fireEvent(new ShowLoadingEvent(false));
 				getYoutubeVideoListInstance().showYoutubeVideos(response);
 			}

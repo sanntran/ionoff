@@ -12,7 +12,7 @@ import net.xapxinh.center.client.player.AbstractPresenter;
 import net.xapxinh.center.client.player.PlayerPresenter;
 import net.xapxinh.center.shared.dto.PlayListDto;
 import net.xapxinh.center.shared.dto.PlayerApi;
-import net.xapxinh.center.shared.dto.Status;
+import net.xapxinh.center.shared.dto.StatusDto;
 
 public class PopupPlayingPresenter extends AbstractPresenter {
 
@@ -27,7 +27,7 @@ public class PopupPlayingPresenter extends AbstractPresenter {
 	private Display display;
 	private PlayingListPresenter playlistPresenter;
 	private final PlayerPresenter playerPresenter;
-	protected Status currentStatus;
+	protected StatusDto currentStatus;
 	
 	public PopupPlayingPresenter(PlayerPresenter playerPresenter, HandlerManager eventBus, Display view) {
 		super(eventBus);
@@ -162,7 +162,7 @@ public class PopupPlayingPresenter extends AbstractPresenter {
 		display.getExtControlView().getLblVolSlider().setWidth(width);
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(StatusDto status) {
 		this.currentStatus = status;
 		getPlaylistInstance().setStatus(status);
 	}

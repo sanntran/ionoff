@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
-import net.ionoff.center.shared.entity.RelayDriverModel;
 
 @Transactional
 public class RelayDriverDaoImpl extends AbstractGenericDao<RelayDriver> implements IRelayDriverDao {
@@ -137,17 +136,6 @@ public class RelayDriverDaoImpl extends AbstractGenericDao<RelayDriver> implemen
 				+ " order by relayDriver.model";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("ip", ip);
-		return findMany(query);
-	}
-
-	@Override
-	public List<RelayDriver> findByModel(RelayDriverModel model) {
-		String sql = "select distinct relayDriver"
-				+ " from RelayDriver as relayDriver"
-				+ " where relayDriver.model = :model"
-				+ " order by relayDriver.project.id";
-		Query query = getCurrentSession().createQuery(sql)
-				.setParameter("model", model.toString());
 		return findMany(query);
 	}
 }

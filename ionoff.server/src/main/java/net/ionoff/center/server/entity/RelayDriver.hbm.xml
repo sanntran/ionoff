@@ -5,18 +5,20 @@
 
 <hibernate-mapping>
     
-	<class name="net.ionoff.center.server.entity.RelayDriver" table="relaydrivers">
+	<class name="net.ionoff.center.server.entity.RelayDriver" table="relaydrivers" batch-size="1" >
 		
 		<cache usage="read-write"/>
-		
+
 		<id name="id" type="long" column="id">
 			<generator class="increment" />
 		</id>
-		
+
+		<discriminator column="type_" type="string"> </discriminator>
+
 		<property name="name">
 			<column name="name" />
 		</property>
-		
+
 		<property name="ip">
 			<column name="ip" />
 		</property>
@@ -28,11 +30,7 @@
 		<property name="key">
 			<column name="key_" />
 		</property>
-		
-		<property name="model">
-			<column name="model" />
-		</property>
-		
+
 		<property name="connectedTime">
 			<column name="connected_time"/>
 		</property>
@@ -60,7 +58,31 @@
 		<many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">
             <column name="project_id" not-null="true" />
         </many-to-one>
-		
+
+		<subclass name="net.ionoff.center.server.entity.relaydriver.E3RelayDriver"
+				  discriminator-value="E3RelayDriver" >
+		</subclass>
+
+		<subclass name="net.ionoff.center.server.entity.relaydriver.E4RelayDriver"
+				  discriminator-value="E4RelayDriver">
+		</subclass>
+
+		<subclass name="net.ionoff.center.server.entity.relaydriver.Ep2RelayDriver"
+				  discriminator-value="Ep2RelayDriver">
+		</subclass>
+
+		<subclass name="net.ionoff.center.server.entity.relaydriver.Ec100RelayDriver"
+				  discriminator-value="Ec100RelayDriver">
+		</subclass>
+
+		<subclass name="net.ionoff.center.server.entity.relaydriver.P4RelayDriver"
+				  discriminator-value="P4RelayDriver">
+		</subclass>
+
+		<subclass name="net.ionoff.center.server.entity.relaydriver.P8RelayDriver"
+				  discriminator-value="P8RelayDriver">
+		</subclass>
+
 	</class>
 	
 </hibernate-mapping>

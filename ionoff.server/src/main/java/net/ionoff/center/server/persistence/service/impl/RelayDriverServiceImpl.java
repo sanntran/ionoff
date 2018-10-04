@@ -28,7 +28,6 @@ import net.ionoff.center.server.persistence.dao.ISensorStatusDao;
 import net.ionoff.center.server.persistence.dao.ISwitchDao;
 import net.ionoff.center.server.persistence.service.IRelayDriverService;
 import net.ionoff.center.shared.dto.RelayDriverDto;
-import net.ionoff.center.shared.entity.RelayDriverModel;
 
 @Transactional
 public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, RelayDriverDto> 
@@ -78,12 +77,7 @@ public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, 
 	}
 
 	private void insertSWitchs(RelayDriver relayDriver) {
-		RelayDriverModel model = RelayDriverModel.fromString(relayDriver.getModel());
-		if (model == null) {
-			return;
-		}
-		
-		for (int i = 0; i < model.getDigitalInput(); i++) {
+		for (int i = 0; i < relayDriver.getInput(); i++) {
 			insertSwitch(relayDriver, i);
 		}
 	}
@@ -116,15 +110,7 @@ public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, 
 	
 
 	private void validateRelayDriver(RelayDriver relayDriver, String locale) throws UpdateEntityException {
-		RelayDriverModel model = RelayDriverModel.fromString(relayDriver.getModel());
-
-		if (model == null) {
-			String message = Messages.get(locale).fieldInvalid(Constants.get(locale).model(), relayDriver.getModel());
-			throw new UpdateEntityException(message);
-		}
-		
-		if (RelayDriverModel.HLAB_EP2.toString().equals(relayDriver.getModel().toString()) ||
-				RelayDriverModel.HBQ_EC100.toString().equals(relayDriver.getModel().toString())) {
+		if (relayDriver.getProtocol().equals("http")) {
 			if (relayDriver.getPort() == null || relayDriver.getPort().intValue() == 0) {
 				String message = Messages.get(locale).fieldInvalid(
 									Constants.get(locale).port(), relayDriver.getPort() + "");
@@ -161,7 +147,7 @@ public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, 
 	
 	private Set<Relay> insertRelays(RelayDriver relayDriver) {
 		Set<Relay> relays = new HashSet<Relay>();
-		for (int i = 0; i < relayDriver.getModelObj().getRelayOutput(); i++) {
+		for (int i = 0; i < relayDriver.getOutput(); i++) {
 			Relay relay = insertRelay(relayDriver, i);
 			relays.add(relay);
 		}
@@ -224,14 +210,10 @@ public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, 
 
 	@Override
 	public void insertSwitches(RelayDriver relayDriver) {
-		RelayDriverModel model = relayDriver.getModelObj();
-		if (model == null) {
-			return;
-		}
 		if (relayDriver.getSwitchs() != null && !relayDriver.getSwitchs().isEmpty()) {
 			return;
 		}
-		for (int i = 0; i < model.getDigitalInput(); i++) {
+		for (int i = 0; i < relayDriver.getInput(); i++) {
 			Switch zwitch = new Switch();
 			zwitch.setDriver(relayDriver);
 			zwitch.setIndex(i);
@@ -255,11 +237,6 @@ public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, 
 			}
 		}
 		return zwitch;
-	}
-
-	@Override
-	public List<RelayDriver> findByModel(RelayDriverModel model) {
-		return relayDriverDao.findByModel(model);
 	}
 
 }

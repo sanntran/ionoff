@@ -10,18 +10,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
+import net.xapxinh.center.shared.dto.*;
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
 
-import net.xapxinh.center.shared.dto.Album;
-import net.xapxinh.center.shared.dto.Command;
-import net.xapxinh.center.shared.dto.MediaFile;
-import net.xapxinh.center.shared.dto.MessageDto;
-import net.xapxinh.center.shared.dto.PlayListDto;
-import net.xapxinh.center.shared.dto.PlayNodeDto;
-import net.xapxinh.center.shared.dto.Schedule;
-import net.xapxinh.center.shared.dto.Status;
-import net.xapxinh.center.shared.dto.YoutubeVideos;
+import net.xapxinh.center.shared.dto.ScheduleDto;
 
 /**
  * @author Sann Tran
@@ -30,7 +23,7 @@ public interface PlayerService extends RestService {
 	@GET
 	@Path("api/players/{playerId}/status")
 	public void getStatus(@PathParam("playerId") Long playerId,
-			MethodCallback<Status> callback);
+			MethodCallback<StatusDto> callback);
 
 	@GET
 	@Path("api/players/{playerId}/playinglist")
@@ -52,25 +45,25 @@ public interface PlayerService extends RestService {
 	@GET
 	@Path("api/players/{playerId}/scheduler")
 	public void getSchedule(@PathParam("playerId") Long playerId,
-			MethodCallback<Schedule> callback);
+			MethodCallback<ScheduleDto> callback);
 
 	@POST
 	@Path("api/players/{playerId}/scheduler")
-	public void updateSchedule(@PathParam("playerId") Long playerId, Schedule schedule,
-			MethodCallback<Schedule> callback);
+	public void updateSchedule(@PathParam("playerId") Long playerId, ScheduleDto schedule,
+			MethodCallback<ScheduleDto> callback);
 
 	@POST
 	@Path("api/players/{playerId}/command")
 	public void sendCommand(@PathParam("playerId") Long playerId,
 			Command command,
-			MethodCallback<Status> callback);
+			MethodCallback<StatusDto> callback);
 
 	@GET
 	@Path("api/youtubevideos/search")
 	public void searchYoutubeVideos(@QueryParam("playerId") Long playerId,
 			@QueryParam("searchKey") String searchKey,
 			@QueryParam("pageToken") String pageToken,
-			MethodCallback<YoutubeVideos> callback);
+			MethodCallback<YoutubeVideosDto> callback);
 
 	@GET
 	@Path("api/albums/search")

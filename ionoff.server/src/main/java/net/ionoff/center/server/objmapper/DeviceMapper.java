@@ -20,10 +20,9 @@ import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.LightDto;
 import net.ionoff.center.shared.dto.PlayerDto;
 import net.ionoff.center.shared.dto.RelayDto;
-import net.ionoff.center.shared.dto.StatusDto;
 import net.ionoff.center.shared.dto.SensorDriverDto;
 import net.xapxinh.center.server.service.player.IPlayerService;
-import net.xapxinh.center.shared.dto.Status;
+import net.xapxinh.center.shared.dto.StatusDto;
 
 public class DeviceMapper {
 	
@@ -92,16 +91,16 @@ public class DeviceMapper {
 		return deviceDto;
 	}
 
-	public List<StatusDto> toStatusDto(List<Device> devices, IPlayerService playerService) {
-		List<StatusDto> statusDtos = new ArrayList<>();
+	public List<net.ionoff.center.shared.dto.StatusDto> toStatusDto(List<Device> devices, IPlayerService playerService) {
+		List<net.ionoff.center.shared.dto.StatusDto> statusDtos = new ArrayList<>();
 		for (Device device : devices) {
 			statusDtos.add(getStatusDto(device, playerService));
 		}
 		return statusDtos;
 	}
 	
-	public StatusDto getStatusDto(Device device, IPlayerService playerService) {
-		StatusDto statusDto = new StatusDto();
+	public net.ionoff.center.shared.dto.StatusDto getStatusDto(Device device, IPlayerService playerService) {
+		net.ionoff.center.shared.dto.StatusDto statusDto = new net.ionoff.center.shared.dto.StatusDto();
 		statusDto.setId(device.getId());
 		statusDto.setValue(device.getStatus());
 		if (device.getTime() != null) {
@@ -109,7 +108,7 @@ public class DeviceMapper {
 		}
 		if (device.instanceOf(Appliance.class)) {
 			for (Relay relay : device.getRelayList()) {
-				StatusDto child = new StatusDto();
+				net.ionoff.center.shared.dto.StatusDto child = new net.ionoff.center.shared.dto.StatusDto();
 				child.setId(relay.getId());
 				child.setValue(relay.getStatus());
 				if (relay.getTime() != null) {
@@ -132,7 +131,7 @@ public class DeviceMapper {
 		else if (device.instanceOf(Player.class) && playerService != null) {
 			try {
 				Player player = EntityUtil.castUnproxy(device, Player.class);
-				Status status = playerService.requesStatus(toPlayer(player), null);
+				StatusDto status = playerService.requesStatus(toPlayer(player), null);
 				statusDto.setState(status.getState());
 				statusDto.setTrack(status.getTitle());
 				if (status.getPosition() > 0) {

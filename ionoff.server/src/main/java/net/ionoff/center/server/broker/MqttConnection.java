@@ -1,9 +1,9 @@
 package net.ionoff.center.server.broker;
 
 
-import net.ionoff.center.server.player.MediaPlayerHandler;
-import net.ionoff.center.server.driver.RelayDriverHandler;
-import net.ionoff.center.server.driver.SensorDriverHandler;
+import net.ionoff.center.server.mediaplayer.MediaPlayerHandler;
+import net.ionoff.center.server.relaydriver.RelayDriverHandler;
+import net.ionoff.center.server.sensordriver.SensorDriverHandler;
 import org.apache.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -30,30 +30,30 @@ public class MqttConnection implements MqttCallback {
 
 	private Thread mosquittoThread;
 
-	@Value("${broker.user}")
+	@Value("${broker.mqtt.user}")
 	private String user;
 
-	@Value("${broker.pass}")
+	@Value("${broker.mqtt.pass}")
 	private String password;
 
-	@Value("${broker.qos:2}")
+	@Value("${broker.mqtt.qos:2}")
 	private Integer qos;
 
 	private String clientId;
 
-	@Value("${broker.broker.url}")
+	@Value("${broker.mqtt.url}")
 	private String brockerUrl;
 
-	@Value("${broker.topic.ionoffnet}")
+	@Value("${broker.mqtt.topic.ionoffnet}")
 	private String defaultTopic;
 
-	@Value("${broker.topic.relaydriver}")
+	@Value("${broker.mqtt.topic.relaydriver}")
 	private String topicRelayDriver;
 
-	@Value("${broker.topic.sensordriver}")
+	@Value("${broker.mqtt.topic.sensordriver}")
 	private String topicSensorDriver;
 
-	@Value("${broker.topic.mediaplayer}")
+	@Value("${broker.mqtt.topic.mediaplayer}")
 	private String topicMediaPlayer;
 
 	@Autowired

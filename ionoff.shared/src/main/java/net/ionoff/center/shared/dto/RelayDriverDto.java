@@ -2,8 +2,6 @@ package net.ionoff.center.shared.dto;
 
 import java.util.List;
 
-import net.ionoff.center.shared.entity.RelayDriverModel;
-
 public class RelayDriverDto extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
@@ -12,7 +10,7 @@ public class RelayDriverDto extends BaseDto {
 	private String ip;
 	private Integer port;
 	private String key;
-	private RelayDriverModel model;
+	private String model;
 	private Long projectId;
 	private List<RelayDto> relays;
 	private Boolean isOnline;
@@ -38,11 +36,11 @@ public class RelayDriverDto extends BaseDto {
 		this.key = key;
 	}
 	
-	public RelayDriverModel getModel() {
+	public String getModel() {
 		return model;
 	}
-	
-	public void setModel(RelayDriverModel model) {
+
+	public void setModel(String model) {
 		this.model = model;
 	}
 	

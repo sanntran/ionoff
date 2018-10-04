@@ -19,12 +19,11 @@ import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.PlayerDto;
-import net.ionoff.center.shared.dto.StatusDto;
 import net.xapxinh.center.client.player.event.ShowLoadingEvent;
 import net.xapxinh.center.shared.dto.Command;
 import net.xapxinh.center.shared.dto.PlayerApi;
-import net.xapxinh.center.shared.dto.State;
-import net.xapxinh.center.shared.dto.Status;
+import net.xapxinh.center.shared.dto.StateDto;
+import net.xapxinh.center.shared.dto.StatusDto;
 
 public class PlayerPresenter extends DevicePresenter {
 
@@ -78,10 +77,10 @@ public class PlayerPresenter extends DevicePresenter {
 		view.getBtnPlay().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				if (State.playing.toString().equals(player.getStatus().getState())) {
+				if (StateDto.playing.toString().equals(player.getStatus().getState())) {
 					rpcSendCommand(PlayerApi.pausePlaylistLeaf());
 				}
-				else if (State.paused.toString().equals(player.getStatus().getState())) {
+				else if (StateDto.paused.toString().equals(player.getStatus().getState())) {
 					rpcSendCommand(PlayerApi.resumePlaylistLeaf());
 				}
 				else {
@@ -165,14 +164,14 @@ public class PlayerPresenter extends DevicePresenter {
 	}
 
 	protected void rpcSendCommand(Command command) {
-		rpcService.getPlayerService().sendCommand(player.getId(), command, new MethodCallback<Status>() {
+		rpcService.getPlayerService().sendCommand(player.getId(), command, new MethodCallback<StatusDto>() {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
 				ClientUtil.handleRpcFailure(method, exception, eventBus);
 			}
 
 			@Override
-			public void onSuccess(Method method, Status response) {
+			public void onSuccess(Method method, StatusDto response) {
 				eventBus.fireEvent(new ShowLoadingEvent(false));
 				updateStatus(response);
 			}
@@ -209,7 +208,7 @@ public class PlayerPresenter extends DevicePresenter {
 			else {
 				view.getLblTime().setText(player.getStatus().getTime());
 			}
-			if (State.playing.toString().equals(player.getStatus().getState())) {
+			if (StateDto.playing.toString().equals(player.getStatus().getState())) {
 				view.getBtnPlay().setIconType(IconType.PAUSE);
 			}
 			else {
@@ -228,7 +227,7 @@ public class PlayerPresenter extends DevicePresenter {
 	}
 
 	@Override
-	public void updateStatus(StatusDto status) {
+	public void updateStatus(net.ionoff.center.shared.dto.StatusDto status) {
 		player.getStatus().setValue(status.getValue());
 		player.getStatus().setState(status.getState());
 		player.getStatus().setTime(status.getTime());
@@ -237,7 +236,7 @@ public class PlayerPresenter extends DevicePresenter {
 		displayStatus();
 	}
 
-	private void updateStatus(Status status) {
+	private void updateStatus(StatusDto status) {
 		player.getStatus().setValue(true);
 		player.getStatus().setState(status.getState());
 		player.getStatus().setTrack(status.getTitle());

@@ -88,16 +88,16 @@ public class ApplicationEventListener implements ApplicationListener<Application
 		    while (drivers.hasMoreElements()) {
 		        Driver driver = drivers.nextElement();
 		        if (driver.getClass().getClassLoader() == cl) {
-		            // This driver was registered by the webapp's ClassLoader, so deregister it:
+		            // This relaydriver was registered by the webapp's ClassLoader, so deregister it:
 		            try {
-		                logger.info("Deregistering JDBC driver " + driver);
+		                logger.info("Deregistering JDBC relaydriver " + driver);
 		                DriverManager.deregisterDriver(driver);
 		            } catch (SQLException ex) {
-		            	logger.error("Error deregistering JDBC driver " + driver, ex);
+		            	logger.error("Error deregistering JDBC relaydriver " + driver, ex);
 		            }
 		        } else {
-		            // driver was not registered by the webapp's ClassLoader and may be in use elsewhere
-		        	logger.info("Not deregistering JDBC driver as it does not belong to this webapp's ClassLoader");
+		            // relaydriver was not registered by the webapp's ClassLoader and may be in use elsewhere
+		        	logger.info("Not deregistering JDBC relaydriver as it does not belong to this webapp's ClassLoader");
 		        }
 		    }
 		    serverThreadPool.shutdown();

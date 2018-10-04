@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import net.xapxinh.center.client.player.locale.PlayLocale;
 import net.xapxinh.center.shared.dto.Album;
-import net.xapxinh.center.shared.dto.Song;
+import net.xapxinh.center.shared.dto.SongDto;
 
 public class AlbumItemView extends FlowPanel implements AlbumItemPresenter.Display {
 	
@@ -94,7 +94,7 @@ public class AlbumItemView extends FlowPanel implements AlbumItemPresenter.Displ
 		return string == null || "null".equals(string) || "?".equals(string);
 	}
 
-	private void addPanelTrackList(List<Song> songs) {
+	private void addPanelTrackList(List<SongDto> songs) {
 		if (songs == null || songs.isEmpty()) {
 			return;
 		}
@@ -106,7 +106,7 @@ public class AlbumItemView extends FlowPanel implements AlbumItemPresenter.Displ
 		panelTrackList.setVisible(true);
 	}
 
-	private FlowPanel createPanelTrack(Song song, int index) {
+	private FlowPanel createPanelTrack(SongDto song, int index) {
 		final FlowPanel panelTrack = new FlowPanel();
 		panelTrack.setStyleName("track");
 
@@ -153,7 +153,7 @@ public class AlbumItemView extends FlowPanel implements AlbumItemPresenter.Displ
 	}
 
 	@Override
-	public void showOrHidePanelTracks(List<Song> songs) {
+	public void showOrHidePanelTracks(List<SongDto> songs) {
 		if (panelTrackList == null) {
 			panelTrackList = new FlowPanel();
 			panelTrackList.setStyleName("tracks");

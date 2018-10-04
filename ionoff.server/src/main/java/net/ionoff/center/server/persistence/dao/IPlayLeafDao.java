@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import net.xapxinh.center.server.entity.PlayLeaf;
+import net.ionoff.center.server.entity.PlayLeaf;
 
 @Transactional
 public interface IPlayLeafDao extends IGenericDao<PlayLeaf> {

@@ -7,7 +7,6 @@ import gwt.material.design.client.ui.MaterialTextBox;
 import net.ionoff.center.client.base.AbstractEditView;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.shared.dto.RelayDriverDto;
-import net.ionoff.center.shared.entity.RelayDriverModel;
 
 public class RelayDriverEditView extends AbstractEditView<RelayDriverDto> implements RelayDriverEditPresenter.Display {
 	

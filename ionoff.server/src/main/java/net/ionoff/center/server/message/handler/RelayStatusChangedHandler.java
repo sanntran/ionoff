@@ -74,7 +74,7 @@ public class RelayStatusChangedHandler {
 	}
 
 	private void scheduleRevertRelayState(Relay relay) {
-		logger.info("Schedule revert relay " + relay.getNameId() + " state for " + relay.getAutoRevert() + " second");
+		logger.info("ScheduleDto revert relay " + relay.getNameId() + " state for " + relay.getAutoRevert() + " second");
 		SCHEDULER_EXECUTOR.schedule(new Runnable() {
 			@Override
 			public void run() {

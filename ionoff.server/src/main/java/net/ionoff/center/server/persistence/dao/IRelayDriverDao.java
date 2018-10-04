@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.RelayDriver;
-import net.ionoff.center.shared.entity.RelayDriverModel;
 
 @Transactional
 public interface IRelayDriverDao extends IGenericDao<RelayDriver> {
@@ -18,5 +17,4 @@ public interface IRelayDriverDao extends IGenericDao<RelayDriver> {
 
 	List<RelayDriver> findByIp(String ip);
 
-	List<RelayDriver> findByModel(RelayDriverModel model);
 }

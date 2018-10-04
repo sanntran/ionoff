@@ -4,7 +4,7 @@ import net.xapxinh.center.client.player.AbstractPresenter;
 import net.xapxinh.center.client.player.PlayerPresenter;
 import net.xapxinh.center.shared.dto.Command;
 import net.xapxinh.center.shared.dto.PlayerApi;
-import net.xapxinh.center.shared.dto.YoutubeVideo;
+import net.xapxinh.center.shared.dto.YoutubeVideoDto;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -24,12 +24,12 @@ public class YoutubeVideoPresenter extends AbstractPresenter {
 	}
 
 	private final Display display;
-	private YoutubeVideo youtubeVideo;
+	private YoutubeVideoDto youtubeVideo;
 	private final PlayerPresenter playerPresenter;
 	
 	public YoutubeVideoPresenter(
-			HandlerManager eventBus, YoutubeVideo youtubeVideo, Display view, 
-			PlayerPresenter playerPresenter) {
+            HandlerManager eventBus, YoutubeVideoDto youtubeVideo, Display view,
+            PlayerPresenter playerPresenter) {
 		super(eventBus);
 		this.display = view;
 		this.youtubeVideo = youtubeVideo;
@@ -53,12 +53,12 @@ public class YoutubeVideoPresenter extends AbstractPresenter {
 		});
 	}
 	
-	public void playVideo(YoutubeVideo youtubeVideo) {
+	public void playVideo(YoutubeVideoDto youtubeVideo) {
 		Command cmd = PlayerApi.addPlayYoutube(youtubeVideo.getId());
 		playerPresenter.rpcSendCommand(cmd.setTitle(youtubeVideo.getTitle()));
 	}
 
-	public void enqueueVideo(YoutubeVideo youtubeVideo) {
+	public void enqueueVideo(YoutubeVideoDto youtubeVideo) {
 		Command cmd = PlayerApi.addEnqueueYoutube(youtubeVideo.getId());
 		playerPresenter.rpcSendCommand(cmd.setTitle(youtubeVideo.getTitle()));
 	}
@@ -74,7 +74,7 @@ public class YoutubeVideoPresenter extends AbstractPresenter {
 		container.add(display.asWidget());
 	}
 
-	public YoutubeVideo getYoutubeVideo() {
+	public YoutubeVideoDto getYoutubeVideo() {
 		return this.youtubeVideo;
 	}
 

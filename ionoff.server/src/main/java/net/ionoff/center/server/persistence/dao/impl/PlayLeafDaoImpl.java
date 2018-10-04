@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.persistence.dao.IPlayLeafDao;
-import net.xapxinh.center.server.entity.PlayLeaf;
+import net.ionoff.center.server.entity.PlayLeaf;
 
 @Transactional
 public class PlayLeafDaoImpl extends AbstractGenericDao<PlayLeaf> implements IPlayLeafDao {

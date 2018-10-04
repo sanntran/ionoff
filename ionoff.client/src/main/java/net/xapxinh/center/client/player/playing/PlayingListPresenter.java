@@ -27,7 +27,7 @@ import net.xapxinh.center.client.player.playlist.PlayNodeView;
 import net.xapxinh.center.shared.dto.PlayListDto;
 import net.xapxinh.center.shared.dto.PlayNodeDto;
 import net.xapxinh.center.shared.dto.PlayerApi;
-import net.xapxinh.center.shared.dto.Status;
+import net.xapxinh.center.shared.dto.StatusDto;
 
 /**
  * @author Sann Tran
@@ -273,7 +273,7 @@ public class PlayingListPresenter extends AbstractPresenter {
 		return null;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(StatusDto status) {
 		if (status != null) {
 			if (status.getLoop() == false) {
 				display.getBtnLoop().setStyleName("gwt-Button mode loop");

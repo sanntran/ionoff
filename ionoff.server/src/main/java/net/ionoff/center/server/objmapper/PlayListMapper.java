@@ -2,13 +2,15 @@ package net.ionoff.center.server.objmapper;
 
 import java.util.ArrayList;
 
+import net.ionoff.center.server.entity.PlayList;
+import net.xapxinh.center.shared.dto.PlayLeafDto;
+import net.xapxinh.center.shared.dto.PlayListDto;
+import net.xapxinh.center.shared.dto.PlayNodeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import net.ionoff.center.server.entity.PlayList;
 import net.ionoff.center.server.persistence.service.IPlayNodeService;
-import net.xapxinh.center.server.entity.PlayLeaf;
-import net.xapxinh.center.server.entity.PlayNode;
-import net.xapxinh.center.shared.dto.PlayListDto;
+import net.ionoff.center.server.entity.PlayLeaf;
+import net.ionoff.center.server.entity.PlayNode;
 
 public class PlayListMapper {
 
@@ -25,22 +27,22 @@ public class PlayListMapper {
 		return playListDto;
 	}
 
-	public net.xapxinh.center.shared.dto.PlayNodeDto createPlayNodeDto(PlayNode playNode) {
-		final net.xapxinh.center.shared.dto.PlayNodeDto playNodeDto 
-					= new net.xapxinh.center.shared.dto.PlayNodeDto();
+	public PlayNodeDto createPlayNodeDto(PlayNode playNode) {
+		final PlayNodeDto playNodeDto
+					= new PlayNodeDto();
 		playNodeDto.setId(playNode.getId());
 		playNodeDto.setName(playNode.getName());
 		playNodeDto.setType(playNode.getType());
 		playNodeDto.setImage(playNode.getImage());
 		playNodeDto.setLeafs(new ArrayList<>());
-		for (net.xapxinh.center.server.entity.PlayLeaf leaf : playNode.getLeafs()) {
+		for (PlayLeaf leaf : playNode.getLeafs()) {
 			playNodeDto.getLeafs().add(createPlayLeafDto(leaf));
 		}
 		return playNodeDto;
 	}
 	
-	public net.xapxinh.center.shared.dto.PlayLeafDto createPlayLeafDto(net.xapxinh.center.server.entity.PlayLeaf playLeaf) {
-		final net.xapxinh.center.shared.dto.PlayLeafDto playLeafDto = new net.xapxinh.center.shared.dto.PlayLeafDto();
+	public PlayLeafDto createPlayLeafDto(PlayLeaf playLeaf) {
+		final PlayLeafDto playLeafDto = new PlayLeafDto();
 		playLeafDto.setId(playLeaf.getId());
 		playLeafDto.setName(playLeaf.getName());
 		playLeafDto.setType(playLeaf.getType());
@@ -54,13 +56,13 @@ public class PlayListMapper {
 	}
 	
 
-	public void updatePlayList(PlayList playlist, net.xapxinh.center.shared.dto.PlayListDto playListDto) {
+	public void updatePlayList(PlayList playlist, PlayListDto playListDto) {
 		playlist.setName(playListDto.getName());
 		playlist.setThumbnail(playListDto.getThumbnail());
 		playlist.setIsPublic(playListDto.getIsPublic());
 		playlist.setNodes(new ArrayList<>());
 		int idx = 0;
-		for (net.xapxinh.center.shared.dto.PlayNodeDto nodeDto : playListDto.getNodes()) {
+		for (PlayNodeDto nodeDto : playListDto.getNodes()) {
 			PlayNode node = null;
 			if (nodeDto.isNew()) {
 				node = new PlayNode();
@@ -79,13 +81,13 @@ public class PlayListMapper {
 		}
 	}
 	
-	public void updatePlayNode(PlayNode playNode, net.xapxinh.center.shared.dto.PlayNodeDto playNodeDto) {
+	public void updatePlayNode(PlayNode playNode, PlayNodeDto playNodeDto) {
 		playNode.setId(playNodeDto.getId());
 		playNode.setName(playNodeDto.getName());
 		playNode.setType(playNodeDto.getType());
 		playNode.setLeafs(new ArrayList<>());
 		int idx = 0;
-		for (net.xapxinh.center.shared.dto.PlayLeafDto leafDto : playNodeDto.getLeafs()) {
+		for (PlayLeafDto leafDto : playNodeDto.getLeafs()) {
 			PlayLeaf leaf = null;
 			if (leafDto.isNew()) {
 				leaf = new PlayLeaf();
