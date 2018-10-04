@@ -29,10 +29,10 @@ import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
 import net.ionoff.center.server.persistence.dao.ISceneDao;
 import net.ionoff.center.server.persistence.dao.ISceneDeviceDao;
 import net.ionoff.center.server.persistence.service.IRelayService;
-import net.ionoff.center.server.relaydriver.api.RelayDriverApiProvider;
-import net.ionoff.center.server.relaydriver.api.RelayDriverApiUtil;
-import net.ionoff.center.server.relaydriver.api.RelayDriverException;
-import net.ionoff.center.server.relaydriver.api.RelayDriverStatus;
+import net.ionoff.center.server.driver.api.RelayDriverProvider;
+import net.ionoff.center.server.driver.api.RelayDriverApiUtil;
+import net.ionoff.center.server.driver.api.RelayDriverException;
+import net.ionoff.center.server.driver.api.RelayDriverStatus;
 import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.StatusDto;
 import net.ionoff.center.shared.entity.PlayerAction;
@@ -69,7 +69,7 @@ public class ControlServiceImpl implements IControlService {
 	private RelayStatusNotifier relayStatusNotifier;
 
 	@Autowired
-	private RelayDriverApiProvider relayDriverApiProvider;
+	private RelayDriverProvider relayDriverApiProvider;
 	
 	@Autowired
 	private IRelayDriverDao relayDriverDao;

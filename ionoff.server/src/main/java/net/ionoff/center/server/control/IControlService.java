@@ -6,7 +6,7 @@ import net.ionoff.center.server.entity.Player;
 import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.entity.Scene;
-import net.ionoff.center.server.relaydriver.api.RelayDriverStatus;
+import net.ionoff.center.server.driver.api.RelayDriverStatus;
 import net.ionoff.center.shared.dto.StatusDto;
 
 public interface IControlService {

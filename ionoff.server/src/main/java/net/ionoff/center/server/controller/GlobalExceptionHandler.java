@@ -19,7 +19,7 @@ import net.ionoff.center.server.exception.EntityNotFoundException;
 import net.ionoff.center.server.exception.RelayLockedException;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.locale.Messages;
-import net.ionoff.center.server.relaydriver.api.RelayDriverConnectException;
+import net.ionoff.center.server.driver.api.RelayDriverConnectException;
 import net.ionoff.center.server.security.InvalidTokenException;
 import net.ionoff.center.shared.dto.MessageDto;
 

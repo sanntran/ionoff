@@ -27,32 +27,12 @@ public enum RelayDriverModel {
 	public int getDigitalInput() {
 		return digitalInput;
 	}
-	public void setRelayOutput(int relayOutput) {
-		this.relayOutput = relayOutput;
-	}
-
-	public void setDigitalInput(int digitalInput) {
-		this.digitalInput = digitalInput;
-	}
 	
 	public static RelayDriverModel fromString(String modelName) {
-		if (IONOFF_E3.toString().equals(modelName)) {
-			return IONOFF_E3;
-		}
-		if (IONOFF_E4.toString().equals(modelName)) {
-			return IONOFF_E4;
-		}
-		if (IONOFF_P8.toString().equals(modelName)) {
-			return IONOFF_P8;
-		}
-		if (HBQ_EC100.toString().equals(modelName)) {
-			return HBQ_EC100;
-		}
-		if (HLAB_EP2.toString().equals(modelName)) {
-			return HLAB_EP2;
-		}
-		if (IONOFF_P4.toString().equals(modelName)) {
-			return IONOFF_P4;
+		for (RelayDriverModel model : RelayDriverModel.values()) {
+			if (model.toString().equals(modelName)) {
+				return model;
+			}
 		}
 		return null;
 	}

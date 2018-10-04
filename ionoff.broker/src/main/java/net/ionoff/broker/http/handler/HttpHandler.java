@@ -71,7 +71,7 @@ public class HttpHandler {
                 Object resp = sendTcpCommand(command.getAddress(), getContent(command));
                 return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), resp);
             }
-            else if ("mqtt".equals(command.getProtocol())) {
+            else if ("broker".equals(command.getProtocol())) {
                 Object resp = sendMqttMessage(command.getAddress(), command.getSubscription(),
                         command.getKeyword(), getContent(command));
                 return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), resp);
@@ -120,7 +120,7 @@ public class HttpHandler {
                 return resp;
             }
         } catch (Exception e) {
-            String msg = "Error sending mqtt request to " + address + ": " + e.getClass().getSimpleName() + " " + e.getMessage();
+            String msg = "Error sending broker request to " + address + ": " + e.getClass().getSimpleName() + " " + e.getMessage();
             LOGGER.error(e.getMessage(), e);
             throw new ServerException(msg);
         }

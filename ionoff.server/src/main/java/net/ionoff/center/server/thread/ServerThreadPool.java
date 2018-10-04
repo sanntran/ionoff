@@ -1,9 +1,10 @@
 package net.ionoff.center.server.thread;
 
+import net.ionoff.center.server.broker.MqttConnection;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import net.ionoff.center.server.xapxinh.PlayerConnectionPool;
+import net.ionoff.center.server.player.PlayerConnectionPool;
 
 public class ServerThreadPool {
 	
@@ -14,13 +15,11 @@ public class ServerThreadPool {
 	private boolean shutdown;
 	
 	@Autowired
-	private MosquittoClient mosquittoClient;
+	private MqttConnection mosquittoClient;
 	
 	@Autowired
 	private PlayerConnectionPool playerConnectionPool;
-	
-	@Autowired
-	private RelayDriverConnectionPool relayDriverConnectionPool;
+
 	
 	public ServerThreadPool() {
 		started = false;
@@ -33,8 +32,6 @@ public class ServerThreadPool {
 		}
 		started = true;
 		mosquittoClient.start();
-		playerConnectionPool.start();
-		relayDriverConnectionPool.start();
 	}
 
 	public void shutdown() {
@@ -47,7 +44,6 @@ public class ServerThreadPool {
 		playerConnectionPool.shutdown();
 		// iupdator is updating...
 		LOGGER.info("RelayDriverConnectionPool is shutting down...");
-		relayDriverConnectionPool.shutdown();
 	}
 
 	public boolean isShutdown() {

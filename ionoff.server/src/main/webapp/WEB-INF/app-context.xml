@@ -98,28 +98,28 @@
 
 	<context:component-scan base-package="net.ionoff.center.server.controller" />
 
-	<bean id="e3RelayDriverApi" class="net.ionoff.center.server.relaydriver.api.E3RelayDriverApi">
+	<bean id="e3RelayDriverApi" class="net.ionoff.center.server.driver.api.E3RelayDriver">
 	</bean>
 	
-	<bean id="e4RelayDriverApi" class="net.ionoff.center.server.relaydriver.api.E4RelayDriverApi">
+	<bean id="e4RelayDriverApi" class="net.ionoff.center.server.driver.api.E4RelayDriver">
 	</bean>
 
-	<bean id="p4RelayDriverApi" class="net.ionoff.center.server.relaydriver.api.P4RelayDriverApi">
+	<bean id="p4RelayDriverApi" class="net.ionoff.center.server.driver.api.P4RelayDriver">
 	</bean>
 
-	<bean id="p8RelayDriverApi" class="net.ionoff.center.server.relaydriver.api.P8RelayDriverApi">
+	<bean id="p8RelayDriverApi" class="net.ionoff.center.server.driver.api.P8RelayDriver">
 	</bean>
 
 	<bean id="ec100RelayDriverApi"
-		class="net.ionoff.center.server.relaydriver.api.EC100RelayDriverApi">
+		class="net.ionoff.center.server.driver.api.EC100RelayDriver">
 	</bean>
 
 	<bean id="ep2RelayDriverApi"
-		class="net.ionoff.center.server.relaydriver.api.EP2RelayDriverApi">
+		class="net.ionoff.center.server.driver.api.EP2RelayDriver">
 	</bean>
 
 	<bean id="relayDriverApiProvider"
-		class="net.ionoff.center.server.relaydriver.api.RelayDriverApiProvider">
+		class="net.ionoff.center.server.driver.api.RelayDriverProvider">
 	</bean>
 
 	<bean id="emailService" class="net.ionoff.center.server.notify.EmailServiceImpl">
@@ -153,10 +153,10 @@
 				class="net.ionoff.center.server.message.handler.RelayStatusChangedHandler">
 	</bean>
 
-	<bean id="mediaServiceApi" class="net.ionoff.center.server.xapxinh.MediaServiceApiImpl">
+	<bean id="mediaServiceApi" class="net.ionoff.center.server.player.MediaServiceApiImpl">
 	</bean>
 
-	<bean id="playerConnectionPool" class="net.ionoff.center.server.xapxinh.PlayerConnectionPool">
+	<bean id="playerConnectionPool" class="net.ionoff.center.server.player.PlayerConnectionPool">
 	</bean>
 
 	<bean id="xmpPlayerApi" class="net.xapxinh.center.server.api.player.XmpPlayerApi">
@@ -230,10 +230,10 @@
 	<bean id="dashboardMapper" class="net.ionoff.center.server.objmapper.DashboardMapper">
 	</bean>
 	
-	<bean id="mosquittoClient" class="net.ionoff.center.server.thread.MosquittoClient">
+	<bean id="mosquittoClient" class="net.ionoff.center.server.broker.MqttConnection">
 	</bean>
 	
-	<bean id="relayDriverStatusHandler" class="net.ionoff.center.server.thread.RelayDriverStatusHandler">
+	<bean id="relayDriverStatusHandler" class="net.ionoff.center.server.driver.RelayDriverHandler">
 	</bean>
 	
 </beans>

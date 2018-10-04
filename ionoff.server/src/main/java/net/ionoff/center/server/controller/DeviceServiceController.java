@@ -25,7 +25,7 @@ import net.ionoff.center.server.exception.DeleteEntityException;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.persistence.service.IDashboardService;
 import net.ionoff.center.server.persistence.service.IDeviceService;
-import net.ionoff.center.server.relaydriver.api.RelayDriverException;
+import net.ionoff.center.server.driver.api.RelayDriverException;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;

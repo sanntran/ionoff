@@ -17,9 +17,9 @@ import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.persistence.service.IRelayDriverService;
 import net.ionoff.center.server.persistence.service.IRelayService;
-import net.ionoff.center.server.relaydriver.api.RelayDriverConnectException;
-import net.ionoff.center.server.relaydriver.api.RelayDriverException;
-import net.ionoff.center.server.relaydriver.api.RelayDriverStatus;
+import net.ionoff.center.server.driver.api.RelayDriverConnectException;
+import net.ionoff.center.server.driver.api.RelayDriverException;
+import net.ionoff.center.server.driver.api.RelayDriverStatus;
 import net.ionoff.center.shared.entity.RelayDriverModel;
 
 

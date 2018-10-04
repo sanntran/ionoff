@@ -44,7 +44,7 @@ public class MqttConnection implements MqttCallback {
 		try {
 			client = new MqttClient(brokerUrl, clientId, filePersistence);
 		} catch (MqttException e) {
-			LOGGER.error("Error create mqtt client " + e.getMessage(), e);
+			LOGGER.error("Error create broker client " + e.getMessage(), e);
 		}
 		client.setCallback(this);
 		connOpt = new MqttConnectOptions();

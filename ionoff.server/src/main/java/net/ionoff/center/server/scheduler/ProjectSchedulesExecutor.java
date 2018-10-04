@@ -23,7 +23,7 @@ import net.ionoff.center.server.entity.SchedulePlayerAction;
 import net.ionoff.center.server.entity.ScheduleRelayAction;
 import net.ionoff.center.server.persistence.service.IModeService;
 import net.ionoff.center.server.persistence.service.IScheduleService;
-import net.ionoff.center.server.relaydriver.api.RelayDriverException;
+import net.ionoff.center.server.driver.api.RelayDriverException;
 import net.ionoff.center.shared.dto.ScheduleConst;
 import net.xapxinh.center.server.exception.DataServiceException;
 import net.xapxinh.center.server.exception.PlayerConnectException;
