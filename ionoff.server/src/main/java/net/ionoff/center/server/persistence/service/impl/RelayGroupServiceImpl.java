@@ -11,7 +11,7 @@ import net.ionoff.center.server.entity.RelayGroup;
 import net.ionoff.center.server.entity.RelayGroupRelay;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.exception.EntityNotFoundException;
-import net.ionoff.center.server.objmapper.RelayMapper;
+import net.ionoff.center.server.persistence.mapper.RelayMapper;
 import net.ionoff.center.server.persistence.dao.IRelayGroupDao;
 import net.ionoff.center.server.persistence.dao.IRelayGroupRelayDao;
 import net.ionoff.center.server.persistence.service.IRelayGroupService;

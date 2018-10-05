@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 public class HttpHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpHandler.class);
@@ -21,46 +22,15 @@ public class HttpHandler {
 
     private final MqttBroker mqttBroker;
     private final TcpBroker tcpBroker;
-    private final DeviceManager deviceManager;
 
     public HttpHandler(TcpBroker tcpBroker, MqttBroker mqttBroker) {
         this.tcpBroker = tcpBroker;
         this.mqttBroker = mqttBroker;
-        this.deviceManager = new DeviceManager(mqttBroker);
     }
 
-    public ResponseBody handleHttpRequest(HttpRequest httpRequest) {
+    public ResponseBody handleHttpRequest(HttpRequest httpRequest) throws TimeoutException {
         String path = httpRequest.getUri();
-        if (path.equals(DEVICES)) {
-            String body = httpRequest.getBody();
-            try {
-                if (HttpMethod.DELETE.equals(httpRequest.getMethod())) {
-                    Device device = GSON.fromJson(body, Device.class);
-                    deviceManager.removeDevice(device);
-                    return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), device);
-                }
-                else if (HttpMethod.PUT.equals(httpRequest.getMethod())) {
-                    Device device = GSON.fromJson(body, Device.class);
-                    deviceManager.addDevice(device);
-                    return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), device);
-                }
-                else if (HttpMethod.POST.equals(httpRequest.getMethod())) {
-                    DeviceList devices = GSON.fromJson(body, DeviceList.class);
-                    deviceManager.setDevices(devices);
-                    return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), devices);
-                }
-                else {
-                    String message = "Method not allowed " + httpRequest.getMethod().name();
-                    throw new ClientException(HttpStatus.METHOD_NOT_ALLOWED, message);
-                }
-            } catch (ClientException e) {
-                throw e;
-            } catch (Exception e) {
-                String msg = "Request is invalid, " + e.getMessage();
-                throw new ClientException(HttpStatus.BAD_REQUEST, msg);
-            }
-        }
-        else if (path.equals(COMMANDS)) {
+        if (path.equals(COMMANDS)) {
             String body = httpRequest.getBody();
             Command command = toRequestModel(body);
             if ("http".equals(command.getProtocol())) {
@@ -71,7 +41,7 @@ public class HttpHandler {
                 Object resp = sendTcpCommand(command.getAddress(), getContent(command));
                 return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), resp);
             }
-            else if ("broker".equals(command.getProtocol())) {
+            else if ("mqtt".equals(command.getProtocol())) {
                 Object resp = sendMqttMessage(command.getAddress(), command.getSubscription(),
                         command.getKeyword(), getContent(command));
                 return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), resp);
@@ -111,7 +81,7 @@ public class HttpHandler {
     }
 
     private Object sendMqttMessage(String address, String subscription,
-                                   String keyword, String content) {
+                                   String keyword, String content) throws TimeoutException {
         try {
             String resp = new MqttRequest(mqttBroker, subscription, keyword).sendMqttRequest(address, content);
             try {
@@ -119,9 +89,14 @@ public class HttpHandler {
             } catch (Exception e) {
                 return resp;
             }
-        } catch (Exception e) {
-            String msg = "Error sending broker request to " + address + ": " + e.getClass().getSimpleName() + " " + e.getMessage();
-            LOGGER.error(e.getMessage(), e);
+        } catch (TimeoutException te) {
+            String msg = te.getClass().getSimpleName() + ": timeout reading mqtt response from " + address;
+            LOGGER.error(msg + " " + te.getMessage(), te);
+            throw te;
+        }
+        catch (Exception e) {
+            String msg = e.getClass().getSimpleName() + ": error sending mqtt request to " + address;
+            LOGGER.error(msg + " " + e.getMessage(), e);
             throw new ServerException(msg);
         }
     }

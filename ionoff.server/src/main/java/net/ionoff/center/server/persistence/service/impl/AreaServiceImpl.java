@@ -10,7 +10,7 @@ import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.exception.DeleteEntityException;
 import net.ionoff.center.server.locale.Constants;
 import net.ionoff.center.server.locale.Messages;
-import net.ionoff.center.server.objmapper.AreaMapper;
+import net.ionoff.center.server.persistence.mapper.AreaMapper;
 import net.ionoff.center.server.persistence.dao.IAreaDao;
 import net.ionoff.center.server.persistence.service.IAreaService;
 import net.ionoff.center.server.persistence.service.IProjectService;

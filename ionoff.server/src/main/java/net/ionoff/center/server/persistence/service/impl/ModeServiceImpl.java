@@ -10,7 +10,7 @@ import net.ionoff.center.server.entity.ModeScene;
 import net.ionoff.center.server.entity.Project;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.Zone;
-import net.ionoff.center.server.objmapper.ModeMapper;
+import net.ionoff.center.server.persistence.mapper.ModeMapper;
 import net.ionoff.center.server.persistence.dao.IModeDao;
 import net.ionoff.center.server.persistence.dao.IModeSceneDao;
 import net.ionoff.center.server.persistence.service.IModeService;

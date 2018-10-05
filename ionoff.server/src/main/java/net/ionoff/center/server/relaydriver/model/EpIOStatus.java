@@ -1,6 +1,6 @@
 package net.ionoff.center.server.relaydriver.model;
 
-import net.ionoff.center.server.relaydriver.exception.DataFormatException;
+import net.ionoff.center.server.relaydriver.exception.MessageFormatException;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class EpIOStatus extends BaseStatus {
             }
         }
         if (key == null || status == null) {
-            throw new DataFormatException(message);
+            throw new MessageFormatException(message);
         }
         String outs[] = status.split(" ");
         outputs = new ArrayList<>(outs.length);

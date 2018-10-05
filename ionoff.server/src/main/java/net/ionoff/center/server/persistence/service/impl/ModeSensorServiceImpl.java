@@ -22,7 +22,7 @@ import net.ionoff.center.server.entity.Zone;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.locale.Constants;
 import net.ionoff.center.server.locale.Messages;
-import net.ionoff.center.server.objmapper.ModeMapper;
+import net.ionoff.center.server.persistence.mapper.ModeMapper;
 import net.ionoff.center.server.persistence.dao.IModeSensorDao;
 import net.ionoff.center.server.persistence.dao.IModeSensorSceneDao;
 import net.ionoff.center.server.persistence.dao.IModeSensorUserDao;

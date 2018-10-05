@@ -22,10 +22,10 @@ import net.ionoff.center.server.entity.SchedulePlayerAction;
 import net.ionoff.center.server.entity.ScheduleRelayAction;
 import net.ionoff.center.server.persistence.service.IModeService;
 import net.ionoff.center.server.persistence.service.IScheduleService;
-import net.ionoff.center.server.relaydriver.exception.RelayDriverException;
+import net.ionoff.center.server.relaydriver.exception.RelayDriverRequestException;
 import net.ionoff.center.shared.dto.ScheduleConst;
-import net.xapxinh.center.server.exception.DataServiceException;
-import net.xapxinh.center.server.exception.PlayerConnectException;
+import net.ionoff.center.server.mediadata.exception.MediaDataRequestException;
+import net.ionoff.center.server.mediaplayer.exception.MediaPlayerConnectException;
 
 @Component
 @EnableAsync
@@ -195,7 +195,7 @@ public class ProjectSchedulesExecutor {
 			executeScheduleActions(schedule);
 			updateSchedule(schedule, now, true, 0);
 		}
-		catch (PlayerConnectException | DataServiceException | RelayDriverException e) {
+		catch (MediaPlayerConnectException | MediaDataRequestException | RelayDriverRequestException e) {
 			LOGGER.error("Error execute schedule " + schedule.getName() + " " + e.getMessage(), e);
 			updateSchedule(schedule, now, false, 0);
 		}

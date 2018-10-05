@@ -9,7 +9,7 @@ import net.ionoff.center.server.entity.ScheduleAction;
 import net.ionoff.center.server.entity.SchedulePlayerAction;
 import net.ionoff.center.server.entity.ScheduleRelayAction;
 import net.ionoff.center.server.entity.User;
-import net.ionoff.center.server.objmapper.ScheduleMapper;
+import net.ionoff.center.server.persistence.mapper.ScheduleMapper;
 import net.ionoff.center.server.persistence.dao.IScheduleActionDao;
 import net.ionoff.center.server.persistence.service.IScheduleActionService;
 import net.ionoff.center.shared.dto.ScheduleActionDto;

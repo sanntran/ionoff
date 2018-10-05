@@ -13,7 +13,7 @@ import net.ionoff.center.server.entity.SceneDevice;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.UserScene;
 import net.ionoff.center.server.entity.Zone;
-import net.ionoff.center.server.objmapper.SceneMapper;
+import net.ionoff.center.server.persistence.mapper.SceneMapper;
 import net.ionoff.center.server.persistence.dao.ISceneDao;
 import net.ionoff.center.server.persistence.dao.IUserDao;
 import net.ionoff.center.server.persistence.dao.IUserSceneDao;

@@ -28,8 +28,8 @@ public class Ep2RelayDriver extends RelayDriver {
     }
 
     @Override
-    public boolean autoPublish() {
-        return false;
+    public boolean isLazy() {
+        return true;
     }
 
     @Override
@@ -268,4 +268,8 @@ public class Ep2RelayDriver extends RelayDriver {
         return code;
     }
 
+    @Override
+    public void overrideKey() {
+        setKey("EP" + (200000 + getId()));
+    }
 }

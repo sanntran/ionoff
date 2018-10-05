@@ -1,10 +1,16 @@
 package net.ionoff.center.server.persistence.dao.impl;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import net.ionoff.center.server.entity.relaydriver.Ec100RelayDriver;
+import net.ionoff.center.server.entity.relaydriver.Ep2RelayDriver;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.QueryCriteria;
@@ -75,7 +81,16 @@ public class RelayDriverDaoImpl extends AbstractGenericDao<RelayDriver> implemen
 				.setParameter("projectId", projectId);
 		return findMany(query, fromIndex, maxResults);
 	}
-	
+
+	@Override
+	public List<RelayDriver> findByIsLazy() {
+		String sql = "select * from relaydrivers where type_='Ep2RelayDriver'" +
+				" or type_='Ec100RelayDriver'";
+		Query query = getCurrentSession().
+                    createSQLQuery(sql).addEntity(RelayDriver.class);
+		return query.list();
+	}
+
 	@Override
 	public List<RelayDriver> findByProjectId(long projectId) {
 		String sql = "select distinct relayDriver"

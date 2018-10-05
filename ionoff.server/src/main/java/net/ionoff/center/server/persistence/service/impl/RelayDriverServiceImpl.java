@@ -19,7 +19,7 @@ import net.ionoff.center.server.exception.DeleteEntityException;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.locale.Constants;
 import net.ionoff.center.server.locale.Messages;
-import net.ionoff.center.server.objmapper.RelayDriverMapper;
+import net.ionoff.center.server.persistence.mapper.RelayDriverMapper;
 import net.ionoff.center.server.persistence.dao.IProjectDao;
 import net.ionoff.center.server.persistence.dao.IRelayDao;
 import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
@@ -71,6 +71,10 @@ public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, 
 	@Override
 	public RelayDriver insert(RelayDriver relayDriver) {
 		super.insert(relayDriver);
+		if (relayDriver.isLazy()) {
+			relayDriver.overrideKey();
+			update(relayDriver);
+		}
 		insertRelays(relayDriver);
 		insertSWitchs(relayDriver);
 		return relayDriver;
@@ -164,7 +168,12 @@ public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, 
 		}
 		delete(relayDriver);
 	}
-	
+
+
+	@Override
+	public List<RelayDriver> findByIsLazy() {
+		return relayDriverDao.findByIsLazy();
+	}
 
 	@Override
 	public List<RelayDriver> findByProjectId(long projectId) {

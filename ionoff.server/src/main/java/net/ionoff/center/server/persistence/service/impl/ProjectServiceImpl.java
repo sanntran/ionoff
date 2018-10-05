@@ -11,7 +11,7 @@ import net.ionoff.center.server.entity.UserProject;
 import net.ionoff.center.server.exception.DeleteEntityException;
 import net.ionoff.center.server.locale.Constants;
 import net.ionoff.center.server.locale.Messages;
-import net.ionoff.center.server.objmapper.ProjectMapper;
+import net.ionoff.center.server.persistence.mapper.ProjectMapper;
 import net.ionoff.center.server.persistence.dao.IProjectDao;
 import net.ionoff.center.server.persistence.service.IProjectService;
 import net.ionoff.center.server.persistence.service.IUserProjectService;

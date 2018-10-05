@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.exception.EntityNotFoundException;
-import net.ionoff.center.server.objmapper.QueryCriteriaMapper;
+import net.ionoff.center.server.persistence.mapper.QueryCriteriaMapper;
 import net.ionoff.center.server.persistence.dao.IGenericDao;
 import net.ionoff.center.server.persistence.dao.impl.AbstractGenericDao;
 import net.ionoff.center.server.persistence.service.IGenericService;

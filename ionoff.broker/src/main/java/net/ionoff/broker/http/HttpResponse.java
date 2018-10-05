@@ -140,7 +140,7 @@ public class HttpResponse implements Closeable {
             sendBodyWithCorrectEncoding(outputStream, pending);
             outputStream.flush();
         } catch (IOException ioe) {
-           LOGGER.error("Could not send response to the client", ioe);
+           LOGGER.error("Could not send response to the connector", ioe);
         }
     }
 

@@ -21,7 +21,6 @@
 		<module>../ionoff.webhook</module>
 		<module>../ionoff.broker</module>
 		<module>../ionoff.player</module>
-		<module>../xapxinh.data</module>
 	</modules>
 
 </project>

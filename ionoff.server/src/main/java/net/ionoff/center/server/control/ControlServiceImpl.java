@@ -5,8 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static net.ionoff.center.server.broker.RelayDriverCommandBuilder.*;
-import net.ionoff.center.server.broker.BrokerHttpClient;
+import net.ionoff.center.server.mediaplayer.exception.MediaPlayerRequestException;
+import net.ionoff.center.server.mediaplayer.model.MediaPlayer;
+import net.ionoff.center.server.relaydriver.connector.RelayDriverConnector;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -31,13 +32,13 @@ import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
 import net.ionoff.center.server.persistence.dao.ISceneDao;
 import net.ionoff.center.server.persistence.dao.ISceneDeviceDao;
 import net.ionoff.center.server.persistence.service.IRelayService;
-import net.ionoff.center.server.relaydriver.exception.RelayDriverException;
+import net.ionoff.center.server.relaydriver.exception.RelayDriverRequestException;
 import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.entity.PlayerAction;
 import net.ionoff.center.shared.entity.RelayAction;
-import net.xapxinh.center.server.exception.DataServiceException;
-import net.xapxinh.center.server.exception.PlayerConnectException;
-import net.xapxinh.center.server.service.player.IPlayerService;
+import net.ionoff.center.server.mediadata.exception.MediaDataRequestException;
+import net.ionoff.center.server.mediaplayer.exception.MediaPlayerConnectException;
+import net.ionoff.center.server.mediaplayer.service.IMediaPlayerService;
 import net.xapxinh.center.shared.dto.Command;
 import net.xapxinh.center.shared.dto.PlayerApi;
 import net.xapxinh.center.shared.dto.StatusDto;
@@ -56,7 +57,7 @@ public class ControlServiceImpl implements IControlService {
 	private ISceneDao sceneDao;
 
 	@Autowired
-	private IPlayerService playerService;
+	private IMediaPlayerService playerService;
 	
 	@Autowired
 	private ISceneDeviceDao sceneDeviceDao;
@@ -66,7 +67,7 @@ public class ControlServiceImpl implements IControlService {
 	private RelayStatusNotifier relayStatusNotifier;
 
 	@Autowired
-	private BrokerHttpClient brokerHttpClient;
+	private RelayDriverConnector relayDriverConnector;
 	
 	@Autowired
 	private IRelayDriverDao relayDriverDao;
@@ -112,7 +113,7 @@ public class ControlServiceImpl implements IControlService {
 			throw new RelayLockedException(relay.getName() + " (" + relayDriver.getName() + ")");
 		}
 		if (state.equals(relay.getStatus())) {
-			if (relayDriver.autoPublish()) {
+			if (!relayDriver.isLazy()) {
 				logger.info("Update relay state of relay "
 						+ relay.getLabel() + " of " +  relayDriver.getModel() + " to " + state);
 				relayService.update(relay, state);
@@ -133,13 +134,13 @@ public class ControlServiceImpl implements IControlService {
 	private void sendRelayCommand(RelayDriver relayDriver, Relay relay, Boolean state) {
 		if (Boolean.TRUE.equals(state)) {
 			logger.info("Update relay status " + relay.getNameId() + ": true");
-			brokerHttpClient.sendCommand(buildCommandCloseRelay(relayDriver, relay.getIndex()));
+			relayDriverConnector.closeRelay(relayDriver, relay.getIndex());
 			relayService.update(relay, true);
 			notifyRelayStateChanged(relay);
 		}
 		else if (Boolean.FALSE.equals(state)) {
 			logger.info("Update relay status " + relay.getNameId() + ": false");
-			brokerHttpClient.sendCommand(buildCommandOpenRelay(relayDriver, relay.getIndex()));
+			relayDriverConnector.openRelay(relayDriver, relay.getIndex());
 			relayService.update(relay, false);
 			notifyRelayStateChanged(relay); 
 		}
@@ -147,13 +148,13 @@ public class ControlServiceImpl implements IControlService {
 	
 	private void sendRelayCommand(RelayDriver relayDriver, Relay relay, Boolean state, Integer autoRevert) {
 		if (Boolean.TRUE.equals(state)) {
-			brokerHttpClient.sendCommand(buildCommandCloseRelay(relayDriver, relay.getIndex(), autoRevert));
+			relayDriverConnector.closeRelay(relayDriver, relay.getIndex(), autoRevert);
 			logger.info("Update relay status " + relay.getNameId() + ": true");
 			relayService.update(relay, true);
 			notifyRelayStateChanged(relay);
 		}
 		else if (Boolean.FALSE.equals(state)) {
-			brokerHttpClient.sendCommand(buildCommandOpenRelay(relayDriver, relay.getIndex(), autoRevert));
+			relayDriverConnector.openRelay(relayDriver, relay.getIndex(), autoRevert);
 			logger.info("Update relay status " + relay.getNameId() + ": false");
 			relayService.update(relay, false);
 			notifyRelayStateChanged(relay);
@@ -200,8 +201,8 @@ public class ControlServiceImpl implements IControlService {
 		for (final SceneAction sceneAction : sceneActions) {
 			try {
 				executeSceneAction(sceneAction);
-			} catch (PlayerConnectException | RelayDriverException
-					| DataServiceException e) {
+			} catch (MediaPlayerRequestException | RelayDriverRequestException
+					| MediaDataRequestException e) {
 				logger.error("Failed to execute scene action. " + e.getMessage());
 			}
 		}
@@ -240,21 +241,21 @@ public class ControlServiceImpl implements IControlService {
 				stopPlaying(player);
 			}
 		}
-		catch (PlayerConnectException e) {
+		catch (MediaPlayerConnectException e) {
 			logger.error(e.getMessage() + " MAC: " + player.getMac());
 		}
 	}
 
 	protected void playAlbum(Player player,  String volume, String album, String albumType) 
-			throws DataServiceException, PlayerConnectException {
+			throws MediaDataRequestException, MediaPlayerConnectException {
 		
-		net.xapxinh.center.server.entity.Player p = toPlayer(player);
+		MediaPlayer p = MediaPlayer.fromPlayer(player);
 		StatusDto status = null;
 		
 		try {
-			status = playerService.requesStatus(p, new HashMap<String, Object>());
+			status = playerService.requesStatus(p, new HashMap<>());
 		}
-		catch (final PlayerConnectException e) {
+		catch (final MediaPlayerConnectException e) {
 			logger.error(" Failed to play album '" + album + ". Player " + player.getSId() + " is not running.");
 			return;
 		}
@@ -306,15 +307,7 @@ public class ControlServiceImpl implements IControlService {
 		params.put("title", command.getTitle());
 		return params;
 	}
-	
-	private net.xapxinh.center.server.entity.Player toPlayer(Player player) {
-		net.xapxinh.center.server.entity.Player p = new net.xapxinh.center.server.entity.Player();
-		p.setId(player.getId());
-		p.setMac(player.getMac());
-		p.setName(player.getName());
-		return p;
-	}
-	
+
 	private void sleep(long time) {
 		try {
 			Thread.sleep(time);
@@ -324,7 +317,7 @@ public class ControlServiceImpl implements IControlService {
 	}
 
 	protected void stopPlaying(Player player) {
-		net.xapxinh.center.server.entity.Player p = toPlayer(player);
+		MediaPlayer p = MediaPlayer.fromPlayer(player);
 		StatusDto status = null;
 		
 		try {
@@ -334,7 +327,7 @@ public class ControlServiceImpl implements IControlService {
 				playerService.requesStatus(p, toParamMap(PlayerApi.stopPlaylist()));
 			}
 		}
-		catch (final PlayerConnectException e) {
+		catch (final MediaPlayerConnectException e) {
 			logger.info("Player " + player.getName() + " is not running.");
 			return;
 		}

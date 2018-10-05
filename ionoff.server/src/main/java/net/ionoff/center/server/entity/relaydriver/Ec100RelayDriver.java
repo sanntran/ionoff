@@ -40,8 +40,8 @@ public class Ec100RelayDriver extends RelayDriver {
     }
 
     @Override
-    public boolean autoPublish() {
-        return false;
+    public boolean isLazy() {
+        return true;
     }
 
     @Override
@@ -102,5 +102,10 @@ public class Ec100RelayDriver extends RelayDriver {
             return 3;
         }
         return 4;
+    }
+
+    @Override
+    public void overrideKey() {
+        setKey("EC" + (100000 + getId()));
     }
 }

@@ -1,14 +1,23 @@
 package net.ionoff.center.server.relaydriver.model;
 
-import net.ionoff.center.server.relaydriver.exception.DataFormatException;
+import net.ionoff.center.server.relaydriver.exception.MessageFormatException;
 
 import java.util.List;
 
 public class BaseStatus {
 
     protected final String message;
+
+    /**
+     * Status code of relay driver
+     */
     protected String code;
+
+    /**
+     * Key to find relay driver (mac of relay dirver)
+     */
     protected String key;
+
     protected List<Boolean> inputs;
     protected List<Boolean> outputs;
 
@@ -23,7 +32,7 @@ public class BaseStatus {
         if ("1".equals(status)) {
             return true;
         }
-        throw new DataFormatException(message);
+        throw new MessageFormatException(message);
     }
 
     public String getCode() {

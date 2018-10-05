@@ -27,7 +27,6 @@ import net.ionoff.center.server.persistence.service.IUserSceneService;
 import net.ionoff.center.server.persistence.service.IUserService;
 import net.ionoff.center.server.persistence.service.IUserZoneService;
 import net.ionoff.center.server.persistence.service.IZoneService;
-import net.ionoff.center.server.thread.ServerThreadPool;
 import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.ProjectDto;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
@@ -52,10 +51,7 @@ public class UserServiceController {
 	
 	@Autowired
 	private IZoneService zoneService;
-	
-	@Autowired
-	private ServerThreadPool serverThreadPool;
-	
+
 	@Autowired
 	private IUserZoneService userZoneService;
 	
@@ -188,9 +184,7 @@ public class UserServiceController {
 			List<String> licenseKeys = new ArrayList<>();
 			licenseKeys.add(licenseKey);
 			LicenseManager.writeLicenseFiles(licenseKeys);
-			if (LicenseManager.checkLicense()) {
-				serverThreadPool.start();
-			}
+			LicenseManager.checkLicense();
 			return MessageDto.success(licenseKey);
 		}
 		else {

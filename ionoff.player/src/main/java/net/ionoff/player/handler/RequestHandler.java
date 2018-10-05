@@ -1,19 +1,11 @@
 package net.ionoff.player.handler;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import com.google.gson.Gson;
-import net.ionoff.player.connection.MqttRequestMessage;
-import net.ionoff.player.connection.MqttResponseMessage;
-import org.apache.log4j.Logger;
-
+import com.google.gson.JsonElement;
 import net.ionoff.player.DeamonPlayer;
 import net.ionoff.player.config.UserConfig;
+import net.ionoff.player.connection.MqttRequestMessage;
+import net.ionoff.player.connection.MqttResponseMessage;
 import net.ionoff.player.exception.UnknownContextException;
 import net.ionoff.player.model.Album;
 import net.ionoff.player.model.MediaFile;
@@ -24,6 +16,12 @@ import net.ionoff.player.model.Schedule;
 import net.ionoff.player.model.Song;
 import net.ionoff.player.model.Status;
 import net.ionoff.player.model.YoutubeVideo;
+import org.apache.log4j.Logger;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RequestHandler {
 	private static final Logger LOGGER = Logger.getLogger(RequestHandler.class.getName());
@@ -34,67 +32,56 @@ public class RequestHandler {
 	public static final String PLAYNODE = "playnode";
 	public static final String PLAYLIST = "playlist";
 
-	private static final String COMMAND = "command";
-	private static final String CONTEXT_STATUS = "/status";
-	private static final String CONTEXT_PLAYLIST = "/playlist";
-	private static final String CONTEXT_BROWSE = "/browse";
-	private static final String CONTEXT_SCHEDULE = "/scheduler";
-
-	private RequestHandler() {
-	}
+	private static final String CONTEXT_STATUS = "/requests/status";
+	private static final String CONTEXT_PLAYLIST = "/requests/playlist";
+	private static final String CONTEXT_BROWSE = "/requests/browse";
+	private static final String CONTEXT_SCHEDULE = "/requests/scheduler";
 
 	public static MqttResponseMessage handleRequest(MqttRequestMessage request) {
-		Map<String, String> params = request.getParameters();
-		return handleRequest(params);
-	}
-
-	private static MqttResponseMessage handleRequest(Map<String, String> params) {
-		final String context = params.get(RequestContext.CONTEXT);
-		params.remove(RequestContext.CONTEXT);
-
-		if (context.equals(RequestContext.REQUESTS + CONTEXT_STATUS)) {
-			return handleStatusRequest(params);
+		final String context = request.getContext();
+		if (CONTEXT_STATUS.equals(context)) {
+			return handleStatusRequest(request);
 		}
-		if (context.equals(RequestContext.REQUESTS + CONTEXT_PLAYLIST)) {
-			return handlePlaylistRequest(params);
+		if (CONTEXT_PLAYLIST.equals(context)) {
+			return handlePlaylistRequest(request);
 		}
-		if (context.equals(RequestContext.REQUESTS + CONTEXT_BROWSE)) {
-			return handleBrowseRequest(params);
+		if (CONTEXT_BROWSE.equals(context)) {
+			return handleBrowseRequest(request);
 		}
-		if (context.equals(RequestContext.REQUESTS + CONTEXT_SCHEDULE)) {
-			return handleScheduleRequest(params);
+		if (CONTEXT_SCHEDULE.equals(context)) {
+			return handleScheduleRequest(request);
 		}
 		throw new UnknownContextException(context);
 	}
 
-	private static MqttResponseMessage handleScheduleRequest(Map<String, String> params) {
-		Schedule schedule = new ScheduleRequestHandler().handleRequest(params);
+	private static MqttResponseMessage handleScheduleRequest(MqttRequestMessage request) {
+		Schedule schedule = new ScheduleRequestHandler().handleRequest(request);
 		return new MqttResponseMessage("schedule", schedule);
 	}
 
-	private static MqttResponseMessage handleStatusRequest(final Map<String, String> params) {
-		String command = params.get(COMMAND);
-		final Status status = handleStatusRequest(command, params);
+	private static MqttResponseMessage handleStatusRequest(MqttRequestMessage request) {
+		String command = request.getCommand();
+		final Status status = handleStatusRequest(command, request);
 		return new MqttResponseMessage("status", status);
 	}
 
-	private static MqttResponseMessage handlePlaylistRequest(final Map<String, String> params) {
-		String command = params.get(COMMAND);
-		if (!params.isEmpty() && "pl_update".equals(command)) {
-			updatePlaylist(params);
+	private static MqttResponseMessage handlePlaylistRequest(MqttRequestMessage request) {
+		String command = request.getCommand();
+		if ("pl_update".equals(command)) {
+			updatePlaylist(request);
 		}
 		PlayList playlist = getPlayer().getPlaylist();
 		return new MqttResponseMessage("playlist", playlist);
 	}
 
-	private static MqttResponseMessage handleBrowseRequest(final Map<String, String> params) {
-		List<MediaFile> files = getBrowse(params);
+	private static MqttResponseMessage handleBrowseRequest(MqttRequestMessage request) {
+		List<MediaFile> files = getBrowse(request);
 		return new MqttResponseMessage("files", files);
 	}
 
-	private static List<MediaFile> getBrowse(Map<String, String> params) {
-		String dir = params.get("dir");
-		String command = params.get(COMMAND);
+	private static List<MediaFile> getBrowse(MqttRequestMessage request) {
+		String command = request.getCommand();
+		String dir = request.getAsString("dir");
 		return getMediaFiles(dir, command);
 	}
 
@@ -177,59 +164,59 @@ public class RequestHandler {
 	}
 
 	public static Status handleStatusRequest() {
-		return handleStatusRequest(null, Collections.emptyMap());
+		return handleStatusRequest(null, null);
 	}
 
-	private static Status handleStatusRequest(String command, Map<String, String> parameters) {
-		if (command == null || parameters.isEmpty()) {
+	private static Status handleStatusRequest(String command, MqttRequestMessage request) {
+		if (command == null || request == null) {
 			return getPlayer().loadStatus();
 		}
 		if ("pl_play".equals(command)) {
-			pl_play(parameters);
+			pl_play(request);
 		} else if ("in_play".equals(command)) {
-			in_play(parameters);
+			in_play(request);
 		} else if ("in_enqueue".equals(command)) {
-			in_enqueue(parameters, false);
+			in_enqueue(request, false);
 		} else if ("pl_previous".equals(command)) {
-			pl_previous(parameters);
+			pl_previous(request);
 		} else if ("pl_next".equals(command)) {
-			pl_next(parameters);
+			pl_next(request);
 		} else if ("pl_delete".equals(command)) {
-			pl_delete(parameters);
+			pl_delete(request);
 		} else if ("pl_repeat".equals(command)) {
-			pl_repeat(parameters);
+			pl_repeat(request);
 		} else if ("seek".equals(command)) {
-			seek(parameters);
+			seek(request);
 		} else if ("pl_pause".equals(command)) {
-			pl_pause(parameters);
+			pl_pause(request);
 		} else if ("pl_forceresume".equals(command)) {
-			pl_forceresume(parameters);
+			pl_forceresume(request);
 		} else if ("pl_resume".equals(command)) {
-			pl_resume(parameters);
+			pl_resume(request);
 		} else if ("pl_forcepause".equals(command)) {
-			pl_forcepause(parameters);
+			pl_forcepause(request);
 		} else if ("pl_stop".equals(command)) {
-			pl_stop(parameters);
+			pl_stop(request);
 		} else if ("pl_empty".equals(command)) {
-			pl_empty(parameters);
+			pl_empty(request);
 		} else if ("volume".equals(command)) {
-			volume(parameters);
+			volume(request);
 		} else if ("pl_loop".equals(command)) {
-			pl_loop(parameters);
+			pl_loop(request);
 		} else if ("pl_random".equals(command)) {
-			pl_random(parameters);
+			pl_random(request);
 		} else if ("fullscreen".equals(command)) {
-			fullscreen(parameters);
+			fullscreen(request);
 		}
 		return getPlayer().loadStatus();
 	}
 
-	private static void fullscreen(Map<String, String> parameters) {
+	private static void fullscreen(MqttRequestMessage request) {
 		return;
 	}
 
-	private static void volume(Map<String, String> parameters) {
-		String val = parameters.get("val");
+	private static void volume(MqttRequestMessage request) {
+		String val = request.getAsString("val");
 		if (val.equals("mute")) {
 			getPlayer().mute();
 		} else if (val.equals("+")) {
@@ -244,46 +231,46 @@ public class RequestHandler {
 		}
 	}
 
-	private static void pl_repeat(Map<String, String> parameters) {
+	private static void pl_repeat(MqttRequestMessage request) {
 		getPlayer().plRepeat();
 	}
 
-	private static void pl_random(Map<String, String> parameters) {
+	private static void pl_random(MqttRequestMessage request) {
 		getPlayer().randomizePlay();
 	}
 
-	private static void pl_loop(Map<String, String> parameters) {
+	private static void pl_loop(MqttRequestMessage request) {
 		// does nothing // ???
 	}
 
-	private static void pl_empty(Map<String, String> parameters) {
+	private static void pl_empty(MqttRequestMessage request) {
 		getPlayer().emtyPlaylist();
 		getPlayer().getPlaylist().setId(0L);
 		getPlayer().getPlaylist().setName(null);
 	}
 
-	private static void pl_stop(Map<String, String> parameters) {
+	private static void pl_stop(MqttRequestMessage request) {
 		getPlayer().stop();
 	}
 
-	private static void pl_forcepause(Map<String, String> parameters) {
+	private static void pl_forcepause(MqttRequestMessage request) {
 		getPlayer().pause();
 	}
 
-	private static void pl_resume(Map<String, String> parameters) {
+	private static void pl_resume(MqttRequestMessage request) {
 		getPlayer().play();
 	}
 
-	private static void pl_forceresume(Map<String, String> parameters) {
+	private static void pl_forceresume(MqttRequestMessage request) {
 		getPlayer().play();
 	}
 
-	private static void pl_pause(Map<String, String> parameters) {
+	private static void pl_pause(MqttRequestMessage request) {
 		getPlayer().pause();
 	}
 
-	private static void seek(Map<String, String> parameters) {
-		String val = parameters.get("val");
+	private static void seek(MqttRequestMessage request) {
+		String val = request.getAsString("val");
 		if (val.equals("+")) {
 			getPlayer().seekFw();
 		} else if (val.equals("-")) {
@@ -291,9 +278,9 @@ public class RequestHandler {
 		}
 	}
 
-	private static void pl_delete(Map<String, String> parameters) {
-		String id = parameters.get("id");
-		String type = parameters.get("type");
+	private static void pl_delete(MqttRequestMessage request) {
+		String id = request.getAsString("id");
+		String type = request.getAsString("type");
 		if (PLAYLEAF.equals(type)) {
 			getPlayer().deleteLeaf(Long.parseLong(id));
 		} else if (PLAYNODE.equals(type)) {
@@ -301,17 +288,18 @@ public class RequestHandler {
 		}
 	}
 
-	private static void pl_next(Map<String, String> parameters) {
+	private static void pl_next(MqttRequestMessage request) {
 		getPlayer().playNext();
 	}
 
-	private static void pl_previous(Map<String, String> parameters) {
+	private static void pl_previous(MqttRequestMessage request) {
 		getPlayer().playPrevious();
 	}
 
-	private static void in_enqueue(Map<String, String> parameters, boolean isPlay) {
-		String input = parameters.get("input");
-		String inputType = parameters.get("input_type");
+	private static void in_enqueue(MqttRequestMessage request, boolean isPlay) {
+
+		JsonElement input = request.getAsJsonElement("input");
+		String inputType = request.getAsString("input_type");
 		
 		if (PlayNode.TYPE.album.toString().equals(inputType)) {
 			Album album = GSON.fromJson(input, Album.class);
@@ -319,10 +307,10 @@ public class RequestHandler {
 			getPlayer().inEnqueue(album, isPlay);
 		} 
 		else if (PlayNode.TYPE.dir.toString().equals(inputType)) {
-			getPlayer().inEnqueue(input, true, isPlay);
+			getPlayer().inEnqueue(input.getAsString(), true, isPlay);
 		} 
 		else if (MediaFile.TYPE.file.toString().equals(inputType)) { 
-			getPlayer().inEnqueue(input, false, isPlay);
+			getPlayer().inEnqueue(input.getAsString(), false, isPlay);
 		}
 		else if (PlayLeaf.TYPE.track.toString().equals(inputType)) {
 			Song song = GSON.fromJson(input, Song.class);
@@ -346,15 +334,15 @@ public class RequestHandler {
 		}
 	}
 
-	private static void in_play(Map<String, String> parameters) {
-		in_enqueue(parameters, true);
+	private static void in_play(MqttRequestMessage request) {
+		in_enqueue(request, true);
 	}
 
 	private static void addAlbumFile(Album album) {
 		File albumFolder = new File(UserConfig.getInstance().getAlbumFolder());
 		String albumFileName = getAlbumFileName(album);
 		if (!albumFolder.exists()) {
-			albumFolder.mkdir();
+			albumFolder.mkdirs();
 		}
 		if (!hasAlbum(albumFolder, albumFileName)) {
 			File file = new File(albumFolder + File.separator + albumFileName);
@@ -367,7 +355,11 @@ public class RequestHandler {
 	}
 
 	private static boolean hasAlbum(File albumFolder, String albumFileName) {
-		for (File file : albumFolder.listFiles()) {
+		File[] files = albumFolder.listFiles();
+		if (files == null || files.length == 0) {
+			return false;
+		}
+		for (File file : files) {
 			if (file.getName().equals(albumFileName)) {
 				return true;
 			}
@@ -380,9 +372,9 @@ public class RequestHandler {
 	}
 
 
-	private static void pl_play(Map<String, String> parameters) {
-		String id = parameters.get("id");
-		String type = parameters.get("type");
+	private static void pl_play(MqttRequestMessage request) {
+		String id = request.getAsString("id");
+		String type = request.getAsString("type");
 		if (PLAYLEAF.equals(type)) {
 			getPlayer().playPlaylistLeaf(Long.parseLong(id));
 		} else if (PLAYNODE.equals(type)) {
@@ -392,8 +384,11 @@ public class RequestHandler {
 		}
 	}
 	
-	private static void updatePlaylist(Map<String, String> params) {
- 		String plJson = params.get("playlist");
+	private static void updatePlaylist(MqttRequestMessage request) {
+ 		JsonElement plJson = request.getAsJsonElement("playlist");
+		if (plJson == null) {
+			return;
+		}
  		PlayList playlist = GSON.fromJson(plJson, PlayList.class);
 		PlayList playingList = getPlayer().getPlaylist();
 		playingList.setId(playlist.getId());

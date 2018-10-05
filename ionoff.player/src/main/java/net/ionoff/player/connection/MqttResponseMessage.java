@@ -14,7 +14,7 @@ public class MqttResponseMessage {
 		this.clazz = obj.getClass().getSimpleName();
 		if (obj instanceof Exception) {			
 			this.status = "error";
-			this.object = obj.getClass().getSimpleName() + ": " + ((Exception) obj).getMessage();
+			this.object = ((Exception) obj).getMessage();
 		}
 		else {
 			this.status = "success";

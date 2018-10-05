@@ -9,7 +9,9 @@ import net.ionoff.center.server.entity.RelayDriver;
 @Transactional
 public interface IRelayDriverDao extends IGenericDao<RelayDriver> {
 
-	List<RelayDriver> findByProjectId(long projectId);
+    List<RelayDriver> findByIsLazy();
+
+    List<RelayDriver> findByProjectId(long projectId);
 
 	List<RelayDriver> findByIpPort(String ip, Integer port);
 

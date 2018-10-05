@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import net.ionoff.center.server.entity.ModeSensor;
 import net.ionoff.center.server.entity.ModeSensorScene;
 import net.ionoff.center.server.entity.User;
-import net.ionoff.center.server.objmapper.ModeMapper;
+import net.ionoff.center.server.persistence.mapper.ModeMapper;
 import net.ionoff.center.server.persistence.dao.IModeSensorSceneDao;
 import net.ionoff.center.server.persistence.service.IModeSensorSceneService;
 import net.ionoff.center.server.persistence.service.IModeSensorService;

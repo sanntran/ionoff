@@ -36,6 +36,36 @@ public class MqttConnection implements MqttCallback {
 	private boolean connected = false;
 	private String[] subscribleTopics;
 
+	private class StatusPublisher extends Thread {
+		@Override
+		public void run() {
+			try {
+				for (; true; ) {
+					try {
+						sleep(25000);
+						publishStatusMessage();
+					} catch (Exception e) {
+						LOGGER.error(e.getClass().getSimpleName() + " " + e.getMessage(), e);
+					}
+				}
+			}
+			catch (Throwable t) {
+				LOGGER.error(t.getClass().getSimpleName() + " " + t.getMessage(), t);
+			}
+		}
+	}
+
+	public void start() {
+		mqttThread = new Thread() {
+			@Override
+			public void run() {
+				initConnection();
+			}
+		};
+		mqttThread.start();
+		new StatusPublisher().start();
+	}
+
 	public void initConnection() {
 		MqttDefaultFilePersistence filePersistence = new MqttDefaultFilePersistence(LocalStorage.INSTANCE.getDir());
 		clientId = UserConfig.getInstance().LICENSE_KEY;
@@ -44,7 +74,7 @@ public class MqttConnection implements MqttCallback {
 		try {
 			client = new MqttClient(brokerUrl, clientId, filePersistence);
 		} catch (MqttException e) {
-			LOGGER.error("Error create broker client " + e.getMessage(), e);
+			LOGGER.error("Error create broker connector " + e.getMessage(), e);
 		}
 		client.setCallback(this);
 		connOpt = new MqttConnectOptions();
@@ -56,9 +86,9 @@ public class MqttConnection implements MqttCallback {
 	@Override
 	public void messageArrived(String topic, MqttMessage message) {
 		// Called when a message arrives from the server that matches any
-		// subscription made by the client
+		// subscription made by the connector
 		String payload = new String(message.getPayload());
-		LOGGER.info("Message arrived on topic: " + topic + ". Message: " + payload);
+		LOGGER.debug("Message arrived on topic: " + topic + ". Message: " + payload);
 		handleMessage(payload);
 	}
 
@@ -66,18 +96,12 @@ public class MqttConnection implements MqttCallback {
 		String subscription = null;
 		Object response;
 		try {
-			if (message == null) {
-				throw new BadRequestException("Request message is null");
-			}
-			final MqttRequestMessage request = new MqttRequestMessage(message);
-			if (request.getSubscription() == null || request.getSubscription().isEmpty()) {
+			MqttRequestMessage jsonRequest = toMqttRequestMessage(message);
+			subscription = jsonRequest.getSubscription();
+			if (subscription == null || subscription.isEmpty()) {
 				throw new BadRequestException("Request message subscription is empty");
 			}
-			subscription = request.getSubscription();
-			if (request.getParameters() == null) {
-				throw new BadRequestException("Request message parametters is null");
-			}
-			response = RequestHandler.handleRequest(request);
+			response = RequestHandler.handleRequest(jsonRequest);
 		}
 		catch (final Throwable e) {
 			if (e instanceof BadRequestException) {
@@ -93,6 +117,21 @@ public class MqttConnection implements MqttCallback {
 		}
 		if (subscription != null && !subscription.isEmpty() && response != null) {
 			publishMessage(subscription, GSON.toJson(response));
+		}
+	}
+
+	private MqttRequestMessage toMqttRequestMessage(String message) {
+		try {
+			if (message == null) {
+				throw new BadRequestException("Request message is null");
+			}
+			return new MqttRequestMessage(message);
+		} catch (BadRequestException e) {
+			throw e;
+		} catch (Exception e) {
+			String msg = e.getClass().getSimpleName() + " error parsing message to json" + e.getMessage();
+			LOGGER.error(msg);
+			throw new BadRequestException(msg);
 		}
 	}
 
@@ -127,26 +166,6 @@ public class MqttConnection implements MqttCallback {
 		connectMqttBroker();
 	}
 
-
-	private class StatusPublisher extends Thread {
-		@Override
-		public void run() {
-			try {
-				for (; true; ) {
-					try {
-						sleep(25000);
-						publishStatusMessage();
-					} catch (Exception e) {
-						LOGGER.error(e.getMessage(), e);
-					}
-				}
-			}
-			catch (Throwable t) {
-				LOGGER.error(t.getMessage(), t);
-			}
-		}
-	}
-
 	private void publishStatusMessage() {
 		if (!isConnected()) {
 			return;
@@ -154,7 +173,6 @@ public class MqttConnection implements MqttCallback {
 		Map<String, Object> map = new LinkedHashMap<>();
 		map.put("mac", UserConfig.getInstance().LICENSE_KEY);
 		map.put("status", RequestHandler.handleStatusRequest());
-		map.put("playlist", RequestHandler.handlePlayListRequest());
 		String payload = GSON.toJson(map);
 		publishMessage(PUBLISH_TOPIC, payload);
 	}
@@ -193,7 +211,7 @@ public class MqttConnection implements MqttCallback {
 		// delivery without blocking until delivery completes.
 		//
 		// If the connection to the server breaks before delivery has completed
-		// delivery of a message will complete after the client has
+		// delivery of a message will complete after the connector has
 		// re-connected.
 		// The getPendingTokens method will provide tokens for any messages
 		// that are still to be delivered.
@@ -216,17 +234,6 @@ public class MqttConnection implements MqttCallback {
 
 	public boolean isConnected() {
 		return connected;
-	}
-
-	public void start() {
-		mqttThread = new Thread() {
-			@Override
-			public void run() {
-				initConnection();
-			}
-		};
-		mqttThread.start();
-		new StatusPublisher().start();
 	}
 
 }

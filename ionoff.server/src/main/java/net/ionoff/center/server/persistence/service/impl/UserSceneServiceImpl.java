@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.UserScene;
 import net.ionoff.center.server.entity.UserZone;
-import net.ionoff.center.server.objmapper.UserMapper;
+import net.ionoff.center.server.persistence.mapper.UserMapper;
 import net.ionoff.center.server.persistence.dao.IUserSceneDao;
 import net.ionoff.center.server.persistence.dao.IUserZoneDao;
 import net.ionoff.center.server.persistence.service.IUserSceneService;

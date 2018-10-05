@@ -19,7 +19,7 @@ import net.ionoff.center.server.entity.ScheduleRelayAction;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.locale.Messages;
-import net.ionoff.center.server.objmapper.RelayMapper;
+import net.ionoff.center.server.persistence.mapper.RelayMapper;
 import net.ionoff.center.server.persistence.dao.IDeviceDao;
 import net.ionoff.center.server.persistence.dao.IRelayDao;
 import net.ionoff.center.server.persistence.dao.ISceneActionDao;

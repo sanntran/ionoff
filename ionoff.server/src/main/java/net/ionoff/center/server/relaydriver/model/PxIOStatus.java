@@ -1,6 +1,6 @@
 package net.ionoff.center.server.relaydriver.model;
 
-import net.ionoff.center.server.relaydriver.exception.DataFormatException;
+import net.ionoff.center.server.relaydriver.exception.MessageFormatException;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ public class PxIOStatus extends BaseStatus {
             key = dataItems[2];
         }
         if (key == null || input == null || output == null) {
-            throw new DataFormatException(message);
+            throw new MessageFormatException(message);
         }
         inputs = new ArrayList<>(input.length());
         outputs = new ArrayList<>(output.length());
@@ -43,7 +43,7 @@ public class PxIOStatus extends BaseStatus {
         if ('1' == status) {
             return true;
         }
-        throw new DataFormatException(message);
+        throw new MessageFormatException(message);
     }
 
     @Override

@@ -2,6 +2,7 @@ package net.ionoff.center.server.persistence.service;
 
 import java.util.List;
 
+import net.ionoff.center.server.mediaplayer.model.MediaPlayer;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Device;
@@ -12,7 +13,6 @@ import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.entity.Zone;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.StatusDto;
-import net.xapxinh.center.server.exception.UnknownPlayerException;
 
 @Transactional
 public interface IDeviceService extends IGenericService<Device, DeviceDto> {		
@@ -33,7 +33,7 @@ public interface IDeviceService extends IGenericService<Device, DeviceDto> {
 
 	List<StatusDto> getStatusByProjectId(User user, Long projectId);
 	
-	net.xapxinh.center.server.entity.Player getPlayer(Long playerId) throws UnknownPlayerException;
+	MediaPlayer getPlayer(Long playerId);
 
 	void updateSensorStatus(Sensor sensor);
 

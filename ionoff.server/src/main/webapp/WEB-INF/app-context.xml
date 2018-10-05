@@ -129,76 +129,70 @@
 				class="net.ionoff.center.server.message.handler.RelayStatusChangedHandler">
 	</bean>
 
-	<bean id="mediaServiceApi" class="net.ionoff.center.server.mediaplayer.MediaServiceApiImpl">
+	<bean id="mediaServiceConnector" class="net.ionoff.center.server.mediadata.connector.MediaDataConnectorImpl">
 	</bean>
 
-	<bean id="xmpPlayerApi" class="net.xapxinh.center.server.api.player.XmpPlayerApi">
+	<bean id="mediaPlayerConnector" class="net.ionoff.center.server.mediaplayer.connector.MediaPlayerConnectorImpl">
 	</bean>
 
-	<bean id="impPlayerApi" class="net.ionoff.center.server.mediaplayer.api.ImpPlayerApi">
-	</bean>
-
-	<bean id="playerCaches" class="net.xapxinh.center.server.service.player.PlayerCaches">
+	<bean id="playerCaches" class="net.ionoff.center.server.mediaplayer.cache.PlayerCaches">
 	</bean>
 
 	<bean id="playerService"
-		class="net.ionoff.center.server.mediaplayer.service.PlayerServiceImpl">
-		<constructor-arg ref="xmpPlayerApi" />
+		class="net.ionoff.center.server.mediaplayer.service.MediaPlayerServiceImpl">
+		<constructor-arg ref="mediaPlayerConnector" />
 		<constructor-arg ref="playerCaches" />
-		<constructor-arg ref="mediaServiceApi" />
+		<constructor-arg ref="mediaServiceConnector" />
 	</bean>
 
-	<bean id="dataService" class="net.xapxinh.center.server.service.data.DataServiceImpl">
-		<constructor-arg ref="mediaServiceApi" />
+	<bean id="dataService" class="net.ionoff.center.server.mediadata.service.MediaDataServiceImpl">
+		<constructor-arg ref="mediaServiceConnector" />
 		<constructor-arg ref="playerService" />
-	</bean>
-
-	<bean id="serverThreadPool" class="net.ionoff.center.server.thread.ServerThreadPool">
 	</bean>
 
 	<bean id="latestVersionUpdator" class="net.ionoff.center.server.scheduler.LatestVersionUpdator">
 	</bean>
 
-	<bean id="areaMapper" class="net.ionoff.center.server.objmapper.AreaMapper">
+	<bean id="areaMapper" class="net.ionoff.center.server.persistence.mapper.AreaMapper">
 	</bean>
 
-	<bean id="relayDriverMapper" class="net.ionoff.center.server.objmapper.RelayDriverMapper">
+	<bean id="relayDriverMapper" class="net.ionoff.center.server.persistence.mapper.RelayDriverMapper">
 	</bean>
 
-	<bean id="deviceMapper" class="net.ionoff.center.server.objmapper.DeviceMapper">
+	<bean id="deviceMapper" class="net.ionoff.center.server.persistence.mapper.DeviceMapper">
 	</bean>
 
-	<bean id="modeMapper" class="net.ionoff.center.server.objmapper.ModeMapper">
+	<bean id="modeMapper" class="net.ionoff.center.server.persistence.mapper.ModeMapper">
 	</bean>
 
-	<bean id="playlistMapper" class="net.ionoff.center.server.objmapper.PlayListMapper">
+	<bean id="playlistMapper" class="net.ionoff.center.server.persistence.mapper.PlayListMapper">
 	</bean>
 	
-	<bean id="scheduleMapper" class="net.ionoff.center.server.objmapper.ScheduleMapper">
+	<bean id="scheduleMapper" class="net.ionoff.center.server.persistence.mapper.ScheduleMapper">
 	</bean>
 
-	<bean id="projectMapper" class="net.ionoff.center.server.objmapper.ProjectMapper">
+	<bean id="projectMapper" class="net.ionoff.center.server.persistence.mapper.ProjectMapper">
 	</bean>
 
-	<bean id="relayMapper" class="net.ionoff.center.server.objmapper.RelayMapper">
+	<bean id="relayMapper" class="net.ionoff.center.server.persistence.mapper.RelayMapper">
 	</bean>
 
-	<bean id="sceneMapper" class="net.ionoff.center.server.objmapper.SceneMapper">
+	<bean id="sceneMapper" class="net.ionoff.center.server.persistence.mapper.SceneMapper">
 	</bean>
 
-	<bean id="sensorMapper" class="net.ionoff.center.server.objmapper.SensorMapper">
+	<bean id="sensorMapper" class="net.ionoff.center.server.persistence.mapper.SensorMapper">
 	</bean>
 
-	<bean id="userMapper" class="net.ionoff.center.server.objmapper.UserMapper">
+	<bean id="userMapper" class="net.ionoff.center.server.persistence.mapper.UserMapper">
 	</bean>
 
-	<bean id="zoneMapper" class="net.ionoff.center.server.objmapper.ZoneMapper">
+	<bean id="zoneMapper" class="net.ionoff.center.server.persistence.mapper.ZoneMapper">
 	</bean>
 	
-	<bean id="dashboardMapper" class="net.ionoff.center.server.objmapper.DashboardMapper">
+	<bean id="dashboardMapper" class="net.ionoff.center.server.persistence.mapper.DashboardMapper">
 	</bean>
 
-	<bean id="brokerHttpClient" class="net.ionoff.center.server.broker.BrokerHttpClient">
+	<bean id="brokerClientFactory" class="net.ionoff.center.server.broker.BrokerClientFactory">
 	</bean>
 
 	<bean id="mqttConnection" class="net.ionoff.center.server.broker.MqttConnection">
@@ -210,7 +204,13 @@
 	<bean id="sensorDriverHandler" class="net.ionoff.center.server.sensordriver.SensorDriverHandler">
 	</bean>
 
-	<bean id="mesiaPlayerHandler" class="net.ionoff.center.server.mediaplayer.MediaPlayerHandler">
+	<bean id="mediaPlayerHandler" class="net.ionoff.center.server.mediaplayer.MediaPlayerHandler">
 	</bean>
-	
+
+	<bean id="relayDriverConnector" class="net.ionoff.center.server.relaydriver.connector.RelayDriverConnector">
+	</bean>
+
+	<bean id="lazyRelayDriverThread" class="net.ionoff.center.server.relaydriver.LazyRelayDriverThread">
+	</bean>
+
 </beans>

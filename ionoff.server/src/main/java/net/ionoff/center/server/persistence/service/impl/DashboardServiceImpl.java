@@ -14,8 +14,8 @@ import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.Scene;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.exception.EntityNotFoundException;
-import net.ionoff.center.server.objmapper.DashboardMapper;
-import net.ionoff.center.server.objmapper.DeviceMapper;
+import net.ionoff.center.server.persistence.mapper.DashboardMapper;
+import net.ionoff.center.server.persistence.mapper.DeviceMapper;
 import net.ionoff.center.server.persistence.dao.IDashboardDao;
 import net.ionoff.center.server.persistence.dao.IDashboardDeviceDao;
 import net.ionoff.center.server.persistence.dao.IDashboardSceneDao;
@@ -24,7 +24,7 @@ import net.ionoff.center.server.persistence.dao.ISceneDao;
 import net.ionoff.center.server.persistence.service.IDashboardService;
 import net.ionoff.center.shared.dto.DashboardDto;
 import net.ionoff.center.shared.dto.DeviceDto;
-import net.xapxinh.center.server.service.player.IPlayerService;
+import net.ionoff.center.server.mediaplayer.service.IMediaPlayerService;
 
 @Transactional
 public class DashboardServiceImpl extends AbstractGenericService<Dashboard, DashboardDto> implements IDashboardService {
@@ -50,7 +50,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 	private DeviceMapper deviceMapper;
 	
 	@Autowired
-	private IPlayerService playerService;
+	private IMediaPlayerService playerService;
 	
 	public DashboardServiceImpl(IDashboardDao dashboardDao) {
 		this.dashboardDao = dashboardDao;

@@ -1,38 +1,37 @@
 package net.ionoff.center.server.persistence.service.impl;
 
-import java.util.List;
-
-import org.hibernate.Cache;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.transaction.annotation.Transactional;
-
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.EntityUtil;
 import net.ionoff.center.server.entity.Player;
 import net.ionoff.center.server.entity.Scene;
 import net.ionoff.center.server.entity.SceneDevice;
 import net.ionoff.center.server.entity.Sensor;
+import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.UserDevice;
-import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.entity.Zone;
-import net.ionoff.center.server.message.event.SensorStatusChangedEvent;
+import net.ionoff.center.server.mediaplayer.model.MediaPlayer;
+import net.ionoff.center.server.mediaplayer.service.IMediaPlayerService;
 import net.ionoff.center.server.message.SensorStatusNotifier;
-import net.ionoff.center.server.objmapper.DeviceMapper;
+import net.ionoff.center.server.message.event.SensorStatusChangedEvent;
 import net.ionoff.center.server.persistence.dao.IDeviceDao;
 import net.ionoff.center.server.persistence.dao.IUserDao;
 import net.ionoff.center.server.persistence.dao.IUserDeviceDao;
 import net.ionoff.center.server.persistence.dao.IZoneDao;
+import net.ionoff.center.server.persistence.mapper.DeviceMapper;
 import net.ionoff.center.server.persistence.service.IDeviceService;
 import net.ionoff.center.server.persistence.service.ISceneDeviceService;
 import net.ionoff.center.server.persistence.service.ISensorService;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.StatusDto;
 import net.ionoff.center.shared.entity.SensorType;
-import net.xapxinh.center.server.exception.UnknownPlayerException;
-import net.xapxinh.center.server.service.player.IPlayerService;
+import org.hibernate.Cache;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @EnableAsync
 @Transactional
@@ -59,7 +58,7 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 	private ISceneDeviceService sceneDeviceService;
 	
 	@Autowired 
-	private IPlayerService playerService;
+	private IMediaPlayerService playerService;
 
 	@Autowired
 	private SensorStatusNotifier sensorStatusNotifier;
@@ -189,16 +188,16 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 	}
 
 	@Override
-	public net.xapxinh.center.server.entity.Player getPlayer(Long playerId) throws UnknownPlayerException {
+	public MediaPlayer getPlayer(Long playerId) {
 		if (playerId != null) {
 			Device device = findById(playerId);
 			Player player = (net.ionoff.center.server.entity.Player) 
 					EntityUtil.castUnproxy(device, Device.class);
 			if (player != null) {
-				return deviceMapper.toPlayer(device);
+				return MediaPlayer.fromPlayer(device);
 			}
 		}
-		throw new UnknownPlayerException(playerId + "");
+		return null;
 	}
 
 	@Override

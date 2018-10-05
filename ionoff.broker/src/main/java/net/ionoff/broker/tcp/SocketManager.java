@@ -11,7 +11,7 @@ public class SocketManager extends Thread {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SocketManager.class);
 
-	// Map of client-id, socket-id
+	// Map of connector-id, socket-id
 	private final Map<String, String> socketIds = new ConcurrentHashMap<>();
 
 	// Map of socket-id, socket-handler

@@ -1,6 +1,6 @@
 package net.ionoff.center.server.relaydriver.model;
 
-import net.ionoff.center.server.relaydriver.exception.DataFormatException;
+import net.ionoff.center.server.relaydriver.exception.MessageFormatException;
 
 import java.util.ArrayList;
 
@@ -23,18 +23,18 @@ public class EcIOStatus extends BaseStatus {
             }
         }
         if (key == null || status == null) {
-            throw new DataFormatException(message);
+            throw new MessageFormatException(message);
         }
         String rooms[] = status.split(";");
         if (rooms.length != 4) {
-            throw new DataFormatException(message);
+            throw new MessageFormatException(message);
         }
         inputs = new ArrayList<>();
         outputs = new ArrayList<>();
         for (int r = 0; r < rooms.length; r++) {
             String values[] = rooms[r].split("/");
             if (values.length != 4) {
-                throw new DataFormatException(message);
+                throw new MessageFormatException(message);
             }
 
             String inputArr[] = values[2].split(",");

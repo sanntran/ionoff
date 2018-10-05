@@ -1,8 +1,13 @@
 package net.ionoff.broker.mqtt;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.TimeoutException;
 
 public class MqttRequest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MqttRequest.class);
 
     private final String keyword;
     private final String subscription;
@@ -30,16 +35,16 @@ public class MqttRequest {
     public String sendMqttRequest(String topic, String payload) throws TimeoutException {
         mqttBroker.addPendingRequest(this);
         mqttBroker.publishMessage(topic, payload);
-        for (int i = 0; i < 100; i++) { // 10000 milisecond
+        for (int i = 0; i < 60; i++) { // 6 seconds
             try {
                 Thread.sleep(100);
                 if (responseMessage != null) {
                     return responseMessage;
                 }
             } catch (InterruptedException e) {
-                // Ignore
+                LOGGER.error("InterruptedException " + e.getMessage());
             }
         }
-        throw new TimeoutException("Timeout MQTT message responseMessage from " + topic);
+        throw new TimeoutException("TimeoutException: timeout reading message response from " + topic);
     }
 }

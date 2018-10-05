@@ -1,10 +1,13 @@
 package net.ionoff.center.server.controller;
 
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Enumeration;
-
+import net.ionoff.center.server.broker.MqttConnection;
+import net.ionoff.center.server.license.LicenseManager;
+import net.ionoff.center.server.message.RelayStatusNotifier;
+import net.ionoff.center.server.message.SensorStatusNotifier;
+import net.ionoff.center.server.message.handler.RelayStatusChangedHandler;
+import net.ionoff.center.server.message.handler.SensorStatusChangedHandler;
+import net.ionoff.center.server.message.listener.RelayStatusChangedListener;
+import net.ionoff.center.server.message.listener.SensorStatusChangedListener;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
@@ -21,24 +24,17 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
 
-import net.ionoff.center.server.license.LicenseManager;
-import net.ionoff.center.server.message.RelayStatusNotifier;
-import net.ionoff.center.server.message.SensorStatusNotifier;
-import net.ionoff.center.server.message.handler.RelayStatusChangedHandler;
-import net.ionoff.center.server.message.handler.SensorStatusChangedHandler;
-import net.ionoff.center.server.message.listener.RelayStatusChangedListener;
-import net.ionoff.center.server.message.listener.SensorStatusChangedListener;
-import net.ionoff.center.server.thread.ServerThreadPool;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Enumeration;
 
 @Component
 public class ApplicationEventListener implements ApplicationListener<ApplicationEvent> {
 	
 	private final Logger logger = Logger.getLogger(ApplicationEventListener.class.getName());
-	
+
 	@Autowired
-	private ServerThreadPool serverThreadPool;
-	
-	@Autowired 
 	private ThreadPoolTaskExecutor taskExecutor;
 	
     @Autowired 
@@ -65,18 +61,20 @@ public class ApplicationEventListener implements ApplicationListener<Application
 	@Autowired
 	private RelayStatusNotifier relayStatusNotifier;
 
+	@Autowired
+	private MqttConnection mqttConnection;
+
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event instanceof ContextRefreshedEvent) {
+			LicenseManager.checkLicense();
 			sensorStatusChangedListener.setHandler(sensorStatusChangedHandler);
 			sensorStatusNotifier.addObserver(sensorStatusChangedListener);
 			
 			relayStatusChangedListener.setHandler(relayStatusChangedHandler);
 			relayStatusNotifier.addObserver(relayStatusChangedListener);
-			
-			if (LicenseManager.checkLicense()) {
-				serverThreadPool.start();
-			}
+
+			mqttConnection.start();
 		}
 		else if (event instanceof ContextStoppedEvent || event instanceof  ContextClosedEvent) {
 			// ... Then close any DB connection pools ...
@@ -100,7 +98,6 @@ public class ApplicationEventListener implements ApplicationListener<Application
 		        	logger.info("Not deregistering JDBC relaydriver as it does not belong to this webapp's ClassLoader");
 		        }
 		    }
-		    serverThreadPool.shutdown();
 	    	taskExecutor.shutdown();
 	    	taskScheduler.shutdown();
 	    	closeSessionFactory();  

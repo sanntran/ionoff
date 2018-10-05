@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
+import java.util.concurrent.TimeoutException;
 
 public class SocketHandler extends Thread {
 
@@ -74,18 +75,17 @@ public class SocketHandler extends Thread {
 			}
 		} catch (ClientException ce) {
 			ResponseBody response = new ResponseBody(ce.getStatus().getStatus(),
-					ce.getStatus().getDescription(), ce.getMessage());
+					ce.getClass().getSimpleName(), ce.getMessage());
 			String data = GSON.toJson(response);
 			sendResponse(ce.getStatus(), data);
-
 		} catch (ServerException se) {
 			ResponseBody response = new ResponseBody(HttpStatus.INTERNAL_ERROR.getStatus(),
-					HttpStatus.INTERNAL_ERROR.getDescription(), se.getMessage());
+					se.getClass().getSimpleName(), se.getMessage());
 			String data = GSON.toJson(response);
 			sendResponse(HttpStatus.INTERNAL_ERROR, data);
 		} catch (Throwable t) {
 			ResponseBody response = new ResponseBody(HttpStatus.INTERNAL_ERROR.getStatus(),
-					HttpStatus.INTERNAL_ERROR.getDescription(), t.getMessage());
+					t.getClass().getSimpleName(), t.getMessage());
 			String data = GSON.toJson(response);
 			sendResponse(HttpStatus.INTERNAL_ERROR, data);
 		}
@@ -101,7 +101,7 @@ public class SocketHandler extends Thread {
 		mqttBroker.publishMessage(AppProperties.getTcpTopic(), message);
 	}
 
-	private void handleHttpRequest(HttpRequest httpRequest) {
+	private void handleHttpRequest(HttpRequest httpRequest) throws TimeoutException {
 		ResponseBody response = new HttpHandler(tcpBroker, mqttBroker).handleHttpRequest(httpRequest);
 		sendResponse(HttpStatus.OK, GSON.toJson(response));
 	}

@@ -39,7 +39,7 @@ public class MqttBroker extends AbstractVerticle {
 
         mqttServer.exceptionHandler(t -> LOGGER.error(t.getMessage(), t));
         mqttServer.endpointHandler(endpoint -> {
-            LOGGER.info("MQTT client [" + endpoint.clientIdentifier() + "] request to connect, clean session = "
+            LOGGER.info("MQTT connector [" + endpoint.clientIdentifier() + "] request to connect, clean session = "
                     + endpoint.isCleanSession());
             if (endpoint.auth() != null) {
                 LOGGER.info("[username = " + endpoint.auth().userName() + ", password = "
@@ -75,10 +75,10 @@ public class MqttBroker extends AbstractVerticle {
                 onEnpointUnsubscribed(unsubscribe, endpoint);
             });
             endpoint.pingHandler(v -> {
-                // LOGGER.info("Ping received from client");
+                // LOGGER.info("Ping received from connector");
             });
             endpoint.disconnectHandler(v -> {
-                LOGGER.info("Received disconnect from client");
+                LOGGER.info("Received disconnect from connector");
                 onEnpointDisconnected(endpoint);
             });
             endpoint.closeHandler(v -> {

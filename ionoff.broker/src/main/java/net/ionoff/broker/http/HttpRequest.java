@@ -71,7 +71,7 @@ public class HttpRequest {
             // If there's another token, its protocol version,
             // followed by HTTP headers.
             // NOTE: this now forces header names lower case since they are
-            // case insensitive and vary by client.
+            // case insensitive and vary by connector.
             if (st.hasMoreTokens()) {
                 protocolVersion = st.nextToken();
             } else {

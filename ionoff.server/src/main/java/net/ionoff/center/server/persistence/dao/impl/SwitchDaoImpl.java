@@ -52,7 +52,7 @@ public class SwitchDaoImpl extends AbstractGenericDao<Switch> implements ISwitch
 			if (relayDriver == null) {
 				return zwitch;
 			}
-			if (relayDriver.getModelObj().getDigitalInput() > index) {
+			if (relayDriver.getInput() > index) {
 				zwitch = new Switch();
 				zwitch.setDriver(relayDriver);
 				zwitch.setIndex(index);

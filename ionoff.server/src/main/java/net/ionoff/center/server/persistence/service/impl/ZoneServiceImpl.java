@@ -22,7 +22,7 @@ import net.ionoff.center.server.exception.DeleteEntityException;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.locale.Constants;
 import net.ionoff.center.server.locale.Messages;
-import net.ionoff.center.server.objmapper.ZoneMapper;
+import net.ionoff.center.server.persistence.mapper.ZoneMapper;
 import net.ionoff.center.server.persistence.dao.IAreaDao;
 import net.ionoff.center.server.persistence.dao.IDashboardDao;
 import net.ionoff.center.server.persistence.dao.IDeviceDao;

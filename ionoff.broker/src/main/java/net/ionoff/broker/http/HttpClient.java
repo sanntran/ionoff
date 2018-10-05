@@ -25,7 +25,7 @@ public class HttpClient {
 		con.setRequestProperty("User-Agent", "Mozilla/5.0");
 		// int responseCode = con.getResponseCode();
 
-		con.setConnectTimeout(10000);
+		con.setConnectTimeout(6000);
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		String inputLine;

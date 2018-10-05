@@ -15,7 +15,7 @@ import net.ionoff.center.server.entity.SceneDevice;
 import net.ionoff.center.server.entity.ScenePlayerAction;
 import net.ionoff.center.server.entity.SceneRelayAction;
 import net.ionoff.center.server.entity.User;
-import net.ionoff.center.server.objmapper.SceneMapper;
+import net.ionoff.center.server.persistence.mapper.SceneMapper;
 import net.ionoff.center.server.persistence.dao.ISceneActionDao;
 import net.ionoff.center.server.persistence.dao.ISceneDao;
 import net.ionoff.center.server.persistence.dao.ISceneDeviceDao;

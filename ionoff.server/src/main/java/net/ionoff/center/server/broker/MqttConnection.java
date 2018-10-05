@@ -67,6 +67,7 @@ public class MqttConnection implements MqttCallback {
 
 	public void initAndConnectBroker() {
 		clientId = "ionoff-" + hashCode() + "";
+
 		subscribleTopics = new String[] {defaultTopic, topicRelayDriver, topicSensorDriver, topicMediaPlayer};
 		try {
 			client = new MqttClient(brockerUrl, clientId);
@@ -151,7 +152,7 @@ public class MqttConnection implements MqttCallback {
 		// delivery without blocking until delivery completes.
 		//
 		// If the connection to the server breaks before delivery has completed
-		// delivery of a message will complete after the client has
+		// delivery of a message will complete after the connector has
 		// re-connected.
 		// The getPendingTokens method will provide tokens for any messages
 		// that are still to be delivered.
@@ -159,11 +160,11 @@ public class MqttConnection implements MqttCallback {
 	}
 	
 	@Override
-	public void messageArrived(String topic, MqttMessage message) throws Exception {
+	public void messageArrived(String topic, MqttMessage message) {
 		// Called when a message arrives from the server that matches any
-		// subscription made by the client
+		// subscription made by the connector
 		String payload = new String(message.getPayload());
-		LOGGER.info("Message arrived on topic: " + topic + ". Message: " + payload);
+		LOGGER.debug("Message arrived on topic: " + topic + ". Message: " + payload);
 		if (defaultTopic.equals(topic) || topicRelayDriver.equals(topic)) {
 			relayDriverHandler.onMessageArrived(payload);
 		}

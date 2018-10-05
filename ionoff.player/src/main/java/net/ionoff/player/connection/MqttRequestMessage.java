@@ -1,36 +1,43 @@
 package net.ionoff.player.connection;
 
 import com.google.gson.Gson;
-import org.json.JSONException;
-
-import java.util.Map;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 public class MqttRequestMessage {
 
 	private static final Gson GSON = new Gson();
-	private Map<String, String> params;
+	private JsonObject params;
 	
-	public MqttRequestMessage(String request) throws JSONException {
-		params = GSON.fromJson(request, Map.class);
+	public MqttRequestMessage(String request) {
+		params = GSON.fromJson(request, JsonObject.class);
 	}
 
-	public String getSubscription() throws JSONException {
-		return params.get("subscription");
-	}
-
-	public String getContext() throws JSONException {
-		return params.get("context");
-	}
-
-	public String getCommand() throws JSONException {
-		return params.get("command");
-	}
-	
-	public String getParameter(String parametter) throws JSONException {
-		return params.get(parametter);
-	}
-	
-	public Map<String, String> getParameters() {
+	public JsonObject asJsonObject() {
 		return params;
+	}
+
+	public String getSubscription() {
+		return getAsString("subscription");
+	}
+
+	public String getAsString(String key) {
+		JsonElement element = params.get(key);
+		if (element == null) {
+			return null;
+		}
+		return element.getAsString();
+	}
+
+	public JsonElement getAsJsonElement(String key) {
+		return params.get(key);
+	}
+
+	public String getContext() {
+		return getAsString("context");
+	}
+
+	public String getCommand() {
+		return getAsString("command");
 	}
 }

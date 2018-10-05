@@ -21,7 +21,6 @@ import net.ionoff.center.server.exception.ChangeEntityIdException;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.persistence.service.IRelayGroupService;
 import net.ionoff.center.server.persistence.service.IRelayService;
-import net.ionoff.center.server.relaydriver.exception.RelayDriverException;
 import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
 import net.ionoff.center.shared.dto.RelayDto;

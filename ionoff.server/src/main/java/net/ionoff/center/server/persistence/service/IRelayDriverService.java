@@ -11,7 +11,9 @@ import net.ionoff.center.shared.dto.RelayDriverDto;
 @Transactional
 public interface IRelayDriverService extends IGenericService<RelayDriver, RelayDriverDto> {
 
-	List<RelayDriver> findByProjectId(long projectId);
+    List<RelayDriver> findByIsLazy();
+
+    List<RelayDriver> findByProjectId(long projectId);
 
 	List<RelayDriver> findByMac(String mac);
 

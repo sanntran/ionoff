@@ -25,7 +25,6 @@ import net.ionoff.center.server.exception.ChangeEntityIdException;
 import net.ionoff.center.server.exception.DeleteEntityException;
 import net.ionoff.center.server.persistence.service.IDashboardService;
 import net.ionoff.center.server.persistence.service.ISceneService;
-import net.ionoff.center.server.relaydriver.exception.RelayDriverException;
 import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
 import net.ionoff.center.shared.dto.SceneDto;

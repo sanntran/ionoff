@@ -1,6 +1,5 @@
 package net.ionoff.broker;
 
-import net.ionoff.broker.mqtt.MqttBroker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +14,8 @@ public class AppProperties {
     private static final Logger LOGGER = LoggerFactory.getLogger(AppProperties.class);
 
     private static List<String> brokerTopics = new ArrayList<>();
+
+    private static final AppProperties INSTANCE = new AppProperties();
 
     private AppProperties() {
 
@@ -34,10 +35,10 @@ public class AppProperties {
     }
 
     public static List<String> getBrokerTopics() {
-        return brokerTopics;
+        return INSTANCE.brokerTopics;
     }
 
     public static String getTcpTopic() {
-        return brokerTopics.isEmpty() ? "IOnOffNet" : brokerTopics.get(0);
+        return getBrokerTopics().isEmpty() ? "IOnOffNet" : getBrokerTopics().get(0);
     }
 }

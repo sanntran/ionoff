@@ -24,6 +24,11 @@ public abstract class RelayDriver extends BaseObj {
 	public String getIp() {
 		return ip;
 	}
+
+	public void overrideKey() {
+		// does nothing by default
+	}
+
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
@@ -112,8 +117,11 @@ public abstract class RelayDriver extends BaseObj {
 		return builder.toString();
 	}
 
-	public boolean autoPublish() {
-		return true;
+	/**
+	 * Lazy: not auto-publish
+	 */
+	public boolean isLazy() {
+		return false;
 	}
 
 	public boolean autoRevert() {

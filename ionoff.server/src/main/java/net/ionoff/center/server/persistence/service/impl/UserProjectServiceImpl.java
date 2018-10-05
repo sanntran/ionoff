@@ -17,7 +17,7 @@ import net.ionoff.center.server.entity.UserZone;
 import net.ionoff.center.server.entity.Zone;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.locale.Messages;
-import net.ionoff.center.server.objmapper.UserMapper;
+import net.ionoff.center.server.persistence.mapper.UserMapper;
 import net.ionoff.center.server.persistence.dao.IModeSensorUserDao;
 import net.ionoff.center.server.persistence.dao.IUserProjectDao;
 import net.ionoff.center.server.persistence.service.IDashboardService;

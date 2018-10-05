@@ -24,7 +24,7 @@ import net.ionoff.center.server.exception.DeleteEntityException;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.persistence.service.IDashboardService;
 import net.ionoff.center.server.persistence.service.IDeviceService;
-import net.ionoff.center.server.relaydriver.exception.RelayDriverException;
+import net.ionoff.center.server.relaydriver.exception.RelayDriverRequestException;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
@@ -152,7 +152,7 @@ public class DeviceServiceController {
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public StatusDto turnOnDevice(@PathVariable("deviceId") Long deviceId,
-			HttpServletRequest request) throws RelayDriverException {
+			HttpServletRequest request) throws RelayDriverRequestException {
 		User user = RequestContextHolder.getUser();
 		DeviceDto deviceDto = deviceService.requireDtoById(deviceId);
 		RequestContextHolder.checkZonePermission(user, deviceDto.getZoneId());

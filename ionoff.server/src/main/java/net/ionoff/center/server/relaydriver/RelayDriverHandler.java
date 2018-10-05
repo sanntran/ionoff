@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.ionoff.center.server.control.IControlService;
-import net.ionoff.center.server.relaydriver.exception.RelayDriverException;
+import net.ionoff.center.server.relaydriver.exception.RelayDriverRequestException;
 import net.ionoff.center.server.relaydriver.model.BaseStatus;
 import net.ionoff.center.server.relaydriver.model.EcIOStatus;
 import net.ionoff.center.server.relaydriver.model.EpIOStatus;
@@ -13,7 +13,7 @@ import net.ionoff.center.server.relaydriver.model.ExIOStatus;
 import net.ionoff.center.server.relaydriver.model.PxIOStatus;
 import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
 import net.ionoff.center.server.persistence.service.IDeviceService;
-import net.ionoff.center.server.relaydriver.exception.DataFormatException;
+import net.ionoff.center.server.relaydriver.exception.MessageFormatException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -38,7 +38,7 @@ public class RelayDriverHandler {
 
 	@Autowired
 	private ISensorDao sensorDao;
-	
+
 	@Autowired
 	private IRelayService relayService;
 
@@ -68,25 +68,29 @@ public class RelayDriverHandler {
 	IControlService controlService;
 
 	public void onMessageArrived(String payload) {
-		BaseStatus status = null;
-		try {
-			if (ExIOStatus.accept(payload)) {
-				status = new ExIOStatus(payload);
-			} else if (PxIOStatus.accept(payload)) {
-				status = new PxIOStatus(payload);
-			} else if (EcIOStatus.accept(payload)) {
-				status = new EcIOStatus(payload);
-			} else if (EpIOStatus.accept(payload)) {
-				status = new EpIOStatus(payload);
-			}
-		} catch (Exception e) {
-			LOGGER.error(e.getClass().getSimpleName() + " Error parsing message " + e.getMessage());
-		}
+		BaseStatus status = parseIOStatus(payload);
 		if (status == null) {
 			LOGGER.error("Unknown message format " + payload);
 			return;
 		}
 		handleStatusMessage(status);
+	}
+
+	private BaseStatus parseIOStatus(String payload) {
+		try {
+			if (ExIOStatus.accept(payload)) {
+				return new ExIOStatus(payload);
+			} else if (PxIOStatus.accept(payload)) {
+				return new PxIOStatus(payload);
+			} else if (EcIOStatus.accept(payload)) {
+				return new EcIOStatus(payload);
+			} else if (EpIOStatus.accept(payload)) {
+				return new EpIOStatus(payload);
+			}
+		} catch (Exception e) {
+			LOGGER.error(e.getClass().getSimpleName() + " Error parsing message " + e.getMessage());
+		}
+		return null;
 	}
 
 	public void handleStatusMessage(BaseStatus status) {
@@ -99,7 +103,7 @@ public class RelayDriverHandler {
 		validateIOStatus(relayDriver, status);
 		if (!relayDriver.isConnected()) {
 			LOGGER.info("RelayDriver " + relayDriver.getKey() + " is now connected");
-			if (!relayDriver.autoPublish()) {
+			if (relayDriver.isLazy()) {
 				relayDriver.setConnectedTime(System.currentTimeMillis());
 				relayDriverDao.update(relayDriver);
 				handleStarted(relayDriver, status);
@@ -122,7 +126,7 @@ public class RelayDriverHandler {
 	private void validateIOStatus(RelayDriver relayDriver, BaseStatus status) {
 		if (status.getInputs().size() < relayDriver.getInput()
 				|| status.getOutputs().size() < relayDriver.getOutput()) {
-			throw new DataFormatException("Inputs or outputs size is not valid");
+			throw new MessageFormatException("Inputs or outputs size is not valid");
 		}
 	}
 
@@ -145,7 +149,7 @@ public class RelayDriverHandler {
 
 	private void handleStarted(RelayDriver relayDriver, BaseStatus status) {
 		LOGGER.info("Relay relaydriver has been started " + relayDriver.getKey());
-		if (relayDriver.autoPublish()) {
+		if (!relayDriver.isLazy()) {
 			handleStatus(relayDriver, status);
 		}
 		else {
@@ -160,7 +164,7 @@ public class RelayDriverHandler {
 		}
 	}
 
-	private void restoreRelayStatus(Relay relay) throws RelayDriverException {
+	private void restoreRelayStatus(Relay relay) throws RelayDriverRequestException {
 		LOGGER.info("Restore relay status: " + relay.getName() + ", index " + relay.getIndex() + ", status " + relay.getStatus());
 		if (relay.getStatus() == false) {
 			controlService.switchRelayToOff(relay);

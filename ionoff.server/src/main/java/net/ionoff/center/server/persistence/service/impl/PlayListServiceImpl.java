@@ -9,7 +9,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.User;
-import net.ionoff.center.server.objmapper.PlayListMapper;
+import net.ionoff.center.server.persistence.mapper.PlayListMapper;
 import net.ionoff.center.server.persistence.dao.IPlayListDao;
 import net.ionoff.center.server.persistence.service.IPlayListService;
 import net.ionoff.center.server.persistence.service.IPlayNodeService;

@@ -2,6 +2,7 @@ package net.ionoff.player;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import net.ionoff.player.util.HttpClient;
@@ -464,6 +465,9 @@ public class DeamonPlayer {
 	}
 
 	public List<MediaFile> browseFiles(String dir) {
+		if (dir == null) {
+			return Collections.emptyList();
+		}
 		MPDFile folder = new MPDFile(dir);
 		folder.setDirectory(true);
 		Collection<MPDFile> files = mpd.getMusicDatabase().getFileDatabase().listDirectory(folder);

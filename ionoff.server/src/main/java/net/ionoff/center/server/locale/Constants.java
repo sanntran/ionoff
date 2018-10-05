@@ -3,7 +3,7 @@ package net.ionoff.center.server.locale;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import net.xapxinh.center.server.locale.UTF8Control;
+import net.ionoff.center.server.mediaplayer.locale.UTF8Control;
 
 /**
  * @author Sann Tran
