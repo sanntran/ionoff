@@ -161,19 +161,24 @@ public class MqttConnection implements MqttCallback {
 	
 	@Override
 	public void messageArrived(String topic, MqttMessage message) {
-		// Called when a message arrives from the server that matches any
-		// subscription made by the connector
 		String payload = new String(message.getPayload());
 		LOGGER.debug("Message arrived on topic: " + topic + ". Message: " + payload);
-		if (defaultTopic.equals(topic) || topicRelayDriver.equals(topic)) {
-			relayDriverHandler.onMessageArrived(payload);
+		try {
+			// Called when a message arrives from the server that matches any
+			// subscription made by the connector
+			if (defaultTopic.equals(topic) || topicRelayDriver.equals(topic)) {
+				relayDriverHandler.onMessageArrived(payload);
+			}
+			else if (topicSensorDriver.equals(topic)) {
+				sensorDriverHandler.onMessageArrived(payload);
+			}
+			else if (topicMediaPlayer.equals(topic)) {
+				mediaPlayerHandler.onMessageArrived(payload);
+			}
+		} catch (Exception e) {
+			LOGGER.error("Error handle MQTT message {" + payload + "} " + e.getMessage(), e);
 		}
-		else if (topicSensorDriver.equals(topic)) {
-			sensorDriverHandler.onMessageArrived(payload);
-		}
-		else if (topicMediaPlayer.equals(topic)) {
-			mediaPlayerHandler.onMessageArrived(payload);
-		}
+
 	}
 
 	private void setSubscribleTopic(String subscribleTopic[]) {

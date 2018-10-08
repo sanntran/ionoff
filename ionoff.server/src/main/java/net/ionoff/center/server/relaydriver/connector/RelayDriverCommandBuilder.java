@@ -12,7 +12,7 @@ public class RelayDriverCommandBuilder {
             command.setAddress(relayDriver.getCommandCloseRelay(relayIndex));
         }
         else {
-            command.setKeyword("code=resp");
+            command.setKeyword("code=");
             command.setAddress(relayDriver.getKey());
             command.setContent(relayDriver.getCommandCloseRelay(relayIndex));
         }

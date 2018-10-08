@@ -83,7 +83,7 @@ public class HttpHandler {
     private Object sendMqttMessage(String address, String subscription,
                                    String keyword, String content) throws TimeoutException {
         try {
-            String resp = new MqttRequest(mqttBroker, subscription, keyword).sendMqttRequest(address, content);
+            String resp = new MqttRequest(mqttBroker, address, subscription, keyword).sendMqttRequest(content);
             try {
                 return GSON.fromJson(resp, JsonObject.class);
             } catch (Exception e) {

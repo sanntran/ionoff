@@ -118,6 +118,7 @@ public class MqttBroker extends AbstractVerticle {
     }
 
     public void publishMessage(String topic, String data) {
+        LOGGER.debug("Publish message {}", data + " to topic " + topic);
         List<MqttEndpoint> endpoints = MQTT_ENDPOINTS.get(topic);
         if (endpoints != null) {
             for (MqttEndpoint endpoint : endpoints) {

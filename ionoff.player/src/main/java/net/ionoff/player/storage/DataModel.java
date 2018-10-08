@@ -4,7 +4,7 @@ import net.ionoff.player.model.Schedule;
 
 import java.io.Serializable;
 
-public class Data implements Serializable {
+public class DataModel implements Serializable {
 
     // random password
     private String password;

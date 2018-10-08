@@ -36,7 +36,8 @@ public class MediaPlayerConnectorImpl implements IMediaPlayerConnector {
 
     @Autowired
 	public MediaPlayerConnectorImpl(BrokerClientFactory brokerClientFactory) {
-    	RestTemplate restClient = RestTemplateFactory.buildRestTemplate(new MediaPlayerRequestExceptionHandler(),
+    	RestTemplate restClient = RestTemplateFactory.buildRestTemplate(
+    			                new MediaPlayerRequestExceptionHandler(),
 			                    Arrays.asList(new RestTemplateRequestIntercepter()));
 		brokerHttpClient = brokerClientFactory.createHttpClient(restClient);
 	}

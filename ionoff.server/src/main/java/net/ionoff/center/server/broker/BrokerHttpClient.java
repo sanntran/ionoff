@@ -16,12 +16,4 @@ public class BrokerHttpClient {
     public BrokerResponse sendCommand(BrokerCommand command) {
         return restTemplate.postForObject(brokerUrl + "/commands", command, BrokerResponse.class);
     }
-
-    public String updateDevice(BrokerDevice device) {
-        return "";
-    }
-
-    public String setDeviceList(BrokerDeviceList deviceList) {
-        return "";
-    }
 }

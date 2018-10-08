@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import net.ionoff.center.server.relaydriver.LazyRelayDriverThread;
 import org.apache.log4j.Logger;
 
 public class HttpRequestUtil {

@@ -125,7 +125,7 @@ public class RelayDriverDaoImpl extends AbstractGenericDao<RelayDriver> implemen
 				+ " from RelayDriver as relayDriver"
 				+ " where relayDriver.ip = :ip"
 				+ " and relayDriver.port = :port"
-				+ " order by relayDriver.model";
+				+ " order by relayDriver.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("ip", ip)
 				.setParameter("port", port);
@@ -137,7 +137,7 @@ public class RelayDriverDaoImpl extends AbstractGenericDao<RelayDriver> implemen
 		String sql = "select distinct relayDriver"
 				+ " from RelayDriver as relayDriver"
 				+ " where relayDriver.key = :mac"
-				+ " order by relayDriver.model";
+				+ " order by relayDriver.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("mac", mac);
 		return findMany(query);
@@ -148,7 +148,7 @@ public class RelayDriverDaoImpl extends AbstractGenericDao<RelayDriver> implemen
 		String sql = "select distinct relayDriver"
 				+ " from RelayDriver as relayDriver"
 				+ " where relayDriver.ip = :ip"
-				+ " order by relayDriver.model";
+				+ " order by relayDriver.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("ip", ip);
 		return findMany(query);

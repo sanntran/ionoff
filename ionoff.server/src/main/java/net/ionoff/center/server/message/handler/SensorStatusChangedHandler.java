@@ -1,20 +1,17 @@
 package net.ionoff.center.server.message.handler;
 
-import java.util.Collections;
-import java.util.List;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-
+import net.ionoff.center.server.control.IControlService;
+import net.ionoff.center.server.entity.ModeSensor;
+import net.ionoff.center.server.entity.Sensor;
+import net.ionoff.center.server.notify.INotificationService;
+import net.ionoff.center.server.persistence.dao.IModeSensorDao;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import net.ionoff.center.server.control.IControlService;
-import net.ionoff.center.server.notify.EmailService;
-import net.ionoff.center.server.entity.ModeSensor;
-import net.ionoff.center.server.entity.Sensor;
-import net.ionoff.center.server.persistence.dao.IModeSensorDao;
-import net.ionoff.center.server.notify.SmsService;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import java.util.Collections;
+import java.util.List;
 
 public class SensorStatusChangedHandler {
 	
@@ -27,10 +24,7 @@ public class SensorStatusChangedHandler {
 	private IModeSensorDao modeSensorDao;
 	
 	@Autowired
-	private SmsService smsService;
-	
-	@Autowired
-	private EmailService emailService;
+	private INotificationService notificationService;
 
 	public void onSensorStatusChanged(Sensor sensor) {
 		logger.info("Sensor " + sensor.getSId() + " status changed. New status: " + sensor.getStatus());
@@ -97,7 +91,7 @@ public class SensorStatusChangedHandler {
 			return;
 		}
 		getLogger().info(modeSensor.toString() + " is starting new thread to notify users");
-		new ModeSensorUserActivator(modeSensor, emailService, smsService).start();
+		new ModeSensorUserActivator(modeSensor, notificationService).start();
 	}
 	
 	protected Logger getLogger() {

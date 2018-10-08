@@ -21,7 +21,7 @@ public class LocalStorage {
 	public static final LocalStorage INSTANCE = new LocalStorage();
 
 	private final String file;
-	private Data data;
+	private DataModel data;
 
     private String dir;
 
@@ -30,7 +30,7 @@ public class LocalStorage {
 		file =  dir + File.separator + "data.json";
 	}
 
-    public synchronized Data getData() {
+    public synchronized DataModel getData() {
         if (data == null) {
             read();
         }
@@ -50,7 +50,7 @@ public class LocalStorage {
 			try {
 				Gson gson = new Gson();
 				JsonReader reader = new JsonReader(new FileReader(f));
-				data = gson.fromJson(reader, Data.class);
+				data = gson.fromJson(reader, DataModel.class);
 				data.setPassword(randomNumber() + "");
 			} catch (Exception e) {
 				data = newData();
@@ -59,8 +59,8 @@ public class LocalStorage {
 		}
 	}
 
-	private Data newData() {
-		data = new Data();
+	private DataModel newData() {
+		data = new DataModel();
         data.setPassword(randomNumber() + "");
 		data.setVolume(50);
 		data.setSchedule(newSchedule());

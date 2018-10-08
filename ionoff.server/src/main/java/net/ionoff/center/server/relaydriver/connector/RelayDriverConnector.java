@@ -35,7 +35,8 @@ public class RelayDriverConnector {
     @Autowired
     public RelayDriverConnector(BrokerClientFactory brokerClientFactory) {
 
-        RestTemplate restClient = RestTemplateFactory.buildRestTemplate(new RelayDriverRequestExceptionHandler(),
+        RestTemplate restClient = RestTemplateFactory.buildRestTemplate(
+                new RelayDriverRequestExceptionHandler(),
                 Arrays.asList(new RestTemplateRequestIntercepter()));
         brokerHttpClient = brokerClientFactory.createHttpClient(restClient);
     }

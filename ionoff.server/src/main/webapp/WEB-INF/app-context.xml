@@ -98,12 +98,6 @@
 
 	<context:component-scan base-package="net.ionoff.center.server.controller" />
 
-	<bean id="emailService" class="net.ionoff.center.server.notify.EmailServiceImpl">
-	</bean>
-
-	<bean id="smsService" class="net.ionoff.center.server.notify.SmsServiceImpl">
-	</bean>
-
 	<bean id="controlService" class="net.ionoff.center.server.control.ControlServiceImpl">
 	</bean>
 
@@ -138,7 +132,7 @@
 	<bean id="playerCaches" class="net.ionoff.center.server.mediaplayer.cache.PlayerCaches">
 	</bean>
 
-	<bean id="playerService"
+	<bean id="mediaPlayerService"
 		class="net.ionoff.center.server.mediaplayer.service.MediaPlayerServiceImpl">
 		<constructor-arg ref="mediaPlayerConnector" />
 		<constructor-arg ref="playerCaches" />
@@ -147,7 +141,7 @@
 
 	<bean id="dataService" class="net.ionoff.center.server.mediadata.service.MediaDataServiceImpl">
 		<constructor-arg ref="mediaServiceConnector" />
-		<constructor-arg ref="playerService" />
+		<constructor-arg ref="mediaPlayerService" />
 	</bean>
 
 	<bean id="latestVersionUpdator" class="net.ionoff.center.server.scheduler.LatestVersionUpdator">
@@ -211,6 +205,12 @@
 	</bean>
 
 	<bean id="lazyRelayDriverThread" class="net.ionoff.center.server.relaydriver.LazyRelayDriverThread">
+	</bean>
+
+	<bean id="notificationConnector" class="net.ionoff.center.server.notify.connector.NotificationConnectorImpl">
+	</bean>
+
+	<bean id="notificationService" class="net.ionoff.center.server.notify.NotificationServiceImpl">
 	</bean>
 
 </beans>

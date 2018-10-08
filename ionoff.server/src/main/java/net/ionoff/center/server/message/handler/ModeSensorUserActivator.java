@@ -1,16 +1,14 @@
 package net.ionoff.center.server.message.handler;
 
+import net.ionoff.center.server.entity.ModeSensor;
+import net.ionoff.center.server.entity.ModeSensorUser;
+import net.ionoff.center.server.notify.INotificationService;
+import org.apache.log4j.Logger;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import org.apache.log4j.Logger;
-
-import net.ionoff.center.server.notify.EmailService;
-import net.ionoff.center.server.entity.ModeSensor;
-import net.ionoff.center.server.entity.ModeSensorUser;
-import net.ionoff.center.server.notify.SmsService;
 
 class ModeSensorUserActivator extends Thread {
 	
@@ -18,15 +16,13 @@ class ModeSensorUserActivator extends Thread {
 	
 	private final String threadName;
 	private final ModeSensor modeSensor;
-	private final EmailService emailService;
-	private final SmsService smsService;
-	
+	private final INotificationService notificationService;
+
 	private static final SimpleDateFormat DATETIME_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	
-	ModeSensorUserActivator(ModeSensor modeSensor, EmailService emailService, SmsService smsService) {
+	ModeSensorUserActivator(ModeSensor modeSensor, INotificationService notificationService) {
 		this.modeSensor = modeSensor;
-		this.emailService = emailService;
-		this.smsService = smsService;
+		this.notificationService = notificationService;
 		threadName = "Thread of " + modeSensor.toString();
 	}
 	
@@ -52,7 +48,7 @@ class ModeSensorUserActivator extends Thread {
 					LOGGER.info(threadName + " sends SMS to no one");
 				}
 				else {
-					smsService.sendSms(subscriberPhones.toArray(new String[subscriberPhones.size()]), createMessage());
+					notificationService.sendSms(subscriberPhones.toArray(new String[subscriberPhones.size()]), createMessage());
 					LOGGER.info(threadName + " has finised sending SMS");
 				}
 				
@@ -60,7 +56,7 @@ class ModeSensorUserActivator extends Thread {
 					LOGGER.info(threadName + " sends email to no one");
 				}
 				else {
-					emailService.sendEmail(subscriberMails.toArray(new String[subscriberMails.size()]), createMessage());
+					notificationService.sendEmail(subscriberMails.toArray(new String[subscriberMails.size()]), createMessage());
 					LOGGER.info(threadName + " has finised sending email");
 				}
 			}

@@ -15,6 +15,7 @@ public class HttpClient {
 
 
 	public static String sendGetRequest(String url) throws IOException {
+		LOGGER.debug("Sending request to {}", url);
 		// logger.info("URL: " + url);
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
