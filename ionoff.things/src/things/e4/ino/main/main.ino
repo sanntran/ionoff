@@ -13,6 +13,7 @@
 #define IN_1  0
 #define IN_2  4 
 #define IN_3  5
+#define IN_ADC A0
 
 #define MQTT_USER "ionoff"
 #define MQTT_PASS "I0n0FFNet"
@@ -37,7 +38,7 @@ const byte BUTTON = 2;
 const byte SENSOR = 3;
 const boolean USE_SERIAL = true;
 
-const int TIMER_T = 20;
+const int TIMER_T = 10;
 
 const int ST_RESET = 1;
 const int ST_STATUS = 2;
@@ -53,7 +54,7 @@ const byte SERVER_CONNECTING = 7;
 const byte SERVER_CONNECTED = 8;
 
 const int TCP_PORT = 1883;
-const char TCP_SERVER[HOST_LENGTH] = "192.168.1.252";
+const char TCP_SERVER[HOST_LENGTH] = "mqtt.ionoff.net";
 const char SERIAL_ID[ID_LENGTH] = "E313180610";
 
 const int WIFI_LENGTH = 31;
@@ -130,28 +131,28 @@ void timerCallback(void *pArg) {
   checkReleaseLocks();
   
   if (espMode == MODE_AP) {    
-     if (espModeLedSignal >= 100) {
+     if (espModeLedSignal >= 200) {
         espModeLedSignal = 0;
         digitalWrite(ESP_LED, LOW);
      }
-     else if (espModeLedSignal % 10 == 0 && espModeLedSignal <= 50) {
+     else if (espModeLedSignal % 20 == 0 && espModeLedSignal <= 100) {
         digitalWrite(ESP_LED, !digitalRead(ESP_LED));
      }
      espModeLedSignal = espModeLedSignal + 1;
   }
   else { // mode station
-    if (espModeLedSignal >= 300) {
+    if (espModeLedSignal >= 600) {
         espModeLedSignal = 0;
     }    
     if (connState == WIFI_CONNECTING) {
-       if (espModeLedSignal % 25 == 0) {
+       if (espModeLedSignal % 50 == 0) {
           digitalWrite(ESP_LED, !digitalRead(ESP_LED));
        }
        espModeLedSignal = espModeLedSignal + 1;
     }
     else if (connState == SERVER_CONNECTING){
-       if (espModeLedSignal % 25 == 0) {
-         if (espModeLedSignal <= 150) {
+       if (espModeLedSignal % 50 == 0) {
+         if (espModeLedSignal <= 300) {
            digitalWrite(ESP_LED, !digitalRead(ESP_LED));
          }
          else {
@@ -194,8 +195,8 @@ void setup() {
 
   // read adc value to set mode
   for (int i = 0; i < 3; i++) {
-    boolean in2 = digitalRead(IN_2);
-    if (in2 == false) {
+    unsigned int adcValue = analogRead(IN_ADC);
+    if (adcValue < 64) {
       espMode = MODE_AP;
     }    
     delay(250);
@@ -203,9 +204,9 @@ void setup() {
     delay(250);
     digitalWrite(ESP_LED, HIGH);
   }   
-  
-  boolean in2 = digitalRead(IN_2);
-  if (in2 == false && espMode == MODE_AP) {
+
+  unsigned int adcValue = analogRead(IN_ADC);
+  if (adcValue < 64 && espMode == MODE_AP) {
     // Mode AP is confirmed
     espMode = MODE_AP;
   }
@@ -538,7 +539,7 @@ void checkInputChange() {
   for (int i = 0; i < 3; i++) {
 
     if (inputChanges[i] == true) {
-      if ((millis() - inputChangesTime[i]) >= 110) {
+      if ((millis() - inputChangesTime[i]) >= 50) {
         if (newInputStates[i] != inputStates[i]) {
           inputStates[i] = newInputStates[i];
           // Accept input change
