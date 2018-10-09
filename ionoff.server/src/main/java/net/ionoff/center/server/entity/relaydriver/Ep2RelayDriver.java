@@ -5,7 +5,7 @@ import net.ionoff.center.server.entity.RelayDriver;
 public class Ep2RelayDriver extends RelayDriver {
 
     static {
-        RelayDriver.MODELS.put(model(), Ep2RelayDriver.class.getClass());
+        RelayDriver.MODELS.put(model(), Ep2RelayDriver.class);
     }
 
     private static String model() {
@@ -128,10 +128,10 @@ public class Ep2RelayDriver extends RelayDriver {
     @Override
     public String getCommandCloseRelay(int relayIndex, Integer autoRevert) {
         int revert = 0;
-        if (autoRevert != null && autoRevert.intValue() == 1) {
+        if (autoRevert != null && autoRevert.intValue() == ONE_SECOND) {
             revert = 1;
         }
-        if (revert == 1) {
+        if (revert == ONE_SECOND) {
             String path = "";
             switch (relayIndex) {
                 case 0:
@@ -271,5 +271,10 @@ public class Ep2RelayDriver extends RelayDriver {
     @Override
     public void overrideKey() {
         setKey("EP" + (200000 + getId()));
+    }
+    
+    @Override
+    public int getOneSecondDelay() {
+    	return 650;
     }
 }

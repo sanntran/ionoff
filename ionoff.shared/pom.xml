@@ -5,10 +5,12 @@
 	<parent>
 		<groupId>net.ionoff</groupId>
 		<artifactId>ionoff</artifactId>
-		<version>1.6.4</version>
+		<version>1.6.8</version>
 		<relativePath>../ionoff/pom.xml</relativePath>
 	</parent>
-	
+
+	<version>1.6.8</version>
+	<groupId>net.ionoff</groupId>
 	<artifactId>ionoff.shared</artifactId>
 
 	<properties>
@@ -50,6 +52,4 @@
 		</dependency>
 		
 	</dependencies>
-	<version>1.6.4</version>
-	<groupId>net.ionoff</groupId>
 </project>

@@ -4,7 +4,7 @@
 
 	<groupId>net.ionoff</groupId>
 	<artifactId>ionoff</artifactId>
-	<version>1.6.4</version>
+	<version>1.6.8</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -16,11 +16,11 @@
 
 	<modules>
 		<module>../ionoff.shared</module>
-  		<module>../ionoff.client</module>
+  		<!--<module>../ionoff.client</module>-->
  		<module>../ionoff.server</module>
-		<module>../ionoff.webhook</module>
-		<module>../ionoff.broker</module>
-		<module>../ionoff.player</module>
+		<!--<module>../ionoff.webhook</module>-->
+		<!--<module>../ionoff.broker</module>-->
+		<!--<module>../ionoff.player</module>-->
 	</modules>
 
-</project>
+</project>c

@@ -4,33 +4,33 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.annotation.Async;
+
 import net.ionoff.center.server.control.IControlService;
+import net.ionoff.center.server.entity.Relay;
+import net.ionoff.center.server.entity.RelayDriver;
+import net.ionoff.center.server.entity.Sensor;
+import net.ionoff.center.server.entity.Switch;
+import net.ionoff.center.server.message.RelayStatusNotifier;
+import net.ionoff.center.server.message.SensorStatusNotifier;
+import net.ionoff.center.server.message.event.RelayStatusChangedEvent;
+import net.ionoff.center.server.message.event.SensorStatusChangedEvent;
+import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
+import net.ionoff.center.server.persistence.dao.ISensorDao;
+import net.ionoff.center.server.persistence.dao.ISwitchDao;
+import net.ionoff.center.server.persistence.service.IDeviceService;
+import net.ionoff.center.server.persistence.service.IRelayDriverService;
+import net.ionoff.center.server.persistence.service.IRelayService;
+import net.ionoff.center.server.relaydriver.exception.MessageFormatException;
 import net.ionoff.center.server.relaydriver.exception.RelayDriverRequestException;
 import net.ionoff.center.server.relaydriver.model.BaseStatus;
 import net.ionoff.center.server.relaydriver.model.EcIOStatus;
 import net.ionoff.center.server.relaydriver.model.EpIOStatus;
 import net.ionoff.center.server.relaydriver.model.ExIOStatus;
 import net.ionoff.center.server.relaydriver.model.PxIOStatus;
-import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
-import net.ionoff.center.server.persistence.service.IDeviceService;
-import net.ionoff.center.server.relaydriver.exception.MessageFormatException;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.scheduling.annotation.Async;
-
-import net.ionoff.center.server.entity.Relay;
-import net.ionoff.center.server.entity.RelayDriver;
-import net.ionoff.center.server.entity.Sensor;
-import net.ionoff.center.server.entity.Switch;
-import net.ionoff.center.server.message.event.RelayStatusChangedEvent;
-import net.ionoff.center.server.message.event.SensorStatusChangedEvent;
-import net.ionoff.center.server.message.RelayStatusNotifier;
-import net.ionoff.center.server.message.SensorStatusNotifier;
-import net.ionoff.center.server.persistence.dao.ISensorDao;
-import net.ionoff.center.server.persistence.dao.ISwitchDao;
-import net.ionoff.center.server.persistence.service.IRelayDriverService;
-import net.ionoff.center.server.persistence.service.IRelayService;
 
 public class RelayDriverHandler {
 
@@ -124,9 +124,13 @@ public class RelayDriverHandler {
 	}
 
 	private void validateIOStatus(RelayDriver relayDriver, BaseStatus status) {
-		if (status.getInputs().size() < relayDriver.getInput()
-				|| status.getOutputs().size() < relayDriver.getOutput()) {
-			throw new MessageFormatException("Inputs or outputs size is not valid");
+		if (relayDriver.getInput() > 0 && relayDriver.getOutput() > 0) {
+			if (status.getInputs() == null || status.getInputs().size() < relayDriver.getInput()) {
+				throw new MessageFormatException("Inputs size is not valid");
+			}
+			if (status.getOutputs() == null || status.getOutputs().size() < relayDriver.getOutput()) {
+				throw new MessageFormatException("Outputs size is not valid");
+			}
 		}
 	}
 

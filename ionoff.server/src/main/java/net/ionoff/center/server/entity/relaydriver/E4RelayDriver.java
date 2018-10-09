@@ -5,7 +5,7 @@ import net.ionoff.center.server.entity.RelayDriver;
 public class E4RelayDriver extends RelayDriver {
 
     static {
-        RelayDriver.MODELS.put(model(), E4RelayDriver.class.getClass());
+        RelayDriver.MODELS.put(model(), E4RelayDriver.class);
     }
 
     private static String model() {
@@ -44,12 +44,12 @@ public class E4RelayDriver extends RelayDriver {
 
     @Override
     public String getCommandOpenRelay(int relayIndex) {
-        return "{ioseto" + (relayIndex + 1) + "0}";
+        return "{ioseto" + (relayIndex + 1) + "1}";
     }
 
     @Override
     public String getCommandCloseRelay(int relayIndex) {
-        return "{ioseto" + (relayIndex + 1) + "1}";
+        return "{ioseto" + (relayIndex + 1) + "0}";
     }
 
     @Override
@@ -59,6 +59,15 @@ public class E4RelayDriver extends RelayDriver {
 
     @Override
     public String getCommandCloseRelay(int relayIndex, Integer autoRevert) {
-        return getCommandCloseRelay(relayIndex);
+    	if (autoRevert != null && autoRevert.intValue() == ONE_SECOND) {
+    		return "{ioseto" + (relayIndex + 1) + "2}";
+    	}
+    	return getCommandCloseRelay(relayIndex);
+        
     }
+
+	@Override
+	public int getOneSecondDelay() {
+		return 650;
+	}
 }

@@ -12,7 +12,7 @@ public class RelayDriverCommandBuilder {
             command.setAddress(relayDriver.getCommandCloseRelay(relayIndex));
         }
         else {
-            command.setKeyword("code=");
+            command.setKeyword("code=okcmd");
             command.setAddress(relayDriver.getKey());
             command.setContent(relayDriver.getCommandCloseRelay(relayIndex));
         }
@@ -26,7 +26,7 @@ public class RelayDriverCommandBuilder {
             command.setAddress(relayDriver.getCommandOpenRelay(relayIndex));
         }
         else {
-            command.setKeyword("code=resp");
+            command.setKeyword("code=okcmd");
             command.setAddress(relayDriver.getKey());
             command.setContent(relayDriver.getCommandOpenRelay(relayIndex));
         }
@@ -36,14 +36,14 @@ public class RelayDriverCommandBuilder {
     public static BrokerCommand buildCommandCloseRelay(RelayDriver relayDriver, int relayIndex, Integer autoRevert) {
         BrokerCommand command = new BrokerCommand();
         command.setProtocol(relayDriver.getProtocol());
-        if (autoRevert != null && autoRevert.intValue() == 1) {
-            command.setDelay(autoRevert);
+        if (autoRevert != null && RelayDriver.ONE_SECOND == autoRevert.intValue()) {
+        	command.setDelay(relayDriver.getOneSecondDelay());
         }
         if ("http".equals(relayDriver.getProtocol())) {
             command.setAddress(relayDriver.getCommandCloseRelay(relayIndex, autoRevert));
         }
         else {
-            command.setKeyword("code=resp");
+            command.setKeyword("code=okcmd");
             command.setAddress(relayDriver.getKey());
             command.setContent(relayDriver.getCommandCloseRelay(relayIndex, autoRevert));
         }
@@ -53,12 +53,14 @@ public class RelayDriverCommandBuilder {
     public static BrokerCommand buildCommandOpenRelay(RelayDriver relayDriver, int relayIndex, Integer autoRevert) {
         BrokerCommand command = new BrokerCommand();
         command.setProtocol(relayDriver.getProtocol());
-        command.setDelay(0);
+        if (autoRevert != null && RelayDriver.ONE_SECOND == autoRevert.intValue()) {
+        	command.setDelay(relayDriver.getOneSecondDelay());
+        }
         if ("http".equals(relayDriver.getProtocol())) {
             command.setAddress(relayDriver.getCommandOpenRelay(relayIndex, autoRevert));
         }
         else {
-            command.setKeyword("code=resp");
+            command.setKeyword("code=okcmd");
             command.setAddress(relayDriver.getKey());
             command.setContent(relayDriver.getCommandOpenRelay(relayIndex, autoRevert));
         }

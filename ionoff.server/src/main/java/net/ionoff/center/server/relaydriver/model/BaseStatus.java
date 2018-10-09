@@ -1,8 +1,8 @@
 package net.ionoff.center.server.relaydriver.model;
 
-import net.ionoff.center.server.relaydriver.exception.MessageFormatException;
-
 import java.util.List;
+
+import net.ionoff.center.server.relaydriver.exception.MessageFormatException;
 
 public class BaseStatus {
 

@@ -1,8 +1,10 @@
 package net.ionoff.center.server.relaydriver;
 
-import net.ionoff.center.server.entity.RelayDriver;
-import net.ionoff.center.server.persistence.service.IRelayDriverService;
-import net.ionoff.center.server.util.HttpRequestUtil;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -11,10 +13,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import net.ionoff.center.server.entity.RelayDriver;
+import net.ionoff.center.server.persistence.service.IRelayDriverService;
+import net.ionoff.center.server.util.HttpRequestUtil;
 
 @Component
 @EnableAsync
@@ -63,22 +64,22 @@ public class LazyRelayDriverThread {
 			urls = new ArrayList<>();
 			urls.add(command);
 		}
-		StringBuilder sb = new StringBuilder();
-		sb.append("key=").append(relayDriver.getKey());
-		sb.append("&status=");
+		StringBuilder responseBuilder = new StringBuilder();
+		responseBuilder.append("key=").append(relayDriver.getKey());
+		responseBuilder.append("&status=");
 		for (int i = 0; i < urls.size(); i++) {
 			String url = urls.get(i);
 			if (i > 0) {
-				sb.append(";");
+				responseBuilder.append(";");
 			}
 			String response = HttpRequestUtil.sendGetRequest(url, CONNECT_TIME_OUT, READ_TIME_OUT);
-			sb.append(response);
+			responseBuilder.append(response);
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				LOGGER.error("InterruptedException " + e.getMessage());
 			}
 		}
-		return sb.toString();
+		return responseBuilder.toString();
 	}
 }

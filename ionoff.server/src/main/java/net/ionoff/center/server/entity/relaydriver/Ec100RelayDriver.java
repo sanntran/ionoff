@@ -1,13 +1,13 @@
 package net.ionoff.center.server.entity.relaydriver;
 
-import net.ionoff.center.server.entity.RelayDriver;
-
 import java.util.Arrays;
+
+import net.ionoff.center.server.entity.RelayDriver;
 
 public class Ec100RelayDriver extends RelayDriver {
 
     static {
-        RelayDriver.MODELS.put(model(), Ec100RelayDriver.class.getClass());
+        RelayDriver.MODELS.put(model(), Ec100RelayDriver.class);
     }
 
     private static String model() {
@@ -69,12 +69,16 @@ public class Ec100RelayDriver extends RelayDriver {
 
     @Override
     public String getCommandOpenRelay(int relayIndex, Integer autoRevert) {
-        return getCommandOpenRelay(relayIndex);
+    	return getCommandOpenRelay(relayIndex);
     }
 
     @Override
     public String getCommandCloseRelay(int relayIndex, Integer autoRevert) {
-        return getCommandCloseRelay(relayIndex);
+    	if (autoRevert != null && autoRevert.intValue() == ONE_SECOND) {
+        	return Arrays.toString(new String[] { 
+        			getCommandCloseRelay(relayIndex), getCommandOpenRelay(relayIndex) });
+    	}
+    	return getCommandCloseRelay(relayIndex);
     }
 
     private int getRelayId(int relayIndex) {
@@ -108,4 +112,9 @@ public class Ec100RelayDriver extends RelayDriver {
     public void overrideKey() {
         setKey("EC" + (100000 + getId()));
     }
+
+	@Override
+	public int getOneSecondDelay() {
+		return 900;
+	}
 }

@@ -123,7 +123,8 @@ public class MqttBroker extends AbstractVerticle {
         if (endpoints != null) {
             for (MqttEndpoint endpoint : endpoints) {
                 if (endpoint.isConnected()) {
-                    endpoint.publish(topic, Buffer.buffer(data), MqttQoS.EXACTLY_ONCE, false, false);
+                    Buffer payload = Buffer.buffer(data);
+                    endpoint.publish(topic, payload, MqttQoS.AT_LEAST_ONCE, false, false);
                 }
             }
         }

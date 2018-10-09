@@ -1,30 +1,23 @@
 package net.ionoff.center.server.relaydriver.connector;
 
+import static net.ionoff.center.server.relaydriver.connector.RelayDriverCommandBuilder.buildCommandCloseRelay;
+import static net.ionoff.center.server.relaydriver.connector.RelayDriverCommandBuilder.buildCommandOpenRelay;
+
+import java.util.Arrays;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
+
 import net.ionoff.center.server.broker.BrokerClientFactory;
 import net.ionoff.center.server.broker.BrokerCommand;
 import net.ionoff.center.server.broker.BrokerHttpClient;
 import net.ionoff.center.server.broker.BrokerResponse;
 import net.ionoff.center.server.entity.RelayDriver;
-import net.ionoff.center.server.mediadata.connector.MediaDataRequestExceptionHandler;
-import net.ionoff.center.server.mediaplayer.connector.MediaPlayerConnectorImpl;
-import net.ionoff.center.server.mediaplayer.exception.MediaPlayerConnectException;
-import net.ionoff.center.server.mediaplayer.exception.MediaPlayerRequestException;
-import net.ionoff.center.server.mediaplayer.model.MediaPlayer;
-import net.ionoff.center.server.mediaplayer.model.MediaPlayerResponse;
 import net.ionoff.center.server.relaydriver.exception.RelayDriverConnectException;
 import net.ionoff.center.server.relaydriver.exception.RelayDriverRequestException;
-import net.ionoff.center.server.relaydriver.model.BaseStatus;
 import net.ionoff.center.server.wsclient.RestTemplateFactory;
 import net.ionoff.center.server.wsclient.RestTemplateRequestIntercepter;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.client.RestTemplate;
-
-import static net.ionoff.center.server.mediaplayer.connector.MediaPlayerCommandBuilder.buildCommandGetStatus;
-import static net.ionoff.center.server.relaydriver.connector.RelayDriverCommandBuilder.*;
-
-import java.util.Arrays;
-import java.util.Map;
 
 public class RelayDriverConnector {
 

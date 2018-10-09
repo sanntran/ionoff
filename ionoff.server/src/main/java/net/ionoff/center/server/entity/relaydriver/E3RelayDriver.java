@@ -5,7 +5,7 @@ import net.ionoff.center.server.entity.RelayDriver;
 public class E3RelayDriver extends RelayDriver {
 
     static {
-        RelayDriver.MODELS.put(model(), E3RelayDriver.class.getClass());
+        RelayDriver.MODELS.put(model(), E3RelayDriver.class);
     }
 
     private static String model() {
@@ -49,12 +49,12 @@ public class E3RelayDriver extends RelayDriver {
 
     @Override
     public String getCommandOpenRelay(int relayIndex) {
-        return "{ioseto" + (relayIndex + 1) + "0}";
+        return "{ioseto" + (relayIndex + 1) + "1}";
     }
 
     @Override
     public String getCommandCloseRelay(int relayIndex) {
-        return "{ioseto" + (relayIndex + 1) + "1}";
+        return "{ioseto" + (relayIndex + 1) + "0}";
     }
 
     @Override
@@ -63,7 +63,7 @@ public class E3RelayDriver extends RelayDriver {
         if (autoRevert != null && autoRevert.intValue() > 0) {
             revert = autoRevert.intValue();
         }
-        return "{ioseto" + (relayIndex + 1) + revert + "0}";
+        return "{ioseto" + (relayIndex + 1) + "1"+ revert + "}";
     }
 
     @Override
@@ -72,6 +72,11 @@ public class E3RelayDriver extends RelayDriver {
         if (autoRevert != null && autoRevert.intValue() > 0) {
             revert = autoRevert.intValue();
         }
-        return "{ioseto" + (relayIndex + 1) + revert + "1}";
+        return "{ioseto" + (relayIndex + 1) + "0" + revert +"}";
     }
+
+	@Override
+	public int getOneSecondDelay() {
+		return 650;
+	}
 }

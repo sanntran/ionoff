@@ -6,11 +6,12 @@ import java.util.Map;
 
 public abstract class RelayDriver extends BaseObj {
 
-	public static final Map<String, Class> MODELS = new HashMap<>();
+	public static final Map<String, Class<? extends RelayDriver>> MODELS = new HashMap<>();
 
 	private static final long serialVersionUID = 1L;
 
 	public static final int KEY_LENGTH = 8;
+	public static final int ONE_SECOND = 1; // second
 
 	private String ip;
 	private Integer port;
@@ -147,4 +148,6 @@ public abstract class RelayDriver extends BaseObj {
 	public abstract String getCommandOpenRelay(int relayIndex, Integer autoRevert);
 
 	public abstract String getCommandCloseRelay(int relayIndex, Integer autoRevert);
+
+	public abstract int getOneSecondDelay();
 }

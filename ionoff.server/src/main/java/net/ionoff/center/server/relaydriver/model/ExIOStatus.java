@@ -1,8 +1,8 @@
 package net.ionoff.center.server.relaydriver.model;
 
-import net.ionoff.center.server.relaydriver.exception.MessageFormatException;
-
 import java.util.ArrayList;
+
+import net.ionoff.center.server.relaydriver.exception.MessageFormatException;
 
 public class ExIOStatus extends BaseStatus {
 
@@ -77,6 +77,6 @@ public class ExIOStatus extends BaseStatus {
         }
         String params[] = msg.split("&");
         String values[] = msg.split("=");
-        return  params.length > 0 && params.length == values.length - 1;
+        return msg.startsWith("id=E") & params.length > 0 && params.length == values.length - 1;
     }
 }

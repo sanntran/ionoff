@@ -9,6 +9,8 @@ import net.ionoff.broker.tcp.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
@@ -17,7 +19,6 @@ public class HttpHandler {
 
     private static final Gson GSON = new Gson();
 
-    private static final String DEVICES = "/devices";
     private static final String COMMANDS = "/commands";
 
     private final MqttBroker mqttBroker;
@@ -34,16 +35,15 @@ public class HttpHandler {
             String body = httpRequest.getBody();
             Command command = toRequestModel(body);
             if ("http".equals(command.getProtocol())) {
-                Object resp = sendHttpRequest(command.getMethod(), command.getAddress(), getContent(command));
+                Object resp = sendHttpRequest(command);
                 return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), resp);
             }
             else if ("tcp".equals(command.getProtocol())) {
-                Object resp = sendTcpCommand(command.getAddress(), getContent(command));
+                Object resp = sendTcpCommand(command);
                 return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), resp);
             }
             else if ("mqtt".equals(command.getProtocol())) {
-                Object resp = sendMqttMessage(command.getAddress(), command.getSubscription(),
-                        command.getKeyword(), getContent(command));
+                Object resp = sendMqttMessage(command);
                 return new ResponseBody(HttpStatus.OK.getStatus(), HttpStatus.OK.getDescription(), resp);
             }
             else {
@@ -65,30 +65,71 @@ public class HttpHandler {
         }
     }
 
-    private Object sendTcpCommand(String address, String content) {
+    private Object sendTcpCommand(Command command) {
+        List<String> addressList = command.listAddress();
+        if (addressList.size() > 1) {
+            List<Object> responses = new ArrayList<>();
+            for (String address : addressList) {
+                Object obj = sendTcpCommand(address, getContent(command), command.getDelay());
+                responses.add(obj);
+            }
+            return responses;
+        }
+        else {
+            return sendTcpCommand(command.getAddress(), getContent(command), command.getDelay());
+        }
+    }
+
+    private Object sendTcpCommand(String address, String content, Integer delay) {
         try {
             String resp =  tcpBroker.sendCommand(address, content);
-            try {
-                return GSON.fromJson(resp, JsonObject.class);
-            } catch (Exception e) {
-                return resp;
+            if (delay != null && delay.intValue() > 0) {
+                Thread.sleep(delay);
             }
+            return toJsonOrString(resp);
         } catch (Exception e) {
-            String msg = "Error sending tcp command to " + address + ": " + e.getClass().getSimpleName() + " " + e.getMessage();
+            String msg = "Error sending tcp command to " + address
+                    + ": " + e.getClass().getSimpleName() + " " + e.getMessage();
             LOGGER.error(msg, e);
             throw new ServerException(msg);
         }
     }
 
-    private Object sendMqttMessage(String address, String subscription,
-                                   String keyword, String content) throws TimeoutException {
+    private Object toJsonOrString(String resp) {
         try {
-            String resp = new MqttRequest(mqttBroker, address, subscription, keyword).sendMqttRequest(content);
-            try {
-                return GSON.fromJson(resp, JsonObject.class);
-            } catch (Exception e) {
-                return resp;
+            return GSON.fromJson(resp, JsonObject.class);
+        } catch (Exception e) {
+            // not a json, it is raw String
+            return resp;
+        }
+    }
+
+    private Object sendMqttMessage(Command command) throws TimeoutException {
+        List<String> addressList = command.listAddress();
+        if (addressList.size() > 1) {
+            List<Object> responses = new ArrayList<>();
+            for (String address : addressList) {
+                Object obj = sendMqttMessage(address, command.getSubscription(), command.getKeyword(),
+                        getContent(command), command.getDelay());
+                responses.add(obj);
             }
+            return responses;
+        }
+        else {
+            return sendMqttMessage(command.getAddress(), command.getSubscription(), command.getKeyword(),
+                    getContent(command), command.getDelay());
+        }
+    }
+
+    private Object sendMqttMessage(String address, String subscription, String keyword,
+                                   String payload, Integer delay) throws TimeoutException {
+        try {
+            String resp = new MqttRequest(mqttBroker, address,subscription, keyword)
+                    .sendMqttRequest(payload);
+            if (delay != null && delay.intValue() > 0) {
+                Thread.sleep(delay);
+            }
+            return toJsonOrString(resp);
         } catch (TimeoutException te) {
             String msg = te.getClass().getSimpleName() + ": timeout reading mqtt response from " + address;
             LOGGER.error(msg + " " + te.getMessage(), te);
@@ -101,14 +142,27 @@ public class HttpHandler {
         }
     }
 
-    private Object sendHttpRequest(String method, String address, String content) {
+    private Object sendHttpRequest(Command command) {
+        List<String> addressList = command.listAddress();
+        if (addressList.size() > 1) {
+            List<Object> responses = new ArrayList<>();
+            for (String address : addressList) {
+                responses.add(sendHttpRequest(address, command.getDelay()));
+            }
+            return responses;
+        }
+        else {
+            return sendHttpRequest(command.getAddress(), command.getDelay());
+        }
+    }
+
+    private Object sendHttpRequest(String address, Integer delay) {
         try {
             String resp = HttpClient.sendGetRequest(address);
-            try {
-                return GSON.fromJson(resp, JsonObject.class);
-            } catch (Exception e) {
-                return resp;
+            if (delay != null && delay.intValue() > 0) {
+                Thread.sleep(delay);
             }
+            return toJsonOrString(resp);
         } catch (Exception e) {
             String msg = "Error sending http request to " + address + ": " + e.getClass().getSimpleName() + " " + e.getMessage();
             LOGGER.error(msg, e);

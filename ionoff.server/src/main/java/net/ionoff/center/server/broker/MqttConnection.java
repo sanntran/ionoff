@@ -1,9 +1,6 @@
 package net.ionoff.center.server.broker;
 
 
-import net.ionoff.center.server.mediaplayer.MediaPlayerHandler;
-import net.ionoff.center.server.relaydriver.RelayDriverHandler;
-import net.ionoff.center.server.sensordriver.SensorDriverHandler;
 import org.apache.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -12,10 +9,13 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import net.ionoff.center.server.exception.MqttConnectionException;
 import net.ionoff.center.server.exception.MqttPublishException;
-import org.springframework.beans.factory.annotation.Value;
+import net.ionoff.center.server.mediaplayer.MediaPlayerHandler;
+import net.ionoff.center.server.relaydriver.RelayDriverHandler;
+import net.ionoff.center.server.sensordriver.SensorDriverHandler;
 
 
 public class MqttConnection implements MqttCallback {
@@ -123,7 +123,7 @@ public class MqttConnection implements MqttCallback {
 		try {
 			LOGGER.info("Connecting to broker " + brockerUrl);
 			client.connect(connOpt);
-			LOGGER.info("Connected to broker" + brockerUrl);
+			LOGGER.info("Connected to broker " + brockerUrl);
 			setConnected(true);
 		} catch (MqttException e) {
 			LOGGER.error("Cannot connect to broker. " + e.getMessage());

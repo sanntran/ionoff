@@ -1,10 +1,17 @@
 package net.ionoff.broker.http.handler;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Command {
 
     private String protocol;
     private String address;
     private String method;
+    /**
+     * delay after send to address, in milli-second
+     */
+    private Integer delay;
     private String subscription;
     private String keyword;
     private Object content;
@@ -56,4 +63,20 @@ public class Command {
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
+
+    public Integer getDelay() {
+        return delay;
+    }
+
+    public void setDelay(Integer delay) {
+        this.delay = delay;
+    }
+
+    public List<String> listAddress() {
+        if (address != null && address.startsWith("[") && address.endsWith("]")) {
+            return Arrays.asList(address.substring(1, address.length() - 1).split(", "));
+        }
+        return Arrays.asList(address);
+    }
+
 }
