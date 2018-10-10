@@ -31,7 +31,9 @@ import net.ionoff.center.server.relaydriver.model.EcIOStatus;
 import net.ionoff.center.server.relaydriver.model.EpIOStatus;
 import net.ionoff.center.server.relaydriver.model.ExIOStatus;
 import net.ionoff.center.server.relaydriver.model.PxIOStatus;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RelayDriverHandler {
 
 	private static final Logger LOGGER = Logger.getLogger(RelayDriverHandler.class.getName());

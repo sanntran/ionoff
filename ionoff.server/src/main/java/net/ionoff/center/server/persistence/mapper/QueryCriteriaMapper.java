@@ -2,7 +2,9 @@ package net.ionoff.center.server.persistence.mapper;
 
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class QueryCriteriaMapper {
 
 	public static QueryCriteria toQueryCriteria(QueryCriteriaDto queryCriteriaDto) {

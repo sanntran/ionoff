@@ -25,7 +25,6 @@ import net.ionoff.center.shared.dto.QueryCriteriaDto;
 import net.ionoff.center.shared.dto.ScheduleDto;
 
 @RestController
-@EnableWebMvc
 public class ScheduleServiceController {
 
 	private static final Logger logger = Logger.getLogger(ScheduleServiceController.class.getName());
@@ -36,7 +35,7 @@ public class ScheduleServiceController {
 	@RequestMapping(value = "schedules/count",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
@@ -47,7 +46,7 @@ public class ScheduleServiceController {
 	@RequestMapping(value = "schedules/search",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<ScheduleDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
@@ -59,7 +58,7 @@ public class ScheduleServiceController {
 	@RequestMapping(value = "schedules/{scheduleId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public ScheduleDto update(@PathVariable("scheduleId") Long scheduleId,
 			@RequestBody ScheduleDto scheduleDto, HttpServletRequest request) throws UpdateEntityException {
 
@@ -82,7 +81,7 @@ public class ScheduleServiceController {
 	@RequestMapping(value = "schedules/{scheduleId}",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto delete(@PathVariable("scheduleId") Long scheduleId,
 			HttpServletRequest request) throws DeleteEntityException {
 		
@@ -99,7 +98,7 @@ public class ScheduleServiceController {
 			params={"zoneId"},
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<ScheduleDto> findByZoneId(@QueryParam("zoneId") Long zoneId) {
 		final List<ScheduleDto> scheduleDtos = scheduleService.findDtoByZoneId(zoneId);
 		return scheduleDtos;
@@ -109,7 +108,7 @@ public class ScheduleServiceController {
 			params={"projectId"},
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<ScheduleDto> findByProjectId(@QueryParam("projectId") Long projectId) {
 		final List<ScheduleDto> scheduleDtos = scheduleService.findDtoByProjectId(projectId);
 		return scheduleDtos;

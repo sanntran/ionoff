@@ -69,7 +69,7 @@ public class ModeSensor extends BaseObj {
 	public boolean hasResetTime() {
 		return resetTime != null && resetTime != 0;
 	}
-	public boolean isEnabled() {
+	public boolean izEnabled() {
 		return enabled != null && enabled == true;
 	}
 	public Set<ModeSensorUser> getUsers() {

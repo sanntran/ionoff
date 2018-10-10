@@ -5,15 +5,19 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Area;
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.persistence.dao.IAreaDao;
 
+@Repository
 @Transactional
 public class AreaDaoImpl extends AbstractGenericDao<Area> implements IAreaDao {
 
+	@Autowired
 	public AreaDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
 		setClass(Area.class);

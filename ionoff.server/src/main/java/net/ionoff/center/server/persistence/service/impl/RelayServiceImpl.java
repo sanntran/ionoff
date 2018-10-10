@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Device;
@@ -29,6 +30,7 @@ import net.ionoff.center.server.persistence.dao.IScheduleDao;
 import net.ionoff.center.server.persistence.service.IRelayService;
 import net.ionoff.center.shared.dto.RelayDto;
 
+@Service
 @Transactional
 public class RelayServiceImpl extends AbstractGenericService<Relay, RelayDto> implements IRelayService {
 	
@@ -51,7 +53,8 @@ public class RelayServiceImpl extends AbstractGenericService<Relay, RelayDto> im
 	
 	@Autowired
 	private RelayMapper relayMapper;
-	
+
+	@Autowired
 	public RelayServiceImpl(IRelayDao relayDao) {
 		this.relayDao = relayDao;
 	}

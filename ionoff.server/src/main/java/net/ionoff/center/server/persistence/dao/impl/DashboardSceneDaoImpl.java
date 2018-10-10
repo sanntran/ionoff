@@ -4,15 +4,19 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.DashboardScene;
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.persistence.dao.IDashboardSceneDao;
 
+@Repository
 @Transactional
 public class DashboardSceneDaoImpl extends AbstractGenericDao<DashboardScene> implements IDashboardSceneDao {
 
+	@Autowired
 	public DashboardSceneDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
 		setClass(DashboardScene.class);

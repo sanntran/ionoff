@@ -4,15 +4,19 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.persistence.dao.IPlayLeafDao;
 import net.ionoff.center.server.entity.PlayLeaf;
 
+@Repository
 @Transactional
 public class PlayLeafDaoImpl extends AbstractGenericDao<PlayLeaf> implements IPlayLeafDao {
 
+	@Autowired
 	public PlayLeafDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
 		setClass(PlayLeaf.class);

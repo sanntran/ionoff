@@ -23,7 +23,6 @@ import net.ionoff.center.shared.dto.ProjectDto;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
 
 @RestController
-@EnableWebMvc
 public class ProjectServiceController {
 
 	private final Logger logger = Logger.getLogger(ProjectServiceController.class.getName());
@@ -34,7 +33,7 @@ public class ProjectServiceController {
 	@RequestMapping(value = "projects",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<ProjectDto> loadAll() {
 		
 		User user = RequestContextHolder.getUser();
@@ -46,7 +45,7 @@ public class ProjectServiceController {
 	@RequestMapping(value = "projects/count",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public Long countByCriteria(
 			@RequestBody QueryCriteriaDto criteriaDto,
 			HttpServletRequest request) {
@@ -59,7 +58,7 @@ public class ProjectServiceController {
 	@RequestMapping(value = "projects/search",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<ProjectDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -71,7 +70,7 @@ public class ProjectServiceController {
 	@RequestMapping(value = "projects/{projectId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public ProjectDto insertOrUpdate(@PathVariable("projectId") Long projectId,
 			@RequestBody ProjectDto projectDto, HttpServletRequest request) {
 
@@ -96,7 +95,7 @@ public class ProjectServiceController {
 	@RequestMapping(value = "projects/{projectId}",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto delete(@PathVariable("projectId") Long projectId,
 			HttpServletRequest request) throws DeleteEntityException {
 
@@ -113,7 +112,7 @@ public class ProjectServiceController {
 	@RequestMapping(value = "projects/{projectId}",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public ProjectDto findById(@PathVariable("projectId") Long projectId) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkProjectPermission(user, projectId);

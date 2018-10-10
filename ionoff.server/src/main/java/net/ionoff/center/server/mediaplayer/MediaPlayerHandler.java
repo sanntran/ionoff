@@ -7,9 +7,11 @@ import net.ionoff.center.server.mediaplayer.model.MediaPlayerMessage;
 import net.ionoff.center.server.persistence.service.IDeviceService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Component
 public class MediaPlayerHandler {
 
 	private static final Logger LOGGER = Logger.getLogger(MediaPlayerHandler.class.getName());

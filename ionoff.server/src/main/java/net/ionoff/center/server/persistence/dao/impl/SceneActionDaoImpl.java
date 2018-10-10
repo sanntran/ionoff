@@ -4,15 +4,19 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.entity.SceneAction;
 import net.ionoff.center.server.persistence.dao.ISceneActionDao;
 
+@Repository
 @Transactional
 public class SceneActionDaoImpl extends AbstractGenericDao<SceneAction> implements ISceneActionDao {
-	
+
+	@Autowired
 	public SceneActionDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
 		setClass(SceneAction.class);

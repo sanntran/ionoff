@@ -3,6 +3,7 @@ package net.ionoff.center.server.persistence.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Project;
@@ -18,6 +19,7 @@ import net.ionoff.center.server.persistence.service.IUserProjectService;
 import net.ionoff.center.server.persistence.service.IUserService;
 import net.ionoff.center.shared.dto.ProjectDto;
 
+@Service
 @Transactional
 public class ProjectServiceImpl extends AbstractGenericService<Project, ProjectDto> implements IProjectService {
 
@@ -32,6 +34,7 @@ public class ProjectServiceImpl extends AbstractGenericService<Project, ProjectD
 	@Autowired
 	private IUserProjectService userProjectService;
 
+	@Autowired
 	public ProjectServiceImpl(IProjectDao projectDao) {
 		this.projectDao = projectDao;
 	}

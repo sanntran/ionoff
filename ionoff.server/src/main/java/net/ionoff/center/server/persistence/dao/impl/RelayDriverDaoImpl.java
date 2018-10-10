@@ -11,15 +11,19 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
 
+@Repository
 @Transactional
 public class RelayDriverDaoImpl extends AbstractGenericDao<RelayDriver> implements IRelayDriverDao {
 
+	@Autowired
 	public RelayDriverDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
 		setClass(RelayDriver.class);

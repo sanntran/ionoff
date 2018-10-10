@@ -1,36 +1,29 @@
 package net.ionoff.center.server.controller;
 
-import java.io.File;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import net.ionoff.center.shared.dto.DateTimeDto;
+import net.ionoff.center.shared.dto.ServerInfoDto;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import net.ionoff.center.shared.dto.DateTimeDto;
-import net.ionoff.center.shared.dto.ServerInfoDto;
+import java.io.File;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @RestController
-@EnableWebMvc
 public class SystemServiceController {
 	
 	private final Logger logger = Logger.getLogger(SystemServiceController.class.getName());
 
 	private static final SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("HH:mm");
 	private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("dd/MM/yyyy");
-
-	@Autowired
-	private LocalSessionFactoryBean sessionFactory;
 	
 	@RequestMapping(value = "system/info", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public ServerInfoDto getServerInfo() {
 		
 		ServerInfoDto serverInfo = new ServerInfoDto();
@@ -75,7 +68,7 @@ public class SystemServiceController {
 	}
 	
 	@RequestMapping(value = "system/datetime", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public DateTimeDto getServerDateTime() {
 		Date date = new Date();
 		DateTimeDto dateTime = new DateTimeDto();

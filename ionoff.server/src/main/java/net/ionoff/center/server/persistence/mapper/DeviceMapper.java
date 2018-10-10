@@ -20,10 +20,12 @@ import net.ionoff.center.shared.dto.RelayDto;
 import net.ionoff.center.shared.dto.SensorDriverDto;
 import net.xapxinh.center.shared.dto.StatusDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class DeviceMapper {
 	
 	@Autowired

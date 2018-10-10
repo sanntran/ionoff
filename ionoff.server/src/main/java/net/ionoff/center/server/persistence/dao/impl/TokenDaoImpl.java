@@ -4,15 +4,19 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.entity.Token;
 import net.ionoff.center.server.persistence.dao.ITokenDao;
 
+@Repository
 @Transactional
 public class TokenDaoImpl extends AbstractGenericDao<Token> implements ITokenDao {
 
+	@Autowired
 	public TokenDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
 		setClass(Token.class);

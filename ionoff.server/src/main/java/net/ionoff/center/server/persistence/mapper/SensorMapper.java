@@ -10,7 +10,9 @@ import net.ionoff.center.server.entity.Switch;
 import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.SensorDataDto;
 import net.ionoff.center.shared.dto.SensorDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SensorMapper {
 
 	public List<SensorDto> createSerialDtoList(List<Sensor> sensors) {

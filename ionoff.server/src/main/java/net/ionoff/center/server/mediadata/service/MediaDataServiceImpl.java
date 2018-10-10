@@ -7,9 +7,11 @@ import net.ionoff.center.server.mediaplayer.model.MediaPlayer;
 import net.ionoff.center.server.mediaplayer.service.IMediaPlayerService;
 import net.xapxinh.center.shared.dto.Album;
 import net.xapxinh.center.shared.dto.YoutubeVideosDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class MediaDataServiceImpl implements IMediaDataService {
 
 	private final IMediaDataConnector mediaDataConnector;

@@ -14,7 +14,9 @@ import net.ionoff.center.shared.dto.ScheduleActionDto;
 import net.ionoff.center.shared.dto.ScheduleDto;
 import net.ionoff.center.shared.dto.SchedulePlayerActionDto;
 import net.ionoff.center.shared.dto.ScheduleRelayActionDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ScheduleMapper {
 	
 	

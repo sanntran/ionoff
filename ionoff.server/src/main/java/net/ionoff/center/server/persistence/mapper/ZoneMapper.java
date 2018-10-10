@@ -11,7 +11,9 @@ import net.ionoff.center.server.entity.Zone;
 import net.ionoff.center.server.persistence.service.IAreaService;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.ZoneDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ZoneMapper {
 	
 	@Autowired

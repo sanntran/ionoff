@@ -23,7 +23,6 @@ import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.ModeSensorDto;
 
 @RestController
-@EnableWebMvc
 public class ModeSensorServiceController {
 
 	private static final Logger logger = Logger.getLogger(ModeSensorServiceController.class.getName());
@@ -34,7 +33,7 @@ public class ModeSensorServiceController {
 	@RequestMapping(value = "modesensors/{modeSensorId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public ModeSensorDto insertOrUpdate(@PathVariable("modeSensorId") Long modeSensorId,
 			@RequestBody ModeSensorDto modeSensorDto,
 			HttpServletRequest request) {
@@ -64,7 +63,7 @@ public class ModeSensorServiceController {
 	@RequestMapping(value = "modesensors/{modeSensorId}",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto delete(@PathVariable("modeSensorId") Long modeSensorId, 
 			HttpServletRequest request) throws DeleteEntityException {
 		User user = RequestContextHolder.getUser();
@@ -77,7 +76,7 @@ public class ModeSensorServiceController {
 	@RequestMapping(value = "modesensors",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<ModeSensorDto> findBySensorId(@RequestParam("sensorId") Long sensorId,
 			HttpServletRequest request) {
 		

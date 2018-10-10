@@ -37,10 +37,10 @@ class ModeSensorUserActivator extends Thread {
 				List<String> subscriberPhones = new ArrayList<>();
 				List<String> subscriberMails = new ArrayList<>();
 				for (ModeSensorUser subscriber : subscribers) {
-					if (subscriber.isSendSms()) {
+					if (subscriber.izSendSms()) {
 						subscriberPhones.add(subscriber.getUser().getPhoneNo());
 					}
-					if (subscriber.isSendEmail()) {
+					if (subscriber.izSendEmail()) {
 						subscriberMails.add(subscriber.getUser().getEmail());
 					}
 				}

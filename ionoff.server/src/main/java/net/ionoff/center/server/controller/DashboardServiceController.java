@@ -34,7 +34,6 @@ import net.ionoff.center.shared.dto.ScheduleDto;
 import net.ionoff.center.shared.dto.StatusDto;
 
 @RestController
-@EnableWebMvc
 public class DashboardServiceController {
 
 	@Autowired
@@ -52,7 +51,7 @@ public class DashboardServiceController {
 			params= {"projectId"},
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public DashboardDto findByProjectId(@RequestParam("projectId") Long projectId) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkProjectPermission(user, projectId);
@@ -190,7 +189,7 @@ public class DashboardServiceController {
 			params= {"zoneId"},
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public DashboardDto findByZoneId(@RequestParam("zoneId") Long zoneId) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkZonePermission(user, zoneId);

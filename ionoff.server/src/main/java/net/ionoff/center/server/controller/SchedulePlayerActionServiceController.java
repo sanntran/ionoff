@@ -19,7 +19,6 @@ import net.ionoff.center.server.persistence.service.IScheduleActionService;
 import net.ionoff.center.shared.dto.SchedulePlayerActionDto;
 
 @RestController
-@EnableWebMvc
 public class SchedulePlayerActionServiceController {
 
 	private static final Logger logger = Logger.getLogger(SchedulePlayerActionServiceController.class.getName());
@@ -30,7 +29,7 @@ public class SchedulePlayerActionServiceController {
 	@RequestMapping(value = "scheduleplayeractions/{schedulePlayerActionId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public SchedulePlayerActionDto update(@PathVariable("schedulePlayerActionId") Long schedulePlayerActionId,
 			@RequestBody SchedulePlayerActionDto schedulePlayerActionDto,
 			HttpServletRequest request) throws UpdateEntityException {

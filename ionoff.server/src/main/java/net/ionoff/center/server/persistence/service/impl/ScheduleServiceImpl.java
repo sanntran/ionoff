@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Device;
@@ -23,6 +24,7 @@ import net.ionoff.center.server.persistence.service.IDeviceService;
 import net.ionoff.center.server.persistence.service.IScheduleService;
 import net.ionoff.center.shared.dto.ScheduleDto;
 
+@Service
 @Transactional
 public class ScheduleServiceImpl extends AbstractGenericService<Schedule, ScheduleDto> implements IScheduleService {
 
@@ -36,7 +38,8 @@ public class ScheduleServiceImpl extends AbstractGenericService<Schedule, Schedu
 	
 	@Autowired
 	private IDeviceService deviceService;
-	
+
+	@Autowired
 	public ScheduleServiceImpl(IScheduleDao scheduleDao) {
 		this.scheduleDao = scheduleDao;
 	}

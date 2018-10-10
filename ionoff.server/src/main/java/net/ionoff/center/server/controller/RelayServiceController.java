@@ -28,7 +28,6 @@ import net.ionoff.center.shared.dto.RelayGroupDto;
 import net.ionoff.center.shared.dto.StatusDto;
 
 @RestController
-@EnableWebMvc
 public class RelayServiceController {
 
 	private static final Logger logger = Logger.getLogger(RelayServiceController.class.getName());
@@ -43,7 +42,7 @@ public class RelayServiceController {
 	@RequestMapping(value = "relays/count",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criretiaDto,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -55,7 +54,7 @@ public class RelayServiceController {
 	@RequestMapping(value = "relays/search",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<RelayDto> searchByCriteria(@RequestBody QueryCriteriaDto criretiaDto,
 			HttpServletRequest request) {
 
@@ -69,7 +68,7 @@ public class RelayServiceController {
 	@RequestMapping(value = "relays/{relayId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public RelayDto update(@PathVariable("relayId") Long relayId,
 			@RequestBody RelayDto relayDto, HttpServletRequest request) throws UpdateEntityException {
 
@@ -86,7 +85,7 @@ public class RelayServiceController {
 	@RequestMapping(value = "relays/{relayId}/close",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public StatusDto closeRelay(@PathVariable("relayId") Long relayId,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -99,7 +98,7 @@ public class RelayServiceController {
 	@RequestMapping(value = "relays/{relayId}/open",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public StatusDto openRelay(@PathVariable("relayId") Long relayId,
 			HttpServletRequest request) {
 		
@@ -112,7 +111,7 @@ public class RelayServiceController {
 	@RequestMapping(value = "relays/{relayId}/groups",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<RelayGroupDto> getRelayGroups(@PathVariable("relayId") Long relayId, 
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -123,7 +122,7 @@ public class RelayServiceController {
 	@RequestMapping(value = "relays/{relayId}/groups",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public RelayGroupDto createRelayGroup(@PathVariable("relayId") Long relayId, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
@@ -134,7 +133,7 @@ public class RelayServiceController {
 	@RequestMapping(value = "relaygroups/{groupId}",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto deleteRelayGroup(@PathVariable("groupId") Long groupId, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
@@ -146,7 +145,7 @@ public class RelayServiceController {
 	@RequestMapping(value = "relaygroups/{groupId}/relays",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public RelayGroupDto addRelayToGroup(@PathVariable("groupId") Long groupId, 
 			@RequestBody RelayDto relayDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -157,7 +156,7 @@ public class RelayServiceController {
 	@RequestMapping(value = "relaygroups/{groupId}/relays/{relayId}",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public RelayGroupDto removeRelayFromGroup(@PathVariable("groupId") Long groupId,
 			@PathVariable("relayId") Long relayId, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -168,7 +167,7 @@ public class RelayServiceController {
 	@RequestMapping(value = "relaygroups/{groupId}/relays/{relayId}/leader",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto updateRelayLeader(@PathVariable("groupId") Long groupId, @PathVariable("relayId") Long relayId,
 			@QueryParam("isLeader") Boolean isLeader, HttpServletRequest request) throws UpdateEntityException {
 

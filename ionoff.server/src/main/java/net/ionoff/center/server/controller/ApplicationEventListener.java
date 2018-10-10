@@ -9,17 +9,12 @@ import net.ionoff.center.server.message.handler.SensorStatusChangedHandler;
 import net.ionoff.center.server.message.listener.RelayStatusChangedListener;
 import net.ionoff.center.server.message.listener.SensorStatusChangedListener;
 import org.apache.log4j.Logger;
-import org.hibernate.SessionFactory;
-import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
-import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
-import org.hibernate.internal.SessionFactoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.ContextStoppedEvent;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
@@ -39,9 +34,6 @@ public class ApplicationEventListener implements ApplicationListener<Application
 	
     @Autowired 
     private ThreadPoolTaskScheduler taskScheduler;
-    
-    @Autowired
-    private LocalSessionFactoryBean sessionFactory;
 
     @Autowired
     private RelayStatusChangedListener relayStatusChangedListener;
@@ -68,12 +60,6 @@ public class ApplicationEventListener implements ApplicationListener<Application
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event instanceof ContextRefreshedEvent) {
 			LicenseManager.checkLicense();
-			sensorStatusChangedListener.setHandler(sensorStatusChangedHandler);
-			sensorStatusNotifier.addObserver(sensorStatusChangedListener);
-			
-			relayStatusChangedListener.setHandler(relayStatusChangedHandler);
-			relayStatusNotifier.addObserver(relayStatusChangedListener);
-
 			mqttConnection.start();
 		}
 		else if (event instanceof ContextStoppedEvent || event instanceof  ContextClosedEvent) {
@@ -100,28 +86,7 @@ public class ApplicationEventListener implements ApplicationListener<Application
 		    }
 	    	taskExecutor.shutdown();
 	    	taskScheduler.shutdown();
-	    	closeSessionFactory();  
 		}
-	}
-    	
-	private boolean closeSessionFactory() {
-	    boolean done = false;
-	    SessionFactory factory = sessionFactory.getObject();
-	    if(factory instanceof SessionFactoryImpl) {
-	        SessionFactoryImpl sf = (SessionFactoryImpl)factory;
-	        ConnectionProvider conn = sf.getConnectionProvider();
-	        if(conn instanceof C3P0ConnectionProvider) { 
-	            ((C3P0ConnectionProvider)conn).stop();
-	            try {
-	                Thread.sleep(2000); //Let give it time...it is enough...probably
-	            } catch (InterruptedException e) {
-	                // ignore
-	            }
-	            done = true;
-	        }
-	        factory.close();
-	    }
-	    return done;
 	}
 
 }

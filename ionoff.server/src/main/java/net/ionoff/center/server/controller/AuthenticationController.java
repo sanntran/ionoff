@@ -42,7 +42,6 @@ import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.ProjectDto;
 
 @RestController
-@EnableWebMvc
 public class AuthenticationController {
 
 	private final Logger logger = Logger.getLogger(AuthenticationController.class.getName());
@@ -70,7 +69,7 @@ public class AuthenticationController {
 			value = "users/authenticate",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public Kookie deleteAuthen(HttpServletRequest request) {
 		String authToken = request.getHeader(JwtAuthenticationTokenFilter.TOKEN_HEADER);
 		logger.info("User logout: " + ". Token: " + authToken);
@@ -82,7 +81,7 @@ public class AuthenticationController {
 			params = {},
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public Kookie requestAuthen(
 			@RequestParam(value="projectId", required=false) Long projectId,
 			HttpServletRequest request) throws InvalidTokenException, AppUnactivatedException {
@@ -123,7 +122,7 @@ public class AuthenticationController {
 			params = {"username", "password", "remember", "language"},
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public Kookie requestAuthen( @RequestParam("username") String username, @RequestParam("password") String password,
 								@RequestParam("remember") boolean remember, @RequestParam("language") String language) throws AppUnactivatedException {
 		
@@ -170,7 +169,7 @@ public class AuthenticationController {
 
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(AppUnactivatedException.class)
-	@ResponseBody
+
 	public MessageDto handleInvalidTokenException(HttpServletRequest request, AppUnactivatedException e) {
 		MessageDto message = new MessageDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), 
 				Messages.get(null).applicationUnactivated());
@@ -180,7 +179,7 @@ public class AuthenticationController {
 	
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	@ExceptionHandler(AuthenticationException.class)
-	@ResponseBody
+
 	public MessageDto handleInvalidTokenException(HttpServletRequest request, AuthenticationException e) {
 		logger.error("Authentication exception. Login unsuccessfully.");
 		return new MessageDto(HttpStatus.UNAUTHORIZED.value(), "Authentication exception");

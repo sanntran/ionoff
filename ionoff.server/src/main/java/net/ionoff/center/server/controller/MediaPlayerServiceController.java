@@ -41,7 +41,6 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@EnableWebMvc
 public class MediaPlayerServiceController {
 
 	private static final Logger LOGGER = Logger.getLogger(MediaPlayerServiceController.class.getName());
@@ -67,7 +66,7 @@ public class MediaPlayerServiceController {
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8",
 			consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
+
 	public PlayListDto insertPlayList(
 			@RequestParam("playerId") Long playerId, 
 			@RequestBody PlayListDto playListDto, 
@@ -86,7 +85,7 @@ public class MediaPlayerServiceController {
 	@RequestMapping(value = "playlists/{playlistId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public PlayListDto updatePlayList(
 			@PathVariable("playlistId") Long playlistId, 
 			@RequestParam("playerId") Long playerId, 
@@ -106,7 +105,7 @@ public class MediaPlayerServiceController {
 	@RequestMapping(value = "players/{playerId}/status",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public StatusDto getStatus(@PathVariable("playerId") Long playerId) {
 		final MediaPlayer player = getPlayer(playerId);
 		return playerService.requesStatus(player, new HashMap<String, Object>());
@@ -227,7 +226,7 @@ public class MediaPlayerServiceController {
 	}
 
 	@ExceptionHandler(MediaPlayerRequestException.class)
-	@ResponseBody
+
 	public MessageDto handleException(HttpServletRequest request, HttpServletResponse response, MediaPlayerRequestException e) {
 		final String locale = (String) request.getAttribute("locale");
 		if (e instanceof MediaPlayerConnectException) {
@@ -244,7 +243,7 @@ public class MediaPlayerServiceController {
 	}
 
 	@ExceptionHandler(MediaDataRequestException.class)
-	@ResponseBody
+
 	public MessageDto handleException(HttpServletRequest request, HttpServletResponse response, MediaDataRequestException e) {
 		final String locale = (String) request.getAttribute("locale");
 		if (e instanceof MediaDataConnectException) {

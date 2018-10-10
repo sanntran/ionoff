@@ -30,7 +30,6 @@ import net.ionoff.center.shared.dto.QueryCriteriaDto;
 import net.ionoff.center.shared.dto.SceneDto;
 
 @RestController
-@EnableWebMvc
 public class SceneServiceController {
 
 	private final Logger logger = Logger.getLogger(SceneServiceController.class.getName());
@@ -46,7 +45,7 @@ public class SceneServiceController {
 	@RequestMapping(value = "scenes/{sceneId}",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public SceneDto findById(@PathVariable("sceneId") Long sceneId, HttpServletRequest request) {
 		
 		User user = RequestContextHolder.getUser();
@@ -58,7 +57,7 @@ public class SceneServiceController {
 	@RequestMapping(value = "scenes/{sceneId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public SceneDto save(@PathVariable("sceneId") Long sceneId,
 			@RequestBody SceneDto sceneDto, HttpServletRequest request) {
 		
@@ -81,7 +80,7 @@ public class SceneServiceController {
 	@RequestMapping(value = "scenes/{sceneId}",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto delete(@PathVariable("sceneId") Long sceneId,
 			HttpServletRequest request) throws DeleteEntityException {
 		User user = RequestContextHolder.getUser();
@@ -95,7 +94,7 @@ public class SceneServiceController {
 			params = {"projectId"},
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<SceneDto> findByProject(
 			@QueryParam("projectId") Long projectId,
 			HttpServletRequest request) {
@@ -109,7 +108,7 @@ public class SceneServiceController {
 			params = {"zoneId"},
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<SceneDto> findByZoneId(@QueryParam("zoneId") Long zoneId, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkZonePermission(user, zoneId);
@@ -121,7 +120,7 @@ public class SceneServiceController {
 	@RequestMapping(value = "scenes/count",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		RequestContextHolder.checkProjectPermission(RequestContextHolder.getUser(), criteriaDto.getProjectId());
 		return sceneService.countByCriteria(criteriaDto);
@@ -130,7 +129,7 @@ public class SceneServiceController {
 	@RequestMapping(value = "scenes/search",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<SceneDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		RequestContextHolder.checkProjectPermission(RequestContextHolder.getUser(), criteriaDto.getProjectId());
 		List<SceneDto> sceneDtos = sceneService.searchByCriteria(criteriaDto);
@@ -140,7 +139,7 @@ public class SceneServiceController {
 	@RequestMapping(value = "scenes/{sceneId}/play",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public Map<String, Boolean> playById(@PathVariable("sceneId") Long sceneId, HttpServletRequest request) {
 		controlService.playScene(sceneService.requireById(sceneId));
 		// Key: #SceneID#DeviceID || #SceneID#DeviceID#RelayID
@@ -152,7 +151,7 @@ public class SceneServiceController {
 			params= {"zoneId"},
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public SceneDto addToZoneDashboard(@PathVariable("sceneId") Long sceneId, @RequestParam("zoneId") Long zoneId,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -169,7 +168,7 @@ public class SceneServiceController {
 			params= {"projectId"},
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public SceneDto addToProjectDashboard(@PathVariable("sceneId") Long sceneId, @RequestParam("projectId") Long projectId,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -186,7 +185,7 @@ public class SceneServiceController {
 			params= {"zoneId"},
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public SceneDto removeFromZoneDashboard(@PathVariable("sceneId") Long sceneId, @RequestParam("zoneId") Long zoneId,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -203,7 +202,7 @@ public class SceneServiceController {
 			params= {"projectId"},
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public SceneDto removeFromProjectDashboard(@PathVariable("sceneId") Long sceneId, @RequestParam("projectId") Long projectId,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();

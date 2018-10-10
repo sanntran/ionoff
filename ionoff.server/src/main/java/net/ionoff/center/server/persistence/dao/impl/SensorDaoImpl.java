@@ -5,15 +5,19 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.persistence.dao.ISensorDao;
 
+@Repository
 @Transactional
 public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensorDao {
 
+	@Autowired
 	public SensorDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
 		setClass(Sensor.class);

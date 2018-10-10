@@ -83,16 +83,16 @@ public class User extends BaseObj implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<Role> roles = new HashSet<Role>();
 		if (group.isSystemAdmin()) {
-			roles.add(Role.ROLE_SYSTEM_ADMIN);
-			roles.add(Role.ROLE_PROJECT_ADMIN);
-			roles.add(Role.ROLE_PROJECT_USER);
+			roles.add(Role.SYSTEM_ADMIN);
+			roles.add(Role.PROJECT_ADMIN);
+			roles.add(Role.PROJECT_USER);
 		}
 		else if (group.isProjectAdmin()) {
-			roles.add(Role.ROLE_PROJECT_ADMIN);
-			roles.add(Role.ROLE_PROJECT_USER);
+			roles.add(Role.PROJECT_ADMIN);
+			roles.add(Role.PROJECT_USER);
 		}
 		else if (group.isProjectUser()) {
-			roles.add(Role.ROLE_PROJECT_USER);
+			roles.add(Role.PROJECT_USER);
 		}
 		return roles;
 	}

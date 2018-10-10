@@ -3,6 +3,7 @@ package net.ionoff.center.server.persistence.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Area;
@@ -16,6 +17,7 @@ import net.ionoff.center.server.persistence.service.IAreaService;
 import net.ionoff.center.server.persistence.service.IProjectService;
 import net.ionoff.center.shared.dto.AreaDto;
 
+@Service
 @Transactional
 public class AreaServiceImpl extends AbstractGenericService<Area, AreaDto> implements IAreaService {
 	
@@ -26,7 +28,8 @@ public class AreaServiceImpl extends AbstractGenericService<Area, AreaDto> imple
 	
 	@Autowired 
 	private IProjectService projectService;
-	
+
+	@Autowired
 	public AreaServiceImpl(IAreaDao areaDao) {
 		this.areaDao = areaDao;
 	}

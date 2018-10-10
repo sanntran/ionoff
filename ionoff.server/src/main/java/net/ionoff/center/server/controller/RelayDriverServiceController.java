@@ -25,7 +25,6 @@ import net.ionoff.center.shared.dto.QueryCriteriaDto;
 import net.ionoff.center.shared.dto.RelayDriverDto;
 
 @RestController
-@EnableWebMvc
 public class RelayDriverServiceController {
 
 	private final Logger logger = Logger.getLogger(RelayDriverServiceController.class.getName());
@@ -36,7 +35,7 @@ public class RelayDriverServiceController {
 	@RequestMapping(value = "relaydrivers/{relayDriverId}", 
 			method = RequestMethod.PUT, 
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public RelayDriverDto insertOrUpdate(@PathVariable("relayDriverId") Long relayDriverId, 
 			@RequestBody RelayDriverDto relayDriverDto,
 			HttpServletRequest request) throws UpdateEntityException {
@@ -56,7 +55,7 @@ public class RelayDriverServiceController {
 	}
 
 	@RequestMapping(value = "relaydrivers/{relayDriverId}", method = RequestMethod.DELETE, produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto delete(@PathVariable("relayDriverId") Long relayDriverId, HttpServletRequest request)
 			throws DeleteEntityException {
 		User user = RequestContextHolder.getUser();
@@ -71,7 +70,7 @@ public class RelayDriverServiceController {
 	@RequestMapping(value = "relaydrivers", 
 			method = RequestMethod.GET, 
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<RelayDriverDto> findByProjectId(@RequestParam("projectId") Long projectId) {
 		RequestContextHolder.checkProjectPermission(RequestContextHolder.getUser(), projectId);
 		return relayDriverService.findDtoByProjectId(projectId);
@@ -80,7 +79,7 @@ public class RelayDriverServiceController {
 	@RequestMapping(value = "relaydrivers/count",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
@@ -91,7 +90,7 @@ public class RelayDriverServiceController {
 	@RequestMapping(value = "relaydrivers/search",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<RelayDriverDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);

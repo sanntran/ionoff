@@ -7,12 +7,14 @@ import net.ionoff.center.server.notify.INotificationService;
 import net.ionoff.center.server.persistence.dao.IModeSensorDao;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.util.Collections;
 import java.util.List;
 
+@Component
 public class SensorStatusChangedHandler {
 	
 	private static Logger logger = Logger.getLogger(SensorStatusChangedHandler.class.getName());

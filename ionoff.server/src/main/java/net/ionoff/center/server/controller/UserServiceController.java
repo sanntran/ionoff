@@ -38,7 +38,6 @@ import net.ionoff.center.shared.dto.UserZoneDto;
 import net.ionoff.center.shared.dto.ZoneDto;
 
 @RestController
-@EnableWebMvc
 public class UserServiceController {
 
 	private final Logger logger = Logger.getLogger(UserServiceController.class.getName());
@@ -67,7 +66,7 @@ public class UserServiceController {
 	@RequestMapping(value = "users/count",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		RequestContextHolder.checkProjectPermission(RequestContextHolder.getUser(), criteriaDto.getProjectId());
 		return userService.countByCriteria(criteriaDto);
@@ -76,7 +75,7 @@ public class UserServiceController {
 	@RequestMapping(value = "users/search",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<UserDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		RequestContextHolder.checkProjectPermission(RequestContextHolder.getUser(), criteriaDto.getProjectId());
 		List<UserDto> userDtos = userService.searchByCriteria(criteriaDto);
@@ -86,7 +85,7 @@ public class UserServiceController {
 	@RequestMapping(value = "projects/{projectId}/users/{userId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public UserDto insertOrUpdate(@PathVariable("projectId") Long projectId, 
 			@PathVariable("userId") Long userId,
 			@RequestBody UserDto userDto, HttpServletRequest request) throws Exception {
@@ -111,7 +110,7 @@ public class UserServiceController {
 	@RequestMapping(value = "users/{userId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public UserDto insertOrUpdate(@PathVariable("userId") Long userId,
 			@RequestBody UserDto userDto, HttpServletRequest request) throws Exception {
 
@@ -135,7 +134,7 @@ public class UserServiceController {
 	@RequestMapping(value = "users/{userId}",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto delete(@PathVariable("userId") Long userId,
 			HttpServletRequest request) {
 
@@ -150,7 +149,7 @@ public class UserServiceController {
 	@RequestMapping(value = "projects/{projectId}/users/{userId}",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto delete(@PathVariable("projectId") Long projectId,
 			@PathVariable("userId") Long userId,
 			HttpServletRequest request) {
@@ -166,7 +165,7 @@ public class UserServiceController {
 	@RequestMapping(value = "projects/{projectId}/users",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<UserDto> findByProjectId(@PathVariable("projectId") Long projectId) {
 		RequestContextHolder.checkProjectPermission(RequestContextHolder.getUser(), projectId);
 		final List<UserDto> userDtos = userService.findDtoByProjectId(projectId);
@@ -177,7 +176,7 @@ public class UserServiceController {
 			value = "users/license",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto activate(@RequestParam("licenseKey") String licenseKey) throws IOException {
 		if (LicenseManager.isValidKey(licenseKey)) {
 			logger.info("Activate successfully. License key: " + licenseKey);
@@ -196,7 +195,7 @@ public class UserServiceController {
 	@RequestMapping(value = "userprojects/{userProjectId}",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public UserProjectDto updateUserProject(@PathVariable("userProjectId") Long userProjectId,
 			@RequestBody UserProjectDto userProjectDto, HttpServletRequest request) {
 
@@ -214,7 +213,7 @@ public class UserServiceController {
 	@RequestMapping(value = "users/{userId}/zones",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<ZoneDto> getZonesByUser(@PathVariable("userId") Long userId,
 			@RequestParam("projectId") Long projectId) {
 		
@@ -227,7 +226,7 @@ public class UserServiceController {
 	@RequestMapping(value = "userzones/{userZoneId}",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public UserZoneDto updateUserZone(@PathVariable("userZoneId") Long userZoneId,
 			@RequestBody UserZoneDto userZoneDto, HttpServletRequest request) {
 		
@@ -243,7 +242,7 @@ public class UserServiceController {
 	@RequestMapping(value = "userdevices/{userDeviceId}",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public UserDeviceDto updateUserDevice(@PathVariable("userDeviceId") Long userDeviceId,
 			@RequestBody UserDeviceDto userDeviceDto, HttpServletRequest request) {
 		
@@ -259,7 +258,7 @@ public class UserServiceController {
 	@RequestMapping(value = "userscenes/{userSceneId}",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public UserSceneDto updateUserDevice(@PathVariable("userSceneId") Long userSceneId,
 			@RequestBody UserSceneDto userSceneDto, HttpServletRequest request) {
 		
@@ -275,7 +274,7 @@ public class UserServiceController {
 	@RequestMapping(value = "userzones",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<UserZoneDto> getUserZonesByProject(
 			@RequestParam("userId") Long userId,
 			@RequestParam("projectId") Long projectId) {
@@ -289,7 +288,7 @@ public class UserServiceController {
 	@RequestMapping(value = "userprojects",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<UserProjectDto> getUserProjectsByUser(@RequestParam("userId") Long userId) {
 
 		User user = RequestContextHolder.getUser();
@@ -301,7 +300,7 @@ public class UserServiceController {
 	@RequestMapping(value = "users/{userId}/projects",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<ProjectDto> getProjectsByUser(@PathVariable("userId") Long userId) {
 		return projectService.findDtoByUserId(userId);
 	}
@@ -309,7 +308,7 @@ public class UserServiceController {
 	@RequestMapping(value = "users/{userId}/language",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public UserDto updateUserLanguage(@PathVariable("userId") Long userId, @RequestParam("language") String language) {
 		User user = RequestContextHolder.getUser();
 		return userService.updateLanguage(user, language);

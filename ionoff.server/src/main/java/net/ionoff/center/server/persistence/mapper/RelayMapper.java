@@ -9,7 +9,9 @@ import net.ionoff.center.server.entity.RelayGroupRelay;
 import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.RelayDto;
 import net.ionoff.center.shared.dto.RelayGroupDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RelayMapper {
 
 	public List<RelayDto> createRelayDtoList(List<Relay> relays) {

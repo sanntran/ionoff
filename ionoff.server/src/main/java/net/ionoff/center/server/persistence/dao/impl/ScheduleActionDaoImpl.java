@@ -4,15 +4,19 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.entity.ScheduleAction;
 import net.ionoff.center.server.persistence.dao.IScheduleActionDao;
 
+@Repository
 @Transactional
 public class ScheduleActionDaoImpl extends AbstractGenericDao<ScheduleAction> implements IScheduleActionDao {
-	
+
+	@Autowired
 	public ScheduleActionDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
 		setClass(ScheduleAction.class);

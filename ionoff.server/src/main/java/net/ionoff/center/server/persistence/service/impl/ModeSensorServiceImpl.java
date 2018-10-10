@@ -9,6 +9,7 @@ import javax.script.ScriptEngineManager;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Mode;
@@ -31,6 +32,7 @@ import net.ionoff.center.server.persistence.service.IModeService;
 import net.ionoff.center.server.persistence.service.ISensorService;
 import net.ionoff.center.shared.dto.ModeSensorDto;
 
+@Service
 @Transactional
 public class ModeSensorServiceImpl extends AbstractGenericService<ModeSensor, ModeSensorDto> implements IModeSensorService {
 
@@ -52,7 +54,8 @@ public class ModeSensorServiceImpl extends AbstractGenericService<ModeSensor, Mo
 	
 	@Autowired
 	private IModeSensorUserDao modeSensorUserDao;
-	
+
+	@Autowired
 	public ModeSensorServiceImpl(IModeSensorDao modeSensorDao) {
 		this.modeSensorDao = modeSensorDao;
 	}

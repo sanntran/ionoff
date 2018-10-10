@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.ModeSensor;
@@ -11,9 +13,11 @@ import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.persistence.dao.IModeSensorDao;
 
+@Repository
 @Transactional
 public class ModeSensorDaoImpl extends AbstractGenericDao<ModeSensor> implements IModeSensorDao {
-	
+
+	@Autowired
 	public ModeSensorDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
 		setClass(ModeSensor.class);

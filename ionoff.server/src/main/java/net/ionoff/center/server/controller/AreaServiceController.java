@@ -24,7 +24,6 @@ import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
 
 @RestController
-@EnableWebMvc
 public class AreaServiceController {
 
 	private final Logger logger = Logger.getLogger(AreaServiceController.class.getName());
@@ -35,7 +34,7 @@ public class AreaServiceController {
 	@RequestMapping(value = "areas",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public AreaDto insert(@RequestBody AreaDto areaDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
@@ -47,7 +46,7 @@ public class AreaServiceController {
 	@RequestMapping(value = "areas/{areaId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public AreaDto insertOrUpdate(@PathVariable("areaId" ) Long areaId,
 						  @RequestBody AreaDto areaDto, HttpServletRequest request) {
 		if (!areaId.equals(areaDto.getId()) && !areaDto.izNew()) {
@@ -70,7 +69,7 @@ public class AreaServiceController {
 	@RequestMapping(value = "areas/{areaId}",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto delete(@PathVariable("areaId") Long areaId, 
 			HttpServletRequest request) throws DeleteEntityException {
 		User user = RequestContextHolder.getUser();
@@ -85,7 +84,7 @@ public class AreaServiceController {
 			method = RequestMethod.GET,
 			params = {"projectId"},
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<AreaDto> findByProject(@RequestParam("projectId") Long projectId, 
 			@RequestParam(value = "includingZone") Boolean includingZone,
 			@RequestParam(value = "includingDevice") Boolean includingDevice,
@@ -99,7 +98,7 @@ public class AreaServiceController {
 	@RequestMapping(value = "areas/count",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
@@ -110,7 +109,7 @@ public class AreaServiceController {
 	@RequestMapping(value = "areas/search",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<AreaDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);

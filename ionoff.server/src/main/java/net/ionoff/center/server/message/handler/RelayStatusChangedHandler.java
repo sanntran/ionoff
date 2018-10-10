@@ -14,7 +14,9 @@ import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.RelayGroup;
 import net.ionoff.center.server.entity.RelayGroupRelay;
 import net.ionoff.center.server.persistence.dao.IRelayGroupDao;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RelayStatusChangedHandler {
 	
 	private static Logger logger = Logger.getLogger(RelayStatusChangedHandler.class.getName());

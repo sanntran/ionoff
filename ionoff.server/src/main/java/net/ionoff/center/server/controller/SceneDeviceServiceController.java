@@ -20,7 +20,6 @@ import net.ionoff.center.server.persistence.service.ISceneDeviceService;
 import net.ionoff.center.shared.dto.SceneDeviceDto;
 
 @RestController
-@EnableWebMvc
 public class SceneDeviceServiceController {
 	
 	@Autowired
@@ -29,7 +28,7 @@ public class SceneDeviceServiceController {
 	@RequestMapping(value = "scenedevices",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<SceneDeviceDto> findBySceneId(
 			@QueryParam("sceneId") Long sceneId,
 			HttpServletRequest request) {
@@ -42,7 +41,7 @@ public class SceneDeviceServiceController {
 	@RequestMapping(value = "scenedevices/{sceneDeviceId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public SceneDeviceDto save(@PathVariable("sceneDeviceId") Long sceneDeviceId,
 			@RequestBody SceneDeviceDto sceneDeviceDto, HttpServletRequest request) {
 		

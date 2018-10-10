@@ -5,15 +5,19 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.entity.Scene;
 import net.ionoff.center.server.persistence.dao.ISceneDao;
 
+@Repository
 @Transactional
 public class SceneDaoImpl extends AbstractGenericDao<Scene> implements ISceneDao {
-	
+
+	@Autowired
 	public SceneDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
 		setClass(Scene.class);

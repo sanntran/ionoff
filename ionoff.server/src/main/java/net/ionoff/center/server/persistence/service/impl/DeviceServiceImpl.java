@@ -29,10 +29,12 @@ import org.hibernate.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 @EnableAsync
 @Transactional
 public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto> implements IDeviceService {
@@ -62,7 +64,8 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 
 	@Autowired
 	private SensorStatusNotifier sensorStatusNotifier;
-	
+
+	@Autowired
 	public DeviceServiceImpl(IDeviceDao deviceDao) {
 		this.deviceDao = deviceDao;
 	}

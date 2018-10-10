@@ -21,7 +21,6 @@ import net.ionoff.center.shared.dto.ModeDto;
 import net.ionoff.center.shared.dto.ModeSceneDto;
 
 @RestController
-@EnableWebMvc
 public class ModeSceneServiceController {
 
 	private static final Logger logger = Logger.getLogger(ModeSceneServiceController.class.getName());
@@ -34,7 +33,7 @@ public class ModeSceneServiceController {
 	@RequestMapping(value = "modescenes/{modeSceneId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public ModeSceneDto update(@PathVariable("modeSceneId") Long modeSceneId,
 			@RequestBody ModeSceneDto modeSceneDto,
 			HttpServletRequest request) {
@@ -49,7 +48,7 @@ public class ModeSceneServiceController {
 	@RequestMapping(value = "modes/{modeId}/modescenes",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<ModeSceneDto> findByModeId(@PathVariable("modeId") Long modeId,
 			HttpServletRequest request) {
 		

@@ -12,6 +12,8 @@ import net.xapxinh.center.shared.dto.SongDto;
 import net.xapxinh.center.shared.dto.YoutubeVideosDto;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -21,6 +23,7 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 public class MediaDataConnectorImpl implements IMediaDataConnector {
 
 

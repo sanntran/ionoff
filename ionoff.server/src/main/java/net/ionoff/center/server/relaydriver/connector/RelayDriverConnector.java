@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import net.ionoff.center.server.broker.BrokerClientFactory;
@@ -19,6 +20,7 @@ import net.ionoff.center.server.relaydriver.exception.RelayDriverRequestExceptio
 import net.ionoff.center.server.wsclient.RestTemplateFactory;
 import net.ionoff.center.server.wsclient.RestTemplateRequestIntercepter;
 
+@Component
 public class RelayDriverConnector {
 
     private static final Logger LOGGER = Logger.getLogger(RelayDriverConnector.class.getName());

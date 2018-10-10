@@ -42,7 +42,9 @@ import net.ionoff.center.server.mediaplayer.service.IMediaPlayerService;
 import net.xapxinh.center.shared.dto.Command;
 import net.xapxinh.center.shared.dto.PlayerApi;
 import net.xapxinh.center.shared.dto.StatusDto;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ControlServiceImpl implements IControlService {
 
 	private final Logger logger = Logger.getLogger(ControlServiceImpl.class.getName());

@@ -3,6 +3,7 @@ package net.ionoff.center.server.persistence.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.ScheduleAction;
@@ -16,6 +17,7 @@ import net.ionoff.center.shared.dto.ScheduleActionDto;
 import net.ionoff.center.shared.dto.SchedulePlayerActionDto;
 import net.ionoff.center.shared.dto.ScheduleRelayActionDto;
 
+@Service
 @Transactional
 public class ScheduleActionServiceImpl extends AbstractGenericService<ScheduleAction, ScheduleActionDto> implements IScheduleActionService {
 
@@ -23,7 +25,8 @@ public class ScheduleActionServiceImpl extends AbstractGenericService<ScheduleAc
 	
 	@Autowired
 	private ScheduleMapper scheduleMapper;
-	
+
+	@Autowired
 	public ScheduleActionServiceImpl(IScheduleActionDao scheduleActionDao) {
 		this.scheduleActionDao = scheduleActionDao;
 	}

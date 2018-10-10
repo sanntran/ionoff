@@ -10,7 +10,9 @@ import net.ionoff.center.server.entity.Project;
 import net.ionoff.center.server.entity.Zone;
 import net.ionoff.center.shared.dto.ProjectDto;
 import net.ionoff.center.shared.dto.ZoneDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProjectMapper {
 
 	@Autowired

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Project;
@@ -25,6 +26,7 @@ import net.ionoff.center.server.persistence.service.IUserProjectService;
 import net.ionoff.center.server.persistence.service.IUserService;
 import net.ionoff.center.shared.dto.UserDto;
 
+@Service ("userService")
 @Transactional
 public class UserServiceImpl extends AbstractGenericService<User, UserDto> implements IUserService {
 	
@@ -40,7 +42,8 @@ public class UserServiceImpl extends AbstractGenericService<User, UserDto> imple
 	private IUserProjectService userProjectService;
 	@Autowired
 	private UserMapper userMapper;
-	
+
+	@Autowired
 	public UserServiceImpl(IUserDao userDao) {
 		this.userDao = userDao;
 	}

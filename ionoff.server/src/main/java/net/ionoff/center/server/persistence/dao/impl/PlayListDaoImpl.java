@@ -6,14 +6,18 @@ import java.util.List;
 import net.ionoff.center.server.entity.PlayList;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.persistence.dao.IPlayListDao;
 
+@Repository
 @Transactional
 public class PlayListDaoImpl extends AbstractGenericDao<PlayList> implements IPlayListDao {
 
+	@Autowired
 	public PlayListDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
 		setClass(PlayList.class);

@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Relay;
@@ -29,6 +30,7 @@ import net.ionoff.center.server.persistence.dao.ISwitchDao;
 import net.ionoff.center.server.persistence.service.IRelayDriverService;
 import net.ionoff.center.shared.dto.RelayDriverDto;
 
+@Service
 @Transactional
 public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, RelayDriverDto> 
 		implements IRelayDriverService {
@@ -54,7 +56,8 @@ public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, 
 	
 	@Autowired
 	private IProjectDao projectDao;
-	
+
+	@Autowired
 	public RelayDriverServiceImpl(IRelayDriverDao relayDriverDao) {
 		this.relayDriverDao = relayDriverDao;
 	}

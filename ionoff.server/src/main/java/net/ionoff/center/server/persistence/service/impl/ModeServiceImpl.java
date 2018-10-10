@@ -3,6 +3,7 @@ package net.ionoff.center.server.persistence.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Mode;
@@ -17,6 +18,7 @@ import net.ionoff.center.server.persistence.service.IModeService;
 import net.ionoff.center.server.persistence.service.IProjectService;
 import net.ionoff.center.shared.dto.ModeDto;
 
+@Service
 @Transactional
 public class ModeServiceImpl extends AbstractGenericService<Mode, ModeDto> implements IModeService {
 
@@ -30,7 +32,8 @@ public class ModeServiceImpl extends AbstractGenericService<Mode, ModeDto> imple
 	private IProjectService projectService;
 	
 	private IModeDao modeDao;
-	
+
+	@Autowired
 	public ModeServiceImpl(IModeDao modeDao) {
 		this.modeDao = modeDao;
 	}

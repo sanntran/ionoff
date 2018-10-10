@@ -16,8 +16,10 @@ import net.ionoff.center.server.exception.MqttPublishException;
 import net.ionoff.center.server.mediaplayer.MediaPlayerHandler;
 import net.ionoff.center.server.relaydriver.RelayDriverHandler;
 import net.ionoff.center.server.sensordriver.SensorDriverHandler;
+import org.springframework.stereotype.Component;
 
 
+@Component
 public class MqttConnection implements MqttCallback {
 	
 	private static Logger LOGGER = Logger.getLogger(MqttConnection.class.getName());

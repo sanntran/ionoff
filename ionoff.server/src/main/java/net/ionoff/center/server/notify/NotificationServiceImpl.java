@@ -1,22 +1,14 @@
 package net.ionoff.center.server.notify;
 
-import java.nio.charset.Charset;
-
 import net.ionoff.center.server.notify.connector.INotificationConnector;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.web.client.RestTemplate;
-
-import com.google.gson.Gson;
-
 import net.ionoff.center.server.util.CommonUtil;
 import net.ionoff.center.shared.dto.MessageDto;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.stereotype.Component;
 
+@Component
 @EnableAsync
 public class NotificationServiceImpl implements INotificationService {
 

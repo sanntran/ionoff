@@ -6,6 +6,7 @@ import java.util.List;
 import net.ionoff.center.server.entity.PlayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.User;
@@ -16,6 +17,7 @@ import net.ionoff.center.server.persistence.service.IPlayNodeService;
 import net.ionoff.center.server.entity.PlayNode;
 import net.xapxinh.center.shared.dto.PlayListDto;
 
+@Service
 @Transactional
 public class PlayListServiceImpl extends AbstractGenericService<PlayList, PlayListDto> implements IPlayListService {
 
@@ -26,7 +28,8 @@ public class PlayListServiceImpl extends AbstractGenericService<PlayList, PlayLi
 	private PlayListMapper playListMapper;
 	
 	private IPlayListDao playListDao;
-	
+
+	@Autowired
 	public PlayListServiceImpl(IPlayListDao playListDao) {
 		this.playListDao = playListDao;
 	}

@@ -21,7 +21,6 @@ import net.ionoff.center.shared.dto.QueryCriteriaDto;
 import net.ionoff.center.shared.dto.ZoneDto;
 
 @RestController
-@EnableWebMvc
 public class ZoneServiceController {
 
 	private final Logger logger = Logger.getLogger(ZoneServiceController.class.getName());
@@ -32,7 +31,7 @@ public class ZoneServiceController {
 	@RequestMapping(value = "zones/count",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
@@ -43,7 +42,7 @@ public class ZoneServiceController {
 	@RequestMapping(value = "zones/search",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<ZoneDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkAdminPermission(user);
@@ -55,7 +54,7 @@ public class ZoneServiceController {
 	@RequestMapping(value = "zones/{zoneId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public ZoneDto save(@PathVariable("zoneId") Long zoneId, @RequestBody ZoneDto zoneDto) {
 		
 		User user = RequestContextHolder.getUser();
@@ -78,7 +77,7 @@ public class ZoneServiceController {
 	@RequestMapping(value = "zones/{zoneId}",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto delete(@PathVariable("zoneId") Long zoneId) {
 		
 		ZoneDto zoneDto = zoneService.requireDtoById(zoneId);
@@ -95,7 +94,7 @@ public class ZoneServiceController {
 	@RequestMapping(value = "zones/{zoneId}",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public ZoneDto findById(@PathVariable("zoneId") Long zoneId) {
 		
 		ZoneDto zoneDto = zoneService.requireDtoById(zoneId);
@@ -108,7 +107,7 @@ public class ZoneServiceController {
 	@RequestMapping(value = "projects/{projectId}/zones",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<ZoneDto> findByUserProjectId(@PathVariable("projectId") Long projectId,
 			@RequestParam(value = "includingDevice", required = false) Boolean includingDevice) {
 

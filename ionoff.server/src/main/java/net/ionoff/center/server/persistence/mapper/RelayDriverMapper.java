@@ -9,7 +9,9 @@ import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.shared.dto.RelayDriverDto;
 import net.ionoff.center.shared.dto.RelayDto;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RelayDriverMapper {
 
 	private static final Logger LOGGER = Logger.getLogger(RelayDriverMapper.class.getName());

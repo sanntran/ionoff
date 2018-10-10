@@ -5,9 +5,15 @@ import java.util.Observer;
 
 import net.ionoff.center.server.message.event.RelayStatusChangedEvent;
 import net.ionoff.center.server.message.handler.RelayStatusChangedHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+@Component
+@Qualifier("relayStatusChangedListener")
 public class RelayStatusChangedListener implements Observer {
-	
+
+	@Autowired
 	private RelayStatusChangedHandler relayStatusChangedHandler;
 	
 	public RelayStatusChangedListener() {
@@ -22,7 +28,4 @@ public class RelayStatusChangedListener implements Observer {
 		}
 	}
 
-	public void setHandler(RelayStatusChangedHandler handler) {
-		this.relayStatusChangedHandler = handler;			
-	}
 }

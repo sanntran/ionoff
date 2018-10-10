@@ -15,7 +15,6 @@ import net.ionoff.center.server.scheduler.LatestVersionUpdator;
 import net.ionoff.center.shared.dto.VersionDto;
 
 @RestController
-@EnableWebMvc
 public class VersionServiceController {
 
 	@Autowired
@@ -25,7 +24,7 @@ public class VersionServiceController {
 	@RequestMapping(value = "versions/upgrade",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public VersionDto upgradeLatestVersion(HttpServletRequest request) throws IOException {
 		VersionDto latestVersion = latestVersionUpdator.getLatestVersion();
 		VersionDto currentVersion = getCurrentVersion();
@@ -38,7 +37,7 @@ public class VersionServiceController {
 	@RequestMapping(value = "version.json",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public VersionDto getVersionJson() {
 		return getCurrentVersion();
 	}
@@ -46,7 +45,7 @@ public class VersionServiceController {
 	@RequestMapping(value = "versions/current",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public VersionDto getCurrentVersion() {
 		VersionDto versionDto = new VersionDto();
 		versionDto.setName(latestVersionUpdator.getAppVersion());
@@ -56,7 +55,7 @@ public class VersionServiceController {
 	@RequestMapping(value = "versions/latest",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public VersionDto getLatestVersion(HttpServletRequest request) throws IOException {
 		VersionDto latestVersion = latestVersionUpdator.getLatestVersion();
 		return latestVersion;
@@ -65,7 +64,7 @@ public class VersionServiceController {
 	@RequestMapping(value = "versions/check",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public VersionDto checkLatestVersion(HttpServletRequest request) throws IOException {
 		VersionDto latestVersion = getLatestVersion(request);
 		VersionDto currentVersion = getCurrentVersion();

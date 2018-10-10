@@ -1,5 +1,7 @@
 package net.ionoff.center.server.security;
 
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
@@ -9,6 +11,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;    
 
+@Component
 public class CorsFilter implements javax.servlet.Filter {
 
     @Override

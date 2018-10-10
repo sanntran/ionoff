@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Device;
@@ -22,6 +23,7 @@ import net.ionoff.center.server.persistence.service.ISceneService;
 import net.ionoff.center.server.persistence.service.IZoneService;
 import net.ionoff.center.shared.dto.SceneDto;
 
+@Service
 @Transactional
 public class SceneServiceImpl extends AbstractGenericService<Scene, SceneDto> implements ISceneService {
 
@@ -41,7 +43,8 @@ public class SceneServiceImpl extends AbstractGenericService<Scene, SceneDto> im
 	
 	@Autowired
 	private SceneMapper sceneMapper;
-	
+
+	@Autowired
 	public SceneServiceImpl(ISceneDao sceneDao) {
 		this.sceneDao = sceneDao;
 		

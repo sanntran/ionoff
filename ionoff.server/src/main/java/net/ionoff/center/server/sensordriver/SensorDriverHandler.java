@@ -8,9 +8,11 @@ import net.ionoff.center.server.persistence.service.IDeviceService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Component
 public class SensorDriverHandler {
 
 	private static final Logger LOGGER = Logger.getLogger(SensorDriverHandler.class.getName());

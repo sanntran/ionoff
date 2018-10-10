@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.User;
@@ -16,6 +17,7 @@ import net.ionoff.center.server.persistence.dao.IUserZoneDao;
 import net.ionoff.center.server.persistence.service.IUserSceneService;
 import net.ionoff.center.shared.dto.UserSceneDto;
 
+@Service
 @Transactional
 public class UserSceneServiceImpl extends AbstractGenericService<UserScene, UserSceneDto> implements IUserSceneService {
 	
@@ -26,7 +28,8 @@ public class UserSceneServiceImpl extends AbstractGenericService<UserScene, User
 	
 	@Autowired
 	private UserMapper userMapper;
-	
+
+	@Autowired
 	public UserSceneServiceImpl(IUserSceneDao userSceneDao) {
 		this.userSceneDao = userSceneDao;
 	}

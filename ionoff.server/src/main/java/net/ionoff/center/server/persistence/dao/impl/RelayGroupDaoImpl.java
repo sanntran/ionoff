@@ -4,15 +4,19 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.entity.RelayGroup;
 import net.ionoff.center.server.persistence.dao.IRelayGroupDao;
 
+@Repository
 @Transactional
 public class RelayGroupDaoImpl extends AbstractGenericDao<RelayGroup> implements IRelayGroupDao {
 
+	@Autowired
 	public RelayGroupDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
 		setClass(RelayGroup.class);

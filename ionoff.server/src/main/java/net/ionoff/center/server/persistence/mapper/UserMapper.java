@@ -17,7 +17,9 @@ import net.ionoff.center.shared.dto.UserDto;
 import net.ionoff.center.shared.dto.UserProjectDto;
 import net.ionoff.center.shared.dto.UserSceneDto;
 import net.ionoff.center.shared.dto.UserZoneDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper {
 
 

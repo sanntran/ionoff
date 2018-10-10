@@ -26,7 +26,6 @@ import net.ionoff.center.shared.dto.ModeDto;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
 
 @RestController
-@EnableWebMvc
 public class ModeServiceController {
 
 	private final Logger logger = Logger.getLogger(ModeServiceController.class.getName());
@@ -40,7 +39,7 @@ public class ModeServiceController {
 	@RequestMapping(value = "modes/count",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public Long countByProject(@RequestBody QueryCriteriaDto criteria,
 			HttpServletRequest request) {
 
@@ -54,7 +53,7 @@ public class ModeServiceController {
 	@RequestMapping(value = "modes/search",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<ModeDto> searchByCriteria(@RequestBody QueryCriteriaDto criteria,
 			HttpServletRequest request) {
 		
@@ -68,7 +67,7 @@ public class ModeServiceController {
 	@RequestMapping(value = "modes/{modeId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public ModeDto update(@PathVariable("modeId") Long modeId,
 			@RequestBody ModeDto modeDto, HttpServletRequest request) {
 		
@@ -92,7 +91,7 @@ public class ModeServiceController {
 	@RequestMapping(value = "modes/{modeId}",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto delete(@PathVariable("modeId") Long modeId,
 			HttpServletRequest request) throws DeleteEntityException {
 
@@ -109,7 +108,7 @@ public class ModeServiceController {
 	@RequestMapping(value = "modes",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<ModeDto> findByProjectId(@RequestParam("projectId") Long projectId,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -121,7 +120,7 @@ public class ModeServiceController {
 	@RequestMapping(value = "modes/activated",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public ModeDto getActivatedMode(@RequestParam("projectId") Long projectId,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -133,7 +132,7 @@ public class ModeServiceController {
 	@RequestMapping(value = "modes/{modeId}/activate",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto activateMode(@PathVariable("modeId") Long modeId,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();

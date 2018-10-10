@@ -19,7 +19,9 @@ import net.ionoff.center.shared.dto.SceneDeviceDto;
 import net.ionoff.center.shared.dto.SceneDto;
 import net.ionoff.center.shared.dto.ScenePlayerActionDto;
 import net.ionoff.center.shared.dto.SceneRelayActionDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SceneMapper {
 
 	@Autowired

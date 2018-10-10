@@ -19,7 +19,6 @@ import net.ionoff.center.server.persistence.service.ISceneActionService;
 import net.ionoff.center.shared.dto.SceneRelayActionDto;
 
 @RestController
-@EnableWebMvc
 public class SceneRelayActionServiceController {
 
 	private static final Logger logger = Logger.getLogger(SceneRelayActionServiceController.class.getName());
@@ -30,7 +29,7 @@ public class SceneRelayActionServiceController {
 	@RequestMapping(value = "scenerelayactions/{sceneRelayActionId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public SceneRelayActionDto update(@PathVariable("sceneRelayActionId") Long sceneRelayActionId,
 			@RequestBody SceneRelayActionDto sceneRelayActionDto,
 			HttpServletRequest request) throws UpdateEntityException {

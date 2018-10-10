@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Relay;
@@ -19,6 +20,7 @@ import net.ionoff.center.server.persistence.service.IRelayService;
 import net.ionoff.center.shared.dto.RelayDto;
 import net.ionoff.center.shared.dto.RelayGroupDto;
 
+@Service
 @Transactional
 public class RelayGroupServiceImpl extends AbstractGenericService<RelayGroup, RelayGroupDto> implements IRelayGroupService {
 
@@ -32,7 +34,8 @@ public class RelayGroupServiceImpl extends AbstractGenericService<RelayGroup, Re
 	
 	@Autowired
 	private RelayMapper relayMapper;
-	
+
+	@Autowired
 	public RelayGroupServiceImpl(IRelayGroupDao relayGroupDao) {
 		this.relayGroupDao = relayGroupDao;
 	}

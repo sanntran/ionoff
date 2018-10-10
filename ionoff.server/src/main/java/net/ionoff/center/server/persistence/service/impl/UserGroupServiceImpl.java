@@ -2,6 +2,8 @@ package net.ionoff.center.server.persistence.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.UserGroup;
@@ -10,11 +12,13 @@ import net.ionoff.center.server.persistence.dao.IUserGroupDao;
 import net.ionoff.center.server.persistence.service.IUserGroupService;
 import net.ionoff.center.shared.dto.UserGroupDto;
 
+@Service
 @Transactional
 public class UserGroupServiceImpl extends AbstractGenericService<UserGroup, UserGroupDto> implements IUserGroupService {
 
 	private IUserGroupDao groupDao;
-	
+
+	@Autowired
 	public UserGroupServiceImpl(IUserGroupDao groupDao) {
 		this.groupDao = groupDao;
 	}

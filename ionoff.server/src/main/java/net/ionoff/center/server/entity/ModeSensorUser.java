@@ -38,10 +38,10 @@ public class ModeSensorUser extends BaseObj {
 		this.user = user;
 	}
 	
-	public boolean isSendEmail() {
+	public boolean izSendEmail() {
 		return sendEmail != null && sendEmail.booleanValue() == true;
 	}
-	public boolean isSendSms() {
+	public boolean izSendSms() {
 		return sendSms != null && sendSms.booleanValue() == true;
 	}
 	

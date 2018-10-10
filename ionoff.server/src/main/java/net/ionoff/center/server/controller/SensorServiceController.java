@@ -24,7 +24,6 @@ import net.ionoff.center.shared.dto.QueryCriteriaDto;
 import net.ionoff.center.shared.dto.SensorDto;
 
 @RestController
-@EnableWebMvc
 public class SensorServiceController {
 
 	private static final Logger logger = Logger.getLogger(SensorServiceController.class.getName());
@@ -35,7 +34,7 @@ public class SensorServiceController {
 	@RequestMapping(value = "sensors/count",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkProjectPermission(user, criteriaDto.getProjectId());
@@ -45,7 +44,7 @@ public class SensorServiceController {
 	@RequestMapping(value = "sensors/search",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<SensorDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkProjectPermission(user, criteriaDto.getProjectId());
@@ -56,7 +55,7 @@ public class SensorServiceController {
 	@RequestMapping(value = "sensors/{sensorId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public SensorDto update(@PathVariable("sensorId") Long sensorId,
 			@RequestBody SensorDto sensorDto, HttpServletRequest request) throws UpdateEntityException {
 
@@ -80,7 +79,7 @@ public class SensorServiceController {
 	@RequestMapping(value = "sensors/{sensorId}",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto delete(@PathVariable("sensorId") Long sensorId,
 			HttpServletRequest request) throws DeleteEntityException {
 	
@@ -98,7 +97,7 @@ public class SensorServiceController {
 			params= {"projectId"},
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<SensorDto> findByProjectId(@PathVariable("projectId") Long projectId) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkProjectPermission(user, projectId);

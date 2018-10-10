@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Player;
@@ -25,6 +26,7 @@ import net.ionoff.center.shared.dto.SceneDeviceDto;
 import net.ionoff.center.shared.dto.ScenePlayerActionDto;
 import net.ionoff.center.shared.dto.SceneRelayActionDto;
 
+@Service
 @Transactional
 public class SceneDeviceServiceImpl extends AbstractGenericService<SceneDevice, SceneDeviceDto> implements ISceneDeviceService {
 
@@ -38,7 +40,8 @@ public class SceneDeviceServiceImpl extends AbstractGenericService<SceneDevice, 
 	
 	@Autowired
 	private SceneMapper sceneMapper;
-	
+
+	@Autowired
 	public SceneDeviceServiceImpl(ISceneDeviceDao sceneDeviceDao) {
 		this.sceneDeviceDao = sceneDeviceDao;
 	}

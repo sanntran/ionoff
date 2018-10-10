@@ -2,6 +2,8 @@ package net.ionoff.center.server.persistence.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Switch;
@@ -10,11 +12,13 @@ import net.ionoff.center.server.persistence.dao.ISwitchDao;
 import net.ionoff.center.server.persistence.service.ISwitchService;
 import net.ionoff.center.shared.dto.SwitchDto;
 
+@Service
 @Transactional
 public class SwitchServiceImpl extends AbstractGenericService<Switch, SwitchDto> implements ISwitchService {
 
 	private ISwitchDao switchDao;
-	
+
+	@Autowired
 	public SwitchServiceImpl(ISwitchDao switchDao) {
 		this.switchDao = switchDao;
 	}

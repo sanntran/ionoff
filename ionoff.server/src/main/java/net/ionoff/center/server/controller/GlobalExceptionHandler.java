@@ -1,18 +1,5 @@
 package net.ionoff.center.server.controller;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.BadRequestException;
-
-import org.apache.log4j.Logger;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
 import net.ionoff.center.server.exception.DeleteEntityException;
 import net.ionoff.center.server.exception.EntityNotFoundException;
 import net.ionoff.center.server.exception.RelayLockedException;
@@ -21,22 +8,58 @@ import net.ionoff.center.server.locale.Messages;
 import net.ionoff.center.server.relaydriver.exception.RelayDriverConnectException;
 import net.ionoff.center.server.security.InvalidTokenException;
 import net.ionoff.center.shared.dto.MessageDto;
+import org.apache.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.NoHandlerFoundException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.BadRequestException;
+import java.util.Date;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
 	private final Logger logger = Logger.getLogger(GlobalExceptionHandler.class.getName());
 
+	public static final String DEFAULT_ERROR_VIEW = "error";
+
+	@ExceptionHandler(value = {Exception.class, RuntimeException.class})
+	public ModelAndView defaultErrorHandler(HttpServletRequest request, Exception e) {
+		ModelAndView mav = new ModelAndView(DEFAULT_ERROR_VIEW);
+
+		mav.addObject("datetime", new Date());
+		mav.addObject("exception", e);
+		mav.addObject("url", request.getRequestURL());
+		return mav;
+	}
+
+	@ExceptionHandler(NoHandlerFoundException.class)
+	public MessageDto handleNoHandlerFoundException(HttpServletRequest request, HttpServletResponse response,
+	                                                NoHandlerFoundException e) {
+		logger.error(e.getMessage());
+		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		MessageDto message = new MessageDto();
+		message.setMessage(e.getMessage());
+		message.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		return message;
+	}
+
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	@ExceptionHandler(InvalidTokenException.class)
-	@ResponseBody
 	public MessageDto handleInvalidTokenException(HttpServletRequest request, InvalidTokenException e) {
 		logger.error(e.getMessage());
 		return new MessageDto(HttpStatus.UNAUTHORIZED.value(), "Unauthorised request");
 	}
 	
 	@ExceptionHandler(value = Throwable.class)
-	@ResponseBody
 	public MessageDto defaultErrorHandler(HttpServletRequest request, HttpServletResponse response,
 			Throwable e) {
 		if (e instanceof ServletException
@@ -53,8 +76,7 @@ public class GlobalExceptionHandler {
 	}
 	
 	@ExceptionHandler(RelayDriverConnectException.class)
-	@ResponseBody
-	public MessageDto handleRelayDriverConnectException(HttpServletRequest request, HttpServletResponse response, 
+	public MessageDto handleRelayDriverConnectException(HttpServletRequest request, HttpServletResponse response,
 			RelayDriverConnectException e) {
 		final String locale = (String) request.getAttribute("locale");
 		logger.error(e.getMessage());
@@ -66,7 +88,6 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(EntityNotFoundException.class)
-	@ResponseBody
 	public MessageDto handleUnknownRelayDriverModelException(HttpServletRequest request, HttpServletResponse response, EntityNotFoundException e) {
 		logger.error(e.getMessage());
 		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -86,7 +107,6 @@ public class GlobalExceptionHandler {
 	}
 	
 	@ExceptionHandler(BadRequestException.class)
-	@ResponseBody
 	public MessageDto handleUnknownRelayDriverModelException(HttpServletRequest request, HttpServletResponse response, BadRequestException e) {
 		logger.error(e.getMessage(), e);
 		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -95,7 +115,6 @@ public class GlobalExceptionHandler {
 	
 
 	@ExceptionHandler(AccessDeniedException.class)
-	@ResponseBody
 	public MessageDto handleAccessDeniedException(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) {
 		logger.error(e.getMessage());
 		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
@@ -103,8 +122,7 @@ public class GlobalExceptionHandler {
 	}
 	
 	@ExceptionHandler(RelayLockedException.class)
-	@ResponseBody
-	public MessageDto handleRelayLockedException(HttpServletRequest request, HttpServletResponse response, 
+	public MessageDto handleRelayLockedException(HttpServletRequest request, HttpServletResponse response,
 			RelayLockedException e) {
 		final String locale = (String) request.getAttribute("locale");
 		logger.error(e.getMessage());

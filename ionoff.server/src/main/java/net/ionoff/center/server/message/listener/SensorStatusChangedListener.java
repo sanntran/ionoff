@@ -5,14 +5,16 @@ import java.util.Observer;
 
 import net.ionoff.center.server.message.event.SensorStatusChangedEvent;
 import net.ionoff.center.server.message.handler.SensorStatusChangedHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+@Component
+@Qualifier("sensorStatusChangedListener")
 public class SensorStatusChangedListener implements Observer {
-	
+
+	@Autowired
 	private SensorStatusChangedHandler sensorStatusChangedHandler;
-	
-	public SensorStatusChangedListener() {
-		// does nothing
-	}
 
 	@Override
 	public void update(Observable observable, Object event) {
@@ -20,9 +22,5 @@ public class SensorStatusChangedListener implements Observer {
 			SensorStatusChangedEvent sensorStatusChangedEvent = (SensorStatusChangedEvent)event;
 			sensorStatusChangedHandler.onSensorStatusChanged(sensorStatusChangedEvent.getSensor());
 		}
-	}
-
-	public void setHandler(SensorStatusChangedHandler handler) {
-		this.sensorStatusChangedHandler = handler;
 	}
 }

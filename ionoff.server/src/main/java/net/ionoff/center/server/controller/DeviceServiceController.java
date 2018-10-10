@@ -31,7 +31,6 @@ import net.ionoff.center.shared.dto.QueryCriteriaDto;
 import net.ionoff.center.shared.dto.StatusDto;
 
 @RestController
-@EnableWebMvc
 public class DeviceServiceController {
 
 	private final Logger logger = Logger.getLogger(DeviceServiceController.class.getName());
@@ -48,7 +47,7 @@ public class DeviceServiceController {
 	@RequestMapping(value = "devices/search",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<DeviceDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -61,7 +60,7 @@ public class DeviceServiceController {
 	@RequestMapping(value = "devices/count",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -74,7 +73,7 @@ public class DeviceServiceController {
 	@RequestMapping(value = "devices/{deviceId}",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public DeviceDto findById(@PathVariable("deviceId") Long deviceId,
 									HttpServletRequest request) throws UpdateEntityException {
 
@@ -87,7 +86,7 @@ public class DeviceServiceController {
 	@RequestMapping(value = "devices/{deviceId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public DeviceDto insertOrUpdate(@PathVariable("deviceId") Long deviceId,
 			@RequestBody DeviceDto deviceDto, HttpServletRequest request) throws UpdateEntityException {
 		User user = RequestContextHolder.getUser();
@@ -110,7 +109,7 @@ public class DeviceServiceController {
 	@RequestMapping(value = "devices/{deviceId}",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto delete(@PathVariable("deviceId") Long deviceId,
 			HttpServletRequest request) throws DeleteEntityException {
 
@@ -127,7 +126,7 @@ public class DeviceServiceController {
 			params= {"zoneId"},
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<DeviceDto> findByZoneId(@RequestParam("zoneId") Long zoneId) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkZonePermission(user, zoneId);
@@ -139,7 +138,7 @@ public class DeviceServiceController {
 			params= {"projectId"},
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<DeviceDto> findByProjectId(@RequestParam("projectId") Long projectId) {
 		User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkProjectPermission(user, projectId);
@@ -150,7 +149,7 @@ public class DeviceServiceController {
 	@RequestMapping(value = "devices/{deviceId}/on",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public StatusDto turnOnDevice(@PathVariable("deviceId") Long deviceId,
 			HttpServletRequest request) throws RelayDriverRequestException {
 		User user = RequestContextHolder.getUser();
@@ -162,7 +161,7 @@ public class DeviceServiceController {
 	@RequestMapping(value = "devices/{deviceId}/off",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public StatusDto turnOffDevice(@PathVariable("deviceId") Long deviceId,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -175,7 +174,7 @@ public class DeviceServiceController {
 			params = {"zoneId"},
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<StatusDto> getStatusByZoneId(@RequestParam("zoneId") Long zoneId, HttpServletRequest request) {
 		final User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkZonePermission(user, zoneId);
@@ -187,7 +186,7 @@ public class DeviceServiceController {
 			params = {"projectId"},
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<StatusDto> getStatusByProjectId(@RequestParam("projectId") Long projectId, HttpServletRequest request) {
 		final User user = RequestContextHolder.getUser();
 		RequestContextHolder.checkProjectPermission(user, projectId);
@@ -199,7 +198,7 @@ public class DeviceServiceController {
 			params= {"zoneId"},
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public DeviceDto addToZoneDashboard(@PathVariable("deviceId") Long deviceId, @RequestParam("zoneId") Long zoneId,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -216,7 +215,7 @@ public class DeviceServiceController {
 			params= {"projectId"},
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto addToProjectDashboard(@PathVariable("deviceId") Long deviceId, @RequestParam("projectId") Long projectId,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -233,7 +232,7 @@ public class DeviceServiceController {
 			params= {"zoneId"},
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto removeFromZoneDashboard(@PathVariable("deviceId") Long deviceId, @RequestParam("zoneId") Long zoneId,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
@@ -250,7 +249,7 @@ public class DeviceServiceController {
 			params= {"projectId"},
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto removeFromProjectDashboard(@PathVariable("deviceId") Long deviceId, @RequestParam("projectId") Long projectId,
 			HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();

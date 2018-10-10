@@ -20,7 +20,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import java.util.List;
 
 @RestController
-@EnableWebMvc
 public class PlayListServiceController {
 
 	private final Logger logger = Logger.getLogger(PlayListServiceController.class.getName());
@@ -34,7 +33,7 @@ public class PlayListServiceController {
 	@RequestMapping(value = "playlists",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<PlayListDto> getPlayLists(@RequestParam("playerId") Long playerId) {
 		User user = RequestContextHolder.getUser();
 		List<PlayListDto> playListDtos = playListService.findDtoByUser(user);
@@ -44,7 +43,7 @@ public class PlayListServiceController {
 	@RequestMapping(value = "playlists/{playlistId}",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto deletePlayList(@PathVariable("playlistId") Long playlistId,
 	                                 @RequestParam("playerId") Long playerId) {
 		
@@ -56,7 +55,7 @@ public class PlayListServiceController {
 	@RequestMapping(value = "playlists/{playlistId}/playnodes",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<PlayNodeDto> getPlayNodesByPlaylist(@PathVariable("playlistId") Long playlistId,
 													@RequestParam("playerId") Long playerId) {
 		
@@ -68,7 +67,7 @@ public class PlayListServiceController {
 	@RequestMapping(value = "playnodes",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public PlayNodeDto insertPlayNode(@PathVariable("playlistId") Long playlistId,
 											@RequestBody PlayNodeDto playNodeDto) {
 		
@@ -81,7 +80,7 @@ public class PlayListServiceController {
 	@RequestMapping(value = "playnodes/{playnodeId}",
 			method = RequestMethod.DELETE,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public MessageDto deletePlayNode(@PathVariable("playnodeId") Long playnodeId) {
 		
 		User user = RequestContextHolder.getUser();

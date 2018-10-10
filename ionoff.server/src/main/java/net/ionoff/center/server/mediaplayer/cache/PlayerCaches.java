@@ -5,7 +5,9 @@ import java.util.Map;
 
 import net.xapxinh.center.shared.dto.PlayListDto;
 import net.xapxinh.center.shared.dto.StatusDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PlayerCaches {
 
 	private final Map<Long, StatusCache> statusCaches;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Area;
@@ -33,6 +34,7 @@ import net.ionoff.center.server.persistence.service.IUserZoneService;
 import net.ionoff.center.server.persistence.service.IZoneService;
 import net.ionoff.center.shared.dto.ZoneDto;
 
+@Service
 @Transactional
 public class ZoneServiceImpl extends AbstractGenericService<Zone, ZoneDto> implements IZoneService {
 
@@ -58,7 +60,8 @@ public class ZoneServiceImpl extends AbstractGenericService<Zone, ZoneDto> imple
 	
 	@Autowired
 	private IDeviceDao deviceDao;
-	
+
+	@Autowired
 	public ZoneServiceImpl(IZoneDao zoneDao) {
 		this.zoneDao = zoneDao;
 	}

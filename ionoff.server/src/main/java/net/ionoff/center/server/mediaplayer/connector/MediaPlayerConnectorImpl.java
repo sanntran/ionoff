@@ -18,6 +18,7 @@ import net.xapxinh.center.shared.dto.ScheduleDto;
 import net.xapxinh.center.shared.dto.StatusDto;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class MediaPlayerConnectorImpl implements IMediaPlayerConnector {
 
 	private static final Logger LOGGER = Logger.getLogger(MediaPlayerConnectorImpl.class.getName());

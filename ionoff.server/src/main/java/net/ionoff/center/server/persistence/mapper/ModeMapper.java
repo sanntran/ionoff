@@ -17,7 +17,9 @@ import net.ionoff.center.shared.dto.ModeSceneDto;
 import net.ionoff.center.shared.dto.ModeSensorDto;
 import net.ionoff.center.shared.dto.ModeSensorSceneDto;
 import net.ionoff.center.shared.dto.ModeSensorUserDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ModeMapper {
 	
 	public Mode createMode(ModeDto modeDto, IProjectService projectService) {
@@ -139,8 +141,8 @@ public class ModeMapper {
 			ModeSensorUser modeSensorUser) {
 		final ModeSensorUserDto modeSensorUserDto = new ModeSensorUserDto();
 		modeSensorUserDto.setId(modeSensorUser.getId());
-		modeSensorUserDto.setSendEmail(modeSensorUser.isSendEmail());
-		modeSensorUserDto.setSendSms(modeSensorUser.isSendSms());
+		modeSensorUserDto.setSendEmail(modeSensorUser.izSendEmail());
+		modeSensorUserDto.setSendSms(modeSensorUser.izSendSms());
 		modeSensorUserDto.setModeSensorId(modeSensorUser.getModeSensor().getId());
 		modeSensorUserDto.setUserId(modeSensorUser.getUser().getId());
 		modeSensorUserDto.setUserName(modeSensorUser.getUser().getName());

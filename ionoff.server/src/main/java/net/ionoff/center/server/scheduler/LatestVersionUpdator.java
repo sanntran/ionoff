@@ -17,7 +17,9 @@ import net.ionoff.center.server.util.FileDownloadUtil;
 import net.ionoff.center.server.util.FileManagementUtil;
 import net.ionoff.center.server.util.HttpRequestUtil;
 import net.ionoff.center.shared.dto.VersionDto;
+import org.springframework.stereotype.Component;
 
+@Component
 @EnableScheduling
 public class LatestVersionUpdator {
 	

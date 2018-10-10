@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Device;
@@ -13,9 +15,11 @@ import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.persistence.dao.IDeviceDao;
 
+@Repository
 @Transactional
 public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDeviceDao {
 
+	@Autowired
 	public DeviceDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
 		setClass(Device.class);

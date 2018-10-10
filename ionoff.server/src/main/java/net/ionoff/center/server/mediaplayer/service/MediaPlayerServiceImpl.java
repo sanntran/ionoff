@@ -23,11 +23,13 @@ import net.xapxinh.center.shared.dto.SongDto;
 import net.xapxinh.center.shared.dto.StatusDto;
 import net.xapxinh.center.shared.dto.YoutubeVideoDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class MediaPlayerServiceImpl implements IMediaPlayerService {
 
 	protected static final String INPUT = "input";

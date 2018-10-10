@@ -21,7 +21,6 @@ import net.ionoff.center.shared.dto.QueryCriteriaDto;
 import net.ionoff.center.shared.dto.SensorDataDto;
 
 @RestController
-@EnableWebMvc
 public class SensorDataServiceController {
 
 	private static final Logger logger = Logger.getLogger(SensorDataServiceController.class.getName());
@@ -35,7 +34,7 @@ public class SensorDataServiceController {
 	@RequestMapping(value = "sensordata/count",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public Long countByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		DeviceDto deviceDto = deviceService.requireDtoById(criteriaDto.getDeviceId());
@@ -46,7 +45,7 @@ public class SensorDataServiceController {
 	@RequestMapping(value = "sensordata/search",
 			method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<SensorDataDto> searchByCriteria(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
 		User user = RequestContextHolder.getUser();
 		DeviceDto deviceDto = deviceService.requireDtoById(criteriaDto.getDeviceId());
@@ -58,7 +57,7 @@ public class SensorDataServiceController {
     @RequestMapping(value = "sensordata/loadbyday",
             method = RequestMethod.POST,
             produces = "application/json; charset=utf-8")
-    @ResponseBody
+
     public List<SensorDataDto> loadDataByDay(@RequestBody QueryCriteriaDto criteriaDto, HttpServletRequest request) {
         User user = RequestContextHolder.getUser();
         DeviceDto deviceDto = deviceService.requireDtoById(criteriaDto.getDeviceId());

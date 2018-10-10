@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.ModeSensor;
@@ -16,6 +17,7 @@ import net.ionoff.center.server.persistence.service.IModeSensorService;
 import net.ionoff.center.server.persistence.service.ISceneService;
 import net.ionoff.center.shared.dto.ModeSensorSceneDto;
 
+@Service
 @Transactional
 public class ModeSensorSceneServiceImpl extends AbstractGenericService<ModeSensorScene, ModeSensorSceneDto> implements IModeSensorSceneService {
 	
@@ -29,7 +31,8 @@ public class ModeSensorSceneServiceImpl extends AbstractGenericService<ModeSenso
 	private IModeSensorService modeSensorService;
 	
 	private IModeSensorSceneDao modeSensorSceneDao;
-	
+
+	@Autowired
 	public ModeSensorSceneServiceImpl(IModeSensorSceneDao modeSensorSceneDao) {
 		this.modeSensorSceneDao = modeSensorSceneDao;
 	}

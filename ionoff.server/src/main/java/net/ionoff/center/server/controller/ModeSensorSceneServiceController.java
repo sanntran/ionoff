@@ -19,7 +19,6 @@ import net.ionoff.center.server.persistence.service.IModeSensorSceneService;
 import net.ionoff.center.shared.dto.ModeSensorSceneDto;
 
 @RestController
-@EnableWebMvc
 public class ModeSensorSceneServiceController {
 
 	private static final Logger logger = Logger.getLogger(ModeSensorSceneServiceController.class.getName());
@@ -30,7 +29,7 @@ public class ModeSensorSceneServiceController {
 	@RequestMapping(value = "modesensorscenes/{modeSensorSceneId}",
 			method = RequestMethod.PUT,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public ModeSensorSceneDto update(@PathVariable("modeSensorSceneId") Long modeSensorSceneId,
 			@RequestBody ModeSensorSceneDto modeSensorSceneDto,
 			HttpServletRequest request) {
@@ -46,7 +45,7 @@ public class ModeSensorSceneServiceController {
 	@RequestMapping(value = "modesensors/{modeSensorId}/modesensorscenes",
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<ModeSensorSceneDto> findByModeSensorId(@PathVariable("modeSensorId") Long modeSensorId,
 			HttpServletRequest request) {
 		

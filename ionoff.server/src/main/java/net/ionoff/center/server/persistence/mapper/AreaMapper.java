@@ -12,7 +12,9 @@ import net.ionoff.center.server.entity.Zone;
 import net.ionoff.center.server.persistence.service.IProjectService;
 import net.ionoff.center.shared.dto.AreaDto;
 import net.ionoff.center.shared.dto.ZoneDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AreaMapper implements ObjMapper<Area, AreaDto> {
 	
 	@Autowired

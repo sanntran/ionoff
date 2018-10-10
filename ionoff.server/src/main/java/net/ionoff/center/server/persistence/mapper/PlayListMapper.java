@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import net.ionoff.center.server.persistence.service.IPlayNodeService;
 import net.ionoff.center.server.entity.PlayLeaf;
 import net.ionoff.center.server.entity.PlayNode;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PlayListMapper {
 
 	@Autowired

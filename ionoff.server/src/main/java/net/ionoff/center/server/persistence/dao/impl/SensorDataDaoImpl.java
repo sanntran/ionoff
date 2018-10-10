@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Device;
@@ -21,12 +22,14 @@ import net.ionoff.center.server.persistence.dao.IDeviceDao;
 import net.ionoff.center.server.persistence.dao.ISensorDataDao;
 import net.ionoff.center.server.util.DateTimeUtil;
 
+@Repository
 @Transactional
 public class SensorDataDaoImpl extends AbstractGenericDao<SensorData> implements ISensorDataDao {
 
 	@Autowired
 	private IDeviceDao deviceDao;
 
+	@Autowired
 	public SensorDataDaoImpl(SessionFactory sessionFactory) {
 		super(sessionFactory);
 		setClass(SensorData.class);

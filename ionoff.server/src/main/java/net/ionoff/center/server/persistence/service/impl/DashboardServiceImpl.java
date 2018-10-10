@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Dashboard;
@@ -26,6 +27,7 @@ import net.ionoff.center.shared.dto.DashboardDto;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.server.mediaplayer.service.IMediaPlayerService;
 
+@Service
 @Transactional
 public class DashboardServiceImpl extends AbstractGenericService<Dashboard, DashboardDto> implements IDashboardService {
 	
@@ -51,7 +53,8 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 	
 	@Autowired
 	private IMediaPlayerService playerService;
-	
+
+	@Autowired
 	public DashboardServiceImpl(IDashboardDao dashboardDao) {
 		this.dashboardDao = dashboardDao;
 	}

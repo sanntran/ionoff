@@ -15,7 +15,6 @@ import net.ionoff.center.server.persistence.service.ISceneActionService;
 import net.ionoff.center.shared.dto.SceneActionDto;
 
 @RestController
-@EnableWebMvc
 public class SceneActionServiceController {
 
 	@Autowired
@@ -25,7 +24,7 @@ public class SceneActionServiceController {
 			params = {"sceneDeviceId"},
 			method = RequestMethod.GET,
 			produces = "application/json; charset=utf-8")
-	@ResponseBody
+
 	public List<SceneActionDto> findBySceneDevice(
 			@RequestParam("sceneDeviceId") long sceneDeviceId) {
 		User user = RequestContextHolder.getUser();
