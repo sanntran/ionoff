@@ -3,7 +3,6 @@ package net.ionoff.center.server.persistence.service.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -106,10 +105,6 @@ public class RelayServiceImpl extends AbstractGenericService<Relay, RelayDto> im
 		}
 		deviceDao.updateDeviceStatus(oldDevice);
 		deviceDao.updateDeviceStatus(newDevice);
-		Cache cache = getDao().getSessionFactory().getCache();
-		if (cache != null) {
-		    cache.evictAllRegions();
-		}
 		return relay;
 	}
 

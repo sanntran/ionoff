@@ -5,7 +5,8 @@ import static net.ionoff.center.server.relaydriver.connector.RelayDriverCommandB
 
 import java.util.Arrays;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -23,7 +24,7 @@ import net.ionoff.center.server.wsclient.RestTemplateRequestIntercepter;
 @Component
 public class RelayDriverConnector {
 
-    private static final Logger LOGGER = Logger.getLogger(RelayDriverConnector.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(RelayDriverConnector.class.getName());
 
     private final BrokerHttpClient brokerHttpClient;
 

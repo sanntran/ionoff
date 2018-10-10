@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
@@ -36,7 +37,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RelayDriverHandler {
 
-	private static final Logger LOGGER = Logger.getLogger(RelayDriverHandler.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(RelayDriverHandler.class.getName());
 
 	@Autowired
 	private ISensorDao sensorDao;

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Cache;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.QueryCriteria;
@@ -47,19 +46,11 @@ public abstract class AbstractGenericService<T extends Serializable, D extends S
 	@Override
 	public void delete(final T entity) {
 		getDao().delete(entity);
-		Cache cache = getDao().getSessionFactory().getCache();
-		if (cache != null) {
-		    cache.evictAllRegions();
-		}
 	}
 	
 	@Override
 	public void deleteById(final long entityId) {
 		getDao().deleteById(entityId);
-		Cache cache = getDao().getSessionFactory().getCache();
-		if (cache != null) {
-		    cache.evictAllRegions();
-		}
 	}
 
 	@Override

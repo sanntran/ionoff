@@ -2,7 +2,8 @@ package net.ionoff.center.server.controller;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +24,7 @@ import net.ionoff.center.shared.dto.ZoneDto;
 @RestController
 public class ZoneServiceController {
 
-	private final Logger logger = Logger.getLogger(ZoneServiceController.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(ZoneServiceController.class.getName());
 
 	@Autowired
 	private IZoneService zoneService;

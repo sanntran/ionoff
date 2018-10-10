@@ -25,7 +25,6 @@ import net.ionoff.center.server.persistence.service.ISensorService;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.StatusDto;
 import net.ionoff.center.shared.entity.SensorType;
-import org.hibernate.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -94,11 +93,6 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 			sensor.setZone(device.getZone());
 			sensorService.insert(sensor);
 		}
-		Cache cache = getDao().getSessionFactory().getCache();
-		if (cache != null) {
-		    cache.evictAllRegions();
-		}
-		
 		return device;
 	}
 
@@ -227,10 +221,6 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 	@Override
 	public void deleteDtoById(User user, long entityId) {
 		super.deleteById(entityId);
-		Cache cache = getDao().getSessionFactory().getCache();
-		if (cache != null) {
-		    cache.evictAllRegions();
-		}
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package net.ionoff.center.server.persistence.service.impl;
 
 import java.util.List;
 
-import org.hibernate.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,10 +52,6 @@ public class ScheduleServiceImpl extends AbstractGenericService<Schedule, Schedu
 	public Schedule insert(Schedule schedule) {
 		super.insert(schedule);
 		insertScheduleActions(schedule);
-		Cache cache = scheduleDao.getSessionFactory().getCache();
-		if (cache != null) {
-		    cache.evictAllRegions();
-		}
 		return schedule;
 	}
 	
@@ -142,20 +137,12 @@ public class ScheduleServiceImpl extends AbstractGenericService<Schedule, Schedu
 		scheduleMapper.updateSchedule(schedule, dto);
 		validateSchedule(schedule, user.getLanguage());
 		update(schedule);
-		Cache cache = scheduleDao.getSessionFactory().getCache();
-		if (cache != null) {
-		    cache.evictAllRegions();
-		}
 		return scheduleMapper.createScheduleDto(schedule);
 	}
 
 	@Override
 	public void deleteDtoById(User user, long id) {
 		deleteById(id);
-		Cache cache = getDao().getSessionFactory().getCache();
-		if (cache != null) {
-		    cache.evictAllRegions();
-		}
 	}
 
 	@Override

@@ -6,8 +6,6 @@
 <hibernate-mapping>
 	<class name="net.ionoff.center.server.entity.ModeScene" table="modes_scenes">
 		
-		<cache usage="read-write"/>
-		
 		<id name="id" type="long" column="id">
 			<generator class="increment" />
 		</id>

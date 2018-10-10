@@ -6,14 +6,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactory;
 
 public class HttpRequestUtil {
 	
 	private static final int DEFAULT_READ_IME_OUT = 3000;
 	private static final int DEFAULT_CONNECT_TIME_OUT = 3000;
 
-	private static final Logger LOGGER = Logger.getLogger(HttpRequestUtil.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(HttpRequestUtil.class.getName());
 
 	public static String sendGetRequest(String url) throws IOException {
 		return sendGetRequest(url, DEFAULT_CONNECT_TIME_OUT, DEFAULT_READ_IME_OUT);

@@ -20,7 +20,8 @@ import net.xapxinh.center.shared.dto.PlayListDto;
 import net.xapxinh.center.shared.dto.ScheduleDto;
 import net.xapxinh.center.shared.dto.StatusDto;
 import net.xapxinh.center.shared.dto.YoutubeVideosDto;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,7 +44,7 @@ import java.util.Map;
 @RestController
 public class MediaPlayerServiceController {
 
-	private static final Logger LOGGER = Logger.getLogger(MediaPlayerServiceController.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(MediaPlayerServiceController.class.getName());
 
 	@Autowired
 	private IDeviceService deviceService;

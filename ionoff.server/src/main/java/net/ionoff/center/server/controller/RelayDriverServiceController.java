@@ -4,7 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +28,7 @@ import net.ionoff.center.shared.dto.RelayDriverDto;
 @RestController
 public class RelayDriverServiceController {
 
-	private final Logger logger = Logger.getLogger(RelayDriverServiceController.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(RelayDriverServiceController.class.getName());
 
 	@Autowired
 	private IRelayDriverService relayDriverService;

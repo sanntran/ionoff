@@ -8,7 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +21,7 @@ import net.ionoff.center.server.persistence.service.IUserService;
 
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 	
-	private final Logger logger = Logger.getLogger(JwtAuthenticationTokenFilter.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(JwtAuthenticationTokenFilter.class.getName());
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;

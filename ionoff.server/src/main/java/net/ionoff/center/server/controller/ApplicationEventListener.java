@@ -8,7 +8,8 @@ import net.ionoff.center.server.message.handler.RelayStatusChangedHandler;
 import net.ionoff.center.server.message.handler.SensorStatusChangedHandler;
 import net.ionoff.center.server.message.listener.RelayStatusChangedListener;
 import net.ionoff.center.server.message.listener.SensorStatusChangedListener;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -27,7 +28,7 @@ import java.util.Enumeration;
 @Component
 public class ApplicationEventListener implements ApplicationListener<ApplicationEvent> {
 	
-	private final Logger logger = Logger.getLogger(ApplicationEventListener.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(ApplicationEventListener.class.getName());
 
 	@Autowired
 	private ThreadPoolTaskExecutor taskExecutor;

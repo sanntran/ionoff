@@ -5,7 +5,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RelayStatusChangedHandler {
 	
-	private static Logger logger = Logger.getLogger(RelayStatusChangedHandler.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(RelayStatusChangedHandler.class.getName());
 
 	private static final ScheduledExecutorService SCHEDULER_EXECUTOR = Executors.newScheduledThreadPool(1);
 

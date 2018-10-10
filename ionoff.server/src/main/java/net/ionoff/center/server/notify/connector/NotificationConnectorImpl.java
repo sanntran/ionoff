@@ -6,7 +6,8 @@ import net.ionoff.center.server.util.CommonUtil;
 import net.ionoff.center.server.wsclient.RestTemplateFactory;
 import net.ionoff.center.server.wsclient.RestTemplateRequestIntercepter;
 import net.ionoff.center.shared.dto.MessageDto;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 @EnableAsync
 public class NotificationConnectorImpl implements INotificationConnector {
 
-	private static final Logger LOGGER = Logger.getLogger(NotificationConnectorImpl.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(NotificationConnectorImpl.class.getName());
 	private static final Gson GSON = new Gson();
 
 	private RestTemplate restTemplate;

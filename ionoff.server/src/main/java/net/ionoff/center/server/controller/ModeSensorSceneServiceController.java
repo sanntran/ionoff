@@ -1,27 +1,20 @@
 package net.ionoff.center.server.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.persistence.service.IModeSensorSceneService;
 import net.ionoff.center.shared.dto.ModeSensorSceneDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 public class ModeSensorSceneServiceController {
 
-	private static final Logger logger = Logger.getLogger(ModeSensorSceneServiceController.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(ModeSensorSceneServiceController.class.getName());
 
 	@Autowired
 	private IModeSensorSceneService modeSensorSceneService;

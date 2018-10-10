@@ -8,7 +8,8 @@ import java.util.Map;
 import net.ionoff.center.server.mediaplayer.exception.MediaPlayerRequestException;
 import net.ionoff.center.server.mediaplayer.model.MediaPlayer;
 import net.ionoff.center.server.relaydriver.connector.RelayDriverConnector;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
@@ -47,7 +48,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ControlServiceImpl implements IControlService {
 
-	private final Logger logger = Logger.getLogger(ControlServiceImpl.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(ControlServiceImpl.class.getName());
 	
 	@Autowired
 	private IRelayService relayService;

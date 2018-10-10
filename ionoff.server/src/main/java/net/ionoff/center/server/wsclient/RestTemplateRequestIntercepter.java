@@ -1,6 +1,7 @@
 package net.ionoff.center.server.wsclient;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -13,7 +14,7 @@ import java.util.Arrays;
 
 public class RestTemplateRequestIntercepter implements ClientHttpRequestInterceptor {
 
-    private static final Logger LOGGER = Logger.getLogger(RestTemplateRequestIntercepter.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestTemplateRequestIntercepter.class.getName());
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)

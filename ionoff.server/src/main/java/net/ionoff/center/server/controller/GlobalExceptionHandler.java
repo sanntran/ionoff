@@ -8,7 +8,8 @@ import net.ionoff.center.server.locale.Messages;
 import net.ionoff.center.server.relaydriver.exception.RelayDriverConnectException;
 import net.ionoff.center.server.security.InvalidTokenException;
 import net.ionoff.center.shared.dto.MessageDto;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -27,7 +28,7 @@ import java.util.Date;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-	private final Logger logger = Logger.getLogger(GlobalExceptionHandler.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class.getName());
 
 	public static final String DEFAULT_ERROR_VIEW = "error";
 

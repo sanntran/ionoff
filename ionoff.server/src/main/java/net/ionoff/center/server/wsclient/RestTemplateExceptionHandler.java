@@ -2,7 +2,8 @@ package net.ionoff.center.server.wsclient;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.ByteStreams;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
@@ -13,7 +14,7 @@ import java.io.IOException;
 
 public abstract class RestTemplateExceptionHandler implements ResponseErrorHandler {
 
-    private static final Logger LOGGER = Logger.getLogger(RestTemplateExceptionHandler.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestTemplateExceptionHandler.class.getName());
 
     private final ResponseErrorHandler errorHandler = new DefaultResponseErrorHandler();
 

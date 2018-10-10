@@ -2,6 +2,8 @@ version: 1.6.8
 
 server:
     port: 8008
+    servlet:
+        context-path: /iserver
 spring:
     resources.add-mappings: false
     flyway:
@@ -14,7 +16,7 @@ hibernate:
     dialect: org.hibernate.dialect.MySQLDialect
     connection.driver_class: com.mysql.jdbc.Driver
     connection.username: root
-    connection.password: root
+    connection.password: ionoff$db
     show_sql: false;
 
 service.notify.url: http://service.ionoff.net/inotify
@@ -35,3 +37,7 @@ broker.mqtt.topic.ionoffnet: IOnOffNet
 broker.mqtt.topic.relaydriver: RelayDriver
 broker.mqtt.topic.sensordriver: SensorDriver
 broker.mqtt.topic.mediaplayer: MediaPlayer
+
+logging:
+    level:
+        org.hibernate.engine: ERROR

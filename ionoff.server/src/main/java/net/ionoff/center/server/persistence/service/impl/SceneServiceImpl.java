@@ -3,7 +3,6 @@ package net.ionoff.center.server.persistence.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,10 +59,6 @@ public class SceneServiceImpl extends AbstractGenericService<Scene, SceneDto> im
 		super.insert(scene);
 		insertSceneDevices(scene);
 		insertUserScenes(scene);
-		Cache cache = getDao().getSessionFactory().getCache();
-		if (cache != null) {
-		    cache.evictAllRegions();
-		}
 		return scene;
 	}
 
@@ -141,10 +136,6 @@ public class SceneServiceImpl extends AbstractGenericService<Scene, SceneDto> im
 	public void deleteDtoById(User user, long id) {
 		final Scene scene = requireById(id);
 		delete(scene);
-		Cache cache = getDao().getSessionFactory().getCache();
-		if (cache != null) {
-		    cache.evictAllRegions();
-		}
 	}
 
 	@Override

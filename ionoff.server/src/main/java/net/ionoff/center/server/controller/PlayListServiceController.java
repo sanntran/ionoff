@@ -6,7 +6,8 @@ import net.ionoff.center.server.persistence.service.IPlayNodeService;
 import net.ionoff.center.shared.dto.MessageDto;
 import net.xapxinh.center.shared.dto.PlayListDto;
 import net.xapxinh.center.shared.dto.PlayNodeDto;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,7 @@ import java.util.List;
 @RestController
 public class PlayListServiceController {
 
-	private final Logger logger = Logger.getLogger(PlayListServiceController.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(PlayListServiceController.class.getName());
 	
 	@Autowired
 	private IPlayListService playListService;

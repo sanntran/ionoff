@@ -5,7 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,7 @@ import net.ionoff.center.shared.dto.RelayDriverDto;
 public class RelayDriverServiceImpl extends AbstractGenericService<RelayDriver, RelayDriverDto> 
 		implements IRelayDriverService {
 	
-	private static final Logger logger = Logger.getLogger(RelayDriverServiceImpl.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(RelayDriverServiceImpl.class.getName());
 	
 	private IRelayDriverDao relayDriverDao;
 	

@@ -3,7 +3,6 @@ package net.ionoff.center.server.persistence.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,10 +41,6 @@ public class UserSceneServiceImpl extends AbstractGenericService<UserScene, User
 	@Override
 	public UserScene update(UserScene entity) {
 		super.update(entity);
-		Cache cache = getDao().getSessionFactory().getCache();
-		if (cache != null) {
-		    cache.evictAllRegions();
-		}
 		return entity;
 	}
 

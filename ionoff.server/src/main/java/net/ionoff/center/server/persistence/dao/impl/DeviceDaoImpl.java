@@ -200,8 +200,7 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 				+ " order by device.order, device.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("zoneId", zoneId)
-				.setParameter("userId", userId)
-				.setCacheable(true);
+				.setParameter("userId", userId);
 		
 		return findMany(query);
 	}
@@ -220,8 +219,7 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 	
 		Query query = getCurrentSession().createQuery(sql)
 					.setParameter("userId", userId)
-					.setParameter("projectId", projectId)
-					.setCacheable(true);
+					.setParameter("projectId", projectId);
 		
 		 List<Device> devices = findMany(query);
 		 return devices;

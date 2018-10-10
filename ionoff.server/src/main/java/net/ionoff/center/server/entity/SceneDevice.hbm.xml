@@ -7,8 +7,6 @@
     
 	<class name="net.ionoff.center.server.entity.SceneDevice" table="scenes_devices">
 		
-		<cache usage="read-write"/>
-		
 		<id name="id" type="long" column="id">
 			<generator class="increment" />
 		</id>

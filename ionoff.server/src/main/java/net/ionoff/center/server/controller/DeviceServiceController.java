@@ -6,7 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.BadRequestException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +34,7 @@ import net.ionoff.center.shared.dto.StatusDto;
 @RestController
 public class DeviceServiceController {
 
-	private final Logger logger = Logger.getLogger(DeviceServiceController.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(DeviceServiceController.class.getName());
 	
 	@Autowired
 	private IDeviceService deviceService;

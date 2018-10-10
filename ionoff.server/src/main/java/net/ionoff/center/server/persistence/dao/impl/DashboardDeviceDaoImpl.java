@@ -40,8 +40,7 @@ public class DashboardDeviceDaoImpl extends AbstractGenericDao<DashboardDevice> 
 				+ " and dashboardDevice.device.id = :deviceId";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("dashboardId", dashboardId)
-				.setParameter("deviceId", deviceId)
-				.setCacheable(true);
+				.setParameter("deviceId", deviceId);
 		return getFirst(findMany(query));
 	}
 }

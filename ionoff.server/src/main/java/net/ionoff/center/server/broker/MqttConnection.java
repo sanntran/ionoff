@@ -1,7 +1,8 @@
 package net.ionoff.center.server.broker;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MqttConnection implements MqttCallback {
 	
-	private static Logger LOGGER = Logger.getLogger(MqttConnection.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(MqttConnection.class.getName());
 
 	private boolean shutdown;
 	private MqttClient client;

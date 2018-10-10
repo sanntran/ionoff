@@ -40,7 +40,7 @@ public class DashboardSceneDaoImpl extends AbstractGenericDao<DashboardScene> im
 				+ " and dashboardScene.scene.id = :sceneId";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("dashboardId", dashboardId)
-				.setParameter("sceneId", sceneId).setCacheable(true);
+				.setParameter("sceneId", sceneId);
 		return getFirst(findMany(query));
 	}
 

@@ -1,31 +1,20 @@
 package net.ionoff.center.server.persistence.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.hibernate.Cache;
+import net.ionoff.center.server.entity.*;
+import net.ionoff.center.server.exception.EntityNotFoundException;
+import net.ionoff.center.server.mediaplayer.service.IMediaPlayerService;
+import net.ionoff.center.server.persistence.dao.*;
+import net.ionoff.center.server.persistence.mapper.DashboardMapper;
+import net.ionoff.center.server.persistence.mapper.DeviceMapper;
+import net.ionoff.center.server.persistence.service.IDashboardService;
+import net.ionoff.center.shared.dto.DashboardDto;
+import net.ionoff.center.shared.dto.DeviceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.ionoff.center.server.entity.Dashboard;
-import net.ionoff.center.server.entity.DashboardDevice;
-import net.ionoff.center.server.entity.DashboardScene;
-import net.ionoff.center.server.entity.Device;
-import net.ionoff.center.server.entity.Scene;
-import net.ionoff.center.server.entity.User;
-import net.ionoff.center.server.exception.EntityNotFoundException;
-import net.ionoff.center.server.persistence.mapper.DashboardMapper;
-import net.ionoff.center.server.persistence.mapper.DeviceMapper;
-import net.ionoff.center.server.persistence.dao.IDashboardDao;
-import net.ionoff.center.server.persistence.dao.IDashboardDeviceDao;
-import net.ionoff.center.server.persistence.dao.IDashboardSceneDao;
-import net.ionoff.center.server.persistence.dao.IDeviceDao;
-import net.ionoff.center.server.persistence.dao.ISceneDao;
-import net.ionoff.center.server.persistence.service.IDashboardService;
-import net.ionoff.center.shared.dto.DashboardDto;
-import net.ionoff.center.shared.dto.DeviceDto;
-import net.ionoff.center.server.mediaplayer.service.IMediaPlayerService;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -149,10 +138,6 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 		dashboardDevice.setDevice(device);
 		dashboardDevice.setProject(device.getProject());
 		dashboardDeviceDao.insert(dashboardDevice);
-		Cache cache = dashboardDeviceDao.getSessionFactory().getCache();
-		if (cache != null) {
-		    cache.evictAllRegions();
-		}
 	}
 	
 	@Override
@@ -162,10 +147,6 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 		DashboardDevice dashboardDevice = dashboardDeviceDao.findByDashboardDeviceId(dashboard.getId(), device.getId());
 		if (dashboardDevice != null) {
 			dashboardDeviceDao.delete(dashboardDevice);
-			Cache cache = dashboardDeviceDao.getSessionFactory().getCache();
-			if (cache != null) {
-			    cache.evictAllRegions();
-			}
 		}
 	}
 
@@ -183,10 +164,6 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 		dashboardDevice.setDevice(device);
 		dashboardDevice.setProject(device.getProject());
 		dashboardDeviceDao.insert(dashboardDevice);
-		Cache cache = dashboardDeviceDao.getSessionFactory().getCache();
-		if (cache != null) {
-		    cache.evictAllRegions();
-		}
 	}
 	
 	@Override
@@ -196,10 +173,6 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 		DashboardDevice dashboardDevice = dashboardDeviceDao.findByDashboardDeviceId(dashboard.getId(), device.getId());
 		if (dashboardDevice != null) {
 			dashboardDeviceDao.delete(dashboardDevice);
-			Cache cache = dashboardDeviceDao.getSessionFactory().getCache();
-			if (cache != null) {
-			    cache.evictAllRegions();
-			}
 		}
 	}
 	
@@ -212,10 +185,6 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 		dashboardScene.setScene(scene);
 		dashboardScene.setProject(scene.getZone().getProject());
 		dashboardSceneDao.insert(dashboardScene);
-		Cache cache = dashboardDeviceDao.getSessionFactory().getCache();
-		if (cache != null) {
-		    cache.evictAllRegions();
-		}
 	}
 	
 	@Override
@@ -225,10 +194,6 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 		DashboardScene dashboardScene = dashboardSceneDao.findByDashboardSceneId(dashboard.getId(), scene.getId());
 		if (dashboardScene != null) {
 			dashboardSceneDao.delete(dashboardScene);
-			Cache cache = dashboardDeviceDao.getSessionFactory().getCache();
-			if (cache != null) {
-			    cache.evictAllRegions();
-			}
 		}
 	}
 
@@ -241,10 +206,6 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 		dashboardScene.setScene(scene);
 		dashboardScene.setProject(scene.getZone().getProject());
 		dashboardSceneDao.insert(dashboardScene);
-		Cache cache = dashboardDeviceDao.getSessionFactory().getCache();
-		if (cache != null) {
-		    cache.evictAllRegions();
-		}
 	}
 	
 	@Override
@@ -254,10 +215,6 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 		DashboardScene dashboardScene = dashboardSceneDao.findByDashboardSceneId(dashboard.getId(), scene.getId());
 		if (dashboardScene != null) {
 			dashboardSceneDao.delete(dashboardScene);
-			Cache cache = dashboardDeviceDao.getSessionFactory().getCache();
-			if (cache != null) {
-			    cache.evictAllRegions();
-			}
 		}
 	}
 	

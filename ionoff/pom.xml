@@ -11,7 +11,6 @@
 		<project.version>1.1.0</project.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<spring.version>4.2.1.RELEASE</spring.version>
 	</properties>
 
 	<modules>

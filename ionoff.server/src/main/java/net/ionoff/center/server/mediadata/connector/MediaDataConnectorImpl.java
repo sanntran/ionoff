@@ -10,7 +10,8 @@ import net.ionoff.center.server.wsclient.RestTemplateRequestIntercepter;
 import net.xapxinh.center.shared.dto.Album;
 import net.xapxinh.center.shared.dto.SongDto;
 import net.xapxinh.center.shared.dto.YoutubeVideosDto;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ import java.util.List;
 public class MediaDataConnectorImpl implements IMediaDataConnector {
 
 
-	private final Logger logger = Logger.getLogger(MediaDataConnectorImpl.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(MediaDataConnectorImpl.class.getName());
 	@Value("${service.media.url}")
 	private String mediaServiceUrl;
 

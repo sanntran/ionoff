@@ -211,8 +211,7 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 				+ " order by scheduler.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("userId", userId)
-				.setParameter("zoneId", zoneId)
-				.setCacheable(true);
+				.setParameter("zoneId", zoneId);
 		return findMany(query);
 	}
 
@@ -228,8 +227,7 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 				+ " order by scheduler.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("userId", userId)
-				.setParameter("projectId", projectId)
-				.setCacheable(true);
+				.setParameter("projectId", projectId);
 		return findMany(query);
 	}
 	

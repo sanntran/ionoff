@@ -3,7 +3,8 @@ package net.ionoff.center.server.notify;
 import net.ionoff.center.server.notify.connector.INotificationConnector;
 import net.ionoff.center.server.util.CommonUtil;
 import net.ionoff.center.shared.dto.MessageDto;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 @EnableAsync
 public class NotificationServiceImpl implements INotificationService {
 
-	private static Logger LOGGER = Logger.getLogger(NotificationServiceImpl.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(NotificationServiceImpl.class.getName());
 
 	@Autowired
 	private INotificationConnector notificationConnector;

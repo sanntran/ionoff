@@ -5,7 +5,8 @@ import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.message.SensorStatusNotifier;
 import net.ionoff.center.server.persistence.dao.ISensorDao;
 import net.ionoff.center.server.persistence.service.IDeviceService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ import java.util.Date;
 @Component
 public class SensorDriverHandler {
 
-	private static final Logger LOGGER = Logger.getLogger(SensorDriverHandler.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(SensorDriverHandler.class.getName());
 
 	@Autowired
 	private ISensorDao sensorDao;

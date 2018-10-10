@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -32,7 +33,7 @@ import net.ionoff.center.server.mediaplayer.exception.MediaPlayerConnectExceptio
 @EnableScheduling
 public class ProjectSchedulesExecutor {
 
-	private static Logger LOGGER = Logger.getLogger(ProjectSchedulesExecutor.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(ProjectSchedulesExecutor.class.getName());
 	
 	private final SimpleDateFormat scheduleTimeFormat;
 	private final SimpleDateFormat scheduleDayFormat; 
@@ -163,7 +164,7 @@ public class ProjectSchedulesExecutor {
 			updateSchedule(schedule, now, true, 0);
 		}
 		catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("Failed to execute schedule: " + e.getMessage(), e);
 			Integer retry = schedule.getRetry();
 			if (retry == null) {
 				retry = 1;

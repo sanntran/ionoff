@@ -2,7 +2,8 @@ package net.ionoff.center.server.controller;
 
 import net.ionoff.center.shared.dto.DateTimeDto;
 import net.ionoff.center.shared.dto.ServerInfoDto;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,7 +18,7 @@ import java.util.Date;
 @RestController
 public class SystemServiceController {
 	
-	private final Logger logger = Logger.getLogger(SystemServiceController.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(SystemServiceController.class.getName());
 
 	private static final SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("HH:mm");
 	private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("dd/MM/yyyy");

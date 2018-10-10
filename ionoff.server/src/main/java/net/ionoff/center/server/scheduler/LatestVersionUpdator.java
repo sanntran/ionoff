@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,7 +24,7 @@ import org.springframework.stereotype.Component;
 @EnableScheduling
 public class LatestVersionUpdator {
 	
-	private static final Logger LOGGER = Logger.getLogger(LatestVersionUpdator.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(LatestVersionUpdator.class.getName());
 
 	private static final Gson GSON = new Gson();
 

@@ -7,14 +7,15 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class LicenseManager {
 	
 	private static boolean activated = false;
 	private static final List<String> LICENSE_KEYS = new ArrayList<>();
 	
-	private static final Logger LOGGER = Logger.getLogger(LicenseManager.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(LicenseManager.class.getName());
 	
 	private static String formatMac(byte[] mac) {
 		if (mac == null) {

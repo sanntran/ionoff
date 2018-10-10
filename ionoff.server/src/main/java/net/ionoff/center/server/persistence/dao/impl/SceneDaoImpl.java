@@ -156,8 +156,7 @@ public class SceneDaoImpl extends AbstractGenericDao<Scene> implements ISceneDao
 				+ " order by scene.order, scene.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("zoneId", zoneId)
-				.setParameter("userId", userId)
-				.setCacheable(true);
+				.setParameter("userId", userId);
 		
 		return findMany(query);
 	}
@@ -173,8 +172,7 @@ public class SceneDaoImpl extends AbstractGenericDao<Scene> implements ISceneDao
 				+ " order by scene.order, scene.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("userId", userId)
-				.setParameter("projectId", projectId)
-				.setCacheable(true);
+				.setParameter("projectId", projectId);
 		return findMany(query);
 	}
 }

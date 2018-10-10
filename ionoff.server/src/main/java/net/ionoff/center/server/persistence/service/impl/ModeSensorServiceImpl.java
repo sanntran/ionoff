@@ -7,7 +7,8 @@ import java.util.List;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,7 @@ import net.ionoff.center.shared.dto.ModeSensorDto;
 @Transactional
 public class ModeSensorServiceImpl extends AbstractGenericService<ModeSensor, ModeSensorDto> implements IModeSensorService {
 
-	private final Logger logger = Logger.getLogger(ModeSensorServiceImpl.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(ModeSensorServiceImpl.class.getName());
 	
 	private IModeSensorDao modeSensorDao;
 	

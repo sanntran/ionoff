@@ -6,7 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -44,7 +45,7 @@ import net.ionoff.center.shared.dto.ProjectDto;
 @RestController
 public class AuthenticationController {
 
-	private final Logger logger = Logger.getLogger(AuthenticationController.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(AuthenticationController.class.getName());
 
 	@Autowired
 	private IUserService userService;

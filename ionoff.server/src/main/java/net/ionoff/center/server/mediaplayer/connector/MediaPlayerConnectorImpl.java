@@ -16,7 +16,8 @@ import net.xapxinh.center.shared.dto.MediaFile;
 import net.xapxinh.center.shared.dto.PlayListDto;
 import net.xapxinh.center.shared.dto.ScheduleDto;
 import net.xapxinh.center.shared.dto.StatusDto;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -29,7 +30,7 @@ import java.util.Map;
 @Component
 public class MediaPlayerConnectorImpl implements IMediaPlayerConnector {
 
-	private static final Logger LOGGER = Logger.getLogger(MediaPlayerConnectorImpl.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(MediaPlayerConnectorImpl.class.getName());
 	private static final Gson GSON = new Gson();
 
 	// private final Type typeOfMediaFileList = new TypeToken<ArrayList<MediaFile>>(){}.getType();

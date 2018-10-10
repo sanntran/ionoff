@@ -7,8 +7,6 @@
     
 	<class name="net.ionoff.center.server.entity.Dashboard" table="dashboards">
 		
-		<cache usage="read-write"/>
-		
 		<id name="id" type="long" column="id">
 			<generator class="increment" />
 		</id>
@@ -27,7 +25,6 @@
 		
 		<set name="devices" table="dashboards_devices" 
 				inverse="true" lazy="true" fetch="select">
-            <cache usage="read-write"/>
             <key>
                 <column name="dashboard_id" not-null="true" />
             </key>
@@ -36,7 +33,6 @@
         
         <set name="scenes" table="dashboards_scenes" 
 				inverse="true" lazy="true" fetch="select">
-            <cache usage="read-write"/>
             <key>
                 <column name="scene_id" not-null="true" />
             </key>

@@ -3,7 +3,8 @@ package net.ionoff.center.server.message.handler;
 import net.ionoff.center.server.entity.ModeSensor;
 import net.ionoff.center.server.entity.ModeSensorUser;
 import net.ionoff.center.server.notify.INotificationService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
 
 class ModeSensorUserActivator extends Thread {
 	
-	private static Logger LOGGER = Logger.getLogger(ModeSensorUserActivator.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(ModeSensorUserActivator.class.getName());
 	
 	private final String threadName;
 	private final ModeSensor modeSensor;

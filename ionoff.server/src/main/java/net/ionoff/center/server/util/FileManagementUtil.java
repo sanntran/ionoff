@@ -13,11 +13,13 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactory;
 
 public class FileManagementUtil {
 	
-	private static final Logger LOGGER = Logger.getLogger(FileManagementUtil.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileManagementUtil.class.getName());
 	
 	public static void deleteFile(String filePath) {
 		File file = new File(filePath);

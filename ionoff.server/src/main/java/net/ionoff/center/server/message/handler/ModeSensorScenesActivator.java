@@ -1,13 +1,14 @@
 package net.ionoff.center.server.message.handler;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.ionoff.center.server.control.IControlService;
 import net.ionoff.center.server.entity.ModeSensor;
 import net.ionoff.center.server.entity.ModeSensorScene;
 
 class ModeSensorScenesActivator extends Thread {
-	private static Logger logger = Logger.getLogger(ModeSensorScenesActivator.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(ModeSensorScenesActivator.class.getName());
 	
 	private final ModeSensor modeSensor;
 	private final IControlService controlService;
