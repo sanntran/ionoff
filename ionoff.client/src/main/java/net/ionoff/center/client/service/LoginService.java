@@ -18,18 +18,18 @@ import net.ionoff.center.shared.dto.MessageDto;
 public interface LoginService  extends RestService {
 
 	@POST
-	@Path("api/users/license")
+	@Path("users/license")
 	public void activate(@QueryParam("licenseKey") String licenseKey, MethodCallback<MessageDto> methodCallback);
 	
 	@POST
-	@Path("api/users/authenticate")
+	@Path("users/authenticate")
 	@Options(timeout = 6000)
 	public void requestAuthen(
 			@QueryParam("projectId") Long projectId,
 			MethodCallback<Kookie> callback);
 	
 	@POST
-	@Path("api/users/authenticate")
+	@Path("users/authenticate")
 	public void requestAuthen(@QueryParam("username") String username, 
 			@QueryParam("password") String hashPass,
 			@QueryParam("remember") Boolean remember,
@@ -37,7 +37,7 @@ public interface LoginService  extends RestService {
 			MethodCallback<Kookie> callback);
 
 	@DELETE
-	@Path("api/users/authenticate")
+	@Path("users/authenticate")
 	public void deleteAuthen(MethodCallback<Kookie> callback);
 	
 }

@@ -15,7 +15,7 @@ import net.ionoff.center.shared.dto.ScheduleRelayActionDto;
 public interface ScheduleRelayActionService extends RestService {
 	
 	@PUT
-	@Path("api/schedulerelayactions/{scheduleRelayActionId}")
+	@Path("schedulerelayactions/{scheduleRelayActionId}")
 	void save(@PathParam("scheduleRelayActionId") Long scheduleRelayActionId, 
 			ScheduleRelayActionDto scheduleRelayActionDto, MethodCallback<ScheduleRelayActionDto> callback);
 }

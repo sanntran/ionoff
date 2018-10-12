@@ -22,32 +22,32 @@ import net.ionoff.center.shared.dto.RelayDriverDto;
 public interface RelayDriverService extends EntityService<RelayDriverDto> {
 
 	@PUT
-	@Path("api/relaydrivers/{relayDriverId}")
+	@Path("relaydrivers/{relayDriverId}")
 	void save(@PathParam("relayDriverId") Long relayDriverId, RelayDriverDto relayDriverDto,
 			MethodCallback<RelayDriverDto> callback);
 	
 	@Override
 	@DELETE
-	@Path("api/relaydrivers/{relayDriverId}")
+	@Path("relaydrivers/{relayDriverId}")
 	void delete(@PathParam("relayDriverId") Long relayDriverId, MethodCallback<MessageDto> callback);
 	
 	@GET
-	@Path("api/relaydrivers/{relayDriverId}")
+	@Path("relaydrivers/{relayDriverId}")
 	void findById(@PathParam("relayDriverId") Long relayDriverId, MethodCallback<RelayDriverDto> callback);
 	
 	@GET
-	@Path("api/relaydrivers")
+	@Path("relaydrivers")
 	void findByProjectId(@QueryParam("projectId") Long projectId, MethodCallback<List<RelayDriverDto>> callback);
 	
 	@Override
 	@POST
-	@Path("api/relaydrivers/search")
+	@Path("relaydrivers/search")
 	void searchByCriteria(QueryCriteriaDto criteriaDto,
 			MethodCallback<List<RelayDriverDto>> callback);
 	
 	@Override
 	@POST
-	@Path("api/relaydrivers/count")
+	@Path("relaydrivers/count")
 	void countByCriteria(QueryCriteriaDto criteriaDto,
 			MethodCallback<Long> callback);
 }

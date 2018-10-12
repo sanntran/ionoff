@@ -1,9 +1,9 @@
 version: 1.6.8
 
 server:
-    port: 8008
+    port: 8208
     servlet:
-        context-path: /iserver
+        context-path: /center
 spring:
     resources.add-mappings: false
     flyway:

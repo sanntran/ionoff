@@ -1,6 +1,6 @@
 package net.ionoff.center.server.mediaplayer.cache;
 
-import net.xapxinh.center.shared.dto.PlayListDto;
+import net.ionoff.center.shared.dto.player.PlayListDto;
 
 public class PlaylistCache extends PlayerCache{
 	

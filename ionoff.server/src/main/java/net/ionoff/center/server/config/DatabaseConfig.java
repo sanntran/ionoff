@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.beans.PropertyVetoException;
 import java.util.Properties;
@@ -35,7 +37,6 @@ public class DatabaseConfig {
 
     @Value("${hibernate.dialect}")
     private String dialect;
-
 
     @Bean
     public ComboPooledDataSource dataSource() {

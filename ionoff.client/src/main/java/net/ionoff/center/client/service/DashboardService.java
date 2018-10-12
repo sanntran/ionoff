@@ -15,15 +15,15 @@ import net.ionoff.center.shared.dto.DashboardDto;
 public interface DashboardService extends EntityService<DashboardDto> {
 	
 	@GET
-	@Path("api/dashboards/{dashboardId}")
+	@Path("dashboards/{dashboardId}")
 	void findById(@PathParam("dashboardId") Long dashboardId, MethodCallback<DashboardDto> callback);
 	
 	@GET
-	@Path("api/dashboards")
+	@Path("dashboards")
 	void findByZoneId(@QueryParam("zoneId") Long zoneId, MethodCallback<DashboardDto> callback);
 	
 	@GET
-	@Path("api/dashboards")
+	@Path("dashboards")
 	void findByProjectId(@QueryParam("projectId") Long projectId, MethodCallback<DashboardDto> callback);
 
 }

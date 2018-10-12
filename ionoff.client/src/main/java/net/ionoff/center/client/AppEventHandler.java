@@ -31,8 +31,8 @@ import net.ionoff.center.client.event.UserLogOutEventHandler;
 import net.ionoff.center.client.fullscreen.Fullscreen;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.client.utils.TokenUtil;
-import net.xapxinh.center.client.player.event.ShowPlayerMessageEvent;
-import net.xapxinh.center.client.player.event.ShowPlayerMessageEventHandler;
+import net.ionoff.center.client.mediaplayer.event.ShowPlayerMessageEvent;
+import net.ionoff.center.client.mediaplayer.event.ShowPlayerMessageEventHandler;
 
 /**
  * @author Sann Tran
@@ -67,10 +67,10 @@ public class AppEventHandler implements IAppEventHandler {
 			}
 		});
 		
-		eventBus.addHandler(net.xapxinh.center.client.player.event.RpcFailureEvent.TYPE, 
-				new net.xapxinh.center.client.player.event.RpcFailureEventHandler() {
+		eventBus.addHandler(net.ionoff.center.client.mediaplayer.event.RpcFailureEvent.TYPE,
+				new net.ionoff.center.client.mediaplayer.event.RpcFailureEventHandler() {
 			@Override
-			public void onRpcFailure(net.xapxinh.center.client.player.event.RpcFailureEvent event) {
+			public void onRpcFailure(net.ionoff.center.client.mediaplayer.event.RpcFailureEvent event) {
 				doShowLoading(false);
 				ClientUtil.handleRpcFailure(event.getMethod(), event.getException(), eventBus);
 			}
@@ -130,10 +130,10 @@ public class AppEventHandler implements IAppEventHandler {
 			}
 		});
 		
-		eventBus.addHandler(net.xapxinh.center.client.player.event.ShowLoadingEvent.TYPE, 
-				new net.xapxinh.center.client.player.event.ShowLoadingEventHandler() {
+		eventBus.addHandler(net.ionoff.center.client.mediaplayer.event.ShowLoadingEvent.TYPE,
+				new net.ionoff.center.client.mediaplayer.event.ShowLoadingEventHandler() {
 			@Override
-			public void onShowLoading(net.xapxinh.center.client.player.event.ShowLoadingEvent event) {
+			public void onShowLoading(net.ionoff.center.client.mediaplayer.event.ShowLoadingEvent event) {
 				doShowLoading(event.isLoading());
 			}
 		});

@@ -40,9 +40,9 @@ import net.ionoff.center.shared.entity.RelayAction;
 import net.ionoff.center.server.mediadata.exception.MediaDataRequestException;
 import net.ionoff.center.server.mediaplayer.exception.MediaPlayerConnectException;
 import net.ionoff.center.server.mediaplayer.service.IMediaPlayerService;
-import net.xapxinh.center.shared.dto.Command;
-import net.xapxinh.center.shared.dto.PlayerApi;
-import net.xapxinh.center.shared.dto.StatusDto;
+import net.ionoff.center.shared.dto.player.Command;
+import net.ionoff.center.shared.dto.player.PlayerApi;
+import net.ionoff.center.shared.dto.player.StatusDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -273,10 +273,10 @@ public class ControlServiceImpl implements IControlService {
 		}
 
 		if (album != null && albumType != null) {
-			logger.info("Clear current mediaplayer playlist... ");
+			logger.info("Clear current player playlist... ");
 			playerService.requesStatus(p, toParamMap(PlayerApi.emptyPlaylist()));
 			sleep(1000);
-			logger.info("Play album in mediaplayer, album name: " + album);
+			logger.info("Play album in player, album name: " + album);
 			if (PlayerApi.DIR.equals(albumType)) {
 				playerService.requesStatus(p, toParamMap(PlayerApi.addPlayDir(album)));
 			}
@@ -326,7 +326,7 @@ public class ControlServiceImpl implements IControlService {
 		try {
 			status = playerService.requesStatus(p, new HashMap<String, Object>());
 			if ("playing".equals(status.getState())) {
-				logger.info("Player is playing. Stop mediaplayer now");
+				logger.info("Player is playing. Stop player now");
 				playerService.requesStatus(p, toParamMap(PlayerApi.stopPlaylist()));
 			}
 		}

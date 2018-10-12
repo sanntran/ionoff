@@ -54,11 +54,11 @@ public class LatestVersionUpdator {
     public void downloadLatestVersion() {
 		try {
 			VersionDto latestVersion = getLatestVersion();
-			downloadLatestVersion(latestVersion);
+			//downloadLatestVersion(latestVersion);
 			if (appVersion.equals(latestVersion.getName())) {
 				Calendar cal = Calendar.getInstance();
 				if (cal.get(Calendar.HOUR_OF_DAY) == 1) { // 1AM
-					upgradeLatestVersion(latestVersion);
+					//upgradeLatestVersion(latestVersion);
 				}
 			}
 			

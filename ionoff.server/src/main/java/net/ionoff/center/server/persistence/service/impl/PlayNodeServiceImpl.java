@@ -17,8 +17,8 @@ import net.ionoff.center.server.persistence.service.IPlayListService;
 import net.ionoff.center.server.persistence.service.IPlayNodeService;
 import net.ionoff.center.server.entity.PlayLeaf;
 import net.ionoff.center.server.entity.PlayNode;
-import net.xapxinh.center.shared.dto.PlayLeafDto;
-import net.xapxinh.center.shared.dto.PlayNodeDto;
+import net.ionoff.center.shared.dto.player.PlayLeafDto;
+import net.ionoff.center.shared.dto.player.PlayNodeDto;
 
 @Service
 @Transactional

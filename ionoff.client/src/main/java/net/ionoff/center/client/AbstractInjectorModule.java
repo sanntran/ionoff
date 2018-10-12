@@ -37,7 +37,7 @@ import net.ionoff.center.client.service.SystemService;
 import net.ionoff.center.client.service.UserService;
 import net.ionoff.center.client.service.ZoneService;
 import net.ionoff.center.client.utils.ClientUtil;
-import net.xapxinh.center.client.player.rpc.PlayerService;
+import net.ionoff.center.client.mediaplayer.rpc.PlayerService;
 
 public class AbstractInjectorModule extends AbstractGinModule {
     

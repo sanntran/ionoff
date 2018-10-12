@@ -18,12 +18,12 @@ import net.ionoff.center.shared.dto.ModeSensorSceneDto;
 public interface ModeSensorSceneService extends RestService {
 
 	@PUT
-	@Path("api/modesensorscenes/{modeSensorSceneId}")
+	@Path("modesensorscenes/{modeSensorSceneId}")
 	void update(@PathParam("modeSensorSceneId") Long modeSensorSceneId,
 			ModeSensorSceneDto modeSensorSceneDto, MethodCallback<ModeSensorSceneDto> callback);
 
 	@GET
-	@Path("api/modesensors/{modeSensorId}/modesensorscenes")
+	@Path("modesensors/{modeSensorId}/modesensorscenes")
 	void findByModeSensorId(@PathParam("modeSensorId") Long modeSensorId,
 			MethodCallback<List<ModeSensorSceneDto>> callback);
 }

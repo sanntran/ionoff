@@ -10,7 +10,7 @@ import com.google.inject.Provider;
 
 import net.ionoff.center.client.service.LoginService;
 import net.ionoff.center.client.utils.ClientUtil;
-import net.xapxinh.center.client.player.rpc.PlayerService;
+import net.ionoff.center.client.mediaplayer.rpc.PlayerService;
 
 public class AppInjectorModule extends AbstractInjectorModule {
     

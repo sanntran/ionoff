@@ -3,6 +3,9 @@ package net.ionoff.center.server.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.OPTIONS;
+import javax.ws.rs.Path;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
@@ -84,8 +87,7 @@ public class AuthenticationController {
 			produces = "application/json; charset=utf-8")
 
 	public Kookie requestAuthen(
-			@RequestParam(value="projectId", required=false) Long projectId,
-			HttpServletRequest request) throws InvalidTokenException, AppUnactivatedException {
+			@RequestParam(value="projectId", required=false) Long projectId, HttpServletRequest request) {
 		
 		if (!LicenseManager.isActivated()) {
 			logger.info("Login unsuccessfully. Application is unactivated");
@@ -125,7 +127,7 @@ public class AuthenticationController {
 			produces = "application/json; charset=utf-8")
 
 	public Kookie requestAuthen( @RequestParam("username") String username, @RequestParam("password") String password,
-								@RequestParam("remember") boolean remember, @RequestParam("language") String language) throws AppUnactivatedException {
+								@RequestParam("remember") boolean remember, @RequestParam("language") String language) {
 		
 		if (!LicenseManager.isActivated()) {
 			logger.info("Login unsuccessfully. Application is unactivated");
@@ -185,4 +187,5 @@ public class AuthenticationController {
 		logger.error("Authentication exception. Login unsuccessfully.");
 		return new MessageDto(HttpStatus.UNAUTHORIZED.value(), "Authentication exception");
 	}
+
 }

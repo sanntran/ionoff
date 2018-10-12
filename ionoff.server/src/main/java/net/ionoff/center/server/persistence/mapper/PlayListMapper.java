@@ -3,9 +3,9 @@ package net.ionoff.center.server.persistence.mapper;
 import java.util.ArrayList;
 
 import net.ionoff.center.server.entity.PlayList;
-import net.xapxinh.center.shared.dto.PlayLeafDto;
-import net.xapxinh.center.shared.dto.PlayListDto;
-import net.xapxinh.center.shared.dto.PlayNodeDto;
+import net.ionoff.center.shared.dto.player.PlayLeafDto;
+import net.ionoff.center.shared.dto.player.PlayListDto;
+import net.ionoff.center.shared.dto.player.PlayNodeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import net.ionoff.center.server.persistence.service.IPlayNodeService;

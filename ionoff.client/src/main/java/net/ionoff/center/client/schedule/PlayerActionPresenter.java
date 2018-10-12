@@ -18,9 +18,9 @@ import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.shared.dto.BaseDto;
 import net.ionoff.center.shared.dto.SchedulePlayerActionDto;
-import net.xapxinh.center.client.player.event.RpcFailureEvent;
-import net.xapxinh.center.shared.dto.MediaFile;
-import net.xapxinh.center.shared.dto.PlayerApi;
+import net.ionoff.center.client.mediaplayer.event.RpcFailureEvent;
+import net.ionoff.center.shared.dto.player.MediaFile;
+import net.ionoff.center.shared.dto.player.PlayerApi;
 
 public abstract class PlayerActionPresenter<T extends BaseDto> extends SceneActionPresenter {
 	

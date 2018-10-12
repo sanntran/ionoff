@@ -30,89 +30,89 @@ public interface UserService extends EntityService<UserDto> {
 	
 	@Override
 	@POST
-	@Path("api/users/search")
+	@Path("users/search")
 	void searchByCriteria(QueryCriteriaDto criteriaDto,
 			MethodCallback<List<UserDto>> methodCallback);
 
 	@Override
 	@POST
-	@Path("api/users/count")
+	@Path("users/count")
 	void countByCriteria(QueryCriteriaDto criteriaDto,
 			MethodCallback<Long> methodCallback);
 	
 	@PUT
-	@Path("api/projects/{projectId}/users/{userId}")
+	@Path("projects/{projectId}/users/{userId}")
 	void save(@PathParam("projectId") Long projectId, @PathParam("userId") Long userId, 
 			UserDto userDto, MethodCallback<UserDto> callback);
 	
 	@PUT
-	@Path("api/users/{userId}")
+	@Path("users/{userId}")
 	void save(@PathParam("userId") Long userId, 
 			UserDto userDto, MethodCallback<UserDto> callback);
 	
 	@Override
 	@DELETE
-	@Path("api/users/{userId}")
+	@Path("users/{userId}")
 	void delete(@PathParam("userId") Long userId, MethodCallback<MessageDto> callback);
 	
 	@GET
-	@Path("api/users/{userId}")
+	@Path("users/{userId}")
 	void findById(@PathParam("userId") Long userId, MethodCallback<UserDto> callback);
 	
 	@GET
-	@Path("api/users/{userName}")
+	@Path("users/{userName}")
 	void findByName(@PathParam("userName") String userName, MethodCallback<UserDto> callback);
 	
 	@POST
-	@Path("api/versions/upgrade")
+	@Path("versions/upgrade")
 	void updateNewVersion(MethodCallback<VersionDto> callback);
 	
 	@GET
-	@Path("api/versions/latest")
+	@Path("versions/latest")
 	void getLatestVersion(MethodCallback<VersionDto> methodCallback);
 	
 	@GET
-	@Path("api/versions/current")
+	@Path("versions/current")
 	void getCurrentVersion(MethodCallback<VersionDto> methodCallback);
 	
 	@GET
-	@Path("api/versions/check")
+	@Path("versions/check")
 	void checkLatestVersion(MethodCallback<VersionDto> methodCallback);
 	
 	@GET
-	@Path("api/users/{userId}/projects")
+	@Path("users/{userId}/projects")
 	void getProjectsByUser(@PathParam("userId") Long userId, MethodCallback<List<ProjectDto>> methodCallback);
 	
 	@POST
-	@Path("api/userprojects/{userProjectId}")
+	@Path("userprojects/{userProjectId}")
 	void updateUserProject(@PathParam("userProjectId") Long userProjectId, UserProjectDto userProjectDto, MethodCallback<UserProjectDto> callback);
 
 	@GET
-	@Path("api/users/{userId}/zones")
+	@Path("users/{userId}/zones")
 	void getZonesByProjectId(@PathParam("userId") Long userId, @QueryParam("projectId") Long projectId, MethodCallback<List<ZoneDto>> methodCallback);
 	
 	@GET
-	@Path("api/userzones")
+	@Path("userzones")
 	void getUserZonesByProjectId(@QueryParam("userId") Long userId,
 			@QueryParam("projectId") Long projectId, MethodCallback<List<UserZoneDto>> callback);
 	
 	@POST
-	@Path("api/userzones/{userZoneId}")
+	@Path("userzones/{userZoneId}")
 	void updateUserZone(@PathParam("userZoneId") Long userZoneId, UserZoneDto userZoneDto, MethodCallback<UserZoneDto> callback);
 	
 	@POST
-	@Path("api/userdevices/{userDeviceId}")
+	@Path("userdevices/{userDeviceId}")
 	void updateUserDevice(@PathParam("userDeviceId") Long userDeviceId, UserDeviceDto userDeviceDto, MethodCallback<UserDeviceDto> callback);
 	
 	@POST
-	@Path("api/userscenes/{userSceneId}")
+	@Path("userscenes/{userSceneId}")
 	void updateUserScene(@PathParam("userSceneId") Long userSceneId, UserSceneDto userSceneDto, MethodCallback<UserSceneDto> callback);
 	
 	@GET
-	@Path("api/userprojects")
+	@Path("userprojects")
 	void getUserProjectsByUser(@QueryParam("userId") Long userId, MethodCallback<List<UserProjectDto>> methodCallback);
 	
 	@POST
-	@Path("api/users/{userId}/language")
+	@Path("users/{userId}/language")
 	void changeLanguage(@PathParam("userId") Long userId, @QueryParam("language") String language, MethodCallback<UserDto> callback);
 }

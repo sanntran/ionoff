@@ -8,7 +8,7 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestException;
 
 public class RestyDispatcher extends DefaultFilterawareDispatcher {
-	
+
     public RestyDispatcher() {
 	    addFilter(new AuthDispatcherFilter());
     }

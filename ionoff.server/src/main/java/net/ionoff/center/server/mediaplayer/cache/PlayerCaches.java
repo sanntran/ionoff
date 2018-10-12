@@ -3,8 +3,8 @@ package net.ionoff.center.server.mediaplayer.cache;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.xapxinh.center.shared.dto.PlayListDto;
-import net.xapxinh.center.shared.dto.StatusDto;
+import net.ionoff.center.shared.dto.player.PlayListDto;
+import net.ionoff.center.shared.dto.player.StatusDto;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
-		<groupId>net.ionoff</groupId>
-		<artifactId>ionoff</artifactId>
-		<version>1.6.4</version>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.0.RELEASE</version>
 		<relativePath>../ionoff/pom.xml</relativePath>
 	</parent>
-	
+
 	<artifactId>ionoff.client</artifactId>
 	<packaging>war</packaging>
 	<name>ionoff.client</name>
@@ -22,9 +22,15 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>net.ionoff</groupId>
 			<artifactId>ionoff.shared</artifactId>
-			<version>1.6.4</version>
+			<version>1.6.8</version>
 		</dependency>
 
 		<dependency> 
@@ -47,7 +53,7 @@
 		<dependency>
 			<groupId>org.fusesource.restygwt</groupId>
 			<artifactId>restygwt</artifactId>
-			<version>2.0.3</version>
+			<version>2.2.3</version>
 		</dependency>
 		
 		<dependency>

@@ -19,11 +19,11 @@ import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.PlayerDto;
-import net.xapxinh.center.client.player.event.ShowLoadingEvent;
-import net.xapxinh.center.shared.dto.Command;
-import net.xapxinh.center.shared.dto.PlayerApi;
-import net.xapxinh.center.shared.dto.StateDto;
-import net.xapxinh.center.shared.dto.StatusDto;
+import net.ionoff.center.client.mediaplayer.event.ShowLoadingEvent;
+import net.ionoff.center.shared.dto.player.Command;
+import net.ionoff.center.shared.dto.player.PlayerApi;
+import net.ionoff.center.shared.dto.player.StateDto;
+import net.ionoff.center.shared.dto.player.StatusDto;
 
 public class PlayerPresenter extends DevicePresenter {
 

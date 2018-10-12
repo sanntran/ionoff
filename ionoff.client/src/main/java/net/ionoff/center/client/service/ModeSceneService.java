@@ -15,7 +15,7 @@ import net.ionoff.center.shared.dto.ModeSceneDto;
 public interface ModeSceneService extends RestService {
 	
 	@PUT
-	@Path("api/modescenes/{modeSceneId}")
+	@Path("modescenes/{modeSceneId}")
 	void save(@PathParam("modeSceneId") Long modeSceneId, 
 			ModeSceneDto modeSceneDto, MethodCallback<ModeSceneDto> callback);
 }

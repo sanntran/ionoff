@@ -1,0 +1,13 @@
+@provide "variables";
+ 
+@def C_BLUE eval("net.ionoff.center.client.mediaplayer.resources.Variables.C_BLUE");
+@def C_RED eval("net.ionoff.center.client.mediaplayer.resources.Variables.C_RED");
+@def C_GREEN eval("net.ionoff.center.client.mediaplayer.resources.Variables.C_GREEN");
+@def C_ORANGE eval("net.ionoff.center.client.mediaplayer.resources.Variables.C_ORANGE");
+@def C_DARK_BLUE eval("net.ionoff.center.client.mediaplayer.resources.Variables.C_DARK_BLUE");
+@def C_YELLOW eval("net.ionoff.center.client.mediaplayer.resources.Variables.C_YELLOW");
+@def C_LIGHT_YELLOW eval("net.ionoff.center.client.mediaplayer.resources.Variables.C_LIGHT_YELLOW");
+@def C_LIGHT_GREEN eval("net.ionoff.center.client.mediaplayer.resources.Variables.C_LIGHT_GREEN");
+@def C_LIGHT_GRAY eval("net.ionoff.center.client.mediaplayer.resources.Variables.C_LIGHT_GRAY");
+@def C_DARK eval("net.ionoff.center.client.mediaplayer.resources.Variables.C_DARK");
+   

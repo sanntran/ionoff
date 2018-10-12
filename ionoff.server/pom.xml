@@ -147,7 +147,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>iserver</finalName>
+		<finalName>center</finalName>
 
 		<resources>
 			<resource>

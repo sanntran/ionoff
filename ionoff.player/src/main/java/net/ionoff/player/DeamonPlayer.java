@@ -1,10 +1,12 @@
 package net.ionoff.player;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import net.ionoff.player.exception.MediaDataRequestException;
 import net.ionoff.player.util.HttpClient;
 import org.apache.log4j.Logger;
 import org.bff.javampd.command.MPDCommandExecutor;
@@ -555,8 +557,8 @@ public class DeamonPlayer {
 			return mrl;
 		}
 		catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			return null;
+			LOGGER.error("Error getting youtube mrl: " + e.getMessage(), e);
+			throw new MediaDataRequestException(e.getMessage());
 		}
 	}
 }

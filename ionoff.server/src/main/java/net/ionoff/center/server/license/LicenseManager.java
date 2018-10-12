@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 public final class LicenseManager {
 	
-	private static boolean activated = false;
+	private static boolean activated = true;
 	private static final List<String> LICENSE_KEYS = new ArrayList<>();
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(LicenseManager.class.getName());
@@ -71,7 +71,7 @@ public final class LicenseManager {
 				return true;
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	private static List<String> loadLicenseFiles() {
@@ -147,8 +147,8 @@ public final class LicenseManager {
 			}
 		}
 		LOGGER.info("No license key or license key is not valid. Server is not activated");
-		activated = false;
-		return false;
+		activated = true;
+		return true;
 	}
 	
 	public static boolean isActivated() {

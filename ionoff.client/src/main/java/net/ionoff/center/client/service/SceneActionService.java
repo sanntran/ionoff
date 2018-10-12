@@ -17,7 +17,7 @@ import net.ionoff.center.shared.dto.SceneActionDto;
 public interface SceneActionService extends RestService {
 	
 	@GET
-	@Path("api/sceneactions")
+	@Path("sceneactions")
 	void findBySceneDevice(
 			@QueryParam("sceneDeviceId") Long sceneDeviceId,
 			MethodCallback<List<SceneActionDto>> callback);

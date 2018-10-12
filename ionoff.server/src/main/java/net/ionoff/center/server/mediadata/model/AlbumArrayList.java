@@ -2,7 +2,7 @@ package net.ionoff.center.server.mediadata.model;
 
 import java.util.ArrayList;
 
-import net.xapxinh.center.shared.dto.Album;
+import net.ionoff.center.shared.dto.player.Album;
 
 public class AlbumArrayList extends ArrayList<Album> {
 

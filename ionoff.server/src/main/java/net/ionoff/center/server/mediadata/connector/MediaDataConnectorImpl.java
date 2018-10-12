@@ -7,14 +7,13 @@ import net.ionoff.center.server.mediaplayer.model.MediaPlayer;
 import net.ionoff.center.server.util.AccentRemover;
 import net.ionoff.center.server.wsclient.RestTemplateFactory;
 import net.ionoff.center.server.wsclient.RestTemplateRequestIntercepter;
-import net.xapxinh.center.shared.dto.Album;
-import net.xapxinh.center.shared.dto.SongDto;
-import net.xapxinh.center.shared.dto.YoutubeVideosDto;
+import net.ionoff.center.shared.dto.player.Album;
+import net.ionoff.center.shared.dto.player.SongDto;
+import net.ionoff.center.shared.dto.player.YoutubeVideosDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 

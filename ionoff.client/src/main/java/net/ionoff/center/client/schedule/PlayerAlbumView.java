@@ -4,8 +4,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
-import net.xapxinh.center.shared.dto.MediaFile;
-import net.xapxinh.center.shared.dto.PlayerApi;
+import net.ionoff.center.shared.dto.player.MediaFile;
+import net.ionoff.center.shared.dto.player.PlayerApi;
 
 public class PlayerAlbumView extends FlowPanel {
 	

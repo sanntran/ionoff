@@ -15,10 +15,10 @@ import net.ionoff.center.shared.dto.ServerInfoDto;
 public interface SystemService extends RestService {
 
 	@GET
-	@Path("api/system/info")
+	@Path("system/info")
 	void getServerInfo(MethodCallback<ServerInfoDto> methodCallback);
 	
 	@GET
-	@Path("api/system/datetime")
+	@Path("system/datetime")
 	void getServerDateTime(MethodCallback<DateTimeDto> methodCallback);
 }

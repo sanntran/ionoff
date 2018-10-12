@@ -3,9 +3,9 @@ package net.ionoff.center.server.mediadata.connector;
 import java.util.List;
 
 import net.ionoff.center.server.mediaplayer.model.MediaPlayer;
-import net.xapxinh.center.shared.dto.Album;
-import net.xapxinh.center.shared.dto.SongDto;
-import net.xapxinh.center.shared.dto.YoutubeVideosDto;
+import net.ionoff.center.shared.dto.player.Album;
+import net.ionoff.center.shared.dto.player.SongDto;
+import net.ionoff.center.shared.dto.player.YoutubeVideosDto;
 
 public interface IMediaDataConnector {
 	

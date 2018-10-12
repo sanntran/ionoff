@@ -78,9 +78,11 @@ public final class ClientUtil {
 	public static String getBaseUrl() {
 		String protocol = Window.Location.getProtocol();
     	if (protocol.contains("http")) {
-    		return protocol 
-        			+ "//" + Window.Location.getHostName() 
-        			+ ":" + Window.Location.getPort();
+    		String port = Window.Location.getPort();
+    		if (!"8008".equals(port) && !"80".equals(port)) { // production port
+    			port = "8208"; // development mode
+		    }
+    		return protocol + "//" + Window.Location.getHostName() + ":" + port;
     	}
     	ApiServer server = StorageService.getInstance().getEnabledApiServer();
 		if (server == null) {
@@ -97,7 +99,7 @@ public final class ClientUtil {
 	}
 	
 	public static String getServiceUrl() {
-		return getBaseUrl() + "/iserver";  
+		return getBaseUrl() + "/center";
     }
 
 	public static MessageDto handleRpcFailure(Method method, Throwable exception, HandlerManager eventBus) {

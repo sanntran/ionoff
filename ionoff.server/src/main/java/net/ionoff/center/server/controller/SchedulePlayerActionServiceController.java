@@ -41,7 +41,7 @@ public class SchedulePlayerActionServiceController {
 		}
 		
 		final String userName = RequestContextHolder.getUserName();
-		logger.info("User " + userName + " update scheduler-mediaplayer-action. ID: "
+		logger.info("User " + userName + " update scheduler-player-action. ID: "
 				+ schedulePlayerActionDto.getId() + ", Action: " + schedulePlayerActionDto.getAction());
 		
 		return scheduleActionService.updateSchedulePlayerActionDto(schedulePlayerActionDto);

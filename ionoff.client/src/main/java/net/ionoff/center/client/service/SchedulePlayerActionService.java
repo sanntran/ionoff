@@ -15,7 +15,7 @@ import net.ionoff.center.shared.dto.SchedulePlayerActionDto;
 public interface SchedulePlayerActionService extends RestService {
 	
 	@PUT
-	@Path("api/scheduleplayeractions/{schedulePlayerActionId}")
+	@Path("scheduleplayeractions/{schedulePlayerActionId}")
 	void save(@PathParam("schedulePlayerActionId") Long schedulePlayerActionId, 
 			SchedulePlayerActionDto schedulePlayerActionDto, MethodCallback<SchedulePlayerActionDto> callback);
 }

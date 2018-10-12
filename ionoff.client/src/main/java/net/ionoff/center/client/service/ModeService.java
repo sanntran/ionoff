@@ -19,39 +19,39 @@ import net.ionoff.center.shared.dto.QueryCriteriaDto;
 public interface ModeService extends EntityService<ModeDto> {
 
 	@PUT
-	@Path("api/modes/{modeId}")
+	@Path("modes/{modeId}")
 	void save(@PathParam("modeId") Long modeId, ModeDto modeDto, MethodCallback<ModeDto> callback);
 	
 	@Override
 	@DELETE
-	@Path("api/modes/{modeId}")
+	@Path("modes/{modeId}")
 	void delete(@PathParam("modeId") Long modeId, MethodCallback<MessageDto> callback);
 	
 	@Override
 	@POST
-	@Path("api/modes/search")
+	@Path("modes/search")
 	void searchByCriteria(QueryCriteriaDto criteriaDto,
 			MethodCallback<List<ModeDto>> callback);
 	
 	@Override
 	@POST
-	@Path("api/modes/count")
+	@Path("modes/count")
 	void countByCriteria(QueryCriteriaDto criteriaDto,
 			MethodCallback<Long> callback);
 	
 	@GET
-	@Path("api/modes/{modeId}")
+	@Path("modes/{modeId}")
 	void findById(@PathParam("modeId") Long modeId, MethodCallback<ModeDto> callback);
 	
 	@GET
-	@Path("api/modes")
+	@Path("modes")
 	void findByProjectId(@QueryParam("projectId") Long projectId, MethodCallback<List<ModeDto>> callback);
 	
 	@GET
-	@Path("api/modes/activated")
+	@Path("modes/activated")
 	void findByActivated(@QueryParam("projectId") Long projectId, MethodCallback<ModeDto> methodCallback);
 	
 	@POST
-	@Path("api/modes/{modeId}/activate")
+	@Path("modes/{modeId}/activate")
 	void activateById(@PathParam("modeId") Long modeId, MethodCallback<MessageDto> methodCallback);
 }

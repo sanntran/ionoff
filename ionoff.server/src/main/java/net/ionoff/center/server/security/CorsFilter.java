@@ -9,7 +9,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletResponse;    
+import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class CorsFilter implements javax.servlet.Filter {
@@ -21,7 +21,7 @@ public class CorsFilter implements javax.servlet.Filter {
         ((HttpServletResponse) response).addHeader("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST, PUT, DELETE");
         ((HttpServletResponse) response).addHeader("Access-Control-Allow-Headers",
         		"access-control-allow-headers,access-control-allow-methods,access-control-allow-origin,x-http-method-override,Origin,X-Requested-With,Content-Type,Accept,Authorization");
-        
+
     	chain.doFilter(request, response);
     }
 

@@ -12,10 +12,6 @@ public final class AuthDispatcherFilter implements DispatcherFilter {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
 
-    
-    public AuthDispatcherFilter() {
-    }
-    
     @Override
     public boolean filter(Method method, RequestBuilder builder) {
 	    String authHeaderValue = StorageService.getInstance().getCookie().getJwtToken();

@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import net.ionoff.center.server.mediaplayer.model.MediaPlayer;
-import net.xapxinh.center.shared.dto.MediaFile;
-import net.xapxinh.center.shared.dto.PlayListDto;
-import net.xapxinh.center.shared.dto.ScheduleDto;
-import net.xapxinh.center.shared.dto.StatusDto;
+import net.ionoff.center.shared.dto.player.MediaFile;
+import net.ionoff.center.shared.dto.player.PlayListDto;
+import net.ionoff.center.shared.dto.player.ScheduleDto;
+import net.ionoff.center.shared.dto.player.StatusDto;
 
 public interface IMediaPlayerService {
 

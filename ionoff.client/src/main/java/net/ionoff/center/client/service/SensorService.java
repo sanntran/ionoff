@@ -23,30 +23,30 @@ public interface SensorService extends EntityService<SensorDto> {
 
 	@Override
 	@POST
-	@Path("api/sensors/count")
+	@Path("sensors/count")
 	void countByCriteria(QueryCriteriaDto criteriaDto,
 						 MethodCallback<Long> callback);
 
 	@Override
 	@POST
-	@Path("api/sensors/search")
+	@Path("sensors/search")
 	void searchByCriteria(QueryCriteriaDto criteriaDto,
 			MethodCallback<List<SensorDto>> callback);
 
 	@PUT
-	@Path("api/sensors/{sensorId}")
+	@Path("sensors/{sensorId}")
 	void save(@PathParam("sensorId") Long sensorId, SensorDto sensorDto, MethodCallback<SensorDto> callback);
 	
 	@Override
 	@DELETE
-	@Path("api/sensors/{sensorId}")
+	@Path("sensors/{sensorId}")
 	void delete(@PathParam("sensorId") Long sensorId, MethodCallback<MessageDto> callback);
 	
 	@GET
-	@Path("api/sensors/{sensorId}")
+	@Path("sensors/{sensorId}")
 	void findById(@PathParam("sensorId") Long sensorId, MethodCallback<SensorDto> callback);
 	
 	@GET
-	@Path("api/sensors")
+	@Path("sensors")
 	void findByProjectId(@QueryParam("projectId") Long projectId, MethodCallback<List<SensorDto>> callback);
 }

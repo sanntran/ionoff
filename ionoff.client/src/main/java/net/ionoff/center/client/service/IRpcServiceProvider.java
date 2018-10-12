@@ -1,6 +1,6 @@
 package net.ionoff.center.client.service;
 
-import net.xapxinh.center.client.player.rpc.PlayerService;
+import net.ionoff.center.client.mediaplayer.rpc.PlayerService;
 
 public interface IRpcServiceProvider {
 	

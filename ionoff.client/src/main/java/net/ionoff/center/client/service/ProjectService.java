@@ -21,32 +21,32 @@ import net.ionoff.center.shared.dto.QueryCriteriaDto;
 public interface ProjectService extends EntityService<ProjectDto> {
 
 	@PUT
-	@Path("api/projects/{projectId}")
+	@Path("projects/{projectId}")
 	void save(@PathParam("projectId") Long projectId, ProjectDto projectDto, 
 			MethodCallback<ProjectDto> callback);
 	
 	@Override
 	@DELETE
-	@Path("api/projects/{projectId}")
+	@Path("projects/{projectId}")
 	void delete(@PathParam("projectId") Long projectId, MethodCallback<MessageDto> callback);
 
 	@GET
-	@Path("api/projects/{projectId}")
+	@Path("projects/{projectId}")
 	void findById(@PathParam("projectId") Long projectId, MethodCallback<ProjectDto> callback);
 	
 	@GET
-	@Path("api/projects")
+	@Path("projects")
 	void getAll(MethodCallback<List<ProjectDto>> callback);
 
 	@Override
 	@POST
-	@Path("api/projects/search")
+	@Path("projects/search")
 	void searchByCriteria(QueryCriteriaDto criteriaDto,
 			MethodCallback<List<ProjectDto>> callback);
 
 	@Override
 	@POST
-	@Path("api/projects/count")
+	@Path("projects/count")
 	void countByCriteria(QueryCriteriaDto criteriaDto,
 			MethodCallback<Long> callback);
 }

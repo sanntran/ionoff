@@ -1,6 +1,6 @@
 package net.ionoff.center.server.mediaplayer.cache;
 
-import net.xapxinh.center.shared.dto.StatusDto;
+import net.ionoff.center.shared.dto.player.StatusDto;
 
 public class StatusCache extends PlayerCache {
 	

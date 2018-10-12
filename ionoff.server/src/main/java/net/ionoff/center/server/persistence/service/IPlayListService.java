@@ -6,7 +6,7 @@ import net.ionoff.center.server.entity.PlayList;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.User;
-import net.xapxinh.center.shared.dto.PlayListDto;
+import net.ionoff.center.shared.dto.player.PlayListDto;
 
 @Transactional
 public interface IPlayListService extends IGenericService<PlayList, PlayListDto> {

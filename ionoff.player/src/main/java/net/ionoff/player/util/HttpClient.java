@@ -14,6 +14,8 @@ public class HttpClient {
 
 		// optional default is GET
 		con.setRequestMethod("GET");
+		con.setConnectTimeout(3000);
+		con.setReadTimeout(10000);
 		// add request header
 		con.setRequestProperty("User-Agent", "Mozilla/5.0");
 		// int responseCode = con.getResponseCode();

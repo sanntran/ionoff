@@ -15,7 +15,7 @@ import net.ionoff.center.shared.dto.ScenePlayerActionDto;
 public interface ScenePlayerActionService extends RestService {
 	
 	@PUT
-	@Path("api/sceneplayeractions/{scenePlayerActionId}")
+	@Path("sceneplayeractions/{scenePlayerActionId}")
 	void save(@PathParam("scenePlayerActionId") Long scenePlayerActionId, 
 			ScenePlayerActionDto scenePlayerActionDto, MethodCallback<ScenePlayerActionDto> callback);
 }

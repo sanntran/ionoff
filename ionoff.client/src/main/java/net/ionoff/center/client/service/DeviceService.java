@@ -23,71 +23,71 @@ import net.ionoff.center.shared.dto.StatusDto;
 public interface DeviceService extends EntityService<DeviceDto> {
 
 	@PUT
-	@Path("api/devices/{deviceId}")
+	@Path("devices/{deviceId}")
 	void save(@PathParam("deviceId") Long deviceId, DeviceDto deviceDto, MethodCallback<DeviceDto> callback);
 	
 	@Override
 	@DELETE
-	@Path("api/devices/{deviceId}")
+	@Path("devices/{deviceId}")
 	void delete(@PathParam("deviceId") Long deviceId, MethodCallback<MessageDto> callback);
 	
 	@Override
 	@POST
-	@Path("api/devices/search")
+	@Path("devices/search")
 	void searchByCriteria(QueryCriteriaDto criteriaDto,
 			MethodCallback<List<DeviceDto>> callback);
 	
 	@Override 
 	@POST
-	@Path("api/devices/count")
+	@Path("devices/count")
 	void countByCriteria(QueryCriteriaDto criteriaDto,
 			MethodCallback<Long> callback);
 	
 	@GET
-	@Path("api/devices/{deviceId}")
+	@Path("devices/{deviceId}")
 	void findById(@PathParam("deviceId") Long deviceId, MethodCallback<DeviceDto> callback);
 	
 	@GET
-	@Path("api/devices")
+	@Path("devices")
 	void findByProjectId(@QueryParam("projectId") Long projectId, MethodCallback<List<DeviceDto>> callback);
 	
 	@GET
-	@Path("api/devices")
+	@Path("devices")
 	void findByZoneId(@QueryParam("zoneId") Long zoneId, MethodCallback<List<DeviceDto>> callback);
 	
 	@POST
-	@Path("api/devices/{deviceId}/off")
+	@Path("devices/{deviceId}/off")
 	void turnOffDevice(@PathParam("deviceId") Long deviceId, MethodCallback<StatusDto> callback);
 	
 	@POST
-	@Path("api/devices/{deviceId}/on")
+	@Path("devices/{deviceId}/on")
 	void turnOnDevice(@PathParam("deviceId") Long deviceId, MethodCallback<StatusDto> callback);
 	
 	@GET
-	@Path("api/devices/status")
+	@Path("devices/status")
 	void getStatusByZoneId(@QueryParam("zoneId") Long zoneId, MethodCallback<List<StatusDto>> methodCallback);
 	
 	@GET
-	@Path("api/devices/status")
+	@Path("devices/status")
 	void getStatusByProjectId(@QueryParam("projectId") Long projectId, MethodCallback<List<StatusDto>> methodCallback);
 	
 	@POST
-	@Path("api/devices/{deviceId}/dashboards")
+	@Path("devices/{deviceId}/dashboards")
 	void addToZoneDashboard(@PathParam("deviceId") Long deviceId, @QueryParam("zoneId") Long zoneId, 
 			MethodCallback<DeviceDto> methodCallback);
 	
 	@POST
-	@Path("api/devices/{deviceId}/dashboards")
+	@Path("devices/{deviceId}/dashboards")
 	void addToProjectDashboard(@PathParam("deviceId") Long deviceId, @QueryParam("projectId") Long projectId, 
 			MethodCallback<MessageDto> methodCallback);
 	
 	@DELETE
-	@Path("api/devices/{deviceId}/dashboards")
+	@Path("devices/{deviceId}/dashboards")
 	void removeFromZoneDashboard(@PathParam("deviceId") Long deviceId, @QueryParam("zoneId") Long zoneId, 
 			MethodCallback<MessageDto> methodCallback);
 	
 	@DELETE
-	@Path("api/devices/{deviceId}/dashboards")
+	@Path("devices/{deviceId}/dashboards")
 	void removeFromProjectDashboard(@PathParam("deviceId") Long deviceId, @QueryParam("projectId") Long projectId, 
 			MethodCallback<MessageDto> methodCallback);
 }

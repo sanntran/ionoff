@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.PlayLeaf;
 import net.ionoff.center.server.entity.PlayNode;
-import net.xapxinh.center.shared.dto.PlayLeafDto;
-import net.xapxinh.center.shared.dto.PlayNodeDto;
+import net.ionoff.center.shared.dto.player.PlayLeafDto;
+import net.ionoff.center.shared.dto.player.PlayNodeDto;
 
 @Transactional
 public interface IPlayNodeService extends IGenericService<PlayNode, PlayNodeDto> {

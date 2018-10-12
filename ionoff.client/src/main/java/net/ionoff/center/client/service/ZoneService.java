@@ -22,30 +22,30 @@ public interface ZoneService extends EntityService<ZoneDto> {
 	
 	@Override
 	@POST
-	@Path("api/zones/search")
+	@Path("zones/search")
 	void searchByCriteria(QueryCriteriaDto criteriaDto,
 			MethodCallback<List<ZoneDto>> callback);
 	
 	@Override
 	@POST
-	@Path("api/zones/count")
+	@Path("zones/count")
 	void countByCriteria(QueryCriteriaDto criteriaDto,
 			MethodCallback<Long> callback);
 	
 	@PUT
-	@Path("api/zones/{zoneId}")
+	@Path("zones/{zoneId}")
 	void save(@PathParam("zoneId") Long zoneId, ZoneDto zoneDto, MethodCallback<ZoneDto> callback);
 	
 	@Override
 	@DELETE
-	@Path("api/zones/{zoneId}")
+	@Path("zones/{zoneId}")
 	void delete(@PathParam("zoneId") Long zoneId, MethodCallback<MessageDto> callback);
 	
 	@GET
-	@Path("api/zones/{zoneId}")
+	@Path("zones/{zoneId}")
 	void findById(@PathParam("zoneId") Long zoneId, MethodCallback<ZoneDto> callback);
 
 	@GET
-	@Path("api/projects/{projectId}/zones")
+	@Path("projects/{projectId}/zones")
 	void findByProjectId(@PathParam("projectId") Long projectId, MethodCallback<List<ZoneDto>> callback);
 }

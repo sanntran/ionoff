@@ -15,7 +15,7 @@ import net.ionoff.center.shared.dto.SceneRelayActionDto;
 public interface SceneRelayActionService extends RestService {
 	
 	@PUT
-	@Path("api/scenerelayactions/{sceneRelayActionId}")
+	@Path("scenerelayactions/{sceneRelayActionId}")
 	void save(@PathParam("sceneRelayActionId") Long sceneRelayActionId, 
 			SceneRelayActionDto sceneRelayActionDto, MethodCallback<SceneRelayActionDto> callback);
 }

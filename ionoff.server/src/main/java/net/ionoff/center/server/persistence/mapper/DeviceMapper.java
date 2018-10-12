@@ -18,7 +18,7 @@ import net.ionoff.center.shared.dto.LightDto;
 import net.ionoff.center.shared.dto.PlayerDto;
 import net.ionoff.center.shared.dto.RelayDto;
 import net.ionoff.center.shared.dto.SensorDriverDto;
-import net.xapxinh.center.shared.dto.StatusDto;
+import net.ionoff.center.shared.dto.player.StatusDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

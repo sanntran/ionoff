@@ -15,11 +15,12 @@
 
 	<modules>
 		<module>../ionoff.shared</module>
-  		<!--<module>../ionoff.client</module>-->
+  		<module>../ionoff.client</module>
  		<module>../ionoff.server</module>
+		<module>../ionoff.tomcat</module>
 		<!--<module>../ionoff.webhook</module>-->
 		<!--<module>../ionoff.broker</module>-->
 		<!--<module>../ionoff.player</module>-->
 	</modules>
 
-</project>c
+</project>

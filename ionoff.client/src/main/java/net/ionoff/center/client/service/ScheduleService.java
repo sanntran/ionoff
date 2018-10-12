@@ -23,30 +23,30 @@ public interface ScheduleService extends EntityService<ScheduleDto> {
 	
 	@Override
 	@POST
-	@Path("api/schedules/search")
+	@Path("schedules/search")
 	void searchByCriteria(QueryCriteriaDto criteriaDto,
 			MethodCallback<List<ScheduleDto>> callback);
 	
 	@Override
 	@POST
-	@Path("api/schedules/count")
+	@Path("schedules/count")
 	void countByCriteria(QueryCriteriaDto criteriaDto,
 			MethodCallback<Long> callback);
 	
 	@PUT
-	@Path("api/schedules/{scheduleId}")
+	@Path("schedules/{scheduleId}")
 	void save(@PathParam("scheduleId") Long scheduleId, ScheduleDto scheduleDto, MethodCallback<ScheduleDto> callback);
 	
 	@Override
 	@DELETE
-	@Path("api/schedules/{scheduleId}")
+	@Path("schedules/{scheduleId}")
 	void delete(@PathParam("scheduleId") Long scheduleId, MethodCallback<MessageDto> callback);
 	
 	@GET
-	@Path("api/schedules/{scheduleId}")
+	@Path("schedules/{scheduleId}")
 	void findById(@PathParam("scheduleId") Long scheduleId, MethodCallback<ScheduleDto> callback);
 	
 	@GET
-	@Path("api/schedules")
+	@Path("schedules")
 	void findByProjectId(@QueryParam("projectId") Long projectId, MethodCallback<List<ScheduleDto>> callback);
 }

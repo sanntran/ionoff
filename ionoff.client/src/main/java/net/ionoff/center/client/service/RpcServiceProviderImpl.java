@@ -4,7 +4,7 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.inject.Inject;
 
 import net.ionoff.center.client.event.ShowLoadingEvent;
-import net.xapxinh.center.client.player.rpc.PlayerService;
+import net.ionoff.center.client.mediaplayer.rpc.PlayerService;
 
 public class RpcServiceProviderImpl implements IRpcServiceProvider {
 
