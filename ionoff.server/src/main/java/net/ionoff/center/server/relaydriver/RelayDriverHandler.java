@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 
-import net.ionoff.center.server.control.IControlService;
+import net.ionoff.center.server.service.IControlService;
 import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.entity.Sensor;

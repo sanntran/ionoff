@@ -13,8 +13,7 @@ import gwt.material.design.client.ui.MaterialLabel;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.shared.dto.BaseDto;
 import net.ionoff.center.shared.dto.DeviceDto;
-import net.ionoff.center.shared.dto.LightDto;
-import net.ionoff.center.shared.dto.PlayerDto;
+import net.ionoff.center.shared.dto.MediaPlayerDto;
 import net.ionoff.center.shared.dto.SceneDeviceDto;
 
 public class SceneDeviceView extends MaterialCollapsibleItem implements SceneDevicePresenter.Display {
@@ -69,15 +68,12 @@ public class SceneDeviceView extends MaterialCollapsibleItem implements SceneDev
 	}
 
 	private String getStyle(DeviceDto device) {
-		if (device instanceof LightDto) {
-			return "light";
-		}
-		if (device instanceof PlayerDto) {
+		if (device instanceof MediaPlayerDto) {
 			return "player";
 		}
-		return "appliance";
+		return "relayLoad";
 	}
-	
+
 	@Override
 	public MaterialCollapsibleHeader getCollapsibleHeader() {
 		return collapsibleHeader;

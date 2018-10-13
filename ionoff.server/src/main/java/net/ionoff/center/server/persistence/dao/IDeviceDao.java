@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Device;
-import net.ionoff.center.server.entity.Player;
+import net.ionoff.center.server.entity.MediaPlayer;
 import net.ionoff.center.server.entity.SensorDriver;
 
 @Transactional
 public interface IDeviceDao extends IGenericDao<Device> {
 
-	Player findPlayerByMac(String key);
+	MediaPlayer findPlayerByMac(String key);
 
 	SensorDriver findSensorDriverByMac(String mac);
 	

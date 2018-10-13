@@ -43,9 +43,6 @@ public class ProjectMapper {
 		projectDto.setId(project.getId());
 		projectDto.setName(project.getName());
 		projectDto.setAddress(project.getAddress());
-		if (project.getActivatedMode() != null) {
-			projectDto.setActivatedModeId(project.getActivatedMode().getId());
-		}
 		if (includingZones) {
 			final List<ZoneDto> zoneDtos = new ArrayList<ZoneDto>();
 			for (final Area area : project.getAreas()) {

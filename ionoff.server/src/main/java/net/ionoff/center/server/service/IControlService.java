@@ -1,10 +1,9 @@
-package net.ionoff.center.server.control;
+package net.ionoff.center.server.service;
 
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.Mode;
-import net.ionoff.center.server.entity.Player;
+import net.ionoff.center.server.entity.MediaPlayer;
 import net.ionoff.center.server.entity.Relay;
-import net.ionoff.center.server.entity.RelayDriver;
 import net.ionoff.center.server.entity.Scene;
 import net.ionoff.center.shared.dto.StatusDto;
 
@@ -20,7 +19,7 @@ public interface IControlService {
 	
 	void executeRelayAction(Relay relay, String action);
 	
-	void executePlayerAction(Player player, String action, String volume, String album, String albumType);
+	void executePlayerAction(MediaPlayer player, String action, String volume, String album, String albumType);
 	
 	StatusDto switchOn(long relayId);
 	

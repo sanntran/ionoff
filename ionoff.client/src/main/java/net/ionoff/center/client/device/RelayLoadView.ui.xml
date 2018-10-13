@@ -14,16 +14,20 @@
 			color: #f2f38a !important;
     		font-size: 13px !important;
 		}
+		.btnIcon {
+			font-size: 46px !important;
+			position: absolute;
+			bottom: 10px;
+			left: 10px;
+		}
 	</ui:style>
 		
 	<g:HTMLPanel ui:field="root">
 		<m:MaterialColumn grid="l3 m3 s6">
 			<m:MaterialCollapsible addStyleNames="device appliance" backgroundColor="BLUE_GREY_DARKEN_2" textColor="YELLOW_LIGHTEN_5">
-				<m:MaterialCollapsibleItem>
+				<m:MaterialCollapsibleItem activates="relayDropdown">
 					<m:MaterialCollapsibleHeader backgroundColor="BLUE_GREY_DARKEN_2">
-						<m:MaterialImage ui:field="imgIcon" url="imgs/device.png" activates="relayDropdown" 
-							width="50" height="50" circle="true" addStyleNames="icon btnIcon unknown" float="LEFT"/>
-						<m:MaterialLabel ui:field="lblName" addStyleNames="name" text="-" marginTop="3" fontSize="1.2em"/>
+						<m:MaterialLabel ui:field="lblName" addStyleNames="name" text="-" marginTop="3" fontSize="1.3em"/>
 						<m:MaterialLabel ui:field="lblZone" addStyleNames="zone" text="-" marginTop="5" textColor="GREY_LIGHTEN_2"/>
 						<m:MaterialLabel ui:field="lblTime" addStyleNames="time" text="-" textColor="GREY_LIGHTEN_1"/>
 					</m:MaterialCollapsibleHeader>
@@ -31,7 +35,8 @@
 						<m:MaterialCollection ui:field="relayCollection" grid="s12">
 						</m:MaterialCollection>
 					</m:MaterialCollapsibleBody>
-					<m:MaterialIcon ui:field="menuIcon" addStyleNames="{style.menuIcon}" iconType="MORE_VERT" iconSize="SMALL" waves="LIGHT"/>
+					<m:MaterialIcon ui:field="btnIcon" circle="true" addStyleNames="{style.btnIcon}" waves="LIGHT" iconType="RADIO_BUTTON_UNCHECKED" float="LEFT"/>
+					<m:MaterialIcon ui:field="menuIcon" circle="true" addStyleNames="{style.menuIcon}" iconType="MORE_VERT" iconSize="SMALL" waves="LIGHT"/>
 				</m:MaterialCollapsibleItem>
 			 </m:MaterialCollapsible>
 		</m:MaterialColumn>

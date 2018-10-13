@@ -42,8 +42,9 @@ public class RelayDriverDaoImpl extends AbstractGenericDao<RelayDriver> implemen
 				.setParameter("keyWord", "%" + keyWord.toLowerCase() + "%");
 		return countObjects(query);
 	}
-	
-	private long countByProjectId(long projectId) {
+
+	@Override
+	public long countByProjectId(long projectId) {
 		String sql = "select count(relayDriver)"
 				+ " from RelayDriver as relayDriver"
 				+ " where relayDriver.project.id = :projectId";

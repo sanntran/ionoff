@@ -2,7 +2,7 @@ package net.ionoff.center.server.persistence.service.impl;
 
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.EntityUtil;
-import net.ionoff.center.server.entity.Player;
+import net.ionoff.center.server.entity.MediaPlayer;
 import net.ionoff.center.server.entity.Scene;
 import net.ionoff.center.server.entity.SceneDevice;
 import net.ionoff.center.server.entity.Sensor;
@@ -10,7 +10,6 @@ import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.UserDevice;
 import net.ionoff.center.server.entity.Zone;
-import net.ionoff.center.server.mediaplayer.model.MediaPlayer;
 import net.ionoff.center.server.mediaplayer.service.IMediaPlayerService;
 import net.ionoff.center.server.message.SensorStatusNotifier;
 import net.ionoff.center.server.message.event.SensorStatusChangedEvent;
@@ -169,7 +168,7 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 	}
 	
 	@Override
-	public Player findPlayerByMac(String mac) {
+	public MediaPlayer findPlayerByMac(String mac) {
 		return getDao().findPlayerByMac(mac);
 	}
 
@@ -185,13 +184,13 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 	}
 
 	@Override
-	public MediaPlayer getPlayer(Long playerId) {
+	public net.ionoff.center.server.mediaplayer.model.MediaPlayer getPlayer(Long playerId) {
 		if (playerId != null) {
 			Device device = findById(playerId);
-			Player player = (net.ionoff.center.server.entity.Player) 
+			MediaPlayer player = (MediaPlayer)
 					EntityUtil.castUnproxy(device, Device.class);
 			if (player != null) {
-				return MediaPlayer.fromPlayer(device);
+				return net.ionoff.center.server.mediaplayer.model.MediaPlayer.fromPlayer(device);
 			}
 		}
 		return null;

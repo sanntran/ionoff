@@ -15,7 +15,7 @@ import gwt.material.design.client.ui.html.Option;
 import net.ionoff.center.client.base.AbstractEditView;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.shared.dto.DeviceDto;
-import net.ionoff.center.shared.dto.PlayerDto;
+import net.ionoff.center.shared.dto.MediaPlayerDto;
 
 public class DeviceEditView extends AbstractEditView<DeviceDto> implements DeviceEditPresenter.Display {
 	
@@ -39,10 +39,8 @@ public class DeviceEditView extends AbstractEditView<DeviceDto> implements Devic
 		lblType.setStyleName("lbl");
 		contentPanel.add(lblType);
 		listBoxTypes = new MaterialListBox();
-		listBoxTypes.addItem(AdminLocale.getAdminConst().light());
+		listBoxTypes.addItem(AdminLocale.getAdminConst().relayLoad());
 		listBoxTypes.addItem(AdminLocale.getAdminConst().mediaPlayer());
-		listBoxTypes.addItem(AdminLocale.getAdminConst().sensorDriver());
-		listBoxTypes.addItem(AdminLocale.getAdminConst().appliance());
 		contentPanel.add(listBoxTypes);
 		
 		textBoxMac = new MaterialTextBox();
@@ -55,8 +53,8 @@ public class DeviceEditView extends AbstractEditView<DeviceDto> implements Devic
 		
 		listBoxModels = new MaterialListBox();
 		listBoxModels.setPlaceholder(AdminLocale.getAdminConst().model());
-		listBoxModels.add(new Option(PlayerDto.XMP));
-		listBoxModels.add(new Option(PlayerDto.IMP));
+		listBoxModels.add(new Option(MediaPlayerDto.XMP));
+		listBoxModels.add(new Option(MediaPlayerDto.IMP));
 		contentPanel.add(listBoxModels);
 		
 		textBoxOrder = new MaterialTextBox();

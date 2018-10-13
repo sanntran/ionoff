@@ -149,20 +149,20 @@ public class SensorDriverPresenter extends DevicePresenter {
 		view.getLblLatestValue().setText(sensorDriver.getStatus().getLatestValue());
 		
 		if (Boolean.FALSE.equals(sensorDriver.getStatus().getValue())) {
-			view.getImgIcon().removeStyleName("on");
-			view.getImgIcon().removeStyleName("unknown");
-			view.getImgIcon().addStyleName("off");
+//			view.getImgIcon().removeStyleName("on");
+//			view.getImgIcon().removeStyleName("unknown");
+//			view.getImgIcon().addStyleName("off");
 		}
 		else if (Boolean.TRUE.equals(sensorDriver.getStatus().getValue())) {
-			view.getImgIcon().removeStyleName("off");
-			view.getImgIcon().removeStyleName("unknown");
-			view.getImgIcon().addStyleName("on");
+//			view.getImgIcon().removeStyleName("off");
+//			view.getImgIcon().removeStyleName("unknown");
+//			view.getImgIcon().addStyleName("on");
 			view.asPanel().addStyleName("on");
 		}
 		else { // status == null
-			view.getImgIcon().removeStyleName("on");
-			view.getImgIcon().removeStyleName("off");
-			view.getImgIcon().addStyleName("unknown");
+//			view.getImgIcon().removeStyleName("on");
+//			view.getImgIcon().removeStyleName("off");
+//			view.getImgIcon().addStyleName("unknown");
 		}
 	}
 

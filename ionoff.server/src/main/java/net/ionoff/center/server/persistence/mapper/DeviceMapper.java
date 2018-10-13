@@ -1,21 +1,18 @@
 package net.ionoff.center.server.persistence.mapper;
 
-import net.ionoff.center.server.entity.Appliance;
+import net.ionoff.center.server.entity.RelayLoad;
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.EntityUtil;
-import net.ionoff.center.server.entity.Light;
-import net.ionoff.center.server.entity.Player;
+import net.ionoff.center.server.entity.MediaPlayer;
 import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.entity.Zone;
-import net.ionoff.center.server.mediaplayer.model.MediaPlayer;
 import net.ionoff.center.server.mediaplayer.service.IMediaPlayerService;
 import net.ionoff.center.server.util.DateTimeUtil;
-import net.ionoff.center.shared.dto.ApplianceDto;
+import net.ionoff.center.shared.dto.RelayLoadDto;
 import net.ionoff.center.shared.dto.DeviceDto;
-import net.ionoff.center.shared.dto.LightDto;
-import net.ionoff.center.shared.dto.PlayerDto;
+import net.ionoff.center.shared.dto.MediaPlayerDto;
 import net.ionoff.center.shared.dto.RelayDto;
 import net.ionoff.center.shared.dto.SensorDriverDto;
 import net.ionoff.center.shared.dto.player.StatusDto;
@@ -40,17 +37,11 @@ public class DeviceMapper {
 	}
 
 	public Device updateDevice(Device device, DeviceDto deviceDto) {
-		if (device instanceof Player) {
-			final PlayerDto playerDto = (PlayerDto)deviceDto;
-			Player player = (Player) device;
+		if (device instanceof MediaPlayer) {
+			final MediaPlayerDto playerDto = (MediaPlayerDto)deviceDto;
+			MediaPlayer player = (MediaPlayer) device;
 			player.setMac(playerDto.getMac());				
 			player.setModel(playerDto.getModel());
-		}
-		if (device instanceof SensorDriver) {
-			final SensorDriverDto sensorDriverDto = (SensorDriverDto)deviceDto;
-			SensorDriver sensorDriver = (SensorDriver) device;
-			sensorDriver.setMac(sensorDriverDto.getMac());				
-			sensorDriver.setModel(sensorDriverDto.getModel());
 		}
 		device.setName(deviceDto.getName());
 		device.setOrder(deviceDto.getOrder());
@@ -58,18 +49,11 @@ public class DeviceMapper {
 	}
 
 	private Device createNewDevice(DeviceDto deviceDto) {
-		if (deviceDto instanceof PlayerDto) {
-			final Player player = new Player();
+		if (deviceDto instanceof MediaPlayerDto) {
+			final MediaPlayer player = new MediaPlayer();
 			return player;
 		}
-		if (deviceDto instanceof SensorDriverDto) {
-			final SensorDriver sensorDriver = new SensorDriver();
-			return sensorDriver;
-		}
-		else if (deviceDto instanceof LightDto) {
-			return new Light();
-		}
-		return new Appliance();
+		return new RelayLoad();
 	}
 	
 	public List<DeviceDto> toDeviceDtoList(List<? extends Device> devices , IMediaPlayerService playerService) {
@@ -108,7 +92,7 @@ public class DeviceMapper {
 		if (device.getTime() != null) {
 			statusDto.setTime(DateTimeUtil.ddMMHHmmFormatter.format(device.getTime()));
 		}
-		if (device.instanceOf(Appliance.class)) {
+		if (device.instanceOf(RelayLoad.class)) {
 			for (Relay relay : device.getRelayList()) {
 				net.ionoff.center.shared.dto.StatusDto child = new net.ionoff.center.shared.dto.StatusDto();
 				child.setId(relay.getId());
@@ -130,10 +114,10 @@ public class DeviceMapper {
 				statusDto.setLatestValue(sensor.getStatus().getValue() + " " + sensor.getUnit());
 			}
 		}
-		else if (device.instanceOf(Player.class) && playerService != null) {
+		else if (device.instanceOf(MediaPlayer.class) && playerService != null) {
 			try {
-				Player player = EntityUtil.castUnproxy(device, Player.class);
-				StatusDto status = playerService.requesStatus(MediaPlayer.fromPlayer(player), null);
+				MediaPlayer player = EntityUtil.castUnproxy(device, MediaPlayer.class);
+				StatusDto status = playerService.requesStatus(net.ionoff.center.server.mediaplayer.model.MediaPlayer.fromPlayer(player), null);
 				statusDto.setState(status.getState());
 				statusDto.setTrack(status.getTitle());
 				if (status.getPosition() > 0) {
@@ -147,20 +131,14 @@ public class DeviceMapper {
 	}
 
 	public DeviceDto newDeviceDto(Device device) {
-		if (device instanceof Player) {
-			return createPlayerDto(device);
+		if (device instanceof MediaPlayer) {
+			return createMediaPlayerDto(device);
 		}
-		if (device instanceof SensorDriver) {
-			return createSensorDriverDto(device);
-		}
-		if (device instanceof Light) {
-			return new LightDto();
-		}
-		return createApplianceDto(device);
+		return createRelayLoadDto(device);
 	}
 
-	private ApplianceDto createApplianceDto(Device device) {
-		final ApplianceDto applianceDto = new ApplianceDto();
+	private RelayLoadDto createRelayLoadDto(Device device) {
+		final RelayLoadDto applianceDto = new RelayLoadDto();
 		final List<RelayDto> relayDtos = new ArrayList<RelayDto>();
 		for (final Relay relay : device.getRelayList()) {
 			relayDtos.add(relayMappper.createRelayDto(relay));
@@ -169,9 +147,9 @@ public class DeviceMapper {
 		return applianceDto;
 	}
 	
-	private static DeviceDto createPlayerDto(Device device) {
-		final PlayerDto playerDto = new PlayerDto();
-		final Player player = (Player) device;
+	private static DeviceDto createMediaPlayerDto(Device device) {
+		final MediaPlayerDto playerDto = new MediaPlayerDto();
+		final MediaPlayer player = (MediaPlayer) device;
 		playerDto.setMac(player.getMac());
 		playerDto.setIp(player.getIp());
 		playerDto.setModel(player.getModel());

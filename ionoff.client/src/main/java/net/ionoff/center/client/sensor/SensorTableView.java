@@ -48,7 +48,7 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 
 		deviceColumn =  createDeviceColumn();
 		deviceColumn.setSortable(true);
-		cellTable.addColumn(deviceColumn, AdminLocale.getAdminConst().sensorDriver());
+		cellTable.addColumn(deviceColumn, AdminLocale.getAdminConst().relayDriver());
 		cellTable.setColumnWidth(deviceColumn, COLUMN_NAME_WIDTH, Unit.PX);
 		
 		editColumn = createEditColumn();

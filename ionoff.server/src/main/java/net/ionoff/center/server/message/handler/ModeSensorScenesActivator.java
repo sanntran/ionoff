@@ -3,7 +3,7 @@ package net.ionoff.center.server.message.handler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.ionoff.center.server.control.IControlService;
+import net.ionoff.center.server.service.IControlService;
 import net.ionoff.center.server.entity.ModeSensor;
 import net.ionoff.center.server.entity.ModeSensorScene;
 

@@ -1,6 +1,6 @@
 package net.ionoff.center.server.entity;
 
-public class Player extends Device {
+public class MediaPlayer extends Device {
 
 	private static final long serialVersionUID = 1L;
 

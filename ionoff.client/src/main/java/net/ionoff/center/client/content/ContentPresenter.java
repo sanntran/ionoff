@@ -48,7 +48,7 @@ import net.ionoff.center.client.zone.ZoneListView;
 import net.ionoff.center.client.zone.ZoneTablePresenter;
 import net.ionoff.center.client.zone.ZoneTableView;
 import net.ionoff.center.shared.dto.DeviceDto;
-import net.ionoff.center.shared.dto.PlayerDto;
+import net.ionoff.center.shared.dto.MediaPlayerDto;
 import net.ionoff.center.shared.dto.SensorDriverDto;
 import net.ionoff.center.client.mediaplayer.PlayerPresenter;
 import net.ionoff.center.client.mediaplayer.PlayerView;
@@ -109,7 +109,7 @@ public class ContentPresenter extends AbstractPresenter {
 
 				@Override
 				public void onSuccess(Method method, DeviceDto response) {
-					if (response instanceof PlayerDto) {
+					if (response instanceof MediaPlayerDto) {
 						showPlayer(deviceId);
 					}
 					else if (response instanceof SensorDriverDto) {

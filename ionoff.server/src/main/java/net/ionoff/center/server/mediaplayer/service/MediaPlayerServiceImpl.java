@@ -244,7 +244,7 @@ public class MediaPlayerServiceImpl implements IMediaPlayerService {
 	}
 	
 	protected String getActualYoutubeVideoUrl(MediaPlayer player, String videoId) throws MediaDataRequestException {
-		if (net.ionoff.center.server.entity.Player.IMP.equals(player.getModel())) {
+		if (net.ionoff.center.server.entity.MediaPlayer.IMP.equals(player.getModel())) {
 			return mediaDataServiceConnector.getYoutubeAudioUrl(player, videoId);
 		}
 		else {

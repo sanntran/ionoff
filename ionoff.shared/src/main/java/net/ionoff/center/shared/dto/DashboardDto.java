@@ -4,122 +4,53 @@ import java.util.List;
 
 public class DashboardDto extends BaseDto {
 
-	private static final long serialVersionUID = 1L;
-
-	private int totalModeCount;
-	private String activatedModeName;
-	private int totalDeviceCount;
-	private int deviceOnCount;
-	private int deviceOffCount;
-	private int totalRelayDriverCount;
-	private int onlineRelayDriverCount;
-	private int offlineRelayDriverCount;
-	private int totalScheduleCount;
-	private String nextSchedule;
-	private String nextScheduleTime;
-	private int totalSceneCount;
-	private String lastPlayedSceneName;
-	private int memoryUsedPercent;
-	private int diskSpaceUsedPercent;
-	
+	private DeviceStatisticDto deviceStatistic;
+	private ModeStatisticDto modeStatistic;
+	private ScheduleStatisticDto scheduleStatistic;
+	private SceneStatisticDto sceneStatistic;
+	private ServerStatisticDto serverStatistic;
+	private RelayDriverStatisticDto relayDriverStatisticDto;
 	private List<DeviceDto> devices;
 	private List<SceneDto> scenes;
 
-	public int getTotalModeCount() {
-		return totalModeCount;
+	public DeviceStatisticDto getDeviceStatistic() {
+		return deviceStatistic;
 	}
 
-	public void setTotalModeCount(int totalModeCount) {
-		this.totalModeCount = totalModeCount;
+	public void setDeviceStatistic(DeviceStatisticDto deviceStatistic) {
+		this.deviceStatistic = deviceStatistic;
 	}
 
-	public String getActivatedModeName() {
-		return activatedModeName;
+	public ModeStatisticDto getModeStatistic() {
+		return modeStatistic;
 	}
 
-	public void setActivatedModeName(String activatedModeName) {
-		this.activatedModeName = activatedModeName;
+	public void setModeStatistic(ModeStatisticDto modeStatistic) {
+		this.modeStatistic = modeStatistic;
 	}
 
-	public int getTotalDeviceCount() {
-		return totalDeviceCount;
+	public ScheduleStatisticDto getScheduleStatistic() {
+		return scheduleStatistic;
 	}
 
-	public void setTotalDeviceCount(int totalDeviceCount) {
-		this.totalDeviceCount = totalDeviceCount;
+	public void setScheduleStatistic(ScheduleStatisticDto scheduleStatistic) {
+		this.scheduleStatistic = scheduleStatistic;
 	}
 
-	public int getDeviceOnCount() {
-		return deviceOnCount;
+	public SceneStatisticDto getSceneStatistic() {
+		return sceneStatistic;
 	}
 
-	public void setDeviceOnCount(int deviceOnCount) {
-		this.deviceOnCount = deviceOnCount;
+	public void setSceneStatistic(SceneStatisticDto sceneStatistic) {
+		this.sceneStatistic = sceneStatistic;
 	}
 
-	public int getDeviceOffCount() {
-		return deviceOffCount;
+	public ServerStatisticDto getServerStatistic() {
+		return serverStatistic;
 	}
 
-	public void setDeviceOffCount(int deviceOffCount) {
-		this.deviceOffCount = deviceOffCount;
-	}
-
-	public int getTotalScheduleCount() {
-		return totalScheduleCount;
-	}
-
-	public void setTotalScheduleCount(int totalScheduleCount) {
-		this.totalScheduleCount = totalScheduleCount;
-	}
-
-	public String getNextSchedule() {
-		return nextSchedule;
-	}
-
-	public void setNextSchedule(String nextSchedule) {
-		this.nextSchedule = nextSchedule;
-	}
-
-	public String getNextScheduleTime() {
-		return nextScheduleTime;
-	}
-
-	public void setNextScheduleTime(String nextScheduleTime) {
-		this.nextScheduleTime = nextScheduleTime;
-	}
-
-	public int getTotalSceneCount() {
-		return totalSceneCount;
-	}
-
-	public void setTotalSceneCount(int totalSceneCount) {
-		this.totalSceneCount = totalSceneCount;
-	}
-
-	public String getLastPlayedSceneName() {
-		return lastPlayedSceneName;
-	}
-
-	public void setLastPlayedSceneName(String lastPlayedSceneName) {
-		this.lastPlayedSceneName = lastPlayedSceneName;
-	}
-
-
-	public int getMemoryUsedPercent() {
-		return memoryUsedPercent;
-	}
-
-	public void setMemoryUsedPercent(int memoryUsedPercent) {
-		this.memoryUsedPercent = memoryUsedPercent;
-	}
-
-	public int getDiskSpaceUsedPercent() {
-		return diskSpaceUsedPercent;
-	}
-
-	public void setDiskSpaceUsedPercent(int diskSpaceUsedPercent) {
-		this.diskSpaceUsedPercent = diskSpaceUsedPercent;
+	public void setServerStatistic(ServerStatisticDto serverStatistic) {
+		this.serverStatistic = serverStatistic;
 	}
 
 	public List<DeviceDto> getDevices() {
@@ -138,29 +69,11 @@ public class DashboardDto extends BaseDto {
 		this.scenes = scenes;
 	}
 
-
-	public int getTotalRelayDriverCount() {
-		return totalRelayDriverCount;
+	public RelayDriverStatisticDto getRelayDriverStatisticDto() {
+		return relayDriverStatisticDto;
 	}
 
-	public void setTotalRelayDriverCount(int totalRelayDriverCount) {
-		this.totalRelayDriverCount = totalRelayDriverCount;
+	public void setRelayDriverStatisticDto(RelayDriverStatisticDto relayDriverStatisticDto) {
+		this.relayDriverStatisticDto = relayDriverStatisticDto;
 	}
-
-	public int getOfflineRelayDriverCount() {
-		return offlineRelayDriverCount;
-	}
-
-	public void setOfflineRelayDriverCount(int offlineRelayDriverCount) {
-		this.offlineRelayDriverCount = offlineRelayDriverCount;
-	}
-
-	public int getOnlineRelayDriverCount() {
-		return onlineRelayDriverCount;
-	}
-
-	public void setOnlineRelayDriverCount(int onlineRelayDriverCount) {
-		this.onlineRelayDriverCount = onlineRelayDriverCount;
-	}
-
 }

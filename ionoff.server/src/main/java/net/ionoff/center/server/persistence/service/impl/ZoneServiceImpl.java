@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import net.ionoff.center.server.entity.Area;
 import net.ionoff.center.server.entity.Dashboard;
 import net.ionoff.center.server.entity.Device;
-import net.ionoff.center.server.entity.Light;
 import net.ionoff.center.server.entity.Mode;
 import net.ionoff.center.server.entity.ModeScene;
 import net.ionoff.center.server.entity.ModeSensor;
@@ -229,12 +228,6 @@ public class ZoneServiceImpl extends AbstractGenericService<Zone, ZoneDto> imple
 		for (Zone zone : zoneDao.findByUserProjectId(userId, projectId)) {
 			ZoneDto zoneDto = zoneMapper.createZoneDto(zone, false);
 			List<Device> devices = deviceDao.findByUserZoneId(userId, zone.getId());
-			for (Device device : devices) {
-				if (device instanceof Light && Boolean.TRUE.equals(device.getStatus())) {
-					zoneDto.setLighting(true);
-					break;
-				}
-			}
 			zoneDto.setDevicesCount(devices.size());
 			zoneDtos.add(zoneDto);
 		}

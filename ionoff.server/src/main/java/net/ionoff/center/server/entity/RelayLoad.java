@@ -1,6 +1,6 @@
 package net.ionoff.center.server.entity;
 
-public class Appliance extends Device {
+public class RelayLoad extends Device {
 	private static final long serialVersionUID = 1L;
 
 	private Boolean status;

@@ -46,39 +46,13 @@
             </key>
             <one-to-many class="net.ionoff.center.server.entity.Relay" />
         </bag>
-        
-		<subclass name="net.ionoff.center.server.entity.Light"
-			discriminator-value="Light">
-		</subclass>
-		
-		<subclass name="net.ionoff.center.server.entity.Appliance"
-			discriminator-value="Appliance">
-		</subclass>
-		
-		
-		<subclass name="net.ionoff.center.server.entity.SensorDriver"
-			discriminator-value="SensorDriver">
-			
-			<property name="mac">
-				<column name="mac" />
-			</property>
-			
-			<property name="model">
-				<column name="model" />
-			</property>
-			
-			<bag name="sensors" table="sensors" 
-					inverse="true" lazy="true" fetch="select" order-by="id">
-	            <key>
-	                <column name="device_id" not-null="true" />
-	            </key>
-	            <one-to-many class="net.ionoff.center.server.entity.Sensor" />
-	        </bag>
-			
+
+		<subclass name="net.ionoff.center.server.entity.RelayLoad"
+			discriminator-value="RelayLoad">
 		</subclass>
 
-		<subclass name="net.ionoff.center.server.entity.Player"
-			discriminator-value="Player">
+		<subclass name="net.ionoff.center.server.entity.MediaPlayer"
+			discriminator-value="MediaPlayer">
 			
 			<property name="mac">
 				<column name="mac" />

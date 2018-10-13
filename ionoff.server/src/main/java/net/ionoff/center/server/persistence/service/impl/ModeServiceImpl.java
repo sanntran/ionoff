@@ -105,8 +105,7 @@ public class ModeServiceImpl extends AbstractGenericService<Mode, ModeDto> imple
 
 	@Override
 	public ModeDto findActivatedDtoByProjectId(long projectId) {
-		Project project = projectService.requireById(projectId);
-		Mode activatedMode = project.getActivatedMode();
+		Mode activatedMode = modeDao.findByLastActivated(projectId);
 		if (activatedMode != null) {
 			return modeMapper.createModeDto(activatedMode);
 		}

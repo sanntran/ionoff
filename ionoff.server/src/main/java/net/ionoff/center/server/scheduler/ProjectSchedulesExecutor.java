@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import net.ionoff.center.server.control.IControlService;
+import net.ionoff.center.server.service.IControlService;
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.Mode;
 import net.ionoff.center.server.entity.Schedule;

@@ -11,6 +11,7 @@ import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.storage.client.Storage;
 
+import com.google.web.bindery.autobean.shared.AutoBean;
 import net.ionoff.center.shared.cookie.Kookie;
 import net.ionoff.center.shared.dto.UserDto;
 
@@ -22,14 +23,18 @@ public class StorageService {
 	private List<ApiServer> servers;
 	
 	private Storage storage;
-	private final String ICOOKIE = "IKookie";
-	private final String ISERVER = "IServer";
-	
-	
+
+	private final String KOOKIE = "kookie";
+	private final String SERVERS = "servers";
+	private final String ZONES = "zones";
+	private final String DEVICES = "devices";
+	private final String MODES = "modes";
+	private final String SCENSES = "scenes";
+
 	public void loadStorage() {
 		storage = Storage.getLocalStorageIfSupported();
 		if (storage != null) {
-			String serversJson = storage.getItem(ISERVER);
+			String serversJson = storage.getItem(SERVERS);
 			if (serversJson != null) {
 				servers = toServers(serversJson);
 			}
@@ -37,7 +42,7 @@ public class StorageService {
 				initDefaultServer();
 			}
 			
-			String cookieJson = storage.getItem(ICOOKIE);
+			String cookieJson = storage.getItem(KOOKIE);
 			if (cookieJson != null) {
 				cookie = toKookie(cookieJson);
 			}
@@ -166,14 +171,14 @@ public class StorageService {
 	public void writeCookie() {
 		final String cookieValue = toString(cookie);
 		if (cookieValue != null && storage != null) {
-			storage.setItem(ICOOKIE, cookieValue);
+			storage.setItem(KOOKIE, cookieValue);
 		}
 	}
 
 	public void detroyCookie() {
 		cookie = new Kookie();
 		if (storage != null) {
-			storage.removeItem(ICOOKIE);
+			storage.removeItem(KOOKIE);
 		}
 	}
 
@@ -198,7 +203,7 @@ public class StorageService {
 	public void saveServers() {
 		if (this.servers != null && servers.size() == 2 && storage != null) {
 			String serversJson = toString(servers);
-			storage.setItem(ISERVER, serversJson);
+			storage.setItem(SERVERS, serversJson);
 		}
 	}
 
@@ -208,4 +213,6 @@ public class StorageService {
 		}
 		return instance;
 	}
+
+
 }

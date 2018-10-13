@@ -8,7 +8,6 @@ public class ProjectDto extends BaseDto {
 	private static final long serialVersionUID = 1L;
 
 	private String address;
-	private Long activatedModeId;
 	private List<ZoneDto> zones;
 
 	public ProjectDto() {
@@ -29,13 +28,5 @@ public class ProjectDto extends BaseDto {
 
 	public void setZones(List<ZoneDto> zones) {
 		this.zones = zones;
-	}
-
-	public Long getActivatedModeId() {
-		return activatedModeId;
-	}
-
-	public void setActivatedModeId(Long activatedModeId) {
-		this.activatedModeId = activatedModeId;
 	}
 }

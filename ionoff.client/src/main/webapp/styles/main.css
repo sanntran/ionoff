@@ -845,8 +845,10 @@ textarea.materialize-textarea[readonly="readonly"] {
 .main .content .dashboard .device.appliance.collapsible {
 	margin: 0px !important;
     border-radius: 1px;
-    border: 1px solid #455a64;
+    border: 1px solid #37474f;
     position: relative;
+    height: 150px;
+    box-shadow: 0 0px 0px 0 transparent, 0 0px 0px 0 transparent !important;
 }
 
 .main .content .devices .device.appliance.collapsible .collapsible-header,
@@ -870,7 +872,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 .main .content .devices .device.appliance .collection-item,
 .main .content .dashboard .device.appliance .collection-item {
 	background-color: transparent;
-    padding: 15px;
+    padding: 10px 8px;
     position: relative;
     border-bottom: 1px solid #37474f;
     height: 65px;
@@ -879,17 +881,16 @@ textarea.materialize-textarea[readonly="readonly"] {
 .main .content .devices .device.appliance .collection-item .material-icons,
 .main .content .dashboard .device.appliance .collection-item .material-icons {
 	font-size: 3rem;
-	width: 50px;
-	margin-right: 20px;
-	position: absolute;
-    opacity: 0.1;
-    left: 10px
+    width: 50px;
+    left: 0px;
+    margin-right: 10px;
 }	
 
 .main .content .devices .device.appliance .collection-item .relayName,
 .main .content .dashboard .device.appliance .collection-item .relayName {
 	width: 100%;
-	font-size: 14px !important;
+	padding-top: 5px;
+	font-size: 15px !important;
 }
 .main .content .devices .device.appliance .collection-item .relayTime,
 .main .content .dashboard .device.appliance .collection-item .relayTime {

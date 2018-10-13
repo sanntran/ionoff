@@ -23,7 +23,8 @@ public class SceneDaoImpl extends AbstractGenericDao<Scene> implements ISceneDao
 		setClass(Scene.class);
 	}
 
-	private long countByProjectId(long projectId) {
+	@Override
+	public long countByProjectId(long projectId) {
 		String sql = "select count(scene)"
 				+ " from Scene as scene"
 				+ " where scene.zone.project.id = :projectId";
@@ -160,7 +161,17 @@ public class SceneDaoImpl extends AbstractGenericDao<Scene> implements ISceneDao
 		
 		return findMany(query);
 	}
-	
+
+	@Override
+	public long countByZoneId(long zoneId) {
+		String sql = "select count(scene)"
+				+ " from Scene as scene"
+				+ " where scene.zone.id = :zoneId";
+		Query query = getCurrentSession().createQuery(sql)
+				.setParameter("zoneId", zoneId);
+		return countObjects(query);
+	}
+
 	@Override
 	public List<Scene> findByUserProjectId(long userId, Long projectId) {
 		String sql = "select distinct scene"

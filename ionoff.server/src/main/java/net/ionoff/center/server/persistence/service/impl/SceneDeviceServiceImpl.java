@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.ionoff.center.server.entity.Player;
+import net.ionoff.center.server.entity.MediaPlayer;
 import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.Scene;
 import net.ionoff.center.server.entity.SceneAction;
@@ -59,7 +59,7 @@ public class SceneDeviceServiceImpl extends AbstractGenericService<SceneDevice, 
 	}
 	
 	private void insertSceneActions(SceneDevice sceneDevice) {
-		if (sceneDevice.getDevice() instanceof Player) {
+		if (sceneDevice.getDevice() instanceof MediaPlayer) {
 			insertScenePlayerAction(sceneDevice);
 		}
 		else {
@@ -80,7 +80,7 @@ public class SceneDeviceServiceImpl extends AbstractGenericService<SceneDevice, 
 
 	private void insertScenePlayerAction(SceneDevice sceneDevice) {
 		ScenePlayerAction sceneAction = new ScenePlayerAction();
-		sceneAction.setPlayer((Player)sceneDevice.getDevice());
+		sceneAction.setPlayer((MediaPlayer)sceneDevice.getDevice());
 		sceneAction.setAction(ScenePlayerAction.NONE);
 		sceneAction.setSceneDevice(sceneDevice);
 		sceneActionDao.insert(sceneAction);

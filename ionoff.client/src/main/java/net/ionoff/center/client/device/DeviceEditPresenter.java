@@ -29,12 +29,11 @@ import net.ionoff.center.client.service.EntityService;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.client.utils.ConsoleLog;
-import net.ionoff.center.shared.dto.ApplianceDto;
+import net.ionoff.center.shared.dto.RelayLoadDto;
 import net.ionoff.center.shared.dto.AreaDto;
 import net.ionoff.center.shared.dto.BaseDto;
 import net.ionoff.center.shared.dto.DeviceDto;
-import net.ionoff.center.shared.dto.LightDto;
-import net.ionoff.center.shared.dto.PlayerDto;
+import net.ionoff.center.shared.dto.MediaPlayerDto;
 import net.ionoff.center.shared.dto.SensorDriverDto;
 import net.ionoff.center.shared.dto.ZoneDto;
 
@@ -102,39 +101,27 @@ public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
 				entityDto.setName(display.getTextBoxName().getText());
 				int typeIndex = view.getListBoxTypes().getSelectedIndex();
 				ConsoleLog.println(typeIndex + "");
-				if (typeIndex == 0) {
-					setEntityDto(newLightDto(entityDto));
-				}
-				else if (typeIndex == 1) {
-					setEntityDto(newPlayerDto(entityDto));
-				}
-				else if (typeIndex == 2) {
-					setEntityDto(newSensorDriverDto(entityDto));
+				if (typeIndex == 1) {
+					setEntityDto(newMediaPlayerrDto(entityDto));
 				}
 				else {
-					setEntityDto(newApplianceDto(entityDto));
+					setEntityDto(newRelayLoadDto(entityDto));
 				}
 				view.getListBoxTypes().setSelectedIndex(typeIndex);
 			}
 		});
 	}
 	
-	private ApplianceDto newApplianceDto(DeviceDto target) {
-		ApplianceDto applicanceDto = new ApplianceDto();
-		copyDeviceDto(target, applicanceDto);
-		return applicanceDto;
-	}
-	
-	private LightDto newLightDto(DeviceDto target) {
-		LightDto lightDto = new LightDto();
-		copyDeviceDto(target, lightDto);
-		return lightDto;
+	private RelayLoadDto newRelayLoadDto(DeviceDto target) {
+		RelayLoadDto relayLoadDto = new RelayLoadDto();
+		copyDeviceDto(target, relayLoadDto);
+		return relayLoadDto;
 	}
 
-	private PlayerDto newPlayerDto(DeviceDto target) {
-		PlayerDto playerDto = new PlayerDto();
+	private MediaPlayerDto newMediaPlayerrDto(DeviceDto target) {
+		MediaPlayerDto playerDto = new MediaPlayerDto();
 		copyDeviceDto(target, playerDto);
-		playerDto.setModel(PlayerDto.IMP);
+		playerDto.setModel(MediaPlayerDto.IMP);
 		playerDto.setIp("");
 		return playerDto;
 	}
@@ -180,8 +167,8 @@ public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
 		entityDto.setName(newName);
 		entityDto.setOrder(Integer.parseInt(newOrder));
 		
-		if (entityDto instanceof PlayerDto) {
-			PlayerDto player = (PlayerDto)entityDto;
+		if (entityDto instanceof MediaPlayerDto) {
+			MediaPlayerDto player = (MediaPlayerDto)entityDto;
 			player.setMac(view.getTextBoxMac().getValue());
 			player.setModel(view.getListBoxModels().getSelectedValue());
 			player.setIp(view.getTextBoxIp().getText());
@@ -243,8 +230,8 @@ public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
 				view.getListBoxTypes().setSelectedIndex(-1);
 			}
 		}
-		if (dto instanceof PlayerDto) {
-			PlayerDto player = (PlayerDto)dto;
+		if (dto instanceof MediaPlayerDto) {
+			MediaPlayerDto player = (MediaPlayerDto)dto;
 			view.getTextBoxMac().setText(player.getMac());
 			view.getTextBoxMac().setVisible(true);
 			view.getTextBoxIp().setVisible(true);
@@ -265,34 +252,22 @@ public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
 			view.getTextBoxMac().setText("");
 			view.getTextBoxMac().setVisible(false);
 		}
-		if (dto instanceof LightDto) {
-			view.getListBoxTypes().setSelectedIndex(0);
-		}
-		else if (dto instanceof PlayerDto) {
+		if (dto instanceof MediaPlayerDto) {
 			view.getListBoxTypes().setSelectedIndex(1);
 		}
-		else if (dto instanceof SensorDriverDto) {
-			view.getListBoxTypes().setSelectedIndex(2);
-		}
-		else {
-			view.getListBoxTypes().setSelectedIndex(3);
+		if (dto instanceof RelayLoadDto) {
+			view.getListBoxTypes().setSelectedIndex(0);
 		}
 		view.getZoneNameLbl().setText(BaseDto.formatNameID(dto.getZoneName(), dto.getZoneId()));
 		
 	}
 	
 	private String getTypeName(DeviceDto dto) {
-		if (dto instanceof LightDto) {
-			return AdminLocale.getAdminConst().light();
-		}
-		else if (dto instanceof PlayerDto) {
+		if (dto instanceof MediaPlayerDto) {
 			return AdminLocale.getAdminConst().mediaPlayer();
 		}
-		else if (dto instanceof SensorDriverDto) {
-			return AdminLocale.getAdminConst().sensorDriver();
-		}
 		else {
-			return AdminLocale.getAdminConst().appliance();
+			return AdminLocale.getAdminConst().relayLoad();
 		}
 	}
 

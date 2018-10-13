@@ -29,7 +29,7 @@ public class PlayerView extends FocusPanel implements IDeviceView {
 	@UiField
 	MaterialPanel playerCard;
 	@UiField 
-	MaterialImage imgIcon;
+	MaterialIcon btnIcon;
 	@UiField 
 	MaterialLabel lblName;
 	@UiField 
@@ -66,8 +66,8 @@ public class PlayerView extends FocusPanel implements IDeviceView {
 	}
 	
 	@Override
-	public MaterialImage getImgIcon() {
-		return imgIcon;
+	public MaterialIcon getBtnIcon() {
+		return btnIcon;
 	}
 
 	@Override

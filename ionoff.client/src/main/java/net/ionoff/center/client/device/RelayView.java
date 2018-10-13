@@ -8,10 +8,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialCollectionItem;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialSwitch;
 import net.ionoff.center.shared.dto.RelayDto;
 import net.ionoff.center.shared.dto.StatusDto;
 
@@ -26,14 +26,12 @@ public class RelayView extends Composite {
 	@UiField
 	MaterialCollectionItem root;
 	@UiField 
-	MaterialIcon icon;
+	MaterialIcon btnIcon;
 	@UiField 
 	MaterialLabel lblName;
 	@UiField 
 	MaterialLabel lblTime;
-	@UiField 
-	MaterialSwitch btnSwitch;
-	
+
 	private boolean locked;
 	private final RelayDto relay;
 
@@ -41,7 +39,7 @@ public class RelayView extends Composite {
 		uiBinder.createAndBindUi(this);
 		this.relay = relay;
 		if (relay.izAutoRevert()) {
-			btnSwitch.addStyleName("press");
+			btnIcon.setIconType(IconType.RADIO_BUTTON_CHECKED);
 		}
 		lblName.setText(relay.getName());
 		lblTime.setText(relay.getTime());
@@ -49,12 +47,12 @@ public class RelayView extends Composite {
 
 	public void displayStatus() {
 		if (Boolean.TRUE.equals(relay.getStatus())) {
-			icon.setTextColor(Color.GREEN_ACCENT_1);
-			btnSwitch.setValue(true);
+			btnIcon.setTextColor(Color.GREEN_ACCENT_1);
+			btnIcon.setIconColor(Color.GREEN_ACCENT_1);
 		}
 		else {
-			icon.setTextColor(Color.GREY_LIGHTEN_3);
-			btnSwitch.setValue(false);
+			btnIcon.setTextColor(Color.GREY_LIGHTEN_3);
+			btnIcon.setIconColor(Color.GREY_LIGHTEN_3);
 		}
 		lblTime.setText(relay.getTime());
 	}
@@ -63,8 +61,8 @@ public class RelayView extends Composite {
 		return relay;
 	}
 	
-	public MaterialSwitch getBtnSwitch() {
-		return btnSwitch;
+	public MaterialIcon getBtnSwitch() {
+		return btnIcon;
 	}
 	
 	public MaterialCollectionItem asPanel() {

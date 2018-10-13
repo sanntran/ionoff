@@ -1,7 +1,7 @@
 package net.ionoff.center.server.mediaplayer;
 
 import com.google.gson.Gson;
-import net.ionoff.center.server.entity.Player;
+import net.ionoff.center.server.entity.MediaPlayer;
 import net.ionoff.center.server.mediaplayer.cache.PlayerCaches;
 import net.ionoff.center.server.mediaplayer.model.MediaPlayerMessage;
 import net.ionoff.center.server.persistence.service.IDeviceService;
@@ -27,7 +27,7 @@ public class MediaPlayerHandler {
 		LOGGER.info("Received media player message " + payload);
 		try {
 			MediaPlayerMessage message = GSON.fromJson(payload, MediaPlayerMessage.class);
-			Player player = deviceService.findPlayerByMac(message.getMac());
+			MediaPlayer player = deviceService.findPlayerByMac(message.getMac());
 			player.setTime(new Date());
 			deviceService.update(player);
 			playerCaches.storeStatus(player.getId(), message.getStatus());

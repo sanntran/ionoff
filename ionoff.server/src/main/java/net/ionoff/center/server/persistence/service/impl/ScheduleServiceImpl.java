@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Device;
-import net.ionoff.center.server.entity.Player;
+import net.ionoff.center.server.entity.MediaPlayer;
 import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.Schedule;
 import net.ionoff.center.server.entity.SchedulePlayerAction;
@@ -57,7 +57,7 @@ public class ScheduleServiceImpl extends AbstractGenericService<Schedule, Schedu
 	
 	private void insertScheduleActions(Schedule schedule) {
 		Device device = schedule.getDevice();
-		if (device instanceof Player) {
+		if (device instanceof MediaPlayer) {
 			insertSchedulePlayerAction(schedule);
 		}
 		else {
@@ -80,7 +80,7 @@ public class ScheduleServiceImpl extends AbstractGenericService<Schedule, Schedu
 		SchedulePlayerAction scheduleAction = new SchedulePlayerAction();
 		scheduleAction.setAction(SchedulePlayerAction.NONE);
 		scheduleAction.setSchedule(schedule);
-		scheduleAction.setPlayer((Player)schedule.getDevice());
+		scheduleAction.setPlayer((MediaPlayer)schedule.getDevice());
 		scheduleActionDao.insert(scheduleAction);
 	}
 

@@ -1,17 +1,10 @@
 package net.ionoff.center.client.device;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.MethodCallback;
-
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
-
 import net.ionoff.center.client.base.AbstractTablePresenter;
 import net.ionoff.center.client.base.ITableView;
 import net.ionoff.center.client.event.ShowLoadingEvent;
@@ -23,8 +16,13 @@ import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.AreaDto;
 import net.ionoff.center.shared.dto.BaseDto;
 import net.ionoff.center.shared.dto.DeviceDto;
-import net.ionoff.center.shared.dto.LightDto;
-import net.ionoff.center.shared.dto.PlayerDto;
+import net.ionoff.center.shared.dto.MediaPlayerDto;
+import net.ionoff.center.shared.dto.RelayLoadDto;
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DeviceTablePresenter extends AbstractTablePresenter<DeviceDto>{
 	
@@ -97,8 +95,8 @@ public class DeviceTablePresenter extends AbstractTablePresenter<DeviceDto>{
 			eventBus.fireEvent(new ShowMessageEvent(message, ShowMessageEvent.ERROR));
 			return false;
 		}
-		if (getUnsavedDto() instanceof PlayerDto) {
-			PlayerDto playerDto = (PlayerDto)getUnsavedDto();
+		if (getUnsavedDto() instanceof MediaPlayerDto) {
+			MediaPlayerDto playerDto = (MediaPlayerDto)getUnsavedDto();
 			if (playerDto.getMac() == null || playerDto.getMac().trim().isEmpty()) {
 				String message = AdminLocale.getAdminMessages().emptyInputValue(AdminLocale.getAdminConst().mac());
 				eventBus.fireEvent(new ShowMessageEvent(message, ShowMessageEvent.ERROR));
@@ -111,7 +109,7 @@ public class DeviceTablePresenter extends AbstractTablePresenter<DeviceDto>{
 	@Override
 	protected void add() {
 		List<DeviceDto> deviceDtos = new ArrayList<DeviceDto>();
-		DeviceDto newDeviceDto = newLightDto();
+		DeviceDto newDeviceDto = newRelayLoadDto();
 		newDeviceDto.setOrder(DeviceDto.DEFAULT_ORDER);
 		deviceDtos.add(newDeviceDto);
 		deviceDtos.addAll(getDisplayingDtos());
@@ -120,15 +118,15 @@ public class DeviceTablePresenter extends AbstractTablePresenter<DeviceDto>{
 		getDeviceEditPresenter().setEntityDto(newDeviceDto);
 	}
 
-	private LightDto newLightDto() {
-		LightDto newDeviceDto = new LightDto();
-		newDeviceDto.setId(BaseDto.DEFAULT_ID);
-		newDeviceDto.setName("*" + AdminLocale.getAdminConst().device());
+	private RelayLoadDto newRelayLoadDto() {
+		RelayLoadDto newRelayLoadDto = new RelayLoadDto();
+		newRelayLoadDto.setId(BaseDto.DEFAULT_ID);
+		newRelayLoadDto.setName("*" + AdminLocale.getAdminConst().device());
 		if (!getDeviceEditPresenter().getZoneDtos().isEmpty()) {
-			newDeviceDto.setZoneId(getDeviceEditPresenter().getZoneDtos().get(0).getId());
-			newDeviceDto.setZoneName(getDeviceEditPresenter().getZoneDtos().get(0).getName());
+			newRelayLoadDto.setZoneId(getDeviceEditPresenter().getZoneDtos().get(0).getId());
+			newRelayLoadDto.setZoneName(getDeviceEditPresenter().getZoneDtos().get(0).getName());
 		}
-		return newDeviceDto;
+		return newRelayLoadDto;
 	}
 
 	@Override

@@ -1,19 +1,12 @@
 package net.ionoff.center.client.device;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.MethodCallback;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Panel;
-
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialRow;
 import net.ionoff.center.client.base.AbstractPresenter;
@@ -22,12 +15,15 @@ import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
-import net.ionoff.center.shared.dto.ApplianceDto;
 import net.ionoff.center.shared.dto.DeviceDto;
-import net.ionoff.center.shared.dto.LightDto;
-import net.ionoff.center.shared.dto.PlayerDto;
+import net.ionoff.center.shared.dto.MediaPlayerDto;
+import net.ionoff.center.shared.dto.RelayLoadDto;
 import net.ionoff.center.shared.dto.StatusDto;
-import net.ionoff.center.shared.dto.SensorDriverDto;
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DeviceListPresenter extends AbstractPresenter {
 
@@ -164,31 +160,17 @@ public class DeviceListPresenter extends AbstractPresenter {
 	
 	private void showDevices(List<DeviceDto> devices) {
 		for (final DeviceDto device : devices) {
-			if (device instanceof LightDto) {
-				showLight((LightDto) device);
+			if (device instanceof MediaPlayerDto) {
+				showPlayer((MediaPlayerDto) device);
 			}
-			else if (device instanceof PlayerDto) {
-				showPlayer((PlayerDto) device);
-			}
-			else if (device instanceof SensorDriverDto) {
-				showSensorDriver((SensorDriverDto) device);
-			}
-			else if (device instanceof ApplianceDto) {
-				showAppliance((ApplianceDto) device);
+			else if (device instanceof RelayLoadDto) {
+				showRelayLoad((RelayLoadDto) device);
 			}
 		}
 		scheduleSyncDeviceStatus();
 	}
-	
-	private void showSensorDriver(SensorDriverDto sensorDriver) {
-		SensorDriverView sensorDriverView = new SensorDriverView();
-		SensorDriverPresenter sensorDriverPresenter = new SensorDriverPresenter(rpcProvider, eventBus, sensorDriverView, sensorDriver);
-		sensorDriverPresenter.go();
-		devicePresenters.add(sensorDriverPresenter);
-		sensorDriverPresenter.show(display.getWrapper());
-	}
 
-	private void showPlayer(PlayerDto player) {
+	private void showPlayer(MediaPlayerDto player) {
 		PlayerView playerView = new PlayerView();
 		PlayerPresenter playerPresenter = new PlayerPresenter(rpcProvider, eventBus, playerView, player);
 		playerPresenter.go();
@@ -196,27 +178,12 @@ public class DeviceListPresenter extends AbstractPresenter {
 		playerPresenter.show(display.getWrapper());
 	}
 
-	private void showAppliance(ApplianceDto appliance) {
-		ApplianceView applianceView = createApplianceView(appliance);
-		AppliancePresenter appliancePresenter = new AppliancePresenter(rpcProvider, eventBus, applianceView, appliance);
+	private void showRelayLoad(RelayLoadDto appliance) {
+		RelayLoadView relayLoadView = new RelayLoadView();
+		RelayLoadPresenter appliancePresenter = new RelayLoadPresenter(rpcProvider, eventBus, relayLoadView, appliance);
 		appliancePresenter.go();
 		devicePresenters.add(appliancePresenter);
 		appliancePresenter.show(display.getWrapper());
-	}
-
-	private ApplianceView createApplianceView(ApplianceDto appliance) {
-		if (appliance.getRelays().size() > 1) {
-			return new ApplianceCollapsibleView();
-		}
-		return new ApplianceCardView();
-	}
-
-	private void showLight(LightDto light) {
-		LightView lightView = new LightView();
-		LightPresenter lightPresenter = new LightPresenter(rpcProvider, eventBus, lightView, light);
-		lightPresenter.go();
-		devicePresenters.add(lightPresenter);
-		lightPresenter.show(display.getWrapper());
 	}
 
 	protected boolean isVisible() {

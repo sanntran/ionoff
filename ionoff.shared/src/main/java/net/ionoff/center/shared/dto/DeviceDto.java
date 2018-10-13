@@ -7,10 +7,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 @JsonSubTypes({
-	@Type(value=LightDto.class, name="LightDto"), 
-	@Type(value=PlayerDto.class, name="PlayerDto"),
-	@Type(value=SensorDriverDto.class, name="SensorDriverDto"),
-	@Type(value=ApplianceDto.class, name="ApplianceDto")})
+	@Type(value=MediaPlayerDto.class, name="MediaPlayerDto"),
+	@Type(value=RelayLoadDto.class, name="RelayLoadDto")})
 @JsonTypeInfo(use=Id.NAME, include=As.PROPERTY, property="clazz")
 public class DeviceDto extends BaseDto {
 
@@ -28,13 +26,18 @@ public class DeviceDto extends BaseDto {
 	private StatusDto status;
 
 	public String getClazz() {
-		return "DeviveDto";
+		return "DeviceDto";
 	}
 
 	public Integer getOrder() {
 		return order;
 	}
-	public void setOrder(Integer order) {
+
+    public String getStyle() {
+        return "device";
+    }
+
+    public void setOrder(Integer order) {
 		this.order = order;
 	}
 	
@@ -68,11 +71,7 @@ public class DeviceDto extends BaseDto {
 	public void setAreaName(String areaName) {
 		this.areaName = areaName;
 	}
-	
-	public String getStyle() {
-		return "device";
-	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder sBuilder = new StringBuilder();

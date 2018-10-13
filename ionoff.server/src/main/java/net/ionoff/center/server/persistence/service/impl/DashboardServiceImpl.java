@@ -6,15 +6,17 @@ import net.ionoff.center.server.mediaplayer.service.IMediaPlayerService;
 import net.ionoff.center.server.persistence.dao.*;
 import net.ionoff.center.server.persistence.mapper.DashboardMapper;
 import net.ionoff.center.server.persistence.mapper.DeviceMapper;
-import net.ionoff.center.server.persistence.service.IDashboardService;
-import net.ionoff.center.shared.dto.DashboardDto;
-import net.ionoff.center.shared.dto.DeviceDto;
+import net.ionoff.center.server.persistence.service.*;
+import net.ionoff.center.server.util.DateTimeUtil;
+import net.ionoff.center.shared.dto.*;
+import org.apache.catalina.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 @Transactional
@@ -24,7 +26,10 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 	
 	@Autowired
 	private DashboardMapper dashboardMapper;
-	
+
+	@Autowired
+	private DeviceMapper deviceMapper;
+
 	@Autowired
 	private IDeviceDao deviceDao;
 	
@@ -38,10 +43,19 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 	private IDashboardSceneDao dashboardSceneDao;
 	
 	@Autowired
-	private DeviceMapper deviceMapper;
-	
-	@Autowired
 	private IMediaPlayerService playerService;
+
+	@Autowired
+	private IProjectService projectService;
+
+	@Autowired
+	private IScheduleDao scheduleDao;
+
+	@Autowired
+	private IModeDao modeDao;
+
+	@Autowired
+	private IRelayDriverDao relayDriverDao;
 
 	@Autowired
 	public DashboardServiceImpl(IDashboardDao dashboardDao) {
@@ -102,12 +116,25 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 	public DashboardDto findDtoByUserZoneId(User user, long zoneId) {
 		Dashboard dashboard = findByUserZoneId(user, zoneId);
 		DashboardDto dashboardDto = dashboardMapper.createDto(dashboard);
+
+
+		List<Device> devices = deviceDao.findByUserZoneId(user.getId(), zoneId);
+		List<Schedule> schedules = scheduleDao.findByZoneId(zoneId);
+
+		setDeviceStatistic(user, devices, dashboardDto);
+		setScheduleStatistic(user, schedules, dashboardDto);
+
+		SceneStatisticDto sceneStatistic = new SceneStatisticDto();
+		sceneStatistic.setTotalCount((int)sceneDao.countByZoneId(zoneId));
+		dashboardDto.setSceneStatistic(sceneStatistic);
+
 		List<DeviceDto> deviceDtos = new ArrayList<>();
 		for (DashboardDevice dashboardDevice : dashboard.getDevices()) {
 			Device device = dashboardDevice.getDevice();
 			deviceDtos.add(deviceMapper.createDeviceDto(device, playerService));
 		}
 		dashboardDto.setDevices(deviceDtos);
+
 		return dashboardDto;
 	}
 
@@ -115,13 +142,107 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 	public DashboardDto findDtoByUserProjectId(User user, long projectId) {
 		Dashboard dashboard = findByUserProjectId(user, projectId);
 		DashboardDto dashboardDto = dashboardMapper.createDto(dashboard);
+
+		List<Device> devices = deviceDao.findByUserProjectId(user.getId(), projectId);
+		List<Schedule> schedules = scheduleDao.findByProjectId(projectId);
+
+		setDeviceStatistic(user, devices, dashboardDto);
+		setModeStatistic(user, projectId, dashboardDto);
+		setSceneStatistic(user, projectId, dashboardDto);
+		setScheduleStatistic(user, schedules, dashboardDto);
+		setRelayDriverStatistic(projectId, dashboardDto);
+		setServerStatistic(dashboardDto);
+
 		List<DeviceDto> deviceDtos = new ArrayList<>();
 		for (DashboardDevice dashboardDevice : dashboard.getDevices()) {
 			Device device = dashboardDevice.getDevice();
 			deviceDtos.add(deviceMapper.createDeviceDto(device, playerService));
 		}
 		dashboardDto.setDevices(deviceDtos);
+
 		return dashboardDto;
+	}
+
+	private void setServerStatistic(DashboardDto dashboardDto) {
+		ServerStatisticDto serverStatistic = new ServerStatisticDto();
+		long totalMem = Runtime.getRuntime().totalMemory();
+		long freeMem = Runtime.getRuntime().freeMemory();
+		int usedMemPercent = (int) (100 - freeMem * 100 /totalMem);
+		serverStatistic.setMemoryUsedPercent(usedMemPercent);
+
+		/* Get a list of all filesystem roots on this system */
+		File[] roots = File.listRoots();
+
+		serverStatistic.setDiskSpaceUsedPercent(0);
+		if (roots.length > 0) {
+			long totalSpace = roots[0].getTotalSpace();
+			long freeSpace = roots[0].getFreeSpace();
+			int usedSpacePercent = (int) (100 - freeSpace * 100 /totalSpace);
+
+			serverStatistic.setDiskSpaceUsedPercent(usedSpacePercent);
+		}
+		dashboardDto.setServerStatistic(serverStatistic);
+	}
+
+	private void setRelayDriverStatistic(long projectId, DashboardDto dashboardDto) {
+		RelayDriverStatisticDto relayDriverStatistic = new RelayDriverStatisticDto();
+		List<RelayDriver> relayDrivers = relayDriverDao.findByProjectId(projectId);
+		relayDriverStatistic.setTotalCount(relayDrivers.size());
+		for (RelayDriver relayDriver : relayDrivers) {
+			if (relayDriver.isConnected()) {
+				relayDriverStatistic.setOnlineCount(relayDriverStatistic.getOnlineCount() + 1);
+			}
+			else {
+				relayDriverStatistic.setOfflineCount(relayDriverStatistic.getOfflineCount() + 1);
+			}
+		}
+		dashboardDto.setRelayDriverStatisticDto(relayDriverStatistic);
+	}
+
+	private void setDeviceStatistic(User user, List<Device> devices, DashboardDto dashboardDto) {
+		DeviceStatisticDto deviceStatistic = new DeviceStatisticDto();
+		for (Device device : devices) {
+			if (device.getStatus() != null) {
+				if (device.getStatus().booleanValue() == true) {
+					deviceStatistic.setOnCount(deviceStatistic.getOnCount() + 1);
+				}
+				else {
+					deviceStatistic.setOffCount(deviceStatistic.getOffCount() + 1);
+				}
+			}
+		}
+		deviceStatistic.setTotalCount(devices.size());
+		dashboardDto.setDeviceStatistic(deviceStatistic);
+	}
+
+	private void setModeStatistic(User user, long projectId, DashboardDto dashboardDto) {
+		ModeStatisticDto modeStatistic  = new ModeStatisticDto();
+		modeStatistic.setTotalCount((int)modeDao.countByProjectId(projectId));
+		Mode activatedMode = modeDao.findByLastActivated(projectId);
+		if (activatedMode == null) {
+			modeStatistic.setActivatedName("");
+		}
+		else {
+			modeStatistic.setActivatedName(activatedMode.getName());
+		}
+		dashboardDto.setModeStatistic(modeStatistic);
+	}
+
+	private void setSceneStatistic(User user, long projectId, DashboardDto dashboardDto) {
+		SceneStatisticDto sceneStatistic = new SceneStatisticDto();
+		sceneStatistic.setTotalCount((int)sceneDao.countByProjectId(projectId));
+		dashboardDto.setSceneStatistic(sceneStatistic);
+	}
+
+	private void setScheduleStatistic(User user, List<Schedule> schedules, DashboardDto dashboardDto) {
+		ScheduleStatisticDto scheduleStatistic = new ScheduleStatisticDto();
+		scheduleStatistic.setTotalCount(schedules.size());
+		Schedule nextScheduleToday = getNextScheduleToday(schedules);
+		if (nextScheduleToday != null) {
+			scheduleStatistic.setNextScheduleName(nextScheduleToday.getName());
+			scheduleStatistic.setNextScheduleTime(revertFormmatedTime(nextScheduleToday.getTime()));
+		}
+		dashboardDto.setScheduleStatistic(scheduleStatistic);
 	}
 
 	@Override
@@ -232,6 +353,60 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 			throw new EntityNotFoundException(sceneId, Device.class.getSimpleName());
 		}
 		return s;
+	}
+
+
+	private String revertFormmatedTime(String time) {
+		if (time.contains(DateTimeUtil.AM)) {
+			return  time.replaceAll(DateTimeUtil.AM + " ", "") + " " + DateTimeUtil.AM;
+		}
+		else {
+			return time.replaceAll(DateTimeUtil.PM + " ", "") + " " + DateTimeUtil.PM;
+		}
+	}
+
+	private Schedule getNextScheduleToday(List<Schedule> schedules) {
+		Date today = new Date();
+		String todayYmd = new SimpleDateFormat(ScheduleConst.DATE_FORMAT).format(today);
+		String dayOfWeek = new SimpleDateFormat("EEE").format(today);
+		List<Schedule> todayEnabledSchedules = new ArrayList<>();
+		for (Schedule schedule : schedules) {
+			if (schedule.getEnabled()) {
+				if (ScheduleConst.REPEAT_ONCE.equals(schedule.getRepeat())) {
+					if (todayYmd.equals(schedule.getDay())) {
+						schedule.setTime(formatTimeToCompare(schedule.getTime()));
+						todayEnabledSchedules.add(schedule);
+					}
+				}
+				else if (schedule.getDay().contains(dayOfWeek)) {
+					schedule.setTime(formatTimeToCompare(schedule.getTime()));
+					todayEnabledSchedules.add(schedule);
+				}
+			}
+		}
+		if (todayEnabledSchedules.isEmpty()) {
+			return null;
+		}
+		else if (todayEnabledSchedules.size() == 1) {
+			return todayEnabledSchedules.get(0);
+		}
+		Collections.sort(todayEnabledSchedules, Comparator.comparing(Schedule::getTime));
+		String timeNow = new SimpleDateFormat("a hh:mm").format(today);
+		for (Schedule schedule : schedules) {
+			if (schedule.getTime().compareTo(timeNow) > 0) {
+				return schedule;
+			}
+		}
+		return null;
+	}
+
+	private String formatTimeToCompare(String time) {
+		if (time.contains(DateTimeUtil.AM)) {
+			return DateTimeUtil.AM + " " + time.replaceAll(" " + DateTimeUtil.AM, "");
+		}
+		else {
+			return DateTimeUtil.PM + " " + time.replaceAll(" " + DateTimeUtil.PM, "");
+		}
 	}
 
 }

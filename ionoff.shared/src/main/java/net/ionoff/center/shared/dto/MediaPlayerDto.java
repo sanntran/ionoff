@@ -2,8 +2,8 @@ package net.ionoff.center.shared.dto;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-@JsonTypeName( "PlayerDto" )
-public class PlayerDto extends DeviceDto {
+@JsonTypeName( "MediaPlayerDto" )
+public class MediaPlayerDto extends DeviceDto {
 
 	private static final long serialVersionUID = 1L;
 	public static final String P = "P";
@@ -16,12 +16,7 @@ public class PlayerDto extends DeviceDto {
 	
 	@Override
 	public String getClazz() {
-		return "PlayerDto";
-	}
-	
-	@Override
-	public String getStyle() {
-		return "player";
+		return "MediaPlayerDto";
 	}
 	
 	public String getMac() {
@@ -52,4 +47,8 @@ public class PlayerDto extends DeviceDto {
 		this.model = model;
 	}
 
+	@Override
+	public String getStyle() {
+		return "mediaPlayer";
+	}
 }

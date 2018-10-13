@@ -3,6 +3,7 @@ package net.ionoff.center.client.device;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+import gwt.material.design.client.constants.Color;
 import net.ionoff.center.client.base.AbstractPresenter;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.shared.dto.DeviceDto;
@@ -49,5 +50,17 @@ public abstract class DevicePresenter extends AbstractPresenter {
 
 	public void setLocked(boolean lock) {
 		locked = lock;
+	}
+
+	public void setStatus(Boolean status) {
+		if (status == null) {
+			getDeviceView().getBtnIcon().setIconColor(Color.YELLOW_LIGHTEN_3);
+		}
+		else if (status.booleanValue() == true) {
+			getDeviceView().getBtnIcon().setIconColor(Color.GREEN_ACCENT_2);
+		}
+		else {
+			getDeviceView().getBtnIcon().setIconColor(Color.RED_ACCENT_2);
+		}
 	}
 }

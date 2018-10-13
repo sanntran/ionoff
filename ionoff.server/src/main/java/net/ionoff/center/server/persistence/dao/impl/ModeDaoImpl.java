@@ -22,7 +22,19 @@ public class ModeDaoImpl extends AbstractGenericDao<Mode> implements IModeDao {
 		setClass(Mode.class);
 	}
 
-	private long countByProjectId(long projectId) {
+	@Override
+	public Mode findByLastActivated(long projectId) {
+		String sql =  "select m1 from Mode as m1" +
+				" where m1.time = (select max(m2.time) from Mode as m2" +
+				" where m1.project.id = m2.project.id and m1.project.id = :projectId)";
+
+		Query query = getCurrentSession().createQuery(sql)
+				.setParameter("projectId", projectId);
+		return getFirst(findMany(query));
+	}
+
+	@Override
+	public long countByProjectId(long projectId) {
 		String sql = "select count(mode)"
 				+ " from Mode as mode"
 				+ " where mode.project.id = :projectId";

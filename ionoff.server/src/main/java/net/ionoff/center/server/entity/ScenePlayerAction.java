@@ -6,15 +6,15 @@ public class ScenePlayerAction extends SceneAction implements PlayerAction {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Player player;
+	private MediaPlayer player;
 	private String volume;
 	private String album;
 	private String albumType;
 	
-	public Player getPlayer() {
+	public MediaPlayer getPlayer() {
 		return player;
 	}
-	public void setPlayer(Player player) {
+	public void setPlayer(MediaPlayer player) {
 		this.player = player;
 	}
 	

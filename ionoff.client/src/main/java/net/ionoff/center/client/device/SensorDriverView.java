@@ -29,7 +29,7 @@ public class SensorDriverView extends FocusPanel implements IDeviceView {
 	@UiField
 	MaterialPanel sensorDriverCard;
 	@UiField 
-	MaterialImage imgIcon;
+	MaterialIcon btnIcon;
 	@UiField 
 	MaterialLabel lblName;
 	@UiField 
@@ -62,8 +62,8 @@ public class SensorDriverView extends FocusPanel implements IDeviceView {
 	}
 	
 	@Override
-	public MaterialImage getImgIcon() {
-		return imgIcon;
+	public MaterialIcon getBtnIcon() {
+		return btnIcon;
 	}
 
 	@Override

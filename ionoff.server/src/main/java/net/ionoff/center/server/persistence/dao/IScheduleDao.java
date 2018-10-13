@@ -14,8 +14,10 @@ public interface IScheduleDao extends IGenericDao<Schedule> {
 	List<Schedule> findEnabledSchedules(String timeHHMMAmPm);
 	
 	List<Schedule> findByZoneId(long zoneId);
-	
-	List<Schedule> findByProjectId(long projectId);
+
+    long countByProjectId(long projectId);
+
+    List<Schedule> findByProjectId(long projectId);
 	
 	List<Schedule> findByDeviceId(long deviceId);
 

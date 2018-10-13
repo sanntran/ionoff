@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Device;
-import net.ionoff.center.server.entity.Player;
+import net.ionoff.center.server.entity.MediaPlayer;
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.persistence.dao.IDeviceDao;
@@ -26,7 +26,7 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 	}
 
 	@Override
-	public Player findPlayerByMac(String mac) {
+	public MediaPlayer findPlayerByMac(String mac) {
 		
 		String sql = "select distinct player"
 					+ " from net.ionoff.center.server.entity.Player as player"
@@ -40,7 +40,7 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 		Device device = getFirst(devices);
 		
 		if (device != null) {
-			return (Player) device;
+			return (MediaPlayer) device;
 		}
 		
 		return null;

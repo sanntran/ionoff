@@ -9,6 +9,8 @@ import net.ionoff.center.server.entity.RelayDriver;
 @Transactional
 public interface IRelayDriverDao extends IGenericDao<RelayDriver> {
 
+    long countByProjectId(long projectId);
+
     List<RelayDriver> findByIsLazy();
 
     List<RelayDriver> findByProjectId(long projectId);

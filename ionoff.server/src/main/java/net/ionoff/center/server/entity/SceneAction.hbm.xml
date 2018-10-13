@@ -36,7 +36,7 @@
 				<column name="album_type" />
 			</property>
 			
-			<many-to-one name="player" class="net.ionoff.center.server.entity.Player" fetch="select">
+			<many-to-one name="player" class="net.ionoff.center.server.entity.MediaPlayer" fetch="select">
             	<column name="player_id" not-null="false" />
         	</many-to-one>
 		</subclass>

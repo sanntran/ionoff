@@ -6,23 +6,18 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-@JsonTypeName( "ApplianceDto" ) 
-public class ApplianceDto extends DeviceDto {
+@JsonTypeName( "RelayLoadDto" )
+public class RelayLoadDto extends DeviceDto {
 
 	private static final long serialVersionUID = 1L;
 
 	private List<RelayDto> relays;
 	
 	public String getClazz() {
-		return "ApplianceDto";
-	}
-	
-	@Override
-	public String getStyle() {
-		return "appliance";
+		return "RelayLoadDto";
 	}
 
-	public ApplianceDto() {
+	public RelayLoadDto() {
 		relays = new ArrayList<>();
 	}
 
@@ -45,5 +40,11 @@ public class ApplianceDto extends DeviceDto {
 
 	public boolean hasManyRelays() {
 		return relays != null && relays.size() > 1;
+	}
+
+
+	@Override
+	public String getStyle() {
+		return "relayLoad";
 	}
 }

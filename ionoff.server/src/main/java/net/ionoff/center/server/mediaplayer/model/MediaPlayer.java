@@ -2,7 +2,6 @@ package net.ionoff.center.server.mediaplayer.model;
 
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.EntityUtil;
-import net.ionoff.center.server.entity.Player;
 
 import java.io.Serializable;
 
@@ -22,7 +21,7 @@ public class MediaPlayer implements Serializable {
 	private Long connectedTime;
 
 	public static MediaPlayer fromPlayer(Device device) {
-		Player player = (net.ionoff.center.server.entity.Player) EntityUtil.castUnproxy(device, Device.class);
+		net.ionoff.center.server.entity.MediaPlayer player = (net.ionoff.center.server.entity.MediaPlayer) EntityUtil.castUnproxy(device, Device.class);
 		MediaPlayer p = new MediaPlayer();
 		p.setId(player.getId());
 		p.setName(player.getName());

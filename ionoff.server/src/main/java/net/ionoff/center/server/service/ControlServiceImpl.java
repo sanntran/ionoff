@@ -1,4 +1,4 @@
-package net.ionoff.center.server.control;
+package net.ionoff.center.server.service;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.ionoff.center.server.mediaplayer.exception.MediaPlayerRequestException;
-import net.ionoff.center.server.mediaplayer.model.MediaPlayer;
 import net.ionoff.center.server.relaydriver.connector.RelayDriverConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ import org.springframework.context.annotation.Lazy;
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.Mode;
 import net.ionoff.center.server.entity.ModeScene;
-import net.ionoff.center.server.entity.Player;
+import net.ionoff.center.server.entity.MediaPlayer;
 import net.ionoff.center.server.entity.Project;
 import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.RelayDriver;
@@ -235,7 +234,7 @@ public class ControlServiceImpl implements IControlService {
 	}
 
 	@Override
-	public void executePlayerAction(Player player, String action, String volume, String album, String albumType) {
+	public void executePlayerAction(MediaPlayer player, String action, String volume, String album, String albumType) {
 		try {
 			if (PlayerAction.PLAY.equalsIgnoreCase(action)) {
 				playAlbum(player, volume, album, albumType);
@@ -249,10 +248,10 @@ public class ControlServiceImpl implements IControlService {
 		}
 	}
 
-	protected void playAlbum(Player player,  String volume, String album, String albumType) 
+	protected void playAlbum(MediaPlayer player, String volume, String album, String albumType)
 			throws MediaDataRequestException, MediaPlayerConnectException {
 		
-		MediaPlayer p = MediaPlayer.fromPlayer(player);
+		net.ionoff.center.server.mediaplayer.model.MediaPlayer p = net.ionoff.center.server.mediaplayer.model.MediaPlayer.fromPlayer(player);
 		StatusDto status = null;
 		
 		try {
@@ -319,8 +318,8 @@ public class ControlServiceImpl implements IControlService {
 		}
 	}
 
-	protected void stopPlaying(Player player) {
-		MediaPlayer p = MediaPlayer.fromPlayer(player);
+	protected void stopPlaying(MediaPlayer player) {
+		net.ionoff.center.server.mediaplayer.model.MediaPlayer p = net.ionoff.center.server.mediaplayer.model.MediaPlayer.fromPlayer(player);
 		StatusDto status = null;
 		
 		try {

@@ -58,36 +58,6 @@ public class Project extends BaseObj {
 		this.sensors = sensors;
 	}
 
-	public Mode getActivatedMode() {
-		if (getModes() == null) {
-			return null;
-		}
-		Mode lastActivatedMode = null;
-		for (final Mode mode : getModes()) {
-			if (lastActivatedMode == null) {
-				lastActivatedMode = mode;
-			}
-			else if (getModeActivatedTime(mode) > getModeActivatedTime(lastActivatedMode)) {
-				lastActivatedMode = mode;
-			}
-		}
-		if (lastActivatedMode == null) {
-			return null;
-		}
-		if (lastActivatedMode.getActivatedTime() == null ||
-				lastActivatedMode.getIsActivated() == null || 
-				lastActivatedMode.getIsActivated().booleanValue() == false) {
-			return null;
-		}
-		return lastActivatedMode;
-	}
-
-	private long getModeActivatedTime(Mode mode) {
-		if (mode.getActivatedTime() == null) {
-			return 0;
-		}
-		return mode.getActivatedTime().longValue();
-	}
 
 	public Set<RelayDriver> getRelayDrivers() {
 		return relayDrivers;

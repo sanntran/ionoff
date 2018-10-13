@@ -3,10 +3,9 @@
 	xmlns:m="urn:import:gwt.material.design.client.ui">
 
 	<m:MaterialCollectionItem ui:field="root">
-		<m:MaterialIcon ui:field="icon" iconType="POWER_SETTINGS_NEW" iconSize="MEDIUM" float="LEFT"/>
+		<m:MaterialIcon ui:field="btnIcon" iconType="RADIO_BUTTON_UNCHECKED" circle="true" waves="LIGHT" iconSize="MEDIUM" float="LEFT"/>
 		<m:MaterialLabel ui:field="lblName" addStyleNames="relayName" text="-" fontSize="1.2em"/>
 		<m:MaterialLabel ui:field="lblTime" addStyleNames="relayTime" textColor="GREY_LIGHTEN_1" text="-" />
-		<m:MaterialSwitch ui:field="btnSwitch" value="false" float="RIGHT"/>
 	</m:MaterialCollectionItem>
 
 </ui:UiBinder>

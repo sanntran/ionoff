@@ -1,6 +1,6 @@
 package net.ionoff.center.server.message.handler;
 
-import net.ionoff.center.server.control.IControlService;
+import net.ionoff.center.server.service.IControlService;
 import net.ionoff.center.server.entity.ModeSensor;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.notify.INotificationService;

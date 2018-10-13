@@ -13,24 +13,22 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.MaterialCollection;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialSwitch;
 import net.ionoff.center.client.locale.ProjectLocale;
 
-public class ApplianceCollapsibleView extends ApplianceView {
+public class RelayLoadView implements IDeviceView {
 	
-	@UiTemplate("ApplianceCollapsibleView.ui.xml")
-	interface ApplianceCollapsibleViewUiBinder extends UiBinder<Widget, ApplianceCollapsibleView> {
+	@UiTemplate("RelayLoadView.ui.xml")
+	interface RelayLoadViewUiBinder extends UiBinder<Widget, RelayLoadView> {
 	}
 
-	private static ApplianceCollapsibleViewUiBinder uiBinder = GWT.create(ApplianceCollapsibleViewUiBinder.class);
+	private static RelayLoadViewUiBinder uiBinder = GWT.create(RelayLoadViewUiBinder.class);
 	
 	@UiField
 	HTMLPanel root;
 	@UiField 
-	MaterialImage imgIcon; 
+	MaterialIcon btnIcon;
 	@UiField 
 	MaterialLabel lblName;
 	@UiField 
@@ -52,7 +50,7 @@ public class ApplianceCollapsibleView extends ApplianceView {
 	
 	private List<RelayView> relayViews;
 
-	public ApplianceCollapsibleView() {
+	public RelayLoadView() {
 		uiBinder.createAndBindUi(this);
 		relayViews = new ArrayList<>();
 		menuItemAddToZoneDashboard.setText(ProjectLocale.getProjectConst().addToZoneDashboard());
@@ -66,8 +64,8 @@ public class ApplianceCollapsibleView extends ApplianceView {
 	}
 
 	@Override
-	public MaterialImage getImgIcon() {
-		return imgIcon;
+	public MaterialIcon getBtnIcon() {
+		return btnIcon;
 	}
 
 	@Override
@@ -89,14 +87,12 @@ public class ApplianceCollapsibleView extends ApplianceView {
 		return relayCollection;
 	}
 	
-	@Override
 	public List<RelayView> getRelayViews() {
 		return relayViews;
 	}
 
-	@Override
-	public MaterialSwitch getBtnSwitch() {
-		return null;
+	public MaterialIcon getBtnSwitch() {
+		return btnIcon;
 	}
 
 	@Override
@@ -106,17 +102,14 @@ public class ApplianceCollapsibleView extends ApplianceView {
 		menuDropdown.setActivator(activate);
 	}
 	
-	@Override
 	public MaterialLink getMenuItemAddToZoneDashboard() {
 		return menuItemAddToZoneDashboard;
 	}
 	
-	@Override
 	public MaterialLink getMenuItemAddToProjectDashboard() {
 		return menuItemAddToProjectDashboard;
 	}
 	
-	@Override
 	public MaterialLink getMenuItemRemoveFromDashboard() {
 		return menuItemRemoveFromDashboard;
 	}

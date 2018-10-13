@@ -18,7 +18,7 @@ import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.MessageDto;
-import net.ionoff.center.shared.dto.PlayerDto;
+import net.ionoff.center.shared.dto.MediaPlayerDto;
 import net.ionoff.center.client.mediaplayer.event.ShowLoadingEvent;
 import net.ionoff.center.shared.dto.player.Command;
 import net.ionoff.center.shared.dto.player.PlayerApi;
@@ -27,11 +27,11 @@ import net.ionoff.center.shared.dto.player.StatusDto;
 
 public class PlayerPresenter extends DevicePresenter {
 
-	private PlayerDto player;
+	private MediaPlayerDto player;
 	private final PlayerView view;
 	private final IRpcServiceProvider rpcService;
 
-	public PlayerPresenter(IRpcServiceProvider rpcService, HandlerManager eventBus, PlayerView view, PlayerDto player) {
+	public PlayerPresenter(IRpcServiceProvider rpcService, HandlerManager eventBus, PlayerView view, MediaPlayerDto player) {
 		super(rpcService, eventBus, player);
 		this.view = view;
 		this.player = player;
@@ -185,20 +185,20 @@ public class PlayerPresenter extends DevicePresenter {
 		}
 			
 		if (Boolean.FALSE.equals(player.getStatus().getValue())) {
-			view.getImgIcon().removeStyleName("on");
-			view.getImgIcon().removeStyleName("unknown");
-			view.getImgIcon().addStyleName("off");
+//			view.getImgIcon().removeStyleName("on");
+//			view.getImgIcon().removeStyleName("unknown");
+//			view.getImgIcon().addStyleName("off");
 		}
 		else if (Boolean.TRUE.equals(player.getStatus().getValue())) {
-			view.getImgIcon().removeStyleName("off");
-			view.getImgIcon().removeStyleName("unknown");
-			view.getImgIcon().addStyleName("on");
+//			view.getImgIcon().removeStyleName("off");
+//			view.getImgIcon().removeStyleName("unknown");
+//			view.getImgIcon().addStyleName("on");
 			view.asPanel().addStyleName("on");
 		}
 		else { // status == null
-			view.getImgIcon().removeStyleName("on");
-			view.getImgIcon().removeStyleName("off");
-			view.getImgIcon().addStyleName("unknown");
+//			view.getImgIcon().removeStyleName("on");
+//			view.getImgIcon().removeStyleName("off");
+//			view.getImgIcon().addStyleName("unknown");
 		}
 		
 		if (Boolean.TRUE.equals(player.getStatus().getValue())) {

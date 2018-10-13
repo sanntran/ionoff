@@ -22,8 +22,9 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 		super(sessionFactory);
 		setClass(Schedule.class);
 	}
-	
-	private long countByProjectId(long projectId) {
+
+	@Override
+	public long countByProjectId(long projectId) {
 		String sql = "select count(scheduler)"
 				+ " from Schedule as scheduler"
 				+ " where scheduler.project.id = :projectId";

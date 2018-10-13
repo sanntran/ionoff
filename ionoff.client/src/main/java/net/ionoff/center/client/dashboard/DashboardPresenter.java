@@ -1,12 +1,6 @@
 package net.ionoff.center.client.dashboard;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.MethodCallback;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -14,19 +8,14 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Panel;
-
 import gwt.material.design.client.ui.MaterialCard;
 import gwt.material.design.client.ui.MaterialLabel;
 import net.ionoff.center.client.base.AbstractPresenter;
-import net.ionoff.center.client.device.ApplianceCardView;
-import net.ionoff.center.client.device.ApplianceCollapsibleView;
-import net.ionoff.center.client.device.AppliancePresenter;
-import net.ionoff.center.client.device.ApplianceView;
 import net.ionoff.center.client.device.DevicePresenter;
-import net.ionoff.center.client.device.LightPresenter;
-import net.ionoff.center.client.device.LightView;
 import net.ionoff.center.client.device.PlayerPresenter;
 import net.ionoff.center.client.device.PlayerView;
+import net.ionoff.center.client.device.RelayLoadPresenter;
+import net.ionoff.center.client.device.RelayLoadView;
 import net.ionoff.center.client.device.SensorDriverPresenter;
 import net.ionoff.center.client.device.SensorDriverView;
 import net.ionoff.center.client.event.ChangeTokenEvent;
@@ -34,12 +23,16 @@ import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
-import net.ionoff.center.shared.dto.ApplianceDto;
 import net.ionoff.center.shared.dto.DashboardDto;
 import net.ionoff.center.shared.dto.DeviceDto;
-import net.ionoff.center.shared.dto.LightDto;
-import net.ionoff.center.shared.dto.PlayerDto;
+import net.ionoff.center.shared.dto.MediaPlayerDto;
+import net.ionoff.center.shared.dto.RelayLoadDto;
 import net.ionoff.center.shared.dto.SensorDriverDto;
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DashboardPresenter extends AbstractPresenter {
 
@@ -193,17 +186,11 @@ public class DashboardPresenter extends AbstractPresenter {
 	private void showDevices(List<DeviceDto> devices) {
 		
 		for (final DeviceDto device : devices) {
-			if (device instanceof LightDto) {
-				showLight((LightDto) device);
+			if (device instanceof MediaPlayerDto) {
+				showMediaPlayer((MediaPlayerDto) device);
 			}
-			else if (device instanceof PlayerDto) {
-				showPlayer((PlayerDto) device);
-			}
-			else if (device instanceof SensorDriverDto) {
-				showScale((SensorDriverDto) device);
-			}
-			else if (device instanceof ApplianceDto) {
-				showAppliance((ApplianceDto) device);
+			else if (device instanceof RelayLoadDto) {
+				showRelayLoad((RelayLoadDto) device);
 			}
 		}
 	}
@@ -216,7 +203,7 @@ public class DashboardPresenter extends AbstractPresenter {
 		sensorDriverPresenter.show(display.getDeviceWrapper());
 	}
 	
-	private void showPlayer(PlayerDto player) {
+	private void showMediaPlayer(MediaPlayerDto player) {
 		PlayerView playerView = new PlayerView();
 		PlayerPresenter playerPresenter = new PlayerPresenter(rpcService, eventBus, playerView, player);
 		playerPresenter.go();
@@ -224,27 +211,12 @@ public class DashboardPresenter extends AbstractPresenter {
 		playerPresenter.show(display.getDeviceWrapper());
 	}
 
-	private void showAppliance(ApplianceDto appliance) {
-		ApplianceView applianceView = createApplianceView(appliance);
-		AppliancePresenter appliancePresenter = new AppliancePresenter(rpcService, eventBus, applianceView, appliance);
+	private void showRelayLoad(RelayLoadDto relayLoad) {
+		RelayLoadView relayLoadView = new RelayLoadView();
+		RelayLoadPresenter appliancePresenter = new RelayLoadPresenter(rpcService, eventBus, relayLoadView, relayLoad);
 		appliancePresenter.go();
 		devicePresenters.add(appliancePresenter);
 		appliancePresenter.show(display.getDeviceWrapper());
-	}
-
-	private ApplianceView createApplianceView(ApplianceDto appliance) {
-		if (appliance.getRelays().size() > 1) {
-			return new ApplianceCollapsibleView();
-		}
-		return new ApplianceCardView();
-	}
-
-	private void showLight(LightDto light) {
-		LightView lightView = new LightView();
-		LightPresenter lightPresenter = new LightPresenter(rpcService, eventBus, lightView, light);
-		lightPresenter.go();
-		devicePresenters.add(lightPresenter);
-		lightPresenter.show(display.getDeviceWrapper());
 	}
 
 	private void refreshDashboard() {
@@ -287,33 +259,50 @@ public class DashboardPresenter extends AbstractPresenter {
 			return;
 		}
 		// Device
-		display.getLblDeviceOn().setText(dashboard.getDeviceOnCount() + " On");
-		display.getLblDeviceOff().setText(dashboard.getDeviceOffCount() + " Off");
-		display.getLblTotalDevice().setText(dashboard.getTotalDeviceCount() + "");
+		if (dashboard.getDeviceStatistic() != null) {
+			display.getLblDeviceOn().setText(dashboard.getDeviceStatistic().getOnCount() + " On");
+			display.getLblDeviceOff().setText(dashboard.getDeviceStatistic().getOffCount() + " Off");
+			display.getLblTotalDevice().setText(dashboard.getDeviceStatistic().getTotalCount() + "");
+		}
+
 		// RelayDriver
-		display.getLblRelayDriverOnline().setText(dashboard.getOnlineRelayDriverCount() + " Online");
-		display.getLblRelayDriverOffline().setText(dashboard.getOfflineRelayDriverCount() + " Offline");
-		display.getLblTotalRelayDriver().setText(dashboard.getTotalRelayDriverCount() + "");
+		if (dashboard.getRelayDriverStatisticDto() != null) {
+			display.getLblRelayDriverOnline().setText(dashboard.getRelayDriverStatisticDto().getOnlineCount() + " Online");
+			display.getLblRelayDriverOffline().setText(dashboard.getRelayDriverStatisticDto().getOfflineCount() + " Offline");
+			display.getLblTotalRelayDriver().setText(dashboard.getRelayDriverStatisticDto().getTotalCount() + "");
+		}
+
 		
 		// Mode
-		display.getLblTotalMode().setText(dashboard.getTotalModeCount() + "");
-		display.getLblActivatedMode().setText(dashboard.getActivatedModeName());
-		
+		if (dashboard.getModeStatistic() != null) {
+			display.getLblTotalMode().setText(dashboard.getModeStatistic().getTotalCount() + "");
+			display.getLblActivatedMode().setText(dashboard.getModeStatistic().getActivatedName());
+		}
+
 		// ScheduleDto
-		display.getLblTotalSchedule().setText(dashboard.getTotalScheduleCount() + "");
-		if (dashboard.getNextSchedule() != null) {
-			display.getLblNextSchedule().setText(dashboard.getNextSchedule() + ": " + dashboard.getNextScheduleTime());
+		if (dashboard.getScheduleStatistic() != null) {
+			display.getLblTotalSchedule().setText(dashboard.getScheduleStatistic().getTotalCount() + "");
+			if (dashboard.getScheduleStatistic().getNextScheduleName() != null) {
+				display.getLblNextSchedule().setText(dashboard.getScheduleStatistic().getNextScheduleName()
+						+ ": " + dashboard.getScheduleStatistic().getNextScheduleTime());
+			}
+			else {
+				display.getLblNextSchedule().setText("");
+			}
 		}
-		else {
-			display.getLblNextSchedule().setText("");
-		}
+
 		// Scene
-		display.getLblTotalScene().setText(dashboard.getTotalSceneCount() + "");
-		display.getLblLastTriggeredScene().setText("");
-		
+		if (dashboard.getSceneStatistic() != null) {
+			display.getLblTotalScene().setText(dashboard.getSceneStatistic().getTotalCount() + "");
+			display.getLblLastTriggeredScene().setText("");
+		}
+
 		// Server
-		display.getServerChart().setValue(dashboard.getMemoryUsedPercent(),  dashboard.getDiskSpaceUsedPercent());
-		
+		if (dashboard.getServerStatistic() != null) {
+			display.getServerChart().setValue(dashboard.getServerStatistic().getMemoryUsedPercent(),
+					dashboard.getServerStatistic().getDiskSpaceUsedPercent());
+		}
+
 		for (final DevicePresenter devicePresenter : devicePresenters) {
 			updateDeviceStatus(devicePresenter, dashboard.getDevices());
 		}

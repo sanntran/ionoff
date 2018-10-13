@@ -2,11 +2,10 @@ package net.ionoff.center.server.persistence.service;
 
 import java.util.List;
 
-import net.ionoff.center.server.mediaplayer.model.MediaPlayer;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.Device;
-import net.ionoff.center.server.entity.Player;
+import net.ionoff.center.server.entity.MediaPlayer;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.SensorDriver;
@@ -19,7 +18,7 @@ public interface IDeviceService extends IGenericService<Device, DeviceDto> {
 
 	void update(Device device, Long zoneId);
 	
-	Player findPlayerByMac(String mac);
+	MediaPlayer findPlayerByMac(String mac);
 
 	SensorDriver findSensorDriverByMac(String mac);
 	
@@ -33,7 +32,7 @@ public interface IDeviceService extends IGenericService<Device, DeviceDto> {
 
 	List<StatusDto> getStatusByProjectId(User user, Long projectId);
 	
-	MediaPlayer getPlayer(Long playerId);
+	net.ionoff.center.server.mediaplayer.model.MediaPlayer getPlayer(Long playerId);
 
 	void updateSensorStatus(Sensor sensor);
 

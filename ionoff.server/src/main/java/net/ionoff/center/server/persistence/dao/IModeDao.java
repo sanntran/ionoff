@@ -8,8 +8,12 @@ import net.ionoff.center.server.entity.Mode;
 
 @Transactional
 public interface IModeDao extends IGenericDao<Mode> {
-	
-	List<Mode> findByProjectId(long projectId);
+
+    Mode findByLastActivated(long projectId);
+
+    long countByProjectId(long projectId);
+
+    List<Mode> findByProjectId(long projectId);
 
 	List<Mode> findByScheduleTime(String hhMMAmPm);
 	

@@ -1,16 +1,9 @@
 package net.ionoff.center.server.persistence.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import net.ionoff.center.server.entity.Device;
-import net.ionoff.center.server.entity.Light;
-import net.ionoff.center.server.entity.Player;
+import net.ionoff.center.server.entity.MediaPlayer;
 import net.ionoff.center.server.entity.Relay;
+import net.ionoff.center.server.entity.RelayLoad;
 import net.ionoff.center.server.entity.SceneDevice;
 import net.ionoff.center.server.entity.SceneRelayAction;
 import net.ionoff.center.server.entity.Schedule;
@@ -19,15 +12,21 @@ import net.ionoff.center.server.entity.ScheduleRelayAction;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.locale.Messages;
-import net.ionoff.center.server.persistence.mapper.RelayMapper;
 import net.ionoff.center.server.persistence.dao.IDeviceDao;
 import net.ionoff.center.server.persistence.dao.IRelayDao;
 import net.ionoff.center.server.persistence.dao.ISceneActionDao;
 import net.ionoff.center.server.persistence.dao.ISceneDeviceDao;
 import net.ionoff.center.server.persistence.dao.IScheduleActionDao;
 import net.ionoff.center.server.persistence.dao.IScheduleDao;
+import net.ionoff.center.server.persistence.mapper.RelayMapper;
 import net.ionoff.center.server.persistence.service.IRelayService;
 import net.ionoff.center.shared.dto.RelayDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -205,8 +204,7 @@ public class RelayServiceImpl extends AbstractGenericService<Relay, RelayDto> im
 
 	@Override
 	public RelayDto updateDto(User user, RelayDto dto) {
-
-		Relay relay = requireById(dto.getId()); 
+		Relay relay = requireById(dto.getId());
 		relayMapper.updateRelay(relay, dto);
 		if (dto.getDeviceId() == null) {
 			update(relay, null);
@@ -214,12 +212,12 @@ public class RelayServiceImpl extends AbstractGenericService<Relay, RelayDto> im
 		}
 		
 		Device device = deviceDao.findById(dto.getDeviceId());
-		if (device instanceof Light) {
+		if (device instanceof RelayLoad) {
 			if (device.hasRelay() && !device.hasRelays(relay)) {
 				throw new UpdateEntityException(Messages.get(user.getLanguage()).errorSetManyRelayForLight());
 			}
 		}
-		if (device instanceof Player) {
+		if (device instanceof MediaPlayer) {
 			throw new UpdateEntityException(Messages.get(user.getLanguage()).errorSetRelayForPlayer());
 		}
 		update(relay, device);

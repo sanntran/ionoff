@@ -6,7 +6,7 @@ public class SchedulePlayerAction extends ScheduleAction implements PlayerAction
 
 	private static final long serialVersionUID = 1L;
 	
-	public Player player;
+	public MediaPlayer player;
 	private String volume;
 	private String album;
 	private String albumType;
@@ -32,10 +32,10 @@ public class SchedulePlayerAction extends ScheduleAction implements PlayerAction
 		this.albumType = albumType;
 	}
 	
-	public Player getPlayer() {
+	public MediaPlayer getPlayer() {
 		return player;
 	}
-	public void setPlayer(Player player) {
+	public void setPlayer(MediaPlayer player) {
 		this.player = player;
 	}
 }
