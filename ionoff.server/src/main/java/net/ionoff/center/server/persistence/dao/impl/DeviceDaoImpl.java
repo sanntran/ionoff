@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.MediaPlayer;
 import net.ionoff.center.server.entity.QueryCriteria;
-import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.persistence.dao.IDeviceDao;
 
 @Repository
@@ -45,28 +44,7 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 		
 		return null;
 	}
-	
-	@Override
-	public SensorDriver findSensorDriverByMac(String mac) {
-		
-		String sql = "select distinct sensorDriver"
-					+ " from net.ionoff.center.server.entity.SensorDriver as sensorDriver"
-					+ " where sensorDriver.mac = :mac";
-		
-		Query query = getCurrentSession().createQuery(sql)						
-					.setString("mac", mac);
-		
-		List<Device> devices = findMany(query);	
-		
-		Device device = getFirst(devices);
-		
-		if (device != null) {
-			return (SensorDriver) device;
-		}
-		
-		return null;
-	}
-	
+
 	@Override
 	public long countByCriteria(QueryCriteria criteria) {
 		if (criteria.isBlankKey()) {

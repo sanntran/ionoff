@@ -5,8 +5,6 @@ import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.EntityUtil;
 import net.ionoff.center.server.entity.MediaPlayer;
 import net.ionoff.center.server.entity.Relay;
-import net.ionoff.center.server.entity.Sensor;
-import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.entity.Zone;
 import net.ionoff.center.server.mediaplayer.service.IMediaPlayerService;
 import net.ionoff.center.server.util.DateTimeUtil;
@@ -14,7 +12,6 @@ import net.ionoff.center.shared.dto.RelayLoadDto;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.MediaPlayerDto;
 import net.ionoff.center.shared.dto.RelayDto;
-import net.ionoff.center.shared.dto.SensorDriverDto;
 import net.ionoff.center.shared.dto.player.StatusDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -103,17 +100,6 @@ public class DeviceMapper {
 				statusDto.getChildren().add(child);
 			}
 		}
-		else if (device.instanceOf(SensorDriver.class)) {
-			SensorDriver sensorDriver = EntityUtil.castUnproxy(device, SensorDriver.class);
-
-			if (sensorDriver.getSensors() != null && !sensorDriver.getSensors().isEmpty()) {
-				Sensor sensor = sensorDriver.getSensors().get(0);
-				if (sensor.getStatus().getTime() != null) {
-					statusDto.setTime(DateTimeUtil.ddMMHHmmFormatter.format(sensor.getStatus().getTime()));
-				}
-				statusDto.setLatestValue(sensor.getStatus().getValue() + " " + sensor.getUnit());
-			}
-		}
 		else if (device.instanceOf(MediaPlayer.class) && playerService != null) {
 			try {
 				MediaPlayer player = EntityUtil.castUnproxy(device, MediaPlayer.class);
@@ -154,14 +140,6 @@ public class DeviceMapper {
 		playerDto.setIp(player.getIp());
 		playerDto.setModel(player.getModel());
 		return playerDto;
-	}
-
-	private static DeviceDto createSensorDriverDto(Device device) {
-		final SensorDriverDto sensorDriverDto = new SensorDriverDto();
-		final SensorDriver sensorDriver = (SensorDriver) device;
-		sensorDriverDto.setMac(sensorDriver.getMac());
-		sensorDriverDto.setModel(sensorDriver.getModel());
-		return sensorDriverDto;
 	}
 
 	public DeviceDto createDeviceDto(Device device) {

@@ -16,8 +16,6 @@ import net.ionoff.center.client.device.DeviceListPresenter;
 import net.ionoff.center.client.device.DeviceListView;
 import net.ionoff.center.client.device.DeviceTablePresenter;
 import net.ionoff.center.client.device.DeviceTableView;
-import net.ionoff.center.client.device.SensorDataTablePresenter;
-import net.ionoff.center.client.device.SensorDataTableView;
 import net.ionoff.center.client.event.ChangeTokenEvent;
 import net.ionoff.center.client.mode.ModeListPresenter;
 import net.ionoff.center.client.mode.ModeListView;
@@ -49,7 +47,6 @@ import net.ionoff.center.client.zone.ZoneTablePresenter;
 import net.ionoff.center.client.zone.ZoneTableView;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.MediaPlayerDto;
-import net.ionoff.center.shared.dto.SensorDriverDto;
 import net.ionoff.center.client.mediaplayer.PlayerPresenter;
 import net.ionoff.center.client.mediaplayer.PlayerView;
 
@@ -77,7 +74,6 @@ public class ContentPresenter extends AbstractPresenter {
 	private ZoneListPresenter zoneListPresenter;
 
 	private PlayerPresenter playerPresenter;
-	private SensorDataTablePresenter sensorDataPresenter;
 
 	private IRpcServiceProvider rpcProvider;
 	private Display display;
@@ -112,17 +108,9 @@ public class ContentPresenter extends AbstractPresenter {
 					if (response instanceof MediaPlayerDto) {
 						showPlayer(deviceId);
 					}
-					else if (response instanceof SensorDriverDto) {
-						showSensorDriverData((SensorDriverDto) response);
-					}
 				}
 			});
 		}
-	}
-
-	private void showSensorDriverData(SensorDriverDto deviceDto) {
-		display.asPanel().removeStyleName("player");
-		getSensorDataPresenter(deviceDto).show(display.asPanel());
 	}
 
 	private void showPlayer(Long playerId) {
@@ -224,18 +212,6 @@ public class ContentPresenter extends AbstractPresenter {
 			playerPresenter.go();
 		}
 		return playerPresenter;
-	}
-
-	public SensorDataTablePresenter getSensorDataPresenter(SensorDriverDto deviceDto) {
-		if (sensorDataPresenter == null) {
-			sensorDataPresenter = new SensorDataTablePresenter(rpcProvider, eventBus, deviceDto, new SensorDataTableView());
-			sensorDataPresenter.go();
-		}
-		else {
-			sensorDataPresenter.setDevice(deviceDto);
-			sensorDataPresenter.refresh();
-		}
-		return sensorDataPresenter;
 	}
 
 	public ScheduleTablePresenter getScheduleTablePresenter() {

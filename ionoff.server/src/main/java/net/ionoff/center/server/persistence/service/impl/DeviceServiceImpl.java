@@ -6,7 +6,6 @@ import net.ionoff.center.server.entity.MediaPlayer;
 import net.ionoff.center.server.entity.Scene;
 import net.ionoff.center.server.entity.SceneDevice;
 import net.ionoff.center.server.entity.Sensor;
-import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.UserDevice;
 import net.ionoff.center.server.entity.Zone;
@@ -23,7 +22,6 @@ import net.ionoff.center.server.persistence.service.ISceneDeviceService;
 import net.ionoff.center.server.persistence.service.ISensorService;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.StatusDto;
-import net.ionoff.center.shared.entity.SensorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -82,16 +80,6 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 		super.insert(device);
 		insertSceneDevices(device);
 		insertUserDevices(device);
-		if (device instanceof SensorDriver) {
-			Sensor sensor = new Sensor();
-			sensor.setDevice(device);
-			sensor.setName("Weigh Sensor");
-			sensor.setProject(device.getProject());
-			sensor.setType(SensorType.ANALOG.toString());
-			sensor.setUnit("kg");
-			sensor.setZone(device.getZone());
-			sensorService.insert(sensor);
-		}
 		return device;
 	}
 
@@ -170,11 +158,6 @@ public class DeviceServiceImpl extends AbstractGenericService<Device, DeviceDto>
 	@Override
 	public MediaPlayer findPlayerByMac(String mac) {
 		return getDao().findPlayerByMac(mac);
-	}
-
-	@Override
-	public SensorDriver findSensorDriverByMac(String mac) {
-		return getDao().findSensorDriverByMac(mac);
 	}
 
 	@Override

@@ -16,7 +16,6 @@ import net.ionoff.center.server.exception.MqttConnectionException;
 import net.ionoff.center.server.exception.MqttPublishException;
 import net.ionoff.center.server.mediaplayer.MediaPlayerHandler;
 import net.ionoff.center.server.relaydriver.RelayDriverHandler;
-import net.ionoff.center.server.sensordriver.SensorDriverHandler;
 import org.springframework.stereotype.Component;
 
 
@@ -61,9 +60,6 @@ public class MqttConnection implements MqttCallback {
 
 	@Autowired
 	private RelayDriverHandler relayDriverHandler;
-
-	@Autowired
-	private SensorDriverHandler sensorDriverHandler;
 
 	@Autowired
 	private MediaPlayerHandler mediaPlayerHandler;
@@ -173,7 +169,7 @@ public class MqttConnection implements MqttCallback {
 				relayDriverHandler.onMessageArrived(payload);
 			}
 			else if (topicSensorDriver.equals(topic)) {
-				sensorDriverHandler.onMessageArrived(payload);
+				// does nothing
 			}
 			else if (topicMediaPlayer.equals(topic)) {
 				mediaPlayerHandler.onMessageArrived(payload);

@@ -94,10 +94,6 @@ public class Messages {
 		return messageFormat.format(new Object[] {entity, ownedEntity});
 	}
 
-	public String errorSensorDriverIndex() {
-		return resourceBundle.getString("errorSensorDriverIndex");
-	}
-
 	public String errorSetRelayTypeButtonForLight() {
 		return resourceBundle.getString("errorSetRelayTypeButtonForLight");
 	}

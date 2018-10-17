@@ -16,8 +16,6 @@ import net.ionoff.center.client.device.PlayerPresenter;
 import net.ionoff.center.client.device.PlayerView;
 import net.ionoff.center.client.device.RelayLoadPresenter;
 import net.ionoff.center.client.device.RelayLoadView;
-import net.ionoff.center.client.device.SensorDriverPresenter;
-import net.ionoff.center.client.device.SensorDriverView;
 import net.ionoff.center.client.event.ChangeTokenEvent;
 import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.service.IRpcServiceProvider;
@@ -27,7 +25,6 @@ import net.ionoff.center.shared.dto.DashboardDto;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.MediaPlayerDto;
 import net.ionoff.center.shared.dto.RelayLoadDto;
-import net.ionoff.center.shared.dto.SensorDriverDto;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -194,15 +191,7 @@ public class DashboardPresenter extends AbstractPresenter {
 			}
 		}
 	}
-	
-	private void showScale(SensorDriverDto device) {
-		SensorDriverView sensorDriverView = new SensorDriverView();
-		SensorDriverPresenter sensorDriverPresenter = new SensorDriverPresenter(rpcService, eventBus, sensorDriverView, device);
-		sensorDriverPresenter.go();
-		devicePresenters.add(sensorDriverPresenter);
-		sensorDriverPresenter.show(display.getDeviceWrapper());
-	}
-	
+
 	private void showMediaPlayer(MediaPlayerDto player) {
 		PlayerView playerView = new PlayerView();
 		PlayerPresenter playerPresenter = new PlayerPresenter(rpcService, eventBus, playerView, player);

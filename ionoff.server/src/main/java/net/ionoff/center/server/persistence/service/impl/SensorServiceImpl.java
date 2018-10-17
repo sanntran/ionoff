@@ -116,10 +116,6 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor, SensorDto>
 		if (!SensorType.DIGITAL.toString().equals(sensorDto.getType())) {
 			return;
 		}
-		if (sensorDto.getDriverId() == null || sensorDto.getIndex() == null) {
-			final String message = Messages.get(locale).errorSensorDriverIndex();
-			throw new UpdateEntityException(message);
-		}
 	}
 
 	@Override

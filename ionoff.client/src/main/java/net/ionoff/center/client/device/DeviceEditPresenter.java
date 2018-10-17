@@ -34,7 +34,6 @@ import net.ionoff.center.shared.dto.AreaDto;
 import net.ionoff.center.shared.dto.BaseDto;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.MediaPlayerDto;
-import net.ionoff.center.shared.dto.SensorDriverDto;
 import net.ionoff.center.shared.dto.ZoneDto;
 
 public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
@@ -125,13 +124,7 @@ public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
 		playerDto.setIp("");
 		return playerDto;
 	}
-	
-	private SensorDriverDto newSensorDriverDto(DeviceDto target) {
-		SensorDriverDto SensorDriverDto = new SensorDriverDto();
-		copyDeviceDto(target, SensorDriverDto);
-		return SensorDriverDto;
-	}
-	
+
 	private void copyDeviceDto(DeviceDto sourceDevice, DeviceDto targetDevice) {
 		targetDevice.setId(sourceDevice.getId());
 		targetDevice.setName(sourceDevice.getName());
@@ -173,12 +166,7 @@ public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
 			player.setModel(view.getListBoxModels().getSelectedValue());
 			player.setIp(view.getTextBoxIp().getText());
 		}
-		
-		else if (entityDto instanceof SensorDriverDto) {
-			SensorDriverDto sensorDriver = (SensorDriverDto) entityDto;
-			sensorDriver.setMac(view.getTextBoxMac().getValue());
-		}
-		
+
 		rpcProvider.getDeviceService().save(entityDto.getId(), entityDto, 
 				new MethodCallback<DeviceDto>() {
 			@Override
@@ -238,13 +226,6 @@ public class DeviceEditPresenter extends AbstractEditPresenter<DeviceDto> {
 			view.getTextBoxIp().setText(player.getIp());
 			view.getListBoxModels().setVisible(true);
 			view.getListBoxModels().setSelectedValue(player.getModel());
-		}
-		else if (dto instanceof SensorDriverDto) {
-			SensorDriverDto device = (SensorDriverDto)dto;
-			view.getTextBoxMac().setText(device.getMac());
-			view.getTextBoxMac().setVisible(true);
-			view.getTextBoxIp().setVisible(false);
-			view.getListBoxModels().setVisible(false);
 		}
 		else {
 			view.getTextBoxIp().setVisible(false);

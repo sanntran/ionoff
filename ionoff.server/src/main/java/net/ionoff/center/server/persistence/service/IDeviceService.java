@@ -8,7 +8,6 @@ import net.ionoff.center.server.entity.Device;
 import net.ionoff.center.server.entity.MediaPlayer;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.User;
-import net.ionoff.center.server.entity.SensorDriver;
 import net.ionoff.center.server.entity.Zone;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.StatusDto;
@@ -20,8 +19,6 @@ public interface IDeviceService extends IGenericService<Device, DeviceDto> {
 	
 	MediaPlayer findPlayerByMac(String mac);
 
-	SensorDriver findSensorDriverByMac(String mac);
-	
 	void moveDevice(Device device, Zone fromZone, Zone toZone);
 
 	List<DeviceDto> findDtoByUserZoneId(User user, long zoneId);
