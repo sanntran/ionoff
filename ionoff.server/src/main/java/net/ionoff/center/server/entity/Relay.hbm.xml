@@ -41,7 +41,7 @@
 			<column name="auto_revert"/>
 		</property>
 		
-		<many-to-one name="driver" class="net.ionoff.center.server.entity.RelayDriver" fetch="select">
+		<many-to-one name="driver" class="net.ionoff.center.server.entity.Controller" fetch="select">
             <column name="driver_id" not-null="true" />
         </many-to-one>
         

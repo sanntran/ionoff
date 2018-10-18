@@ -75,7 +75,7 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 	@UiField
 	MaterialLink menuItemSchedule;
 	@UiField
-	MaterialLink menuItemRelayDriver;
+	MaterialLink menuItemController;
 	@UiField
 	MaterialLink menuItemRelay;
 	@UiField
@@ -100,7 +100,7 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 		menuItemScene.setText(ProjectLocale.getProjectConst().scene());
 		menuItemMode.setText(ProjectLocale.getProjectConst().mode());
 		menuItemSchedule.setText(ProjectLocale.getProjectConst().schedule());
-		menuItemRelayDriver.setText(ProjectLocale.getProjectConst().relayDriver());
+		menuItemController.setText(ProjectLocale.getProjectConst().controller());
 		menuItemRelay.setText(ProjectLocale.getProjectConst().relay());
 		menuItemUser.setText(ProjectLocale.getProjectConst().user());
 		menuItemSensor.setText(ProjectLocale.getProjectConst().sensor());
@@ -211,8 +211,8 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 	}
 
 	@Override
-	public MaterialLink getMenuItemRelayDriver() {
-		return menuItemRelayDriver;
+	public MaterialLink getMenuItemController() {
+		return menuItemController;
 	}
 
 	@Override

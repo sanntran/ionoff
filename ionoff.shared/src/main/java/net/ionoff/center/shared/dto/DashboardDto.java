@@ -9,7 +9,7 @@ public class DashboardDto extends BaseDto {
 	private ScheduleStatisticDto scheduleStatistic;
 	private SceneStatisticDto sceneStatistic;
 	private ServerStatisticDto serverStatistic;
-	private RelayDriverStatisticDto relayDriverStatisticDto;
+	private ControllerStatisticDto relayDriverStatisticDto;
 	private List<DeviceDto> devices;
 	private List<SceneDto> scenes;
 
@@ -69,11 +69,11 @@ public class DashboardDto extends BaseDto {
 		this.scenes = scenes;
 	}
 
-	public RelayDriverStatisticDto getRelayDriverStatisticDto() {
+	public ControllerStatisticDto getControllerStatisticDto() {
 		return relayDriverStatisticDto;
 	}
 
-	public void setRelayDriverStatisticDto(RelayDriverStatisticDto relayDriverStatisticDto) {
+	public void setControllerStatisticDto(ControllerStatisticDto relayDriverStatisticDto) {
 		this.relayDriverStatisticDto = relayDriverStatisticDto;
 	}
 }

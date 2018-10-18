@@ -29,7 +29,7 @@ import net.ionoff.center.shared.dto.BaseDto;
 import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.ModeDto;
 import net.ionoff.center.shared.dto.ModeSensorDto;
-import net.ionoff.center.shared.dto.RelayDriverDto;
+import net.ionoff.center.shared.dto.ControllerDto;
 import net.ionoff.center.shared.dto.SensorDto;
 import net.ionoff.center.shared.entity.SensorType;
 
@@ -154,9 +154,9 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		String newDriverName = null;
 		int newInput = view.getIntBoxInputIndex().getValue();
 		
-		int selectedRelayDriverIndex = view.getListBoxGateways().getSelectedIndex();
-		String selectedItem = view.getListBoxGateways().getItemText(selectedRelayDriverIndex);
-		if (selectedRelayDriverIndex == 0) {
+		int selectedControllerIndex = view.getListBoxGateways().getSelectedIndex();
+		String selectedItem = view.getListBoxGateways().getItemText(selectedControllerIndex);
+		if (selectedControllerIndex == 0) {
 			//
 		}
 		else {
@@ -202,7 +202,7 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		isDirty = false;
 		entityDto = dto;
 		if (dto.getDeviceId() == null || dto.izNew()) {
-			loadRelayDrivers();
+			loadControllers();
 		}
 		else {
 			setGatewayOptions(BaseDto.formatNameID(dto.getDeviceName(), dto.getDeviceId()));
@@ -287,16 +287,16 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		});
 	}
 
-	private void loadRelayDrivers() {
-		rpcProvider.getRelayDriverService().findByProjectId(getProjectId(), 
-				new MethodCallback<List<RelayDriverDto>>() {
+	private void loadControllers() {
+		rpcProvider.getControllerService().findByProjectId(getProjectId(),
+				new MethodCallback<List<ControllerDto>>() {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
 				ClientUtil.handleRpcFailure(method, exception, eventBus);
 			}
 
 			@Override
-			public void onSuccess(Method method, List<RelayDriverDto> result) {
+			public void onSuccess(Method method, List<ControllerDto> result) {
 				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
 				setGatewayOptions(result);
 				updateView(entityDto);
@@ -339,14 +339,14 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		}
 	}
 
-	public void setGatewayOptions(List<RelayDriverDto> options) {
+	public void setGatewayOptions(List<ControllerDto> options) {
 		view.getListBoxGateways().clear();
 		view.getListBoxGateways().setEnabled(true);
 		view.getListBoxGateways().addItem(AdminLocale.getAdminConst().none());
 		if (options == null || options.isEmpty()) {
 			return;
 		}
-		for (final RelayDriverDto option : options) {
+		for (final ControllerDto option : options) {
 			view.getListBoxGateways().addItem(option.formatNameID());
 		}
 		view.getIntBoxInputIndex().setVisible(true);

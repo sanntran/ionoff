@@ -15,7 +15,7 @@ public class Relay extends BaseObj {
 	private Boolean status;
 	private Boolean isLocked;
 	private Integer autoRevert;
-	private RelayDriver driver;
+	private Controller driver;
 	private Device device;
 	
 	private List<RelayGroupRelay> groupRelays;
@@ -61,11 +61,11 @@ public class Relay extends BaseObj {
 		this.isLocked = isLocked;
 	}
 	
-	public RelayDriver getDriver() {
+	public Controller getDriver() {
 		return driver;
 	}
-	public void setDriver(RelayDriver relayDriver) {
-		this.driver = relayDriver;
+	public void setDriver(Controller controller) {
+		this.driver = controller;
 	}
 
 	public Device getDevice() {

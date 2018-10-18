@@ -51,11 +51,11 @@ public class DashboardPresenter extends AbstractPresenter {
 
 		MaterialLabel getLblNextSchedule();
 
-		MaterialLabel getLblTotalRelayDriver();
+		MaterialLabel getLblTotalController();
 
-		MaterialLabel getLblRelayDriverOnline();
+		MaterialLabel getLblControllerOnline();
 
-		MaterialLabel getLblRelayDriverOffline();
+		MaterialLabel getLblControllerOffline();
 
 		MaterialLabel getLblTotalMode();
 
@@ -71,7 +71,7 @@ public class DashboardPresenter extends AbstractPresenter {
 
 		MaterialCard getCartMode();
 
-		MaterialCard getCartRelayDriver();
+		MaterialCard getCartController();
 
 		MaterialCard getCartServerChart();
 
@@ -121,16 +121,16 @@ public class DashboardPresenter extends AbstractPresenter {
 				eventBus.fireEvent(new ChangeTokenEvent(token));
 			}
 		});
-		display.getCartRelayDriver().addClickHandler(new ClickHandler() {
+		display.getCartController().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				String token = AppToken.newRelayDriverToken();
+				String token = AppToken.newControllerToken();
 				eventBus.fireEvent(new ChangeTokenEvent(token));
 			}
 		});
 	}
-	
-	protected void scheduleRefreshDashboard() {
+
+	private void scheduleRefreshDashboard() {
 		if (timer == null) {
 			timer = new Timer() {
 				@Override
@@ -243,7 +243,7 @@ public class DashboardPresenter extends AbstractPresenter {
 		}
 	}
 
-	protected void updateDashboard(DashboardDto dashboard) {
+	private void updateDashboard(DashboardDto dashboard) {
 		if (!isVisible()) {
 			return;
 		}
@@ -254,11 +254,11 @@ public class DashboardPresenter extends AbstractPresenter {
 			display.getLblTotalDevice().setText(dashboard.getDeviceStatistic().getTotalCount() + "");
 		}
 
-		// RelayDriver
-		if (dashboard.getRelayDriverStatisticDto() != null) {
-			display.getLblRelayDriverOnline().setText(dashboard.getRelayDriverStatisticDto().getOnlineCount() + " Online");
-			display.getLblRelayDriverOffline().setText(dashboard.getRelayDriverStatisticDto().getOfflineCount() + " Offline");
-			display.getLblTotalRelayDriver().setText(dashboard.getRelayDriverStatisticDto().getTotalCount() + "");
+		// Controller
+		if (dashboard.getControllerStatisticDto() != null) {
+			display.getLblControllerOnline().setText(dashboard.getControllerStatisticDto().getOnlineCount() + " Online");
+			display.getLblControllerOffline().setText(dashboard.getControllerStatisticDto().getOfflineCount() + " Offline");
+			display.getLblTotalController().setText(dashboard.getControllerStatisticDto().getTotalCount() + "");
 		}
 
 		
@@ -326,13 +326,13 @@ public class DashboardPresenter extends AbstractPresenter {
 		container.add(display.asPanel());
 		display.getDeviceWrapper().clear();
 		if (AppToken.hasTokenItem(AppToken.ZONE)) {
-			display.getCartRelayDriver().setVisible(false);
+			display.getCartController().setVisible(false);
 			display.getCartMode().setVisible(false);
 			display.getCartServerChart().setVisible(false);
 			display.getCartSchedule().setVisible(false);
 		}
 		else if (AppToken.hasTokenItem(AppToken.PROJECT)) {
-			display.getCartRelayDriver().setVisible(true);
+			display.getCartController().setVisible(true);
 			display.getCartMode().setVisible(true);
 			display.getCartServerChart().setVisible(true);
 			display.getCartSchedule().setVisible(true);

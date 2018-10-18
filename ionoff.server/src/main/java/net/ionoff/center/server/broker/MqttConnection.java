@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import net.ionoff.center.server.exception.MqttConnectionException;
 import net.ionoff.center.server.exception.MqttPublishException;
 import net.ionoff.center.server.mediaplayer.MediaPlayerHandler;
-import net.ionoff.center.server.relaydriver.RelayDriverHandler;
+import net.ionoff.center.server.controller.ControllerHandler;
 import org.springframework.stereotype.Component;
 
 
@@ -49,17 +49,14 @@ public class MqttConnection implements MqttCallback {
 	@Value("${broker.mqtt.topic.ionoffnet}")
 	private String defaultTopic;
 
-	@Value("${broker.mqtt.topic.relaydriver}")
-	private String topicRelayDriver;
-
-	@Value("${broker.mqtt.topic.sensordriver}")
-	private String topicSensorDriver;
+	@Value("${broker.mqtt.topic.controller}")
+	private String topicController;
 
 	@Value("${broker.mqtt.topic.mediaplayer}")
 	private String topicMediaPlayer;
 
 	@Autowired
-	private RelayDriverHandler relayDriverHandler;
+	private ControllerHandler controllerHandler;
 
 	@Autowired
 	private MediaPlayerHandler mediaPlayerHandler;
@@ -67,7 +64,7 @@ public class MqttConnection implements MqttCallback {
 	public void initAndConnectBroker() {
 		clientId = "ionoff-" + hashCode() + "";
 
-		subscribleTopics = new String[] {defaultTopic, topicRelayDriver, topicSensorDriver, topicMediaPlayer};
+		subscribleTopics = new String[] {defaultTopic, topicController, topicMediaPlayer};
 		try {
 			client = new MqttClient(brockerUrl, clientId);
 		} catch (MqttException e) {
@@ -165,11 +162,8 @@ public class MqttConnection implements MqttCallback {
 		try {
 			// Called when a message arrives from the server that matches any
 			// subscription made by the connector
-			if (defaultTopic.equals(topic) || topicRelayDriver.equals(topic)) {
-				relayDriverHandler.onMessageArrived(payload);
-			}
-			else if (topicSensorDriver.equals(topic)) {
-				// does nothing
+			if (defaultTopic.equals(topic) || topicController.equals(topic)) {
+				controllerHandler.onMessageArrived(payload);
 			}
 			else if (topicMediaPlayer.equals(topic)) {
 				mediaPlayerHandler.onMessageArrived(payload);

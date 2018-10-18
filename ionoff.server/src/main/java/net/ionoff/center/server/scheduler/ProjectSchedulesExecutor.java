@@ -23,7 +23,7 @@ import net.ionoff.center.server.entity.SchedulePlayerAction;
 import net.ionoff.center.server.entity.ScheduleRelayAction;
 import net.ionoff.center.server.persistence.service.IModeService;
 import net.ionoff.center.server.persistence.service.IScheduleService;
-import net.ionoff.center.server.relaydriver.exception.RelayDriverRequestException;
+import net.ionoff.center.server.controller.exception.ControllerRequestException;
 import net.ionoff.center.shared.dto.ScheduleConst;
 import net.ionoff.center.server.mediadata.exception.MediaDataRequestException;
 import net.ionoff.center.server.mediaplayer.exception.MediaPlayerConnectException;
@@ -84,7 +84,7 @@ public class ProjectSchedulesExecutor {
 		String hhMMAmPm = scheduleTimeFormat.format(now);
 		List<Mode> executableModes = modeService.findByScheduleTime(hhMMAmPm);
 		
-		List<Mode> todayExcutableModes = new ArrayList<Mode>();
+		List<Mode> todayExcutableModes = new ArrayList<>();
 		for (Mode mode : executableModes) {
 			if (isTodaySchedule(mode.getScheduleRepeat(), mode.getScheduleDay(), now)) {
 				todayExcutableModes.add(mode);
@@ -108,7 +108,7 @@ public class ProjectSchedulesExecutor {
 	private List<Schedule> getExecutableSchedules(Date now) {
 		String hhMMAmPm = scheduleTimeFormat.format(now);
 		List<Schedule> excutableSchedules = scheduleService.findEnabledSchedules(hhMMAmPm);
-		List<Schedule> todayExcutableSchedules = new ArrayList<Schedule>();
+		List<Schedule> todayExcutableSchedules = new ArrayList<>();
 		for (Schedule schedule : excutableSchedules) {
 			if (isTodaySchedule(schedule.getRepeat(), schedule.getDay(), now)) {
 				todayExcutableSchedules.add(schedule);
@@ -134,9 +134,9 @@ public class ProjectSchedulesExecutor {
 
 	private List<Schedule> getFailedSchedules() {
 		List<Schedule> failedSchedules = scheduleService.findFailedSchedules();
-		List<Schedule> result = new ArrayList<Schedule>();
+		List<Schedule> result = new ArrayList<>();
 		for (Schedule schedule : failedSchedules) {
-			if (schedule.getRetry() == null || schedule.getRetry().intValue() < 3) {
+			if (schedule.getRetry() == null || schedule.getRetry() < 3) {
 				result.add(schedule);
 			}
 		}
@@ -185,7 +185,7 @@ public class ProjectSchedulesExecutor {
 
 	private boolean isDeviceControlledAfterExecutingSchedule(Device device, Schedule schedule) {
 		return device.getTime() != null && schedule.getExecutedTime() != null
-				&& device.getTime().getTime() > schedule.getExecutedTime().longValue();
+				&& device.getTime().getTime() > schedule.getExecutedTime();
 	}
 
 	@Async
@@ -196,7 +196,7 @@ public class ProjectSchedulesExecutor {
 			executeScheduleActions(schedule);
 			updateSchedule(schedule, now, true, 0);
 		}
-		catch (MediaPlayerConnectException | MediaDataRequestException | RelayDriverRequestException e) {
+		catch (MediaPlayerConnectException | MediaDataRequestException | ControllerRequestException e) {
 			LOGGER.error("Error execute schedule " + schedule.getName() + " " + e.getMessage(), e);
 			updateSchedule(schedule, now, false, 0);
 		}

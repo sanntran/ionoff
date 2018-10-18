@@ -32,7 +32,7 @@ public interface IAppController {
 	
 	void showSchedules();
 
-	void showRelayDrivers();
+	void showControllers();
 
 	void showRelays();
 

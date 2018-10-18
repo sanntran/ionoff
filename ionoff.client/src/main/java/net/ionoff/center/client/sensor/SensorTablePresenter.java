@@ -28,7 +28,7 @@ public class SensorTablePresenter extends AbstractTablePresenter<SensorDto> {
 	
 	public interface Display extends ITableView<SensorDto> {
 		Column<SensorDto, String> getNameColumn();
-		Column<SensorDto, String> getRelayDriverColumn();
+		Column<SensorDto, String> getControllerColumn();
 		SensorEditPresenter.Display getSensorEditView();
 	}
 	

@@ -77,8 +77,8 @@
 			<m:MaterialLink ui:field="menuItemMode" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="SETTINGS_BRIGHTNESS" >
 			</m:MaterialLink>
 			<m:MaterialLink ui:field="menuItemSchedule" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="SCHEDULE" />
-			<m:MaterialLink ui:field="menuItemRelayDriver" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="MEMORY" />
-			<m:MaterialLink ui:field="menuItemRelay" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="POWER_SETTINGS_NEW" />
+			<m:MaterialLink ui:field="menuItemController" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="MEMORY" />
+			<m:MaterialLink ui:field="menuItemRelay" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="RADIO_BUTTON_UNCHECKED" />
 			<m:MaterialLink ui:field="menuItemUser" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="ACCOUNT_CIRCLE" />
 			<m:MaterialLink ui:field="menuItemSensor" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="WIFI_TETHERING" />
 			<m:MaterialLink ui:field="menuItemArea" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="BORDER_ALL" />

@@ -68,23 +68,23 @@ public class AppControllerImpl implements IAppController {
 		
 	}
 
-	public NavigationsPresenter getNavigationsPresenter() {
+	private NavigationsPresenter getNavigationsPresenter() {
 		if (navigationsPresenter == null) {
 			navigationsPresenter = new NavigationsPresenter(rpcProvider, eventBus, new NavigationsView());
 			navigationsPresenter.go();
 		}
 		return navigationsPresenter;
 	}
-	
-	public LoginPresenter getLoginPresenter() {
+
+	private LoginPresenter getLoginPresenter() {
 		if (loginPresenter == null) {
 			loginPresenter = new LoginPresenter(rpcProvider.getLoginService(), eventBus, new LoginView());
 			loginPresenter.go();
 		}
 		return loginPresenter;
 	}
-	
-	public ContentPresenter getContentPresenter() {
+
+	private ContentPresenter getContentPresenter() {
 		if (contentPresenter == null) {
 			contentPresenter = new ContentPresenter(rpcProvider, eventBus, new ContentView());
 			contentPresenter.go();
@@ -168,8 +168,8 @@ public class AppControllerImpl implements IAppController {
 	}
 	
 	@Override
-	public void showRelayDrivers() {
-		getContentPresenter().showRelayDriverTable();
+	public void showControllers() {
+		getContentPresenter().showControllerTable();
 	}
 
 	@Override

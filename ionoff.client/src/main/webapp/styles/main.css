@@ -729,32 +729,12 @@ textarea.materialize-textarea[readonly="readonly"] {
     white-space: nowrap;
 }
 
-.main .content .zones .lighting .zone .name,
+.main .content .zones .ing .zone .name,
 .main .content .devices .on .device .name,
 .main .content .modes .activated .mode .name,
 .main .content .zones .lighting .zone .icon,
 .main .content .dashboard .on .device .name {
 	color: #a8f990;
-}
-
-.main .content .devices .device .switch,
-.main .content .dashboard .device .switch,
-.main .content .modes .mode .switch {
-	position: absolute;
-	right: 3px;
-	bottom: 20px; 
-}
-
-.main .content .devices .device .switch span,
-.main .content .dashboard .device .switch span,
-.main .content .modes .mode .switch span {
-	display: none;
-}
-
-.main .content .devices .device .switch .lever,
-.main .content .dashboard .device .switch .lever,
-.main .content .modes .mode .switch .lever {
-	display: inline-block;
 }
 
 .main .content .devices .device .time,
@@ -806,24 +786,6 @@ textarea.materialize-textarea[readonly="readonly"] {
     padding: 0px;
 }
 
-.main .content .devices .device .icon.off,
-.main .content .dashboard .device .icon.off {
-    -webkit-filter: grayscale(80%);
-    filter: grayscale(80%);
-}
-
-.main .content .devices .device .icon.on,
-.main .content .dashboard .device .icon.on {
-	-webkit-filter: hue-rotate(45deg);
-    filter: hue-rotate(45deg);
-}
-
-.main .content .devices .device .icon.unknown,
-.main .content .dashboard .device .icon.unknown {
-    -webkit-filter: hue-rotate(180deg);
-    filter: hue-rotate(180deg);
-}
-
 .main .content .devices .device .switch label input[type=checkbox]:checked + .lever:after,
 .main .content .dashboard .device .switch label input[type=checkbox]:checked + .lever:after {
     background-color: #99F57E;
@@ -841,8 +803,8 @@ textarea.materialize-textarea[readonly="readonly"] {
     background-color: #212121;
 }
 
-.main .content .devices .device.appliance.collapsible,
-.main .content .dashboard .device.appliance.collapsible {
+.main .content .devices .device.collapsible,
+.main .content .dashboard .device.collapsible {
 	margin: 0px !important;
     border-radius: 1px;
     border: 1px solid #37474f;
@@ -851,15 +813,15 @@ textarea.materialize-textarea[readonly="readonly"] {
     box-shadow: 0 0px 0px 0 transparent, 0 0px 0px 0 transparent !important;
 }
 
-.main .content .devices .device.appliance.collapsible .collapsible-header,
-.main .content .dashboard .device.appliance.collapsible .collapsible-header {
+.main .content .devices .device.collapsible .collapsible-header,
+.main .content .dashboard .device.collapsible .collapsible-header {
 	height: 148px;
 	border: none !important;
 	padding: 15px;
 }
 
-.main .content .devices .device.appliance.collapsible .collapsible-body,
-.main .content .dashboard .device.appliance.collapsible .collapsible-body {
+.main .content .devices .device.collapsible .collapsible-body,
+.main .content .dashboard .device.collapsible .collapsible-body {
 	position: absolute;
     width: 100%;
     z-index: 99;
@@ -869,8 +831,8 @@ textarea.materialize-textarea[readonly="readonly"] {
     margin-top: -64px;
 }
 
-.main .content .devices .device.appliance .collection-item,
-.main .content .dashboard .device.appliance .collection-item {
+.main .content .devices .device .collection-item,
+.main .content .dashboard .device .collection-item {
 	background-color: transparent;
     padding: 10px 8px;
     position: relative;
@@ -878,28 +840,27 @@ textarea.materialize-textarea[readonly="readonly"] {
     height: 65px;
 }
 
-.main .content .devices .device.appliance .collection-item .material-icons,
-.main .content .dashboard .device.appliance .collection-item .material-icons {
+.main .content .devices .device .collection-item .material-icons,
+.main .content .dashboard .device .collection-item .material-icons {
 	font-size: 3rem;
     width: 50px;
     left: 0px;
     margin-right: 10px;
 }	
 
-.main .content .devices .device.appliance .collection-item .relayName,
-.main .content .dashboard .device.appliance .collection-item .relayName {
+.main .content .devices .device .collection-item .relayName,
+.main .content .dashboard .device .collection-item .relayName {
 	width: 100%;
 	padding-top: 5px;
 	font-size: 15px !important;
 }
-.main .content .devices .device.appliance .collection-item .relayTime,
-.main .content .dashboard .device.appliance .collection-item .relayTime {
+.main .content .devices .device .collection-item .relayTime,
+.main .content .dashboard .device .collection-item .relayTime {
 	width: 100%;
 	font-size: 11px !important;
 }
 
-.main .content .dashboard .device.player,
-.main .content .dashboard .device.sensorDriver {
+.main .content .dashboard .device.player {
 	height: 150px;
 }
 

@@ -30,7 +30,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 		return super.update(relay);		
 	}
 	
-	private long countByProjectIdRelayDriverName(long projectId, String driverName) {
+	private long countByProjectIdControllerName(long projectId, String driverName) {
 		String sql = "select count(relay)"
 				+ " from Relay as relay" 
 				+ " where relay.driver.project.id = :projectId"
@@ -76,7 +76,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 	}
 	
 	
-	private List<Relay> findByProjectIdRelayDriverName(long projectId, String driverName, int fromIndex, int maxResults,
+	private List<Relay> findByProjectIdControllerName(long projectId, String driverName, int fromIndex, int maxResults,
 			String sortBy, boolean isAscending) {
 		
 		String sql = "select distinct relay" 
@@ -166,13 +166,13 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 	}
 
 	@Override
-	public List<Relay> findByRelayDriverId(long relayDriverId) {
+	public List<Relay> findByControllerId(long controllerId) {
 		String sql = "select distinct relay"
 				+ " from Relay as relay"
-				+ " where relay.driver.id = :relayDriverId"
+				+ " where relay.driver.id = :controllerId"
 				+ " order by relay.index";
 		Query query = getCurrentSession().createQuery(sql)
-				.setParameter("relayDriverId", relayDriverId);
+				.setParameter("controllerId", controllerId);
 		return findMany(query);
 	}
 
@@ -199,7 +199,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 			return countByProjectIdDeviceName(criteria.getProjectId(), criteria.getSearchKey());
 		}	
 		if (DRIVER_NAME.equals(criteria.getSearchField())) {
-			return countByProjectIdRelayDriverName(criteria.getProjectId(), criteria.getSearchKey());
+			return countByProjectIdControllerName(criteria.getProjectId(), criteria.getSearchKey());
 		}
 		return 0;
 	}
@@ -219,7 +219,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 					criteria.getFromIndex(), criteria.getMaxResults(), criteria.getSortBy(), criteria.getIsAscending());
 		}	
 		if (DRIVER_NAME.equals(criteria.getSearchField())) {
-			return findByProjectIdRelayDriverName(criteria.getProjectId(), criteria.getSearchKey(), 
+			return findByProjectIdControllerName(criteria.getProjectId(), criteria.getSearchKey(),
 					criteria.getFromIndex(), criteria.getMaxResults(), criteria.getSortBy(), criteria.getIsAscending());
 		}
 		return Collections.emptyList();

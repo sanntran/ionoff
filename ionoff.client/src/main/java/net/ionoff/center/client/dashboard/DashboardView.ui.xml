@@ -1,6 +1,6 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m='urn:import:gwt.material.design.client.ui'
-	xmlns:ma="urn:import:gwt.material.design.addins.client">
+			 xmlns:g="urn:import:com.google.gwt.user.client.ui"
+			 xmlns:m="urn:import:gwt.material.design.client.ui">
 
 	<g:HTMLPanel ui:field="root" addStyleNames="dashboard">
 		<m:MaterialRow addStyleNames="header">
@@ -47,14 +47,14 @@
 			</m:MaterialColumn>
 			
 			<m:MaterialColumn grid="l3 m3 s6 col">
-				<m:MaterialCard ui:field="cartRelayDriver" backgroundColor="BLUE_GREY_DARKEN_2">
+				<m:MaterialCard ui:field="cartController" backgroundColor="BLUE_GREY_DARKEN_2">
 					<m:MaterialCardContent textColor="GREEN_ACCENT_1"  waves="LIGHT" >
-						<m:MaterialCardTitle ui:field="cartRelayDriverTitle" iconType="MEMORY" iconPosition="RIGHT" addStyleNames="icon"/>
+						<m:MaterialCardTitle ui:field="cartControllerTitle" iconType="MEMORY" iconPosition="RIGHT" addStyleNames="icon"/>
 					</m:MaterialCardContent>
 					<m:MaterialCardAction>
-						<m:MaterialLabel ui:field="lblTotalRelayDriver" addStyleNames="total" textColor="GREEN_ACCENT_1"/>
-						<m:MaterialLabel ui:field="lblRelayDriverOnline" addStyleNames="on"/>
-						<m:MaterialLabel ui:field="lblRelayDriverOffline" addStyleNames="off"/>
+						<m:MaterialLabel ui:field="lblTotalController" addStyleNames="total" textColor="GREEN_ACCENT_1"/>
+						<m:MaterialLabel ui:field="lblControllerOnline" addStyleNames="on"/>
+						<m:MaterialLabel ui:field="lblControllerOffline" addStyleNames="off"/>
 					</m:MaterialCardAction>
 				</m:MaterialCard>
 			</m:MaterialColumn>

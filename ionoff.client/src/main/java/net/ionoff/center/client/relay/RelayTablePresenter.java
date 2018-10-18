@@ -27,7 +27,7 @@ public class RelayTablePresenter extends AbstractTablePresenter<RelayDto>{
 	
 	public interface Display extends ITableView<RelayDto> {
 		Column<RelayDto, String> getNameColumn();
-		Column<RelayDto, String> getRelayDriverColumn();
+		Column<RelayDto, String> getControllerColumn();
 		RelayEditPresenter.Display getRelayEditView();
 	}
 	
@@ -125,7 +125,7 @@ public class RelayTablePresenter extends AbstractTablePresenter<RelayDto>{
 		display.getToolBarView().getLisBoxSearchBy().addItem(AdminLocale.getAdminConst().name());
 		String deviceName = AdminLocale.getAdminConst().name() + " " + AdminLocale.getAdminConst().device();
 		display.getToolBarView().getLisBoxSearchBy().addItem(deviceName);
-		String driverName = AdminLocale.getAdminConst().name() + " " + AdminLocale.getAdminConst().relayDriver();
+		String driverName = AdminLocale.getAdminConst().name() + " " + AdminLocale.getAdminConst().controller();
 		display.getToolBarView().getLisBoxSearchBy().addItem(driverName);
 	}
 

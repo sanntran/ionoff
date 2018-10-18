@@ -102,14 +102,14 @@ public class Messages {
 		return resourceBundle.getString("errorSetManyRelayForLight");
 	}
 
-	public String relayDriverIpDuplicated(String relayDriverIp) {
-		messageFormat.applyPattern(resourceBundle.getString("relayDriverIpDuplicated"));
-		return messageFormat.format(new Object[] {relayDriverIp});
+	public String controllerIpDuplicated(String controllerIp) {
+		messageFormat.applyPattern(resourceBundle.getString("controllerIpDuplicated"));
+		return messageFormat.format(new Object[] {controllerIp});
 	}
 
-	public String errorConnectRelayDriver(String relayDriver) {
-		messageFormat.applyPattern(resourceBundle.getString("errorConnectRelayDriver"));
-		return messageFormat.format(new Object[] {relayDriver});
+	public String errorConnectController(String controller) {
+		messageFormat.applyPattern(resourceBundle.getString("errorConnectController"));
+		return messageFormat.format(new Object[] {controller});
 	}
 
 	public String errorSetRelayForPlayer() {
@@ -128,9 +128,9 @@ public class Messages {
 		return resourceBundle.getString("applicationUnactivated");
 	}
 
-	public String unknownRelayDriverModel(String relayDriverModel) {
-		messageFormat.applyPattern(resourceBundle.getString("unknownRelayDriverModel"));
-		return messageFormat.format(new Object[] {relayDriverModel});
+	public String unknownControllerModel(String controllerModel) {
+		messageFormat.applyPattern(resourceBundle.getString("unknownControllerModel"));
+		return messageFormat.format(new Object[] {controllerModel});
 	}
 
 	public String resourceIdNotFound(String resourceName, Long resourceId) {

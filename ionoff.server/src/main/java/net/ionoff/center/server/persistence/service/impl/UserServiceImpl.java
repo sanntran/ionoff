@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,24 +30,30 @@ import net.ionoff.center.shared.dto.UserDto;
 @Service ("userService")
 @Transactional
 public class UserServiceImpl extends AbstractGenericService<User, UserDto> implements IUserService {
-	
-	private IUserDao userDao;
-	
+
+	@Lazy
 	@Autowired
 	private ITokenDao tokenDao;
+
+	@Lazy
 	@Autowired
 	private IDeviceDao deviceDao;
+
+	@Lazy
 	@Autowired
 	private IProjectService projectService;
+
+	@Lazy
 	@Autowired
 	private IUserProjectService userProjectService;
+
+	@Lazy
 	@Autowired
 	private UserMapper userMapper;
 
+	@Lazy
 	@Autowired
-	public UserServiceImpl(IUserDao userDao) {
-		this.userDao = userDao;
-	}
+	private IUserDao userDao;
 
 	@Override
 	protected IUserDao getDao() {

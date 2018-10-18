@@ -1,1 +1,0 @@
-update `users` set `password_` = '$2a$10$trT3.R/Nfey62eczbKEnueTcIbJXW.u1ffAo/XfyLpofwNDbEB86O' where `id` > 0;

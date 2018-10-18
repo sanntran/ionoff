@@ -1,17 +1,20 @@
 package net.ionoff.center.server.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Primary;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.util.Properties;
 
@@ -38,7 +41,26 @@ public class DatabaseConfig {
     @Value("${hibernate.dialect}")
     private String dialect;
 
-    @Bean
+    @Autowired
+    private DataSource dataSource;
+
+    @Autowired
+    private LocalSessionFactoryBean sessionFactoryBean;
+
+    @Bean("sessionFactoryBean")
+    @DependsOn({"dataSource"})
+    public LocalSessionFactoryBean sessionFactory() {
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+        sessionFactory.setConfigLocation(context.getResource("classpath:hibernate.cfg.xml"));
+        sessionFactory.setDataSource(dataSource);
+        Properties properties = new Properties();
+        properties.put("hibernate.dialect", dialect);
+        properties.put("hibernate.connection.driver_class", connectionDriverClass);
+        sessionFactory.setHibernateProperties(properties);
+        return sessionFactory;
+    }
+
+    @Bean("dataSource")
     public ComboPooledDataSource dataSource() {
         ComboPooledDataSource dataSource = new ComboPooledDataSource("jupiter");
 
@@ -59,23 +81,10 @@ public class DatabaseConfig {
     }
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory() {
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setConfigLocation(context.getResource("classpath:hibernate.cfg.xml"));
-        sessionFactory.setDataSource(dataSource());
-        Properties properties = new Properties();
-        properties.put("hibernate.dialect", dialect);
-        properties.put("hibernate.connection.driver_class", connectionDriverClass);
-
-
-        sessionFactory.setHibernateProperties(properties);
-        return sessionFactory;
-    }
-
-    @Bean
+    @DependsOn({"sessionFactoryBean"})
     public HibernateTransactionManager transactionManager() {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-        transactionManager.setSessionFactory(sessionFactory().getObject());
+        transactionManager.setSessionFactory(sessionFactoryBean.getObject());
         return transactionManager;
     }
 }

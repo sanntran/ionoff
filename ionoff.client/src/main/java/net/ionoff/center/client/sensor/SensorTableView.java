@@ -48,7 +48,7 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 
 		deviceColumn =  createDeviceColumn();
 		deviceColumn.setSortable(true);
-		cellTable.addColumn(deviceColumn, AdminLocale.getAdminConst().relayDriver());
+		cellTable.addColumn(deviceColumn, AdminLocale.getAdminConst().controller());
 		cellTable.setColumnWidth(deviceColumn, COLUMN_NAME_WIDTH, Unit.PX);
 		
 		editColumn = createEditColumn();
@@ -85,7 +85,7 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 		return nameColumn;
 	}
 	@Override
-	public Column<SensorDto, String> getRelayDriverColumn() {
+	public Column<SensorDto, String> getControllerColumn() {
 		return deviceColumn;
 	}
 

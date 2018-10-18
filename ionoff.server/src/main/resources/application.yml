@@ -11,16 +11,19 @@ spring:
         locations: classpath:/db/migration
         baseline-on-migrate: true
         flyway.baseline-version: 1
+        url: jdbc:mysql://localhost/ionoff?autoReconnect=true&characterEncoding=UTF-8
+        user: root
+        password: root
 hibernate:
     connection.url: jdbc:mysql://localhost/ionoff?autoReconnect=true&characterEncoding=UTF-8
-    dialect: org.hibernate.dialect.MySQLDialect
+    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     connection.driver_class: com.mysql.jdbc.Driver
     connection.username: root
     connection.password: root
     show_sql: false;
 
 service.notify.url: http://service.ionoff.net/inotify
-service.media.url: http://service.ionoff.net/imedia/api
+service.mediadata.url: http://service.ionoff.net/imedia/api
 service.release.site: http://service.ionoff.net/release/ionoff/
 service.release.latest: http://service.ionoff.net/release/ionoff/latest.json
 
@@ -34,8 +37,7 @@ broker.mqtt.pass: I0n0FFNet
 broker.mqtt.qos: 2
 broker.mqtt.url: tcp://localhost:1883
 broker.mqtt.topic.ionoffnet: IOnOffNet
-broker.mqtt.topic.relaydriver: RelayDriver
-broker.mqtt.topic.sensordriver: SensorDriver
+broker.mqtt.topic.controller: Controller
 broker.mqtt.topic.mediaplayer: MediaPlayer
 
 logging:

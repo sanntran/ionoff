@@ -171,7 +171,7 @@ public class RelayLoadPresenter extends DevicePresenter {
 			public void onFailure(Method method, Throwable exception) {
 				setLocked(false);
 				MessageDto message = ClientUtil.handleRpcFailure(method, exception, eventBus);
-				if (MessageDto.RelayDriverConnectException.equals(message.getCode())) {
+				if (MessageDto.ControllerConnectException.equals(message.getCode())) {
 					view.getBtnSwitch().setIconColor(Color.RED_ACCENT_3);
 				}
 				else {
@@ -205,7 +205,7 @@ public class RelayLoadPresenter extends DevicePresenter {
 			public void onFailure(Method method, Throwable exception) {
 				setLocked(false);
 				MessageDto message = ClientUtil.handleRpcFailure(method, exception, eventBus);
-				if (MessageDto.RelayDriverConnectException.equals(message.getCode())) {
+				if (MessageDto.ControllerConnectException.equals(message.getCode())) {
 					view.getBtnSwitch().setIconColor(Color.GREEN_ACCENT_2);
 				}
 				else {
@@ -260,7 +260,7 @@ public class RelayLoadPresenter extends DevicePresenter {
 			public void onFailure(Method method, Throwable exception) {
 				setLocked(false);
 				MessageDto message = ClientUtil.handleRpcFailure(method, exception, eventBus);
-				if (MessageDto.RelayDriverConnectException.equals(message.getCode())) {
+				if (MessageDto.ControllerConnectException.equals(message.getCode())) {
 					relayView.getRelay().setStatus(true);
 					relayView.displayStatus();
 				}
@@ -286,7 +286,7 @@ public class RelayLoadPresenter extends DevicePresenter {
 			public void onFailure(Method method, Throwable exception) {
 				setLocked(false);
 				MessageDto message = ClientUtil.handleRpcFailure(method, exception, eventBus);
-				if (MessageDto.RelayDriverConnectException.equals(message.getCode())) {
+				if (MessageDto.ControllerConnectException.equals(message.getCode())) {
 					relayView.getRelay().setStatus(false);
 					relayView.displayStatus();
 				}
@@ -308,25 +308,8 @@ public class RelayLoadPresenter extends DevicePresenter {
 
 
 	private void displayStatus() {
-		view.asPanel().removeStyleName("on");
 		if (relayLoad.getStatus().getTime() != null) {
 			view.getLblTime().setText(relayLoad.getStatus().getTime());
-		}
-		if (Boolean.FALSE.equals(relayLoad.getStatus().getValue())) {
-//			view.getImgIcon().removeStyleName("on");
-//			view.getImgIcon().removeStyleName("unknown");
-//			view.getImgIcon().addStyleName("off");
-		}
-		else if (Boolean.TRUE.equals(relayLoad.getStatus().getValue())) {
-//			view.getImgIcon().removeStyleName("off");
-//			view.getImgIcon().removeStyleName("unknown");
-//			view.getImgIcon().addStyleName("on");
-			view.asPanel().addStyleName("on");
-		}
-		else { // status == null
-//			view.getImgIcon().removeStyleName("on");
-//			view.getImgIcon().removeStyleName("off");
-//			view.getImgIcon().addStyleName("unknown");
 		}
 		view.getLblTime().setText(relayLoad.getStatus().getTime());
 		if (relayLoad.hasOneRelay()) {
@@ -340,10 +323,8 @@ public class RelayLoadPresenter extends DevicePresenter {
 				setStatus(false);
 			}
 		}
-		else if (view instanceof RelayLoadView) {
-			for (RelayView relayView : view.getRelayViews()) {
-				relayView.displayStatus();
-			}
+		for (RelayView relayView : view.getRelayViews()) {
+			relayView.displayStatus();
 		}
 	}
 	

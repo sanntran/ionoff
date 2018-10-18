@@ -4,7 +4,7 @@ public class RelayDto extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String DRIVER = "relaydriver";
+	public static final String DRIVER = "restcontroller";
 	public static final String DEVICE = "device";
 
 	private String time;

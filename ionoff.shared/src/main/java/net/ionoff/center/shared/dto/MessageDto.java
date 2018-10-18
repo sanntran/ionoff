@@ -8,7 +8,7 @@ public class MessageDto implements Serializable {
 	
 	public static final int SC_200 = 200;
 	public static final int SC_400 = 400;
-	public static final String RelayDriverConnectException = "RelayDriverConnectException";
+	public static final String ControllerConnectException = "ControllerConnectException";
 	
 
 	private int status;

@@ -20,7 +20,7 @@ import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.MessageDto;
-import net.ionoff.center.shared.dto.RelayDriverDto;
+import net.ionoff.center.shared.dto.ControllerDto;
 import net.ionoff.center.shared.dto.RelayDto;
 import net.ionoff.center.shared.dto.RelayGroupDto;
 
@@ -145,16 +145,16 @@ public class RelayGroupPresenter extends AbstractPresenter {
 		if (relayDto == null) {
 			return;
 		}
-		rpcProvider.getRelayDriverService().findByProjectId(AppToken.getProjectIdLong(), 
-				new MethodCallback<List<RelayDriverDto>>() {
+		rpcProvider.getControllerService().findByProjectId(AppToken.getProjectIdLong(),
+				new MethodCallback<List<ControllerDto>>() {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
 				ClientUtil.handleRpcFailure(method, exception, eventBus);
 			}
 			@Override
-			public void onSuccess(Method method, List<RelayDriverDto> result) {
+			public void onSuccess(Method method, List<ControllerDto> result) {
 				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				display.getRelaySelectionView().setRelayDriverOptions(result);
+				display.getRelaySelectionView().setControllerOptions(result);
 			}
 		});
 		

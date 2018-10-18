@@ -25,8 +25,8 @@ import net.ionoff.center.client.project.ProjectTablePresenter;
 import net.ionoff.center.client.project.ProjectTableView;
 import net.ionoff.center.client.relay.RelayTablePresenter;
 import net.ionoff.center.client.relay.RelayTableView;
-import net.ionoff.center.client.relaydriver.RelayDriverTablePresenter;
-import net.ionoff.center.client.relaydriver.RelayDriverTableView;
+import net.ionoff.center.client.controller.ControllerTablePresenter;
+import net.ionoff.center.client.controller.ControllerTableView;
 import net.ionoff.center.client.scene.SceneListPresenter;
 import net.ionoff.center.client.scene.SceneListView;
 import net.ionoff.center.client.scene.SceneTablePresenter;
@@ -65,7 +65,7 @@ public class ContentPresenter extends AbstractPresenter {
 	private ScheduleTablePresenter scheduleTablePresenter;
 	private ModeTablePresenter modeTablePresenter;
 	private ModeListPresenter modeListPresenter;
-	private RelayDriverTablePresenter relayDriverTablePresenter;
+	private ControllerTablePresenter controllerTablePresenter;
 	private RelayTablePresenter relayTablePresenter;
 	private UserTablePresenter userTablePresenter;
 	private SensorTablePresenter sensorTablePresenter;
@@ -160,9 +160,9 @@ public class ContentPresenter extends AbstractPresenter {
 		getScheduleTablePresenter().show(display.asPanel());
 	}
 	
-	public void showRelayDriverTable() {
+	public void showControllerTable() {
 		display.asPanel().removeStyleName("player");
-		getRelayDriverTablePresenter().show(display.asPanel());
+		getControllerTablePresenter().show(display.asPanel());
 	}
 	
 	public void showRelayTable() {
@@ -214,7 +214,7 @@ public class ContentPresenter extends AbstractPresenter {
 		return playerPresenter;
 	}
 
-	public ScheduleTablePresenter getScheduleTablePresenter() {
+	private ScheduleTablePresenter getScheduleTablePresenter() {
 		if (scheduleTablePresenter == null) {
 			scheduleTablePresenter = new ScheduleTablePresenter(rpcProvider, eventBus, new ScheduleTableView());
 			scheduleTablePresenter.go();
@@ -236,7 +236,7 @@ public class ContentPresenter extends AbstractPresenter {
 		return sceneTablePresenter;
 	}
 	
-	public SceneListPresenter getSceneListPresenter() {
+	private SceneListPresenter getSceneListPresenter() {
 		if (sceneListPresenter == null) {
 			sceneListPresenter = new SceneListPresenter(rpcProvider, eventBus, new SceneListView());
 			sceneListPresenter.go();
@@ -273,15 +273,15 @@ public class ContentPresenter extends AbstractPresenter {
 	}
 	
 
-	public RelayDriverTablePresenter getRelayDriverTablePresenter() {
-		if (relayDriverTablePresenter == null) {
-			relayDriverTablePresenter = new RelayDriverTablePresenter(rpcProvider, eventBus, new RelayDriverTableView());
-			relayDriverTablePresenter.go();
+	public ControllerTablePresenter getControllerTablePresenter() {
+		if (controllerTablePresenter == null) {
+			controllerTablePresenter = new ControllerTablePresenter(rpcProvider, eventBus, new ControllerTableView());
+			controllerTablePresenter.go();
 		}
 		else {
-			relayDriverTablePresenter.refresh();
+			controllerTablePresenter.refresh();
 		}
-		return relayDriverTablePresenter;
+		return controllerTablePresenter;
 	}
 	
 	public DeviceListPresenter getDeviceListPresenter() {

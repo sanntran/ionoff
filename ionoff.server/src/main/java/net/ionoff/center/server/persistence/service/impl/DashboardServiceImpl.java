@@ -9,7 +9,6 @@ import net.ionoff.center.server.persistence.mapper.DeviceMapper;
 import net.ionoff.center.server.persistence.service.*;
 import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.*;
-import org.apache.catalina.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +54,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 	private IModeDao modeDao;
 
 	@Autowired
-	private IRelayDriverDao relayDriverDao;
+	private IControllerDao controllerDao;
 
 	@Autowired
 	public DashboardServiceImpl(IDashboardDao dashboardDao) {
@@ -100,7 +99,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 
 	@Override
 	protected List<DashboardDto> createDtoList(List<Dashboard> entities) {
-		List<DashboardDto> dashboardDtos = new ArrayList<DashboardDto>();
+		List<DashboardDto> dashboardDtos = new ArrayList<>();
 		for (Dashboard dashboard : entities) {
 			dashboardDtos.add(dashboardMapper.createDto(dashboard));
 		}
@@ -150,7 +149,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 		setModeStatistic(user, projectId, dashboardDto);
 		setSceneStatistic(user, projectId, dashboardDto);
 		setScheduleStatistic(user, schedules, dashboardDto);
-		setRelayDriverStatistic(projectId, dashboardDto);
+		setControllerStatistic(projectId, dashboardDto);
 		setServerStatistic(dashboardDto);
 
 		List<DeviceDto> deviceDtos = new ArrayList<>();
@@ -184,26 +183,26 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 		dashboardDto.setServerStatistic(serverStatistic);
 	}
 
-	private void setRelayDriverStatistic(long projectId, DashboardDto dashboardDto) {
-		RelayDriverStatisticDto relayDriverStatistic = new RelayDriverStatisticDto();
-		List<RelayDriver> relayDrivers = relayDriverDao.findByProjectId(projectId);
-		relayDriverStatistic.setTotalCount(relayDrivers.size());
-		for (RelayDriver relayDriver : relayDrivers) {
-			if (relayDriver.isConnected()) {
-				relayDriverStatistic.setOnlineCount(relayDriverStatistic.getOnlineCount() + 1);
+	private void setControllerStatistic(long projectId, DashboardDto dashboardDto) {
+		ControllerStatisticDto controllerStatistic = new ControllerStatisticDto();
+		List<Controller> controllers = controllerDao.findByProjectId(projectId);
+		controllerStatistic.setTotalCount(controllers.size());
+		for (Controller controller : controllers) {
+			if (controller.isConnected()) {
+				controllerStatistic.setOnlineCount(controllerStatistic.getOnlineCount() + 1);
 			}
 			else {
-				relayDriverStatistic.setOfflineCount(relayDriverStatistic.getOfflineCount() + 1);
+				controllerStatistic.setOfflineCount(controllerStatistic.getOfflineCount() + 1);
 			}
 		}
-		dashboardDto.setRelayDriverStatisticDto(relayDriverStatistic);
+		dashboardDto.setControllerStatisticDto(controllerStatistic);
 	}
 
 	private void setDeviceStatistic(User user, List<Device> devices, DashboardDto dashboardDto) {
 		DeviceStatisticDto deviceStatistic = new DeviceStatisticDto();
 		for (Device device : devices) {
 			if (device.getStatus() != null) {
-				if (device.getStatus().booleanValue() == true) {
+				if (device.getStatus().booleanValue()) {
 					deviceStatistic.setOnCount(deviceStatistic.getOnCount() + 1);
 				}
 				else {

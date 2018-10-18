@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.QueryCriteria;
-import net.ionoff.center.server.entity.RelayDriver;
+import net.ionoff.center.server.entity.Controller;
 import net.ionoff.center.server.entity.Switch;
-import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
+import net.ionoff.center.server.persistence.dao.IControllerDao;
 import net.ionoff.center.server.persistence.dao.ISwitchDao;
 
 @Repository
@@ -19,7 +19,7 @@ import net.ionoff.center.server.persistence.dao.ISwitchDao;
 public class SwitchDaoImpl extends AbstractGenericDao<Switch> implements ISwitchDao {
 	
 	@Autowired
-	private IRelayDriverDao relayDriverDao;
+	private IControllerDao controllerDao;
 
 	@Autowired
 	public SwitchDaoImpl(SessionFactory sessionFactory) {
@@ -51,13 +51,13 @@ public class SwitchDaoImpl extends AbstractGenericDao<Switch> implements ISwitch
 		List<Switch> zwitchs = findMany(query);
 		Switch zwitch = getFirst(zwitchs);
 		if (zwitch == null) {
-			RelayDriver relayDriver = relayDriverDao.findById(driverId);
-			if (relayDriver == null) {
+			Controller controller = controllerDao.findById(driverId);
+			if (controller == null) {
 				return zwitch;
 			}
-			if (relayDriver.getInput() > index) {
+			if (controller.getInput() > index) {
 				zwitch = new Switch();
-				zwitch.setDriver(relayDriver);
+				zwitch.setDriver(controller);
 				zwitch.setIndex(index);
 				return insert(zwitch);
 			}

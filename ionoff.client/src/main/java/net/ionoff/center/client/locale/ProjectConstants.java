@@ -20,7 +20,7 @@ public interface ProjectConstants extends Constants {
 	String scene();
 
 	@DefaultStringValue("Bộ Rơle")
-	String relayDriver();
+	String controller();
 
 	@DefaultStringValue("Chế độ")
 	String mode();

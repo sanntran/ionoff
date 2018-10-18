@@ -31,8 +31,8 @@ public interface AdminConstants extends Constants {
 	@DefaultStringValue("Rơ-le")
 	String relay();
 
-	@DefaultStringValue("Bộ Rơ-le")
-	String relayDriver();
+	@DefaultStringValue("Bộ điều khiển")
+	String controller();
 
 	@DefaultStringValue("Cảm biến")
 	String sensor();

@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+	<class name="net.ionoff.center.server.entity.Controller" table="relaydrivers" batch-size="1" >
+		
+		<id name="id" type="long" column="id">
+			<generator class="increment" />
+		</id>
+
+		<discriminator column="type_" type="string"> </discriminator>
+
+		<property name="name">
+			<column name="name" />
+		</property>
+
+		<property name="ip">
+			<column name="ip" />
+		</property>
+		
+		<property name="port">
+			<column name="port" />
+		</property>
+		
+		<property name="key">
+			<column name="key_" />
+		</property>
+
+		<property name="connectedTime">
+			<column name="connected_time"/>
+		</property>
+		
+		<property name="crashCount">
+			<column name="crash_count"/>
+		</property>
+		
+		<bag name="relays" table="relays" 
+				inverse="true" lazy="true" fetch="select"  order-by="index_">
+            <key>
+                <column name="driver_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.Relay" />
+        </bag>
+        
+        <bag name="switchs" table="switchs" 
+				inverse="true" lazy="true" fetch="select"  order-by="index_">
+            <key>
+                <column name="driver_id" not-null="true" />
+            </key>
+            <one-to-many class="net.ionoff.center.server.entity.Switch" />
+        </bag>
+        
+		<many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">
+            <column name="project_id" not-null="true" />
+        </many-to-one>
+
+		<subclass name="net.ionoff.center.server.entity.controller.E3Controller"
+				  discriminator-value="E3Controller" >
+		</subclass>
+
+		<subclass name="net.ionoff.center.server.entity.controller.E4Controller"
+				  discriminator-value="E4Controller">
+		</subclass>
+
+		<subclass name="net.ionoff.center.server.entity.controller.Ep2Controller"
+				  discriminator-value="Ep2Controller">
+		</subclass>
+
+		<subclass name="net.ionoff.center.server.entity.controller.Ec100Controller"
+				  discriminator-value="Ec100Controller">
+		</subclass>
+
+		<subclass name="net.ionoff.center.server.entity.controller.P4Controller"
+				  discriminator-value="P4Controller">
+		</subclass>
+
+		<subclass name="net.ionoff.center.server.entity.controller.P8Controller"
+				  discriminator-value="P8Controller">
+		</subclass>
+
+	</class>
+	
+</hibernate-mapping>

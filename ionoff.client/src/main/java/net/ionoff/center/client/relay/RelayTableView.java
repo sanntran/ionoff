@@ -23,7 +23,7 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 	
 	public RelayTableView() {
 		super("relays");
-		getToolBarView().getLblTitle().setIconType(IconType.POWER_SETTINGS_NEW);
+		getToolBarView().getLblTitle().setIconType(IconType.RADIO_BUTTON_UNCHECKED);
 		getToolBarView().getLblTitle().setText(ProjectLocale.getProjectConst().relay());
 		
 		getToolBarView().getBtnAdd().setVisible(false);
@@ -45,7 +45,7 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 		
 		driverColumn =  createDriverColumn();
 		driverColumn.setSortable(true);
-		cellTable.addColumn(driverColumn, AdminLocale.getAdminConst().relayDriver());
+		cellTable.addColumn(driverColumn, AdminLocale.getAdminConst().controller());
 		
 		deviceColumn =  createDeviceColumn();
 		deviceColumn.setSortable(true);
@@ -110,7 +110,7 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 	}
 
 	@Override
-	public Column<RelayDto, String> getRelayDriverColumn() { 
+	public Column<RelayDto, String> getControllerColumn() {
 		return this.driverColumn;
 	}
 

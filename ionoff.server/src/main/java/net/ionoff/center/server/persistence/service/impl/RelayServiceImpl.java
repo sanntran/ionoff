@@ -186,8 +186,8 @@ public class RelayServiceImpl extends AbstractGenericService<Relay, RelayDto> im
 	}
 	
 	@Override
-	public List<RelayDto> findDtoByRelayDriverId(long relayDriverId) {
-		List<Relay> relays = getDao().findByRelayDriverId(relayDriverId);
+	public List<RelayDto> findDtoByControllerId(long controllerId) {
+		List<Relay> relays = getDao().findByControllerId(controllerId);
 		return relayMapper.createRelayDtoList(relays);
 	}
 	

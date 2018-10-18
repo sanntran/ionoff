@@ -102,7 +102,7 @@ public class ModeTablePresenter extends AbstractTablePresenter<ModeDto>{
 		display.getToolBarView().getLisBoxSearchBy().addItem(AdminLocale.getAdminConst().name());
 		String deviceName = AdminLocale.getAdminConst().name() + " " + AdminLocale.getAdminConst().device();
 		display.getToolBarView().getLisBoxSearchBy().addItem(deviceName);
-		String driverName = AdminLocale.getAdminConst().name() + " " + AdminLocale.getAdminConst().relayDriver();
+		String driverName = AdminLocale.getAdminConst().name() + " " + AdminLocale.getAdminConst().controller();
 		display.getToolBarView().getLisBoxSearchBy().addItem(driverName);
 	}
 

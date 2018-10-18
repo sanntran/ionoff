@@ -12,7 +12,7 @@ public interface IRpcServiceProvider {
 
 	AreaService getAreaService();
 
-	RelayDriverService getRelayDriverService();
+	ControllerService getControllerService();
 
 	DeviceService getDeviceService();
 

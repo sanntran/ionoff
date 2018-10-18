@@ -23,7 +23,7 @@
 			<column name="status_" sql-type="bit"/>
 		</property>
         
-        <many-to-one name="driver" class="net.ionoff.center.server.entity.RelayDriver" fetch="select">
+        <many-to-one name="driver" class="net.ionoff.center.server.entity.Controller" fetch="select">
             <column name="driver_id" not-null="true" />
         </many-to-one>
         

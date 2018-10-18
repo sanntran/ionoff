@@ -28,7 +28,7 @@ public class MediaDataConnectorImpl implements IMediaDataConnector {
 
 
 	private final Logger logger = LoggerFactory.getLogger(MediaDataConnectorImpl.class.getName());
-	@Value("${service.media.url}")
+	@Value("${service.mediadata.url}")
 	private String mediaServiceUrl;
 
 	@Override

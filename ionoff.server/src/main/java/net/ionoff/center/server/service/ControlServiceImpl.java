@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.ionoff.center.server.mediaplayer.exception.MediaPlayerRequestException;
-import net.ionoff.center.server.relaydriver.connector.RelayDriverConnector;
+import net.ionoff.center.server.controller.connector.ControllerConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import net.ionoff.center.server.entity.ModeScene;
 import net.ionoff.center.server.entity.MediaPlayer;
 import net.ionoff.center.server.entity.Project;
 import net.ionoff.center.server.entity.Relay;
-import net.ionoff.center.server.entity.RelayDriver;
+import net.ionoff.center.server.entity.Controller;
 import net.ionoff.center.server.entity.Scene;
 import net.ionoff.center.server.entity.SceneAction;
 import net.ionoff.center.server.entity.SceneDevice;
@@ -28,11 +28,11 @@ import net.ionoff.center.server.exception.RelayLockedException;
 import net.ionoff.center.server.message.RelayStatusNotifier;
 import net.ionoff.center.server.message.event.RelayStatusChangedEvent;
 import net.ionoff.center.server.persistence.dao.IModeDao;
-import net.ionoff.center.server.persistence.dao.IRelayDriverDao;
+import net.ionoff.center.server.persistence.dao.IControllerDao;
 import net.ionoff.center.server.persistence.dao.ISceneDao;
 import net.ionoff.center.server.persistence.dao.ISceneDeviceDao;
 import net.ionoff.center.server.persistence.service.IRelayService;
-import net.ionoff.center.server.relaydriver.exception.RelayDriverRequestException;
+import net.ionoff.center.server.controller.exception.ControllerRequestException;
 import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.entity.PlayerAction;
 import net.ionoff.center.shared.entity.RelayAction;
@@ -69,10 +69,10 @@ public class ControlServiceImpl implements IControlService {
 	private RelayStatusNotifier relayStatusNotifier;
 
 	@Autowired
-	private RelayDriverConnector relayDriverConnector;
+	private ControllerConnector controllerConnector;
 	
 	@Autowired
-	private IRelayDriverDao relayDriverDao;
+	private IControllerDao controllerDao;
 	
 	@Override
 	public net.ionoff.center.shared.dto.StatusDto switchOn(long relayId) {
@@ -109,54 +109,54 @@ public class ControlServiceImpl implements IControlService {
 			return;
 		}
 		Long driverId  = relay.getDriver().getId();
-		RelayDriver relayDriver = relayDriverDao.findById(driverId);
+		Controller controller = controllerDao.findById(driverId);
 		
 		if (Boolean.TRUE.equals(relay.getIsLocked())) {
-			throw new RelayLockedException(relay.getName() + " (" + relayDriver.getName() + ")");
+			throw new RelayLockedException(relay.getName() + " (" + controller.getName() + ")");
 		}
 		if (state.equals(relay.getStatus())) {
-			if (!relayDriver.isLazy()) {
+			if (!controller.isLazy()) {
 				logger.info("Update relay state of relay "
-						+ relay.getLabel() + " of " +  relayDriver.getModel() + " to " + state);
+						+ relay.getLabel() + " of " +  controller.getModel() + " to " + state);
 				relayService.update(relay, state);
 				return;
 			}
 		}
 		if (!relay.izAutoRevert() || Boolean.FALSE.equals(state)) {
-			sendRelayCommand(relayDriver, relay, state);
+			sendRelayCommand(controller, relay, state);
 		}
 		else {
-			sendRelayCommand(relayDriver, relay, state, relay.getAutoRevert());
+			sendRelayCommand(controller, relay, state, relay.getAutoRevert());
 			if (relay.izButton()) {								
 				relayService.update(relay, false);
 			}
 		}
 	}
 	
-	private void sendRelayCommand(RelayDriver relayDriver, Relay relay, Boolean state) {
+	private void sendRelayCommand(Controller controller, Relay relay, Boolean state) {
 		if (Boolean.TRUE.equals(state)) {
 			logger.info("Update relay status " + relay.getNameId() + ": true");
-			relayDriverConnector.closeRelay(relayDriver, relay.getIndex());
+			controllerConnector.closeRelay(controller, relay.getIndex());
 			relayService.update(relay, true);
 			notifyRelayStateChanged(relay);
 		}
 		else if (Boolean.FALSE.equals(state)) {
 			logger.info("Update relay status " + relay.getNameId() + ": false");
-			relayDriverConnector.openRelay(relayDriver, relay.getIndex());
+			controllerConnector.openRelay(controller, relay.getIndex());
 			relayService.update(relay, false);
 			notifyRelayStateChanged(relay); 
 		}
 	}
 	
-	private void sendRelayCommand(RelayDriver relayDriver, Relay relay, Boolean state, Integer autoRevert) {
+	private void sendRelayCommand(Controller controller, Relay relay, Boolean state, Integer autoRevert) {
 		if (Boolean.TRUE.equals(state)) {
-			relayDriverConnector.closeRelay(relayDriver, relay.getIndex(), autoRevert);
+			controllerConnector.closeRelay(controller, relay.getIndex(), autoRevert);
 			logger.info("Update relay status " + relay.getNameId() + ": true");
 			relayService.update(relay, true);
 			notifyRelayStateChanged(relay);
 		}
 		else if (Boolean.FALSE.equals(state)) {
-			relayDriverConnector.openRelay(relayDriver, relay.getIndex(), autoRevert);
+			controllerConnector.openRelay(controller, relay.getIndex(), autoRevert);
 			logger.info("Update relay status " + relay.getNameId() + ": false");
 			relayService.update(relay, false);
 			notifyRelayStateChanged(relay);
@@ -203,7 +203,7 @@ public class ControlServiceImpl implements IControlService {
 		for (final SceneAction sceneAction : sceneActions) {
 			try {
 				executeSceneAction(sceneAction);
-			} catch (MediaPlayerRequestException | RelayDriverRequestException
+			} catch (MediaPlayerRequestException | ControllerRequestException
 					| MediaDataRequestException e) {
 				logger.error("Failed to execute scene action. " + e.getMessage());
 			}

@@ -30,7 +30,7 @@ public class RelayEditView extends AbstractEditView<RelayDto> implements RelayEd
 	public RelayEditView() {
 		super();
 		addStyleName("row");
-		getLblIcon().setIconType(IconType.POWER_SETTINGS_NEW);
+		getLblIcon().setIconType(IconType.RADIO_BUTTON_UNCHECKED);
 		
 		FlowPanel panel = new FlowPanel();
 		panel.setHeight("65px");
@@ -40,7 +40,7 @@ public class RelayEditView extends AbstractEditView<RelayDto> implements RelayEd
 		textBoxDriver = new MaterialTextBox();
 		textBoxDriver.setEnabled(false);
 		textBoxDriver.addStyleName("col s6 no-padding");
-		textBoxDriver.setLabel(AdminLocale.getAdminConst().relayDriver());
+		textBoxDriver.setLabel(AdminLocale.getAdminConst().controller());
 		panel.add(textBoxDriver);
 		
 		textBoxIndex = new MaterialTextBox();
