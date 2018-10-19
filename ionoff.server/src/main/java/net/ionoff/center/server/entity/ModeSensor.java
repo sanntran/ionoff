@@ -1,8 +1,9 @@
 package net.ionoff.center.server.entity;
 
+import java.util.List;
 import java.util.Set;
 
-public class ModeSensor extends BaseObj {
+public class ModeSensor extends Trigger {
 
 	private static final long serialVersionUID = 1L;
 	public static final String CONDITION_VARIABLE = "x";
@@ -16,6 +17,7 @@ public class ModeSensor extends BaseObj {
 	private Sensor sensor;
 	private Set<ModeSensorScene> scenes;
 	private Set<ModeSensorUser> users;
+	private List<Action> actions;
 	
 	public Boolean getEnabled() {
 		return enabled;
@@ -95,5 +97,13 @@ public class ModeSensor extends BaseObj {
 	public String toString() {
 		return new StringBuilder().append("[ModeSensor] sensor: ").append(sensor.getNameId()).append(", mode: ")
 				.append(mode != null ? mode.getNameId() : "null").toString();
+	}
+
+	public List<Action> getActions() {
+		return actions;
+	}
+
+	public void setActions(List<Action> actions) {
+		this.actions = actions;
 	}
 }

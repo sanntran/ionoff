@@ -198,13 +198,7 @@ public interface AdminConstants extends Constants {
 
 	@DefaultStringValue("Chọn...")
 	String select();
-	
-	@DefaultStringValue("Gởi SMS")
-	String sendSms();
-	
-	@DefaultStringValue("Gởi Email")
-	String sendEmail();
-	
+
 	@DefaultStringValue("Lưu")
 	String save();
 	
@@ -250,9 +244,6 @@ public interface AdminConstants extends Constants {
 	@DefaultStringValue("Điều kiện")
 	String condition();
 
-	@DefaultStringValue("Bộ giao tiếp")
-	String gateway();
-
 	@DefaultStringValue("Tất cả")
 	String all();
 
@@ -270,5 +261,23 @@ public interface AdminConstants extends Constants {
 	
 	@DefaultStringValue("Tự chuyển trạng thái (giây)")
 	String autoRevert();
-	
+
+	// actions
+	@DefaultStringValue("Chạy kịch bản")
+	String playScene();
+
+	@DefaultStringValue("Phát nhạc")
+	String playMedia();
+
+	@DefaultStringValue("Điều khiển rơle")
+	String controlRelay();
+
+	@DefaultStringValue("Kích hoạt chế độ")
+	String activateMode();
+
+	@DefaultStringValue("Gởi SMS")
+	String sendSms();
+
+	@DefaultStringValue("Gởi Email")
+	String sendEmail();
 }

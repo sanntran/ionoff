@@ -5,7 +5,7 @@
 
 <hibernate-mapping>
     
-	<class name="net.ionoff.center.server.entity.Controller" table="relaydrivers" batch-size="1" >
+	<class name="net.ionoff.center.server.entity.Controller" table="controllers" batch-size="1" >
 		
 		<id name="id" type="long" column="id">
 			<generator class="increment" />

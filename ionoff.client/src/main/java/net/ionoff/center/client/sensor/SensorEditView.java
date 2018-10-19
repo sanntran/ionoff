@@ -42,7 +42,7 @@ public class SensorEditView extends AbstractEditView<SensorDto> implements Senso
 		contentPanel.add(listBoxTypes);
 		
 		listBoxGateways = new MaterialListBox();
-		listBoxGateways.setPlaceholder(AdminLocale.getAdminConst().gateway());
+		listBoxGateways.setPlaceholder(AdminLocale.getAdminConst().controller());
 		contentPanel.add(listBoxGateways);
 		
 		intBoxInputIndex = new MaterialIntegerBox();

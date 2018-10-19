@@ -19,7 +19,7 @@ public interface ProjectConstants extends Constants {
 	@DefaultStringValue("Kịch bản")
 	String scene();
 
-	@DefaultStringValue("Bộ Rơle")
+	@DefaultStringValue("Bộ điều khiển")
 	String controller();
 
 	@DefaultStringValue("Chế độ")
@@ -30,9 +30,6 @@ public interface ProjectConstants extends Constants {
 
 	@DefaultStringValue("Media player")
 	String mediaPlayer();
-
-	@DefaultStringValue("Thiết bị khác")
-	String appliance();
 
 	@DefaultStringValue("Play")
 	String play();

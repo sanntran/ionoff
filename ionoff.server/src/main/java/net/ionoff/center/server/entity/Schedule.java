@@ -2,7 +2,7 @@ package net.ionoff.center.server.entity;
 
 import java.util.Set;
 
-public class Schedule extends BaseObj {
+public class Schedule extends Trigger {
 
 	private static final long serialVersionUID = 1L;
 
