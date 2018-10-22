@@ -388,6 +388,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 }
 
 .main nav .nav-wrapper .btnTitle {
+    cursor: text !important;
     margin: 0px 0px 0px 20px;
     text-align: left;
     padding: 0px;
@@ -396,21 +397,6 @@ textarea.materialize-textarea[readonly="readonly"] {
     display: inline-block !important;
     width: calc(100% - 240px);
     max-width: 180px;
-}
-
-.main nav .nav-wrapper .btnTitle i {
-	display: none;
-}
-
-.main nav .nav-wrapper .btnTitle.zone i {
-	display: block !important;
-    position: absolute;
-    left: -5px;
-    bottom: 9px;
-    height: 15px;
-    line-height: 15px !important;
-    font-size: 1.4rem;
-    color: #b2bfc5 !important;
 }
 
 .main nav .nav-wrapper .btnTitle h4 {
@@ -429,17 +415,13 @@ textarea.materialize-textarea[readonly="readonly"] {
 	margin: 0px;
     position: absolute;
     line-height: 10px;
-    bottom: 12px;
+    bottom: 11px;
     width: 100%;
     color: #b2bfc5;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 10px;
-}
-
-.main nav .nav-wrapper .btnTitle.zone p {
-	padding-left: 12px;
 }
 
 .main nav .btnTitle .title {
@@ -699,6 +681,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 .main .content .dashboard .device.card,
 .main .content .dashboard .scene.card,
 .main .content .modes .mode.card,
+.main .content .dashboard .zone.card,
 .main .content .zones .zone.card {
 	height: 150px;
 }
@@ -708,6 +691,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 .main .content .modes .mode.card .card-content,
 .main .content .dashboard .device.card .card-content,
 .main .content .dashboard .scene.card .card-content,
+.main .content .dashboard .zone.card .card-content,
 .main .content .zones .zone.card .card-content {
 	width: 100%;
 	padding: 15px !important;
@@ -717,6 +701,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 .main .content .scenes .scene .name,
 .main .content .zones .zone .name,
 .main .content .modes .mode .name,
+.main .content .dashboard .zone .name,
 .main .content .dashboard .device .name,
 .main .content .dashboard .scene.name {
 	width: 100%;
@@ -729,10 +714,11 @@ textarea.materialize-textarea[readonly="readonly"] {
     white-space: nowrap;
 }
 
-.main .content .zones .ing .zone .name,
+.main .content .zones .lighting .zone .name,
 .main .content .devices .on .device .name,
 .main .content .modes .activated .mode .name,
 .main .content .zones .lighting .zone .icon,
+.main .content .dashboard .lighting .zone .name,
 .main .content .dashboard .on .device .name {
 	color: #a8f990;
 }
@@ -758,11 +744,13 @@ textarea.materialize-textarea[readonly="readonly"] {
 .main .content .dashboard .device .zone,
 .main .content .modes .mode .proj,
 .main .content .scenes .scene .zone,
+.main .content .dashboard .zone .area,
 .main .content .zones .zone .area {
    opacity: 0.75;
    line-height: 20px;
 }
 
+.main .content .dashboard .zone .devices i,
 .main .content .zones .zone .devices i {
     float: right !important;
     line-height: 50px;

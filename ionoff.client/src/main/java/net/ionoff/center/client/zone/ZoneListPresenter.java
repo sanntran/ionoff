@@ -56,12 +56,9 @@ public class ZoneListPresenter extends AbstractPresenter {
 				}
 			}
 		};
-		display.getIconSetting().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				String token = AppToken.newZoneTableToken();
-				eventBus.fireEvent(new ChangeTokenEvent(token));
-			}
+		display.getIconSetting().addClickHandler(event -> {
+			String token = AppToken.newZoneTableToken();
+			eventBus.fireEvent(new ChangeTokenEvent(token));
 		});
 	}
 	

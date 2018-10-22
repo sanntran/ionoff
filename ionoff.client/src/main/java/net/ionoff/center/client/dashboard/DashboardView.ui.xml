@@ -1,6 +1,6 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-			 xmlns:g="urn:import:com.google.gwt.user.client.ui"
-			 xmlns:m="urn:import:gwt.material.design.client.ui">
+			 xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m='urn:import:gwt.material.design.client.ui'
+			 xmlns:ma="urn:import:gwt.material.design.addins.client">
 
 	<g:HTMLPanel ui:field="root" addStyleNames="dashboard">
 		<m:MaterialRow addStyleNames="header">
@@ -8,79 +8,10 @@
 				<m:MaterialLink ui:field="lblTitle" iconType="DASHBOARD" addStyleNames="title" />
 			</m:MaterialColumn>
 		</m:MaterialRow>
-		<m:MaterialRow>
-			<m:MaterialColumn grid="l3 m3 s6 col">
-				<m:MaterialCard ui:field="cartDevice" backgroundColor="BLUE_GREY_DARKEN_2">
-					<m:MaterialCardContent textColor="TEAL_ACCENT_1"  waves="LIGHT" >
-						<m:MaterialCardTitle ui:field="cartDeviceTitle" iconType="DEVICES_OTHER" iconPosition="RIGHT" addStyleNames="icon"/>
-					</m:MaterialCardContent>
-					<m:MaterialCardAction>
-						<m:MaterialLabel ui:field="lblTotalDevice" addStyleNames="total" textColor="TEAL_ACCENT_1"/>
-						<m:MaterialLabel ui:field="lblDeviceOn" addStyleNames="on"/>
-						<m:MaterialLabel ui:field="lblDeviceOff" addStyleNames="off"/>
-					</m:MaterialCardAction>
-				</m:MaterialCard>
-			</m:MaterialColumn>
-			
-			<m:MaterialColumn grid="l3 m3 s6 col">
-				<m:MaterialCard ui:field="cartScene" backgroundColor="BLUE_GREY_DARKEN_2">
-					<m:MaterialCardContent textColor="CYAN_ACCENT_1"  waves="LIGHT">
-						<m:MaterialCardTitle ui:field="cartSceneTitle" iconType="SLIDESHOW" iconPosition="RIGHT" addStyleNames="icon"/>
-					</m:MaterialCardContent>
-					<m:MaterialCardAction>
-						<m:MaterialLabel ui:field="lblTotalScene" addStyleNames="total" textColor="CYAN_ACCENT_1"/>
-						<m:MaterialLabel ui:field="lblLastTriggeredScene" addStyleNames="on"/>
-					</m:MaterialCardAction>
-				</m:MaterialCard>
-			</m:MaterialColumn>
-			
-			<m:MaterialColumn grid="l3 m3 s6 col">
-				<m:MaterialCard ui:field="cartSchedule" backgroundColor="BLUE_GREY_DARKEN_2">
-					<m:MaterialCardContent textColor="ORANGE_ACCENT_1"  waves="LIGHT" >
-						<m:MaterialCardTitle ui:field="cartScheduleTitle" iconType="SCHEDULE" iconPosition="RIGHT" addStyleNames="icon"/>
-					</m:MaterialCardContent>
-					<m:MaterialCardAction>
-						<m:MaterialLabel ui:field="lblTotalSchedule" addStyleNames="total" textColor="ORANGE_ACCENT_1"/>
-						<m:MaterialLabel ui:field="lblNextSchedule" addStyleNames="on"/>
-					</m:MaterialCardAction>
-				</m:MaterialCard>
-			</m:MaterialColumn>
-			
-			<m:MaterialColumn grid="l3 m3 s6 col">
-				<m:MaterialCard ui:field="cartController" backgroundColor="BLUE_GREY_DARKEN_2">
-					<m:MaterialCardContent textColor="GREEN_ACCENT_1"  waves="LIGHT" >
-						<m:MaterialCardTitle ui:field="cartControllerTitle" iconType="MEMORY" iconPosition="RIGHT" addStyleNames="icon"/>
-					</m:MaterialCardContent>
-					<m:MaterialCardAction>
-						<m:MaterialLabel ui:field="lblTotalController" addStyleNames="total" textColor="GREEN_ACCENT_1"/>
-						<m:MaterialLabel ui:field="lblControllerOnline" addStyleNames="on"/>
-						<m:MaterialLabel ui:field="lblControllerOffline" addStyleNames="off"/>
-					</m:MaterialCardAction>
-				</m:MaterialCard>
-			</m:MaterialColumn>
-			
-			<m:MaterialColumn grid="l3 m3 s6 col">
-				<m:MaterialCard ui:field="cartMode" backgroundColor="BLUE_GREY_DARKEN_2">
-					<m:MaterialCardContent textColor="YELLOW_ACCENT_1"  waves="LIGHT" >
-						<m:MaterialCardTitle ui:field="cartModeTitle" iconType="SETTINGS_BRIGHTNESS" iconPosition="RIGHT" addStyleNames="icon"/>
-					</m:MaterialCardContent>
-					<m:MaterialCardAction>
-						<m:MaterialLabel ui:field="lblTotalMode" addStyleNames="total" textColor="YELLOW_ACCENT_1"/>
-						<m:MaterialLabel ui:field="lblActivatedMode" addStyleNames="on"/>
-					</m:MaterialCardAction>
-				</m:MaterialCard>
-			</m:MaterialColumn>
-			
-			<m:MaterialColumn grid="l3 m3 s6 col">
-				<m:MaterialCard ui:field="cartServerChart" backgroundColor="BLUE_GREY_DARKEN_2" addStyleNames="chart">
-				</m:MaterialCard>
-			</m:MaterialColumn>
-			
-			<g:FlowPanel ui:field="deviceWrapper">
-			</g:FlowPanel>
-			
+
+		<m:MaterialRow ui:field="wrapper" marginBottom="0">
+
 		</m:MaterialRow>
-		
 	</g:HTMLPanel>
 
 </ui:UiBinder>

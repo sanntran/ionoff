@@ -2,10 +2,13 @@ package net.ionoff.center.server.entity;
 
 public class Action extends BaseObj {
 
+
 	private static final long serialVersionUID = 1L;
 
 	private Integer order;
 	private String action;
+	private String target;
+	private String content;
 
 	public Integer getOrder() {
 		return order;

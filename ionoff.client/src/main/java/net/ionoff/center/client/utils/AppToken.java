@@ -7,6 +7,7 @@ public final class AppToken extends TokenUtil {
 	private AppToken() {
 		// does nothing
 	}
+
 	public static final String LIST = "list";
 	public static final String TABLE = "table";
 	
@@ -22,7 +23,6 @@ public final class AppToken extends TokenUtil {
 	public static final String NULL = "null";
 	public static final String LORD = "lord";
 	public static final String PROJECTS = "projects";
-	public static final String DLM = "/";
 	public static final String AREAS = "areas";
 	public static final String ZONES = "zones";
 	public static final String RELAYS = "relays";
@@ -183,18 +183,18 @@ public final class AppToken extends TokenUtil {
 		final String token = History.getToken();
 		return replaceTokenItem(token, SCENES);
 	}
-	
+
 	public static String newScheduleToken() {
 		final String token = History.getToken();
 		return replaceTokenItem(token, SCHEDULES);
-		
+
 	}
-	
+
 	public static String newControllerToken() {
 		final String token = History.getToken();
 		return replaceTokenItem(token, CONTROLLERS);
 	}
-	
+
 
 	public static String newModeToken() {
 		final String token = History.getToken();
@@ -202,7 +202,7 @@ public final class AppToken extends TokenUtil {
 	}
 
 	private static String replaceTokenItem(String token, String newItem) {
-		token = token.replace(DLM + TABLE, "");
+		token = token.replace(TOKEN_DLM + TABLE, "");
 		if (hasTokenItem(DEVICE)) {
 			final String deviceId = getTokenId(token, DEVICE);
 			if (token.startsWith(DEVICE)) {
@@ -262,7 +262,7 @@ public final class AppToken extends TokenUtil {
 	}
 
 	public static String newDashboardToken(Long projectId) {
-		return DASHBOARD + TOKEN_DLM + PROJECT + projectId;
+		return PROJECT + projectId +TOKEN_DLM + DASHBOARD;
 	}
 
 	public static String newDeviceToken(long deviceId) {
@@ -347,11 +347,11 @@ public final class AppToken extends TokenUtil {
 	}
 	
 	public static String newZoneDashboardToken(Long zoneId) {
-		return DASHBOARD + DLM + PROJECT + getTokenProjectId() + DLM + ZONE + zoneId;
+		return PROJECT + getTokenProjectId() + TOKEN_DLM + ZONE + zoneId + TOKEN_DLM + DASHBOARD;
 	}
 	
 	public static String newZoneDevicesToken(Long zoneId) {
-		return DEVICES + DLM + PROJECT + getTokenProjectId() + DLM + ZONE + zoneId;
+		return PROJECT + getTokenProjectId() + TOKEN_DLM + ZONE + zoneId + TOKEN_DLM + DEVICES;
 	}
 
 	public static String newRelayToken() {
@@ -380,61 +380,63 @@ public final class AppToken extends TokenUtil {
 	}
 	
 	public static String newTokenProjects() {
-		return SYSTEM + DLM + PROJECTS;
+		return SYSTEM + TOKEN_DLM + PROJECTS;
 	}
 	
 	public static String newTokenUsers() {
-		return SYSTEM + DLM + USERS;
+		return SYSTEM + TOKEN_DLM + USERS;
 	}
 	
 	public static String newTokenZones(String projectId) {
-		return PROJECT + projectId + DLM + ZONE;
+		return PROJECT + projectId + TOKEN_DLM + ZONE;
 	}
 	
 	public static String newTokenDevices(String projectId) {
-		return PROJECT + projectId + DLM + DEVICES;
+		return PROJECT + projectId + TOKEN_DLM + DEVICES;
 	}
 	
 	public static String newTokenCotrollers(String projectId) {
-		return PROJECT + projectId + DLM + CONTROLLERS;
+		return PROJECT + projectId + TOKEN_DLM + CONTROLLERS;
 	}
 	
 	public static String newTokenRelays(String projectId) {
-		return PROJECT + projectId + DLM + RELAYS;
+		return PROJECT + projectId + TOKEN_DLM + RELAYS;
 	}
 	
 	public static String newTokenSensors(String projectId) {
-		return PROJECT + projectId + DLM + SENSORS;
+		return PROJECT + projectId + TOKEN_DLM + SENSORS;
 	}
 	
 	public static String newTokenUsers(String projectId) {
-		return PROJECT + projectId + DLM + USERS;
+		return PROJECT + projectId + TOKEN_DLM + USERS;
 	}
 
 	public static String newTokenModes(String projectId) {
-		return PROJECT + projectId + DLM + MODES;
+		return PROJECT + projectId + TOKEN_DLM + MODES;
 	}
 	
 	public static String newTokenSchedules(String projectId) {
-		return PROJECT + projectId + DLM + SCHEDULES;
+		return PROJECT + projectId + TOKEN_DLM + SCHEDULES;
 	}
 
 	public static String newTokenScenes(String projectId) {
-		return PROJECT + projectId + DLM + SCENES;
+		return PROJECT + projectId + TOKEN_DLM + SCENES;
 	}
 	
 	public static String getTokenProjectId() {
 		String token = History.getToken();
-		String[] items = token.split(DLM);
-		if (items.length >= 1) {
-			return items[0].replace(PROJECT, "");
+		String[] items = token.split(TOKEN_DLM);
+		for (String item : items) {
+			if (item.startsWith(PROJECT)) {
+				return item.replace(PROJECT, "");
+			}
 		}
 		return NULL;
 	}
 
 	public static String getTokenEntity() {
 		String token = History.getToken();
-		String[] items = token.split(DLM);
+		String[] items = token.split(TOKEN_DLM);
 		if (items.length >= 2) {
 			return items[1];
 		}
@@ -443,13 +445,13 @@ public final class AppToken extends TokenUtil {
 
 	public static String changeTokenProject(String newTokenProject) {
 		String token = History.getToken();
-		String[] items = token.split(DLM);
+		String[] items = token.split(TOKEN_DLM);
 		String newToken = items[0];
 		if (items.length > 1) {
-			newToken = newToken + DLM + newTokenProject;
+			newToken = newToken + TOKEN_DLM + newTokenProject;
 		}
 		for (int i = 2; i < items.length; i++) {
-			newToken = newToken + DLM + items[i];
+			newToken = newToken + TOKEN_DLM + items[i];
 		}
 		return newToken;
 	}

@@ -21,11 +21,6 @@
 			font-size: 10px;
 			color: #000 !important;
 		}
-		.iconSelectProject {
-			position: absolute;
-			left: 75px;
-    		top: 25px;
-		}
 		.iconProjectSetting {
 			position: absolute;
 			left: 120px;
@@ -40,8 +35,7 @@
 				backgroundColor="BLUE_GREY_DARKEN_3" shadow="1">
 				<m:MaterialButton ui:field="btnLogo" type="FLAT" waves="LIGHT" addStyleNames="logo" />					
 				<m:MaterialIcon ui:field="dashhboardIcon" addStyleNames="dashhboardIcon" waves="LIGHT" iconType="DASHBOARD" iconSize="SMALL" />
-				<m:MaterialButton ui:field="btnNavTitle" type="FLAT" waves="LIGHT" addStyleNames="btnTitle">
-					<m:MaterialIcon ui:field="iconArowUp" textColor="GREY_LIGHTEN_4" iconType="KEYBOARD_ARROW_LEFT" />
+				<m:MaterialButton ui:field="btnNavTitle" type="FLAT" addStyleNames="btnTitle">
 					<m:MaterialTitle ui:field="navTitle" title="Null" description="Null" addStyleNames="title" />
 				</m:MaterialButton>		
 				<m:MaterialIcon ui:field="btnUser" iconType="ACCOUNT_CIRCLE" iconColor="WHITE" waves="LIGHT" float="RIGHT"
@@ -53,7 +47,6 @@
 			ui:field="sideNav" showOnAttach="true" withHeader="true" width="250">
 			<ma:sideprofile.MaterialSideProfile url="imgs/profile.jpg" addStyleNames="sideProfile">
 				<m:MaterialImage ui:field="btnImgProject" url="imgs/project.jpg" />
-				<m:MaterialIcon ui:field="iconSelectProject" iconType="ARROW_DROP_DOWN"  waves="LIGHT" iconColor="WHITE" addStyleNames="{style.iconSelectProject}"/>
 				<m:MaterialIcon ui:field="iconSystemSetting" iconType="SETTINGS"  waves="LIGHT" iconColor="WHITE" addStyleNames="{style.iconProjectSetting}"/>
 				
 				<m:MaterialLabel ui:field="lblSystemTime"

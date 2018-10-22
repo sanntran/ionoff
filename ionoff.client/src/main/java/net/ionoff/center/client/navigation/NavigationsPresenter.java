@@ -54,7 +54,6 @@ public class NavigationsPresenter extends AbstractPresenter {
 		MaterialSideNavDrawer getSideNav();
 		MaterialImage getBtnImgProject();
 		MaterialTitle getProfileTitle();
-		MaterialIcon getIconSelectProject();
 		MaterialIcon getIconSystemSetting();
 		MaterialLabel getLblSystemTime();
 		MaterialLabel getLblSystemDate();
@@ -119,6 +118,13 @@ public class NavigationsPresenter extends AbstractPresenter {
 					public void onSuccess(Method method, ZoneDto response) {
 						eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
 						onZoneChanged(response);
+						for (ProjectDto project : user.getProjects()) {
+							if (projectId != null && projectId.equals(project.getId())) {
+								display.getProfileTitle().setTitle(project.getName());
+								display.getProfileTitle().setDescription(project.getAddress());
+								break;
+							}
+						}
 					}
 				});
 			}
@@ -149,17 +155,6 @@ public class NavigationsPresenter extends AbstractPresenter {
 			}
 		});
 		
-		display.getBtnNavTitle().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (AppToken.hasTokenItem(AppToken.SYSTEM)) {
-					return;
-				}
-				String token = AppToken.newZoneListToken();
-				eventBus.fireEvent(new ChangeTokenEvent(token));
-			}
-		});
-		
 		display.getBtnImgProject().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -167,25 +162,17 @@ public class NavigationsPresenter extends AbstractPresenter {
 						AppToken.newDashboardToken(StorageService.getInstance().getCookie().getProjectId())));
 			}
 		});
-		
-		display.getIconSelectProject().addClickHandler(new ClickHandler() {
+
+		display.getBtnProfileTitle().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				Widget source = (Widget) event.getSource();
 				int left = 0;
-		        int top = source.getAbsoluteTop() + 57;
-		        showPopupProjectsView(left, top);
+				int top = source.getAbsoluteTop() + 50;
+				showPopupProjectsView(left, top);
 			}
 		});
-		
-		display.getBtnProfileTitle().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				String token = AppToken.newZoneListToken();
-				eventBus.fireEvent(new ChangeTokenEvent(token));
-			}
-		});
-		
+
 		display.getIconSystemSetting().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -311,8 +298,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 		display.getMenuItemUser().setVisible(false);
 		display.getMenuItemRelay().setVisible(false);
 		display.getMenuItemController().setVisible(false);
-		display.getMenuItemArrow().setVisible(false);
-		
+
 		eventBus.addHandler(ChangeZoneEvent.TYPE, new ChangeZoneEventHandler() {
 			@Override
 			public void onChangeZone(ChangeZoneEvent event) {
@@ -419,8 +405,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 
 
 	public void showSystemMenu() {
-		display.getBtnNavTitle().removeStyleName("zone");
-		
+
 		display.getNavTitle().setTitle(ClientLocale.getClientConst().system());
 		display.getNavTitle().setDescription(ClientLocale.getClientConst().setting());
 
@@ -440,8 +425,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 		display.getMenuItemSensor().setVisible(false);
 		display.getMenuItemArea().setVisible(false);
 		display.getMenuItemZone().setVisible(false);
-		display.getMenuItemArrow().setVisible(false);
-		
+
 		if (AppToken.hasTokenItem(AppToken.PROJECTS)) {
 			display.getSideNav().setActive(1);
 		}
@@ -451,8 +435,6 @@ public class NavigationsPresenter extends AbstractPresenter {
 	}
 
 	public void showProjectMenu() {
-		display.getBtnNavTitle().removeStyleName("zone");
-		
 		Long projectId = AppToken.getProjectIdLong();
 		UserDto user = StorageService.getInstance().getCookie().getUser();
 		for (ProjectDto project : user.getProjects()) {
@@ -470,7 +452,6 @@ public class NavigationsPresenter extends AbstractPresenter {
 		display.getMenuItemMode().setVisible(true);
 		display.getMenuItemSchedule().setVisible(true);
 		
-		display.getMenuItemArrow().setVisible(true);
 		if (expandMenu) {
 			display.getMenuItemController().setVisible(true);
 			display.getMenuItemRelay().setVisible(true);
@@ -530,51 +511,11 @@ public class NavigationsPresenter extends AbstractPresenter {
 		display.getProfileTitle().setTitle(project.getName());
 		display.getProfileTitle().setDescription(project.getAddress());
 	}
-	
+
 	private void onZoneChanged(ZoneDto zone) {
 		display.getNavTitle().setTitle(zone.getName());
 		display.getNavTitle().setDescription(zone.getAreaName());
-		
-		display.getProfileTitle().setTitle(zone.getName());
-		display.getProfileTitle().setDescription(zone.getAreaName());
 	}
-	
-	public void showZoneMenu() {
-		display.getBtnNavTitle().removeStyleName("zone");
-		display.getBtnNavTitle().addStyleName("zone");
-		
-		display.getNavIconDashhboard().setIconType(IconType.DASHBOARD);
-		display.getMenuItemProject().setVisible(false);
-		display.getMenuItemDashboard().setVisible(true);
-		display.getMenuItemDevice().setVisible(true);
-		display.getMenuItemScene().setVisible(true);
-		display.getMenuItemController().setVisible(false);
-		display.getMenuItemMode().setVisible(false);
-		display.getMenuItemSchedule().setVisible(false);
-		display.getMenuItemRelay().setVisible(false);
-		display.getMenuItemUser().setVisible(false);
-		display.getMenuItemSensor().setVisible(false);
-		display.getMenuItemArea().setVisible(false);
-		display.getMenuItemZone().setVisible(false);
-		display.getMenuItemArrow().setVisible(false);
-
-		if (AppToken.hasTokenItem(AppToken.DASHBOARD)) {
-			display.getSideNav().setActive(2);
-		}
-		else if (AppToken.hasTokenItem(AppToken.DEVICES)) {
-			display.getSideNav().setActive(3);
-		}
-		else if (AppToken.hasTokenItem(AppToken.SCENES)) {
-			display.getSideNav().setActive(4);
-		}
-		else if (AppToken.hasTokenItem(AppToken.SCHEDULES)) {
-			display.getSideNav().setActive(6);
-		}
-		else if (AppToken.hasTokenItem(AppToken.SENSORS)) {
-			display.getSideNav().setActive(10);
-		}
-	}
-
 
 	public void showProgress(boolean loading) {
 		if (loading) {

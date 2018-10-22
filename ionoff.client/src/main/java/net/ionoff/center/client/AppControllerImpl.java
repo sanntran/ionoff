@@ -94,7 +94,8 @@ public class AppControllerImpl implements IAppController {
 
 	@Override
 	public void onClickLogo() {
-		eventBus.fireEvent(new ChangeTokenEvent(AppToken.newDashboardToken(StorageService.getInstance().getCookie().getProjectId())));
+		eventBus.fireEvent(new ChangeTokenEvent(
+				AppToken.newDashboardToken(StorageService.getInstance().getCookie().getProjectId())));
 	}
 
 	@Override
@@ -219,7 +220,7 @@ public class AppControllerImpl implements IAppController {
 	
 	@Override
 	public void showZoneMenu() {
-		getNavigationsPresenter().showZoneMenu();
+		// does nothing
 	}
 
 	@Override

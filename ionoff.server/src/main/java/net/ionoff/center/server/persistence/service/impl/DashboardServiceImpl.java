@@ -10,6 +10,7 @@ import net.ionoff.center.server.persistence.service.*;
 import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,6 +56,13 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 
 	@Autowired
 	private IControllerDao controllerDao;
+
+    @Autowired
+    private IZoneService zoneService;
+
+    @Lazy
+    @Autowired
+    private IDeviceService deviceService;
 
 	@Autowired
 	public DashboardServiceImpl(IDashboardDao dashboardDao) {
@@ -117,23 +125,18 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 		DashboardDto dashboardDto = dashboardMapper.createDto(dashboard);
 
 
-		List<Device> devices = deviceDao.findByUserZoneId(user.getId(), zoneId);
-		List<Schedule> schedules = scheduleDao.findByZoneId(zoneId);
+		//List<Device> devices = deviceDao.findByUserZoneId(user.getId(), zoneId);
+		//List<Schedule> schedules = scheduleDao.findByZoneId(zoneId);
 
-		setDeviceStatistic(user, devices, dashboardDto);
-		setScheduleStatistic(user, schedules, dashboardDto);
+		//setDeviceStatistic(user, devices, dashboardDto);
+		//setScheduleStatistic(user, schedules, dashboardDto);
 
-		SceneStatisticDto sceneStatistic = new SceneStatisticDto();
-		sceneStatistic.setTotalCount((int)sceneDao.countByZoneId(zoneId));
-		dashboardDto.setSceneStatistic(sceneStatistic);
+		//SceneStatisticDto sceneStatistic = new SceneStatisticDto();
+		//sceneStatistic.setTotalCount((int)sceneDao.countByZoneId(zoneId));
+		//dashboardDto.setSceneStatistic(sceneStatistic);
 
-		List<DeviceDto> deviceDtos = new ArrayList<>();
-		for (DashboardDevice dashboardDevice : dashboard.getDevices()) {
-			Device device = dashboardDevice.getDevice();
-			deviceDtos.add(deviceMapper.createDeviceDto(device, playerService));
-		}
-		dashboardDto.setDevices(deviceDtos);
-
+		List<DeviceDto> devices = deviceService.findDtoByUserZoneId(user, zoneId);
+		dashboardDto.setDevices(devices);
 		return dashboardDto;
 	}
 
@@ -142,23 +145,17 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 		Dashboard dashboard = findByUserProjectId(user, projectId);
 		DashboardDto dashboardDto = dashboardMapper.createDto(dashboard);
 
-		List<Device> devices = deviceDao.findByUserProjectId(user.getId(), projectId);
-		List<Schedule> schedules = scheduleDao.findByProjectId(projectId);
+		//List<Device> devices = deviceDao.findByUserProjectId(user.getId(), projectId);
+		//List<Schedule> schedules = scheduleDao.findByProjectId(projectId);
 
-		setDeviceStatistic(user, devices, dashboardDto);
-		setModeStatistic(user, projectId, dashboardDto);
-		setSceneStatistic(user, projectId, dashboardDto);
-		setScheduleStatistic(user, schedules, dashboardDto);
-		setControllerStatistic(projectId, dashboardDto);
-		setServerStatistic(dashboardDto);
-
-		List<DeviceDto> deviceDtos = new ArrayList<>();
-		for (DashboardDevice dashboardDevice : dashboard.getDevices()) {
-			Device device = dashboardDevice.getDevice();
-			deviceDtos.add(deviceMapper.createDeviceDto(device, playerService));
-		}
-		dashboardDto.setDevices(deviceDtos);
-
+		//setDeviceStatistic(user, devices, dashboardDto);
+		//setModeStatistic(user, projectId, dashboardDto);
+		//setSceneStatistic(user, projectId, dashboardDto);
+		//setScheduleStatistic(user, schedules, dashboardDto);
+		//setControllerStatistic(projectId, dashboardDto);
+		//setServerStatistic(dashboardDto);
+        List<ZoneDto> zones = zoneService.findDtoByUserProjectId(user.getId(), projectId);
+        dashboardDto.setZones(zones);
 		return dashboardDto;
 	}
 
@@ -180,7 +177,8 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 
 			serverStatistic.setDiskSpaceUsedPercent(usedSpacePercent);
 		}
-		dashboardDto.setServerStatistic(serverStatistic);
+
+		//dashboardDto.setServerStatistic(serverStatistic);
 	}
 
 	private void setControllerStatistic(long projectId, DashboardDto dashboardDto) {
@@ -195,7 +193,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 				controllerStatistic.setOfflineCount(controllerStatistic.getOfflineCount() + 1);
 			}
 		}
-		dashboardDto.setControllerStatisticDto(controllerStatistic);
+		//dashboardDto.setControllerStatisticDto(controllerStatistic);
 	}
 
 	private void setDeviceStatistic(User user, List<Device> devices, DashboardDto dashboardDto) {
@@ -211,7 +209,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 			}
 		}
 		deviceStatistic.setTotalCount(devices.size());
-		dashboardDto.setDeviceStatistic(deviceStatistic);
+		//dashboardDto.setDeviceStatistic(deviceStatistic);
 	}
 
 	private void setModeStatistic(User user, long projectId, DashboardDto dashboardDto) {
@@ -224,13 +222,13 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 		else {
 			modeStatistic.setActivatedName(activatedMode.getName());
 		}
-		dashboardDto.setModeStatistic(modeStatistic);
+		//dashboardDto.setModeStatistic(modeStatistic);
 	}
 
 	private void setSceneStatistic(User user, long projectId, DashboardDto dashboardDto) {
 		SceneStatisticDto sceneStatistic = new SceneStatisticDto();
 		sceneStatistic.setTotalCount((int)sceneDao.countByProjectId(projectId));
-		dashboardDto.setSceneStatistic(sceneStatistic);
+		//dashboardDto.setSceneStatistic(sceneStatistic);
 	}
 
 	private void setScheduleStatistic(User user, List<Schedule> schedules, DashboardDto dashboardDto) {
@@ -241,7 +239,7 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 			scheduleStatistic.setNextScheduleName(nextScheduleToday.getName());
 			scheduleStatistic.setNextScheduleTime(revertFormmatedTime(nextScheduleToday.getTime()));
 		}
-		dashboardDto.setScheduleStatistic(scheduleStatistic);
+		//dashboardDto.setScheduleStatistic(scheduleStatistic);
 	}
 
 	@Override

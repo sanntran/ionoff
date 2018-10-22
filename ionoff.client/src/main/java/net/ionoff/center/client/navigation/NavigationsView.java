@@ -50,8 +50,6 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 	@UiField
 	MaterialImage btnImgProject;
 	@UiField
-	MaterialIcon iconSelectProject;
-	@UiField
 	MaterialIcon iconSystemSetting;
 	@UiField
 	MaterialLabel lblSystemTime;
@@ -156,10 +154,6 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 		return profileTitle;
 	}
 	
-	@Override
-	public MaterialIcon getIconSelectProject() {
-		return iconSelectProject;
-	}
 	@Override
 	public MaterialIcon getIconSystemSetting() {
 		return iconSystemSetting;
