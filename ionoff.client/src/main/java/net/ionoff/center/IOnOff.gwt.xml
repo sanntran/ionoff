@@ -24,6 +24,8 @@
 
   <inherits name="gwt.material.design.themes.ThemeBlue"/>
   <inherits name="gwt.material.design.addins.GwtMaterialAddins"/>
+
+  <inherits name="com.github.nmorel.gwtjackson.GwtJackson" />
     
   <set-configuration-property name="CssResource.enableGss" value="true" />
   <set-configuration-property name="CssResource.gssDefaultInUiBinder" value="true" />

@@ -1,16 +1,16 @@
-package net.ionoff.center.client.storage;
+package net.ionoff.center.shared.cookie;
 
-public class ApiServer {
-	
-	static final String HOST = "host";
-	static final String ENABLED = "enabled";
-	
+public class Service {
+
+	public static final String HOST = "host";
+	public static final String ENABLED = "enabled";
+
 	private String host;
 	private boolean enabled;
-	
-	public ApiServer() {}
-	
-	public ApiServer(String host, boolean enabled) {
+
+	public Service() {}
+
+	public Service(String host, boolean enabled) {
 		this.host = host;
 		this.enabled = enabled;
 	}

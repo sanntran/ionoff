@@ -10,6 +10,11 @@ import com.google.gwt.user.client.ui.Panel;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialRow;
 import net.ionoff.center.client.base.AbstractPresenter;
+import net.ionoff.center.client.dashboard.DeviceSlicePresenter;
+import net.ionoff.center.client.dashboard.PlayerSlicePresenter;
+import net.ionoff.center.client.dashboard.PlayerSliceView;
+import net.ionoff.center.client.dashboard.RelayLoadSlicePresenter;
+import net.ionoff.center.client.dashboard.RelayLoadSliceView;
 import net.ionoff.center.client.event.ChangeTokenEvent;
 import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.service.IRpcServiceProvider;
@@ -37,7 +42,7 @@ public class DeviceListPresenter extends AbstractPresenter {
 	private Timer timer;
 	private Display display;
 	private IRpcServiceProvider rpcProvider;
-	private final List<DevicePresenter> devicePresenters;
+	private final List<DeviceSlicePresenter> devicePresenters;
 	
 	public DeviceListPresenter(IRpcServiceProvider rpcProvider, HandlerManager eventBus, Display view) {		
 		super(eventBus);
@@ -103,12 +108,12 @@ public class DeviceListPresenter extends AbstractPresenter {
 	}
 	
 	private void updateDevicesStatus(List<StatusDto> response) {
-		for (final DevicePresenter devicePresenter : devicePresenters) {
+		for (final DeviceSlicePresenter devicePresenter : devicePresenters) {
 			updateDeviceStatus(devicePresenter, response);
 		}
 	}
 
-	private void updateDeviceStatus(DevicePresenter devicePresenter, List<StatusDto> statusDtos) {
+	private void updateDeviceStatus(DeviceSlicePresenter devicePresenter, List<StatusDto> statusDtos) {
 		if (devicePresenter.isLocked()) {
 			return;
 		}
@@ -171,16 +176,16 @@ public class DeviceListPresenter extends AbstractPresenter {
 	}
 
 	private void showPlayer(MediaPlayerDto player) {
-		PlayerView playerView = new PlayerView();
-		PlayerPresenter playerPresenter = new PlayerPresenter(rpcProvider, eventBus, playerView, player);
+		PlayerSliceView playerView = new PlayerSliceView();
+		PlayerSlicePresenter playerPresenter = new PlayerSlicePresenter(rpcProvider, eventBus, playerView, player);
 		playerPresenter.go();
 		devicePresenters.add(playerPresenter);
 		playerPresenter.show(display.getWrapper());
 	}
 
 	private void showRelayLoad(RelayLoadDto appliance) {
-		RelayLoadView relayLoadView = new RelayLoadView();
-		RelayLoadPresenter appliancePresenter = new RelayLoadPresenter(rpcProvider, eventBus, relayLoadView, appliance);
+		RelayLoadSliceView relayLoadView = new RelayLoadSliceView();
+		RelayLoadSlicePresenter appliancePresenter = new RelayLoadSlicePresenter(rpcProvider, eventBus, relayLoadView, appliance);
 		appliancePresenter.go();
 		devicePresenters.add(appliancePresenter);
 		appliancePresenter.show(display.getWrapper());

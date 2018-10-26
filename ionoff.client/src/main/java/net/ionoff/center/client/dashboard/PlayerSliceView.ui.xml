@@ -16,11 +16,11 @@
 		}
 		.sliderWrapper {
 			position: absolute;
-		    bottom: 2px;
-		    left: 15px;
-		    height: 2px;
-		    background-color: #677b8b;
-		    right: 15px;
+			bottom: 0px;
+			left: 0px;
+			height: 1px;
+			background-color: #677b8b;
+			right: 0px;
 		}
 		.sliderPlayed {
 			height: 2px;

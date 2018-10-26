@@ -87,6 +87,12 @@
             <version>2.0-rc6</version>
         </dependency>
 
+		<dependency>
+			<groupId>com.github.nmorel.gwtjackson</groupId>
+			<artifactId>gwt-jackson</artifactId>
+			<version>0.15.4</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

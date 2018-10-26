@@ -1,42 +1,47 @@
-package net.ionoff.center.client.device;
-
-import java.util.ArrayList;
-import java.util.List;
+package net.ionoff.center.client.dashboard;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import gwt.material.design.client.ui.MaterialCollection;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialPanel;
+import net.ionoff.center.client.device.IDeviceView;
 import net.ionoff.center.client.locale.ProjectLocale;
 
-public class RelayLoadView implements IDeviceView {
-	
-	@UiTemplate("RelayLoadView.ui.xml")
-	interface RelayLoadViewUiBinder extends UiBinder<Widget, RelayLoadView> {
+public class PlayerSliceView extends FocusPanel implements IDeviceView {
+
+	@UiTemplate("PlayerSliceView.ui.xml")
+	interface PlayerSliceViewUiBinder extends UiBinder<Widget, PlayerSliceView> {
 	}
 
-	private static RelayLoadViewUiBinder uiBinder = GWT.create(RelayLoadViewUiBinder.class);
-	
+	private static PlayerSliceViewUiBinder uiBinder = GWT.create(PlayerSliceViewUiBinder.class);
+
 	@UiField
 	HTMLPanel root;
+	@UiField
+	MaterialPanel playerCard;
 	@UiField 
 	MaterialIcon btnIcon;
 	@UiField 
 	MaterialLabel lblName;
 	@UiField 
-	MaterialLabel lblTime;
-	@UiField 
 	MaterialLabel lblZone;
 	@UiField 
-	MaterialCollection relayCollection;
+	MaterialLabel lblTime;
+	@UiField 
+	MaterialIcon btnStop;
+	@UiField 
+	MaterialIcon btnPlay;
+	@UiField 
+	MaterialLabel lblPlayed;
 	@UiField 
 	MaterialIcon menuIcon;
 	@UiField 
@@ -47,12 +52,9 @@ public class RelayLoadView implements IDeviceView {
 	MaterialLink menuItemAddToProjectDashboard;
 	@UiField 
 	MaterialLink menuItemRemoveFromDashboard;
-	
-	private List<RelayView> relayViews;
 
-	public RelayLoadView() {
+	public PlayerSliceView() {
 		uiBinder.createAndBindUi(this);
-		relayViews = new ArrayList<>();
 		menuItemAddToZoneDashboard.setText(ProjectLocale.getProjectConst().addToZoneDashboard());
 		menuItemAddToProjectDashboard.setText(ProjectLocale.getProjectConst().addToProjectDashboard());
 		menuItemRemoveFromDashboard.setText(ProjectLocale.getProjectConst().removeFromDashboard());
@@ -62,7 +64,7 @@ public class RelayLoadView implements IDeviceView {
 	public HTMLPanel asPanel() {
 		return root;
 	}
-
+	
 	@Override
 	public MaterialIcon getBtnIcon() {
 		return btnIcon;
@@ -82,24 +84,21 @@ public class RelayLoadView implements IDeviceView {
 	public MaterialLabel getLblZone() {
 		return lblZone;
 	}
-	
-	public MaterialCollection getRelayCollection() {
-		return relayCollection;
-	}
-	
-	public List<RelayView> getRelayViews() {
-		return relayViews;
-	}
 
-	public MaterialIcon getBtnSwitch() {
-		return btnIcon;
+	public MaterialPanel getPlayerCard() {
+		return playerCard;
 	}
-
-	@Override
-	public void setMenuDropdownId(long id) {
-		String activate = "menuDropdown" + id;
-		menuIcon.setActivates(activate);
-		menuDropdown.setActivator(activate);
+	
+	public MaterialIcon getBtnStop() {
+		return btnStop;
+	}
+	
+	public MaterialIcon getBtnPlay() {
+		return btnPlay;
+	}
+	
+	public MaterialLabel getLblPlayed() {
+		return lblPlayed;
 	}
 	
 	public MaterialLink getMenuItemAddToZoneDashboard() {
@@ -112,5 +111,12 @@ public class RelayLoadView implements IDeviceView {
 	
 	public MaterialLink getMenuItemRemoveFromDashboard() {
 		return menuItemRemoveFromDashboard;
+	}
+	
+	@Override
+	public void setMenuDropdownId(long id) {
+		String activate = "menuDropdown" + id;
+		menuIcon.setActivates(activate);
+		menuDropdown.setActivator(activate);
 	}
 }

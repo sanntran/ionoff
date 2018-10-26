@@ -1,4 +1,4 @@
-package net.ionoff.center.client.device;
+package net.ionoff.center.client.dashboard;
 
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
@@ -8,6 +8,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconType;
 import net.ionoff.center.client.event.ChangeTokenEvent;
 import net.ionoff.center.client.event.ShowMessageEvent;
 import net.ionoff.center.client.locale.AdminLocale;
@@ -16,30 +18,30 @@ import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.MessageDto;
-import net.ionoff.center.shared.dto.SensorDriverDto;
-import net.ionoff.center.shared.dto.StatusDto;
+import net.ionoff.center.shared.dto.MediaPlayerDto;
+import net.ionoff.center.client.mediaplayer.event.ShowLoadingEvent;
+import net.ionoff.center.shared.dto.player.Command;
+import net.ionoff.center.shared.dto.player.PlayerApi;
+import net.ionoff.center.shared.dto.player.StateDto;
+import net.ionoff.center.shared.dto.player.StatusDto;
 
-public class SensorDriverPresenter extends DevicePresenter {
+public class PlayerSlicePresenter extends DeviceSlicePresenter {
 
-	private SensorDriverDto sensorDriver;
-	private final SensorDriverView view;
+	private MediaPlayerDto player;
+	private final PlayerSliceView view;
 	private final IRpcServiceProvider rpcService;
- 
-	public SensorDriverPresenter(IRpcServiceProvider rpcService, HandlerManager eventBus,
-			SensorDriverView view, SensorDriverDto sensorDriver) {
-		super(rpcService, eventBus, sensorDriver);
+
+	public PlayerSlicePresenter(IRpcServiceProvider rpcService, HandlerManager eventBus, PlayerSliceView view, MediaPlayerDto player) {
+		super(rpcService, eventBus, player);
 		this.view = view;
-		this.sensorDriver = sensorDriver;
+		this.player = player;
 		this.rpcService = rpcService;
 	}
 
 	@Override
 	public void show(HasWidgets container) {
-		updateMenuItems();
 		container.add(view.asPanel());
-	}
-
-	private void updateMenuItems() {
+		
 		if (AppToken.hasTokenItem(AppToken.DASHBOARD)) {
 			view.getMenuItemAddToProjectDashboard().getParent().setVisible(false);
 			view.getMenuItemAddToZoneDashboard().getParent().setVisible(false);
@@ -54,15 +56,36 @@ public class SensorDriverPresenter extends DevicePresenter {
 
 	@Override
 	public void bind() {
-		view.setMenuDropdownId(sensorDriver.getId());
+		view.setMenuDropdownId(player.getId());
 		view.getLblName().setText(getDevice().getName());
 		view.getLblZone().setText(getDevice().getZoneName());
 		displayStatus();
-		view.getSensorDriverCard().addClickHandler(new ClickHandler() {
+		view.getPlayerCard().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				String token = AppToken.newDeviceToken(sensorDriver.getId());
+				String token = AppToken.newDeviceToken(player.getId());
 				eventBus.fireEvent(new ChangeTokenEvent(token));
+				
+			}
+		});
+		view.getBtnStop().addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					rpcSendCommand(PlayerApi.stopPlaylist());
+				}
+			});
+		view.getBtnPlay().addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if (StateDto.playing.toString().equals(player.getStatus().getState())) {
+					rpcSendCommand(PlayerApi.pausePlaylistLeaf());
+				}
+				else if (StateDto.paused.toString().equals(player.getStatus().getState())) {
+					rpcSendCommand(PlayerApi.resumePlaylistLeaf());
+				}
+				else {
+					rpcSendCommand(PlayerApi.playPlaylist());
+				}
 			}
 		});
 		
@@ -70,7 +93,7 @@ public class SensorDriverPresenter extends DevicePresenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				getRpcProvider().getDeviceService().addToZoneDashboard(
-						sensorDriver.getId(), sensorDriver.getZoneId(), new MethodCallback<DeviceDto>() {
+						player.getId(), player.getZoneId(), new MethodCallback<DeviceDto>() {
 					@Override
 					public void onFailure(Method method, Throwable exception) {
 						ClientUtil.handleRpcFailure(method, exception, eventBus);
@@ -88,7 +111,7 @@ public class SensorDriverPresenter extends DevicePresenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				getRpcProvider().getDeviceService().addToProjectDashboard(
-						sensorDriver.getId(), sensorDriver.getProjectId(), new MethodCallback<MessageDto>() {
+						player.getId(), player.getProjectId(), new MethodCallback<MessageDto>() {
 					@Override
 					public void onFailure(Method method, Throwable exception) {
 						ClientUtil.handleRpcFailure(method, exception, eventBus);
@@ -108,7 +131,7 @@ public class SensorDriverPresenter extends DevicePresenter {
 				
 				if (AppToken.hasTokenItem(AppToken.ZONE)) {
 					getRpcProvider().getDeviceService().removeFromZoneDashboard(
-							sensorDriver.getId(), sensorDriver.getZoneId(), new MethodCallback<MessageDto>() {
+							player.getId(), player.getZoneId(), new MethodCallback<MessageDto>() {
 						@Override
 						public void onFailure(Method method, Throwable exception) {
 							ClientUtil.handleRpcFailure(method, exception, eventBus);
@@ -123,7 +146,7 @@ public class SensorDriverPresenter extends DevicePresenter {
 				}
 				else {
 					getRpcProvider().getDeviceService().removeFromProjectDashboard(
-							sensorDriver.getId(), sensorDriver.getProjectId(), new MethodCallback<MessageDto>() {
+							player.getId(), player.getProjectId(), new MethodCallback<MessageDto>() {
 						@Override
 						public void onFailure(Method method, Throwable exception) {
 							ClientUtil.handleRpcFailure(method, exception, eventBus);
@@ -140,20 +163,33 @@ public class SensorDriverPresenter extends DevicePresenter {
 		});
 	}
 
+	protected void rpcSendCommand(Command command) {
+		rpcService.getPlayerService().sendCommand(player.getId(), command, new MethodCallback<StatusDto>() {
+			@Override
+			public void onFailure(Method method, Throwable exception) {
+				ClientUtil.handleRpcFailure(method, exception, eventBus);
+			}
+
+			@Override
+			public void onSuccess(Method method, StatusDto response) {
+				eventBus.fireEvent(new ShowLoadingEvent(false));
+				updateStatus(response);
+			}
+		});
+	}
+
 	private void displayStatus() {
 		view.asPanel().removeStyleName("on");
-		
-		if (sensorDriver.getStatus().getTime() != null) {
-			view.getLblTime().setText(sensorDriver.getStatus().getTime());
+		if (player.getStatus().getTime() != null) {
+			view.getLblTime().setText(player.getStatus().getTime());
 		}
-		view.getLblLatestValue().setText(sensorDriver.getStatus().getLatestValue());
-		
-		if (Boolean.FALSE.equals(sensorDriver.getStatus().getValue())) {
+			
+		if (Boolean.FALSE.equals(player.getStatus().getValue())) {
 //			view.getImgIcon().removeStyleName("on");
 //			view.getImgIcon().removeStyleName("unknown");
 //			view.getImgIcon().addStyleName("off");
 		}
-		else if (Boolean.TRUE.equals(sensorDriver.getStatus().getValue())) {
+		else if (Boolean.TRUE.equals(player.getStatus().getValue())) {
 //			view.getImgIcon().removeStyleName("off");
 //			view.getImgIcon().removeStyleName("unknown");
 //			view.getImgIcon().addStyleName("on");
@@ -164,18 +200,54 @@ public class SensorDriverPresenter extends DevicePresenter {
 //			view.getImgIcon().removeStyleName("off");
 //			view.getImgIcon().addStyleName("unknown");
 		}
+		
+		if (Boolean.TRUE.equals(player.getStatus().getValue())) {
+			if (player.getStatus().getTrack() != null && !player.getStatus().getTrack().isEmpty()) {
+				view.getLblTime().setText(player.getStatus().getTrack());
+			}
+			else {
+				view.getLblTime().setText(player.getStatus().getTime());
+			}
+			if (StateDto.playing.toString().equals(player.getStatus().getState())) {
+				view.getBtnPlay().setIconType(IconType.PAUSE);
+			}
+			else {
+				view.getBtnPlay().setIconType(IconType.PLAY_ARROW);
+			}
+			view.getBtnStop().setIconColor(Color.YELLOW_LIGHTEN_3);
+			view.getBtnPlay().setIconColor(Color.YELLOW_LIGHTEN_3);
+		}
+		else {
+			view.getBtnPlay().setIconType(IconType.PLAY_ARROW);
+			view.getLblTime().setText(player.getStatus().getTime());
+			view.getBtnStop().setIconColor(Color.GREY_LIGHTEN_3);
+			view.getBtnPlay().setIconColor(Color.GREY_LIGHTEN_3);
+		}
+		view.getLblPlayed().setWidth(player.getStatus().getPosition() + "%");
 	}
 
 	@Override
-	public void updateStatus(StatusDto status) {
-		sensorDriver.getStatus().setValue(status.getValue());
-		sensorDriver.getStatus().setLatestValue(status.getLatestValue());
-		sensorDriver.getStatus().setTime(status.getTime());
+	public void updateStatus(net.ionoff.center.shared.dto.StatusDto status) {
+		player.getStatus().setValue(status.getValue());
+		player.getStatus().setState(status.getState());
+		player.getStatus().setTime(status.getTime());
+		player.getStatus().setTrack(status.getTrack());
+		player.getStatus().setPosition(status.getPosition());
+		displayStatus();
+	}
+
+	private void updateStatus(StatusDto status) {
+		player.getStatus().setValue(true);
+		player.getStatus().setState(status.getState());
+		player.getStatus().setTrack(status.getTitle());
+		if (status.getPosition() > 0) {
+			player.getStatus().setPosition(Math.round(status.getPosition() * 100));
+		}
 		displayStatus();
 	}
 
 	@Override
-	protected SensorDriverView getDeviceView() {
+	protected PlayerSliceView getDeviceView() {
 		return view;
 	}
 }

@@ -1,21 +1,22 @@
-package net.ionoff.center.client.device;
+package net.ionoff.center.client.dashboard;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 import gwt.material.design.client.constants.Color;
 import net.ionoff.center.client.base.AbstractPresenter;
+import net.ionoff.center.client.device.IDeviceView;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.shared.dto.DeviceDto;
 import net.ionoff.center.shared.dto.StatusDto;
 
-public abstract class DevicePresenter extends AbstractPresenter {
+public abstract class DeviceSlicePresenter extends AbstractPresenter {
 
 	private final IRpcServiceProvider rpcService;
 	private final DeviceDto device;
 	private boolean locked; // lock when sending request of control 
 
-	public DevicePresenter(IRpcServiceProvider rpcService, HandlerManager eventBus, DeviceDto device) {
+	public DeviceSlicePresenter(IRpcServiceProvider rpcService, HandlerManager eventBus, DeviceDto device) {
 		super(eventBus);
 		this.setLocked(false);
 		this.rpcService = rpcService;

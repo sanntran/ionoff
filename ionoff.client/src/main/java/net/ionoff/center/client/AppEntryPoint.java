@@ -11,7 +11,6 @@ public class AppEntryPoint implements EntryPoint {
 	
 	@Override
 	public void onModuleLoad() {
-		StorageService.getInstance().loadStorage();
 		AppInjector.INSTANCE.getClientApp().go();
 	}
 }

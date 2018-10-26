@@ -1,6 +1,7 @@
-package net.ionoff.center.client.device;
+package net.ionoff.center.client.dashboard;
 
 import gwt.material.design.client.constants.Color;
+import net.ionoff.center.client.device.RelayView;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -21,12 +22,12 @@ import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.RelayDto;
 import net.ionoff.center.shared.dto.StatusDto;
 
-public class RelayLoadPresenter extends DevicePresenter {
+public class RelayLoadSlicePresenter extends DeviceSlicePresenter {
 
 	private RelayLoadDto relayLoad;
-	private final RelayLoadView view;
+	private final RelayLoadSliceView view;
 
-	public RelayLoadPresenter(IRpcServiceProvider rpcProvider, HandlerManager eventBus, RelayLoadView view, RelayLoadDto appliance) {
+	public RelayLoadSlicePresenter(IRpcServiceProvider rpcProvider, HandlerManager eventBus, RelayLoadSliceView view, RelayLoadDto appliance) {
 		super(rpcProvider, eventBus, appliance);
 		this.view = view;
 		this.relayLoad = appliance;
@@ -52,6 +53,11 @@ public class RelayLoadPresenter extends DevicePresenter {
 		view.setMenuDropdownId(relayLoad.getId());
 		view.getLblName().setText(relayLoad.getName());
 		view.getLblZone().setText(getDevice().getZoneName());
+
+		if (relayLoad.hasOneRelay()) {
+			view.getLblRelay().setText(relayLoad.getRelays().get(0).getName());
+			view.getLblController().setText(relayLoad.getRelays().get(0).getDriverName());
+		}
 		
 		displayStatus();
 		
@@ -144,8 +150,8 @@ public class RelayLoadPresenter extends DevicePresenter {
 				}
 			});
 		}
-		else if (view instanceof RelayLoadView) {
-			RelayLoadView collapsibleView = (RelayLoadView) view;
+		else if (view instanceof RelayLoadSliceView) {
+			RelayLoadSliceView collapsibleView = (RelayLoadSliceView) view;
 			for (RelayDto relay : relayLoad.getRelays()) {
 				RelayView relayView = new RelayView(relay);
 				collapsibleView.getRelayViews().add(relayView);
@@ -353,7 +359,7 @@ public class RelayLoadPresenter extends DevicePresenter {
 	}
 
 	@Override
-	protected RelayLoadView getDeviceView() {
+	protected RelayLoadSliceView getDeviceView() {
 		return view;
 	}
 }

@@ -24,7 +24,7 @@ public class Kookie implements Serializable {
 	public void setJwtToken(String jwtToken) {
 		this.jwtToken = jwtToken;
 	}
-	
+
 	public UserDto getUser() {
 		return user;
 	}
@@ -36,7 +36,7 @@ public class Kookie implements Serializable {
 	public void setProjectId(Long projectId) {
 		this.projectId = projectId;
 	}
-	
+
 	public Long getProjectId() {
 		return projectId;
 	}

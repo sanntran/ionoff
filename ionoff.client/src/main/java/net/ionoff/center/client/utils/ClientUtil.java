@@ -1,10 +1,5 @@
 package net.ionoff.center.client.utils;
 
-import java.util.HashMap;
-
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.ResponseFormatException;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.http.client.Response;
@@ -13,14 +8,17 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Window;
-
 import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.event.ShowMessageEvent;
 import net.ionoff.center.client.event.UserLogOutEvent;
 import net.ionoff.center.client.locale.ClientLocale;
-import net.ionoff.center.client.storage.ApiServer;
 import net.ionoff.center.client.storage.StorageService;
+import net.ionoff.center.shared.cookie.Service;
 import net.ionoff.center.shared.dto.MessageDto;
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.ResponseFormatException;
+
+import java.util.HashMap;
 
 public final class ClientUtil {
 	
@@ -84,7 +82,7 @@ public final class ClientUtil {
 		    }
     		return protocol + "//" + Window.Location.getHostName() + ":" + port;
     	}
-    	ApiServer server = StorageService.getInstance().getEnabledApiServer();
+    	Service server = StorageService.getInstance().getEnabledApiServer();
 		if (server == null) {
 			return "http://cloud.ionoff.net"; 	
 		}

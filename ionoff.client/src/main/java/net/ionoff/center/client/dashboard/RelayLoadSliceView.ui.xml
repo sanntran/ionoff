@@ -19,6 +19,19 @@
 			bottom: 10px;
 			left: 10px;
 		}
+		.lblRelay {
+			font-size: 12px !important;
+			position: absolute;
+			bottom: 24px;
+			right: 15px;
+		}
+		.lblController {
+			font-size: 10px !important;
+			position: absolute;
+			bottom: 20px;
+			right: 15px;
+			line-height: 10px;
+		}
 	</ui:style>
 		
 	<g:HTMLPanel ui:field="root">
@@ -29,6 +42,8 @@
 						<m:MaterialLabel ui:field="lblName" addStyleNames="name" text="-" marginTop="3" fontSize="1.3em"/>
 						<m:MaterialLabel ui:field="lblZone" addStyleNames="zone" text="-" marginTop="5" textColor="GREY_LIGHTEN_2"/>
 						<m:MaterialLabel ui:field="lblTime" addStyleNames="time" text="-" textColor="GREY_LIGHTEN_1"/>
+						<m:MaterialLabel ui:field="lblRelay" addStyleNames="{style.lblRelay}" text="" textColor="GREY_LIGHTEN_1"/>
+						<m:MaterialLabel ui:field="lblController" addStyleNames="{style.lblController}" text="" textColor="GREY_LIGHTEN_1"/>
 					</m:MaterialCollapsibleHeader>
 					<m:MaterialCollapsibleBody backgroundColor="BLUE_GREY_DARKEN_1" marginBottom="10">
 						<m:MaterialCollection ui:field="relayCollection" grid="s12">

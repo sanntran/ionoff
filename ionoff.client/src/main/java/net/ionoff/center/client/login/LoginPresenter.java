@@ -2,6 +2,8 @@ package net.ionoff.center.client.login;
 
 import java.util.List;
 
+import net.ionoff.center.shared.cookie.Kookie;
+import net.ionoff.center.shared.cookie.Service;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -31,11 +33,9 @@ import net.ionoff.center.client.event.UserEnterEvent;
 import net.ionoff.center.client.locale.ClientLocale;
 import net.ionoff.center.client.locale.LoginLocale;
 import net.ionoff.center.client.service.LoginService;
-import net.ionoff.center.client.storage.ApiServer;
 import net.ionoff.center.client.storage.StorageService;
 import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
-import net.ionoff.center.shared.cookie.Kookie;
 import net.ionoff.center.shared.dto.MessageDto;
 
 /**
@@ -78,7 +78,7 @@ public class LoginPresenter {
 			public void onClick(ClickEvent event) {
 				display.asPanel().clear();
 				display.asPanel().add(display.getCardSetting());
-				List<ApiServer> servers = StorageService.getInstance().getServers();
+				List<Service> servers = StorageService.getInstance().getServices();
 				display.getCardSetting().getTbServer1().setText(servers.get(0).getHost());
 				display.getCardSetting().getTbServer2().setText(servers.get(1).getHost());
 				display.getCardSetting().getCbServer1().setValue(servers.get(0).isEnabled());
@@ -175,10 +175,10 @@ public class LoginPresenter {
 			eventBus.fireEvent(new ShowMessageEvent(LoginLocale.getLoginMessages().fieldInvalid(LoginLocale.getLoginConst().server() + " 2"), ShowMessageEvent.ERROR));
 			return;
 		}
-		StorageService.getInstance().getServers().get(0).setHost(server1);
-		StorageService.getInstance().getServers().get(0).setEnabled(server1Enabled);
-		StorageService.getInstance().getServers().get(1).setHost(server2);
-		StorageService.getInstance().getServers().get(1).setEnabled(server2Enabled);
+		StorageService.getInstance().getServices().get(0).setHost(server1);
+		StorageService.getInstance().getServices().get(0).setEnabled(server1Enabled);
+		StorageService.getInstance().getServices().get(1).setHost(server2);
+		StorageService.getInstance().getServices().get(1).setEnabled(server2Enabled);
 		StorageService.getInstance().saveServers();
 		
 		String url = ClientUtil.getClientUrl();
@@ -213,11 +213,13 @@ public class LoginPresenter {
 		}
 		
 		if (!validateUserName(userName)) {
-			eventBus.fireEvent(new ShowMessageEvent(LoginLocale.getLoginMessages().fieldInvalid(LoginLocale.getLoginConst().userName()), ShowMessageEvent.ERROR));
+			eventBus.fireEvent(new ShowMessageEvent(LoginLocale.getLoginMessages()
+					.fieldInvalid(LoginLocale.getLoginConst().userName()), ShowMessageEvent.ERROR));
 			return;
 		}
 		if (!validateUserPass(password)) {
-			eventBus.fireEvent(new ShowMessageEvent(LoginLocale.getLoginMessages().fieldInvalid(LoginLocale.getLoginConst().password()), ShowMessageEvent.ERROR));
+			eventBus.fireEvent(new ShowMessageEvent(LoginLocale.getLoginMessages()
+					.fieldInvalid(LoginLocale.getLoginConst().password()), ShowMessageEvent.ERROR));
 			return;
 		}
 		else {
@@ -225,7 +227,8 @@ public class LoginPresenter {
 				login(userName, password, rememberPass);
 			}
 			catch (final Exception e) {
-				eventBus.fireEvent(new ShowMessageEvent(LoginLocale.getLoginMessages().fieldInvalid(LoginLocale.getLoginConst().userName()), ShowMessageEvent.ERROR));
+				eventBus.fireEvent(new ShowMessageEvent(LoginLocale.getLoginMessages()
+						.fieldInvalid(LoginLocale.getLoginConst().userName()), ShowMessageEvent.ERROR));
 			}
 		}
 		

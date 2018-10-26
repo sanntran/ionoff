@@ -1,8 +1,6 @@
 package net.ionoff.center.client.storage;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.github.nmorel.gwtjackson.client.ObjectMapper;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
@@ -10,22 +8,27 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.storage.client.Storage;
-
-import com.google.web.bindery.autobean.shared.AutoBean;
 import net.ionoff.center.shared.cookie.Kookie;
-import net.ionoff.center.shared.dto.UserDto;
+import net.ionoff.center.shared.cookie.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StorageService {
 
 	private static StorageService instance;
-	
+
+	public interface KookieMapper extends ObjectMapper<Kookie> {}
+	public static KookieMapper kookieMapper = GWT.create( KookieMapper.class );
+
 	private Kookie cookie;
-	private List<ApiServer> servers;
+	private List<Service> services;
 	
 	private Storage storage;
 
 	private final String KOOKIE = "kookie";
-	private final String SERVERS = "servers";
+	private final String SERVICES = "services";
+	private final String PROJECTS = "projects";
 	private final String ZONES = "zones";
 	private final String DEVICES = "devices";
 	private final String MODES = "modes";
@@ -34,9 +37,9 @@ public class StorageService {
 	public void loadStorage() {
 		storage = Storage.getLocalStorageIfSupported();
 		if (storage != null) {
-			String serversJson = storage.getItem(SERVERS);
-			if (serversJson != null) {
-				servers = toServers(serversJson);
+			String servicesJson = storage.getItem(SERVICES);
+			if (servicesJson != null) {
+				services = toServices(servicesJson);
 			}
 			else {
 				initDefaultServer();
@@ -56,57 +59,48 @@ public class StorageService {
 		}
 	}
 
-	private List<ApiServer> toServers(String serversJson) {
-		servers = new ArrayList<>();
+	private List<Service> toServices(String serversJson) {
+		services = new ArrayList<>();
 		try {
 			JSONArray jsonArr = (JSONArray) JSONParser.parseStrict(serversJson);
 			for (int i = 0; i < jsonArr.size(); i++) {
 				JSONObject jsObj = (JSONObject) jsonArr.get(i);
-				ApiServer server = new ApiServer();
-				server.setHost(jsonValueToString(jsObj.get(ApiServer.HOST)));
-				server.setEnabled(jsonValueToBoolean(jsObj.get(ApiServer.ENABLED)));
-				servers.add(server);
+				Service server = new Service();
+				server.setHost(jsonValueToString(jsObj.get(Service.HOST)));
+				server.setEnabled(jsonValueToBoolean(jsObj.get(Service.ENABLED)));
+				services.add(server);
 			}
 		}
 		catch (Exception e) {
-			GWT.log("Error when create servers fron json: " + serversJson, e);
+			GWT.log("Error when create services fron json: " + serversJson, e);
 			GWT.log(e.getMessage(), e);
 		}
-		return servers;
+		return services;
 	}
 
 	private void initDefaultServer() {
-		servers = new ArrayList<>();
-		servers.add(new ApiServer("cloud.ionoff.net", true));
-		servers.add(new ApiServer("192.168.1.252:8008", false));
+		services = new ArrayList<>();
+		services.add(new Service("cloud.ionoff.net", true));
+		services.add(new Service("192.168.1.252:8008", false));
 	}
 
 	public static String toString(Kookie kookie) {
 		if (kookie == null) {
 			return null;
 		}
-		JSONObject jsonObj = new JSONObject();
-		String userName = null;
-		if (kookie.getUser() != null) {
-			userName = kookie.getUser().getName();
-		}
-		putJsonValue(jsonObj, Kookie.USER_NAME, String.valueOf(userName));
-		putJsonValue(jsonObj, Kookie.JWT_TOKEN, kookie.getJwtToken());
-		putJsonValue(jsonObj, Kookie.PROJECT_ID, String.valueOf(kookie.getProjectId()));
-		putJsonValue(jsonObj, Kookie.PROJECT_ID, String.valueOf(kookie.getProjectId()));
-		putJsonValue(jsonObj, Kookie.HISTORY_TOKEN, String.valueOf(kookie.getHistoryToken()));
-		return jsonObj.toString();
+		String json = kookieMapper.write(kookie);
+		return json;
 	}
 	
-	public static String toString(List<ApiServer> servers) {
+	public static String toString(List<Service> servers) {
 		if (servers == null) {
 			return null;
 		}
 		JSONArray jsonArr = new JSONArray();
 		for (int i = 0; i < servers.size(); i ++) {
 			JSONObject jsonObj = new JSONObject();
-			putJsonValue(jsonObj, ApiServer.HOST, String.valueOf(servers.get(i).getHost()));
-			putJsonValue(jsonObj, ApiServer.ENABLED, String.valueOf(servers.get(i).isEnabled()));
+			putJsonValue(jsonObj, Service.HOST, String.valueOf(servers.get(i).getHost()));
+			putJsonValue(jsonObj, Service.ENABLED, String.valueOf(servers.get(i).isEnabled()));
 			jsonArr.set(i, jsonObj);
 		}
 		return jsonArr.toString();
@@ -119,21 +113,8 @@ public class StorageService {
 	}
 
 	public static Kookie toKookie(String json) {
-		Kookie kookie = new Kookie();
-		try {
-			JSONObject jsonObj = (JSONObject) JSONParser.parseStrict(json);
-			UserDto user = new UserDto();
-			user.setName(jsonValueToString(jsonObj.get(Kookie.USER_NAME)));
-			kookie.setUser(user);
-			kookie.setProjectId(jsonValueToLong(jsonObj.get(Kookie.PROJECT_ID)));
-			kookie.setJwtToken(jsonValueToString(jsonObj.get(Kookie.JWT_TOKEN)));
-			kookie.setHistoryToken(jsonValueToString(jsonObj.get(Kookie.HISTORY_TOKEN)));
-			return kookie;
-		}
-		catch (Exception e) {
-			GWT.log("Error when create cookie fron json: " + json, e);
-			return kookie;
-		}
+		Kookie cookie = kookieMapper.read( json );
+		return cookie;
 	}
 	
 	private static boolean jsonValueToBoolean(JSONValue jsonValue) {
@@ -187,12 +168,12 @@ public class StorageService {
 	}
 
 
-	public List<ApiServer> getServers() {
-		return this.servers;
+	public List<Service> getServices() {
+		return this.services;
 	}
 	
-	public ApiServer getEnabledApiServer() {
-		for (ApiServer server : servers) {
+	public Service getEnabledApiServer() {
+		for (Service server : services) {
 			if (server.isEnabled()) {
 				return server;
 			}
@@ -201,9 +182,9 @@ public class StorageService {
 	}
 
 	public void saveServers() {
-		if (this.servers != null && servers.size() == 2 && storage != null) {
-			String serversJson = toString(servers);
-			storage.setItem(SERVERS, serversJson);
+		if (this.services != null && services.size() == 2 && storage != null) {
+			String serversJson = toString(services);
+			storage.setItem(SERVICES, serversJson);
 		}
 	}
 
@@ -213,6 +194,5 @@ public class StorageService {
 		}
 		return instance;
 	}
-
 
 }

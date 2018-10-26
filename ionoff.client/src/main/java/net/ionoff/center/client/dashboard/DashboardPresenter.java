@@ -1,24 +1,12 @@
 package net.ionoff.center.client.dashboard;
 
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Panel;
-import gwt.material.design.client.ui.MaterialCard;
-import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialRow;
 import net.ionoff.center.client.base.AbstractPresenter;
-import net.ionoff.center.client.device.DevicePresenter;
-import net.ionoff.center.client.device.PlayerPresenter;
-import net.ionoff.center.client.device.PlayerView;
-import net.ionoff.center.client.device.RelayLoadPresenter;
-import net.ionoff.center.client.device.RelayLoadView;
-import net.ionoff.center.client.event.ChangeTokenEvent;
 import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.utils.AppToken;
@@ -46,7 +34,7 @@ public class DashboardPresenter extends AbstractPresenter {
 	private IRpcServiceProvider rpcService;
 	private Timer timer;
 	private Display display;
-	private final List<DevicePresenter> devicePresenters;
+	private final List<DeviceSlicePresenter> devicePresenters;
 	private final List<ZonePresenter> zonePresenters;
 	private int updatingDashboard = 0;
 	
@@ -135,16 +123,16 @@ public class DashboardPresenter extends AbstractPresenter {
 	}
 
 	private void showMediaPlayer(MediaPlayerDto player) {
-		PlayerView playerView = new PlayerView();
-		PlayerPresenter playerPresenter = new PlayerPresenter(rpcService, eventBus, playerView, player);
+		PlayerSliceView playerView = new PlayerSliceView();
+		PlayerSlicePresenter playerPresenter = new PlayerSlicePresenter(rpcService, eventBus, playerView, player);
 		playerPresenter.go();
 		devicePresenters.add(playerPresenter);
 		playerPresenter.show(display.getWrapper());
 	}
 
 	private void showRelayLoad(RelayLoadDto relayLoad) {
-		RelayLoadView relayLoadView = new RelayLoadView();
-		RelayLoadPresenter relayLoadPresenter = new RelayLoadPresenter(rpcService, eventBus, relayLoadView, relayLoad);
+		RelayLoadSliceView relayLoadView = new RelayLoadSliceView();
+		RelayLoadSlicePresenter relayLoadPresenter = new RelayLoadSlicePresenter(rpcService, eventBus, relayLoadView, relayLoad);
 		relayLoadPresenter.go();
 		devicePresenters.add(relayLoadPresenter);
 		relayLoadPresenter.show(display.getWrapper());
@@ -192,7 +180,7 @@ public class DashboardPresenter extends AbstractPresenter {
 		updatingDashboard = updatingDashboard - 1;
 	}
 
-	private void updateDeviceStatus(DevicePresenter devicePresenter, List<DeviceDto> devices) {
+	private void updateDeviceStatus(DeviceSlicePresenter devicePresenter, List<DeviceDto> devices) {
 		if (devicePresenter.isLocked()) {
 			return;
 		}

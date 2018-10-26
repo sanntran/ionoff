@@ -414,7 +414,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 .main nav .nav-wrapper .btnTitle p {
 	margin: 0px;
     position: absolute;
-    line-height: 10px;
+    line-height: 11px;
     bottom: 11px;
     width: 100%;
     color: #b2bfc5;

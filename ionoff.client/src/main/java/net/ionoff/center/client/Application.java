@@ -1,5 +1,10 @@
 package net.ionoff.center.client;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.RootPanel;
 import org.fusesource.restygwt.client.Defaults;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
@@ -22,29 +27,63 @@ import net.ionoff.center.client.utils.TokenUtil;
 import net.ionoff.center.shared.cookie.Kookie;
 import net.ionoff.center.shared.dto.ProjectDto;
 
+import java.util.HashMap;
+
 /**
  * @author Sann Tran
  */
-public class Application extends AbstractApp {
-	
+public class Application implements IClientApp, ValueChangeHandler<String> {
+
+	protected IRpcServiceProvider rpcProvider;
+
+	@Inject
+	protected HandlerManager eventBus;
+
+	@Inject
+	protected IAppEventHandler eventHandler;
+
 	@Inject
 	protected IAppController appController;
-	
+
 	@Inject
 	protected RestyGwtConfig restyGwtConfig;
-	
+
 	@Inject
 	public Application(IRpcServiceProvider rpcService) {
-		super(rpcService);
+		this.rpcProvider = rpcProvider;
 	}
-	
+
+	@Override
+	public void onValueChange(ValueChangeEvent<String> event) {
+		if (TokenUtil.getSourceChangeTokenEvent() == true) {
+			handleHistoryTokenChanged();
+		}
+	}
+
+	@Override
+	public HashMap<String, String> getParamsMap(String procedure) {
+		return ClientUtil.getParamsMap(eventBus, procedure);
+	}
+
+	@Override
+	public String getBaseUrl() {
+		return GWT.getModuleBaseURL().replaceAll((GWT.getModuleName() + "/"), "");
+	}
+
 	@Override
 	public void go() {
 		eventHandler.bind();
 		History.addValueChangeHandler(this);
-		
 		Defaults.setDispatcher(restyGwtConfig.getDispatcher());
-		
+
+		try {
+			StorageService.getInstance().loadStorage();
+		} catch (Exception e) {
+			GWT.log("Error loading local storage: " + e.getMessage(), e);
+			appController.showLogin();
+			return;
+		}
+
 		if (StorageService.getInstance().getCookie().getJwtToken() == null) {
 			if (AppToken.LOGIN.equals(AppToken.getToken())) {
 				appController.showLogin();
@@ -55,35 +94,8 @@ public class Application extends AbstractApp {
 			}
 		}
 		else {
-			rpcProvider.getLoginService().requestAuthen(StorageService.getInstance().getCookie().getProjectId(), new MethodCallback<Kookie>() {
-				@Override
-				public void onFailure(Method method, Throwable exception) {
-					if (method.getResponse().getStatusCode() == Response.SC_UNAUTHORIZED) {
-						// Does not show message
-					}
-					else {
-						ClientUtil.handleRpcFailure(method, exception, eventBus);
-					}
-					if (AppToken.LOGIN.equals(History.getToken())) {
-						appController.showLogin();
-					}
-					else {
-						eventBus.fireEvent(new ChangeTokenEvent(AppToken.LOGIN));
-					}
-				}
-				@Override
-				public void onSuccess(Method method, Kookie response) {
-					if (response.getProjectId() == null) {
-						eventBus.fireEvent(new ShowMessageEvent(ClientLocale.getClientMessage().noProject(),ShowMessageEvent.ERROR));
-					}
-					else {
-						StorageService.getInstance().setCookie(response);
-						StorageService.getInstance().writeCookie();
-						eventBus.fireEvent(new UserEnterEvent());
-						startApplication();
-					}
-				}
-			});
+			eventBus.fireEvent(new UserEnterEvent());
+			startApplication();
 		}
 	}
 	
