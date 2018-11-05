@@ -36,16 +36,16 @@ public class BaseDto implements IDto, Comparable<BaseDto> {
 	}
 	
 	public static String formatNameID(String name, Long id) {
-		return name + " [#" + id + "]";
+		return name + " #" + id;
 	}
 	
 	public static Long parseIdFromFormattedNameID(String formattedNameID) {
-		String id = formattedNameID.split(" \\[#")[1].replaceAll("\\]", "");
+		String id = formattedNameID.split(" #")[1];
 		return Long.parseLong(id);
 	}
 
 	public static String parseNameFromFormattedNameID(String formattedNameID) {
-		return formattedNameID.split(" \\[#")[0];
+		return formattedNameID.split(" #")[0];
 	}
 
 	@Override

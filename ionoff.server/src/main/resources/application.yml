@@ -16,7 +16,7 @@ hibernate:
     dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     connection.driver_class: com.mysql.jdbc.Driver
     connection.username: root
-    connection.password: root
+    connection.password: ionoff$db
     show_sql: false;
 
 service.notify.url: http://service.ionoff.net/inotify

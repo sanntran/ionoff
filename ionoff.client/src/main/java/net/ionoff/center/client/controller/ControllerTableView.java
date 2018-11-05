@@ -34,11 +34,11 @@ public class ControllerTableView extends AbstractTableView<ControllerDto> implem
 		nameColumn = createNameColumn();
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
+		cellTable.setColumnWidth(nameColumn, COLUMN_NAME_WIDTH, Unit.PX);
 
 		statusColumn =  createStatusColumn();
 		statusColumn.setSortable(true);
 		cellTable.addColumn(statusColumn, AdminLocale.getAdminConst().status());
-		cellTable.setColumnWidth(statusColumn, 100.0, Unit.PX);
 
 		editColumn =  createEditColumn();
 		cellTable.addColumn(editColumn, "");

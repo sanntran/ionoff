@@ -146,10 +146,10 @@ public class PlayerPresenter extends AbstractPresenter  {
 		syncStatusTimer = new Timer() {
 			@Override
 			public void run() {
-				if (!PlayToken.getTokenPlayerId().equals(playerId + "")) {
-					cancelTimers();
-				}
-				getStatus();
+			if (!(playerId + "").equals(PlayToken.getTokenPlayerId())) {
+				cancelTimers();
+			}
+			getStatus();
 			}
 		};
 		syncStatusTimer.scheduleRepeating(PLAYER_SYNC_STATUS);

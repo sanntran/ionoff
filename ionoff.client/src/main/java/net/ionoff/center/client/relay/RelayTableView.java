@@ -37,18 +37,19 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 		nameColumn = createNameColumn();
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
-		cellTable.setColumnWidth(nameColumn, 100, Unit.PX);
+		cellTable.setColumnWidth(nameColumn, COLUMN_NAME_WIDTH, Unit.PX);
 		
 		driverColumn =  createDriverColumn();
 		driverColumn.setSortable(true);
 		cellTable.addColumn(driverColumn, AdminLocale.getAdminConst().controller());
-		
+
 		deviceColumn =  createDeviceColumn();
 		deviceColumn.setSortable(true);
 		cellTable.addColumn(deviceColumn, AdminLocale.getAdminConst().device());
 		
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");
+		cellTable.setColumnWidth(editColumn, COLUMN_EDIT_WIDTH, Unit.PX);
 
 		return cellTable;
 	}

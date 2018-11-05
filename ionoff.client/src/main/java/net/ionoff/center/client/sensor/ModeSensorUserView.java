@@ -9,17 +9,12 @@ import net.ionoff.center.shared.dto.ModeSensorUserDto;
 
 public class ModeSensorUserView extends FlowPanel implements ModeSensorUserPresenter.Display {
 	
-	private final Label lblUserIcon;
 	private final Label lblUserName;
 	private final CheckBox checkBoxSendSms;
 	private final CheckBox checkBoxSendEmail;
 	
 	public ModeSensorUserView(ModeSensorUserDto modeSensorUser) {
 		setStyleName("modeSensorUser");
-		
-		lblUserIcon = new Label();
-		lblUserIcon.setStyleName("userIcon");
-		add(lblUserIcon);
 		
 		lblUserName = new Label(modeSensorUser.getUserName());
 		lblUserName.setStyleName("userName");

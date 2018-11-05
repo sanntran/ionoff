@@ -31,10 +31,6 @@ public class SceneDeviceView extends MaterialCollapsibleItem implements SceneDev
 		
 		MaterialCollectionItem headerContent = new MaterialCollectionItem();
 		
-		Label deviceIcon = new Label();
-		deviceIcon.setStyleName("icon " + getStyle(sceneDevice.getDevice()));
-		headerContent.add(deviceIcon);
-		
 		MaterialLabel deviceLbl = new MaterialLabel(BaseDto.formatNameID(sceneDevice.getDevice()));
 		deviceLbl.setFontSize("15px");
 		headerContent.add(deviceLbl);

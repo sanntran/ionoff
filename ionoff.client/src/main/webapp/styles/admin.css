@@ -206,7 +206,7 @@
 }
 
 .main .content .table .edit .body .sceneDevices .deviceActions .collection-item {
-	padding: 10px 0px 10px 45px !important;
+	padding: 10px 0px 10px 0px !important;
 }
 
 .main .content .table .edit .body .collection-item.userProject span,
@@ -528,16 +528,12 @@
 .main .content .table .edit .body .userRoles .collapsible-header.area {
     height: 40px;
     padding-top: 5px;
-    background: url(images/system_icons_dark.png) left -40px no-repeat #f9f9f9;
+    background: url(images/.content .editcons_dark.png) left -40px no-repeat #f9f9f9;
 }
 
 .main .content .table .edit .body .userRoles .collapsible-header .collection-item {
     padding: 10px 0px !important;
     background: transparent;
-}
-
-.main .content .table .edit .body .userRoles .collapsible-header.zone {
-    background: url(images/system_icons_dark.png) left -75px no-repeat #f9f9f9;
 }
 
 .main .content .table .edit .body .sceneDevices .collapsible-header {
@@ -551,11 +547,11 @@
 
 .main .content .table .edit .body .deviceSelection .collapsible-header .collection-item {
 	line-height: inherit;
-	padding: 10px 0px 10px 45px;	
+	padding: 10px 0px 10px 0px;
 }
 
 .main .content .table .edit .body .deviceSelection .collection-item {
-    padding: 15px 0px 15px 45px;
+    padding: 15px 0px 15px 5px;
     position: relative;
 }
  
@@ -573,7 +569,7 @@
 }
 
 .main .content .table .edit .body .userZone .collapsible-body {
-    padding: 0px 10px 0px 35px;
+    padding: 0px 10px 0px 10px;
     background-color: #f2f2f2
 }
 
@@ -599,15 +595,6 @@
 	 margin-bottom: 10px;
 }
 
-.main .content .table .edit .body .deviceSelection .collapsible-header .icon.zone,  
-		.table .edit .body .userRoles .collapsible-header .icon.zone {
-	height: 40px;
-    width: 40px;
-    left: 0px;
-    position: absolute;
-	background: url(images/system_icons_dark.png) left -80px no-repeat #f9f9f9;
-}
-
 .main .content .table .edit .body .deviceSelection  .clear {
 	position: absolute;
 	right: 0px;
@@ -615,33 +602,6 @@
 	width: 50px;
 	padding-left: 15px;
 }
-
-.main .content .table .edit .body .zoneSelection .gwt-Tree .treeItem.area {
-	background: #f2f2f2;
-	border-bottom: 1px solid #e0e0e0;
-}
-.main .content .table .edit .body .zoneSelection .gwt-Tree .treeItem.area img {
-	width: 40px !important;
-	height: 40px !important;
-	background: url(images/system_icons_dark.png) left -40px no-repeat !important;
-}
-.main .content .table .edit .body .zoneSelection .gwt-Tree .treeItem.zone {
-	margin: 0px !important;
-	padding: 0px 0px 0px 5px !important;
-	background: #fff;
-	border-bottom: 1px solid #f2f2f2;
-}
-.main .content .table .edit .body .zoneSelection .gwt-Tree .treeItem.zone .gwt-TreeItem {
-	display: block !important;
-	padding: 15px 0px 12px 45px;
-	background: url(images/system_icons_dark.png) left -80px no-repeat;
-}
-.main .content .table .edit .body .zoneSelection .gwt-Tree .treeItem.zone .gwt-TreeItem.gwt-TreeItem-selected{
-	background: url(images/system_icons_dark.png) left -80px no-repeat !important;
-}
-
-/** Styte the loading image to prevent scroll-x */
-
 .celltable table tbody tr td div div div {
 	width: auto !important; 
 }
@@ -696,11 +656,11 @@
 }
 	
 .main .content .table.scenes .edit .relayAction {
-	padding: 0px 5px 0px 45px;
+	padding: 0px 0px 0px 0px;
 }
 
 .main .content .table.schedules .edit .relayAction {
-	padding: 0px 5px 0px 5px;
+	padding: 0px 0px 0px 0px;
 }
 
 .main .content .table.schedules .edit .checkBoxActive {
@@ -709,23 +669,10 @@
     margin-bottom: 15px;
 }
 
-.main .content .table .edit .relayAction .icon {
-	display: inline-block;
-	width: 40px;
-	height: 40px;
-	float: left;
-    position: relative;
-    top: 6px;
-}
-
-.main .content .table .edit .relayAction .icon.relay {
-	background: url(images/relay_status.png) center 0px no-repeat;
-}
-
 .main .content .table .edit .relayAction .name { 
 	display: inline-block;
     line-height: 35px;
-    padding: 10px 10px;
+    padding: 10px 0px;
     width: 50%;
 }
 
@@ -736,7 +683,7 @@
     float: right;
     height: 30px;
     padding-top: 0px;
-    width: calc(50% - 50px);
+    width: 50%;
 }
 .main .content .table .edit .relayAction .listBox .select-wrapper {
 	margin-bottom: 0px;
@@ -761,10 +708,6 @@
 	width: 40px;
 	height: 40px;
 	float: left;
-}
-
-.main .content .table .edit .playerAction .icon.player {
-	background: url(images/player_status.png) center 0px no-repeat;
 }
 
 .main .content .table .edit .playerAction .lbl {
@@ -857,21 +800,6 @@
 	float: right;
 }
 
-.main .content .table .edit .body .sceneDevices .deviceActions .icon {
-	position: absolute;
-    left: 0px;
-    width: 40px;
-    height: 40px;
-    top: 10px;
-}
-.main .content .table .edit .body .sceneDevices .deviceActions .collapsible-header .icon {
-	position: absolute;
-    left: 0px;
-    width: 40px;
-    height: 40px;
-    top: 5px
-} 
-
 .main .content .table .edit .body .sceneDevices .deviceActions .collapsible-body .lbl {
 	margin-top: 10px;
 }
@@ -918,20 +846,12 @@
 	border-bottom: 1px solid #e6e6e6;
 }
 
-.main .content .table.modes .edit .modeScene .zoneIcon {
-	width: 40px;
-	height: 40px;
-	display: inline-block;
-	float: left;
-	background: url(images/system_icons_dark.png) center -40px no-repeat;
-}
-
 .main .content .table.modes .edit .modeScene .zoneName {
 	display: inline-block;
-	padding: 0px 5px;
+	padding: 0px 5px 0px 0px;
 	position: relative;
 	line-height: 45px;
-	width: calc(50% - 40px);
+	width: 50%;
 }
 
 .main .content .table.modes .edit .modeScene .listBox {
@@ -1016,14 +936,6 @@
 	border-bottom: 1px solid #e0e0e0;
 }
 
-.main .content .table.sensors .edit .modeSensor .modeSensorScene .zoneIcon {
-	width: 40px;
-	height: 40px;
-	display: inline-block;
-	float: left;
-	background: url("images/system_icons_dark.png") no-repeat scroll center -40px transparent;
-}
-
 .main .content .table.sensors .edit .modeSensor .modeSensorScene .zoneName {
 	display: inline-block;
 	padding: 0px 5px;
@@ -1060,19 +972,9 @@
 	position: relative;
 }
 
-.main .content .table.sensors .edit .modeSensor .modeSensorUser .userIcon {
-	position: absolute;
-	top: 0px;
-	width: 40px;
-	height: 40px;
-	display: inline-block;
-	float: left;
-	background: url("images/system_icons_dark.png") no-repeat scroll center -280px transparent;
-}
-
 .main .content .table.sensors .edit .modeSensor .modeSensorUser .userName {
 	display: inline-block;
-	padding-left: 40px;
+	padding-left: 5px;
 	position: relative;
 	width: 35%;
 }

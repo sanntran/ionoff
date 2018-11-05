@@ -7,18 +7,13 @@ import gwt.material.design.client.ui.MaterialListBox;
 
 public class ModeSceneView extends FlowPanel implements ModeScenePresenter.Display {
 	
-	private final Label lblZoneIcon;
 	private final Label lblZoneName;
 	private final MaterialListBox listBoxScenes;
 	
 	public ModeSceneView() {
 		
 		setStyleName("modeScene");
-		
-		lblZoneIcon = new Label();
-		lblZoneIcon.setStyleName("zoneIcon");
-		add(lblZoneIcon);
-		
+
 		lblZoneName = new Label();
 		lblZoneName.addStyleName("zoneName");
 		add(lblZoneName);

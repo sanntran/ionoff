@@ -108,10 +108,6 @@ public class DevicesSelectionPanel extends FlowPanel {
 				
 				MaterialCollectionItem zoneHeaderContent = new MaterialCollectionItem();
 				
-				MaterialLabel zoneIcon = new MaterialLabel();
-				zoneIcon.setStyleName("icon zone");
-				zoneHeaderContent.add(zoneIcon);
-				
 				MaterialLabel zoneLbl = new MaterialLabel(BaseDto.formatNameID(zone));
 				zoneLbl.setFontSize("15px");
 				zoneHeaderContent.add(zoneLbl);

@@ -34,6 +34,7 @@ public class ModeTableView extends AbstractTableView<ModeDto> implements ModeTab
 		nameColumn = createNameColumn();
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
+		cellTable.setColumnWidth(nameColumn, COLUMN_NAME_WIDTH, Unit.PX);
 
 		orderColumn = createOrderColumn();
 		orderColumn.setSortable(true);
@@ -42,7 +43,6 @@ public class ModeTableView extends AbstractTableView<ModeDto> implements ModeTab
 		
 		isScheduledColumn =  createIsScheduledColumn();
 		cellTable.addColumn(isScheduledColumn, AdminLocale.getAdminConst().schedule());
-		cellTable.setColumnWidth(isScheduledColumn, 70, Unit.PX);
 
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");

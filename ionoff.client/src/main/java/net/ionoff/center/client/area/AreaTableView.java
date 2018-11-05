@@ -32,10 +32,10 @@ public class AreaTableView extends AbstractTableView<AreaDto> implements AreaTab
 		nameColumn = createNameColumn();
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
-		
+		cellTable.setColumnWidth(editColumn, COLUMN_NAME_WIDTH, Unit.PX);
+
 		orderColumn = createOrderColumn();
 		orderColumn.setSortable(true);
-		cellTable.setColumnWidth(orderColumn, 80, Unit.PX);
 		cellTable.addColumn(orderColumn, AdminLocale.getAdminConst().order());
 		
 		editColumn = createEditColumn();

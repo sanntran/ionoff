@@ -1,25 +1,17 @@
 package net.ionoff.center.client.device;
 
-import gwt.material.design.client.constants.Color;
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.MethodCallback;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
-
 import net.ionoff.center.client.event.ShowLoadingEvent;
-import net.ionoff.center.client.event.ShowMessageEvent;
-import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.service.IRpcServiceProvider;
-import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
-import net.ionoff.center.shared.dto.RelayLoadDto;
-import net.ionoff.center.shared.dto.DeviceDto;
-import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.RelayDto;
+import net.ionoff.center.shared.dto.RelayLoadDto;
 import net.ionoff.center.shared.dto.StatusDto;
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 public class RelayLoadSlicePresenter extends DeviceSlicePresenter {
 
