@@ -33,9 +33,9 @@ public class DeviceDto extends BaseDto {
 		return order;
 	}
 
-    public String getStyle() {
-        return "device";
-    }
+	public String styleName() {
+		return "devices_other";
+	}
 
     public void setOrder(Integer order) {
 		this.order = order;

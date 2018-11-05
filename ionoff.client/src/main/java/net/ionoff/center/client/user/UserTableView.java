@@ -31,10 +31,6 @@ public class UserTableView extends AbstractTableView<UserDto> implements SystemU
 	public CellTable<UserDto> createCellTable() {
 		CellTable<UserDto> cellTable = new CellTable<UserDto>();
 		
-		TextColumn<UserDto> idColumn = createIdColumn();
-		cellTable.addColumn(idColumn, ID);
-		cellTable.setColumnWidth(idColumn, COLUMN_ID_WIDTH, Unit.PX);
-
 		nameColumn = createNameColumn();
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
@@ -42,11 +38,11 @@ public class UserTableView extends AbstractTableView<UserDto> implements SystemU
 		
 		fullNameColumn = createFullNameColumn();
 		cellTable.addColumn(fullNameColumn, AdminLocale.getAdminConst().fullName());
-		cellTable.setColumnWidth(fullNameColumn, COLUMN_NAME_WIDTH, Unit.PX);
-		
+
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");
-		
+		cellTable.setColumnWidth(editColumn, COLUMN_EDIT_WIDTH, Unit.PX);
+
 		return cellTable;
 	}
 	

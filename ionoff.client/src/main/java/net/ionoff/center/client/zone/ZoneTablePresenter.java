@@ -158,10 +158,10 @@ public class ZoneTablePresenter extends AbstractTablePresenter<ZoneDto>{
 	
 	@Override
 	protected String getSortByField(int columnIndex) {
-		if (columnIndex == 2) {
+		if (columnIndex == 1) {
 			return ZoneDto.ORDER;
 		}
-		if (columnIndex == 3) {
+		if (columnIndex == 2) {
 			return ZoneDto.AREA;
 		}
 		return BaseDto.NAME;

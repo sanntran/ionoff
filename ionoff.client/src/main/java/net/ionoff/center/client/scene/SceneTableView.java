@@ -31,29 +31,25 @@ public class SceneTableView extends AbstractTableView<SceneDto> implements Scene
 	public CellTable<SceneDto> createCellTable() {
 		CellTable<SceneDto> cellTable = new CellTable<SceneDto>();
 		
-		TextColumn<SceneDto> idColumn = createIdColumn();
-		cellTable.addColumn(idColumn, ID);
-		cellTable.setColumnWidth(idColumn, COLUMN_ID_WIDTH, Unit.PX);
-
 		nameColumn = createNameColumn();
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
 		cellTable.setColumnWidth(nameColumn, COLUMN_NAME_WIDTH, Unit.PX);
 
-		zoneColumn = createZoneColumn();
-		zoneColumn.setSortable(true);
-		cellTable.addColumn(zoneColumn, AdminLocale.getAdminConst().zone());
-		cellTable.setColumnWidth(zoneColumn, 150.0, Unit.PX);
-		
 		orderColumn = createOrderColumn();
 		orderColumn.setSortable(true);
 		cellTable.addColumn(orderColumn, AdminLocale.getAdminConst().order());
-		cellTable.setColumnWidth(orderColumn, 70, Unit.PX);
+		cellTable.setColumnWidth(orderColumn, 50, Unit.PX);
+
+		zoneColumn = createZoneColumn();
+		zoneColumn.setSortable(true);
+		cellTable.addColumn(zoneColumn, AdminLocale.getAdminConst().zone());
 
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");
-		
-		
+		cellTable.setColumnWidth(editColumn, COLUMN_EDIT_WIDTH, Unit.PX);
+
+
 		return cellTable;
 	}
 	

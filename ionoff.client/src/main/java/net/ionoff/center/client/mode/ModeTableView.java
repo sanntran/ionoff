@@ -31,15 +31,10 @@ public class ModeTableView extends AbstractTableView<ModeDto> implements ModeTab
 	public CellTable<ModeDto> createCellTable() {
 		CellTable<ModeDto> cellTable = new CellTable<ModeDto>();
 
-		TextColumn<ModeDto> idColumn = createIdColumn();
-		cellTable.addColumn(idColumn, ID);
-		cellTable.setColumnWidth(idColumn, COLUMN_ID_WIDTH, Unit.PX);
-
 		nameColumn = createNameColumn();
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
-		cellTable.setColumnWidth(nameColumn, COLUMN_NAME_WIDTH, Unit.PX);
-		
+
 		orderColumn = createOrderColumn();
 		orderColumn.setSortable(true);
 		cellTable.addColumn(orderColumn, AdminLocale.getAdminConst().order());
@@ -47,12 +42,12 @@ public class ModeTableView extends AbstractTableView<ModeDto> implements ModeTab
 		
 		isScheduledColumn =  createIsScheduledColumn();
 		cellTable.addColumn(isScheduledColumn, AdminLocale.getAdminConst().schedule());
-		cellTable.setColumnWidth(isScheduledColumn, 125.0, Unit.PX);
-		
-		
+		cellTable.setColumnWidth(isScheduledColumn, 70, Unit.PX);
+
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");
-		
+		cellTable.setColumnWidth(editColumn, COLUMN_EDIT_WIDTH, Unit.PX);
+
 		return cellTable;
 	}
 	

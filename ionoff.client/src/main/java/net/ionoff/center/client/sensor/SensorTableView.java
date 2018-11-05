@@ -16,7 +16,7 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 	
 	private Column<SensorDto, String> nameColumn;
 	private Column<SensorDto, String> orderColumn;
-	private Column<SensorDto, String> deviceColumn;
+	private Column<SensorDto, String> controllerColumn;
 	private Column<SensorDto, String> editColumn;
 	
 	private SensorEditView sensorEditView;
@@ -32,10 +32,6 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 	public CellTable<SensorDto> createCellTable() {
 		CellTable<SensorDto> cellTable = new CellTable<SensorDto>();
 		
-		TextColumn<SensorDto> idColumn = createIdColumn();
-		cellTable.addColumn(idColumn, ID);
-		cellTable.setColumnWidth(idColumn, COLUMN_ID_WIDTH, Unit.PX);
-
 		nameColumn = createNameColumn();
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
@@ -46,14 +42,14 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 		cellTable.addColumn(orderColumn, AdminLocale.getAdminConst().order());
 		cellTable.setColumnWidth(orderColumn, 70, Unit.PX);
 
-		deviceColumn =  createDeviceColumn();
-		deviceColumn.setSortable(true);
-		cellTable.addColumn(deviceColumn, AdminLocale.getAdminConst().controller());
-		cellTable.setColumnWidth(deviceColumn, COLUMN_NAME_WIDTH, Unit.PX);
-		
+		controllerColumn =  createDeviceColumn();
+		controllerColumn.setSortable(true);
+		cellTable.addColumn(controllerColumn, AdminLocale.getAdminConst().controller());
+
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");
-		
+		cellTable.setColumnWidth(editColumn, COLUMN_EDIT_WIDTH, Unit.PX);
+
 		return cellTable;
 	}
 
@@ -86,7 +82,7 @@ public class SensorTableView extends AbstractTableView<SensorDto> implements Sen
 	}
 	@Override
 	public Column<SensorDto, String> getControllerColumn() {
-		return deviceColumn;
+		return controllerColumn;
 	}
 
 	@Override

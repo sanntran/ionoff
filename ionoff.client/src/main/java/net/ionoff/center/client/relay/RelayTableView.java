@@ -34,10 +34,6 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 	public CellTable<RelayDto> createCellTable() {
 		CellTable<RelayDto> cellTable = new CellTable<RelayDto>();
 
-		TextColumn<RelayDto> idColumn = createIdColumn();
-		cellTable.addColumn(idColumn, ID);
-		cellTable.setColumnWidth(idColumn, COLUMN_ID_WIDTH, Unit.PX);
-
 		nameColumn = createNameColumn();
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
@@ -53,8 +49,7 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 		
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");
-		cellTable.setColumnWidth(editColumn, 70, Unit.PX);
-		
+
 		return cellTable;
 	}
 

@@ -121,7 +121,7 @@ public class ControllerTablePresenter extends AbstractTablePresenter<ControllerD
 
 	@Override
 	protected String getSortByField(int columnIndex) {
-		if (columnIndex == 2) {
+		if (columnIndex == 1) {
 			return "connectedTime";
 		}
 		return BaseDto.NAME;

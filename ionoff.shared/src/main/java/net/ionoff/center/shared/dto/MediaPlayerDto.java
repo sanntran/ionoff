@@ -48,7 +48,7 @@ public class MediaPlayerDto extends DeviceDto {
 	}
 
 	@Override
-	public String getStyle() {
-		return "mediaPlayer";
+	public String styleName() {
+		return "play_circle_filled";
 	}
 }

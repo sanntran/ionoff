@@ -29,13 +29,8 @@ public class AreaTableView extends AbstractTableView<AreaDto> implements AreaTab
 	public CellTable<AreaDto> createCellTable() {
 		CellTable<AreaDto> cellTable = new CellTable<AreaDto>();
 		
-		TextColumn<AreaDto> idColumn = createIdColumn();
-		cellTable.addColumn(idColumn, ID);
-		cellTable.setColumnWidth(idColumn, COLUMN_ID_WIDTH, Unit.PX);
-		
 		nameColumn = createNameColumn();
 		nameColumn.setSortable(true);
-		cellTable.setColumnWidth(nameColumn, COLUMN_NAME_WIDTH, Unit.PX);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
 		
 		orderColumn = createOrderColumn();
@@ -45,7 +40,8 @@ public class AreaTableView extends AbstractTableView<AreaDto> implements AreaTab
 		
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");
-		
+		cellTable.setColumnWidth(editColumn, COLUMN_EDIT_WIDTH, Unit.PX);
+
 		return cellTable;
 	}
 	

@@ -14,10 +14,9 @@ import net.ionoff.center.client.ui.ToolBarView;
 import net.ionoff.center.shared.dto.BaseDto;
 
 public abstract class AbstractTableView<T extends BaseDto> extends FlowPanel implements ITableView<T> {
-	protected static final String ID = "ID";
-	protected static final double COLUMN_ID_WIDTH = 30.0;
 	protected static final double COLUMN_NAME_WIDTH = 150.0;
-	
+	protected static final double COLUMN_EDIT_WIDTH = 30.0;
+
 	private ToolBarView toolBarView;
 	private CellTable<T> cellTable;
 	private SimplePager simplePager;
@@ -98,16 +97,6 @@ public abstract class AbstractTableView<T extends BaseDto> extends FlowPanel imp
 		this.dataProvider.addDataDisplay(cellTable);
 	}
 
-	protected TextColumn<T> createIdColumn() {
-		TextColumn<T> column = new TextColumn<T>() {
-			@Override
-			public String getValue(T object) {
-				return getEntityId(object);
-			}
-		};
-		return column;
-	}
-	
 	protected Column<T, String> createNameColumn() {
 		Column<T, String> column =  new TextColumn<T>() {
 			@Override

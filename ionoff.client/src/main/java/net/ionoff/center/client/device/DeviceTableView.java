@@ -31,10 +31,6 @@ public class DeviceTableView extends AbstractTableView<DeviceDto> implements Dev
 	public CellTable<DeviceDto> createCellTable() {
 		CellTable<DeviceDto> cellTable = new CellTable<DeviceDto>();
 
-		TextColumn<DeviceDto> idColumn = createIdColumn();
-		cellTable.addColumn(idColumn, ID);
-		cellTable.setColumnWidth(idColumn, COLUMN_ID_WIDTH, Unit.PX);
-
 		nameColumn = createNameColumn();
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
@@ -43,16 +39,16 @@ public class DeviceTableView extends AbstractTableView<DeviceDto> implements Dev
 		orderColumn =  createOrderColumn();
 		orderColumn.setSortable(true);
 		cellTable.addColumn(orderColumn, AdminLocale.getAdminConst().order());
-		cellTable.setColumnWidth(orderColumn, 80, Unit.PX);
+		cellTable.setColumnWidth(orderColumn, 50, Unit.PX);
 		
 		zoneColumn =  createZoneColumn();
 		zoneColumn.setSortable(true);
 		cellTable.addColumn(zoneColumn, AdminLocale.getAdminConst().zone());
-		cellTable.setColumnWidth(zoneColumn, 16.0, Unit.EM);
-		
+
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");
-		
+		cellTable.setColumnWidth(editColumn, COLUMN_EDIT_WIDTH, Unit.PX);
+
 		return cellTable;
 	}
 	

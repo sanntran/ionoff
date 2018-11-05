@@ -158,10 +158,10 @@ public class RelayTablePresenter extends AbstractTablePresenter<RelayDto>{
 
 	@Override
 	protected String getSortByField(int columnIndex) {
-		if (columnIndex == 2) {
+		if (columnIndex == 1) {
 			return RelayDto.DRIVER;
 		}
-		if (columnIndex == 3) {
+		if (columnIndex == 2) {
 			return RelayDto.DEVICE;
 		}
 		return BaseDto.ID ;

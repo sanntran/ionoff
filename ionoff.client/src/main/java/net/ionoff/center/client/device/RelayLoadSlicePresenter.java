@@ -1,7 +1,6 @@
-package net.ionoff.center.client.dashboard;
+package net.ionoff.center.client.device;
 
 import gwt.material.design.client.constants.Color;
-import net.ionoff.center.client.device.RelayView;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -36,21 +35,10 @@ public class RelayLoadSlicePresenter extends DeviceSlicePresenter {
 	@Override
 	public void show(HasWidgets container) {
 		container.add(view.asPanel());
-		if (AppToken.hasTokenItem(AppToken.DASHBOARD)) {
-			view.getMenuItemAddToProjectDashboard().getParent().setVisible(false);
-			view.getMenuItemAddToZoneDashboard().getParent().setVisible(false);
-			view.getMenuItemRemoveFromDashboard().getParent().setVisible(true);
-		}
-		else {
-			view.getMenuItemAddToProjectDashboard().getParent().setVisible(true);
-			view.getMenuItemAddToZoneDashboard().getParent().setVisible(true);
-			view.getMenuItemRemoveFromDashboard().getParent().setVisible(false);
-		}
 	}
 
 	@Override
 	public void bind() {
-		view.setMenuDropdownId(relayLoad.getId());
 		view.getLblName().setText(relayLoad.getName());
 		view.getLblZone().setText(getDevice().getZoneName());
 
@@ -60,132 +48,45 @@ public class RelayLoadSlicePresenter extends DeviceSlicePresenter {
 		}
 		
 		displayStatus();
-		
-		view.getMenuItemAddToZoneDashboard().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				getRpcProvider().getDeviceService().addToZoneDashboard(
-						relayLoad.getId(), relayLoad.getZoneId(), new MethodCallback<DeviceDto>() {
-					@Override
-					public void onFailure(Method method, Throwable exception) {
-						ClientUtil.handleRpcFailure(method, exception, eventBus);
-					}
-					@Override
-					public void onSuccess(Method method, DeviceDto response) {
-						eventBus.fireEvent(new ShowMessageEvent(AdminLocale.getAdminMessages().updateSuccess(),
-								ShowMessageEvent.SUCCESS));
-					}
-				});
-			}
-		});
-
-		view.getMenuItemAddToProjectDashboard().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				getRpcProvider().getDeviceService().addToProjectDashboard(
-						relayLoad.getId(), relayLoad.getProjectId(), new MethodCallback<MessageDto>() {
-					@Override
-					public void onFailure(Method method, Throwable exception) {
-						ClientUtil.handleRpcFailure(method, exception, eventBus);
-					}
-					@Override
-					public void onSuccess(Method method, MessageDto response) {
-						eventBus.fireEvent(new ShowMessageEvent(AdminLocale.getAdminMessages().updateSuccess(),
-								ShowMessageEvent.SUCCESS));
-					}
-				});
-			}
-		});
-		
-		view.getMenuItemRemoveFromDashboard().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				
-				if (AppToken.hasTokenItem(AppToken.ZONE)) {
-					getRpcProvider().getDeviceService().removeFromZoneDashboard(
-							relayLoad.getId(), relayLoad.getZoneId(), new MethodCallback<MessageDto>() {
-						@Override
-						public void onFailure(Method method, Throwable exception) {
-							ClientUtil.handleRpcFailure(method, exception, eventBus);
-						}
-						@Override
-						public void onSuccess(Method method, MessageDto response) {
-							eventBus.fireEvent(new ShowMessageEvent(AdminLocale.getAdminMessages().updateSuccess(),
-									ShowMessageEvent.SUCCESS));
-							view.asPanel().removeFromParent();
-						}
-					});
-				}
-				else {
-					getRpcProvider().getDeviceService().removeFromProjectDashboard(
-							relayLoad.getId(), relayLoad.getProjectId(), new MethodCallback<MessageDto>() {
-						@Override
-						public void onFailure(Method method, Throwable exception) {
-							ClientUtil.handleRpcFailure(method, exception, eventBus);
-						}
-						@Override
-						public void onSuccess(Method method, MessageDto response) {
-							eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-							view.asPanel().removeFromParent();
-						}
-					});
-				}
-			}
-		});
 
 		if (!relayLoad.hasRelay()) {
+			view.collapsibleBody.setVisible(false);
 			return;
 		}
 
 		if (relayLoad.getRelays().size() == 1) {
+			view.collapsibleBody.setVisible(false);
 			RelayDto relay = relayLoad.getRelays().get(0);
-			if (relay.izAutoRevert()) {
-				view.getBtnSwitch().addStyleName("press");
-			}
 			view.getBtnSwitch().addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					view.getBtnSwitch().setEnabled(false);
 					doSwitch(relay);
 				}
 			});
 		}
-		else if (view instanceof RelayLoadSliceView) {
-			RelayLoadSliceView collapsibleView = (RelayLoadSliceView) view;
+		else {
 			for (RelayDto relay : relayLoad.getRelays()) {
 				RelayView relayView = new RelayView(relay);
-				collapsibleView.getRelayViews().add(relayView);
+				view.getRelayViews().add(relayView);
 				relayView.getBtnSwitch().addClickHandler(new ClickHandler() {
 					@Override
 					public void onClick(ClickEvent event) {
 						doSwitch(relayView);
 					}
 				});
-				collapsibleView.getRelayCollection().add(relayView.asPanel());
+				view.getRelayCollection().add(relayView.asPanel());
 			}
 		}
 
 	}
 
-	/**
-	 * This method apply only for card view
-	 */
 	private void openRelay(final RelayDto relay) {
 		setLocked(true);
 		getRpcProvider().getRelayService().openRelay(relay.getId(), new MethodCallback<StatusDto>() {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
 				setLocked(false);
-				MessageDto message = ClientUtil.handleRpcFailure(method, exception, eventBus);
-				if (MessageDto.ControllerConnectException.equals(message.getCode())) {
-					view.getBtnSwitch().setIconColor(Color.RED_ACCENT_3);
-				}
-				else {
-					relay.setStatus(false);
-					relayLoad.getStatus().setValue(false);
-					displayStatus();
-				}
-				view.getBtnSwitch().setEnabled(true);
+				ClientUtil.handleRpcFailure(method, exception, eventBus);
 			}
 			@Override
 			public void onSuccess(Method method, StatusDto response) {
@@ -195,31 +96,18 @@ public class RelayLoadSlicePresenter extends DeviceSlicePresenter {
 				relay.setTime(response.getTime());
 				relayLoad.getStatus().setValue(response.getValue());
 				relayLoad.getStatus().setTime(response.getTime());
-				view.getBtnSwitch().setEnabled(true);
 				displayStatus();
 			}
 		});
 	}
-	
-	/**
-	 * This method apply only for card view
-	 */
+
 	private void closeRelay(final RelayDto relay) {
 		setLocked(true);
 		getRpcProvider().getRelayService().closeRelay(relay.getId(), new MethodCallback<StatusDto>() {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
 				setLocked(false);
-				MessageDto message = ClientUtil.handleRpcFailure(method, exception, eventBus);
-				if (MessageDto.ControllerConnectException.equals(message.getCode())) {
-					view.getBtnSwitch().setIconColor(Color.GREEN_ACCENT_2);
-				}
-				else {
-					relay.setStatus(true);
-					relayLoad.getStatus().setValue(true);
-					displayStatus();
-				}
-				view.getBtnSwitch().setEnabled(true);
+				ClientUtil.handleRpcFailure(method, exception, eventBus);
 			}
 			@Override
 			public void onSuccess(Method method, StatusDto response) {
@@ -229,15 +117,11 @@ public class RelayLoadSlicePresenter extends DeviceSlicePresenter {
 				relay.setTime(response.getTime());
 				relayLoad.getStatus().setValue(response.getValue());
 				relayLoad.getStatus().setTime(response.getTime());
-				view.getBtnSwitch().setEnabled(true);
 				displayStatus();
 			}
 		});
 	}
 	
-	/**
-	 * This method apply only for card view
-	 */
 	private void doSwitch(RelayDto relay) {
 		if (Boolean.FALSE.equals(relay.getStatus())) {
 			closeRelay(relay);
@@ -265,15 +149,7 @@ public class RelayLoadSlicePresenter extends DeviceSlicePresenter {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
 				setLocked(false);
-				MessageDto message = ClientUtil.handleRpcFailure(method, exception, eventBus);
-				if (MessageDto.ControllerConnectException.equals(message.getCode())) {
-					relayView.getRelay().setStatus(true);
-					relayView.displayStatus();
-				}
-				else {
-					relayView.getRelay().setStatus(false);
-					relayView.displayStatus();
-				}
+				ClientUtil.handleRpcFailure(method, exception, eventBus);
 			}
 			@Override
 			public void onSuccess(Method method, StatusDto response) {
@@ -291,15 +167,7 @@ public class RelayLoadSlicePresenter extends DeviceSlicePresenter {
 			@Override
 			public void onFailure(Method method, Throwable exception) {
 				setLocked(false);
-				MessageDto message = ClientUtil.handleRpcFailure(method, exception, eventBus);
-				if (MessageDto.ControllerConnectException.equals(message.getCode())) {
-					relayView.getRelay().setStatus(false);
-					relayView.displayStatus();
-				}
-				else {
-					relayView.getRelay().setStatus(true);
-					relayView.displayStatus();
-				}
+				ClientUtil.handleRpcFailure(method, exception, eventBus);
 			}
 			@Override
 			public void onSuccess(Method method, StatusDto response) {

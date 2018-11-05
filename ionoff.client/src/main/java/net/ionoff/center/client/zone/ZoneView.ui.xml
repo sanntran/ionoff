@@ -32,7 +32,7 @@
 								<m:MaterialLabel ui:field="lblArea" addStyleNames="area" text="-" marginTop="5" textColor="GREY_LIGHTEN_2"/>
 							</m:MaterialPanel>
 							<m:MaterialIcon ui:field="icon" addStyleNames="{style.icon} icon" iconType="CROP_3_2" circle="true" iconSize="MEDIUM"/>
-							<m:MaterialLink ui:field="lblDevices" waves="LIGHT" addStyleNames="{style.devices} devices" text="-" textColor="GREY_LIGHTEN_5" iconType="CHEVRON_RIGHT"/>
+							<m:MaterialLink ui:field="lblDevices" addStyleNames="{style.devices} devices" text="-" textColor="GREY_LIGHTEN_5"/>
 						</m:MaterialRow>
 					</m:MaterialCardContent>
 				</m:MaterialCard>

@@ -42,9 +42,8 @@ public class RelayLoadDto extends DeviceDto {
 		return relays != null && relays.size() > 1;
 	}
 
-
 	@Override
-	public String getStyle() {
-		return "relayLoad";
+	public String styleName() {
+		return "radio_button_unchecked";
 	}
 }

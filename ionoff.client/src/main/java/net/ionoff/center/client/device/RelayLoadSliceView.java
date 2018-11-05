@@ -1,7 +1,4 @@
-package net.ionoff.center.client.dashboard;
-
-import java.util.ArrayList;
-import java.util.List;
+package net.ionoff.center.client.device;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -9,15 +6,13 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-
+import gwt.material.design.client.ui.MaterialCollapsibleBody;
 import gwt.material.design.client.ui.MaterialCollection;
-import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialLink;
-import net.ionoff.center.client.device.IDeviceView;
-import net.ionoff.center.client.device.RelayView;
-import net.ionoff.center.client.locale.ProjectLocale;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RelayLoadSliceView implements IDeviceView {
 	
@@ -41,27 +36,16 @@ public class RelayLoadSliceView implements IDeviceView {
 	MaterialLabel lblRelay;
 	@UiField
 	MaterialLabel lblController;
+	@UiField
+	MaterialCollapsibleBody collapsibleBody;
 	@UiField 
 	MaterialCollection relayCollection;
-	@UiField 
-	MaterialIcon menuIcon;
-	@UiField 
-	MaterialDropDown menuDropdown;
-	@UiField 
-	MaterialLink menuItemAddToZoneDashboard;
-	@UiField 
-	MaterialLink menuItemAddToProjectDashboard;
-	@UiField 
-	MaterialLink menuItemRemoveFromDashboard;
 	
 	private List<RelayView> relayViews;
 
 	public RelayLoadSliceView() {
 		uiBinder.createAndBindUi(this);
 		relayViews = new ArrayList<>();
-		menuItemAddToZoneDashboard.setText(ProjectLocale.getProjectConst().addToZoneDashboard());
-		menuItemAddToProjectDashboard.setText(ProjectLocale.getProjectConst().addToProjectDashboard());
-		menuItemRemoveFromDashboard.setText(ProjectLocale.getProjectConst().removeFromDashboard());
 	}
 
 	@Override
@@ -109,22 +93,4 @@ public class RelayLoadSliceView implements IDeviceView {
 		return btnIcon;
 	}
 
-	@Override
-	public void setMenuDropdownId(long id) {
-		String activate = "menuDropdown" + id;
-		menuIcon.setActivates(activate);
-		menuDropdown.setActivator(activate);
-	}
-	
-	public MaterialLink getMenuItemAddToZoneDashboard() {
-		return menuItemAddToZoneDashboard;
-	}
-	
-	public MaterialLink getMenuItemAddToProjectDashboard() {
-		return menuItemAddToProjectDashboard;
-	}
-	
-	public MaterialLink getMenuItemRemoveFromDashboard() {
-		return menuItemRemoveFromDashboard;
-	}
 }

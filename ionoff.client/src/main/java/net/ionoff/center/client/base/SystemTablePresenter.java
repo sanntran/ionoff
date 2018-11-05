@@ -303,9 +303,6 @@ public abstract class SystemTablePresenter<T extends BaseDto> extends AbstractPr
 	
 	private String getColumnFieldName(int columnIndex) {
 		if (columnIndex == 0) {
-			return BaseDto.ID;
-		}
-		else if (columnIndex == 1) {
 			return BaseDto.NAME;
 		}
 		else {

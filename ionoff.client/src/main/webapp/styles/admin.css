@@ -406,6 +406,7 @@
 	cursor: pointer;
     border: none !important;
     color: #212121;
+    border-radius: 0px !important;
 }
 
 .main .content .celltable table tbody tr td .material-icons {

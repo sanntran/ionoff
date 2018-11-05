@@ -30,10 +30,6 @@ public class ZoneTableView extends AbstractTableView<ZoneDto> implements ZoneTab
 	public CellTable<ZoneDto> createCellTable() {
 		CellTable<ZoneDto> cellTable = new CellTable<ZoneDto>();
 		
-		TextColumn<ZoneDto> idColumn = createIdColumn();
-		cellTable.addColumn(idColumn, ID);
-		cellTable.setColumnWidth(idColumn, COLUMN_ID_WIDTH, Unit.PX);
-
 		nameColumn = createNameColumn();
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
@@ -50,6 +46,7 @@ public class ZoneTableView extends AbstractTableView<ZoneDto> implements ZoneTab
 		
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");
+		cellTable.setColumnWidth(editColumn, COLUMN_EDIT_WIDTH, Unit.PX);
 		
 		return cellTable;
 	}

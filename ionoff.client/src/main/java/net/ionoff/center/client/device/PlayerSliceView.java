@@ -1,4 +1,4 @@
-package net.ionoff.center.client.dashboard;
+package net.ionoff.center.client.device;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -8,13 +8,9 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
-import net.ionoff.center.client.device.IDeviceView;
-import net.ionoff.center.client.locale.ProjectLocale;
 
 public class PlayerSliceView extends FocusPanel implements IDeviceView {
 
@@ -39,25 +35,12 @@ public class PlayerSliceView extends FocusPanel implements IDeviceView {
 	@UiField 
 	MaterialIcon btnStop;
 	@UiField 
-	MaterialIcon btnPlay;
+	MaterialIcon btnNext;
 	@UiField 
 	MaterialLabel lblPlayed;
-	@UiField 
-	MaterialIcon menuIcon;
-	@UiField 
-	MaterialDropDown menuDropdown;
-	@UiField 
-	MaterialLink menuItemAddToZoneDashboard;
-	@UiField 
-	MaterialLink menuItemAddToProjectDashboard;
-	@UiField 
-	MaterialLink menuItemRemoveFromDashboard;
 
 	public PlayerSliceView() {
 		uiBinder.createAndBindUi(this);
-		menuItemAddToZoneDashboard.setText(ProjectLocale.getProjectConst().addToZoneDashboard());
-		menuItemAddToProjectDashboard.setText(ProjectLocale.getProjectConst().addToProjectDashboard());
-		menuItemRemoveFromDashboard.setText(ProjectLocale.getProjectConst().removeFromDashboard());
 	}
 
 	@Override
@@ -93,30 +76,11 @@ public class PlayerSliceView extends FocusPanel implements IDeviceView {
 		return btnStop;
 	}
 	
-	public MaterialIcon getBtnPlay() {
-		return btnPlay;
+	public MaterialIcon getBtnNext() {
+		return btnNext;
 	}
 	
 	public MaterialLabel getLblPlayed() {
 		return lblPlayed;
-	}
-	
-	public MaterialLink getMenuItemAddToZoneDashboard() {
-		return menuItemAddToZoneDashboard;
-	}
-	
-	public MaterialLink getMenuItemAddToProjectDashboard() {
-		return menuItemAddToProjectDashboard;
-	}
-	
-	public MaterialLink getMenuItemRemoveFromDashboard() {
-		return menuItemRemoveFromDashboard;
-	}
-	
-	@Override
-	public void setMenuDropdownId(long id) {
-		String activate = "menuDropdown" + id;
-		menuIcon.setActivates(activate);
-		menuDropdown.setActivator(activate);
 	}
 }

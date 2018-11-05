@@ -128,7 +128,7 @@ public class DevicesSelectionPanel extends FlowPanel {
 				
 				for (final DeviceDto device : zone.getDevices()) {
 					MaterialCollectionItem deviceItem = new MaterialCollectionItem();
-					deviceItem.addStyleName(device.getStyle());
+					deviceItem.addStyleName(device.styleName());
 					devicesCollection.add(deviceItem);
 					
 					MaterialLabel deviceLbl = new MaterialLabel(device.formatNameID());

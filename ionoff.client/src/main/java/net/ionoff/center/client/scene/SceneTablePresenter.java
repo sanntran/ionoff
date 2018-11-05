@@ -159,7 +159,7 @@ public class SceneTablePresenter extends AbstractTablePresenter<SceneDto>{
 	
 	@Override
 	protected String getSortByField(int columnIndex) {
-		if (columnIndex == 1) {
+		if (columnIndex == 0) {
 			return BaseDto.NAME;
 		}
 		else if (columnIndex == 2) {

@@ -10,7 +10,7 @@ public final class AppToken extends TokenUtil {
 
 	public static final String LIST = "list";
 	public static final String TABLE = "table";
-	
+
 	public static final String LOGIN = "login";
 	public static final String PROJECT = "project_";
 	public static final String ZONE = "zone_";
@@ -115,92 +115,6 @@ public final class AppToken extends TokenUtil {
 		return true;
 	}
 
-	public static boolean isZoneChanged() {
-		final String token = getToken();
-		final String prevToken = getPrevToken();
-		if (prevToken == null || prevToken.isEmpty()) {
-			return true;
-		}
-		// token has zone OR prev token has zone
-		if (hasTokenItem(token, ZONE) != hasTokenItem(prevToken, ZONE)) {
-			return true;
-		}
-
-		// token has zone AND prev token has zone
-		if (hasTokenItem(token, ZONE)) {
-			return !getTokenId(token, ZONE).equals(getTokenId(prevToken, ZONE));
-		}
-
-		// token has no zone AND prev token has no zone
-		return false;
-	}
-	
-	public static String changeZoneId(Long newZoneId) {
-
-		String token = History.getToken();
-		token = removeTokenDevice(token);
-
-		if (!hasTokenItem(ZONE)) {
-			if (newZoneId == null) {
-				return token;
-			}
-			String newToken = token + TOKEN_DLM + ZONE + newZoneId;
-			// No table view in zone
-			return newToken.replaceAll("/" + TABLE, "");
-		}
-		String newToken = "";
-		final String[] tokenItems = getTokenItems(token);
-		for (int i = 0; i < tokenItems.length; i++) {
-			if (tokenItems[i].startsWith(ZONE)) {
-				if (newZoneId != null) {
-					if (i == 0) {
-						newToken = ZONE + newZoneId;
-					}
-					else {
-						newToken = newToken + TOKEN_DLM + ZONE + newZoneId;
-					}
-				}
-			}
-			else {
-				if (i != 0) {
-					newToken = newToken + TOKEN_DLM + tokenItems[i];
-				}
-				else {
-					newToken = newToken + tokenItems[i];
-				}
-			}
-		}
-		// No table view in zone
-		return newToken.replaceAll("/" + TABLE, "");
-	}
-
-	public static String newDeviceToken() {
-		final String token = History.getToken();
-		return replaceTokenItem(token, DEVICE);
-	}
-
-	public static String newSceneToken() {
-		final String token = History.getToken();
-		return replaceTokenItem(token, SCENES);
-	}
-
-	public static String newScheduleToken() {
-		final String token = History.getToken();
-		return replaceTokenItem(token, SCHEDULES);
-
-	}
-
-	public static String newControllerToken() {
-		final String token = History.getToken();
-		return replaceTokenItem(token, CONTROLLERS);
-	}
-
-
-	public static String newModeToken() {
-		final String token = History.getToken();
-		return replaceTokenItem(token, MODES);
-	}
-
 	private static String replaceTokenItem(String token, String newItem) {
 		token = token.replace(TOKEN_DLM + TABLE, "");
 		if (hasTokenItem(DEVICE)) {
@@ -248,69 +162,12 @@ public final class AppToken extends TokenUtil {
 		return token.replace(MODES, newItem);
 	}
 
-	private static String removeTokenDevice(String token) {
-		if (hasTokenItem(DEVICE)) {
-			final String deviceId = getTokenId(token, DEVICE);
-			if (token.startsWith(DEVICE)) {
-				return token.replace((DEVICE + deviceId + TOKEN_DLM), "");
-			}
-			else {
-				return token.replace((TOKEN_DLM + DEVICE + deviceId), "");
-			}
-		}
-		return token;
-	}
-
 	public static String newDashboardToken(Long projectId) {
 		return PROJECT + projectId +TOKEN_DLM + DASHBOARD;
 	}
 
 	public static String newDeviceToken(long deviceId) {
 		return replaceTokenItem(History.getToken(), DEVICE + deviceId);
-	}
-
-	public static String getProjectItem() {
-		return getProjectItem(getToken());
-	}
-
-	public static String getProjectItem(String token) {
-		if (hasTokenItem(token, DASHBOARD)) {
-			return DASHBOARD;
-		}
-		if (hasTokenItem(token, DEVICES)) {
-			return DEVICES;
-		}
-		if (hasTokenItem(token, SCENES)) {
-			return SCENES;
-		}
-		if (hasTokenItem(token, MODES)) {
-			return MODES;
-		}
-		if (hasTokenItem(token, CONTROLLERS)) {
-			return CONTROLLERS;
-		}
-		if (hasTokenItem(token, RELAYS)) {
-			return RELAYS;
-		}
-		if (hasTokenItem(token, SCHEDULES)) {
-			return SCHEDULES;
-		}
-		if (hasTokenItem(token, SENSORS)) {
-			return SENSORS;
-		}
-		if (hasTokenItem(token, AREAS)) {
-			return AREAS;
-		}
-		if (hasTokenItem(token, ZONES)) {
-			return ZONES;
-		}
-		if (hasTokenItem(token, SENSORS)) {
-			return SENSORS;
-		}
-		if (hasTokenItem(token, DEVICE)) {
-			return DEVICE;
-		}
-		return "";
 	}
 
 	public static String getDeviceId() {
@@ -323,10 +180,6 @@ public final class AppToken extends TokenUtil {
 		}
 	}
 
-	public static boolean isItemChanged() {
-		return !getProjectItem(getToken()).equals(getProjectItem(getPrevToken()));
-	}
-
 	public static Long getZoneIdLong() {
 		String zoneId = getTokenId(getToken(), ZONE);
 		try {
@@ -334,11 +187,6 @@ public final class AppToken extends TokenUtil {
 		} catch (Exception e) {
 			return null;
 		}
-	}
-
-	public static String newDevicesToken() {
-		final String token = History.getToken();
-		return replaceTokenItem(token, DEVICES);
 	}
 
 	public static String newDashboardToken() {
@@ -350,77 +198,9 @@ public final class AppToken extends TokenUtil {
 		return PROJECT + getTokenProjectId() + TOKEN_DLM + ZONE + zoneId + TOKEN_DLM + DASHBOARD;
 	}
 	
-	public static String newZoneDevicesToken(Long zoneId) {
-		return PROJECT + getTokenProjectId() + TOKEN_DLM + ZONE + zoneId + TOKEN_DLM + DEVICES;
-	}
 
-	public static String newRelayToken() {
-		final String token = History.getToken();
-		return replaceTokenItem(token, RELAYS);
-	}
-
-	public static String newUserToken() {
-		final String token = History.getToken();
-		return replaceTokenItem(token, USERS);
-	}
-
-	public static String newSensorToken() {
-		final String token = History.getToken();
-		return replaceTokenItem(token, SENSORS);
-	}
-
-	public static String newAreaToken() {
-		final String token = History.getToken();
-		return replaceTokenItem(token, AREAS);
-	}
-
-	public static String newZoneToken() {
-		final String token = History.getToken();
-		return replaceTokenItem(token, ZONES);
-	}
-	
-	public static String newTokenProjects() {
+	public static String newTokenProjectTable() {
 		return SYSTEM + TOKEN_DLM + PROJECTS;
-	}
-	
-	public static String newTokenUsers() {
-		return SYSTEM + TOKEN_DLM + USERS;
-	}
-	
-	public static String newTokenZones(String projectId) {
-		return PROJECT + projectId + TOKEN_DLM + ZONE;
-	}
-	
-	public static String newTokenDevices(String projectId) {
-		return PROJECT + projectId + TOKEN_DLM + DEVICES;
-	}
-	
-	public static String newTokenCotrollers(String projectId) {
-		return PROJECT + projectId + TOKEN_DLM + CONTROLLERS;
-	}
-	
-	public static String newTokenRelays(String projectId) {
-		return PROJECT + projectId + TOKEN_DLM + RELAYS;
-	}
-	
-	public static String newTokenSensors(String projectId) {
-		return PROJECT + projectId + TOKEN_DLM + SENSORS;
-	}
-	
-	public static String newTokenUsers(String projectId) {
-		return PROJECT + projectId + TOKEN_DLM + USERS;
-	}
-
-	public static String newTokenModes(String projectId) {
-		return PROJECT + projectId + TOKEN_DLM + MODES;
-	}
-	
-	public static String newTokenSchedules(String projectId) {
-		return PROJECT + projectId + TOKEN_DLM + SCHEDULES;
-	}
-
-	public static String newTokenScenes(String projectId) {
-		return PROJECT + projectId + TOKEN_DLM + SCENES;
 	}
 	
 	public static String getTokenProjectId() {
@@ -460,27 +240,47 @@ public final class AppToken extends TokenUtil {
 		return History.getToken();
 	}
 
-	public static String newDeviceTableToken() {
-		return PROJECT + getProjectId() + TOKEN_DLM + DEVICES + TOKEN_DLM + TABLE;
+
+	public static String newAreaTableToken() {
+		return PROJECT + getProjectId() + TOKEN_DLM + AREAS + TOKEN_DLM + TABLE;
 	}
-	
+
+	public static String newSensorTableToken() {
+		return PROJECT + getProjectId() + TOKEN_DLM + SENSORS + TOKEN_DLM + TABLE;
+	}
+
+	public static String newRelayTableToken() {
+		return PROJECT + getProjectId() + TOKEN_DLM + RELAYS + TOKEN_DLM + TABLE;
+	}
+
+	public static String newControllerTableToken() {
+		return PROJECT + getProjectId() + TOKEN_DLM + CONTROLLERS + TOKEN_DLM + TABLE;
+	}
+
+	public static String newScheduleTableToken() {
+		return PROJECT + getProjectId() + TOKEN_DLM + SCHEDULES + TOKEN_DLM + TABLE;
+	}
+
 	public static String newModeTableToken() {
 		return PROJECT + getProjectId() + TOKEN_DLM + MODES + TOKEN_DLM + TABLE;
 	}
-	
-	public static String newModeListToken() {
-		return PROJECT + getProjectId() + TOKEN_DLM + MODES + TOKEN_DLM;
-	}
-	
+
 	public static String newSceneTableToken() {
 		return PROJECT + getProjectId() + TOKEN_DLM + SCENES + TOKEN_DLM + TABLE;
 	}
-	
-	public static String newZoneListToken() {
-		return PROJECT + getProjectId() + TOKEN_DLM + ZONES;
-	}
-	
+
 	public static String newZoneTableToken() {
 		return PROJECT + getProjectId() + TOKEN_DLM + ZONES + TOKEN_DLM + TABLE;
+	}
+
+	public static String newUserTableToken() {
+		if (History.getToken().contains(SYSTEM)) {
+			return SYSTEM + TOKEN_DLM + USERS;
+		}
+		return PROJECT + getProjectId() + TOKEN_DLM + USERS + TOKEN_DLM + TABLE;
+	}
+
+	public static String newDeviceTableToken() {
+		return PROJECT + getProjectId() + TOKEN_DLM + DEVICES + TOKEN_DLM + TABLE;
 	}
 }

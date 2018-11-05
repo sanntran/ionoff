@@ -28,10 +28,6 @@ public class ProjectTableView extends AbstractTableView<ProjectDto> implements P
 	public CellTable<ProjectDto> createCellTable() {
 		CellTable<ProjectDto> cellTable = new CellTable<ProjectDto>();
 		
-		TextColumn<ProjectDto> idColumn = createIdColumn();
-		cellTable.addColumn(idColumn, ID);
-		cellTable.setColumnWidth(idColumn, COLUMN_ID_WIDTH, Unit.PX);
-
 		nameColumn = createNameColumn();
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
@@ -42,7 +38,8 @@ public class ProjectTableView extends AbstractTableView<ProjectDto> implements P
 		
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");
-		
+		cellTable.setColumnWidth(editColumn, COLUMN_EDIT_WIDTH, Unit.PX);
+
 		return cellTable;
 	}
 

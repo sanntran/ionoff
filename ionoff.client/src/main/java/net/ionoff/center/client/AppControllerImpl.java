@@ -135,22 +135,12 @@ public class AppControllerImpl implements IAppController {
 	
 	@Override
 	public void showScenes() {
-		if (AppToken.hasTokenItem(AppToken.TABLE)) {
-			getContentPresenter().showSceneTable();
-		}
-		else {
-			getContentPresenter().showSceneList();
-		}	
+		getContentPresenter().showSceneTable();
 	}
 
 	@Override
 	public void showDevices() {
-		if (AppToken.hasTokenItem(AppToken.TABLE)) {
-			getContentPresenter().showDeviceTable();
-		}
-		else {
-			getContentPresenter().showDeviceList();
-		}		
+		getContentPresenter().showDeviceTable();
 	}
 
 	@Override
@@ -160,12 +150,7 @@ public class AppControllerImpl implements IAppController {
 	
 	@Override
 	public void showModes() {
-		if (AppToken.hasTokenItem(AppToken.TABLE)) {
-			getContentPresenter().showModeTable();
-		}
-		else {
-			getContentPresenter().showModeList();
-		}	
+		getContentPresenter().showModeTable();
 	}
 	
 	@Override
@@ -195,12 +180,7 @@ public class AppControllerImpl implements IAppController {
 
 	@Override
 	public void showZones() {
-		if (AppToken.hasTokenItem(AppToken.TABLE)) {
-			getContentPresenter().showZoneTable();
-		}
-		else {
-			getContentPresenter().showZoneList();
-		}	
+		getContentPresenter().showZoneTable();
 	}
 
 	@Override

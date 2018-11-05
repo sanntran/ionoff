@@ -73,13 +73,10 @@ public class NavigationsPresenter extends AbstractPresenter {
 	    MaterialLink getMenuItemZone();
 	    
 		PopupProjectsView getPopupProjectsView();
-
-		MaterialLink getMenuItemArrow();
     }
-	
+
 	private Display display;
 	private Timer timer;
-	private boolean expandMenu;
 	private IRpcServiceProvider rpcService;
 	private PopupUserMenuPresenter popupUserMenuPresenter;
 	
@@ -98,7 +95,6 @@ public class NavigationsPresenter extends AbstractPresenter {
 				}
 			}
 		};
-		expandMenu = false;
 	}
 
 
@@ -176,14 +172,14 @@ public class NavigationsPresenter extends AbstractPresenter {
 		display.getIconSystemSetting().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newTokenProjects()));
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newTokenProjectTable()));
 			}
 		});
 				
 		display.getMenuItemProject().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newTokenProjects()));
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newTokenProjectTable()));
 			}
 		});
 		
@@ -197,107 +193,74 @@ public class NavigationsPresenter extends AbstractPresenter {
 		display.getMenuItemDevice().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newDevicesToken()));
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newDeviceTableToken()));
 			}
 		});
 		
 		display.getMenuItemScene().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newSceneToken()));
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newSceneTableToken()));
 			}
 		});
 		
 		display.getMenuItemMode().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newModeListToken()));
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newModeTableToken()));
 			}
 		});
 		
 		display.getMenuItemSchedule().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newScheduleToken()));
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newScheduleTableToken()));
 			}
 		});
 		
 		display.getMenuItemController().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newControllerToken()));
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newControllerTableToken()));
 			}
 		});
 		
 		display.getMenuItemRelay().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newRelayToken()));
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newRelayTableToken()));
 			}
 		});
 		
 		display.getMenuItemUser().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newUserToken()));
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newUserTableToken()));
 			}
 		});
 		
 		display.getMenuItemSensor().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newSensorToken()));
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newSensorTableToken()));
 			}
 		});
 		
 		display.getMenuItemArea().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newAreaToken()));
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newAreaTableToken()));
 			}
 		});
 		
 		display.getMenuItemZone().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newZoneListToken()));
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newZoneTableToken()));
 			}
 		});
 		
 		display.getBtnUser().addClickHandler(e -> showPopupUserMenu());
-
-		display.getMenuItemArrow().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (expandMenu == true) {
-					display.getMenuItemArea().setVisible(false);
-					display.getMenuItemZone().setVisible(false);
-					display.getMenuItemSensor().setVisible(false);
-					display.getMenuItemUser().setVisible(false);
-					display.getMenuItemRelay().setVisible(false);
-					display.getMenuItemController().setVisible(false);
-					display.getMenuItemArrow().setIconType(IconType.KEYBOARD_ARROW_DOWN);
-					expandMenu = false;
-				}
-				else {
-					display.getMenuItemArea().setVisible(true);
-					display.getMenuItemZone().setVisible(true);
-					display.getMenuItemSensor().setVisible(true);
-					display.getMenuItemUser().setVisible(true);
-					display.getMenuItemRelay().setVisible(true);
-					display.getMenuItemController().setVisible(true);
-					display.getMenuItemArrow().setIconType(IconType.KEYBOARD_ARROW_UP);
-					expandMenu = true;
-				}
-			}
-		});
-		
-		display.getMenuItemArea().setVisible(false);
-		display.getMenuItemZone().setVisible(false);
-		display.getMenuItemSensor().setVisible(false);
-		display.getMenuItemUser().setVisible(false);
-		display.getMenuItemRelay().setVisible(false);
-		display.getMenuItemController().setVisible(false);
 
 		eventBus.addHandler(ChangeZoneEvent.TYPE, new ChangeZoneEventHandler() {
 			@Override
@@ -339,7 +302,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 	public void onClickProjectImage() {
 		final String userName = StorageService.getInstance().getCookie().getUser().getName();
 		if (AppToken.LORD.equals(userName)) {
-			eventBus.fireEvent(new ChangeTokenEvent(AppToken.newTokenProjects()));
+			eventBus.fireEvent(new ChangeTokenEvent(AppToken.newTokenProjectTable()));
 		}
 	}
 
@@ -447,26 +410,35 @@ public class NavigationsPresenter extends AbstractPresenter {
 		display.getNavIconDashhboard().setIconType(IconType.DASHBOARD);
 		display.getMenuItemProject().setVisible(false);
 		display.getMenuItemDashboard().setVisible(true);
-		display.getMenuItemDevice().setVisible(true);
-		display.getMenuItemScene().setVisible(true);
-		display.getMenuItemMode().setVisible(true);
-		display.getMenuItemSchedule().setVisible(true);
-		
-		if (expandMenu) {
-			display.getMenuItemController().setVisible(true);
-			display.getMenuItemRelay().setVisible(true);
-			display.getMenuItemUser().setVisible(true);
-			display.getMenuItemSensor().setVisible(true);
-			display.getMenuItemArea().setVisible(true);
-			display.getMenuItemZone().setVisible(true);
+
+		String userGroup = null;
+		try {
+			userGroup = StorageService.getInstance().getCookie().getUser().getGroupName();
+		} catch (Exception e) {
+			//
 		}
-		else {
+		if (userGroup == null || !userGroup.contains("Admin")) {
+			display.getMenuItemDevice().setVisible(false);
+			display.getMenuItemScene().setVisible(false);
+			display.getMenuItemMode().setVisible(false);
 			display.getMenuItemController().setVisible(false);
 			display.getMenuItemRelay().setVisible(false);
 			display.getMenuItemUser().setVisible(false);
 			display.getMenuItemSensor().setVisible(false);
 			display.getMenuItemArea().setVisible(false);
 			display.getMenuItemZone().setVisible(false);
+		}
+		else {
+			display.getMenuItemDevice().setVisible(true);
+			display.getMenuItemScene().setVisible(true);
+			display.getMenuItemMode().setVisible(true);
+			display.getMenuItemSchedule().setVisible(true);
+			display.getMenuItemController().setVisible(true);
+			display.getMenuItemRelay().setVisible(true);
+			display.getMenuItemUser().setVisible(true);
+			display.getMenuItemSensor().setVisible(true);
+			display.getMenuItemArea().setVisible(true);
+			display.getMenuItemZone().setVisible(true);
 		}
 		
 		if (AppToken.hasTokenItem(AppToken.DASHBOARD)) {

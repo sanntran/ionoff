@@ -12,5 +12,4 @@ public interface IDeviceView {
 	MaterialLabel getLblZone();
 	MaterialIcon getBtnIcon();
 	MaterialLabel getLblTime();
-	void setMenuDropdownId(long id);
 }

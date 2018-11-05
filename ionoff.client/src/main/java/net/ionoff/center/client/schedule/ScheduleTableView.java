@@ -33,10 +33,6 @@ public class ScheduleTableView extends AbstractTableView<ScheduleDto> implements
 	public CellTable<ScheduleDto> createCellTable() {
 		CellTable<ScheduleDto> cellTable = new CellTable<ScheduleDto>();
 
-		TextColumn<ScheduleDto> idColumn = createIdColumn();
-		cellTable.addColumn(idColumn, ID);
-		cellTable.setColumnWidth(idColumn, COLUMN_ID_WIDTH, Unit.PX);
-
 		nameColumn = createNameColumn();
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
@@ -50,11 +46,11 @@ public class ScheduleTableView extends AbstractTableView<ScheduleDto> implements
 		deviceColumn = createDeviceColumn();
 		deviceColumn.setSortable(true);
 		cellTable.addColumn(deviceColumn, AdminLocale.getAdminConst().device());
-		cellTable.setColumnWidth(deviceColumn, COLUMN_NAME_WIDTH, Unit.PX);
-		
+
 		editColumn = createEditColumn();
 		cellTable.addColumn(editColumn, "");
-		
+		cellTable.setColumnWidth(editColumn, COLUMN_EDIT_WIDTH, Unit.PX);
+
 		return cellTable;
 	}
 

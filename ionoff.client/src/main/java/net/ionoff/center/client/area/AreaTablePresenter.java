@@ -119,7 +119,7 @@ public class AreaTablePresenter extends AbstractTablePresenter<AreaDto>{
 
 	@Override
 	protected String getSortByField(int columnIndex) {
-		if (columnIndex == 2) {
+		if (columnIndex == 1) {
 			return AreaDto.ORDER;
 		}
 		return BaseDto.NAME;

@@ -1,4 +1,4 @@
-package net.ionoff.center.client.dashboard;
+package net.ionoff.center.client.device;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;

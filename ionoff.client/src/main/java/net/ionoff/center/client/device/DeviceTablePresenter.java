@@ -177,10 +177,10 @@ public class DeviceTablePresenter extends AbstractTablePresenter<DeviceDto>{
 
 	@Override
 	protected String getSortByField(int columnIndex) {
-		if (columnIndex == 2) {
+		if (columnIndex == 1) {
 			return DeviceDto.ORDER;
 		}
-		if (columnIndex == 3) {
+		if (columnIndex == 2) {
 			return DeviceDto.ZONE;
 		}
 		else return BaseDto.NAME;

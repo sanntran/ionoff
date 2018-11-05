@@ -76,7 +76,6 @@
 			<m:MaterialLink ui:field="menuItemSensor" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="WIFI_TETHERING" />
 			<m:MaterialLink ui:field="menuItemArea" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="BORDER_ALL" />
 			<m:MaterialLink ui:field="menuItemZone" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="CROP_3_2" />
-			<m:MaterialLink ui:field="menuItemArrow" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="KEYBOARD_ARROW_DOWN"/>
 		</m:MaterialSideNavDrawer>
 		
 	</g:HTMLPanel>

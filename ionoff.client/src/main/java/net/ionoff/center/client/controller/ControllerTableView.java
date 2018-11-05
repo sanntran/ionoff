@@ -31,23 +31,19 @@ public class ControllerTableView extends AbstractTableView<ControllerDto> implem
 	public CellTable<ControllerDto> createCellTable() {
 		CellTable<ControllerDto> cellTable = new CellTable<ControllerDto>();
 		
-		TextColumn<ControllerDto> idColumn = createIdColumn();
-		cellTable.addColumn(idColumn, ID);
-		cellTable.setColumnWidth(idColumn, COLUMN_ID_WIDTH, Unit.PX);
-
 		nameColumn = createNameColumn();
 		nameColumn.setSortable(true);
 		cellTable.addColumn(nameColumn, AdminLocale.getAdminConst().name());
-		cellTable.setColumnWidth(nameColumn, COLUMN_NAME_WIDTH, Unit.PX);
-		
+
 		statusColumn =  createStatusColumn();
 		statusColumn.setSortable(true);
 		cellTable.addColumn(statusColumn, AdminLocale.getAdminConst().status());
-		cellTable.setColumnWidth(statusColumn, 150.0, Unit.PX);
-		
+		cellTable.setColumnWidth(statusColumn, 100.0, Unit.PX);
+
 		editColumn =  createEditColumn();
 		cellTable.addColumn(editColumn, "");
-		
+		cellTable.setColumnWidth(editColumn, COLUMN_EDIT_WIDTH, Unit.PX);
+
 		return cellTable;
 	}
 	

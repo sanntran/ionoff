@@ -63,14 +63,6 @@ public class ZonePresenter extends AbstractPresenter {
 				eventBus.fireEvent(new ChangeZoneEvent(zone));
 			}
 		});
-		display.getLblDevices().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				String token = AppToken.newZoneDevicesToken(zone.getId());
-				eventBus.fireEvent(new ChangeTokenEvent(token));
-				eventBus.fireEvent(new ChangeZoneEvent(zone));
-			}
-		});
 	}
 
 	@Override

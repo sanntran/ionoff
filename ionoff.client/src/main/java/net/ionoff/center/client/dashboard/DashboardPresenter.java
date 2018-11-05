@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Panel;
 import gwt.material.design.client.ui.MaterialRow;
 import net.ionoff.center.client.base.AbstractPresenter;
+import net.ionoff.center.client.device.*;
 import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.utils.AppToken;

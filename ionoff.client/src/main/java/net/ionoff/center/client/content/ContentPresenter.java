@@ -12,13 +12,9 @@ import net.ionoff.center.client.area.AreaTableView;
 import net.ionoff.center.client.base.AbstractPresenter;
 import net.ionoff.center.client.dashboard.DashboardPresenter;
 import net.ionoff.center.client.dashboard.DashboardView;
-import net.ionoff.center.client.device.DeviceListPresenter;
-import net.ionoff.center.client.device.DeviceListView;
 import net.ionoff.center.client.device.DeviceTablePresenter;
 import net.ionoff.center.client.device.DeviceTableView;
 import net.ionoff.center.client.event.ChangeTokenEvent;
-import net.ionoff.center.client.mode.ModeListPresenter;
-import net.ionoff.center.client.mode.ModeListView;
 import net.ionoff.center.client.mode.ModeTablePresenter;
 import net.ionoff.center.client.mode.ModeTableView;
 import net.ionoff.center.client.project.ProjectTablePresenter;
@@ -27,8 +23,6 @@ import net.ionoff.center.client.relay.RelayTablePresenter;
 import net.ionoff.center.client.relay.RelayTableView;
 import net.ionoff.center.client.controller.ControllerTablePresenter;
 import net.ionoff.center.client.controller.ControllerTableView;
-import net.ionoff.center.client.scene.SceneListPresenter;
-import net.ionoff.center.client.scene.SceneListView;
 import net.ionoff.center.client.scene.SceneTablePresenter;
 import net.ionoff.center.client.scene.SceneTableView;
 import net.ionoff.center.client.schedule.ScheduleTablePresenter;
@@ -41,8 +35,6 @@ import net.ionoff.center.client.user.UserTablePresenter;
 import net.ionoff.center.client.user.UserTableView;
 import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
-import net.ionoff.center.client.zone.ZoneListPresenter;
-import net.ionoff.center.client.zone.ZoneListView;
 import net.ionoff.center.client.zone.ZoneTablePresenter;
 import net.ionoff.center.client.zone.ZoneTableView;
 import net.ionoff.center.shared.dto.DeviceDto;
@@ -58,21 +50,16 @@ public class ContentPresenter extends AbstractPresenter {
 	private SystemUsersPresenter systemUserPresenter;
 	private ProjectTablePresenter systemProjectPresenter;
 	private DashboardPresenter dashboardPresenter;
-	private DeviceListPresenter deviceListPresenter;
 	private DeviceTablePresenter deviceTablePresenter;
 	private SceneTablePresenter sceneTablePresenter;
-	private SceneListPresenter sceneListPresenter;
 	private ScheduleTablePresenter scheduleTablePresenter;
 	private ModeTablePresenter modeTablePresenter;
-	private ModeListPresenter modeListPresenter;
 	private ControllerTablePresenter controllerTablePresenter;
 	private RelayTablePresenter relayTablePresenter;
 	private UserTablePresenter userTablePresenter;
 	private SensorTablePresenter sensorTablePresenter;
 	private AreaTablePresenter areaTablePresenter;
 	private ZoneTablePresenter zoneTablePresenter;
-	private ZoneListPresenter zoneListPresenter;
-
 	private PlayerPresenter playerPresenter;
 
 	private IRpcServiceProvider rpcProvider;
@@ -91,7 +78,7 @@ public class ContentPresenter extends AbstractPresenter {
 	public void showDevice() {
 		String id = AppToken.getDeviceId();
 		if (!ClientUtil.isLongNumber(id)) {
-			final String token = AppToken.newDevicesToken();
+			final String token = AppToken.newDeviceTableToken();
 			eventBus.fireEvent(new ChangeTokenEvent(token));
 		}
 		else {
@@ -130,16 +117,6 @@ public class ContentPresenter extends AbstractPresenter {
 		getSceneTablePresenter().show(display.asPanel());
 	}
 	
-	public void showSceneList() {
-		display.asPanel().removeStyleName("player");
-		getSceneListPresenter().show(display.asPanel());
-	}
-	
-	public void showDeviceList() {
-		display.asPanel().removeStyleName("player");	
-		getDeviceListPresenter().show(display.asPanel());
-	}
-	
 	public void showDeviceTable() {
 		display.asPanel().removeStyleName("player");
 		getDeviceTablePresenter().show(display.asPanel());
@@ -150,11 +127,6 @@ public class ContentPresenter extends AbstractPresenter {
 		getModeTablePresenter().show(display.asPanel());
 	}
 	
-	public void showModeList() {
-		display.asPanel().removeStyleName("player");
-		getModeListPresenter().show(display.asPanel());
-	}
-
 	public void showScheduleTable() {
 		display.asPanel().removeStyleName("player");
 		getScheduleTablePresenter().show(display.asPanel());
@@ -190,12 +162,6 @@ public class ContentPresenter extends AbstractPresenter {
 		getZoneTablePresenter().show(display.asPanel());
 	}
 
-	public void showZoneList() {
-		display.asPanel().removeStyleName("player");	
-		getZoneListPresenter().show(display.asPanel());
-	}
-	
-	
 	public void showSensorTable() {
 		display.asPanel().removeStyleName("player");
 		getSensorTablePresenter().show(display.asPanel());
@@ -235,15 +201,6 @@ public class ContentPresenter extends AbstractPresenter {
 		}
 		return sceneTablePresenter;
 	}
-	
-	private SceneListPresenter getSceneListPresenter() {
-		if (sceneListPresenter == null) {
-			sceneListPresenter = new SceneListPresenter(rpcProvider, eventBus, new SceneListView());
-			sceneListPresenter.go();
-		}
-		return sceneListPresenter;
-	}
-	
 
 	public ModeTablePresenter getModeTablePresenter() {
 		if (modeTablePresenter == null) {
@@ -254,14 +211,6 @@ public class ContentPresenter extends AbstractPresenter {
 			modeTablePresenter.refresh();
 		}
 		return modeTablePresenter;
-	}
-	
-	public ModeListPresenter getModeListPresenter() {
-		if (modeListPresenter == null) {
-			modeListPresenter = new ModeListPresenter(rpcProvider, eventBus, new ModeListView());
-			modeListPresenter.go();
-		}
-		return modeListPresenter;
 	}
 	
 	public DashboardPresenter getDashboardPresenter() {
@@ -283,15 +232,7 @@ public class ContentPresenter extends AbstractPresenter {
 		}
 		return controllerTablePresenter;
 	}
-	
-	public DeviceListPresenter getDeviceListPresenter() {
-		if (deviceListPresenter == null) {
-			deviceListPresenter = new DeviceListPresenter(rpcProvider, eventBus, new DeviceListView());
-			deviceListPresenter.go();
-		}
-		return deviceListPresenter;
-	}
-	
+
 	public DeviceTablePresenter getDeviceTablePresenter() {
 		if (deviceTablePresenter == null) {
 			deviceTablePresenter = new DeviceTablePresenter(rpcProvider, eventBus, new DeviceTableView());
@@ -355,15 +296,7 @@ public class ContentPresenter extends AbstractPresenter {
 		}
 		return zoneTablePresenter;
 	}
-	
-	public ZoneListPresenter getZoneListPresenter() {
-		if (zoneListPresenter == null) {
-			zoneListPresenter = new ZoneListPresenter(rpcProvider, eventBus, new ZoneListView());
-			zoneListPresenter.go();
-		}
-		return zoneListPresenter;
-	}
-	
+
 	public ProjectTablePresenter getSystemProjectPresenter() {
 		if (systemProjectPresenter == null) {
 			systemProjectPresenter = new ProjectTablePresenter(rpcProvider, eventBus, new ProjectTableView());

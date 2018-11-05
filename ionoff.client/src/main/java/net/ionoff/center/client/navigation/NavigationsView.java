@@ -84,9 +84,7 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 	MaterialLink menuItemArea;
 	@UiField
 	MaterialLink menuItemZone;
-	@UiField
-	MaterialLink menuItemArrow;
-	
+
 	PopupProjectsView popupProjectsView;
 
 	public NavigationsView() {
@@ -104,7 +102,7 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 		menuItemSensor.setText(ProjectLocale.getProjectConst().sensor());
 		menuItemArea.setText(ProjectLocale.getProjectConst().area());
 		menuItemZone.setText(ProjectLocale.getProjectConst().zone());
-		
+
 		popupProjectsView = new PopupProjectsView();
 		
 	}
@@ -232,11 +230,6 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 	@Override
 	public MaterialLink getMenuItemZone() {
 		return menuItemZone;
-	}
-	
-	@Override
-	public MaterialLink getMenuItemArrow() {
-		return menuItemArrow;
 	}
 	
 	@Override
