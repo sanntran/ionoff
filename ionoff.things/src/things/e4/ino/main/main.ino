@@ -245,9 +245,6 @@ void setup() {
   
   user_init();
   
-  WiFi.persistent(false);
-  WiFi.softAPdisconnect();
-  WiFi.disconnect();
   delay(250);
   if (espMode == MODE_STA) {    
     if (USE_SERIAL) {
@@ -256,7 +253,7 @@ void setup() {
     WiFi.mode(WIFI_STA);
     WiFi.setAutoConnect(false);  
     delay(100);
-    wifiConn = 100;    
+    wifiConn = 100;
     connectWifi();
     pubSubClient.setServer(tcpServer, TCP_PORT);
     pubSubClient.setCallback(mqttCallback);    
@@ -265,6 +262,8 @@ void setup() {
     if (USE_SERIAL) {
       Serial.println("Start wifi in acces point mode");
     }
+    WiFi.softAPdisconnect();
+    WiFi.disconnect();
     WiFi.mode(WIFI_AP);
     WiFi.softAP(serialStr);
     delay(250);
@@ -295,6 +294,7 @@ void connectWifi() {
     // FIX FOR USING 2.3.0 CORE (only .begin if not connected)
     if (WiFi.status() != WL_CONNECTED) {
       // connect to the network
+      WiFi.disconnect();
       WiFi.begin(wifiId, wifiPass);
     }
   }
