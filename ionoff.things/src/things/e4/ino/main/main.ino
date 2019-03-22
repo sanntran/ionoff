@@ -194,28 +194,38 @@ void setup() {
   espMode = MODE_STA;
 
   // read adc value to set mode
+
   for (int i = 0; i < 3; i++) {
-    unsigned int adcValue = analogRead(IN_ADC);
-    if (adcValue < 64) {
-      espMode = MODE_AP;
-    }    
+    if (analogRead(IN_ADC) < 64) {
+        espMode = MODE_AP;
+    } else if (digitalRead(IN_1) == LOW) {
+        espMode = MODE_AP;
+    } else if (digitalRead(IN_2) == LOW) {
+        espMode = MODE_AP;
+    } else if (digitalRead(IN_3) == LOW) {
+        espMode = MODE_AP;
+    }
     delay(250);
     digitalWrite(ESP_LED, LOW);
     delay(250);
     digitalWrite(ESP_LED, HIGH);
-  }   
+  }
 
-  unsigned int adcValue = analogRead(IN_ADC);
-  if (adcValue < 64 && espMode == MODE_AP) {
-    // Mode AP is confirmed
-    espMode = MODE_AP;
+  // Mode AP is confirmed
+  if (analogRead(IN_ADC) < 64 && espMode == MODE_AP) {
+      espMode = MODE_AP;
+  } else if (digitalRead(IN_1) == LOW && espMode == MODE_AP) {
+      espMode = MODE_AP;
+  } else if (digitalRead(IN_2) == LOW && espMode == MODE_AP) {
+      espMode = MODE_AP;
+  } else if (digitalRead(IN_3) == LOW && espMode == MODE_AP) {
+      espMode = MODE_AP;
+  } else {
+      espMode = MODE_STA;
   }
-  else {
-    espMode = MODE_STA;
-  }
-  
+
   delay(250);
-  firstMsg = true;  
+  firstMsg = true;
   loadSnFromEEPRom();
   if (checkSerialStr() == false) {
     delay(200);
@@ -230,34 +240,34 @@ void setup() {
         resetSerial();
         resetConfig();
         writeSerialToEepRom();
-        writeConfigToEepRom(); 
+        writeConfigToEepRom();
         writeOutputStateToEepRom();
-        delay(200);  
+        delay(200);
         loadSnFromEEPRom();
       }
     }
   }
-  delay(200);  
+  delay(200);
   loadStateFromEepRom();
-  
-  stType = ST_STATUS; 
+
+  stType = ST_STATUS;
   connState = WIFI_CONNECTING;
-  
+
   user_init();
-  
+
   delay(250);
-  if (espMode == MODE_STA) {    
+  if (espMode == MODE_STA) {
     if (USE_SERIAL) {
       Serial.println("Start wifi in station mode");
-    }        
+    }
     WiFi.mode(WIFI_STA);
-    WiFi.setAutoConnect(false);  
+    WiFi.setAutoConnect(false);
     delay(100);
     wifiConn = 100;
     connectWifi();
     pubSubClient.setServer(tcpServer, TCP_PORT);
-    pubSubClient.setCallback(mqttCallback);    
-  } 
+    pubSubClient.setCallback(mqttCallback);
+  }
   else if (espMode == MODE_AP) {
     if (USE_SERIAL) {
       Serial.println("Start wifi in acces point mode");
@@ -268,7 +278,7 @@ void setup() {
     WiFi.softAP(serialStr);
     delay(250);
     wifiServer.begin();
-  }  
+  }
 }
 
 boolean checkSerialStr() {
@@ -335,7 +345,7 @@ void mqttCallback(char* topic, byte* payload, unsigned int length) {
   String message = "";
   for (int i = 0; i < length; i++) {
     message += (char)payload[i];
-  }   
+  }
   if (USE_SERIAL) {
       Serial.print("Message arrived: ");
       Serial.print(topic);
@@ -356,20 +366,20 @@ void handleMessage(String cmd) {
       Serial.print(MQTT_TOPIC);
       Serial.print("/");
       Serial.println(stMessage);
-    }    
+    }
     pubSubClient.publish(MQTT_TOPIC, stMessage);
   }
   else if (cmd.indexOf("{cf") == 0) {
-    handleCFCmd(cmd); 
-    sprintf(cfMessage, "id=%s&code=okcmd&cf=%s,%d%d%d,%s,%s,%s", 
-      serialStr, serialStr, inputTypes[0], inputTypes[1], inputTypes[2], 
+    handleCFCmd(cmd);
+    sprintf(cfMessage, "id=%s&code=okcmd&cf=%s,%d%d%d,%s,%s,%s",
+      serialStr, serialStr, inputTypes[0], inputTypes[1], inputTypes[2],
       tcpServer, wifiId, wifiPass);
     if (USE_SERIAL) {
       Serial.print("Publish message: ");
       Serial.print(MQTT_TOPIC);
       Serial.print("/");
       Serial.println(cfMessage);
-    } 
+    }
     pubSubClient.publish(MQTT_TOPIC, cfMessage);
     if (cmd.indexOf("{cfsetmd") == 0) { // reset
       delay(1000);
@@ -394,7 +404,7 @@ void handleIOCmd(String cmd) {
   if (cmd.indexOf('}') > 9) {
     String s = cmd.substring(9, cmd.indexOf('}'));
     t = atoi(s.c_str());
-  }  
+  }
   if (cmd.indexOf("{ioseto1") == 0) {
     setOutputState(OUT_1, cmd.charAt(8), t);
   }
@@ -428,7 +438,7 @@ void handleCFCmd(String cmd) {
     if (USE_SERIAL) {
       Serial.print("New serial: ");
       Serial.println(serialStr);
-    }    
+    }
     writeSerialToEepRom();
   }
   else if (cmd.indexOf("{cfsetsv") == 0) {
@@ -438,8 +448,8 @@ void handleCFCmd(String cmd) {
     if (USE_SERIAL) {
       Serial.print("New server: ");
       Serial.println(tcpServer);
-    }    
-    writeServerIpToEepRom();    
+    }
+    writeServerIpToEepRom();
   }
   else if (cmd.indexOf("{cfsetwi") == 0) {
     String wi = cmd.substring(8, cmd.indexOf('}'));
@@ -526,7 +536,7 @@ void writeServerIpToEepRom() {
 void updateBtnStates() {
   newInputStates[0] = digitalRead(IN_1);
   newInputStates[1] = digitalRead(IN_2);
-  newInputStates[2] = digitalRead(IN_3);  
+  newInputStates[2] = digitalRead(IN_3);
 }
 
 void checkInputChange() {
@@ -566,7 +576,7 @@ void checkInputChange() {
             }
             stType = ST_CHANGED;
             controlDecisions[i] = true;
-          }          
+          }
           // Reset input change
           inputChanges[i] = false;
         }
@@ -580,7 +590,7 @@ void checkInputChange() {
       inputChangesTime[i] = millis();
     }
   }
-  
+
   if (controlDecisions[0] == true) {
     if (inputTypes[0] == SENSOR) {
       setOutputState(OUT_1, newInputStates[0], 0);
@@ -613,19 +623,19 @@ void resetSerial() {
   sprintf(serialStr, "%s%02X%02X%02X", SERIAL_ID, mac[3], mac[4], mac[5]);
 }
 
-void resetConfig() {  
+void resetConfig() {
   for (int i = 0; i < 3; i++) {
     inputTypes[i] = BUTTON;
   }
   sprintf(wifiId, "%s", WIFI_ID);
   sprintf(wifiPass, "%s", WIFI_PASS);
-  sprintf(tcpServer, "%s", TCP_SERVER);  
+  sprintf(tcpServer, "%s", TCP_SERVER);
 }
 
 void loadSnFromEEPRom() {
   if (USE_SERIAL) {
     Serial.println("Load serial from EEPROM...");
-  }  
+  }
   String idStr = "";
   char c;
   int idLen = 16;
@@ -633,7 +643,7 @@ void loadSnFromEEPRom() {
     c = EEPROM.read(i + 1);
     idStr.concat(c);
   }
-  sprintf(serialStr, "%s", idStr.c_str());  
+  sprintf(serialStr, "%s", idStr.c_str());
   if (USE_SERIAL) {
     Serial.print("Serial no: ");
     Serial.println(serialStr);
@@ -645,12 +655,12 @@ void loadStateFromEepRom() {
     Serial.println("Load state from EEPROM...");
   }
   String wiStr = "";
-  String wpStr = "";  
+  String wpStr = "";
   String srvStr = "";
-  
+
   char c;
-  
-  for (int i = 0; i < 3; i++) {    
+
+  for (int i = 0; i < 3; i++) {
     inputTypes[i] = EEPROM.read(i + 17);
   }
 
@@ -659,24 +669,24 @@ void loadStateFromEepRom() {
     c = EEPROM.read(i + 22);
     wiStr.concat(c);
   }
-  
+
   int wpLen = EEPROM.read(53);
   for (int i = 0; i < wpLen; i++) {
     c = EEPROM.read(i + 54);
     wpStr.concat(c);
-  } 
-     
+  }
+
   int srvLen = EEPROM.read(85);
   for (int i = 0; i < srvLen; i++) {
     c = EEPROM.read(i + 86);
     srvStr.concat(c);
   }
-  
+
   sprintf(wifiId, "%s",  wiStr.c_str());
   sprintf(wifiPass, "%s",  wpStr.c_str());
   sprintf(tcpServer, "%s",  srvStr.c_str());
 
-  if (USE_SERIAL) {    
+  if (USE_SERIAL) {
     Serial.print("Wifi id: ");
     Serial.println(wifiId);
 
@@ -746,7 +756,7 @@ void setOutputState(int outputPin, char state, int second) {
     digitalWrite(outputPin, value);
     outputLocks[idx] = second * 1000;
     writeOutputStateToEepRom();
-  }  
+  }
 }
 
 void changeOutputState(int outputPin) {
@@ -765,21 +775,21 @@ void apModeLoop() {
   // Read the first line of the request
   String req = client.readStringUntil('\r');
 
-  if (USE_SERIAL) {   
+  if (USE_SERIAL) {
     Serial.println(req);
   }
   client.flush();
   String cmd = "";
   int count = 0;
-  for (int i = 0; i < req.length(); i++) {    
-    if (req.charAt(i) == '/') {      
+  for (int i = 0; i < req.length(); i++) {
+    if (req.charAt(i) == '/') {
       count ++;
       if (count == 1) {
         cmd += "{";
       }
       else if (count == 2) {
          cmd += "}";
-      }      
+      }
     }
     else if (count == 1) {
       cmd += req.charAt(i);
@@ -788,19 +798,19 @@ void apModeLoop() {
 
   String resp = "HTTP/1.1 200 OK\r\n";
   resp += "Content-Type: text/plain\r\n\r\n";
-  
+
   if (cmd.indexOf("{io") == 0) {
      handleIOCmd(cmd);
      sprintf(ioStatus, "%d%d%d,%d%d%d", inputStates[0], inputStates[1], inputStates[2],
               digitalRead(OUT_1), digitalRead(OUT_2), digitalRead(OUT_3));
      sprintf(stMessage, "IO:%s", ioStatus);
-     resp += stMessage; 
+     resp += stMessage;
      resp += "\n";
   }
   else if (cmd.indexOf("{cf") == 0) {
-     handleCFCmd(cmd); 
-     sprintf(cfMessage, "CF:%s,%d%d%d,%s,%s,%s", 
-          serialStr, inputTypes[0], inputTypes[1], inputTypes[2], 
+     handleCFCmd(cmd);
+     sprintf(cfMessage, "CF:%s,%d%d%d,%s,%s,%s",
+          serialStr, inputTypes[0], inputTypes[1], inputTypes[2],
           tcpServer, wifiId, wifiPass);
      resp += cfMessage;
      resp += "\n";
@@ -826,14 +836,14 @@ void staModeLoop() {
       connectWifi();
   }
   else {
-    
+
     if (!pubSubClient.connected()) {
       if (USE_SERIAL) {
         Serial.print("Connecting to MQTT server ");
         Serial.println(tcpServer);
       }
       connState = SERVER_CONNECTING;
-      
+
       if (pubSubClient.connect(serialStr, MQTT_USER, MQTT_PASS)) {
         if (USE_SERIAL) {
           Serial.println("Connected to MQTT server");
@@ -841,7 +851,7 @@ void staModeLoop() {
         connState = SERVER_CONNECTED;
         // Turn on ESP MODE LED SIGNAL
         digitalWrite(ESP_LED, LOW);
-        
+
         sprintf(ioStatus, "%d%d%d,%d%d%d", inputStates[0], inputStates[1], inputStates[2],
               digitalRead(OUT_1), digitalRead(OUT_2), digitalRead(OUT_3));
         if (firstMsg == true) {
@@ -849,21 +859,21 @@ void staModeLoop() {
         }
         else {
             sprintf(stMessage, "id=%s&code=hello&io=%s", serialStr, ioStatus);
-        }        
+        }
         if (USE_SERIAL) {
           Serial.print("Publish message: ");
           Serial.print(MQTT_TOPIC);
           Serial.print("/");
           Serial.println(stMessage);
-        }  
-        pubSubClient.publish(MQTT_TOPIC, stMessage);        
-        pubSubClient.subscribe(serialStr); 
+        }
+        pubSubClient.publish(MQTT_TOPIC, stMessage);
+        pubSubClient.subscribe(serialStr);
         if (USE_SERIAL) {
           Serial.print("Subscribe topic: ");
           Serial.println(serialStr);
         }
-        firstMsg = false;     
-      }   
+        firstMsg = false;
+      }
       else {
         if (USE_SERIAL) {
           Serial.println("Connect to MQTT server failed");
@@ -875,19 +885,19 @@ void staModeLoop() {
         pubSubClient.loop();
         sprintf(ioStatus, "%d%d%d,%d%d%d", inputStates[0], inputStates[1], inputStates[2],
               digitalRead(OUT_1), digitalRead(OUT_2), digitalRead(OUT_3));
-          
+
         if (stType == ST_CHANGED) {
-          sprintf(stMessage, "id=%s&code=changed&io=%s", serialStr, ioStatus);     
+          sprintf(stMessage, "id=%s&code=changed&io=%s", serialStr, ioStatus);
           pubSubClient.publish(MQTT_TOPIC, stMessage);
           if (USE_SERIAL) {
             Serial.print("Publish message: ");
             Serial.print(MQTT_TOPIC);
             Serial.print("/");
             Serial.println(stMessage);
-          }  
+          }
           stType = ST_STATUS;
-          lastPublishTime = millis();      
-        } 
+          lastPublishTime = millis();
+        }
         else if (millis() - lastPublishTime > 45000) {
           sprintf(stMessage, "id=%s&code=status&io=%s", serialStr, ioStatus);
           if (USE_SERIAL) {
@@ -895,22 +905,21 @@ void staModeLoop() {
             Serial.print(MQTT_TOPIC);
             Serial.print("/");
             Serial.println(stMessage);
-          }  
+          }
           pubSubClient.publish(MQTT_TOPIC, stMessage);
-          stType = ST_STATUS; 
+          stType = ST_STATUS;
           lastPublishTime = millis();
-        }   
+        }
     }
   }
 }
 
 
 void loop() {
-  if (espMode == MODE_AP) {    
+  if (espMode == MODE_AP) {
     apModeLoop();
   }
   else if (espMode == MODE_STA) {
     staModeLoop();
-  }  
+  }
 }
-
