@@ -12,10 +12,10 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
+import net.xapxinh.player.connection.MqttConnection;
 import org.apache.log4j.Logger;
 
 import net.xapxinh.player.AppProperties;
-import net.xapxinh.player.connection.TcpConnection;
 import net.xapxinh.player.hardware.Hardware4Win;
 
 public class PlayerSystemTray extends Thread {
@@ -23,10 +23,10 @@ public class PlayerSystemTray extends Thread {
 	private static final Logger logger = Logger.getLogger(PlayerSystemTray.class.getSimpleName());
 
 	private TrayIcon trayIcon;
-	private TcpConnection tcpConnection;
+	private MqttConnection tcpConnection;
 	private final SystemTray systemTray;
 
-	public PlayerSystemTray(TcpConnection tcpConnection) {
+	public PlayerSystemTray(MqttConnection tcpConnection) {
 		this.tcpConnection = tcpConnection;
 		systemTray = SystemTray.getSystemTray();
 	}

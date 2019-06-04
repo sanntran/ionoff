@@ -36,7 +36,7 @@ import javax.swing.SwingUtilities;
 
 import com.google.common.eventbus.EventBus;
 
-import net.xapxinh.player.connection.TcpConnection;
+import net.xapxinh.player.connection.MqttConnection;
 import net.xapxinh.player.event.ShutdownEvent;
 import net.xapxinh.player.event.TickEvent;
 import net.xapxinh.player.event.VolumeChangedEvent;
@@ -80,7 +80,7 @@ public final class Application extends Vlcj {
 
 	private NativeLog nativeLog;
 
-	private TcpConnection tcpConnection;
+	private MqttConnection tcpConnection;
 	
 	private PlayerSystemTray systemTray;
 
@@ -177,7 +177,7 @@ public final class Application extends Vlcj {
 
 	void start() {
 		initFrame();
-		tcpConnection = new TcpConnection();
+		tcpConnection = new MqttConnection();
 		systemTray = new PlayerSystemTray(tcpConnection);
 		mainFrame.setVisible(true);
 		systemTray.start();
@@ -232,7 +232,6 @@ public final class Application extends Vlcj {
 		if (nativeStreams != null) {
 			nativeStreams.release();
 		}
-		tcpConnection.close();
 		application().post(ShutdownEvent.instance());
 		System.exit(0);
 	}

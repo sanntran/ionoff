@@ -30,7 +30,7 @@ public class UserConfig {
 			userConfig.load(appConfigInput);
 		}
 		catch (final IOException ex) {
-			LOGGER.error(ex.getMessage(), ex);
+			LOGGER.error(ex.getMessage());
 		}
 		SERVER_HOST = userConfig.getProperty("server_host");
 		HARDWARE_ID = userConfig.getProperty("hardware_id");
