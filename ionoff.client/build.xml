@@ -42,7 +42,7 @@
 	        <!-- you can ignore this -->
 			<arg line="-war"/>
 			<arg value="${webapp.dir}"/>
-	        <arg value="net.ionoff.center.IApp" />
+	        <arg value="net.ionoff.center.IOnOff" />
 	    </java>
 	</target>
 		 

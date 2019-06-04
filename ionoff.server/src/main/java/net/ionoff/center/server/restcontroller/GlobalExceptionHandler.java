@@ -1,45 +1,32 @@
 package net.ionoff.center.server.restcontroller;
 
+import net.ionoff.center.server.controller.exception.ControllerConnectException;
 import net.ionoff.center.server.exception.DeleteEntityException;
 import net.ionoff.center.server.exception.EntityNotFoundException;
 import net.ionoff.center.server.exception.RelayLockedException;
 import net.ionoff.center.server.exception.UpdateEntityException;
 import net.ionoff.center.server.locale.Messages;
-import net.ionoff.center.server.controller.exception.ControllerConnectException;
 import net.ionoff.center.server.security.InvalidTokenException;
 import net.ionoff.center.shared.dto.MessageDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.BadRequestException;
-import java.util.Date;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
 	private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class.getName());
-
-	public static final String DEFAULT_ERROR_VIEW = "error";
-
-	@ExceptionHandler(value = {Exception.class, RuntimeException.class})
-	public ModelAndView defaultErrorHandler(HttpServletRequest request, Exception e) {
-		ModelAndView mav = new ModelAndView(DEFAULT_ERROR_VIEW);
-
-		mav.addObject("datetime", new Date());
-		mav.addObject("exception", e);
-		mav.addObject("url", request.getRequestURL());
-		return mav;
-	}
 
 	@ExceptionHandler(NoHandlerFoundException.class)
 	public MessageDto handleNoHandlerFoundException(HttpServletRequest request, HttpServletResponse response,
@@ -60,8 +47,8 @@ public class GlobalExceptionHandler {
 	}
 	
 	@ExceptionHandler(value = Throwable.class)
-	public MessageDto defaultErrorHandler(HttpServletRequest request, HttpServletResponse response,
-			Throwable e) {
+	public ResponseEntity<MessageDto> defaultErrorHandler(HttpServletRequest request, HttpServletResponse response,
+										Throwable e) {
 		if (e instanceof ServletException
 				|| e instanceof DeleteEntityException
 				|| e instanceof UpdateEntityException) {
@@ -70,9 +57,8 @@ public class GlobalExceptionHandler {
 		else {
 			logger.error(e.getMessage(), e);
 		}
-		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		return new MessageDto(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-				e.getMessage());
+		return new ResponseEntity<>(new MessageDto(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+				e.getClass().getSimpleName() + ": " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@ExceptionHandler(ControllerConnectException.class)

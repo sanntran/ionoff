@@ -37,6 +37,8 @@ broker.mqtt.topic.ionoffnet: IOnOffNet
 broker.mqtt.topic.controller: Controller
 broker.mqtt.topic.mediaplayer: MediaPlayer
 
+
+
 logging:
     level:
         org.hibernate.engine: ERROR
