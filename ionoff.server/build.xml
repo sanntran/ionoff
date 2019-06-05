@@ -6,23 +6,23 @@
 	<tstamp> <format property="touch.time" pattern="yyyy_MM_dd"/> </tstamp>
 
 	<property name="parent.dir" location=".."/>
-	<property name="tomcat.dir" value="../../tomcat-9.0.0" />
+	<property name="tomcat.dir" value="../ionoff.tomcat" />
 	<property name="webapp.dir" value="${tomcat.dir}/webapps" />
 
 	<target name="deployed">
 		<condition property="is.deployed">
-			<available file="${webapp.dir}/center" type="dir"/>
+			<available file="${webapp.dir}/icenter" type="dir"/>
 		</condition>
 	</target>
 
     <target name="publish" depends="deployed" if="is.deployed">
 		<delete includeemptydirs="true" failonerror="false">
-			<fileset dir="${webapp.dir}/center/WEB-INF/classes">
+			<fileset dir="${webapp.dir}/icenter/WEB-INF/classes">
 				<include name="**/*.*"/>
 			</fileset>
 		</delete>
 
-		<copy todir="${webapp.dir}/center/WEB-INF/classes">
+		<copy todir="${webapp.dir}/icenter/WEB-INF/classes">
 			<fileset dir="./target/classes">
 				<include name="**/*.*"/>
 			</fileset>
@@ -30,8 +30,8 @@
     </target>
 
 	<target name="deploy">
-		<delete dir="${webapp.dir}/center" />
-		<copy file="./target/center.war" todir="${webapp.dir}" overwrite="true"/>
+		<delete dir="${webapp.dir}/icenter" />
+		<copy file="./target/icenter.war" todir="${webapp.dir}" overwrite="true"/>
 	</target>
 
 </project>

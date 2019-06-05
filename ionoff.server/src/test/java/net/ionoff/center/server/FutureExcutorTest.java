@@ -11,10 +11,14 @@ public class FutureExcutorTest {
 
 
     public static void main(String[] args) {
-        System.out.println("Starting one-minute countdown now...");
+        String s = "Starting # one-minute countdown now...";
+        System.out.println(s);
+
+        System.out.println(s.substring(0, s.indexOf("#")).substring(0, s.indexOf("?")));
 
         List<Runnable> runnableList = new ArrayList<>();
 
+        /*
         for (int i = 0; i < 50; i++) {
             final int n = i;
             runnableList.add(new Runnable() {
@@ -32,7 +36,7 @@ public class FutureExcutorTest {
         }
 
 
-
+        */
         //scheduler.shutdown();
     }
 }

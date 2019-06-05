@@ -149,7 +149,7 @@ public class ControllerServiceImpl extends AbstractGenericService<Controller, Co
 		getRelayDao().insert(relay);
 		
 		logger.info("Insert relay: " + relay.getName() + ", index: " + relay.getIndex() 
-				+ ", restcontroller: " + controller.getId());
+				+ ", controller: " + controller.getId());
 		return relay;
 	}
 	

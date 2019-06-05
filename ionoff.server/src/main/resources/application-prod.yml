@@ -1,0 +1,4 @@
+version: 1.6.8
+
+hibernate:
+    connection.password: ionoff$db

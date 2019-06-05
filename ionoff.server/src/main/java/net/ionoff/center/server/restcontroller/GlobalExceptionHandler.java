@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -28,26 +29,29 @@ public class GlobalExceptionHandler {
 
 	private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class.getName());
 
+	@ResponseBody
 	@ExceptionHandler(NoHandlerFoundException.class)
-	public MessageDto handleNoHandlerFoundException(HttpServletRequest request, HttpServletResponse response,
+	public ResponseEntity<MessageDto> handleNoHandlerFoundException(HttpServletRequest request,
 	                                                NoHandlerFoundException e) {
 		logger.error(e.getMessage());
-		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		MessageDto message = new MessageDto();
 		message.setMessage(e.getMessage());
 		message.setStatus(HttpServletResponse.SC_NOT_FOUND);
-		return message;
+		return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
 	}
 
+	@ResponseBody
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	@ExceptionHandler(InvalidTokenException.class)
-	public MessageDto handleInvalidTokenException(HttpServletRequest request, InvalidTokenException e) {
+	public ResponseEntity<MessageDto> handleInvalidTokenException(HttpServletRequest request, InvalidTokenException e) {
 		logger.error(e.getMessage());
-		return new MessageDto(HttpStatus.UNAUTHORIZED.value(), "Unauthorised request");
+		MessageDto message =  new MessageDto(HttpStatus.UNAUTHORIZED.value(), "Unauthorised request");
+		return new ResponseEntity<>(message, HttpStatus.UNAUTHORIZED);
 	}
-	
+
+	@ResponseBody
 	@ExceptionHandler(value = Throwable.class)
-	public ResponseEntity<MessageDto> defaultErrorHandler(HttpServletRequest request, HttpServletResponse response,
+	public ResponseEntity<MessageDto> defaultErrorHandler(HttpServletRequest request,
 										Throwable e) {
 		if (e instanceof ServletException
 				|| e instanceof DeleteEntityException
@@ -60,63 +64,63 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(new MessageDto(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 				e.getClass().getSimpleName() + ": " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
+
+	@ResponseBody
 	@ExceptionHandler(ControllerConnectException.class)
-	public MessageDto handleControllerConnectException(HttpServletRequest request, HttpServletResponse response,
+	public ResponseEntity<MessageDto> handleControllerConnectException(HttpServletRequest request,
 			ControllerConnectException e) {
 		final String locale = (String) request.getAttribute("locale");
 		logger.error(e.getMessage());
-		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		MessageDto message = new MessageDto(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 				Messages.get(locale).errorConnectController(e.getMessage()));
 		message.setCode(ControllerConnectException.class.getSimpleName());
-		return message;
+		return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	@ResponseBody
 	@ExceptionHandler(EntityNotFoundException.class)
-	public MessageDto handleUnknownControllerModelException(HttpServletRequest request, HttpServletResponse response, EntityNotFoundException e) {
+	public ResponseEntity<MessageDto> handleUnknownControllerModelException(HttpServletRequest request, EntityNotFoundException e) {
 		logger.error(e.getMessage());
-		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-		
 		if (e.getResourceName() != null && e.getResourceId() != null) {
 			final String locale = (String) request.getAttribute("locale");
-			return new MessageDto(HttpServletResponse.SC_NOT_FOUND, 
+
+			MessageDto message = new MessageDto(HttpServletResponse.SC_NOT_FOUND,
 					Messages.get(locale).resourceIdNotFound(e.getResourceName(), e.getResourceId()));
-		}
-		
-		else {
+			return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+		} else {
 			MessageDto message = new MessageDto();
 			message.setMessage(e.getMessage());
 			message.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			return message;
+			return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	@ExceptionHandler(BadRequestException.class)
-	public MessageDto handleUnknownControllerModelException(HttpServletRequest request, HttpServletResponse response, BadRequestException e) {
-		logger.error(e.getMessage(), e);
-		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		return new MessageDto(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
-	}
-	
 
-	@ExceptionHandler(AccessDeniedException.class)
-	public MessageDto handleAccessDeniedException(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) {
-		logger.error(e.getMessage());
-		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-		return new MessageDto(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
+	@ResponseBody
+	@ExceptionHandler(BadRequestException.class)
+	public ResponseEntity<MessageDto> handleUnknownControllerModelException(HttpServletRequest request, BadRequestException e) {
+		logger.error(e.getMessage(), e);
+		MessageDto message = new MessageDto(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+		return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 	}
-	
+
+	@ResponseBody
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<MessageDto> handleAccessDeniedException(HttpServletRequest request, AccessDeniedException e) {
+		logger.error(e.getMessage());
+		MessageDto message = new MessageDto(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
+		return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
+	}
+
+	@ResponseBody
 	@ExceptionHandler(RelayLockedException.class)
-	public MessageDto handleRelayLockedException(HttpServletRequest request, HttpServletResponse response,
+	public ResponseEntity<MessageDto> handleRelayLockedException(HttpServletRequest request,
 			RelayLockedException e) {
 		final String locale = (String) request.getAttribute("locale");
 		logger.error(e.getMessage());
-		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		MessageDto message = new MessageDto(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 				Messages.get(locale).errorRelayLocked(e.getMessage()));
 		message.setCode(ControllerConnectException.class.getSimpleName());
-		return message;
+		return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 }

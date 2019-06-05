@@ -3,7 +3,7 @@ version: 1.6.8
 server:
     port: 8208
     servlet:
-        context-path: /center
+        context-path: /icenter
 spring:
     resources.add-mappings: false
     flyway:
@@ -11,6 +11,8 @@ spring:
         locations: classpath:/db/migration
         baseline-on-migrate: true
         flyway.baseline-version: 1
+    main:
+        allow-bean-definition-overriding: true
 hibernate:
     connection.url: jdbc:mysql://localhost/ionoff?autoReconnect=true&characterEncoding=UTF-8
     dialect: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -36,8 +38,6 @@ broker.mqtt.url: tcp://localhost:1883
 broker.mqtt.topic.ionoffnet: IOnOffNet
 broker.mqtt.topic.controller: Controller
 broker.mqtt.topic.mediaplayer: MediaPlayer
-
-
 
 logging:
     level:

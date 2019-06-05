@@ -45,10 +45,10 @@ public class ControllerServiceController {
 			throw new ChangeEntityIdException(controllerDto.toString());
 		}
 		if (controllerDto.izNew()) {
-			logger.info("User " + user.getName() + " inserts restcontroller: " + controllerDto.toString());
+			logger.info("User " + user.getName() + " inserts controller: " + controllerDto.toString());
 			return controllerService.insertDto(user, controllerDto);
 		} else {
-			logger.info("User " + user.getName() + " updates restcontroller. " + controllerDto.toString());
+			logger.info("User " + user.getName() + " updates controller. " + controllerDto.toString());
 			return  controllerService.updateDto(user, controllerDto);
 		}
 	}
@@ -61,7 +61,7 @@ public class ControllerServiceController {
 		RequestContextHolder.checkAdminPermission(user);
 		ControllerDto controllerDto = controllerService.requireDtoById(controllerId);
 		RequestContextHolder.checkProjectPermission(user, controllerDto.getProjectId());
-		logger.info("User " + user.getName() + " delete restcontroller. Controller: " + controllerDto.toString());
+		logger.info("User " + user.getName() + " delete controller Controller: " + controllerDto.toString());
 		controllerService.deleteDtoById(user, controllerId);
 		return MessageDto.success(controllerId);
 	}

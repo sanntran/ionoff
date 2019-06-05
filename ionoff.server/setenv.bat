@@ -1,1 +1,1 @@
-set CATALINA_OPTS="-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"
+set JAVA_OPTS=-Dfile.encoding=UTF-8 -Dspring.profiles.active=prod -Xms128m -Xmx512m

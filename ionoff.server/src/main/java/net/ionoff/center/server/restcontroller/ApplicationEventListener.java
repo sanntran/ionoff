@@ -73,16 +73,16 @@ public class ApplicationEventListener implements ApplicationListener<Application
 		    while (drivers.hasMoreElements()) {
 		        Driver driver = drivers.nextElement();
 		        if (driver.getClass().getClassLoader() == cl) {
-		            // This restcontroller was registered by the webapp's ClassLoader, so deregister it:
+		            // This controller was registered by the webapp's ClassLoader, so deregister it:
 		            try {
-		                logger.info("Deregistering JDBC restcontroller " + driver);
+		                logger.info("Deregistering JDBC controller " + driver);
 		                DriverManager.deregisterDriver(driver);
 		            } catch (SQLException ex) {
-		            	logger.error("Error deregistering JDBC restcontroller " + driver, ex);
+		            	logger.error("Error deregistering JDBC controller " + driver, ex);
 		            }
 		        } else {
-		            // restcontroller was not registered by the webapp's ClassLoader and may be in use elsewhere
-		        	logger.info("Not deregistering JDBC restcontroller as it does not belong to this webapp's ClassLoader");
+		            // controller was not registered by the webapp's ClassLoader and may be in use elsewhere
+		        	logger.info("Not deregistering JDBC controller as it does not belong to this webapp's ClassLoader");
 		        }
 		    }
 	    	taskExecutor.shutdown();

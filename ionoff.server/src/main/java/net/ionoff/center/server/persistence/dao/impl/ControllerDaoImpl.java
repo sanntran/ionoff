@@ -27,10 +27,10 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 		if (keyWord == null || keyWord.isEmpty()) {
 			return countByProjectId(projectId);
 		}
-		String sql = "select count(restcontroller)"
-					+ " from Controller as restcontroller"
-					+ " where lower(restcontroller.name) like :keyWord"
-					+ " and restcontroller.project.id = :projectId";
+		String sql = "select count(controller)"
+					+ " from Controller as controller"
+					+ " where lower(controller.name) like :keyWord"
+					+ " and controller.project.id = :projectId";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("keyWord", "%" + keyWord.toLowerCase() + "%");
@@ -39,9 +39,9 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 
 	@Override
 	public long countByProjectId(long projectId) {
-		String sql = "select count(restcontroller)"
-				+ " from Controller as restcontroller"
-				+ " where restcontroller.project.id = :projectId";
+		String sql = "select count(controller)"
+				+ " from Controller as controller"
+				+ " where controller.project.id = :projectId";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("projectId", projectId);
 		return countObjects(query);
@@ -52,11 +52,11 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 		if (keyWord == null || keyWord.isEmpty()) {
 			return findByProjectId(projectId, fromIndex, maxResults, orderBy, isAscending);
 		}
-		String sql = "select distinct restcontroller"
-					+ " from Controller as restcontroller"
-					+ " where restcontroller.name like :keyWord"
-					+ " and restcontroller.project.id = :projectId"
-					+ " order by restcontroller." + orderBy;
+		String sql = "select distinct controller"
+					+ " from Controller as controller"
+					+ " where controller.name like :keyWord"
+					+ " and controller.project.id = :projectId"
+					+ " order by controller." + orderBy;
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
@@ -69,10 +69,10 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 
 	private List<Controller> findByProjectId(long projectId, int fromIndex, int maxResults,
                                              String orderBy, boolean isAscending) {
-		String sql = "select distinct restcontroller"
-					+ " from Controller as restcontroller"
-					+ " where restcontroller.project.id = :projectId"
-					+ " order by restcontroller." + orderBy;
+		String sql = "select distinct controller"
+					+ " from Controller as controller"
+					+ " where controller.project.id = :projectId"
+					+ " order by controller." + orderBy;
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
@@ -92,10 +92,10 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 
 	@Override
 	public List<Controller> findByProjectId(long projectId) {
-		String sql = "select distinct restcontroller"
-				+ " from Controller as restcontroller"
-				+ " where restcontroller.project.id = :projectId"
-				+ " order by restcontroller.name";
+		String sql = "select distinct controller"
+				+ " from Controller as controller"
+				+ " where controller.project.id = :projectId"
+				+ " order by controller.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("projectId", projectId);
 		return findMany(query);
@@ -120,11 +120,11 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 
 	@Override
 	public List<Controller> findByIpPort(String ip, Integer port) {
-		String sql = "select distinct restcontroller"
-				+ " from Controller as restcontroller"
-				+ " where restcontroller.ip = :ip"
-				+ " and restcontroller.port = :port"
-				+ " order by restcontroller.name";
+		String sql = "select distinct controller"
+				+ " from Controller as controller"
+				+ " where controller.ip = :ip"
+				+ " and controller.port = :port"
+				+ " order by controller.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("ip", ip)
 				.setParameter("port", port);
@@ -133,10 +133,10 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 
 	@Override
 	public List<Controller> findByMac(String mac) {
-		String sql = "select distinct restcontroller"
-				+ " from Controller as restcontroller"
-				+ " where restcontroller.key = :mac"
-				+ " order by restcontroller.name";
+		String sql = "select distinct controller"
+				+ " from Controller as controller"
+				+ " where controller.key = :mac"
+				+ " order by controller.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("mac", mac);
 		return findMany(query);
@@ -144,10 +144,10 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 
 	@Override
 	public List<Controller> findByIp(String ip) {
-		String sql = "select distinct restcontroller"
-				+ " from Controller as restcontroller"
-				+ " where restcontroller.ip = :ip"
-				+ " order by restcontroller.name";
+		String sql = "select distinct controller"
+				+ " from Controller as controller"
+				+ " where controller.ip = :ip"
+				+ " order by controller.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("ip", ip);
 		return findMany(query);

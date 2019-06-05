@@ -105,7 +105,7 @@ public class ControllerHandler {
 	public void handleStatusMessage(BaseStatus status) {
 		List<Controller> controllers = controllerDao.findByMac(status.getKey());
 		if (controllers.isEmpty()) {
-			LOGGER.info("No restcontroller found. Key: " + status.getKey());
+			LOGGER.info("No controller found. Key: " + status.getKey());
 			return;
 		}
 		Controller controller = controllers.get(0);
@@ -161,7 +161,7 @@ public class ControllerHandler {
 	}
 
 	private void handleStarted(Controller controller, BaseStatus status) {
-		LOGGER.info("Relay restcontroller has been started " + controller.getKey());
+		LOGGER.info("Relay controller has been started " + controller.getKey());
 		if (!controller.isLazy()) {
 			handleStatus(controller, status);
 		}
@@ -199,7 +199,7 @@ public class ControllerHandler {
 	}
 
 	private void handleChanged(Controller controller, BaseStatus status) {
-		LOGGER.info("Relay restcontroller IO status changed " + controller.getKey());
+		LOGGER.info("Relay controller IO status changed " + controller.getKey());
 		for (Relay relay : controller.getRelays()) {
 			if (relay.updateStatus(status.getOutputs().get(relay.getIndex()))) {
 				relayService.update(relay, relay.getStatus());

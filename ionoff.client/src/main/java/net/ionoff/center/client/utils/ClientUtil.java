@@ -68,7 +68,7 @@ public final class ClientUtil {
 		return params;
 	}
 
-	public static String getUrl(String language, String page) {
+	public static String getPageUrl(String language, String page) {
 		final String url = getClientUrl() + page + "?locale=" + language;
 		return url;
 	}
@@ -77,7 +77,7 @@ public final class ClientUtil {
 		String protocol = Window.Location.getProtocol();
     	if (protocol.contains("http")) {
     		String port = Window.Location.getPort();
-    		if (!"8008".equals(port) && !"80".equals(port)) { // production port
+    		if (!"8008".equals(port) && !"80".equals(port) && !"".equals(port)) { // production port
     			port = "8208"; // development mode
 		    }
     		return protocol + "//" + Window.Location.getHostName() + ":" + port;
@@ -93,11 +93,18 @@ public final class ClientUtil {
 	}
 	
 	public static String getClientUrl() {
-		return GWT.getModuleBaseURL().replace((GWT.getModuleName() + "/"), "");
+		String href = Window.Location.getHref();
+		if (href.contains("#")) {
+			href = href.substring(0, href.indexOf("#"));
+		}
+		if (href.contains("?")) {
+			href = href.substring(0, href.indexOf("?"));
+		}
+		return href;
 	}
 	
 	public static String getServiceUrl() {
-		return getBaseUrl() + "/center";
+		return getBaseUrl() + "/icenter";
     }
 
 	public static MessageDto handleRpcFailure(Method method, Throwable exception, HandlerManager eventBus) {

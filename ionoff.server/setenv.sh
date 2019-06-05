@@ -1,1 +1,1 @@
-set CATALINA_OPTS="-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"
+export JAVA_OPTS="-Dfile.encoding=UTF-8 -Dspring.profiles.active=prod -Xms128m -Xmx512m -Djava.security.egd=file:/dev/./urandom"

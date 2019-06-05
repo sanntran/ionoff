@@ -89,7 +89,7 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 
 	public NavigationsView() {
 		uiBinder.createAndBindUi(this);
-		
+
 		menuItemProject.setText(ProjectLocale.getProjectConst().project());
 		menuItemDashboard.setText(ProjectLocale.getProjectConst().dashboard());
 		menuItemDevice.setText(ProjectLocale.getProjectConst().device());
@@ -104,7 +104,6 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 		menuItemZone.setText(ProjectLocale.getProjectConst().zone());
 
 		popupProjectsView = new PopupProjectsView();
-		
 	}
 	
 	@Override

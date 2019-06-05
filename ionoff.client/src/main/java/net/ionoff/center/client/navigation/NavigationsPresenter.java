@@ -2,6 +2,7 @@ package net.ionoff.center.client.navigation;
 
 import java.util.List;
 
+import net.ionoff.center.client.locale.ProjectLocale;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
