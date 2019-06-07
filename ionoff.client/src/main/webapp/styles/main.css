@@ -397,13 +397,14 @@ textarea.materialize-textarea[readonly="readonly"] {
     display: inline-block !important;
     width: calc(100% - 240px);
     max-width: 180px;
+    padding-top: 10px;
 }
 
 .main nav .nav-wrapper .btnTitle h4 {
-	color: #fffde7;
+	color: #ffffff;
     margin: 0px !important;
-    margin-top: -11px !important;
-    font-size: 17px;
+    margin-top: -8px !important;
+    font-size: 16px;
     overflow: hidden;
     width: 100%;
     text-overflow: ellipsis;
@@ -413,9 +414,8 @@ textarea.materialize-textarea[readonly="readonly"] {
 
 .main nav .nav-wrapper .btnTitle p {
 	margin: 0px;
-    position: absolute;
     line-height: 11px;
-    bottom: 11px;
+    bottom: 12px;
     width: 100%;
     color: #b2bfc5;
     overflow: hidden;
