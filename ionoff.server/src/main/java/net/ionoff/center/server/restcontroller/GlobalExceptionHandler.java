@@ -10,6 +10,7 @@ import net.ionoff.center.server.security.InvalidTokenException;
 import net.ionoff.center.shared.dto.MessageDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,17 +28,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.BadRequestException;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class.getName());
 
-	@ResponseBody
-	@ExceptionHandler(NoHandlerFoundException.class)
-	public ResponseEntity<MessageDto> handleNoHandlerFoundException(HttpServletRequest request,
-	                                                NoHandlerFoundException e) {
-		logger.error(e.getMessage());
+	@Override
+	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+		logger.error(ex.getMessage());
 		MessageDto message = new MessageDto();
-		message.setMessage(e.getMessage());
+		message.setMessage(ex.getMessage());
 		message.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
 	}

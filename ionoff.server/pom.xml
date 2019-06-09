@@ -206,10 +206,10 @@
 				<executions>
 					<execution>
 						<id>deploy</id>
-						<phase>package</phase>
+						<phase>deploy</phase>
 						<configuration>
 							<tasks>
-								<!--<ant antfile="build.xml" target="deploy" />-->
+								<ant antfile="build.xml" target="deploy" />
 							</tasks>
 						</configuration>
 						<goals>

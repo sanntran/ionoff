@@ -31,7 +31,7 @@ public class ControllerServiceController {
 	@Autowired
 	private IControllerService controllerService;
 	
-	@RequestMapping(value = "controllers/controllerId",
+	@RequestMapping(value = "controllers/{controllerId}",
 			method = RequestMethod.PUT, 
 			produces = "application/json; charset=utf-8")
 
@@ -53,7 +53,7 @@ public class ControllerServiceController {
 		}
 	}
 
-	@RequestMapping(value = "controllers/controllerId", method = RequestMethod.DELETE, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "controllers/{controllerId}", method = RequestMethod.DELETE, produces = "application/json; charset=utf-8")
 
 	public MessageDto delete(@PathVariable("controllerId") Long controllerId, HttpServletRequest request)
 			throws DeleteEntityException {
