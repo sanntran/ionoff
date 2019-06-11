@@ -49,9 +49,6 @@ public interface ProjectConstants extends Constants {
 	@DefaultStringValue("Ngắt")
 	String open();
 
-	@DefaultStringValue("Đóng-Ngắt")
-	String closeOpen();
-
 	@DefaultStringValue("Không")
 	String none();
 	
@@ -211,15 +208,6 @@ public interface ProjectConstants extends Constants {
 	@DefaultStringValue("Album")
 	String album();
 
-	@DefaultStringValue("Time bufer")
-	String timeBuffer();
-
-	@DefaultStringValue("Có người")
-	String detectedHuman();
-
-	@DefaultStringValue("Không có người")
-	String detectedNoHuman();
-
 	@DefaultStringValue("Chọn...")
 	String select();
 	
@@ -256,20 +244,11 @@ public interface ProjectConstants extends Constants {
 	@DefaultStringValue("Port")
 	String port();
 	
-	@DefaultStringValue("Bảng điều khiển")
+	@DefaultStringValue("Dashboard")
 	String dashboard();
 	
 	@DefaultStringValue("Chức năng")
 	String feature();
-	
-	@DefaultStringValue("Thêm vào dashboard vùng")
-	String addToZoneDashboard();
-	
-	@DefaultStringValue("Thêm vào dashboard dự án")
-	String addToProjectDashboard();
-	
-	@DefaultStringValue("Xóa khỏi dashboard")
-	String removeFromDashboard();
 
 	@DefaultStringValue("Thêm")
 	String add();

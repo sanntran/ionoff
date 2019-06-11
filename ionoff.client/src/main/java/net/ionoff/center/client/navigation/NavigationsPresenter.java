@@ -47,8 +47,6 @@ public class NavigationsPresenter extends AbstractPresenter {
 		
 		MaterialNavBar getNavBar();
 		MaterialButton getNavBtnLogo();
-		MaterialIcon getNavIconDashhboard();
-		MaterialButton getBtnNavTitle();
 		MaterialTitle getNavTitle();
 		MaterialIcon getBtnUser();
 
@@ -61,7 +59,6 @@ public class NavigationsPresenter extends AbstractPresenter {
 		MaterialButton getBtnProfileTitle();
 		
 		MaterialLink getMenuItemProject();
-		MaterialLink getMenuItemDashboard();
 		MaterialLink getMenuItemDevice();
 	    MaterialLink getMenuItemScene();
 	    MaterialLink getMenuItemMode();
@@ -97,7 +94,6 @@ public class NavigationsPresenter extends AbstractPresenter {
 			}
 		};
 	}
-
 
 	@Override
 	public void go() {
@@ -135,140 +131,59 @@ public class NavigationsPresenter extends AbstractPresenter {
 			}
 		}
 
-		display.getNavBtnLogo().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(
-						AppToken.newDashboardToken(StorageService.getInstance().getCookie().getProjectId())));
-			}
+		ClickHandler goToProjectHandler = event -> eventBus.fireEvent(new ChangeTokenEvent(
+				AppToken.newDashboardToken(StorageService.getInstance().getCookie().getProjectId())));
+
+		display.getNavBtnLogo().addClickHandler(goToProjectHandler);
+		display.getBtnImgProject().addClickHandler(goToProjectHandler);
+
+		display.getBtnProfileTitle().addClickHandler(event -> {
+			Widget source = (Widget) event.getSource();
+			int left = 0;
+			int top = source.getAbsoluteTop() + 50;
+			showPopupProjectsView(left, top);
 		});
 
-		display.getNavIconDashhboard().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (AppToken.hasTokenItem(AppToken.PROJECT)) {
-					eventBus.fireEvent(new ChangeTokenEvent(AppToken.newDashboardToken()));
-				}
-			}
-		});
-		
-		display.getBtnImgProject().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(
-						AppToken.newDashboardToken(StorageService.getInstance().getCookie().getProjectId())));
-			}
-		});
-
-		display.getBtnProfileTitle().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				Widget source = (Widget) event.getSource();
-				int left = 0;
-				int top = source.getAbsoluteTop() + 50;
-				showPopupProjectsView(left, top);
-			}
-		});
-
-		display.getIconSystemSetting().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
+		ClickHandler showProjectTableHandler = event ->
 				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newTokenProjectTable()));
-			}
-		});
+		display.getIconSystemSetting().addClickHandler(showProjectTableHandler);
 				
-		display.getMenuItemProject().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newTokenProjectTable()));
-			}
-		});
+		display.getMenuItemProject().addClickHandler(showProjectTableHandler);
+
+		display.getMenuItemDevice().addClickHandler(event ->
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newDeviceTableToken())));
 		
-		display.getMenuItemDashboard().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newDashboardToken()));
-			}
-		});
+		display.getMenuItemScene().addClickHandler(event ->
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newSceneTableToken())));
 		
-		display.getMenuItemDevice().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newDeviceTableToken()));
-			}
-		});
+		display.getMenuItemMode().addClickHandler(event ->
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newModeTableToken())));
 		
-		display.getMenuItemScene().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newSceneTableToken()));
-			}
-		});
+		display.getMenuItemSchedule().addClickHandler(event ->
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newScheduleTableToken())));
 		
-		display.getMenuItemMode().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newModeTableToken()));
-			}
-		});
+		display.getMenuItemController().addClickHandler(event ->
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newControllerTableToken())));
 		
-		display.getMenuItemSchedule().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newScheduleTableToken()));
-			}
-		});
+		display.getMenuItemRelay().addClickHandler(event ->
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newRelayTableToken())));
 		
-		display.getMenuItemController().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newControllerTableToken()));
-			}
-		});
+		display.getMenuItemUser().addClickHandler(event ->
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newUserTableToken())));
 		
-		display.getMenuItemRelay().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newRelayTableToken()));
-			}
-		});
+		display.getMenuItemSensor().addClickHandler(event ->
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newSensorTableToken())));
 		
-		display.getMenuItemUser().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newUserTableToken()));
-			}
-		});
+		display.getMenuItemArea().addClickHandler(event ->
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newAreaTableToken())));
 		
-		display.getMenuItemSensor().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newSensorTableToken()));
-			}
-		});
-		
-		display.getMenuItemArea().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newAreaTableToken()));
-			}
-		});
-		
-		display.getMenuItemZone().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newZoneTableToken()));
-			}
-		});
+		display.getMenuItemZone().addClickHandler(event ->
+				eventBus.fireEvent(new ChangeTokenEvent(AppToken.newZoneTableToken())));
 		
 		display.getBtnUser().addClickHandler(e -> showPopupUserMenu());
 
-		eventBus.addHandler(ChangeZoneEvent.TYPE, new ChangeZoneEventHandler() {
-			@Override
-			public void onChangeZone(ChangeZoneEvent event) {
-				onZoneChanged(event.getZone());
-			}
-		});
+		eventBus.addHandler(ChangeZoneEvent.TYPE, event ->
+				onZoneChanged(event.getZone()));
 	}
 
 	private PopupUserMenuPresenter getPopupUserMenuPresenter() {
@@ -334,12 +249,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 			if (projectId != null && projectId.equals(proj.getId())) {
 				projMenuItem.setSelected(true);
 			}
-			projMenuItem.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					eventBus.fireEvent(new ChangeProjectEvent(proj));
-				}
-			});
+			projMenuItem.addClickHandler(event -> eventBus.fireEvent(new ChangeProjectEvent(proj)));
 			display.getPopupProjectsView().getContentWrapper().add(projMenuItem);
 			display.getPopupProjectsView().getMenuItemViews().add(projMenuItem);
 		}
@@ -376,9 +286,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 		display.getProfileTitle().setTitle(ClientLocale.getClientConst().system());
 		display.getProfileTitle().setDescription(ClientLocale.getClientConst().setting());
 				
-		display.getNavIconDashhboard().setIconType(IconType.SETTINGS);
 		display.getMenuItemProject().setVisible(true);
-		display.getMenuItemDashboard().setVisible(false);
 		display.getMenuItemDevice().setVisible(false);
 		display.getMenuItemScene().setVisible(false);
 		display.getMenuItemMode().setVisible(false);
@@ -408,9 +316,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 			}
 		}
 		
-		display.getNavIconDashhboard().setIconType(IconType.DASHBOARD);
 		display.getMenuItemProject().setVisible(false);
-		display.getMenuItemDashboard().setVisible(true);
 
 		String userGroup = null;
 		try {

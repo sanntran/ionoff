@@ -47,5 +47,10 @@ public class DashboardView extends Composite implements DashboardPresenter.Displ
 	public MaterialRow getWrapper() {
 		return wrapper;
 	}
+
+	@Override
+	public MaterialLink getLblTitle() {
+		return lblTitle;
+	}
 	
 }

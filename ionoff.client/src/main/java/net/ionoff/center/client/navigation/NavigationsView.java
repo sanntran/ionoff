@@ -35,10 +35,6 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 	@UiField
 	MaterialButton btnLogo;
 	@UiField
-	MaterialIcon dashhboardIcon;
-	@UiField
-	MaterialButton btnNavTitle;
-	@UiField
 	MaterialTitle navTitle;
 	
 	@UiField
@@ -62,8 +58,6 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 	
 	@UiField
 	MaterialLink menuItemProject;
-	@UiField
-	MaterialLink menuItemDashboard;
 	@UiField
 	MaterialLink menuItemDevice;
 	@UiField
@@ -91,7 +85,6 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 		uiBinder.createAndBindUi(this);
 
 		menuItemProject.setText(ProjectLocale.getProjectConst().project());
-		menuItemDashboard.setText(ProjectLocale.getProjectConst().dashboard());
 		menuItemDevice.setText(ProjectLocale.getProjectConst().device());
 		menuItemScene.setText(ProjectLocale.getProjectConst().scene());
 		menuItemMode.setText(ProjectLocale.getProjectConst().mode());
@@ -115,17 +108,7 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 	public MaterialButton getNavBtnLogo() {
 		return btnLogo;
 	}
-	
-	@Override
-	public MaterialIcon getNavIconDashhboard() {
-		return dashhboardIcon;
-	}
 
-	@Override
-	public MaterialButton getBtnNavTitle() {
-		return btnNavTitle;
-	}
-	
 	@Override
 	public MaterialTitle getNavTitle() {
 		return navTitle;
@@ -174,11 +157,6 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 	@Override
 	public MaterialLink getMenuItemProject() {
 		return menuItemProject;
-	}
-	
-	@Override
-	public MaterialLink getMenuItemDashboard() {
-		return menuItemDashboard;
 	}
 
 	@Override

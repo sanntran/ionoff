@@ -172,9 +172,6 @@ public interface AdminConstants extends Constants {
 	@DefaultStringValue("Đóng")
 	String close();
 
-	@DefaultStringValue("Đóng-Ngắt")
-	String closeOpen();
-
 	@DefaultStringValue("Play")
 	String play();
 

@@ -34,9 +34,8 @@
 			<m:MaterialNavBar ui:field="navBar" activates="sidenavDrawer"
 				backgroundColor="BLUE_GREY_DARKEN_3" shadow="1">
 				<m:MaterialButton ui:field="btnLogo" type="FLAT" waves="LIGHT" addStyleNames="logo" />					
-				<m:MaterialIcon ui:field="dashhboardIcon" addStyleNames="dashhboardIcon" waves="LIGHT" iconType="DASHBOARD" iconSize="SMALL" />
-				<m:MaterialButton ui:field="btnNavTitle" type="FLAT" addStyleNames="btnTitle">
-					<m:MaterialTitle ui:field="navTitle" title="Null" description="Null" addStyleNames="title" />
+				<m:MaterialButton type="FLAT" addStyleNames="btnTitle">
+					<m:MaterialTitle ui:field="navTitle" title="" description="" addStyleNames="title" />
 				</m:MaterialButton>		
 				<m:MaterialIcon ui:field="btnUser" iconType="ACCOUNT_CIRCLE" iconColor="WHITE" waves="LIGHT" float="RIGHT"
 					addStyleNames="button-user" />
@@ -62,8 +61,7 @@
 			</ma:sideprofile.MaterialSideProfile>
 			
 			<m:MaterialLink ui:field="menuItemProject" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="BUSINESS" />
-			<m:MaterialLink ui:field="menuItemDashboard" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="DASHBOARD" />
-			<m:MaterialLink ui:field="menuItemDevice" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="DEVICES_OTHER" > 
+			<m:MaterialLink ui:field="menuItemDevice" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="DEVICES_OTHER" >
 			</m:MaterialLink>
 			<m:MaterialLink ui:field="menuItemScene" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="MOVIE" >
 			</m:MaterialLink>

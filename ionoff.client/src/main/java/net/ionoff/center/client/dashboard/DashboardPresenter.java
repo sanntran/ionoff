@@ -5,20 +5,19 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Panel;
+import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialRow;
 import net.ionoff.center.client.base.AbstractPresenter;
 import net.ionoff.center.client.device.*;
+import net.ionoff.center.client.event.ChangeZoneEvent;
 import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.service.IRpcServiceProvider;
+import net.ionoff.center.client.storage.StorageService;
 import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.client.zone.ZonePresenter;
 import net.ionoff.center.client.zone.ZoneView;
-import net.ionoff.center.shared.dto.DashboardDto;
-import net.ionoff.center.shared.dto.DeviceDto;
-import net.ionoff.center.shared.dto.MediaPlayerDto;
-import net.ionoff.center.shared.dto.RelayLoadDto;
-import net.ionoff.center.shared.dto.ZoneDto;
+import net.ionoff.center.shared.dto.*;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -30,6 +29,7 @@ public class DashboardPresenter extends AbstractPresenter {
 	public interface Display {
 		Panel asPanel();
 		MaterialRow getWrapper();
+		MaterialLink getLblTitle();
 	}
 	
 	private IRpcServiceProvider rpcService;
@@ -69,6 +69,18 @@ public class DashboardPresenter extends AbstractPresenter {
 	}
 
 	private void getAndShowDashboard() {
+		if (!AppToken.hasTokenItem(AppToken.ZONE)) {
+			Long projectId = AppToken.getProjectIdLong();
+			UserDto user = StorageService.getInstance().getCookie().getUser();
+			for (ProjectDto project : user.getProjects()) {
+				if (projectId != null && projectId.equals(project.getId())) {
+					display.getLblTitle().setText(project.getName());
+					break;
+				}
+			}
+		} else {
+			eventBus.addHandler(ChangeZoneEvent.TYPE, event -> display.getLblTitle().setText(event.getZone().getName()));
+		}
 		if (AppToken.hasTokenItem(AppToken.ZONE)) {
 			rpcService.getDashboardService().findByZoneId(AppToken.getZoneIdLong(), 
 					new MethodCallback<DashboardDto>() {
@@ -99,6 +111,7 @@ public class DashboardPresenter extends AbstractPresenter {
 				}
 			});
 		}
+
 	}
 	private void showZones(List<ZoneDto> zones) {
 		for (final ZoneDto zone : zones) {
