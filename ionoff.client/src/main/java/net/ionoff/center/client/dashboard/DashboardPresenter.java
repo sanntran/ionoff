@@ -9,6 +9,8 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialRow;
 import net.ionoff.center.client.base.AbstractPresenter;
 import net.ionoff.center.client.device.*;
+import net.ionoff.center.client.event.ChangeProjectEvent;
+import net.ionoff.center.client.event.ChangeTokenEvent;
 import net.ionoff.center.client.event.ChangeZoneEvent;
 import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.service.IRpcServiceProvider;
@@ -48,7 +50,33 @@ public class DashboardPresenter extends AbstractPresenter {
 	}
 	
 	private void bind() {
-
+		if (!AppToken.hasTokenItem(AppToken.ZONE)) {
+			Long projectId = AppToken.getProjectIdLong();
+			UserDto user = StorageService.getInstance().getCookie().getUser();
+			for (ProjectDto project : user.getProjects()) {
+				if (projectId != null && projectId.equals(project.getId())) {
+					display.getLblTitle().setText(project.getName());
+					break;
+				}
+			}
+		} else {
+			Long zoneId = AppToken.getZoneIdLong();
+			Long projectId = AppToken.getProjectIdLong();
+			UserDto user = StorageService.getInstance().getCookie().getUser();
+			for (ProjectDto project : user.getProjects()) {
+				if (projectId != null && projectId.equals(project.getId())) {
+					for (ZoneDto zone : project.getZones()) {
+						if (zoneId != null && zoneId.equals(zone.getId())) {
+							display.getLblTitle().setText(zone.getName());
+							break;
+						}
+					}
+					break;
+				}
+			}
+		}
+		eventBus.addHandler(ChangeProjectEvent.TYPE, event -> display.getLblTitle().setText(event.getProject().getName()));
+		eventBus.addHandler(ChangeZoneEvent.TYPE, event -> display.getLblTitle().setText(event.getZone().getName()));
 	}
 
 	private void scheduleRefreshDashboard() {
@@ -69,18 +97,7 @@ public class DashboardPresenter extends AbstractPresenter {
 	}
 
 	private void getAndShowDashboard() {
-		if (!AppToken.hasTokenItem(AppToken.ZONE)) {
-			Long projectId = AppToken.getProjectIdLong();
-			UserDto user = StorageService.getInstance().getCookie().getUser();
-			for (ProjectDto project : user.getProjects()) {
-				if (projectId != null && projectId.equals(project.getId())) {
-					display.getLblTitle().setText(project.getName());
-					break;
-				}
-			}
-		} else {
-			eventBus.addHandler(ChangeZoneEvent.TYPE, event -> display.getLblTitle().setText(event.getZone().getName()));
-		}
+
 		if (AppToken.hasTokenItem(AppToken.ZONE)) {
 			rpcService.getDashboardService().findByZoneId(AppToken.getZoneIdLong(), 
 					new MethodCallback<DashboardDto>() {
@@ -97,6 +114,19 @@ public class DashboardPresenter extends AbstractPresenter {
 			});
 		}
 		else {
+			Long projectId = AppToken.getProjectIdLong();
+			UserDto user = StorageService.getInstance().getCookie().getUser();
+			for (ProjectDto project : user.getProjects()) {
+				if (projectId != null && projectId.equals(project.getId())) {
+					if (project.getZones().size() == 1) {
+						String token = AppToken.newZoneDashboardToken(project.getZones().get(0).getId());
+						eventBus.fireEvent(new ChangeTokenEvent(token));
+						eventBus.fireEvent(new ChangeZoneEvent(project.getZones().get(0)));
+						return;
+					}
+					break;
+				}
+			}
 			rpcService.getDashboardService().findByProjectId(AppToken.getProjectIdLong(), 
 					new MethodCallback<DashboardDto>() {
 				@Override
@@ -220,10 +250,6 @@ public class DashboardPresenter extends AbstractPresenter {
 		container.clear();
 		container.add(display.asPanel());
 		display.getWrapper().clear();
-		if (AppToken.hasTokenItem(AppToken.ZONE)) {
-		}
-		else if (AppToken.hasTokenItem(AppToken.PROJECT)) {
-		}
 		getAndShowDashboard();
 		scheduleRefreshDashboard();
 	}

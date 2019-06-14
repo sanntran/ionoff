@@ -55,13 +55,10 @@ public class ZonePresenter extends AbstractPresenter {
 		if (Boolean.TRUE.equals(zone.getLighting())) {
 			display.asPanel().addStyleName("lighting");
 		}
-		display.getZoneCard().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				String token = AppToken.newZoneDashboardToken(zone.getId());
-				eventBus.fireEvent(new ChangeTokenEvent(token));
-				eventBus.fireEvent(new ChangeZoneEvent(zone));
-			}
+		display.getZoneCard().addClickHandler(event -> {
+			String token = AppToken.newZoneDashboardToken(zone.getId());
+			eventBus.fireEvent(new ChangeTokenEvent(token));
+			eventBus.fireEvent(new ChangeZoneEvent(zone));
 		});
 	}
 
