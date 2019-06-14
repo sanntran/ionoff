@@ -1,18 +1,10 @@
 package net.ionoff.center.client.zone;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.MethodCallback;
-
-import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
-
 import net.ionoff.center.client.base.AbstractTablePresenter;
 import net.ionoff.center.client.base.ITableView;
 import net.ionoff.center.client.event.ShowLoadingEvent;
@@ -23,6 +15,11 @@ import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.AreaDto;
 import net.ionoff.center.shared.dto.BaseDto;
 import net.ionoff.center.shared.dto.ZoneDto;
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ZoneTablePresenter extends AbstractTablePresenter<ZoneDto>{
 	
@@ -46,12 +43,6 @@ public class ZoneTablePresenter extends AbstractTablePresenter<ZoneDto>{
 	@Override
 	public void bind() {
 		super.bind();
-		view.getEditColumn().setFieldUpdater(new FieldUpdater<ZoneDto, String>() {
-			@Override
-			public void update(int index, ZoneDto object, String value) {
-				showEditForm();
-			}
-		});
 	}
 
 	@Override

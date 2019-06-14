@@ -24,7 +24,7 @@ public class ZonePresenter extends AbstractPresenter {
 		HTMLPanel asPanel();
 		MaterialIcon getIcon();
 		MaterialLabel getLblName();
-		MaterialLink getLblDevices();
+		MaterialLabel getLblDevices();
 		MaterialLabel getLblArea();
 		MaterialPanel getZoneCard();
 	}

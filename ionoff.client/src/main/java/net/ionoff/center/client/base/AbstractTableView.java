@@ -10,6 +10,7 @@ import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 import net.ionoff.center.client.ui.FontawesomeButtonCell;
+import net.ionoff.center.client.ui.PopupTableRowMenu;
 import net.ionoff.center.client.ui.ToolBarView;
 import net.ionoff.center.shared.dto.BaseDto;
 
@@ -23,6 +24,7 @@ public abstract class AbstractTableView<T extends BaseDto> extends FlowPanel imp
 	private SingleSelectionModel<T> singleSelectionModel;
 	private AsyncDataProvider<T> dataProvider;
 	private FlowPanel listPanel;
+	private PopupTableRowMenu popupRowMenu;
 	
 	public AbstractTableView(String style) {
 		
@@ -59,6 +61,9 @@ public abstract class AbstractTableView<T extends BaseDto> extends FlowPanel imp
 		
 		cellTable.getColumn(0).setCellStyleNames("firstColumn");
 		cellTable.getHeader(0).setHeaderStyleNames("firstColumn");
+
+		popupRowMenu = new PopupTableRowMenu();
+		listPanel.add(popupRowMenu);
 	}
 	
 	@Override
@@ -111,12 +116,17 @@ public abstract class AbstractTableView<T extends BaseDto> extends FlowPanel imp
 		final Column<T, String> column = new Column<T, String>(new FontawesomeButtonCell()) {
 		    @Override
 		    public String getValue(T object) {
-		        return "<i class=\"material-icons\">keyboard_arrow_right</i>";
+		        return "<i class=\"material-icons\">more_horiz</i>";
 		    }
 		};
 		return column;
 	}
-	
+
+	@Override
+	public PopupTableRowMenu getPopupRowMenu() {
+		return popupRowMenu;
+	}
+
 	protected String getEntityId(T object) {
 		if (object == null) {
 			return "";

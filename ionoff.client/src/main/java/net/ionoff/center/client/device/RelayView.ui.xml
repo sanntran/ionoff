@@ -4,7 +4,7 @@
 
 	<m:MaterialCollectionItem ui:field="root">
 		<m:MaterialIcon ui:field="btnIcon" iconType="RADIO_BUTTON_UNCHECKED" circle="true" waves="LIGHT" iconSize="MEDIUM" float="LEFT"/>
-		<m:MaterialLabel ui:field="lblName" addStyleNames="relayName" text="-" fontSize="1.2em"/>
+		<m:MaterialLabel ui:field="lblName" addStyleNames="relayName" text="-" fontSize="16px"/>
 		<m:MaterialLabel ui:field="lblTime" addStyleNames="relayTime" textColor="GREY_LIGHTEN_1" text="-" />
 	</m:MaterialCollectionItem>
 

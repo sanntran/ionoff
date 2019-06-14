@@ -29,8 +29,8 @@ public class ZoneView extends Composite implements ZonePresenter.Display {
 	MaterialLabel lblName;
 	@UiField 
 	MaterialLabel lblArea;
-	@UiField 
-	MaterialLink lblDevices;
+	@UiField
+	MaterialLabel lblDevices;
 	@UiField
 	MaterialPanel zoneCard;
 	
@@ -49,7 +49,7 @@ public class ZoneView extends Composite implements ZonePresenter.Display {
 	}
 
 	@Override
-	public MaterialLink getLblDevices() {
+	public MaterialLabel getLblDevices() {
 		return lblDevices;
 	}
 	

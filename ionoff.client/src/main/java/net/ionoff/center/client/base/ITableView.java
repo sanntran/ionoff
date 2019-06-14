@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 
+import net.ionoff.center.client.ui.PopupTableRowMenu;
 import net.ionoff.center.client.ui.ToolBarView;
 
 public interface ITableView<T> {
@@ -19,6 +20,8 @@ public interface ITableView<T> {
 	void showEditForm();
 
 	ToolBarView getToolBarView();
+
+	PopupTableRowMenu getPopupRowMenu();
 
 	SimplePager getPager();
 

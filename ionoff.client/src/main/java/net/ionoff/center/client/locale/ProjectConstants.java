@@ -255,4 +255,11 @@ public interface ProjectConstants extends Constants {
 
 	@DefaultStringValue("Dữ liệu ngày %s - %s")
 	String dataDate();
+
+	@DefaultStringValue("Sửa")
+	String edit();
+
+	@DefaultStringValue("Xóa")
+	String delete();
+
 }

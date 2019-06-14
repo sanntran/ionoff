@@ -227,21 +227,6 @@
     color: #a8a8a8;
 }
 
-.main .content .table .edit .body .collection-item.light {
-	padding-left: 50px;
-	background: url(images/light_status.png) left 5px no-repeat;
-}
-
-.main .content .table .edit .body .collection-item.player {
-	padding-left: 50px;
-	background: url(images/player_status.png) left 5px no-repeat;
-}
-
-.main .content .table .edit .body .collection-item.appliance {
-	padding-left: 50px;
-	background: url(images/appliance_status.png) left 5px no-repeat;
-}
-
 .main .content .table .edit .body .collapsible {
 	box-shadow: 0px 0px 0px 1px #ccc;
     border: none
@@ -263,7 +248,7 @@
 
 .main .content .toolbar .buttons {
 	display: inline-block;
-	width: 220px;
+	width: 140px;
 	float: right;
 	height: 50px;
     padding: 8px 0px;
@@ -523,12 +508,6 @@
 		.main .content .table .edit .body .userRoles .collapsible-header {
 	line-height: inherit;	
 	background-color: #f9f9f9;
-}
-
-.main .content .table .edit .body .userRoles .collapsible-header.area {
-    height: 40px;
-    padding-top: 5px;
-    background: url(images/.content .editcons_dark.png) left -40px no-repeat #f9f9f9;
 }
 
 .main .content .table .edit .body .userRoles .collapsible-header .collection-item {
@@ -818,16 +797,6 @@
 .main .content .table .edit .body .sceneDevices.deviceActions .collapsible-header .collection-item {
 	padding: 10px 0px 10px 50px !important;
     position: relative;
-}
-    
-.main .content .table .edit .body .sceneDevices .deviceActions .icon.light {
-	background: url(images/light_status.png) center 0px no-repeat;
-}
-.main .content .table .edit .body .sceneDevices .deviceActions .icon.player {
-	background: url(images/player_status.png) center 0px no-repeat;
-}
-.main .content .table .edit .body .sceneDevices .deviceActions .icon.appliance {
-	background: url(images/appliance_status.png) center 0px no-repeat;
 }
 
 .main .content .table.modes .edit .detail .checkBox {

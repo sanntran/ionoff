@@ -6,11 +6,12 @@
 	<ui:style>
 		
 		.devices {
-		    height: 50px;
-		    line-height: 50px;
-		    position: absolute;
-		    bottom: 5px;
-		    right: 10px;
+			height: 20px;
+			line-height: 20px;
+			position: absolute;
+			bottom: 15px;
+			right: 15px;
+			opacity: 0.75;
 		}
 		
 		.icon {
@@ -28,11 +29,11 @@
 					<m:MaterialCardContent textColor="YELLOW_LIGHTEN_5">
 						<m:MaterialRow marginBottom="0">
 							<m:MaterialPanel ui:field="zoneCard" grid="s9"  waves="LIGHT">
-								<m:MaterialLabel ui:field="lblName" addStyleNames="name" text="-" marginTop="3" fontSize="1.2em"/>
-								<m:MaterialLabel ui:field="lblArea" addStyleNames="area" text="-" marginTop="5" textColor="GREY_LIGHTEN_2"/>
+								<m:MaterialLabel ui:field="lblName" addStyleNames="name" text="-" fontSize="16px"/>
+								<m:MaterialLabel ui:field="lblArea" addStyleNames="area" text="-" textColor="GREY_LIGHTEN_2"/>
 							</m:MaterialPanel>
 							<m:MaterialIcon ui:field="icon" addStyleNames="{style.icon} icon" iconType="CROP_3_2" circle="true" iconSize="MEDIUM"/>
-							<m:MaterialLink ui:field="lblDevices" addStyleNames="{style.devices} devices" text="-" textColor="GREY_LIGHTEN_5"/>
+							<m:MaterialLabel ui:field="lblDevices" addStyleNames="{style.devices} devices" text="-" textColor="GREY_LIGHTEN_5"/>
 						</m:MaterialRow>
 					</m:MaterialCardContent>
 				</m:MaterialCard>

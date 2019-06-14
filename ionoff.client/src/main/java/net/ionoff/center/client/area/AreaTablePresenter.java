@@ -37,12 +37,6 @@ public class AreaTablePresenter extends AbstractTablePresenter<AreaDto>{
 	@Override
 	public void bind() {
 		super.bind();
-		view.getEditColumn().setFieldUpdater(new FieldUpdater<AreaDto, String>() {
-			@Override
-			public void update(int index, AreaDto object, String value) {
-				showEditForm();
-			}
-		});
 	}
 	
 	@Override

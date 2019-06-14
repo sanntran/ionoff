@@ -1,6 +1,5 @@
 package net.ionoff.center.client.device;
 
-import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.view.client.AsyncDataProvider;
@@ -13,11 +12,7 @@ import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.service.EntityService;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.utils.ClientUtil;
-import net.ionoff.center.shared.dto.AreaDto;
-import net.ionoff.center.shared.dto.BaseDto;
-import net.ionoff.center.shared.dto.DeviceDto;
-import net.ionoff.center.shared.dto.MediaPlayerDto;
-import net.ionoff.center.shared.dto.RelayLoadDto;
+import net.ionoff.center.shared.dto.*;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -42,12 +37,6 @@ public class DeviceTablePresenter extends AbstractTablePresenter<DeviceDto>{
 	@Override
 	public void bind() {
 		super.bind();
-		view.getEditColumn().setFieldUpdater(new FieldUpdater<DeviceDto, String>() {
-			@Override
-			public void update(int index, DeviceDto object, String value) {
-				showEditForm();
-			}
-		});
 	}
 	
 	@Override

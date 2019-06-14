@@ -39,6 +39,7 @@ public class PlayerSlicePresenter extends DeviceSlicePresenter {
 
 	@Override
 	public void bind() {
+		view.getLblTime().setVisible(false);
 		view.getLblName().setText(getDevice().getName());
 		view.getLblZone().setText(getDevice().getZoneName());
 		displayStatus();

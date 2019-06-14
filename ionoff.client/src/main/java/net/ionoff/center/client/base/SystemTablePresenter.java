@@ -3,6 +3,7 @@ package net.ionoff.center.client.base;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.Widget;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -83,62 +84,50 @@ public abstract class SystemTablePresenter<T extends BaseDto> extends AbstractPr
 	protected void bind() {
 
 		fillListBoxSearchBy();
+		display.getEditColumn().setFieldUpdater((index, object, value) -> {
+			showPopupRowMenu(index);
+		});
 
-		display.getToolBarView().getTextBoxKeyWord().addKeyUpHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					search();
-				}
+		display.getToolBarView().getTextBoxKeyWord().addKeyUpHandler(event -> {
+			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+				search();
 			}
 		});
-		display.getToolBarView().getBtnSearch().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (display.getToolBarView().getSearchPanel().isVisible()) {
-					search();
-				}
-				else {
-					display.getToolBarView().getSearchPanel().setVisible(true);
-				}
+		display.getToolBarView().getBtnSearch().addClickHandler(event -> {
+			if (display.getToolBarView().getSearchPanel().isVisible()) {
+				search();
+			}
+			else {
+				display.getToolBarView().getSearchPanel().setVisible(true);
 			}
 		});
 		//
-		display.getToolBarView().getBtnRefresh().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				refresh();
+		display.getToolBarView().getBtnRefresh().addClickHandler(event -> refresh());
+		//
+		display.getToolBarView().getBtnAdd().addClickHandler(event -> {
+			if (hasNewEntity()) {
+				eventBus.fireEvent(new ShowMessageEvent(
+						AdminLocale.getAdminMessages().newRowUnsaved(BaseDto.DEFAULT_ID), ShowMessageEvent.ERROR));
+			}
+			else {
+				add();
 			}
 		});
 		//
-		display.getToolBarView().getBtnAdd().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (hasNewEntity()) {
-					eventBus.fireEvent(new ShowMessageEvent(
-							AdminLocale.getAdminMessages().newRowUnsaved(BaseDto.DEFAULT_ID), ShowMessageEvent.ERROR));
-				}
-				else {
-					add();
-				}
-			}
+		display.getPopupRowMenu().getMenuItemDelete().addClickHandler(event -> {
+			delete();
+			display.getPopupRowMenu().hide();
 		});
-		//
-		display.getToolBarView().getBtnRemove().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				delete();
-			}
+		display.getPopupRowMenu().getMenuItemEdit().addClickHandler(event -> {
+			display.showEditForm();
+			display.getPopupRowMenu().hide();
 		});
 		// /////////////////////////////////////////////////////////
 
-		display.getSingleSelectionModel().addSelectionChangeHandler(new Handler() {
-			@Override
-			public void onSelectionChange(final SelectionChangeEvent event) {
-				final T selectedDto = display
-						.getSingleSelectionModel().getSelectedObject();
-				setSelectedObject(selectedDto);
-			}
+		display.getSingleSelectionModel().addSelectionChangeHandler(event -> {
+			final T selectedDto = display
+					.getSingleSelectionModel().getSelectedObject();
+			setSelectedObject(selectedDto);
 		});
 
 		final AsyncDataProvider<T> provider = newAsyncDataProvider();
@@ -226,6 +215,12 @@ public abstract class SystemTablePresenter<T extends BaseDto> extends AbstractPr
 		if (dtos != null && dtos.size() > 0) {
 			display.getSingleSelectionModel().setSelected(dtos.get(index), true);
 		}
+	}
+	protected void showPopupRowMenu(int rowIndex) {
+		int left = 0;
+		int top = display.getCellTable().getRowElement(rowIndex).getCells().getItem(0).getAbsoluteTop() + 2;
+		display.getPopupRowMenu().setPopupPosition(left, top);
+		display.getPopupRowMenu().show();
 	}
 
 	protected List<T> getDisplayingDtos() {

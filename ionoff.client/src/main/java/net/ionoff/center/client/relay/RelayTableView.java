@@ -27,7 +27,6 @@ public class RelayTableView extends AbstractTableView<RelayDto> implements Relay
 		getToolBarView().getLblTitle().setText(ProjectLocale.getProjectConst().relay());
 		
 		getToolBarView().getBtnAdd().setVisible(false);
-		getToolBarView().getBtnRemove().setVisible(false);
 	}
 
 	@Override

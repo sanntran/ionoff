@@ -38,12 +38,6 @@ public class ControllerTablePresenter extends AbstractTablePresenter<ControllerD
 	@Override
 	public void bind() {
 		super.bind();
-		view.getEditColumn().setFieldUpdater(new FieldUpdater<ControllerDto, String>() {
-			@Override
-			public void update(int index, ControllerDto object, String value) {
-				showEditForm();
-			}
-		});
 	}
 	
 	@Override
@@ -130,12 +124,11 @@ public class ControllerTablePresenter extends AbstractTablePresenter<ControllerD
 	public void hideEditForm() {
 		view.hideEditForm();
 	}
-	
+
 	private void showEditForm() {
 		view.showEditForm();
-		
 	}
-	
+
 	@Override
 	protected void setSelectedObject(ControllerDto selectedDto) {
 		getControllerEditPresenter().setEntityDto(selectedDto);

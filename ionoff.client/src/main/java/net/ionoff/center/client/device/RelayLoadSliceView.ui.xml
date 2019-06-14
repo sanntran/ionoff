@@ -16,19 +16,22 @@
 		.btnIcon {
 			font-size: 46px !important;
 			position: absolute;
-			bottom: 10px;
-			left: 10px;
+			bottom: 12px;
+			left: 12px;
+			padding: 0px !important;
 		}
 		.lblRelay {
-			font-size: 12px !important;
+			font-size: 11px!important;
 			position: absolute;
-			bottom: 24px;
+			bottom: 30px;
 			right: 15px;
+			height: 12px;
+			line-height: 12px;
 		}
 		.lblController {
 			font-size: 10px !important;
 			position: absolute;
-			bottom: 20px;
+			bottom: 15px;
 			right: 15px;
 			line-height: 10px;
 		}
@@ -39,8 +42,8 @@
 			<m:MaterialCollapsible addStyleNames="device appliance" backgroundColor="BLUE_GREY_DARKEN_2" textColor="YELLOW_LIGHTEN_5">
 				<m:MaterialCollapsibleItem activates="relayDropdown">
 					<m:MaterialCollapsibleHeader backgroundColor="BLUE_GREY_DARKEN_2">
-						<m:MaterialLabel ui:field="lblName" addStyleNames="name" text="-" marginTop="3" fontSize="1.3em"/>
-						<m:MaterialLabel ui:field="lblZone" addStyleNames="zone" text="-" marginTop="5" textColor="GREY_LIGHTEN_2"/>
+						<m:MaterialLabel ui:field="lblName" addStyleNames="name" text="-" fontSize="16px"/>
+						<m:MaterialLabel ui:field="lblZone" addStyleNames="zone" text="-" textColor="GREY_LIGHTEN_2"/>
 						<m:MaterialLabel ui:field="lblTime" addStyleNames="time" text="-" textColor="GREY_LIGHTEN_1"/>
 						<m:MaterialLabel ui:field="lblRelay" addStyleNames="{style.lblRelay}" text="" textColor="GREY_LIGHTEN_1"/>
 						<m:MaterialLabel ui:field="lblController" addStyleNames="{style.lblController}" text="" textColor="GREY_LIGHTEN_1"/>

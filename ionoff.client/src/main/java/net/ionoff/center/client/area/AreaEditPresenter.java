@@ -40,24 +40,9 @@ public class AreaEditPresenter extends AbstractEditPresenter<AreaDto> {
 
 	@Override
 	protected void bind() {
-		view.getBtnSave().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				save();
-			}
-		});
-		view.getBtnClose().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				areaManager.hideEditForm();
-			}
-		});
-		view.getBtnCancel().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				areaManager.hideEditForm();
-			}
-		});
+		view.getBtnSave().addClickHandler(event -> save());
+		view.getBtnClose().addClickHandler(event -> areaManager.hideEditForm());
+		view.getBtnCancel().addClickHandler(event -> areaManager.hideEditForm());
 	}
 
 	@Override

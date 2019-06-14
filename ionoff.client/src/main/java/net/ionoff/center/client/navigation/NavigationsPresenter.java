@@ -85,12 +85,12 @@ public class NavigationsPresenter extends AbstractPresenter {
 		this.timer = new Timer() {
 			@Override
 			public void run() {
-				if (!isVisible()) {
-					timer.cancel();
-				}
-				else {
-					getServerDateTime();
-				}
+			if (!isVisible()) {
+				timer.cancel();
+			}
+			else {
+				getServerDateTime();
+			}
 			}
 		};
 	}
@@ -98,7 +98,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 	@Override
 	public void go() {
 		UserDto user = StorageService.getInstance().getCookie().getUser();
-		if ( user != null) {
+		if (user != null) {
 			Long projectId = AppToken.getProjectIdLong();
 			Long zoneId = AppToken.getZoneIdLong();
 			if (zoneId != null) {
@@ -213,13 +213,6 @@ public class NavigationsPresenter extends AbstractPresenter {
 		
 		getServerDateTime();
 		timer.scheduleRepeating(25000);
-	}
-	
-	public void onClickProjectImage() {
-		final String userName = StorageService.getInstance().getCookie().getUser().getName();
-		if (AppToken.LORD.equals(userName)) {
-			eventBus.fireEvent(new ChangeTokenEvent(AppToken.newTokenProjectTable()));
-		}
 	}
 
 	private void showPopupProjectsView(int left, int top) {

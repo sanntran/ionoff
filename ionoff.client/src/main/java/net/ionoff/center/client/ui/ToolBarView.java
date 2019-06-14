@@ -32,7 +32,6 @@ public class ToolBarView extends FlowPanel {
 
 	private final MaterialButton btnRefresh;
 	private final MaterialButton btnAdd;
-	private final MaterialButton btnRemove;
 	private final MaterialIcon btnCloseSearch;
 	private final MaterialLink lblTitle;
 	private final DateTimeFormat dateFormat;
@@ -61,11 +60,6 @@ public class ToolBarView extends FlowPanel {
 		btnRefresh.setIconType(IconType.REFRESH);
 		btnRefresh.setWaves(WavesType.LIGHT);
 		buttonsPanel.add(btnRefresh);
-
-		btnRemove = new MaterialButton();
-		btnRemove.setIconType(IconType.DELETE_FOREVER);
-		btnRemove.setWaves(WavesType.LIGHT);
-		buttonsPanel.add(btnRemove);
 
 		searchPanel = new FlowPanel();
 		searchPanel.setVisible(false);
@@ -151,10 +145,6 @@ public class ToolBarView extends FlowPanel {
 
 	public MaterialButton getBtnAdd() {
 		return this.btnAdd;
-	}
-
-	public MaterialButton getBtnRemove() {
-		return this.btnRemove;
 	}
 
 	public MaterialDatePicker getDateBoxFrom() {

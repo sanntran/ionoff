@@ -603,7 +603,7 @@
 }
 .popup.playing  .playlist .node .icon.dir:ACTIVE,
 .player .playlists .playlistEdit .node .icon.dir:ACTIVE {
-	background: background: url(images/overlay.png) center no-repeat,
+	background: url(images/overlay.png) center no-repeat,
 				url(images/play/nodeicons.png) center 0px no-repeat;
 }
 
@@ -614,7 +614,7 @@
 
 .popup.playing  .playlist .node .icon.album:ACTIVE,
 .player .playlists .playlistEdit .node .icon.album:ACTIVE {
-	background: background: url(images/overlay.png) center no-repeat, 
+	background: url(images/overlay.png) center no-repeat,
 		url(images/play/nodeicons.png) center -40px no-repeat;
 }
 
@@ -962,7 +962,7 @@
 
 .player .browse .leaf .dir:ACTIVE {
 	background: url(images/overlay.png) center no-repeat,
-		background: url(images/play/leaficons.png) center 0px no-repeat;
+		url(images/play/leaficons.png) center 0px no-repeat;
 }
 
 .player .browse .leaf .enqueue {
