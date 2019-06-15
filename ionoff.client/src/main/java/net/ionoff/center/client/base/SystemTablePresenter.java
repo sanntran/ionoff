@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.client.constants.Color;
+import net.ionoff.center.client.locale.ProjectLocale;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -115,8 +117,14 @@ public abstract class SystemTablePresenter<T extends BaseDto> extends AbstractPr
 		});
 		//
 		display.getPopupRowMenu().getMenuItemDelete().addClickHandler(event -> {
-			delete();
-			display.getPopupRowMenu().hide();
+			if (display.getPopupRowMenu().getMenuItemDelete().getText().equals(ProjectLocale.getProjectConst().confirm())) {
+				delete();
+				display.getPopupRowMenu().hide();
+			} else {
+				display.getPopupRowMenu().getMenuItemDelete().setText(ProjectLocale.getProjectConst().confirm());
+				display.getPopupRowMenu().getMenuItemDelete().setBackgroundColor(Color.RED);
+				display.getPopupRowMenu().getMenuItemDelete().setTextColor(Color.WHITE);
+			}
 		});
 		display.getPopupRowMenu().getMenuItemEdit().addClickHandler(event -> {
 			display.showEditForm();
@@ -220,6 +228,9 @@ public abstract class SystemTablePresenter<T extends BaseDto> extends AbstractPr
 		int left = 0;
 		int top = display.getCellTable().getRowElement(rowIndex).getCells().getItem(0).getAbsoluteTop() + 2;
 		display.getPopupRowMenu().setPopupPosition(left, top);
+		display.getPopupRowMenu().getMenuItemDelete().setText(ProjectLocale.getProjectConst().delete());
+		display.getPopupRowMenu().getMenuItemDelete().setBackgroundColor(Color.WHITE);
+		display.getPopupRowMenu().getMenuItemDelete().setTextColor(Color.BLACK);
 		display.getPopupRowMenu().show();
 	}
 

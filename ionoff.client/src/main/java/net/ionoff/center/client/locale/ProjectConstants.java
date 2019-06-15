@@ -262,4 +262,6 @@ public interface ProjectConstants extends Constants {
 	@DefaultStringValue("Xóa")
 	String delete();
 
+	@DefaultStringValue("Xác nhận")
+	String confirm();
 }
