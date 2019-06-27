@@ -48,6 +48,8 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 	@UiField
 	MaterialIcon iconSystemSetting;
 	@UiField
+	MaterialLabel lblVersion;
+	@UiField
 	MaterialLabel lblSystemTime;
 	@UiField
 	MaterialLabel lblSystemDate;
@@ -137,6 +139,11 @@ public class NavigationsView extends Composite implements NavigationsPresenter.D
 	@Override
 	public MaterialIcon getIconSystemSetting() {
 		return iconSystemSetting;
+	}
+
+	@Override
+	public MaterialLabel getLblVersion() {
+		return lblVersion;
 	}
 
 	@Override

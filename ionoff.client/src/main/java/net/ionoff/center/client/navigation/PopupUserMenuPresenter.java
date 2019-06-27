@@ -40,10 +40,9 @@ public class PopupUserMenuPresenter extends AbstractPresenter {
 
     }
 	
-	private String currentVersion;
-	private String latestVersion;
 	private IRpcServiceProvider rpcService;
 	private Display display;
+	private String newVersion;
 	
 	public PopupUserMenuPresenter(IRpcServiceProvider rpcService, HandlerManager eBus, Display view) {
 		super(eBus);
@@ -54,55 +53,32 @@ public class PopupUserMenuPresenter extends AbstractPresenter {
 
 	@Override
 	public void go() {
+		display.getUserMenuItemVersion().setVisible(false);
 		UserDto user = StorageService.getInstance().getCookie().getUser();
 		if ( user != null) {
 			display.getLblUser().setTitle(StorageService.getInstance().getCookie().getUser().getFullName());
 			display.getLblUser().setDescription(StorageService.getInstance().getCookie().getUser().getName());
 		}
 				
-		display.getUserMenuItemLogout().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new UserLogOutEvent());
+		display.getUserMenuItemLogout().addClickHandler(event -> eventBus.fireEvent(new UserLogOutEvent()));
+		
+		display.getUserMenuItemVersion().addClickHandler(event -> {
+			upgradeNewVersion();
+		});
+		
+		display.getUserMenuItemFullscreen().addClickHandler(event -> eventBus.fireEvent(new FullscreenEvent()));
+		
+		display.getUserMenuItemVi().addClickHandler(event -> {
+			if (!ClientLocale.vi_VN.equals(getLanguage())) {
+				changeLanguage(ClientLocale.vi_VN);
 			}
 		});
 		
-		display.getUserMenuItemVersion().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (latestVersion == null) {
-					checkLatestVersion();
-				}
-				else {
-					upgradeNewVersion();
-				}
+		display.getUserMenuItemEn().addClickHandler(event -> {
+			if (!ClientLocale.en_EN.equals(getLanguage())) {
+				changeLanguage(ClientLocale.en_EN);
 			}
 		});
-		
-		display.getUserMenuItemFullscreen().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new FullscreenEvent());
-			}
-		});
-		
-		display.getUserMenuItemVi().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!ClientLocale.vi_VN.equals(getLanguage())) {
-					changeLanguage(ClientLocale.vi_VN);
-				}
-			}
-		});
-		
-		display.getUserMenuItemEn().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!ClientLocale.en_EN.equals(getLanguage())) {
-					changeLanguage(ClientLocale.en_EN);
-				}
-			}
-		});		
 		
 	}
 
@@ -117,30 +93,8 @@ public class PopupUserMenuPresenter extends AbstractPresenter {
 			display.getUserMenuItemEn().setIconType(IconType.CHECK_BOX_OUTLINE_BLANK);
 			display.getUserMenuItemVi().setIconType(IconType.CHECK);
 		}
-		if (currentVersion == null) {
-			getCurrentVerion();
-		}
-		else {
-			checkLatestVersion();
-		}
+		checkLatestVersion();
 	}
-	
-	private void getCurrentVerion() {
-		rpcService.getUserService().getCurrentVersion(new MethodCallback<VersionDto>() {
-			@Override
-			public void onFailure(Method method, Throwable exception) {
-				ClientUtil.handleRpcFailure(method, exception, eventBus);
-			}
-			@Override
-			public void onSuccess(Method method, VersionDto response) {
-				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				currentVersion = response.getName();
-				display.getUserMenuItemVersion().setText(ClientLocale.getClientConst().version() + currentVersion);
-				checkLatestVersion();
-			}
-		});
-	}
-
 
 	private void checkLatestVersion() {
 		rpcService.getUserService().checkLatestVersion(new MethodCallback<VersionDto>() {
@@ -151,16 +105,16 @@ public class PopupUserMenuPresenter extends AbstractPresenter {
 			@Override
 			public void onSuccess(Method method, VersionDto response) {
 				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				latestVersion = response.getName();
-				if (latestVersion != null) {
-					display.getUserMenuItemVersion().setText(ClientLocale.getClientConst().upgrade() + latestVersion);
+				if (response.getName() != null) {
+					newVersion = response.getName();
+					display.getUserMenuItemVersion().setVisible(true);
 				}
 			}
 		});
 	}
 	
 	private void upgradeNewVersion() {
-		if (latestVersion == null) {
+		if (newVersion == null) {
 			return;
 		}
 		rpcService.getUserService().updateNewVersion(new MethodCallback<VersionDto>() {
@@ -172,7 +126,7 @@ public class PopupUserMenuPresenter extends AbstractPresenter {
 			public void onSuccess(Method method, VersionDto response) {
 				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
 				eventBus.fireEvent(new ShowMessageEvent(ClientLocale.getClientMessage()
-						.upgradingNewVersion(latestVersion), ShowMessageEvent.NORMAL));
+						.upgradingNewVersion(newVersion), ShowMessageEvent.NORMAL));
 			}
 		});
 	}

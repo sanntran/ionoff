@@ -63,7 +63,6 @@ public abstract class AbstractTableView<T extends BaseDto> extends FlowPanel imp
 		cellTable.getHeader(0).setHeaderStyleNames("firstColumn");
 
 		popupRowMenu = new PopupTableRowMenu();
-		listPanel.add(popupRowMenu);
 	}
 	
 	@Override

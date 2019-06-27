@@ -51,9 +51,8 @@ public class PopupUserMenuView extends Composite implements PopupUserMenuPresent
 		menuItemFullscreen.setText(ClientLocale.getClientConst().fullScreen());
 		menuItemEn.setText(ClientLocale.getClientConst().english());
 		menuItemVi.setText(ClientLocale.getClientConst().vietnamese());
-		menuItemVersion.setText(ClientLocale.getClientConst().version() + "1.0.0");
+		menuItemVersion.setText(ClientLocale.getClientConst().upgrade());
 		menuItemLogout.setText(ClientLocale.getClientConst().logout());
-		
 		menuItemFullscreen.setIconSize(IconSize.LARGE);
 	}
 

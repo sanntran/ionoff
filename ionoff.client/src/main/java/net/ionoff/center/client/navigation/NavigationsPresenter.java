@@ -3,6 +3,7 @@ package net.ionoff.center.client.navigation;
 import java.util.List;
 
 import net.ionoff.center.client.locale.ProjectLocale;
+import net.ionoff.center.shared.dto.*;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -35,10 +36,6 @@ import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.storage.StorageService;
 import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
-import net.ionoff.center.shared.dto.DateTimeDto;
-import net.ionoff.center.shared.dto.ProjectDto;
-import net.ionoff.center.shared.dto.UserDto;
-import net.ionoff.center.shared.dto.ZoneDto;
 
 public class NavigationsPresenter extends AbstractPresenter {
 
@@ -54,6 +51,7 @@ public class NavigationsPresenter extends AbstractPresenter {
 		MaterialImage getBtnImgProject();
 		MaterialTitle getProfileTitle();
 		MaterialIcon getIconSystemSetting();
+		MaterialLabel getLblVersion();
 		MaterialLabel getLblSystemTime();
 		MaterialLabel getLblSystemDate();
 		MaterialButton getBtnProfileTitle();
@@ -210,9 +208,24 @@ public class NavigationsPresenter extends AbstractPresenter {
 		else {
 			display.getIconSystemSetting().setVisible(false);
 		}
-		
 		getServerDateTime();
+		getCurrentVerion();
 		timer.scheduleRepeating(25000);
+	}
+
+
+	private void getCurrentVerion() {
+		rpcService.getUserService().getCurrentVersion(new MethodCallback<VersionDto>() {
+			@Override
+			public void onFailure(Method method, Throwable exception) {
+				ClientUtil.handleRpcFailure(method, exception, eventBus);
+			}
+			@Override
+			public void onSuccess(Method method, VersionDto response) {
+				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
+				display.getLblVersion().setText(response.getName());
+			}
+		});
 	}
 
 	private void showPopupProjectsView(int left, int top) {

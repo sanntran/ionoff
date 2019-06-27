@@ -7,6 +7,13 @@
 		.header {
 			z-index: 1001 !important;
 		}
+		.version {
+			position: absolute;
+			top: 20px;
+			right: 15px;
+			font-size: 11px;
+			color: #000 !important;
+		}
 		.systemTime {
 			position: absolute;
 			top: 44px;
@@ -47,7 +54,8 @@
 			<ma:sideprofile.MaterialSideProfile url="imgs/profile.jpg" addStyleNames="sideProfile">
 				<m:MaterialImage ui:field="btnImgProject" url="imgs/project.jpg" />
 				<m:MaterialIcon ui:field="iconSystemSetting" iconType="SETTINGS"  waves="LIGHT" iconColor="WHITE" addStyleNames="{style.iconProjectSetting}"/>
-				
+				<m:MaterialLabel ui:field="lblVersion"
+								 addStyleNames="{style.version}" text="---" />
 				<m:MaterialLabel ui:field="lblSystemTime"
 					addStyleNames="{style.systemTime}" text="00:00" />
 				<m:MaterialLabel ui:field="lblSystemDate"

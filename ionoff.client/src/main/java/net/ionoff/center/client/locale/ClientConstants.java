@@ -27,13 +27,10 @@ public interface ClientConstants extends Constants {
 	@DefaultStringValue("© 2015 iOnOff Technology Co., Ltd")
 	String copyRight();
 
-	@DefaultStringValue("Cập nhật V-")
+	@DefaultStringValue("Nâng cấp")
 	String upgrade();
-	
-	@DefaultStringValue("Phiên bản V-")
-	String version();
 
-	@DefaultStringValue("Full screen")
+	@DefaultStringValue("Fullscreen")
 	String fullScreen();
 	
 	@DefaultStringValue("Hệ thống")

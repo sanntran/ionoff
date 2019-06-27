@@ -27,7 +27,7 @@ public class PopupTableRowMenu extends PopupPanel {
         super(true, true);
         setStyleName("popupTableRowMenu");
         setAnimationEnabled(true);
-        setAnimationType(AnimationType.ROLL_DOWN);
+        setAnimationType(AnimationType.ONE_WAY_CORNER);
 
         wrapper = new FlowPanel();
         setWidget(wrapper);

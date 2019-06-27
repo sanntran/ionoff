@@ -124,6 +124,7 @@ public class DashboardPresenter extends AbstractPresenter {
 						eventBus.fireEvent(new ChangeZoneEvent(project.getZones().get(0)));
 						return;
 					}
+					display.getLblTitle().setText(project.getName());
 					break;
 				}
 			}
@@ -155,12 +156,10 @@ public class DashboardPresenter extends AbstractPresenter {
 
 	
 	private void showDevices(List<DeviceDto> devices) {
-
 		for (final DeviceDto device : devices) {
 			if (device instanceof MediaPlayerDto) {
 				showMediaPlayer((MediaPlayerDto) device);
-			}
-			else if (device instanceof RelayLoadDto) {
+			} else if (device instanceof RelayLoadDto) {
 				showRelayLoad((RelayLoadDto) device);
 			}
 		}

@@ -863,7 +863,6 @@ textarea.materialize-textarea[readonly="readonly"] {
 	position: absolute;
 	right: 1px !important;
 	left: auto !important;
-	height: 327px;
 	background-color: #546e7a !important;
 	border: none !important;
     padding: 0px !important;
@@ -873,8 +872,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 
 .popupUserMenu .userMenuWrapper {
 	width: 250px;
-	height: 330px;
-	padding: 2px;
+	padding: 0px 2px;
     box-sizing: border-box;
 }
 

@@ -110,8 +110,7 @@ public abstract class SystemTablePresenter<T extends BaseDto> extends AbstractPr
 			if (hasNewEntity()) {
 				eventBus.fireEvent(new ShowMessageEvent(
 						AdminLocale.getAdminMessages().newRowUnsaved(BaseDto.DEFAULT_ID), ShowMessageEvent.ERROR));
-			}
-			else {
+			} else {
 				add();
 			}
 		});
@@ -226,7 +225,7 @@ public abstract class SystemTablePresenter<T extends BaseDto> extends AbstractPr
 	}
 	protected void showPopupRowMenu(int rowIndex) {
 		int left = 0;
-		int top = display.getCellTable().getRowElement(rowIndex).getCells().getItem(0).getAbsoluteTop() + 2;
+		int top = display.getCellTable().getRowElement(getDisplayRowIndex(rowIndex)).getCells().getItem(0).getAbsoluteTop() + 2;
 		display.getPopupRowMenu().setPopupPosition(left, top);
 		display.getPopupRowMenu().getMenuItemDelete().setText(ProjectLocale.getProjectConst().delete());
 		display.getPopupRowMenu().getMenuItemDelete().setBackgroundColor(Color.WHITE);
