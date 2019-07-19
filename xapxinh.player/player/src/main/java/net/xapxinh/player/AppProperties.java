@@ -188,9 +188,6 @@ public class AppProperties {
 	}
 
 	public static String getHardwareId() {
-		if (isWinPlatform()) {
-			return Hardware4Win.getMotherboardSN();
-		}
 		return UserConfig.getInstance().HARDWARE_ID;
 	}
 }

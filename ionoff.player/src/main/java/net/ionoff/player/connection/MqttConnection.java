@@ -182,7 +182,6 @@ public class MqttConnection implements MqttCallback {
 			status = CONNECTING;
 			LOGGER.info("Connecting to broker " + brokerUrl);
 			client.connect(connOpt);
-
 			status = CONNECTED;
 			LOGGER.info("Connected to broker " + brokerUrl);
 			setConnected(true);

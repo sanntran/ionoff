@@ -1,7 +1,5 @@
 package net.ionoff.player.connection;
 
-import com.google.gson.Gson;
-
 public class MqttResponseMessage {
 
 	private String status;

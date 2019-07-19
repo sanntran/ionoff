@@ -34,7 +34,7 @@ import net.xapxinh.player.thread.LatestVersionDownloader;
  */
 public class AppMain {
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) {
 		long heapSize = Runtime.getRuntime().totalMemory();
 		System.out.println("Heap Size = " + heapSize);
 		WebLookAndFeel.install();
@@ -42,9 +42,6 @@ public class AppMain {
 			@Override
 			public void run() {
 				new LatestVersionDownloader().start();
-				if (AppConfig.getInstance().INTERVAL_UPDATE) {
-					new InformStatusThread().start();
-				}
 				application().start();
 			}
 		});

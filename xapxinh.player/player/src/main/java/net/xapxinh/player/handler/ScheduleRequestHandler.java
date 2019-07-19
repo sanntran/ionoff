@@ -1,32 +1,31 @@
 package net.xapxinh.player.handler;
 
-import java.util.Map;
-
 import net.xapxinh.player.AppProperties;
+import net.xapxinh.player.connection.MqttRequestMessage;
 import net.xapxinh.player.model.Schedule;
 import net.xapxinh.player.server.exception.DateTimeFormatException;
 import net.xapxinh.player.server.exception.UnknownCommandException;
 
 public class ScheduleRequestHandler {
 	
-	public Schedule handleRequest(Map<String, String> parameters) throws UnknownCommandException, DateTimeFormatException {
-		String command = parameters.get("command");
-		return handleRequest(command, parameters);
+	public Schedule handleRequest(MqttRequestMessage request) throws UnknownCommandException, DateTimeFormatException {
+		String command = request.getAsString("command");
+		return handleRequest(command, request);
 	}
 	
-	private Schedule handleRequest(String command, Map<String, String> parameters) throws UnknownCommandException, DateTimeFormatException {
+	private Schedule handleRequest(String command, MqttRequestMessage request) throws UnknownCommandException, DateTimeFormatException {
 		if ("get".equals(command)) {
 			return getSchedule();
 		}
 		if ("update".equals(command)) {
-			return updateSchedule(parameters);
+			return updateSchedule(request);
 		}
 		throw new UnknownCommandException(command);
 	}
 	
-	private Schedule updateSchedule(Map<String, String> params) throws DateTimeFormatException {
-		String action = params.get("action");
-		String dateTime = params.get("dateTime");
+	private Schedule updateSchedule(MqttRequestMessage request) throws DateTimeFormatException {
+		String action = request.getAsString("action");
+		String dateTime = request.getAsString("dateTime");
 		AppProperties.getSchedule().setAction(action);
 		AppProperties.getSchedule().setDateTime(dateTime);
 		AppProperties.writeProperties();

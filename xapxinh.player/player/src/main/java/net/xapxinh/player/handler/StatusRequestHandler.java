@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+import com.google.gson.JsonElement;
+import net.xapxinh.player.connection.MqttRequestMessage;
 import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
@@ -39,76 +41,76 @@ public class StatusRequestHandler {
 		this.mediaPlayerPanel = mediaPlayerPanel;
 	}
 
-	public Status handleRequest(Map<String, String> parameters) {
-		String command = parameters.get("command");
-		return handleRequest(command, parameters);
+	public Status handleRequest(MqttRequestMessage request) {
+		String command = request.getAsString("command");
+		return handleRequest(command, request);
 	}
-	
-	private Status handleRequest(String command, Map<String, String> parameters) {
-		if (command == null || parameters.isEmpty()) {
+
+	public Status handleRequest(String command, MqttRequestMessage request) {
+		if (command == null) {
 			return mediaPlayerPanel.getStatus();
 		}
 		if ("pl_play".equals(command)) {
-			pl_play(parameters);
+			pl_play(request);
 		}
 		else if ("in_play".equals(command)) {
-			in_play(parameters);
+			in_play(request);
 		}
 		else if ("in_enqueue".equals(command)) {
-			in_enqueue(parameters, false);
+			in_enqueue(request, false);
 		}
 		else if ("pl_previous".equals(command)) {
-			pl_previous(parameters);
+			pl_previous(request);
 		}
 		else if ("pl_next".equals(command)) {
-			pl_next(parameters);
+			pl_next(request);
 		}
 		else if ("pl_delete".equals(command)) {
-			pl_delete(parameters);
+			pl_delete(request);
 		}
 		else if ("pl_repeat".equals(command)) {
-			pl_repeat(parameters);
+			pl_repeat(request);
 		}
 		else if ("seek".equals(command)) {
-			seek(parameters);
+			seek(request);
 		}
 		else if ("pl_pause".equals(command)) {
-			pl_pause(parameters);
+			pl_pause(request);
 		}
 		else if ("pl_forceresume".equals(command)) {
-			pl_forceresume(parameters);
+			pl_forceresume(request);
 		}
 		else if ("pl_resume".equals(command)) {
-			pl_resume(parameters);
+			pl_resume(request);
 		}
 		else if ("pl_forcepause".equals(command)) {
-			pl_forcepause(parameters);
+			pl_forcepause(request);
 		}
 		else if ("pl_stop".equals(command)) {
-			pl_stop(parameters);
+			pl_stop(request);
 		}
 		else if ("pl_empty".equals(command)) {
-			pl_empty(parameters);
+			pl_empty(request);
 		}	
 		else if ("volume".equals(command)) {
-			volume(parameters);
+			volume(request);
 		}
 		else if ("pl_loop".equals(command)) {
-			pl_loop(parameters);
+			pl_loop(request);
 		}
 		else if ("pl_repeat".equals(command)) {
-			pl_repeat(parameters);
+			pl_repeat(request);
 		}
 		else if ("pl_random".equals(command)) {
-			pl_random(parameters);
+			pl_random(request);
 		}
 		else if ("fullscreen".equals(command)) {
-			fullscreen(parameters);
+			fullscreen(request);
 		}
 		return mediaPlayerPanel.getStatus();
 	}
 
-	private void fullscreen(Map<String, String> parameters) {
+	private void fullscreen(MqttRequestMessage request) {
 		if (mediaPlayerPanel.getMediaPlayer().isFullScreen()) {
 			mediaPlayerPanel.getMediaPlayer().toggleFullScreen();
 		}
@@ -130,8 +132,8 @@ public class StatusRequestHandler {
 		Runtime.getRuntime().exec(run);
 	}
 	
-	private void volume(Map<String, String> parameters) {
-		String val = parameters.get("val");
+	private void volume(MqttRequestMessage request) {
+		String val = request.getAsString("val");
 		if (val.equals("mute")) {
 			volumeMute();
 		}
@@ -165,46 +167,46 @@ public class StatusRequestHandler {
 		mediaPlayerPanel.getMediaPlayer().setVolume(0);
 	}
 	
-	private void pl_repeat(Map<String, String> parameters) {
+	private void pl_repeat(MqttRequestMessage request) {
 		mediaPlayerPanel.repeatPlaylist();
 	}
 
-	private void pl_random(Map<String, String> parameters) {
+	private void pl_random(MqttRequestMessage request) {
 		mediaPlayerPanel.randomPlaylist();
 	}
 
-	private void pl_loop(Map<String, String> parameters) {
+	private void pl_loop(MqttRequestMessage request) {
 		mediaPlayerPanel.loopPlaylist();
 	}
 
-	private void pl_empty(Map<String, String> parameters) {
+	private void pl_empty(MqttRequestMessage request) {
 		mediaPlayerPanel.emptyPlaylist();
 		mediaPlayerPanel.getPlaylist().setId(0L);
 		mediaPlayerPanel.getPlaylist().setName(null);
 	}
 
-	private void pl_stop(Map<String, String> parameters) {
+	private void pl_stop(MqttRequestMessage request) {
 		mediaPlayerPanel.stop();
 	}
 
-	private void pl_forcepause(Map<String, String> parameters) {
+	private void pl_forcepause(MqttRequestMessage request) {
 		mediaPlayerPanel.pause();
 	}
 
-	private void pl_resume(Map<String, String> parameters) {
+	private void pl_resume(MqttRequestMessage request) {
 		mediaPlayerPanel.resume();
 	}
 
-	private void pl_forceresume(Map<String, String> parameters) {
+	private void pl_forceresume(MqttRequestMessage request) {
 		mediaPlayerPanel.resume();
 	}
 
-	private void pl_pause(Map<String, String> parameters) {
+	private void pl_pause(MqttRequestMessage request) {
 		mediaPlayerPanel.pause();
 	}
 
-	private void seek(Map<String, String> parameters) {
-		String val = parameters.get("val");
+	private void seek(MqttRequestMessage request) {
+		String val = request.getAsString("val");
 		if (val.equals("+")) {
 			mediaPlayerPanel.seekForward();
 		}
@@ -213,9 +215,9 @@ public class StatusRequestHandler {
 		}
 	}
 
-	private void pl_delete(Map<String, String> parameters) {
-		String id = parameters.get("id");
-		String type = parameters.get("type");
+	private void pl_delete(MqttRequestMessage request) {
+		String id = request.getAsString("id");
+		String type = request.getAsString("type");
 		if (PLAYLEAF.equals(type)) {
 			mediaPlayerPanel.removePlaylistLeaf(Long.parseLong(id));
 		}
@@ -224,17 +226,17 @@ public class StatusRequestHandler {
 		}
 	}
 
-	private void pl_next(Map<String, String> parameters) {
+	private void pl_next(MqttRequestMessage request) {
 		mediaPlayerPanel.getMediaListPlayer().playNext();
 	}
 
-	private void pl_previous(Map<String, String> parameters) {
+	private void pl_previous(MqttRequestMessage request) {
 		mediaPlayerPanel.getMediaListPlayer().playPrevious();
 	}
 	
-	private void in_enqueue(Map<String, String> parameters, boolean isPlay) {
-		String input = parameters.get("input");
-		String inputType = parameters.get("input_type");
+	private void in_enqueue(MqttRequestMessage request, boolean isPlay) {
+		JsonElement input = request.getAsJsonElement("input");
+		String inputType = request.getAsString("input_type");
 		if (PlayNode.TYPE.album.toString().equals(inputType)) {
 			Album album = gson.fromJson(input, Album.class);
 			addAlbumFile(album);
@@ -242,7 +244,7 @@ public class StatusRequestHandler {
 		}
 		else if (PlayNode.TYPE.dir.toString().equals(inputType) 
 				|| PlayLeaf.TYPE.file.toString().equals(inputType)) {
-			mediaPlayerPanel.inEnqueue(createMediaFile(input), isPlay);
+			mediaPlayerPanel.inEnqueue(createMediaFile(input.getAsString()), isPlay);
 		}
 		else if (PlayNode.TYPE.youtube.toString().equals(inputType)) {
 			YoutubeVideo video = gson.fromJson(input, YoutubeVideo.class);
@@ -266,8 +268,8 @@ public class StatusRequestHandler {
 		}
 	}
 
-	private void in_play(Map<String, String> parameters) {
-		in_enqueue(parameters, true);
+	private void in_play(MqttRequestMessage request) {
+		in_enqueue(request, true);
 	}
 
 	private void addAlbumFile(Album album) {
@@ -316,9 +318,9 @@ public class StatusRequestHandler {
 		return mediaFile;
 	}
 
-	private void pl_play(Map<String, String> parameters) {
-		String id = parameters.get("id");
-		String type = parameters.get("type");
+	private void pl_play(MqttRequestMessage request) {
+		String id = request.getAsString("id");
+		String type = request.getAsString("type");
 		if (PLAYLEAF.equals(type)) {
 			mediaPlayerPanel.playPlaylistLeaf(Long.parseLong(id));
 		}

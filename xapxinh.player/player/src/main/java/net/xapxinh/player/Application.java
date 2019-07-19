@@ -80,7 +80,7 @@ public final class Application extends Vlcj {
 
 	private NativeLog nativeLog;
 
-	private MqttConnection tcpConnection;
+	private MqttConnection mqttConnection;
 	
 	private PlayerSystemTray systemTray;
 
@@ -177,11 +177,11 @@ public final class Application extends Vlcj {
 
 	void start() {
 		initFrame();
-		tcpConnection = new MqttConnection();
-		systemTray = new PlayerSystemTray(tcpConnection);
+		mqttConnection = new MqttConnection();
+		systemTray = new PlayerSystemTray(mqttConnection);
 		mainFrame.setVisible(true);
 		systemTray.start();
-		tcpConnection.start();
+		mqttConnection.start();
 		
 		AppProperties.loadProperties();
 		PlayerSchedulesExecutor.getInstance().start();

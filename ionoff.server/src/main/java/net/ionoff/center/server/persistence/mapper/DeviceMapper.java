@@ -37,12 +37,26 @@ public class DeviceMapper {
 		if (device instanceof MediaPlayer) {
 			final MediaPlayerDto playerDto = (MediaPlayerDto)deviceDto;
 			MediaPlayer player = (MediaPlayer) device;
-			player.setMac(playerDto.getMac());				
+			if (isMacChanged(player.getMac(), playerDto.getMac())) {
+				player.setStatus(null);
+				player.setTime(null);
+			}
+			player.setMac(playerDto.getMac());
 			player.setModel(playerDto.getModel());
 		}
 		device.setName(deviceDto.getName());
 		device.setOrder(deviceDto.getOrder());
 		return device;
+	}
+
+	private boolean isMacChanged(String mac, String macDto) {
+		if (mac == null && macDto != null) {
+			return true;
+		}
+		if (mac != null && !mac.equals(macDto)) {
+			return true;
+		}
+		return false;
 	}
 
 	private Device createNewDevice(DeviceDto deviceDto) {

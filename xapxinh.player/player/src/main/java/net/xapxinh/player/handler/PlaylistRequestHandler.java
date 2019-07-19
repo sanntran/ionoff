@@ -1,10 +1,9 @@
 package net.xapxinh.player.handler;
 
-import java.util.Map;
-
 import com.google.gson.Gson;
-
+import com.google.gson.JsonElement;
 import net.xapxinh.player.EmbeddedMediaPlayerPanel;
+import net.xapxinh.player.connection.MqttRequestMessage;
 import net.xapxinh.player.model.PlayLeaf;
 import net.xapxinh.player.model.PlayList;
 import net.xapxinh.player.model.PlayNode;
@@ -19,24 +18,19 @@ public class PlaylistRequestHandler {
 		this.mediaPlayerPanel = mediaPlayerPanel;
 	}
 
-	public PlayList handleRequest(Map<String, String> params) {
-		
-		if (params.isEmpty()) {
-			return mediaPlayerPanel.getPlaylist();
-		}
-		String command = params.get("command");
+	public PlayList handleRequest(MqttRequestMessage request) {
+		String command = request.getAsString("command");
 		if (command == null) {
 			return mediaPlayerPanel.getPlaylist();
 		}
-		
 		if ("pl_update".equals(command)) {
-			updatePlaylist(params);
+			updatePlaylist(request);
 		}
 		return getPlaylist();
 	}
 
-	private void updatePlaylist(Map<String, String> params) {
-		String plJson = params.get("playlist");
+	private void updatePlaylist(MqttRequestMessage request) {
+		JsonElement plJson = request.getAsJsonElement("playlist");
 		PlayList playlist = gson.fromJson(plJson, PlayList.class);
 		PlayList playingList = getPlaylist();
 		playingList.setId(playlist.getId());

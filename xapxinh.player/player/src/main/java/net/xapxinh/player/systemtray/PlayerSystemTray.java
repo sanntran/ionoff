@@ -96,7 +96,7 @@ public class PlayerSystemTray extends Thread {
 
 	private void showInfoMessage(String message) {
 		String title = AppProperties.getAppName() + " - " + tcpConnection.getStatus();
-		if (tcpConnection.isConected()) {
+		if (tcpConnection.isConnected()) {
 			trayIcon.displayMessage(title, message, TrayIcon.MessageType.INFO);
 		}
 		else {

@@ -2,10 +2,7 @@ package net.xapxinh.player.handler;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.xapxinh.player.Application;
 import net.xapxinh.player.EmbeddedMediaPlayerPanel;
 import net.xapxinh.player.config.UserConfig;
+import net.xapxinh.player.connection.MqttRequestMessage;
 import net.xapxinh.player.connection.TcpRequest;
 import net.xapxinh.player.model.MediaFile;
 import net.xapxinh.player.model.PlayList;
@@ -24,94 +22,68 @@ import net.xapxinh.player.server.exception.UnknownContextException;
 import uk.co.caprica.vlcj.filter.MediaFileFilter;
 
 public class RequestHandler {
-	
-	protected static final String COMMAND = "command";
 
-	private static final String CONTEXT_STATUS = "/status";
-	private static final String CONTEXT_PLAYLIST = "/playlist";
-	private static final String CONTEXT_BROWSE = "/browse";
-	private static final String CONTEXT_SCHEDULE = "/schedule";
+	private static final String CONTEXT_STATUS = "/requests/status";
+	private static final String CONTEXT_PLAYLIST = "/requests/playlist";
+	private static final String CONTEXT_BROWSE = "/requests/browse";
+	private static final String CONTEXT_SCHEDULE = "/requests/scheduler";
 	
-	private final Map<String, String> params;
 	private final EmbeddedMediaPlayerPanel mediaPlayerPanel;
-	
-	RequestHandler(HttpServletRequest httpRequest) {
-		params = getParammeters(httpRequest);
+
+	public RequestHandler() {
 		mediaPlayerPanel = Application.application().mediaPlayerPanel();
-	}
-	
-	public RequestHandler(TcpRequest tcpRequest) {
-		params = tcpRequest.getParameters();
-		mediaPlayerPanel = Application.application().mediaPlayerPanel();
-	}
-	
-	protected Map<String, String> getParammeters(final HttpServletRequest httpRequest) {
-		Map<String, String> params = new HashMap<String, String>();
-		
-		String context = httpRequest.getContextPath() + httpRequest.getPathInfo();
-		params.put(RequestContext.CONTEXT, context);
-		
-		for (Entry<String, String[]> entry : httpRequest.getParameterMap().entrySet()) {
-			String param = entry.getKey();
-			params.put(param, httpRequest.getParameter(param));
-		}
-		return params;
-	}
-	
-	protected Map<String, String> getParammeters(final TcpRequest tcpRequest) {
-		return tcpRequest.getParameters();
 	}
 
-	public String handleRequest() throws Exception {
-		return handleRequest(params);
-	}
-	
-	private String handleRequest(Map<String, String> params) throws Exception {
-		final String context = params.get(RequestContext.CONTEXT);
-		params.remove(RequestContext.CONTEXT);
-		
-		if (context.equals(RequestContext.REQUESTS + CONTEXT_STATUS)) {
-			return handleStatusRequest(params);
+
+	public PlayerResponse handleRequest(MqttRequestMessage request) throws Exception {
+		final String context = request.getContext();
+		if (CONTEXT_STATUS.equals(context)) {
+			return handleStatusRequest(request);
 		}
-		if (context.equals(RequestContext.REQUESTS + CONTEXT_PLAYLIST)) {
-			return handlePlaylistRequest(params);
+		if (CONTEXT_PLAYLIST.equals(context)) {
+			return handlePlaylistRequest(request);
 		}
-		if (context.equals(RequestContext.REQUESTS + CONTEXT_BROWSE)) {
-			return handleBrowseRequest(params);
+		if (CONTEXT_BROWSE.equals(context)) {
+			return handleBrowseRequest(request);
 		}
-		if (context.equals(RequestContext.REQUESTS + CONTEXT_SCHEDULE)) {
-			return handleScheduleRequest(params);
+		if (CONTEXT_SCHEDULE.equals(context)) {
+			return handleScheduleRequest(request);
 		}
 		throw new UnknownContextException(context);
 	}
 
-	private String handleScheduleRequest(Map<String, String> params) throws UnknownCommandException, DateTimeFormatException {
-		Schedule schedule = new ScheduleRequestHandler().handleRequest(params);
-		
-		return new PlayerResponse("schedule", schedule).toJSONString();
+	public PlayerResponse handleStatusRequest() {
+		final Status status = new StatusRequestHandler(mediaPlayerPanel).handleRequest(null, null);
+		return new PlayerResponse("status", status);
 	}
 
-	private String handleStatusRequest(final Map<String, String> params) {
-		final Status status = getStatus(params);
-		return new PlayerResponse("status", status).toJSONString();
+	private PlayerResponse handleScheduleRequest(MqttRequestMessage request) throws UnknownCommandException, DateTimeFormatException {
+		Schedule schedule = new ScheduleRequestHandler().handleRequest(request);
+		
+		return new PlayerResponse("schedule", schedule);
+	}
+
+	private PlayerResponse handleStatusRequest(MqttRequestMessage request) {
+		final Status status = getStatus(request);
+		return new PlayerResponse("status", status);
 	}
 	
-	private Status getStatus(Map<String, String> params) {
-		return new StatusRequestHandler(mediaPlayerPanel).handleRequest(params);
+	private Status getStatus(MqttRequestMessage request) {
+		return new StatusRequestHandler(mediaPlayerPanel).handleRequest(request);
 	}
 
-	private String handlePlaylistRequest(final Map<String, String> params) throws Exception {
-		PlayList playlist = new PlaylistRequestHandler(mediaPlayerPanel).handleRequest(params);
-		return new PlayerResponse("playlist", playlist).toJSONString();
+	private PlayerResponse handlePlaylistRequest(final MqttRequestMessage request) throws Exception {
+		PlayList playlist = new PlaylistRequestHandler(mediaPlayerPanel).handleRequest(request);
+		return new PlayerResponse("playlist", playlist);
 	}
 
-	static String handleBrowseRequest(final Map<String, String> params) throws Exception {
-		List<MediaFile> files = getBrowse(params);
-		return new PlayerResponse("files", files).toJSONString();
+	static PlayerResponse handleBrowseRequest(final MqttRequestMessage request) throws Exception {
+		List<MediaFile> files = getBrowse(request);
+		return new PlayerResponse("files", files);
 	}
 
-	private static List<MediaFile> getBrowse(Map<String, String> params) {
-		String dir = params.get("dir");
+	private static List<MediaFile> getBrowse(MqttRequestMessage request) {
+		String dir = request.getAsString("dir");
 		if (dir == null || dir.isEmpty() || !dir.startsWith(UserConfig.getInstance().ROOT_BROWSE_DIR) 
 				|| dir.equalsIgnoreCase(UserConfig.getInstance().ROOT_BROWSE_DIR + "/..")
 				|| dir.equalsIgnoreCase(UserConfig.getInstance().ROOT_BROWSE_DIR + "\\..")) {

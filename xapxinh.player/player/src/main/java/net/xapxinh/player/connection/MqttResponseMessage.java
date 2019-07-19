@@ -1,16 +1,16 @@
-package net.xapxinh.player.handler;
+package net.xapxinh.player.connection;
 
-public class PlayerResponse {
+public class MqttResponseMessage {
 
 	private String status;
 	private String message;
 	private Object object;
 	private String clazz;	
 
-	public PlayerResponse(String message, Object obj) {
+	public MqttResponseMessage(String message, Object obj) {
 		this.message = message;
 		this.clazz = obj.getClass().getSimpleName();
-		if (obj instanceof Exception) {
+		if (obj instanceof Exception) {			
 			this.status = "error";
 			this.object = ((Exception) obj).getMessage();
 		}

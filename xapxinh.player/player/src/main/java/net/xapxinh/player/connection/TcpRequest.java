@@ -8,24 +8,22 @@ import com.google.gson.Gson;
 
 public class TcpRequest {
 	
-	private Gson gson;
+	private static final Gson GSON = new Gson();;
 	private Map<String, String> params;
-	
-	@SuppressWarnings("unchecked")
+
 	public TcpRequest(String request) throws JSONException {
-		gson = new Gson();
-		params = gson.fromJson(request, Map.class);
+		params = GSON.fromJson(request, Map.class);
 	}
 
-	public String getContext() throws JSONException {
+	public String getContext() {
 		return params.get("context");
 	}
 
-	public String getCommand() throws JSONException {
+	public String getCommand(){
 		return params.get("command");
 	}
 	
-	public String getParameter(String parametter) throws JSONException {
+	public String getParameter(String parametter) {
 		return params.get(parametter);
 	}
 	

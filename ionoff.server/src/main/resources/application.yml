@@ -23,7 +23,7 @@ hibernate:
     show_sql: false;
 
 service.notify.url: http://service.ionoff.net/inotify
-service.mediadata.url: http://service.ionoff.net/imedia/api
+service.mediadata.url: http://service.ionoff.net/iMqttRequestMessage request
 service.release.site: http://service.ionoff.net/release/ionoff/
 service.release.latest: http://service.ionoff.net/release/ionoff/latest.json
 

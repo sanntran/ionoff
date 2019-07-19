@@ -1,25 +1,25 @@
 package net.xapxinh.player.connection;
 
+import com.google.gson.Gson;
 import net.xapxinh.player.AppProperties;
 import net.xapxinh.player.config.AppConfig;
-import net.xapxinh.player.config.UserConfig;
-import net.xapxinh.player.handler.PlayerResponse;
+import net.xapxinh.player.exception.BadRequestException;
+import net.xapxinh.player.exception.MpdConnectException;
 import net.xapxinh.player.handler.RequestHandler;
-import net.xapxinh.player.server.exception.PlayerException;
 import org.apache.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.*;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 
-import java.net.SocketException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class MqttConnection implements MqttCallback {
 
 	private static final Logger LOGGER = Logger.getLogger(MqttConnection.class.getName());
+	private static final Gson GSON = new Gson();
 
 	private String clientId;
 	private String status;
-	private IntervalUpdateThread intervalUpdate;
 
 	private Thread mqttThread;
 	private String brokerUrl;
@@ -34,26 +34,42 @@ public class MqttConnection implements MqttCallback {
 	private boolean connected = false;
 	private String[] subscribleTopics;
 
-	public void initAndConnectBroker() {
+	private class StatusPublisher extends Thread {
+		@Override
+		public void run() {
+			try {
+				for (; true; ) {
+					try {
+						sleep(25000);
+						publishStatusMessage();
+					} catch (Exception e) {
+						LOGGER.error(e.getClass().getSimpleName() + " " + e.getMessage(), e);
+					}
+				}
+			}
+			catch (Throwable t) {
+				LOGGER.error(t.getClass().getSimpleName() + " " + t.getMessage(), t);
+			}
+		}
+	}
+
+	public void initConnection() {
 		AppProperties.setPlayerName(AppProperties.getHardwareId());
-		clientId = "-" + hashCode() + "";
-		subscribleTopics = new String[] {};
+		MqttDefaultFilePersistence filePersistence = new MqttDefaultFilePersistence(LocalStorage.getAppDir());
+		clientId = AppProperties.getHardwareId();
+		subscribleTopics = new String[] {clientId};
 		brokerUrl = "tcp://" + AppConfig.getInstance().CENTER_SERVER_HOST + ":" + AppConfig.getInstance().CENTER_SERVER_PORT;
 		try {
-			client = new MqttClient(brokerUrl, clientId);
+			client = new MqttClient(brokerUrl, clientId, filePersistence);
 		} catch (MqttException e) {
-			LOGGER.error(e.getMessage(), e);
+			LOGGER.error("Error create broker connector " + e.getMessage(), e);
 		}
 		client.setCallback(this);
 		connOpt = new MqttConnectOptions();
 		connOpt.setCleanSession(true);
-		//connOpt.setKeepAliveInterval(60);
-		//connOpt.setUserName(user);
-		//connOpt.setPassword(password.toCharArray());
 
 		connectMqttBroker();
 	}
-
 
 	public void publishMessage(String topic, String payload) {
 		LOGGER.info("Publishing message:" + payload + " to topic: " + topic);
@@ -62,7 +78,11 @@ public class MqttConnection implements MqttCallback {
 		try {
 			client.publish(topic, message);
 		} catch (Exception e) {
+
 			LOGGER.error(e.getMessage(), e);
+			if (!client.isConnected()) {
+				connectMqttBroker();
+			}
 		}
 	}
 
@@ -82,70 +102,46 @@ public class MqttConnection implements MqttCallback {
 		connectMqttBroker();
 	}
 
-	public void run() {
-		intervalUpdate = new IntervalUpdateThread();
-		intervalUpdate.start();
-	}
-
-
-
-	private synchronized String handleTcpRequest(String request) throws SocketException {
+	private synchronized void handleMessage(String message) {
+		String subscription = null;
+		Object response;
 		try {
-			if (request == null) {
-				throw new SocketException("Request is null");
+			MqttRequestMessage jsonRequest = toMqttRequestMessage(message);
+			subscription = jsonRequest.getSubscription();
+			if (subscription == null || subscription.isEmpty()) {
+				throw new BadRequestException("Request message subscription is empty");
 			}
-			final TcpRequest tcpRequest = new TcpRequest(request);
-			if (tcpRequest.getParameters() == null) {
-				throw new SocketException("Request parametter is null");
-			}
-			return new RequestHandler(tcpRequest).handleRequest();
+			response = new RequestHandler().handleRequest(jsonRequest);
 		}
 		catch (final Throwable e) {
-			if (e instanceof PlayerException) {
-				LOGGER.error(e.getMessage());
+			if (e instanceof BadRequestException) {
+				LOGGER.error("BadRequestException: " + e.getMessage());
+			}
+			if (e instanceof MpdConnectException) {
+				LOGGER.error("MpdConnectException: Error connect MPD ");
 			}
 			else {
-				LOGGER.error(e.getMessage(), e);
-				throw new SocketException();
+				LOGGER.error(e.getClass().getSimpleName() + ": " + e.getMessage(), e);
 			}
-			return new PlayerResponse(e.getMessage(), e).toJSONString();
+			response = new MqttResponseMessage(e.getMessage(), e);
+		}
+		if (subscription != null && !subscription.isEmpty() && response != null) {
+			publishMessage(subscription, GSON.toJson(response));
 		}
 	}
 
-	public void connect() {
+	private MqttRequestMessage toMqttRequestMessage(String message) {
 		try {
-
-
-
-			final JSONObject param = new JSONObject();
-
-			param.put("mac", AppProperties.getHardwareId());
-			param.put("pass", AppProperties.getRandomPassword());
-			param.put("password", UserConfig.getInstance().LOGIN_PASSWORD);
-
-			publishMessage(PUBLISH_TOPIC, param.toString());
-
-		}
-		catch (final Throwable e) {
-			try {
-				Thread.sleep(10000);
+			if (message == null) {
+				throw new BadRequestException("Request message is null");
 			}
-			catch (final InterruptedException ie) {
-				LOGGER.error(ie);
-			}
-			LOGGER.error(e);
-			connect();
-		}
-	}
-
-	private void onRecievedResponse(String received) {
-		LOGGER.info("Response: " + received);
-		try {
-			final JSONObject info = new JSONObject(received);
-
-		}
-		catch (final JSONException e) {
-			LOGGER.error(e.getMessage(), e);
+			return new MqttRequestMessage(message);
+		} catch (BadRequestException e) {
+			throw e;
+		} catch (Exception e) {
+			String msg = e.getClass().getSimpleName() + " error parsing message to json" + e.getMessage();
+			LOGGER.error(msg);
+			throw new BadRequestException(msg);
 		}
 	}
 
@@ -158,45 +154,28 @@ public class MqttConnection implements MqttCallback {
 		return status;
 	}
 
-	public boolean isConected() {
+	public boolean isConnected() {
 		return CONNECTED.equals(status);
 	}
 	
-	private class IntervalUpdateThread extends Thread {
-		
-		@Override
-		public void run() {
-			try {
-				for (; true; ) {
-					try {
-						sleep(5000);
-					} catch (Exception e) {
-						LOGGER.error(e.getMessage(), e);
-					}
-				}
-			}
-			catch (Throwable t) {
-				LOGGER.error(t.getMessage(), t);
-			}
-		}
-	}
-
-
-
-
-
-
-
-
-
 	public void connectMqttBroker() {
 		try {
+			if (CONNECTING.equals(status)) {
+				try {
+					Thread.sleep(10000);
+				} catch (InterruptedException ie) {
+					LOGGER.error("InterruptedException: " + ie.getMessage());
+				}
+				connectMqttBroker();
+				return;
+			}
 			informStatus(CONNECTING);
 			LOGGER.info("Connecting to broker " + brokerUrl);
 			client.connect(connOpt);
 			informStatus(CONNECTED);
 			LOGGER.info("Connected to broker" + brokerUrl);
 			setConnected(true);
+			publishStatusMessage();
 		} catch (MqttException e) {
 			LOGGER.error("Cannot connect to broker. " + e.getMessage());
 			informStatus(DISCONNECTED);
@@ -238,7 +217,7 @@ public class MqttConnection implements MqttCallback {
 		// subscription made by the client
 		String payload = new String(message.getPayload());
 		LOGGER.info("Message arrived on topic: " + topic + ". Message: " + payload);
-
+		handleMessage(payload);
 	}
 
 	private void setSubscribleTopic(String subscribleTopic[]) {
@@ -254,17 +233,25 @@ public class MqttConnection implements MqttCallback {
 		}
 	}
 
-	public boolean isConnected() {
-		return connected;
-	}
-
 	public void start() {
 		mqttThread = new Thread() {
 			@Override
 			public void run() {
-				initAndConnectBroker();
+				initConnection();
 			}
 		};
 		mqttThread.start();
+		new StatusPublisher().start();
+	}
+
+	private void publishStatusMessage() {
+		if (!isConnected()) {
+			return;
+		}
+		Map<String, Object> map = new LinkedHashMap<>();
+		map.put("mac", AppProperties.getHardwareId());
+		map.put("status", new RequestHandler().handleStatusRequest());
+		String payload = GSON.toJson(map);
+		publishMessage(PUBLISH_TOPIC, payload);
 	}
 }

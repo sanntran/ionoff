@@ -28,7 +28,7 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 	public MediaPlayer findPlayerByMac(String mac) {
 		
 		String sql = "select distinct player"
-					+ " from net.ionoff.center.server.entity.Player as player"
+					+ " from net.ionoff.center.server.entity.MediaPlayer as player"
 					+ " where player.mac = :mac";
 		
 		Query query = getCurrentSession().createQuery(sql)						
