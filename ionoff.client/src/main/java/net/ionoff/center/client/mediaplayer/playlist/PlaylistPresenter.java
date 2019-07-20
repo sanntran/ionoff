@@ -1,12 +1,9 @@
 package net.ionoff.center.client.mediaplayer.playlist;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
-
 import net.ionoff.center.client.mediaplayer.AbstractPresenter;
 import net.ionoff.center.client.mediaplayer.PlayerPresenter;
 import net.ionoff.center.shared.dto.player.PlayListDto;
@@ -33,12 +30,7 @@ public class PlaylistPresenter extends AbstractPresenter {
 	}
 
 	public void bind() {
-		display.getBtnPlay().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				playPlayList(getPlaylist());
-			}
-		});
+		display.getBtnPlay().addClickHandler(event -> playPlayList(getPlaylist()));
 	}
 
 	private void playPlayList(PlayListDto playlist) {

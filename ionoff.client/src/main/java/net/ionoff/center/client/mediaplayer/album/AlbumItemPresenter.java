@@ -28,7 +28,7 @@ public class AlbumItemPresenter extends AbstractPresenter {
 		Button getBtnPlay();
 		Button getBtnEnqueue();
 
-		void showOrHidePanelTracks(List<SongDto> songs);
+		void showOrHidePanelTracks(List<SongDto> songs, PlayerPresenter playerPresenter);
 	}
 	private final Display display;
 	private final Album album;
@@ -43,30 +43,17 @@ public class AlbumItemPresenter extends AbstractPresenter {
 	}
 
 	public void bind() {
-		display.getBtnTrackList().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (album.getSongs() == null || album.getSongs().isEmpty()) {
-					rpcLoadSongs();
-				}
-				else {
-					display.showOrHidePanelTracks(album.getSongs());
-				}
+		display.getBtnTrackList().addClickHandler(event -> {
+			if (album.getSongs() == null || album.getSongs().isEmpty()) {
+				rpcLoadSongs();
+			}
+			else {
+				display.showOrHidePanelTracks(album.getSongs(), playerPresenter);
 			}
 		});
-		display.getBtnPlay().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				playAlbum(getAlbum());
-			}
-		});
+		display.getBtnPlay().addClickHandler(event -> playAlbum(getAlbum()));
 
-		display.getBtnEnqueue().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				enqueueAlbum(getAlbum());
-			}
-		});
+		display.getBtnEnqueue().addClickHandler(event -> enqueueAlbum(getAlbum()));
 	}
 
 	private void rpcLoadSongs() {
@@ -85,7 +72,8 @@ public class AlbumItemPresenter extends AbstractPresenter {
 			public void onSuccess(Method method, Album response) {
 				eventBus.fireEvent(new ShowLoadingEvent(false));
 				album.setSongs(response.getSongs());
-				display.showOrHidePanelTracks(album.getSongs());
+				display.showOrHidePanelTracks(album.getSongs(), playerPresenter);
+
 			}
 		});
 	}

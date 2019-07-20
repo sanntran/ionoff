@@ -114,8 +114,7 @@ public class AlbumServiceController {
 		playerService.findByMac(mac);
 
 		final Album album = albumService.findById(albumId);
-		final String baseUrl = ServletUtils.getBaseUrl(httpRequest);
-		return AlbumDtoMapping.toAlbumDtoIncludingSongs(album, baseUrl, mac);
+		return AlbumDtoMapping.toAlbumDtoIncludingSongs(album);
 	}
 
 	@RequestMapping(value = "albums/{albumId}",
@@ -154,7 +153,7 @@ public class AlbumServiceController {
 
 		final List<AlbumDto> albumDtos = new ArrayList<AlbumDto>();
 		for (final Album album : specialAlbums) {
-			final AlbumDto albumDto = AlbumDtoMapping.toAlbumDto(album, baseUrl, mac);
+			final AlbumDto albumDto = AlbumDtoMapping.toAlbumDto(album);
 			albumDtos.add(albumDto);
 		}
 		return albumDtos;

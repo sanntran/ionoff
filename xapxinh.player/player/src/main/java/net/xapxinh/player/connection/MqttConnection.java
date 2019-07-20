@@ -78,9 +78,13 @@ public class MqttConnection implements MqttCallback {
 		try {
 			client.publish(topic, message);
 		} catch (Exception e) {
-
 			LOGGER.error(e.getMessage(), e);
 			if (!client.isConnected()) {
+				try {
+					client.disconnect();
+				} catch (MqttException e1) {
+					LOGGER.error(e.getMessage(), e);
+				}
 				connectMqttBroker();
 			}
 		}
@@ -183,6 +187,12 @@ public class MqttConnection implements MqttCallback {
 				Thread.sleep(10000);
 			} catch (InterruptedException ie) {
 				LOGGER.error("InterruptedException: " + ie.getMessage());
+			}
+			try {
+				client.disconnect();
+				Thread.sleep(2000);
+			} catch (MqttException | InterruptedException ex) {
+				LOGGER.error(ex.getMessage());
 			}
 			connectMqttBroker();
 		}

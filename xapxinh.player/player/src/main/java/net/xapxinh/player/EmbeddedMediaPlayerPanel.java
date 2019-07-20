@@ -238,6 +238,14 @@ public class EmbeddedMediaPlayerPanel extends EmbeddedMediaPlayerComponent {
 		mediaListPlayer.playLeaf(id);
 	}
 
+	public void downloadPlaylistLeaf(long id) {
+		mediaListPlayer.downloadLeaf(id);
+	}
+
+	public void downloadPlaylistLeaf(PlayLeaf playLeaf) {
+		mediaListPlayer.downloadLeaf(playLeaf);
+	}
+
 	public void playPlaylistNode(long id) {
 		mediaListPlayer.playNode(id);
 	}

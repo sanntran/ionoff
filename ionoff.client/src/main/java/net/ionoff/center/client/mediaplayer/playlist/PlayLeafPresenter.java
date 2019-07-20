@@ -28,7 +28,7 @@ public class PlayLeafPresenter extends AbstractPresenter {
 		Label getLblName();
 
 		Button getBtnRemove();
-		
+
 		Label getLblIcon();
 
 		Button getBtnEnqueue();

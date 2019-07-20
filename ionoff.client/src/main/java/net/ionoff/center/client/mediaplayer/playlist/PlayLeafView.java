@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.Label;
 import net.ionoff.center.shared.dto.player.PlayLeafDto;
 
 public class PlayLeafView extends FlowPanel implements PlayLeafPresenter.Display {
-	
+
 	private final Button btnPlay;
 	private final Button btnEnqueue;
 	private final Label lblName;
@@ -28,11 +28,11 @@ public class PlayLeafView extends FlowPanel implements PlayLeafPresenter.Display
 		lblName = new Label(playlistLeaf.getName());
 		lblName.setStyleName("title");
 		add(lblName);
-		
+
 		btnPlay = new Button("");
 		btnPlay.addStyleName("play");
 		add(btnPlay);
-		
+
 		btnEnqueue = new Button("");
 		btnEnqueue.addStyleName("enqueue");
 		add(btnEnqueue);
@@ -47,12 +47,12 @@ public class PlayLeafView extends FlowPanel implements PlayLeafPresenter.Display
 	public Button getBtnPlay() {
 		return this.btnPlay;
 	}
-	
+
 	@Override
 	public Button getBtnEnqueue() {
 		return this.btnEnqueue;
 	}
-	
+
 	@Override
 	public Label getLblName() {
 		return this.lblName;
@@ -62,7 +62,7 @@ public class PlayLeafView extends FlowPanel implements PlayLeafPresenter.Display
 	public Button getBtnRemove() {
 		return this.btnRemove;
 	}
-	
+
 	@Override
 	public FlowPanel asPanel() {
 		return this;

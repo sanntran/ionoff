@@ -6,16 +6,13 @@ import java.util.List;
 import net.xapxinh.dataservice.config.DataServiceConfig;
 import net.xapxinh.dataservice.dto.AlbumDto;
 import net.xapxinh.dataservice.dto.SongDto;
-import net.xapxinh.dataservice.entity.Album;
-import net.xapxinh.dataservice.entity.Artist;
-import net.xapxinh.dataservice.entity.Author;
-import net.xapxinh.dataservice.entity.Song;
+import net.xapxinh.dataservice.entity.*;
 
 public final class AlbumDtoMapping {
 
 	private static final String DLM = ", ";
 
-	public static AlbumDto toAlbumDto(Album album, String baseUrl, String mac) {
+	public static AlbumDto toAlbumDto(Album album) {
 		if (album == null) {
 			return null;
 		}
@@ -45,8 +42,8 @@ public final class AlbumDtoMapping {
 		return albumDto;
 	}
 
-	public static AlbumDto toAlbumDtoIncludingSongs(Album album, String baseUrl, String mac) {
-		final AlbumDto albumDto = toAlbumDto(album, baseUrl, mac);
+	public static AlbumDto toAlbumDtoIncludingSongs(Album album) {
+		final AlbumDto albumDto = toAlbumDto(album);
 		if (albumDto == null) {
 			return null;
 		}
@@ -90,4 +87,9 @@ public final class AlbumDtoMapping {
 		strBuilder.append("/").append(albumName);
 		return strBuilder.toString();
 	}
+
+    public static SongDto toSongDto(Song song) {
+		return SongDtoMapping.toSongDto(song, getAlbumFolderUrl(song.getFolder()),
+				DataServiceConfig.getInstance().FILESERVICE_IS_LOSSLESS);
+    }
 }

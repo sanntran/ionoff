@@ -2,14 +2,14 @@ package net.ionoff.center.client.mediaplayer.album;
 
 import java.util.List;
 
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.*;
 
+import net.ionoff.center.client.mediaplayer.PlayerPresenter;
 import net.ionoff.center.client.mediaplayer.locale.PlayLocale;
 import net.ionoff.center.shared.dto.player.Album;
+import net.ionoff.center.shared.dto.player.PlayerApi;
 import net.ionoff.center.shared.dto.player.SongDto;
 
 public class AlbumItemView extends FlowPanel implements AlbumItemPresenter.Display {
@@ -94,19 +94,23 @@ public class AlbumItemView extends FlowPanel implements AlbumItemPresenter.Displ
 		return string == null || "null".equals(string) || "?".equals(string);
 	}
 
-	private void addPanelTrackList(List<SongDto> songs) {
+	private void addPanelTrackList(List<SongDto> songs, PlayerPresenter playerPresenter) {
 		if (songs == null || songs.isEmpty()) {
 			return;
 		}
 		final int songsSize = songs.size();
 		for (int i = 0; i < songsSize; i++) {
-			final FlowPanel panelTrack = createPanelTrack(songs.get(i), i + 1);
+			SongDto song = songs.get(i);
+			final FocusPanel panelTrack = createPanelTrack(song, i + 1);
 			panelTrackList.add(panelTrack);
+			panelTrack.addClickHandler(clickEvent -> playerPresenter.rpcSendCommand(
+					PlayerApi.downloadAlbumSong(song.getId())));
 		}
 		panelTrackList.setVisible(true);
 	}
 
-	private FlowPanel createPanelTrack(SongDto song, int index) {
+	private FocusPanel createPanelTrack(SongDto song, int index) {
+		FocusPanel focusPanel = new FocusPanel();
 		final FlowPanel panelTrack = new FlowPanel();
 		panelTrack.setStyleName("track");
 
@@ -122,7 +126,9 @@ public class AlbumItemView extends FlowPanel implements AlbumItemPresenter.Displ
 		lblArtist.setStyleName("artists");
 		panelTrack.add(lblArtist);
 
-		return panelTrack;
+		focusPanel.setWidget(panelTrack);
+
+		return focusPanel;
 	}
 
 	private String formatIndex(int index) {
@@ -153,12 +159,12 @@ public class AlbumItemView extends FlowPanel implements AlbumItemPresenter.Displ
 	}
 
 	@Override
-	public void showOrHidePanelTracks(List<SongDto> songs) {
+	public void showOrHidePanelTracks(List<SongDto> songs, PlayerPresenter playerPresenter) {
 		if (panelTrackList == null) {
 			panelTrackList = new FlowPanel();
 			panelTrackList.setStyleName("tracks");
 			panelTrackList.setVisible(false);
-			addPanelTrackList(songs);
+			addPanelTrackList(songs, playerPresenter);
 			wrapper.add(panelTrackList);
 			return;
 		}

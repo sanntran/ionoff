@@ -4,10 +4,10 @@ import static net.xapxinh.player.Application.application;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 import com.google.gson.JsonElement;
 import net.xapxinh.player.connection.MqttRequestMessage;
+import net.xapxinh.player.thread.AlbumSongDownloader;
 import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
@@ -106,6 +106,12 @@ public class StatusRequestHandler {
 		}
 		else if ("fullscreen".equals(command)) {
 			fullscreen(request);
+		}
+		else if ("leaf_download".equals(command)) {
+			leaf_download(request);
+		}
+		else if ("song_download".equals(command)) {
+			song_download(request);
 		}
 		return mediaPlayerPanel.getStatus();
 	}
@@ -329,6 +335,23 @@ public class StatusRequestHandler {
 		}
 		else {
 			mediaPlayerPanel.playPlaylist();
+		}
+	}
+
+	private void leaf_download(MqttRequestMessage request) {
+		String id = request.getAsString("id");
+		String type = request.getAsString("type");
+		if (PLAYLEAF.equals(type)) {
+			mediaPlayerPanel.downloadPlaylistLeaf(Long.parseLong(id));
+		}
+	}
+
+
+	private void song_download(MqttRequestMessage request) {
+		String id = request.getAsString("id");
+		String type = request.getAsString("type");
+		if ("song".equals(type)) {
+			new AlbumSongDownloader(Long.parseLong(id)).start();
 		}
 	}
 }

@@ -52,52 +52,34 @@ public class PlayNodePresenter extends AbstractPresenter {
 		this.playlistNode = playlistNode;
 		this.playerPresenter = playerPresenter;
 		this.isInPlayingList = isInPlayingList;
-		leafPresenters = new ArrayList<PlayLeafPresenter>();
+		leafPresenters = new ArrayList<>();
 	}
 
 	public void bind() {
 		if (display.getBtnEnqueue() != null && !isInPlayingList) {
-			display.getBtnEnqueue().addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					playerPresenter.rpcSendCommand(
-							PlayerApi.addEnqueuePlayNode(playlistNode.getId()));
-				}
-			});
+			display.getBtnEnqueue().addClickHandler(event -> playerPresenter.rpcSendCommand(
+					PlayerApi.addEnqueuePlayNode(playlistNode.getId())));
 		}
 		
 		if (display.getBtnPlay() != null && !isInPlayingList) {
-			display.getBtnPlay().addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					playerPresenter.rpcSendCommand(
-							PlayerApi.addPlayPlayNode(playlistNode.getId()));
-				}
-			});
+			display.getBtnPlay().addClickHandler(event -> playerPresenter.rpcSendCommand(
+					PlayerApi.addPlayPlayNode(playlistNode.getId())));
 		}
 		
 		if (!isInPlayingList) {
 			showLeafs();
 		}
 		if  (playlistNode.hasManyLeaf()) {
-			display.getFocusPanel().addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					if (display.getLeafContainer().isVisible()) {
-						display.getLeafContainer().setVisible(false);
-					}
-					else {
-						showLeafs();
-					}
+			display.getFocusPanel().addClickHandler(event -> {
+				if (display.getLeafContainer().isVisible()) {
+					display.getLeafContainer().setVisible(false);
+				}
+				else {
+					showLeafs();
 				}
 			});
-			display.getBtnRemove().addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					playerPresenter.rpcSendCommand(
-							PlayerApi.deletePlaylistNode(playlistNode.getIdx()));
-				}
-			});
+			display.getBtnRemove().addClickHandler(event -> playerPresenter.rpcSendCommand(
+					PlayerApi.deletePlaylistNode(playlistNode.getIdx())));
 		}
 		else {
 			showLeafs();
@@ -121,26 +103,18 @@ public class PlayNodePresenter extends AbstractPresenter {
 			
 			if (isInPlayingList) {
 				leafView.getBtnEnqueue().setVisible(false);
-				
-				leafView.getBtnRemove().addClickHandler(new ClickHandler() {
-					@Override
-					public void onClick(ClickEvent event) {
-						playerPresenter.rpcSendCommand(
-								PlayerApi.deletePlaylistLeaf(leaf.getIdx()));
-					}
-				});
+				leafView.getBtnRemove().addClickHandler(event -> playerPresenter.rpcSendCommand(
+						PlayerApi.deletePlaylistLeaf(leaf.getIdx())));
+				leafView.getLblIcon().addClickHandler(event -> playerPresenter.rpcSendCommand(
+						PlayerApi.downloadPlaylistLeaf(leaf.getIdx())));
 			}
 			else {
-				leafView.getBtnRemove().addClickHandler(new ClickHandler() {
-					@Override
-					public void onClick(ClickEvent event) {
-						playlistNode.getLeafs().remove(leaf);
-						display.getLeafContainer().remove(leafView);
-					}
+				leafView.getBtnRemove().addClickHandler(event -> {
+					playlistNode.getLeafs().remove(leaf);
+					display.getLeafContainer().remove(leafView);
 				});
-				
 			}
-			
+
 			display.getLeafContainer().add(leafView);
 		}
 		display.getLeafContainer().setVisible(true);

@@ -7,6 +7,7 @@ public class PlayerApi {
 	public static final String PARENT = "..";
 	public static final String IN_PLAY = "in_play";
 	public static final String ALBUM = "album";
+	public static final String SONG = "song";
 	public static final String YOUTUBE = "youtube";
 	public static final String PLAYLEAF = "playleaf";
 	public static final String PLAYNODE = "playnode";
@@ -60,6 +61,20 @@ public class PlayerApi {
 		.setCommand("pl_delete")
 		.setId(idx + "")
 		.setType(PLAYLEAF);
+	}
+
+	public static Command downloadPlaylistLeaf(long idx) {
+		return new Command()
+				.setCommand("leaf_download")
+				.setId(idx + "")
+				.setType(PLAYLEAF);
+	}
+
+	public static Command downloadAlbumSong(long id) {
+		return new Command()
+				.setCommand("song_download")
+				.setId(id + "")
+				.setType(SONG);
 	}
 
 	public static Command togglePause(int idx) {

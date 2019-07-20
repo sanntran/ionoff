@@ -1,11 +1,10 @@
 package net.xapxinh.dataservice.persistence.service;
 
+import net.xapxinh.dataservice.entity.Album;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Map;
-
-import net.xapxinh.dataservice.entity.Album;
-
-import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public interface AlbumService extends IGenericService<Album> {

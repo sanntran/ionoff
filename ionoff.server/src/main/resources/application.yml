@@ -18,12 +18,12 @@ hibernate:
     connection.url: jdbc:mysql://localhost/ionoff?autoReconnect=true&characterEncoding=UTF-8
     dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     connection.driver_class: com.mysql.jdbc.Driver
-    connection.username: root
-    connection.password: root
+    connection.username: ionoff
+    connection.password: ?6hqkHk+*D*e+WdY
     show_sql: false;
 
 service.notify.url: http://service.ionoff.net/inotify
-service.mediadata.url: http://service.ionoff.net/iMqttRequestMessage request
+service.mediadata.url: http://service.ionoff.net/imedia/api
 service.release.site: http://service.ionoff.net/release/ionoff/
 service.release.latest: http://service.ionoff.net/release/ionoff/latest.json
 

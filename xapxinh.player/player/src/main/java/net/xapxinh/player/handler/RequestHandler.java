@@ -1,17 +1,9 @@
 package net.xapxinh.player.handler;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.Map.Entry;
-
-import javax.servlet.http.HttpServletRequest;
-
 import net.xapxinh.player.Application;
 import net.xapxinh.player.EmbeddedMediaPlayerPanel;
 import net.xapxinh.player.config.UserConfig;
 import net.xapxinh.player.connection.MqttRequestMessage;
-import net.xapxinh.player.connection.TcpRequest;
 import net.xapxinh.player.model.MediaFile;
 import net.xapxinh.player.model.PlayList;
 import net.xapxinh.player.model.Schedule;
@@ -20,6 +12,11 @@ import net.xapxinh.player.server.exception.DateTimeFormatException;
 import net.xapxinh.player.server.exception.UnknownCommandException;
 import net.xapxinh.player.server.exception.UnknownContextException;
 import uk.co.caprica.vlcj.filter.MediaFileFilter;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RequestHandler {
 
@@ -59,7 +56,6 @@ public class RequestHandler {
 
 	private PlayerResponse handleScheduleRequest(MqttRequestMessage request) throws UnknownCommandException, DateTimeFormatException {
 		Schedule schedule = new ScheduleRequestHandler().handleRequest(request);
-		
 		return new PlayerResponse("schedule", schedule);
 	}
 

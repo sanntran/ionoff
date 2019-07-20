@@ -75,47 +75,28 @@ public class PlaylistListPresenter extends AbstractPresenter {
 
 	public void bind() {
 		
-		display.getTextBoxKey().addKeyUpHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					search();
-				}
-			}
-		});
-
-		display.getBtnShowMore().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				gotoShowMorePage();
-			}
-		});
-
-		display.getBtnSearch().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
+		display.getTextBoxKey().addKeyUpHandler(event -> {
+			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 				search();
 			}
 		});
+
+		display.getBtnShowMore().addClickHandler(event -> gotoShowMorePage());
+
+		display.getBtnSearch().addClickHandler(event -> search());
 		
-		display.getBtnMyPlaylistTab().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				display.getBtnMyPlaylistTab().addStyleName("selected");
-				display.getBtnAllPlaylistTab().removeStyleName("selected");
-				display.getPanelPlaylists().clear();
-				display.getPanelPlaylists().add(display.getPanelMyPlaylists());
-			}
+		display.getBtnMyPlaylistTab().addClickHandler(event -> {
+			display.getBtnMyPlaylistTab().addStyleName("selected");
+			display.getBtnAllPlaylistTab().removeStyleName("selected");
+			display.getPanelPlaylists().clear();
+			display.getPanelPlaylists().add(display.getPanelMyPlaylists());
 		});
 		
-		display.getBtnAllPlaylistTab().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				display.getBtnMyPlaylistTab().removeStyleName("selected");
-				display.getBtnAllPlaylistTab().addStyleName("selected");
-				display.getPanelPlaylists().clear();
-				display.getPanelPlaylists().add(display.getPanelAllPlaylists());
-			}
+		display.getBtnAllPlaylistTab().addClickHandler(event -> {
+			display.getBtnMyPlaylistTab().removeStyleName("selected");
+			display.getBtnAllPlaylistTab().addStyleName("selected");
+			display.getPanelPlaylists().clear();
+			display.getPanelPlaylists().add(display.getPanelAllPlaylists());
 		});
 	}
 

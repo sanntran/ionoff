@@ -4,6 +4,7 @@ import static net.xapxinh.player.Application.application;
 
 import java.util.ArrayList;
 
+import net.xapxinh.player.thread.PlayLeafDownloader;
 import org.apache.log4j.Logger;
 
 import net.xapxinh.player.config.AppConfig;
@@ -210,6 +211,11 @@ public class EmbeddedMediaListPlayer {
 		playLeaf(leaf);
 	}
 
+	public void downloadLeaf(long idx) {
+		PlayLeaf leaf = playlist.getLeaf(idx);
+		downloadLeaf(leaf);
+	}
+
 	public void playNode(long idx) {
 		PlayNode node = playlist.getNode(idx);
 		playLeaf(node.getLeafs().get(0));
@@ -247,7 +253,14 @@ public class EmbeddedMediaListPlayer {
 			}
 		}
 	}
-	
+
+	public void downloadLeaf(PlayLeaf leaf) {
+		if (leaf == null || leaf.getMrl() == null) {
+			return;
+		}
+		new PlayLeafDownloader(leaf).start();
+	}
+
 	public void playPlaylist() {
 		if (!playlist.getLeafs().isEmpty()) {
 			playlist.resetPlayed();
