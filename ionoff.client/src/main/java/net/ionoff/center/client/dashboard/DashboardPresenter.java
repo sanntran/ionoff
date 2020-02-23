@@ -221,6 +221,9 @@ public class DashboardPresenter extends AbstractPresenter {
 			return;
 		}
 		updatingDashboard = updatingDashboard - 1;
+		for (DeviceSlicePresenter deviceSlicePresenter : devicePresenters) {
+			updateDeviceStatus(deviceSlicePresenter, dashboard.getDevices());
+		}
 	}
 
 	private void updateDeviceStatus(DeviceSlicePresenter devicePresenter, List<DeviceDto> devices) {
