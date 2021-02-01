@@ -27,7 +27,7 @@ public class CenterController {
 
 	@RequestMapping(value = "/{id}",
 			method = RequestMethod.PUT,
-			produces = "application/json; charset=utf-8")
+			produces = "application/json")
 	@ResponseBody
 	public CenterDto update(@PathVariable(value = "id") String id,
 										 @Valid CenterDto dto, HttpServletRequest request) {

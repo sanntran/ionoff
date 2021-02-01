@@ -227,7 +227,7 @@ public class DashboardPresenter extends AbstractPresenter {
 	}
 
 	private void updateDeviceStatus(DeviceSlicePresenter devicePresenter, List<DeviceDto> devices) {
-		if (devicePresenter.isLocked()) {
+		if (devicePresenter.isLocked() || devices == null || devices.isEmpty()) {
 			return;
 		}
 		for (final DeviceDto device : devices) {

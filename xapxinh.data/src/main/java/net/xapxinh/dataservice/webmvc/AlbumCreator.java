@@ -119,7 +119,8 @@ public class AlbumCreator {
 
 		Album storedAlbum = AppContext.getAlbumService().findByTitle(newAlbum.getTitle());
 		if (storedAlbum != null) {
-			throw new Exception("Album " + newAlbum.getTitle() + " existed");
+			//throw new Exception("Album " + newAlbum.getTitle() + " existed");
+			return storedAlbum;
 		}
 		else {
 			storedAlbum = AppContext.getAlbumService().insert(newAlbum);

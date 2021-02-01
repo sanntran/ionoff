@@ -34,8 +34,7 @@ public class SongServiceController {
 	@ResponseBody
 	public SongDto getSong(@PathVariable("songId") Long songId,
 							@RequestParam("mac") String mac, HttpServletRequest httpRequest) throws UnknownPlayerException {
-		playerService.findByMac(mac);
-
+		//playerService.findByMac(mac);
 		final Song song = songService.findById(songId);
 		return AlbumDtoMapping.toSongDto(song);
 	}
