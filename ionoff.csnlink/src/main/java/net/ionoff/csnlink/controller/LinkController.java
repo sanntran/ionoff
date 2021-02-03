@@ -20,8 +20,8 @@ public class LinkController {
 			method = RequestMethod.GET,
 			produces = "application/json")
 	@ResponseBody
-	public List<Link> get() {
-		return linkService.get();
+	public List<Link> get(@RequestParam(name = "status") Link.Status status) {
+		return linkService.get(status);
 	}
 
 	@RequestMapping(value = "/{id}",

@@ -1,153 +1,107 @@
-package net.ionoff.webhook.controller;
+package net.ionoff.csnlink.downloader;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.mpatric.mp3agic.*;
-import net.ionoff.webhook.dto.CsnAlbumDto;
-import net.ionoff.webhook.dto.CsnAlbumListDto;
-import net.ionoff.webhook.model.Album;
-import net.ionoff.webhook.model.MusicFile;
+import net.ionoff.csnlink.model.Album;
+import net.ionoff.csnlink.model.Link;
+import net.ionoff.csnlink.model.MusicFile;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class CSNDownloader implements Runnable {
+public class CSNDownloader extends Thread {
 
+    private static String LINK_URL = "http://cloud.ionoff.net/csnlink/links";
     private static final Logger logger = LoggerFactory.getLogger(CSNDownloader.class);
 
-    private ObjectMapper objectMapper;
+    public static void main(String[] args) {
+        new CSNDownloader().start();
+    }
+
+    private RestTemplate restTemplate;
 
     private CSNDownloader() {
-        this.objectMapper =  newObjectMapper();
-        new Thread(this).start();
+        this.restTemplate = new RestTemplate();
     }
 
-    private ObjectMapper newObjectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        return objectMapper;
-    }
-
-    private CsnAlbumListDto queue = new CsnAlbumListDto();
-    private  CsnAlbumListDto error = new CsnAlbumListDto();
-
-    public synchronized void downloadAlbums(List<CsnAlbumDto> albumDtos) {
-        for (CsnAlbumDto albumDto : albumDtos) {
-            if (!hasAlbum(queue, albumDto)) {
-                updateQueue(albumDto);
-            }
-        }
-    }
-
-    private boolean hasAlbum(CsnAlbumListDto queue, CsnAlbumDto albumDto) {
-        for (CsnAlbumDto album : queue) {
-            if (Objects.equals(album.getLink(), albumDto.getLink())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private synchronized void updateQueue(CsnAlbumDto album) {
-        if (album == null) {
-            queue.remove(0);
-        } else {
-            queue.add(album);
-        }
+    private void updateLink(Link link) {
         try {
-            objectMapper.writeValue(Paths.get("F:\\Albums\\downloading\\queue.json").toFile(), queue);
-        } catch (IOException e) {
-            logger.error("!!!!!!!!!!!! Error when write album to queue json {}", e.getMessage(), e);
+            restTemplate.postForObject(LINK_URL + "/" + link.getId(), link, Link.class);
+            logger.info("------------- Updated link status {}", link.toString());
+        } catch (Exception e) {
+            logger.error("!!!!!!!!!!!! Error when update link status {}", e.getMessage(), e);
+        }
+    }
+
+    public static class LinkList extends ArrayList<Link> {
+        public LinkList() {
+            super();
+        }
+    }
+
+    private Optional<Link> getPendingLink() {
+        try {
+            LinkList links = restTemplate.getForObject(LINK_URL + "?status=PENDING", LinkList.class);
+            logger.info("------------- Get pending link, found {} link to download", links.size());
+            return links.isEmpty() ? Optional.empty() : Optional.of(links.get(0));
+        } catch (Exception e) {
+            logger.error("!!!!!!!!!!!! Error when get pending link {}", e.getMessage(), e);
+            return Optional.empty();
         }
     }
 
     @Override
     public void run() {
-        try {
-            logger.info("!!!!!!!!!!!! Reading album from queue json...");
-            List<CsnAlbumDto> albums = objectMapper.readValue(new File("F:\\Albums\\downloading\\queue.json"),
-                    CsnAlbumListDto.class);
-            downloadAlbums(albums);
-        } catch (IOException e) {
-            logger.error("!!!!!!!!!!!! Error when reading album queue json {}", e.getMessage(), e);
-        }
         for (; true; ) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                logger.error("!!!!!!!!!!!! InterruptedException {}", e.getMessage(), e);
-            }
-            if (queue.isEmpty()) {
-                //logger.error("!!!!!!!!!!!! queue is empty");
+            Optional<Link> linkOptional = getPendingLink();
+            if (!linkOptional.isPresent()) {
+                logger.info("------------- no link to download, wait 60 seconds");
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e) {
+                    logger.error("!!!!!!!!!!!! InterruptedException {}", e.getMessage(), e);
+                }
                 continue;
             }
-            CsnAlbumDto album = queue.get(0);
-            boolean failed = !tryCreateAlbum(album);
-            updateQueue(null);
-            if (failed) {
-                error.add(album);
-                try {
-                    objectMapper.writeValue(Paths.get("F:\\Albums\\downloading\\errors.json").toFile(), error);
-                } catch (IOException e) {
-                    logger.error("!!!!!!!!!!!! Error when saving failed album {}", e.getMessage(), e);
-                }
-            }
-
+            Link link = linkOptional.get();
+            Link.Status status = tryCreateAlbum(link);
+            link.setStatus(status);
+            updateLink(link);
         }
-
     }
 
-    private static List<CsnAlbumDto> albums = Arrays.asList(
-        new CsnAlbumDto(
-    "https://chiasenhac.vn/nghe-album/anh-ba-ngo-mien-tay-xssm0dbrq8nmqa.html",
-        "Anh Ba Ngố Miền Tây",
-    "Đan Trường",
-"2017"),
-        new CsnAlbumDto(
-    "https://chiasenhac.vn/nghe-album/anh-ba-ngo-mien-tay-xssm0dbrq8nmqa.html",
-    "Phà Tình Lênh Đênh",
-    "Đan Trường",
-    "2017")
-
-        );
-
-    public static boolean tryCreateAlbum(CsnAlbumDto album){
+    public static Link.Status tryCreateAlbum(Link link) {
         try {
-            createAlbum(album);
-            return true;
+            createAlbum(link);
+            return Link.Status.PROCESSED;
         } catch (Exception e) {
-            logger.error("Error when download album {} {}. {}", album.toString(), e);
-            return false;
+            logger.error("Error when download album {} {}. {}", link.toString(), e);
+            return Link.Status.ERROR;
         }
     }
 
-    public static void createAlbum(CsnAlbumDto csnAlbum) throws Exception {
-        String albumLink = csnAlbum.getLink();
+    public static void createAlbum(Link link) throws Exception {
+        String albumLink = link.getLink();
         Album album = new Album();
-        album.setTitle(csnAlbum.getTitle());
-        album.setArtists(csnAlbum.getArtists());
-        album.setDescription(null);
-        album.setReleaseDate(csnAlbum.getReleaseDate());
-        album.setAuthors(null);
         album.setMusicFiles(new ArrayList<>());
 
         String albumFolder = null;
-        for (int i = 1; i < 20; i++) {
+        for (int i = 1; i < 30; i++) {
             MusicFile musicFile = parseMusicFile(albumLink + "?playlist=" + i);
             if (album.hasMusicFile(musicFile)) {
                 break;
@@ -198,16 +152,19 @@ public class CSNDownloader implements Runnable {
         }
 
         writeXml(albumFolder, album);
-        writeDb(albumFolder, album);
+        writeDb(albumFolder);
     }
 
-    private static void writeDb(String albumFolder, Album album) {
+    private static void writeDb(String albumFolder) {
         RestTemplate restTemplate = new RestTemplate();
         String folder = albumFolder.replaceAll("\\\\", "/");
         String html = restTemplate.getForObject(
                 "http://localhost:8081/imedia/api/albums/scan?folder=" + folder,
                 String.class);
-        logger.info("!!!!!!!!!!!!!!!! write album to folder: " + html);
+        logger.info("!!!!!!!!!!!!!!!! write album to DB: " + html);
+        if (html.contains("Exception")) {
+            throw new RuntimeException("Error write album to DB " + html);
+        }
     }
 
     public static MusicFile parseMusicFile(String csnLink) throws IOException {

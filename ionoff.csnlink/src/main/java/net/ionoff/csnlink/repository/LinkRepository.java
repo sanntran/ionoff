@@ -16,6 +16,6 @@ public interface LinkRepository extends CrudRepository<Link, Long> {
     @Query("SELECT link FROM Link link WHERE link.link = :link")
     Optional<Link> findByLink(@Param("link") String link);
 
-    @Query("SELECT link FROM Link link WHERE link.status IN ('PENDING','ERROR') ORDER BY link.status DESC, link.id")
-    List<Link> findPending();
+    @Query("SELECT link FROM Link link WHERE link.status = :status")
+    List<Link> findByStatus(@Param("status") Link.Status status);
 }

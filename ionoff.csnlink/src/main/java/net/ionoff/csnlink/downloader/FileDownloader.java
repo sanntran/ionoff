@@ -1,4 +1,4 @@
-package net.ionoff.webhook.controller;
+package net.ionoff.csnlink.downloader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +9,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.text.Normalizer;
-import java.util.regex.Pattern;
 
 public class FileDownloader extends Thread {
 

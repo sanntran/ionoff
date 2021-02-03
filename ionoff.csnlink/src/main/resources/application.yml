@@ -16,5 +16,5 @@ spring:
         password: ?6hqkHk+*D*e+WdY
         driver-class-name: com.mysql.jdbc.Driver
     jpa:
-        show-sql: true
+        show-sql: false
         properties.hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect

@@ -41,11 +41,7 @@ public class LinkService {
 	}
 
 	@Transactional
-	public List<Link> get() {
-        List<Link> links = linkRepository.findPending();
-        if (!links.isEmpty()) {
-            return Collections.singletonList(links.get(0));
-        }
-        return links;
+	public List<Link> get(Link.Status status) {
+		return linkRepository.findByStatus(status);
 	}
 }

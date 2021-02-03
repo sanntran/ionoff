@@ -1,4 +1,4 @@
-package net.ionoff.webhook.controller;
+package net.ionoff.csnlink.downloader;
 
 public class AccentRemover {
 
