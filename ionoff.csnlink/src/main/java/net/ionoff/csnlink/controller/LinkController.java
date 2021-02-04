@@ -2,8 +2,6 @@ package net.ionoff.csnlink.controller;
 
 import net.ionoff.csnlink.model.Link;
 import net.ionoff.csnlink.service.LinkService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +18,9 @@ public class LinkController {
 			method = RequestMethod.GET,
 			produces = "application/json")
 	@ResponseBody
-	public List<Link> get(@RequestParam(name = "status") Link.Status status) {
-		return linkService.get(status);
+	public List<Link> get(@RequestParam(name = "status") Link.Status status,
+                          @RequestParam(name = "limit", required = false) Integer limit) {
+		return linkService.get(status, limit);
 	}
 
 	@RequestMapping(value = "/{id}",
@@ -39,7 +38,16 @@ public class LinkController {
 			produces = "application/json")
 	@ResponseBody
 	public List<Link> post(@RequestBody List<String> links){
-		return linkService.save(links);
+		return linkService.insert(links);
 	}
+
+
+    @RequestMapping(value = "",
+            method = RequestMethod.PUT,
+            produces = "application/json")
+    @ResponseBody
+    public List<Link> put(@RequestBody List<Link> links){
+        return linkService.save(links);
+    }
 
 }

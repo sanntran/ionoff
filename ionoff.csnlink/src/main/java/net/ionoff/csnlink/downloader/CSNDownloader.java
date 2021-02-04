@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.mpatric.mp3agic.*;
 import net.ionoff.csnlink.model.Album;
 import net.ionoff.csnlink.model.Link;
+import net.ionoff.csnlink.model.LinkList;
 import net.ionoff.csnlink.model.MusicFile;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -48,15 +49,9 @@ public class CSNDownloader extends Thread {
         }
     }
 
-    public static class LinkList extends ArrayList<Link> {
-        public LinkList() {
-            super();
-        }
-    }
-
     private Optional<Link> getPendingLink() {
         try {
-            LinkList links = restTemplate.getForObject(LINK_URL + "?status=PENDING", LinkList.class);
+            LinkList links = restTemplate.getForObject(LINK_URL + "?status=PENDING&limit=1", LinkList.class);
             logger.info("------------- Get pending link, found {} link to download", links.size());
             return links.isEmpty() ? Optional.empty() : Optional.of(links.get(0));
         } catch (Exception e) {
