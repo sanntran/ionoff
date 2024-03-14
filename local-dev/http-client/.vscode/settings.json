@@ -1,0 +1,13 @@
+{
+    "editor.fontSize": 13,
+    "rest-client.environmentVariables": {
+        "prod": {
+            "baseUrl": "http://localhost:8208/icenter",
+            "jwtToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb3JkIiwiZXhwaXJlZCI6ZmFsc2UsImNyZWF0ZWQiOjE3MTEwODkzODQ3NTEsImV4cCI6MTcxMTY5NDE4NCwiaGFzaCI6IiQyYSQxMCQuWDUzRDI4T2xCMnouYTRpcU8xbzdlM1R4bUt1enNZckFKbG1MRWJVS1NIMDNHZjZUc0t0NiJ9.GyJZIZULt12r7Ejmb1YxUc7j-jigDUjTWdFSVBCvj3dtowyeA3uxZbr2NyVlJGCUWti_rhHhkSKYKebIQE083A"
+        },
+        "local": {
+            "baseUrl": "http://localhost:8208/icenter",
+            "jwtToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb3JkIiwiZXhwaXJlZCI6ZmFsc2UsImNyZWF0ZWQiOjE3MTEwODkzODQ3NTEsImV4cCI6MTcxMTY5NDE4NCwiaGFzaCI6IiQyYSQxMCQuWDUzRDI4T2xCMnouYTRpcU8xbzdlM1R4bUt1enNZckFKbG1MRWJVS1NIMDNHZjZUc0t0NiJ9.GyJZIZULt12r7Ejmb1YxUc7j-jigDUjTWdFSVBCvj3dtowyeA3uxZbr2NyVlJGCUWti_rhHhkSKYKebIQE083A"
+        }
+    }
+}

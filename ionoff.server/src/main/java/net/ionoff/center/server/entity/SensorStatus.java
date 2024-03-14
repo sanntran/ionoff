@@ -1,41 +1,23 @@
 package net.ionoff.center.server.entity;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
-public class SensorStatus extends BaseObj {
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class SensorStatus implements IEntity {
 
 	private static final long serialVersionUID = 1L;
 
+	@EqualsAndHashCode.Include
+	private long id;
+	private String name;
 	private Date time;
 	private Double value;
 	private Long index;
 	private Sensor sensor;
-
-	public Date getTime() {
-		return time;
-	}
-	public void setTime(Date time) {
-		this.time = time;
-	}
-
-	public Double getValue() {
-		return value;
-	}
-	public void setValue(Double value) {
-		this.value = value;
-	}
-
-	public Long getIndex() {
-		return index;
-	}
-	public void setIndex(Long index) {
-		this.index = index;
-	}
-
-	public Sensor getSensor() {
-		return sensor;
-	}
-	public void setSensor(Sensor sensor) {
-		this.sensor = sensor;
-	}
 }

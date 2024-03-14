@@ -2,7 +2,6 @@ package net.ionoff.center.client.service;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.inject.Inject;
-
 import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.mediaplayer.rpc.PlayerService;
 
@@ -61,7 +60,9 @@ public class RpcServiceProviderImpl implements IRpcServiceProvider {
 	private DashboardService dashboardService;
 	@Inject
 	private SensorDataService sensorDataService;
-	
+	@Inject
+	private StatisticService statisticService;
+
 	@Override
 	public LoginService getLoginService() {
 		return loginAsyn;
@@ -209,5 +210,11 @@ public class RpcServiceProviderImpl implements IRpcServiceProvider {
 	public SensorDataService getSensorDataService() {
 		eventBus.fireEvent(ShowLoadingEvent.getInstance(true));
 		return sensorDataService;
+	}
+
+	@Override
+	public StatisticService getStatisticService() {
+		eventBus.fireEvent(ShowLoadingEvent.getInstance(true));
+		return statisticService;
 	}
 }

@@ -11,7 +11,7 @@
 		}
 		.menuItem {
 			color: #f2f38a !important;
-    		font-size: 13px !important;
+    		font-size: 14px !important;
 		}
 		.btnIcon {
 			font-size: 46px !important;

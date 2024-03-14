@@ -3,31 +3,7 @@ package net.ionoff.center.client;
 import javax.inject.Singleton;
 
 import com.google.gwt.inject.client.AbstractGinModule;
-import net.ionoff.center.client.service.AreaService;
-import net.ionoff.center.client.service.ControllerService;
-import net.ionoff.center.client.service.DashboardService;
-import net.ionoff.center.client.service.DeviceService;
-import net.ionoff.center.client.service.IRpcServiceProvider;
-import net.ionoff.center.client.service.ModeSceneService;
-import net.ionoff.center.client.service.ModeSensorSceneService;
-import net.ionoff.center.client.service.ModeSensorService;
-import net.ionoff.center.client.service.ModeSensorUserService;
-import net.ionoff.center.client.service.ModeService;
-import net.ionoff.center.client.service.ProjectService;
-import net.ionoff.center.client.service.RelayService;
-import net.ionoff.center.client.service.RpcServiceProviderImpl;
-import net.ionoff.center.client.service.SceneActionService;
-import net.ionoff.center.client.service.ScenePlayerActionService;
-import net.ionoff.center.client.service.SceneRelayActionService;
-import net.ionoff.center.client.service.SceneService;
-import net.ionoff.center.client.service.SchedulePlayerActionService;
-import net.ionoff.center.client.service.ScheduleRelayActionService;
-import net.ionoff.center.client.service.ScheduleService;
-import net.ionoff.center.client.service.SensorDataService;
-import net.ionoff.center.client.service.SensorService;
-import net.ionoff.center.client.service.SystemService;
-import net.ionoff.center.client.service.UserService;
-import net.ionoff.center.client.service.ZoneService;
+import net.ionoff.center.client.service.*;
 import org.fusesource.restygwt.client.RestService;
 import org.fusesource.restygwt.client.RestServiceProxy;
 
@@ -35,7 +11,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.inject.Provider;
 
-import net.ionoff.center.client.service.LoginService;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.client.mediaplayer.rpc.PlayerService;
 
@@ -72,6 +47,7 @@ public class AppInjectorModule extends AbstractGinModule {
 		bind(SystemService.class).toProvider(SystemServiceProvider.class).in(Singleton.class);
 		bind(DashboardService.class).toProvider(DashboardServiceProvider.class).in(Singleton.class);
 		bind(SensorDataService.class).toProvider(SensorDataServiceProvider.class).in(Singleton.class);
+		bind(StatisticService.class).toProvider(StatisticServiceProvider.class).in(Singleton.class);
 
 		bind(IRpcServiceProvider.class).to(RpcServiceProviderImpl.class).in(Singleton.class);
 
@@ -281,6 +257,15 @@ public class AppInjectorModule extends AbstractGinModule {
 		@Override
 		public DashboardService get() {
 			final DashboardService service = GWT.create(DashboardService.class);
+			setRestServiceProxyResource(service);
+			return service;
+		}
+	}
+
+	public static class StatisticServiceProvider implements Provider<StatisticService> {
+		@Override
+		public StatisticService get() {
+			final StatisticService service = GWT.create(StatisticService.class);
 			setRestServiceProxyResource(service);
 			return service;
 		}

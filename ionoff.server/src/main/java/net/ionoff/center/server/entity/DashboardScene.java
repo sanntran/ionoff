@@ -1,31 +1,26 @@
 package net.ionoff.center.server.entity;
 
-public class DashboardScene extends BaseObj {
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class DashboardScene implements IEntity {
 
 	private static final long serialVersionUID = 1L;
 
+	@EqualsAndHashCode.Include
+	private long id;
+	private String name;
 	private Dashboard dashboard;
 	private Scene scene;
 	private Project project;
-	
-	public Scene getScene() {
-		return scene;
+
+	@Override
+	public String toString() {
+		return "Id: " + getId() + ", Name: " + getName();
 	}
-	public void setScene(Scene scene) {
-		this.scene = scene;
-	}
-	
-	public Dashboard getDashboard() {
-		return dashboard;
-	}
-	public void setDashboard(Dashboard dashboard) {
-		this.dashboard = dashboard;
-	}
-	
-	public Project getProject() {
-		return project;
-	}
-	public void setProject(Project project) {
-		this.project = project;
-	}
+
 }

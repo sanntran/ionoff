@@ -1,54 +1,29 @@
 package net.ionoff.center.server.entity;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
-public class Zone extends BaseObj {
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Zone implements IEntity {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	@EqualsAndHashCode.Include
+	private long id;
+	private String name;
 	private Integer order;
 	private Area area;
 	private Project project;
 	private List<Device> devices;
 	private List<Scene> scenes;
-	
-	public Integer getOrder() {
-		return order;
-	}
-	public void setOrder(Integer order) {
-		this.order = order;
-	}
-	public Area getArea() {
-		return area;
-	}	
-	public void setArea(Area area) {
-		this.area = area;
-	}
-	
-	public Project getProject() {
-		return project;
-	}	
-	public void setProject(Project project) {
-		this.project = project;
-	}
-	
-	public List<Device> getDevices() {
-		return devices;
-	}
-	public void setDevices(List<Device> devices) {
-		this.devices = devices;
-	}
 
 	public boolean hasScene() {
 		return scenes != null && !scenes.isEmpty();
-	}
-	
-	public List<Scene> getScenes() {
-		return scenes;
-	}
-	
-	public void setScenes(List<Scene> scenes) {
-		this.scenes = scenes;
 	}
 
 	public boolean hasDevices() {

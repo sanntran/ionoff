@@ -1,5 +1,12 @@
 package net.ionoff.center.server.entity;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class MediaPlayer extends Device {
 
 	private static final long serialVersionUID = 1L;

@@ -1,30 +1,25 @@
 package net.ionoff.center.server.entity;
 
-public class DashboardDevice extends BaseObj {
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class DashboardDevice implements IEntity {
 
 	private static final long serialVersionUID = 1L;
 
+	@EqualsAndHashCode.Include
+	private long id;
+	private String name;
 	private Dashboard dashboard;
 	private Device device;
 	private Project project;
-	
-	public Device getDevice() {
-		return device;
-	}
-	public void setDevice(Device device) {
-		this.device = device;
-	}
-	
-	public Dashboard getDashboard() {
-		return dashboard;
-	}
-	public void setDashboard(Dashboard dashboard) {
-		this.dashboard = dashboard;
-	}
-	public Project getProject() {
-		return project;
-	}
-	public void setProject(Project project) {
-		this.project = project;
+
+	@Override
+	public String toString() {
+		return "Id: " + getId() + ", Name: " + getName();
 	}
 }

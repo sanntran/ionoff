@@ -38,6 +38,10 @@ public abstract class AbstractTableView<T extends BaseDto> extends FlowPanel imp
 		toolBarView = new ToolBarView();
 		listPanel.add(toolBarView);
 
+		SimplePanel pagerContainer = new SimplePanel();
+		pagerContainer.setStyleName("paging");
+		listPanel.add(pagerContainer);
+
 		SimplePanel cellTableContainer = new SimplePanel();
 		cellTableContainer.setStyleName("celltable");
 		listPanel.add(cellTableContainer);
@@ -49,10 +53,6 @@ public abstract class AbstractTableView<T extends BaseDto> extends FlowPanel imp
 		
 		singleSelectionModel = new SingleSelectionModel<T>();
 		cellTable.setSelectionModel(singleSelectionModel);
-		
-		SimplePanel pagerContainer = new SimplePanel();
-		pagerContainer.setStyleName("paging");
-		listPanel.add(pagerContainer);
 		
 		simplePager = new SimplePager();
 		simplePager.setDisplay(cellTable);

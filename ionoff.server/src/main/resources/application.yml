@@ -1,7 +1,7 @@
 version: 1.6.8
 
 server:
-    port: 8208
+    port: 8080
     servlet:
         context-path: /icenter
 spring:
@@ -15,12 +15,12 @@ spring:
     main:
         allow-bean-definition-overriding: true
 hibernate:
-    connection.url: jdbc:mysql://localhost/ionoff?autoReconnect=true&characterEncoding=UTF-8
-    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-    connection.driver_class: com.mysql.jdbc.Driver
+    connection.url: jdbc:mysql://127.0.0.1:3306/ionoff?autoReconnect=true&characterEncoding=UTF-8
+    dialect: org.hibernate.dialect.MySQLDialect
+    connection.driver_class: com.mysql.cj.jdbc.Driver
     connection.username: ionoff
-    connection.password: ?6hqkHk+*D*e+WdY
-    show_sql: false;
+    connection.password: i@n@ff
+    show_sql: false
 
 service.notify.url: http://service.ionoff.net/inotify
 service.mediadata.url: http://service.ionoff.net/imedia/api

@@ -17,7 +17,7 @@
 
   <!-- Other module inherits                                      -->
   <inherits name="com.google.gwt.i18n.I18N"/>
-   <inherits name="org.fusesource.restygwt.RestyGWT"/>
+  <inherits name="org.fusesource.restygwt.RestyGWT"/>
   <inherits name="com.google.gwt.inject.Inject"/>
   <inherits name="gwt.material.design.GwtMaterialWithJQuery" />
   <inherits name="org.moxieapps.gwt.highcharts.Highcharts"/>

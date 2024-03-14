@@ -1,33 +1,24 @@
 package net.ionoff.center.server.entity;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
-public class Area extends BaseObj implements Comparable<Area> {
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Area implements IEntity, Comparable<Area> {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	@EqualsAndHashCode.Include
+	private long id;
+	private String name;
 	private Integer order;
 	private Project project;
 	private List<Zone> zones;
-	
-	public Integer getOrder() {
-		return order;
-	}
-	public void setOrder(Integer order) {
-		this.order = order;
-	}
-	public Project getProject() {
-		return project;
-	}
-	public void setProject(Project project) {
-		this.project = project;
-	}
-	public List<Zone> getZones() {
-		return zones;
-	}
-	public void setZones(List<Zone> zones) {
-		this.zones = zones;
-	}
 	
 	@Override
 	public int compareTo(Area area) {
@@ -46,14 +37,9 @@ public class Area extends BaseObj implements Comparable<Area> {
 			return -1;
 		}
 	}
-	
+
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		
-		builder.append("Id: ").append(getId())
-				.append(", Name: " + getName());
-		
-		return builder.toString();
+		return "Id: " + getId() + ", Name: " + getName();
 	}
 }

@@ -1,36 +1,28 @@
 package net.ionoff.center.shared.dto;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
 
 public class ControllerStatisticDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private List<ControllerDto> offline;
 
-	private int onlineCount;
-	private int offlineCount;
-	private int totalCount;
-
-	public int getOnlineCount() {
-		return onlineCount;
-	}
-
-	public void setOnlineCount(int onlineCount) {
-		this.onlineCount = onlineCount;
-	}
 
 	public int getOfflineCount() {
-		return offlineCount;
+		return offline == null ? 0 : offline.size();
 	}
 
-	public void setOfflineCount(int offlineCount) {
-		this.offlineCount = offlineCount;
+	public Optional<ControllerDto> getFirstOffline() {
+		return offline == null || offline.isEmpty() ? Optional.empty() : Optional.of(offline.get(0));
 	}
 
-	public int getTotalCount() {
-		return totalCount;
+	public List<ControllerDto> getOffline() {
+		return offline;
 	}
 
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
+	public void setOffline(List<ControllerDto> offline) {
+		this.offline = offline;
 	}
 }

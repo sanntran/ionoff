@@ -3,36 +3,28 @@ package net.ionoff.center.shared.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class DeviceStatisticDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private int onCount;
-	private int offCount;
-	private int totalCount;
+	private int totalOn;
+	private DeviceDto deviceOn;
 
-	public int getOnCount() {
-		return onCount;
+	public int getTotalOn() {
+		return totalOn;
 	}
 
-	public void setOnCount(int onCount) {
-		this.onCount = onCount;
+	public void setTotalOn(int totalOn) {
+		this.totalOn = totalOn;
 	}
 
-	public int getOffCount() {
-		return offCount;
+	public DeviceDto getDeviceOn() {
+		return deviceOn;
 	}
 
-	public void setOffCount(int offCount) {
-		this.offCount = offCount;
-	}
-
-	public int getTotalCount() {
-		return totalCount;
-	}
-
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
+	public void setDeviceOn(DeviceDto deviceOn) {
+		this.deviceOn = deviceOn;
 	}
 }

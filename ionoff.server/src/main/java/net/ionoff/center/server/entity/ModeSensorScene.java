@@ -1,31 +1,20 @@
 package net.ionoff.center.server.entity;
 
-public class ModeSensorScene extends BaseObj {
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class ModeSensorScene implements IEntity {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	@EqualsAndHashCode.Include
+	private long id;
+	private String name;
 	private ModeSensor modeSensor;
 	private Zone zone;
 	private Scene scene;
-	
-	public Zone getZone() {
-		return zone;
-	}
-	public void setZone(Zone zone) {
-		this.zone = zone;
-	}
-	
-	public Scene getScene() {
-		return scene;
-	}
-	public void setScene(Scene scene) {
-		this.scene = scene;
-	}
-	
-	public ModeSensor getModeSensor() {
-		return modeSensor;
-	}
-	public void setModeSensor(ModeSensor modeSensor) {
-		this.modeSensor = modeSensor;
-	}
 }

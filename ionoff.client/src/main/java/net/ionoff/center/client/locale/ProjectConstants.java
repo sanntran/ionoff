@@ -13,7 +13,7 @@ public interface ProjectConstants extends Constants {
 	@DefaultStringValue("Khu")
 	String area();
 
-	@DefaultStringValue("Vùng")
+	@DefaultStringValue("Căn hộ")
 	String zone();
 
 	@DefaultStringValue("Kịch bản")
@@ -21,6 +21,13 @@ public interface ProjectConstants extends Constants {
 
 	@DefaultStringValue("Bộ điều khiển")
 	String controller();
+
+	@DefaultStringValue("Báo động")
+	String alert();
+
+	@DefaultStringValue("Có báo động")
+	String hasAlert();
+
 
 	@DefaultStringValue("Chế độ")
 	String mode();
@@ -52,17 +59,29 @@ public interface ProjectConstants extends Constants {
 	@DefaultStringValue("Không")
 	String none();
 	
-	@DefaultStringValue("On")
+	@DefaultStringValue("Bật")
 	String on();
 
-	@DefaultStringValue("Off")
+	@DefaultStringValue("Tắt")
 	String off();
+
+	@DefaultStringValue("Đang bật")
+	String isOn();
+
+	@DefaultStringValue("Đang tắt")
+	String isOff();
 
 	@DefaultStringValue("Online")
 	String online();
 
 	@DefaultStringValue("Offline")
 	String offline();
+
+	@DefaultStringValue("Đang online")
+	String isOnline();
+
+	@DefaultStringValue("Đang offline")
+	String isOffline();
 	
 	@DefaultStringValue("Tổng")
 	String total();

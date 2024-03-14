@@ -1,6 +1,6 @@
 
 :root {
-	font-size: 13px;
+	font-size: 14px;
 }
 
 /** Add css rules here for your application. */
@@ -668,7 +668,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 .main .content .dashboard .card .total {
     font-size: 18px;
     position: absolute;
-    bottom: 55px;
+    bottom: 50px;
 }
 
 .main .content .dashboard .card.chart .highcharts-container {

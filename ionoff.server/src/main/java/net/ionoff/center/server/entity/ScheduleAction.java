@@ -1,25 +1,22 @@
 package net.ionoff.center.server.entity;
 
-public class ScheduleAction extends BaseObj {
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class ScheduleAction implements IEntity {
 
 	private static final long serialVersionUID = 1L;
 	
 	public static final String NONE = "None";
-	
+
+	@EqualsAndHashCode.Include
+	private long id;
+	private String name;
 	private String action;
 	private Schedule schedule;
 	
-	public String getAction() {
-		return action;
-	}
-	public void setAction(String action) {
-		this.action = action;
-	}
-	
-	public Schedule getSchedule() {
-		return schedule;
-	}
-	public void setSchedule(Schedule schedule) {
-		this.schedule = schedule;
-	}
 }

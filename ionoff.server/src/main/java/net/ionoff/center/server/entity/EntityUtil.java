@@ -9,7 +9,7 @@ public final class EntityUtil {
 		// prevent installation
 	}
 
-	public static <T extends BaseObj> boolean isInstance(T obj, Class<?> clazz) {
+	public static <T extends IEntity> boolean isInstance(T obj, Class<?> clazz) {
 		if (obj instanceof HibernateProxy) {
 			return (Hibernate.getClass(obj).equals(clazz));
 		}
@@ -17,7 +17,7 @@ public final class EntityUtil {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends BaseObj> T castUnproxy(BaseObj obj, Class<T> clazz) {
+	public static <T extends IEntity> T castUnproxy(IEntity obj, Class<T> clazz) {
 		if (obj instanceof HibernateProxy) {
 			final Object implObj = ((HibernateProxy) obj).getHibernateLazyInitializer()
 					.getImplementation();

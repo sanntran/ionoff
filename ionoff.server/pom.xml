@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<!--<scope>provided</scope>-->
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -59,10 +59,12 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.29</version>
+			<version>8.0.17</version>
+			<scope>runtime</scope>
 		</dependency>
 
-        <dependency>
+
+		<dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.7.0</version>
@@ -104,6 +106,15 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>5.2.14.Final</version>
 		</dependency>
+
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.30</version>
+			<scope>provided</scope>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.hibernate</groupId>

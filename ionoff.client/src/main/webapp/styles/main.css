@@ -1,6 +1,6 @@
 
 :root {
-	font-size: 13px;
+	font-size: 14px;
 }
 
 /** Add css rules here for your application. */
@@ -15,9 +15,9 @@ html {
 
 body {
 	color: #fffde7 !important;
-	background-color: #212121 !important;
+	background-color: #2b3c43 !important;
 	height: 100%;
-	font-size: 13px !important;
+	font-size: 14px !important;
 	margin: 0px !important;
 	font-family: Roboto,arial,sans-serif !important;
 	min-width: 320px;
@@ -355,6 +355,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 	min-width: 320px;
 	height: 56px !important;
     line-height: 56px !important;
+    box-shadow: none;
 }
 
 .main nav .nav-wrapper {
@@ -492,7 +493,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 }
 
 .main .card {
-	margin: 0px;
+	margin: 5px;
     box-shadow: none;
     border: 1px solid #37474f;
 }
@@ -557,13 +558,13 @@ textarea.materialize-textarea[readonly="readonly"] {
 
 .main .content {
 	position: absolute;
-	top: 57px;
-	bottom: 0px;
-	left: 255px;
-	right: 0px;
-	min-width: 320px;
-	padding: 0px;
-	overflow: auto;
+    top: 57px;
+    bottom: 0px;
+    left: 250px;
+    right: 0px;
+    min-width: 320px;
+    padding: 5px;
+    overflow: auto;
 }
 .main .content.player {
 	bottom: 46px;
@@ -609,7 +610,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 }
 
 .main .content .dashboard .card .card-content {
-	height: 98px;
+	height: 85px;
 	width: 100%;
 	padding: 15px !important;
 }
@@ -624,13 +625,14 @@ textarea.materialize-textarea[readonly="readonly"] {
 }
 
 .main .content .dashboard .card .card-content .card-title {
-    line-height: 32px;
-    font-size: 16px;
+    line-height: 64px;
+    font-size: 42px;
+    font-weight: 400;
 }
 
 .main .content .dashboard .card .card-action {
-	padding: 0px 15px;
-	height: 50px;
+	padding: 10px 15px;
+	height: 110px;
 	border-top: none;
 }
 
@@ -649,9 +651,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 }
 
 .main .content .dashboard .card .total {
-    font-size: 18px;
-    position: absolute;
-    bottom: 55px;
+    font-size: 24px;
 }
 
 .main .content .dashboard .card.chart .highcharts-container {

@@ -19,4 +19,6 @@ public interface IDeviceDao extends IGenericDao<Device> {
 	List<Device> findByUserProjectId(long userId, long projectId);
 
     void updateDeviceStatus(Device device);
+
+	List<Device> findByStatus(Long userId, Long projectId, Boolean deviceStatus);
 }

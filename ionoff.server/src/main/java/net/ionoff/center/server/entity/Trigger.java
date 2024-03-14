@@ -1,12 +1,18 @@
 package net.ionoff.center.server.entity;
 
-import java.util.List;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-public class Trigger extends BaseObj {
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Trigger implements IEntity {
 
 	private static final long serialVersionUID = 1L;
 
+	@EqualsAndHashCode.Include
+	private long id;
+	private String name;
 	private String condition;
-	private List<Action> actions;
-
 }

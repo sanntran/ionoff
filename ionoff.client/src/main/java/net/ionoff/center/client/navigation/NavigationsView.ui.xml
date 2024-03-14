@@ -68,7 +68,7 @@
 				
 			</ma:sideprofile.MaterialSideProfile>
 			
-			<m:MaterialLink ui:field="menuItemProject" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="BUSINESS" />
+			<m:MaterialLink ui:field="menuItemProject" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="LOCATION_CITY" />
 			<m:MaterialLink ui:field="menuItemDevice" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="DEVICES_OTHER" >
 			</m:MaterialLink>
 			<m:MaterialLink ui:field="menuItemScene" waves="LIGHT" textColor="GREY_LIGHTEN_4" iconType="MOVIE" >

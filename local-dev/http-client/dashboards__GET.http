@@ -1,0 +1,5 @@
+### get my user profile
+GET {{baseUrl}}/dashboards?projectId=4 HTTP/1.1
+Accept:application/json
+Content-Type:application/json
+Authorization:{{jwtToken}}

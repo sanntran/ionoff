@@ -1,12 +1,22 @@
 package net.ionoff.center.server.entity;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class RelayGroup extends BaseObj {
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class RelayGroup implements IEntity {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	@EqualsAndHashCode.Include
+	private long id;
+	private String name;
 	private Project project;
 	private List<RelayGroupRelay> groupRelays;
 
@@ -19,22 +29,6 @@ public class RelayGroup extends BaseObj {
 			 relays.add(groupRelay.getRelay());
 		 }
 		 return relays;
-	}
-
-	public Project getProject() {
-		return project;
-	}
-
-	public void setProject(Project project) {
-		this.project = project;
-	}
-
-	public List<RelayGroupRelay> getGroupRelays() {
-		return groupRelays;
-	}
-
-	public void setGroupRelays(List<RelayGroupRelay> groupRelays) {
-		this.groupRelays = groupRelays;
 	}
 	
 	public boolean hasLeader() {

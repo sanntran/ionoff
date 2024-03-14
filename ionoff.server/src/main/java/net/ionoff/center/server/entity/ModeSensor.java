@@ -1,8 +1,14 @@
 package net.ionoff.center.server.entity;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 import java.util.Set;
 
+@Getter
+@Setter
 public class ModeSensor extends Trigger {
 
 	private static final long serialVersionUID = 1L;

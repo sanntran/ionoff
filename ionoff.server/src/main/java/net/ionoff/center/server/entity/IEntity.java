@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public interface IEntity extends Serializable {
 
-	long DEFAULT_ID = 0;
 	String ID = "id";
 	String NAME = "name";
 	
@@ -15,7 +14,21 @@ public interface IEntity extends Serializable {
 	String getName();
 	
 	void setName(String name);
-	
-	boolean isNew();
+
+	default String getSId() {
+		return "#" + getId();
+	}
+
+	default String getNameId() {
+		return getName() + " #" + getId();
+	}
+
+	static boolean isNew(long id) {
+		return id == 0;
+	}
+
+	default boolean isNew() {
+		return getId() == 0;
+	}
 
 }

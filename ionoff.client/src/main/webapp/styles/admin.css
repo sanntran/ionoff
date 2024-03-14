@@ -14,7 +14,7 @@
 .dropdown-content li {
     min-height: 34px !important;
     line-height: 34px !important;
-    font-size: 13px !important;
+    font-size: 14px !important;
 }
 
 .select-wrapper span.caret {
@@ -54,7 +54,7 @@
 	margin: 0px;
     position: relative;
     overflow: hidden;
-    padding: 0px;
+    padding: 0px 5px;
 }
 
 .main .content .table .list {
@@ -265,7 +265,7 @@
 	padding-left: 5px;
 }
 .main .content .toolbar .buttons button i {
-	font-size: 30px;	
+	font-size: 2em;
 }
 
 .main .content .toolbar .searchbar {
@@ -314,7 +314,7 @@
 	margin-top: 0px !important;
 }
 .main .content .toolbar .searchbar .input-field li span {
-	font-size: 13px;
+	font-size: 14px;
 	line-height: 10px;
 	color: #37474f;
 	border-bottom: 1px solid #f1f1f1;
@@ -352,9 +352,7 @@
 
 .main .content .celltable {
 	padding: 0px;
-	background-color: #37474f !important;
-	min-height: calc(100% - 85px);
-	border-top: 1px solid #607d8b;
+	background-color: #455a64 !important;
 }
 
 .main .content .celltable table {
@@ -362,7 +360,7 @@
 }
 
 .main .content .celltable table .firstColumn {
-	padding-left: 15px !important;
+	padding-left: 10px !important;
 }
 
 .main .content .celltable table thead tr th {
@@ -403,16 +401,13 @@
 }
 
 .main .content .paging {
-	height: 35px;
-    border-top: 1px solid #6f7277;
-    background-color: #37474f !important;
-    padding-left: 10px;
+	height: 45px;
 }
 
 .main .content .pager {
 	width: 250px;
     margin: 5px 0px;
-    float: left;
+    float: right;
 }
 
 .main .content .table.relays .edit .body .lock {

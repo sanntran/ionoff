@@ -217,4 +217,26 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 		update(device);
 	}
 
+	@Override
+	public List<Device> findByStatus(Long userId, Long projectId, Boolean deviceStatus) {
+		String sql = "select distinct d.* from ionoff.devices d" +
+					" join ionoff.users_devices ud on d.id = ud.device_id" +
+					" join ionoff.zones z on d.zone_id = z.id" +
+					" join ionoff.areas a on z.area_id = a.id" +
+					" where ud.project_id = :projectId" +
+					" and ud.user_id = :userId" +
+					(deviceStatus == null ? " and ud.role is null " : " and ud.role = :deviceStatus ") +
+					" order by a.order_, a.name, z.order_, z.name, d.order_, d.name";
+
+		Query query = getCurrentSession().createNativeQuery(sql, Device.class)
+				.setParameter("userId", userId)
+				.setParameter("projectId", projectId);
+		if (deviceStatus != null) {
+			query.setParameter("deviceStatus", deviceStatus);
+		}
+
+		List<Device> devices = findMany(query);
+		return devices;
+	}
+
 }

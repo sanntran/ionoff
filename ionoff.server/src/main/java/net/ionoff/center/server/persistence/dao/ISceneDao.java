@@ -9,7 +9,6 @@ import net.ionoff.center.server.entity.Scene;
 @Transactional
 public interface ISceneDao extends IGenericDao<Scene> {
 
-
     long countByProjectId(long projectId);
 
     List<Scene> findByProjectId(long projectId);

@@ -3,22 +3,20 @@ package net.ionoff.center.client.dashboard;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Panel;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialRow;
 import net.ionoff.center.client.base.AbstractPresenter;
 import net.ionoff.center.client.device.*;
-import net.ionoff.center.client.event.ChangeProjectEvent;
 import net.ionoff.center.client.event.ChangeTokenEvent;
 import net.ionoff.center.client.event.ChangeZoneEvent;
 import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.storage.StorageService;
+import net.ionoff.center.client.ui.DashboardCard;
 import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
-import net.ionoff.center.client.zone.ZonePresenter;
-import net.ionoff.center.client.zone.ZoneView;
 import net.ionoff.center.shared.dto.*;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
@@ -30,53 +28,44 @@ public class DashboardPresenter extends AbstractPresenter {
 
 	public interface Display {
 		Panel asPanel();
-		MaterialRow getWrapper();
 		MaterialLink getLblTitle();
+		DashboardCard getCartDevice();
+		DashboardCard getCartController();
+		FlowPanel getDeviceWrapper();
+		void setPresenter(DashboardPresenter presenter);
+		void displayCartDeviceData(DeviceStatisticDto deviceStatistic);
+		void displayCartModeData(ModeStatisticDto modeStatistic);
+		void displayCartSceneData(SceneStatisticDto sceneStatistic);
+		void displayCartScheduleData(ScheduleStatisticDto scheduleStatistic);
 	}
 	
 	private IRpcServiceProvider rpcService;
 	private Timer timer;
 	private Display display;
 	private final List<DeviceSlicePresenter> devicePresenters;
-	private final List<ZonePresenter> zonePresenters;
 	private int updatingDashboard = 0;
 	
 	public DashboardPresenter(IRpcServiceProvider rpcService, HandlerManager eventBus, Display view) {		
 		super(eventBus);
 		this.rpcService = rpcService;
 		this.display = view;
-		devicePresenters = new ArrayList<>();
-		zonePresenters = new ArrayList<>();
+		this.devicePresenters = new ArrayList<>();
 	}
-	
-	private void bind() {
-		if (!AppToken.hasTokenItem(AppToken.ZONE)) {
-			Long projectId = AppToken.getProjectIdLong();
-			UserDto user = StorageService.getInstance().getCookie().getUser();
-			for (ProjectDto project : user.getProjects()) {
-				if (projectId != null && projectId.equals(project.getId())) {
-					display.getLblTitle().setText(project.getName());
-					break;
-				}
-			}
-		} else {
-			Long zoneId = AppToken.getZoneIdLong();
-			Long projectId = AppToken.getProjectIdLong();
-			UserDto user = StorageService.getInstance().getCookie().getUser();
-			for (ProjectDto project : user.getProjects()) {
-				if (projectId != null && projectId.equals(project.getId())) {
-					for (ZoneDto zone : project.getZones()) {
-						if (zoneId != null && zoneId.equals(zone.getId())) {
-							display.getLblTitle().setText(zone.getName());
-							break;
-						}
-					}
-					break;
-				}
-			}
-		}
-		eventBus.addHandler(ChangeProjectEvent.TYPE, event -> display.getLblTitle().setText(event.getProject().getName()));
-		eventBus.addHandler(ChangeZoneEvent.TYPE, event -> display.getLblTitle().setText(event.getZone().getName()));
+
+	public void onCardAreaClick() {
+		eventBus.fireEvent(new ChangeTokenEvent(AppToken.newAreaTableToken()));
+	}
+	public void onCardZoneClick() {
+		eventBus.fireEvent(new ChangeTokenEvent(AppToken.newZoneTableToken()));
+	}
+	public void onCardDeviceClick() {
+		eventBus.fireEvent(new ChangeTokenEvent(AppToken.newDeviceTableToken()));
+	}
+	public void onCartControllerClick() {
+		eventBus.fireEvent(new ChangeTokenEvent(AppToken.newControllerTableToken()));
+	}
+	public void onCartSensorClick() {
+		eventBus.fireEvent(new ChangeTokenEvent(AppToken.newSensorTableToken()));
 	}
 
 	private void scheduleRefreshDashboard() {
@@ -138,20 +127,11 @@ public class DashboardPresenter extends AbstractPresenter {
 				public void onSuccess(Method method, DashboardDto response) {
 					eventBus.fireEvent(ShowLoadingEvent.getInstance(false));				
 					updateDashboard(response);
-					showZones(response.getZones());
+					showDevices(response.getDevices());
 				}
 			});
 		}
 
-	}
-	private void showZones(List<ZoneDto> zones) {
-		for (final ZoneDto zone : zones) {
-			ZoneView sceneView = new ZoneView();
-			ZonePresenter zonePresenter = new ZonePresenter(rpcService, eventBus, zone, sceneView);
-			zonePresenter.go();
-			zonePresenters.add(zonePresenter);
-			zonePresenter.show(display.getWrapper());
-		}
 	}
 
 	
@@ -170,7 +150,7 @@ public class DashboardPresenter extends AbstractPresenter {
 		PlayerSlicePresenter playerPresenter = new PlayerSlicePresenter(rpcService, eventBus, playerView, player);
 		playerPresenter.go();
 		devicePresenters.add(playerPresenter);
-		playerPresenter.show(display.getWrapper());
+		playerPresenter.show(display.getDeviceWrapper());
 	}
 
 	private void showRelayLoad(RelayLoadDto relayLoad) {
@@ -178,7 +158,7 @@ public class DashboardPresenter extends AbstractPresenter {
 		RelayLoadSlicePresenter relayLoadPresenter = new RelayLoadSlicePresenter(rpcService, eventBus, relayLoadView, relayLoad);
 		relayLoadPresenter.go();
 		devicePresenters.add(relayLoadPresenter);
-		relayLoadPresenter.show(display.getWrapper());
+		relayLoadPresenter.show(display.getDeviceWrapper());
 	}
 
 	private void refreshDashboard() {
@@ -220,10 +200,20 @@ public class DashboardPresenter extends AbstractPresenter {
 		if (!isVisible()) {
 			return;
 		}
+
+		display.displayCartDeviceData(dashboard.getDeviceStatistic());
+		display.displayCartModeData(dashboard.getModeStatistic());
+		display.displayCartSceneData(dashboard.getSceneStatistic());
+		display.displayCartScheduleData(dashboard.getScheduleStatistic());
+
+//
+//		// Server
+//		if (dashboard.getServerStatistic() != null) {
+//			display.getServerChart().setValue(dashboard.getServerStatistic().getMemoryUsedPercent(),
+//					dashboard.getServerStatistic().getDiskSpaceUsedPercent());
+//		}
+
 		updatingDashboard = updatingDashboard - 1;
-		for (DeviceSlicePresenter deviceSlicePresenter : devicePresenters) {
-			updateDeviceStatus(deviceSlicePresenter, dashboard.getDevices());
-		}
 	}
 
 	private void updateDeviceStatus(DeviceSlicePresenter devicePresenter, List<DeviceDto> devices) {
@@ -244,14 +234,26 @@ public class DashboardPresenter extends AbstractPresenter {
 	
 	@Override
 	public void go() {
-		bind();
+		display.setPresenter(this);
 	}
 	
 	@Override
 	public void show(HasWidgets container) {
 		container.clear();
 		container.add(display.asPanel());
-		display.getWrapper().clear();
+		display.getDeviceWrapper().clear();
+		if (AppToken.hasTokenItem(AppToken.ZONE)) {
+			display.getCartController().setVisible(false);
+//			display.getCartMode().setVisible(false);
+//			display.getCartServerChart().setVisible(false);
+//			display.getCartSchedule().setVisible(false);
+		}
+		else if (AppToken.hasTokenItem(AppToken.PROJECT)) {
+			display.getCartController().setVisible(true);
+//			display.getCartMode().setVisible(true);
+//			display.getCartServerChart().setVisible(true);
+//			display.getCartSchedule().setVisible(true);
+		}
 		getAndShowDashboard();
 		scheduleRefreshDashboard();
 	}

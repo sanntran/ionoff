@@ -53,4 +53,6 @@ public interface IRpcServiceProvider {
 	DashboardService getDashboardService();
 
 	SensorDataService getSensorDataService();
+
+	StatisticService getStatisticService();
 }
