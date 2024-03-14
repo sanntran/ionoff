@@ -1,1 +1,0 @@
-mysqldump -u root -p"ionoff$db" imedia > imedia.sql

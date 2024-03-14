@@ -1,8 +1,0 @@
-2018-09-26 13:11:40 INFO  TcpConnection:143 - Status: Connecting (localhost:8118)
-2018-09-26 13:11:50 ERROR TcpConnection:121 - java.net.ConnectException: Connection refused (Connection refused)
-2018-09-26 13:11:50 INFO  TcpConnection:143 - Status: Connecting (localhost:8118)
-2018-09-26 13:12:00 ERROR TcpConnection:121 - java.net.ConnectException: Connection refused (Connection refused)
-2018-09-26 13:12:00 INFO  TcpConnection:143 - Status: Connecting (localhost:8118)
-2018-09-26 13:13:09 INFO  TcpConnection:143 - Status: Connecting (localhost:8118)
-2018-09-26 13:13:10 INFO  LatestVersionDownloader:44 - Latest version from update site: 1.2.0
-2018-09-26 13:13:10 INFO  LatestVersionDownloader:46 - Current version is the latest version

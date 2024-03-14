@@ -1,1 +1,0 @@
-Copy filesrv.xml to $tomcat/conf/Catalina/localhost/
