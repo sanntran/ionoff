@@ -2,8 +2,12 @@ package net.ionoff.center.server.controller.model;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.ionoff.center.server.controller.exception.MessageFormatException;
 
+@Getter
+@Setter
 public class BaseStatus {
 
     protected final String message;
@@ -18,7 +22,7 @@ public class BaseStatus {
      */
     protected String key;
 
-    protected List<Boolean> inputs;
+    protected List<Double> inputs;
     protected List<Boolean> outputs;
 
     public BaseStatus(String message) {
@@ -35,24 +39,8 @@ public class BaseStatus {
         throw new MessageFormatException(message);
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public List<Boolean> getInputs() {
-        return inputs;
-    }
-
-    public List<Boolean> getOutputs() {
-        return outputs;
+    protected Double toDouble(String status) {
+        return Double.parseDouble(status);
     }
 
     public boolean isChanged() {

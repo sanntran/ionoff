@@ -1,35 +1,26 @@
 package net.ionoff.center.server.persistence.service.impl;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import net.ionoff.center.server.entity.Controller;
+import net.ionoff.center.server.entity.Relay;
+import net.ionoff.center.server.entity.Sensor;
+import net.ionoff.center.server.entity.User;
+import net.ionoff.center.server.exception.DeleteEntityException;
+import net.ionoff.center.server.exception.UpdateEntityException;
+import net.ionoff.center.server.locale.Constants;
+import net.ionoff.center.server.locale.Messages;
+import net.ionoff.center.server.persistence.dao.*;
+import net.ionoff.center.server.persistence.mapper.ControllerMapper;
+import net.ionoff.center.server.persistence.service.IControllerService;
+import net.ionoff.center.shared.dto.ControllerDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.ionoff.center.server.entity.Relay;
-import net.ionoff.center.server.entity.Controller;
-import net.ionoff.center.server.entity.Sensor;
-import net.ionoff.center.server.entity.SensorStatus;
-import net.ionoff.center.server.entity.Switch;
-import net.ionoff.center.server.entity.User;
-import net.ionoff.center.server.exception.DeleteEntityException;
-import net.ionoff.center.server.exception.UpdateEntityException;
-import net.ionoff.center.server.locale.Constants;
-import net.ionoff.center.server.locale.Messages;
-import net.ionoff.center.server.persistence.mapper.ControllerMapper;
-import net.ionoff.center.server.persistence.dao.IProjectDao;
-import net.ionoff.center.server.persistence.dao.IRelayDao;
-import net.ionoff.center.server.persistence.dao.IControllerDao;
-import net.ionoff.center.server.persistence.dao.ISensorDao;
-import net.ionoff.center.server.persistence.dao.ISensorStatusDao;
-import net.ionoff.center.server.persistence.dao.ISwitchDao;
-import net.ionoff.center.server.persistence.service.IControllerService;
-import net.ionoff.center.shared.dto.ControllerDto;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -45,10 +36,7 @@ public class ControllerServiceImpl extends AbstractGenericService<Controller, Co
 	
 	@Autowired
 	private IRelayDao relayDao;
-	
-	@Autowired
-	private ISwitchDao switchDao;
-	
+
 	@Autowired
 	private ISensorDao sensorDao;
 	
@@ -80,21 +68,23 @@ public class ControllerServiceImpl extends AbstractGenericService<Controller, Co
 			update(controller);
 		}
 		insertRelays(controller);
-		insertSWitchs(controller);
+		insertSensors(controller);
 		return controller;
 	}
 
-	private void insertSWitchs(Controller controller) {
+	@Override
+	public void insertSensors(Controller controller) {
 		for (int i = 0; i < controller.getInput(); i++) {
-			insertSwitch(controller, i);
+			insertSensor(controller, i);
 		}
 	}
 
-	private void insertSwitch(Controller controller, int index) {
-		Switch zwitch = new Switch();
-		zwitch.setIndex(index);
-		zwitch.setDriver(controller);
-		switchDao.insert(zwitch);
+	private void insertSensor(Controller controller, int index) {
+		Sensor sensor = new Sensor();
+		sensor.setIndex(index);
+		sensor.setController(controller);
+		sensor.setName("Sensor-" + (index + 1));
+		sensorDao.insert(sensor);
 	}
 
 	@Override
@@ -222,34 +212,9 @@ public class ControllerServiceImpl extends AbstractGenericService<Controller, Co
 	}
 
 	@Override
-	public void insertSwitches(Controller controller) {
-		if (controller.getSwitchs() != null && !controller.getSwitchs().isEmpty()) {
-			return;
-		}
-		for (int i = 0; i < controller.getInput(); i++) {
-			Switch zwitch = new Switch();
-			zwitch.setDriver(controller);
-			zwitch.setIndex(i);
-			zwitch.setName("Switch-" + (i + 1));
-		}
-	}
-
-	@Override
-	public Switch updateSwitch(Switch zwitch) {
-		switchDao.update(zwitch);
-		List<Sensor> sensors = sensorDao.findBySwitchId(zwitch.getId());
-		if (sensors == null || sensors.isEmpty()) {
-			return zwitch;
-		}
-		for (Sensor sensor : sensors) {
-			SensorStatus status = sensor.getStatus();
-			if (status != null) {
-				status.setTime(new Date());
-				status.setValue(Boolean.TRUE.equals(zwitch.getStatus()) ? 1.0 : 0.0);
-				sensorStatusDao.update(status);
-			}
-		}
-		return zwitch;
+	public Sensor updateSensor(Sensor sensor) {
+		sensorDao.update(sensor);
+		return sensor;
 	}
 
 }

@@ -8,9 +8,7 @@ import net.ionoff.center.server.entity.Sensor;
 
 @Transactional
 public interface ISensorDao extends IGenericDao<Sensor> {
-	
-	List<Sensor> findBySwitchId(long switchId);
-	
+
 	List<Sensor> findByDeviceId(long deviceId);
 	
 	List<Sensor> findByProjectId(long projectId);

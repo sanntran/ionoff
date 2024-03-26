@@ -39,7 +39,7 @@ public class ExIOStatus extends BaseStatus {
         inputs = new ArrayList<>(input.length());
         outputs = new ArrayList<>(output.length());
         for (int i = 0; i < input.length(); i++) {
-            inputs.add(toBoolean(input.charAt(i)));
+            inputs.add(toDouble(input.charAt(i) + ""));
         }
         for (int i = 0; i < output.length(); i++) {
             outputs.add(toBoolean(output.charAt(i)));

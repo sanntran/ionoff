@@ -39,8 +39,8 @@
             <column name="project_id" not-null="true" />
         </many-to-one>
         
-        <many-to-one name="zwitch" class="net.ionoff.center.server.entity.Switch" fetch="select">
-            <column name="switch_id" not-null="false" />
+        <many-to-one name="controller" class="net.ionoff.center.server.entity.Controller" fetch="select">
+            <column name="controller_id" not-null="false" />
         </many-to-one>
 
 		<one-to-one name="status"

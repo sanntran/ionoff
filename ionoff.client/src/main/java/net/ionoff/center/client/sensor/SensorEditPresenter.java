@@ -39,10 +39,6 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		MaterialIntegerBox getIntBoxOrder();
 		MaterialIntegerBox getIntBoxInputIndex();
 		MaterialListBox getListBoxGateways();
-		FlowPanel getPanelActions();
-		FlowPanel getPanelAddAction();
-		MaterialListBox getListBoxModes();
-		MaterialButton getBtnAddModeAction();
 		MaterialListBox getListBoxTypes();
 	}
 	
@@ -81,40 +77,11 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 				sensorManager.hideEditForm();
 			}
 		});
-		view.getBtnAddModeAction().addClickHandler(event -> createModeSensor());
-		
+
 		view.getTextBoxName().addValueChangeHandler(event -> isDirty = true);
 		view.getIntBoxOrder().addValueChangeHandler(event -> isDirty = true);
 		view.getIntBoxInputIndex().addValueChangeHandler(event -> isDirty = true);
 		view.getListBoxGateways().addValueChangeHandler(event -> isDirty = true);
-	}
-
-	private void createModeSensor() {
-		ModeSensorDto modeSensor = new ModeSensorDto();
-		String selectedMode = view.getListBoxModes().getSelectedValue();
-		Long modeId = null;
-		try {
-			modeId = BaseDto.parseIdFromFormattedNameID(selectedMode);
-		}
-		catch (Exception e) {
-			// no mode selecected
-		}
-		modeSensor.setModeId(modeId);
-		modeSensor.setSensorId(entityDto.getId());
-		modeSensor.setEnabled(false);
-		rpcProvider.getModeSensorService().save(modeSensor.getId(), modeSensor, 
-				new MethodCallback<ModeSensorDto>() {
-			@Override
-			public void onFailure(Method method, Throwable exception) {
-				ClientUtil.handleRpcFailure(method, exception, eventBus);
-			}
-
-			@Override
-			public void onSuccess(Method method, ModeSensorDto response) {
-				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				showModeSensor(response);
-			}
-		});
 	}
 
 	@Override
@@ -201,107 +168,7 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 	public void setEntityDto(SensorDto dto) {
 		isDirty = false;
 		entityDto = dto;
-		if (dto.getDeviceId() == null || dto.izNew()) {
-			loadControllers();
-		}
-		else {
-			setGatewayOptions(BaseDto.formatNameID(dto.getDeviceName(), dto.getDeviceId()));
-			updateView(dto);
-		}
-		if (dto.izNew()) {
-			view.getPanelActions().setVisible(false);
-			view.getPanelAddAction().setVisible(false);
-		}
-		else {
-			loadModesByProject();
-			loadAndShowModeSensors();
-			view.getPanelActions().setVisible(true);
-			view.getPanelAddAction().setVisible(true);
-		}
-	}
-	
-	private void loadAndShowModeSensors() {
-		rpcProvider.getModeSensorService().findBySensorId(entityDto.getId(), new MethodCallback<List<ModeSensorDto>>() {
-			@Override
-			public void onSuccess(Method method, List<ModeSensorDto> response) {
-				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				showModeSensors(response);
-			}
-
-			@Override
-			public void onFailure(Method method, Throwable exception) {
-				ClientUtil.handleRpcFailure(method, exception, eventBus);	
-			}
-		});
-	}
-	
-	private void showModeSensors(List<ModeSensorDto> modeSensors) {
-		modeSensorPresenters.clear();
-		view.getPanelActions().clear();
-		for (ModeSensorDto modeSensor : modeSensors) {
-			showModeSensor(modeSensor);
-		}
-	}
-	
-	private void showModeSensor(ModeSensorDto modeSensor) {
-		ModeSensorView modeSensorView = new ModeSensorView();
-		view.getPanelActions().add(modeSensorView);
-		ModeSensorPresenter modeSensorPresenter 
-					= new ModeSensorPresenter(rpcProvider, eventBus, modeSensor, modeSensorView);
-		modeSensorPresenter.go();
-		modeSensorPresenters.add(modeSensorPresenter);
-		modeSensorView.getBtnDelete().addClickHandler(e -> {
-			deleteModeSensor(modeSensor, modeSensorView, modeSensorPresenter);
-		});
-	}
-
-	private void deleteModeSensor(ModeSensorDto modeSensor, final ModeSensorView modeSensorView, 
-						final ModeSensorPresenter modeSensorPresenter) {
-		rpcProvider.getModeSensorService().delete(modeSensor.getId(), new MethodCallback<MessageDto>() {
-			@Override
-			public void onFailure(Method method, Throwable exception) {
-				ClientUtil.handleRpcFailure(method, exception, eventBus);
-			}
-			@Override
-			public void onSuccess(Method method, MessageDto result) {
-				eventBus.fireEvent(new ShowMessageEvent(AdminLocale.getAdminMessages().deleteSuccess(),
-						ShowMessageEvent.SUCCESS));
-				view.getPanelActions().remove(modeSensorView);
-				modeSensorPresenters.remove(modeSensorPresenter);
-			}
-		});
-	}
-
-	private void loadModesByProject() {
-		rpcProvider.getModeService().findByProjectId(getProjectId(), new MethodCallback<List<ModeDto>>() {
-			@Override
-			public void onSuccess(Method method, List<ModeDto> response) {
-				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				fillListBoxModes(response);
-			}
-			
-			@Override
-			public void onFailure(Method method, Throwable exception) {
-				ClientUtil.handleRpcFailure(method, exception, eventBus);	
-			}
-		});
-	}
-
-	private void loadControllers() {
-		rpcProvider.getControllerService().findByProjectId(getProjectId(),
-				new MethodCallback<List<ControllerDto>>() {
-			@Override
-			public void onFailure(Method method, Throwable exception) {
-				ClientUtil.handleRpcFailure(method, exception, eventBus);
-			}
-
-			@Override
-			public void onSuccess(Method method, List<ControllerDto> result) {
-				eventBus.fireEvent(ShowLoadingEvent.getInstance(false));
-				setGatewayOptions(result);
-				updateView(entityDto);
-			}
-		});
+		updateView(dto);
 	}
 
 	protected Long getProjectId() {
@@ -336,40 +203,6 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		}
 		else {
 			view.getIntBoxInputIndex().setValue(dto.getIndex());
-		}
-	}
-
-	public void setGatewayOptions(List<ControllerDto> options) {
-		view.getListBoxGateways().clear();
-		view.getListBoxGateways().setEnabled(true);
-		view.getListBoxGateways().addItem(AdminLocale.getAdminConst().none());
-		if (options == null || options.isEmpty()) {
-			return;
-		}
-		for (final ControllerDto option : options) {
-			view.getListBoxGateways().addItem(option.formatNameID());
-		}
-		view.getIntBoxInputIndex().setVisible(true);
-	}
-
-	public void setGatewayOptions(String deviceNameId) {
-		view.getListBoxGateways().clear();
-		view.getListBoxGateways().addItem(deviceNameId);
-		view.getListBoxGateways().setEnabled(false);
-		view.getIntBoxInputIndex().setVisible(false);
-	}
-	
-	public void fillListBoxModes(List<ModeDto> modes) {
-		view.getListBoxModes().clear();
-		view.getListBoxModes().addItem(AdminLocale.getAdminConst().all());
-		if (modes == null) {
-			return;
-		}
-		for (final ModeDto mode : modes) {
-			view.getListBoxModes().addItem(mode.formatNameID());
-		}
-		if (!modes.isEmpty()) {
-			view.getListBoxModes().setSelectedIndex(0);
 		}
 	}
 	

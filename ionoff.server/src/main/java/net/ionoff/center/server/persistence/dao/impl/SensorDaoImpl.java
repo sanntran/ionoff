@@ -105,17 +105,6 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 	}
 
 	@Override
-	public List<Sensor> findBySwitchId(long switchId) {
-		String sql = "select distinct sensor"
-				+ " from Sensor as sensor"
-				+ " where sensor.zwitch.id = :switchId"
-				+ " order by sensor.order, sensor.name";
-		Query query = getCurrentSession().createQuery(sql)
-				.setParameter("switchId", switchId);
-		return findMany(query);
-	}
-
-	@Override
 	public List<Sensor> findByDeviceId(long deviceId) {
 		String sql = "select distinct sensor"
 				+ " from Sensor as sensor"

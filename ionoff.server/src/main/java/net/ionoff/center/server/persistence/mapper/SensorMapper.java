@@ -6,7 +6,6 @@ import java.util.List;
 import net.ionoff.center.server.entity.Project;
 import net.ionoff.center.server.entity.Sensor;
 import net.ionoff.center.server.entity.SensorData;
-import net.ionoff.center.server.entity.Switch;
 import net.ionoff.center.server.util.DateTimeUtil;
 import net.ionoff.center.shared.dto.SensorDataDto;
 import net.ionoff.center.shared.dto.SensorDto;
@@ -23,20 +22,18 @@ public class SensorMapper {
 		return sensorDtos;
 	}
 	
-	public Sensor createSensor(SensorDto sensorDto, Project project, Switch zwitch) {
+	public Sensor createSensor(SensorDto sensorDto, Project project) {
 		Sensor sensor = new Sensor();
-		updateSensor(sensor, sensorDto, zwitch);
+		updateSensor(sensor, sensorDto);
 		sensor.setProject(project);
 		return sensor;
 	}
 	
-	public Sensor updateSensor(Sensor sensor, SensorDto sensorDto, 
-			Switch zwitch) {
+	public Sensor updateSensor(Sensor sensor, SensorDto sensorDto) {
 		sensor.setOrder(sensorDto.getOrder());
 		sensor.setType(sensorDto.getType());
 		sensor.setUnit(sensorDto.getUnit());
 		sensor.setName(sensorDto.getName());
-		sensor.setZwitch(zwitch);
 		return sensor;
 	}
 
@@ -49,11 +46,6 @@ public class SensorMapper {
 			sensorDto.setIndex(null);
 			sensorDto.setDeviceId(sensor.getDevice().getId());
 			sensorDto.setDeviceName(sensor.getDevice().getName());
-		}
-		else if (sensor.getZwitch() != null) {
-			sensorDto.setDriverId(sensor.getZwitch().getDriver().getId());
-			sensorDto.setDriverName(sensor.getZwitch().getDriver().getName());
-			sensorDto.setIndex(sensor.getZwitch().getIndex());
 		}
 		sensorDto.setProjectId(sensor.getProject().getId());
 		return sensorDto;

@@ -29,7 +29,7 @@ public abstract class Controller implements IEntity {
 	private Integer crashCount;
 	private Project project;
 	private List<Relay> relays;
-	private List<Switch> switchs;
+	private List<Sensor> sensors;
 
 	public void overrideKey() {
 		// does nothing by default

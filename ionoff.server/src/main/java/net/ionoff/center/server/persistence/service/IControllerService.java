@@ -1,12 +1,11 @@
 package net.ionoff.center.server.persistence.service;
 
-import java.util.List;
-
+import net.ionoff.center.server.entity.Controller;
+import net.ionoff.center.server.entity.Sensor;
+import net.ionoff.center.shared.dto.ControllerDto;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.ionoff.center.server.entity.Controller;
-import net.ionoff.center.server.entity.Switch;
-import net.ionoff.center.shared.dto.ControllerDto;
+import java.util.List;
 
 @Transactional
 public interface IControllerService extends IGenericService<Controller, ControllerDto> {
@@ -21,8 +20,8 @@ public interface IControllerService extends IGenericService<Controller, Controll
 
 	List<ControllerDto> findDtoByProjectId(Long projectId);
 	
-	void insertSwitches(Controller controller);
+	void insertSensors(Controller controller);
 	
-	Switch updateSwitch(Switch zwitch);
+	Sensor updateSensor(Sensor sensor);
 
 }

@@ -1,38 +1,33 @@
 package net.ionoff.center.server.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.scheduling.annotation.Async;
-
-import net.ionoff.center.server.service.IControlService;
-import net.ionoff.center.server.entity.Relay;
+import net.ionoff.center.server.controller.exception.ControllerRequestException;
+import net.ionoff.center.server.controller.exception.MessageFormatException;
+import net.ionoff.center.server.controller.model.BaseStatus;
+import net.ionoff.center.server.controller.model.ExIOStatus;
+import net.ionoff.center.server.controller.model.PxIOStatus;
 import net.ionoff.center.server.entity.Controller;
+import net.ionoff.center.server.entity.Relay;
 import net.ionoff.center.server.entity.Sensor;
-import net.ionoff.center.server.entity.Switch;
 import net.ionoff.center.server.message.RelayStatusNotifier;
 import net.ionoff.center.server.message.SensorStatusNotifier;
 import net.ionoff.center.server.message.event.RelayStatusChangedEvent;
 import net.ionoff.center.server.message.event.SensorStatusChangedEvent;
 import net.ionoff.center.server.persistence.dao.IControllerDao;
 import net.ionoff.center.server.persistence.dao.ISensorDao;
-import net.ionoff.center.server.persistence.dao.ISwitchDao;
-import net.ionoff.center.server.persistence.service.IDeviceService;
 import net.ionoff.center.server.persistence.service.IControllerService;
+import net.ionoff.center.server.persistence.service.IDeviceService;
 import net.ionoff.center.server.persistence.service.IRelayService;
-import net.ionoff.center.server.controller.exception.MessageFormatException;
-import net.ionoff.center.server.controller.exception.ControllerRequestException;
-import net.ionoff.center.server.controller.model.BaseStatus;
-import net.ionoff.center.server.controller.model.EcIOStatus;
-import net.ionoff.center.server.controller.model.EpIOStatus;
-import net.ionoff.center.server.controller.model.ExIOStatus;
-import net.ionoff.center.server.controller.model.PxIOStatus;
+import net.ionoff.center.server.service.IControlService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class ControllerHandler {
@@ -46,10 +41,6 @@ public class ControllerHandler {
 	@Lazy
 	@Autowired
 	private IRelayService relayService;
-
-	@Lazy
-	@Autowired
-	private ISwitchDao switchDao;
 
 	@Lazy
 	@Autowired
@@ -91,10 +82,6 @@ public class ControllerHandler {
 				return new ExIOStatus(payload);
 			} else if (PxIOStatus.accept(payload)) {
 				return new PxIOStatus(payload);
-			} else if (EcIOStatus.accept(payload)) {
-				return new EcIOStatus(payload);
-			} else if (EpIOStatus.accept(payload)) {
-				return new EpIOStatus(payload);
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getClass().getSimpleName() + " Error parsing message " + e.getMessage());
@@ -149,13 +136,10 @@ public class ControllerHandler {
 				relayService.update(relay, status.getOutputs().get(relay.getIndex()));
 			}
 		}
-		if (controller.getSwitchs() == null || controller.getSwitchs().isEmpty()) {
-			insertSwitch(controller);
-		}
-		for (Switch zwitch : controller.getSwitchs()) {
-			boolean value = status.getInputs().get(zwitch.getIndex());
-			if (zwitch.updateStatus(value)) {
-				controllerService.updateSwitch(zwitch);
+		for (Sensor sensor : controller.getSensors()) {
+			Double value = status.getInputs().get(sensor.getIndex());
+			if (sensor.updateStatus(value)) {
+				controllerService.updateSensor(sensor);
 			}
 		}
 	}
@@ -206,26 +190,20 @@ public class ControllerHandler {
 				handleRelayStatusChanged(relay);
 			}
 		}
-		if (controller.getSwitchs() == null || controller.getSwitchs().isEmpty()) {
-			insertSwitch(controller);
+		if (controller.getSensors() == null || controller.getSensors().isEmpty()) {
+			insertSensor(controller);
 		}
-		for (Switch zwitch : controller.getSwitchs()) {
-			boolean value = status.getInputs().get(zwitch.getIndex());
-			if (zwitch.updateStatus(value)) {
-				controllerService.updateSwitch(zwitch);
-				handleSwitchStatusChanged(zwitch);
+		for (Sensor sensor : controller.getSensors()) {
+			Double value = status.getInputs().get(sensor.getIndex());
+			if (sensor.updateStatus(value)) {
+				controllerService.updateSensor(sensor);
+				handleSensorStatusChanged(sensor);
 			}
 		}
 	}
 
-	private void handleSwitchStatusChanged(Switch zwitch) {
-		List<Sensor> sensors = sensorDao.findBySwitchId(zwitch.getId());
-		if (sensors == null || sensors.isEmpty()) {
-			return;
-		}
-		for (Sensor sensor : sensors) {
-			onSensorStatusChanged(sensor);
-		}
+	private void handleSensorStatusChanged(Sensor sensor) {
+		onSensorStatusChanged(sensor);
 	}
 
 	@Async
@@ -238,14 +216,14 @@ public class ControllerHandler {
 		sensorStatusNotifier.notifyListeners(new SensorStatusChangedEvent(sensor));
 	}
 
-	private void insertSwitch(Controller controller) {
-		controller.setSwitchs(new ArrayList<>());
+	private void insertSensor(Controller controller) {
+		controller.setSensors(new ArrayList<>());
 		for (int i = 0; i < controller.getInput(); i++) {
-			Switch zwitch = new Switch();
-			zwitch.setDriver(controller);
-			zwitch.setIndex(i);
-			switchDao.insert(zwitch);
-			controller.getSwitchs().add(zwitch);
+			Sensor sensor = new Sensor();
+			sensor.setController(controller);
+			sensor.setIndex(i);
+			sensorDao.insert(sensor);
+			controller.getSensors().add(sensor);
 		}
 	}
 
