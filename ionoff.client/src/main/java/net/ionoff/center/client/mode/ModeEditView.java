@@ -18,7 +18,6 @@ public class ModeEditView extends AbstractEditView<ModeDto> implements ModeEditP
 	private MaterialIntegerBox intBoxOrder;
 	private final MaterialCheckBox checkBoxIsScheduled;
 	private final ScheduleTimeSettingPanel scheduleTimeSettingPanel;
-	private final ModeSceneListView sceneListView;
 	
 	public ModeEditView() {
 		super();
@@ -45,14 +44,7 @@ public class ModeEditView extends AbstractEditView<ModeDto> implements ModeEditP
 				checkShowingScheduleTimeSettingPanel(checkBoxIsScheduled.getValue());
 			}
 		});
-		
-		Label lblAction = new InlineLabel(AdminLocale.getAdminConst().action());
-		lblAction.setStyleName("lbl");
-		contentPanel.add(lblAction);
-				
-		sceneListView = new ModeSceneListView();
-		contentPanel.add(sceneListView);
-	} 
+	}
 	
 	@Override
 	public void checkShowingScheduleTimeSettingPanel(Boolean isScheduled) {
@@ -78,9 +70,5 @@ public class ModeEditView extends AbstractEditView<ModeDto> implements ModeEditP
 	public ScheduleTimeSettingPanel getScheduleTimeSettingPanel() {
 		return scheduleTimeSettingPanel;
 	}
-	
-	@Override
-	public ModeSceneListView getSceneListView() {
-		return sceneListView;
-	}
+
 }

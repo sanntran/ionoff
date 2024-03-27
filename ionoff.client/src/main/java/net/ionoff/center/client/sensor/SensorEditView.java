@@ -12,7 +12,7 @@ public class SensorEditView extends AbstractEditView<SensorDto> implements Senso
 
     private MaterialIntegerBox intBoxOrder;
 	private MaterialListBox listBoxTypes;
-	private MaterialListBox listBoxGateways;
+	private MaterialListBox listBoxControllers;
 	private MaterialIntegerBox intBoxInputIndex;
 
 	public SensorEditView() {
@@ -31,9 +31,9 @@ public class SensorEditView extends AbstractEditView<SensorDto> implements Senso
 		listBoxTypes.addItem(SensorType.ANALOG.toString());
 		contentPanel.add(listBoxTypes);
 		
-		listBoxGateways = new MaterialListBox();
-		listBoxGateways.setPlaceholder(AdminLocale.getAdminConst().controller());
-		contentPanel.add(listBoxGateways);
+		listBoxControllers = new MaterialListBox();
+		listBoxControllers.setPlaceholder(AdminLocale.getAdminConst().controller());
+		contentPanel.add(listBoxControllers);
 		
 		intBoxInputIndex = new MaterialIntegerBox();
 		intBoxInputIndex.setMin("0");
@@ -48,8 +48,8 @@ public class SensorEditView extends AbstractEditView<SensorDto> implements Senso
 	}
 
 	@Override
-	public MaterialListBox getListBoxGateways() {
-		return listBoxGateways;
+	public MaterialListBox getListBoxControllers() {
+		return listBoxControllers;
 	}
 
     @Override

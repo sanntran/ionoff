@@ -1,24 +1,14 @@
 package net.ionoff.center.client.sensor;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.MethodCallback;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
-
-import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialIntegerBox;
 import gwt.material.design.client.ui.MaterialListBox;
 import net.ionoff.center.client.base.AbstractEditPresenter;
 import net.ionoff.center.client.base.IEditView;
-import net.ionoff.center.client.event.ShowLoadingEvent;
 import net.ionoff.center.client.event.ShowMessageEvent;
 import net.ionoff.center.client.locale.AdminLocale;
 import net.ionoff.center.client.service.EntityService;
@@ -26,19 +16,17 @@ import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.BaseDto;
-import net.ionoff.center.shared.dto.MessageDto;
-import net.ionoff.center.shared.dto.ModeDto;
-import net.ionoff.center.shared.dto.ModeSensorDto;
-import net.ionoff.center.shared.dto.ControllerDto;
 import net.ionoff.center.shared.dto.SensorDto;
 import net.ionoff.center.shared.entity.SensorType;
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 
 	public interface Display extends IEditView<SensorDto> {
 		MaterialIntegerBox getIntBoxOrder();
 		MaterialIntegerBox getIntBoxInputIndex();
-		MaterialListBox getListBoxGateways();
+		MaterialListBox getListBoxControllers();
 		MaterialListBox getListBoxTypes();
 	}
 	
@@ -46,42 +34,24 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 	private SensorDto entityDto;
 	private SensorTablePresenter sensorManager;
 	protected IRpcServiceProvider rpcProvider;
-	private final List<ModeSensorPresenter> modeSensorPresenters;
 
 	public SensorEditPresenter(IRpcServiceProvider rpcProvider, 
-			HandlerManager eventBus, Display view, SensorTablePresenter sensorManager) {
+			HandlerManager eventBus, Display view, SensorTablePresenter sensorTablePresenter) {
 		super(rpcProvider, eventBus, view);
 		this.rpcProvider = rpcProvider;
 		this.view = view;
-		this.sensorManager = sensorManager;
-		this.modeSensorPresenters = new ArrayList<>();
+		this.sensorManager = sensorTablePresenter;
 	}
 
 	@Override
 	protected void bind() {
-		view.getBtnSave().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				save();
-			}
-		});
-		view.getBtnClose().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				sensorManager.hideEditForm();
-			}
-		});
-		view.getBtnCancel().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				sensorManager.hideEditForm();
-			}
-		});
-
+		view.getBtnSave().addClickHandler(event -> save());
+		view.getBtnClose().addClickHandler(event -> sensorManager.hideEditForm());
+		view.getBtnCancel().addClickHandler(event -> sensorManager.hideEditForm());
 		view.getTextBoxName().addValueChangeHandler(event -> isDirty = true);
 		view.getIntBoxOrder().addValueChangeHandler(event -> isDirty = true);
 		view.getIntBoxInputIndex().addValueChangeHandler(event -> isDirty = true);
-		view.getListBoxGateways().addValueChangeHandler(event -> isDirty = true);
+		view.getListBoxControllers().addValueChangeHandler(event -> isDirty = true);
 	}
 
 	@Override
@@ -100,13 +70,6 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 			return;
 		}
 		saveSensorDto();
-		saveAllModeSensors();
-	}
-
-	private void saveAllModeSensors() {
-		for (ModeSensorPresenter modeSensorPresenter : modeSensorPresenters) {
-			modeSensorPresenter.updateModeSensor(null);
-		}
 	}
 
 	private void saveSensorDto() {
@@ -121,8 +84,8 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		String newDriverName = null;
 		int newInput = view.getIntBoxInputIndex().getValue();
 		
-		int selectedControllerIndex = view.getListBoxGateways().getSelectedIndex();
-		String selectedItem = view.getListBoxGateways().getItemText(selectedControllerIndex);
+		int selectedControllerIndex = view.getListBoxControllers().getSelectedIndex();
+		String selectedItem = view.getListBoxControllers().getItemText(selectedControllerIndex);
 		if (selectedControllerIndex == 0) {
 			//
 		}
@@ -186,16 +149,16 @@ public class SensorEditPresenter extends AbstractEditPresenter<SensorDto> {
 		
 		view.getListBoxTypes().setEnabled(false);
 		if (dto.getDeviceId() == null) {
-			view.getListBoxGateways().setEnabled(true);
-			view.getListBoxGateways().setSelectedValue(
+			view.getListBoxControllers().setEnabled(true);
+			view.getListBoxControllers().setSelectedValue(
 					BaseDto.formatNameID(dto.getDriverName(), dto.getDriverId()));
 			view.getIntBoxInputIndex().setVisible(true);
 			view.getListBoxTypes().setSelectedValue(SensorType.DIGITAL.toString());
 		}
 		else {
-			view.getListBoxGateways().setEnabled(false);
+			view.getListBoxControllers().setEnabled(false);
 			view.getIntBoxInputIndex().setVisible(false);
-			view.getListBoxGateways().setSelectedIndex(0);
+			view.getListBoxControllers().setSelectedIndex(0);
 			view.getListBoxTypes().setSelectedValue(SensorType.ANALOG.toString());
 		}
 		if (dto.getIndex() == null) {

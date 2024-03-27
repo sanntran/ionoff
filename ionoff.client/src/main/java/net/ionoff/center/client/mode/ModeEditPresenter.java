@@ -1,18 +1,12 @@
 package net.ionoff.center.client.mode;
 
 
-import java.util.List;
-
-import gwt.material.design.client.ui.MaterialIntegerBox;
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.MethodCallback;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
-
 import gwt.material.design.client.ui.MaterialCheckBox;
+import gwt.material.design.client.ui.MaterialIntegerBox;
 import net.ionoff.center.client.base.AbstractEditPresenter;
 import net.ionoff.center.client.base.IEditView;
 import net.ionoff.center.client.locale.AdminLocale;
@@ -23,6 +17,10 @@ import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.shared.dto.BaseDto;
 import net.ionoff.center.shared.dto.ModeDto;
 import net.ionoff.center.shared.dto.ModeSceneDto;
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
+
+import java.util.List;
 
 public class ModeEditPresenter extends AbstractEditPresenter<ModeDto> {
 
@@ -30,7 +28,6 @@ public class ModeEditPresenter extends AbstractEditPresenter<ModeDto> {
 
 		MaterialIntegerBox getIntBoxOrder();
 		MaterialCheckBox getCheckBoxScheduled();
-		ModeSceneListPresenter.Display getSceneListView();
 		ScheduleTimeSettingPanel getScheduleTimeSettingPanel();
 		void checkShowingScheduleTimeSettingPanel(Boolean isScheduled);
 	}
@@ -39,7 +36,6 @@ public class ModeEditPresenter extends AbstractEditPresenter<ModeDto> {
 	private final Display view;
 	private ModeDto entityDto;
 	private ModeTablePresenter modeManager;
-	private ModeSceneListPresenter modeScenesTabPresenter;
 
 	public ModeEditPresenter(IRpcServiceProvider rpcProvider, 
 			HandlerManager eventBus, Display view, ModeTablePresenter modeManager) {
@@ -47,7 +43,6 @@ public class ModeEditPresenter extends AbstractEditPresenter<ModeDto> {
 		this.rpcProvider = rpcProvider;
 		this.view = view;
 		this.modeManager = modeManager;
-		modeScenesTabPresenter = new ModeSceneListPresenter(rpcProvider, eventBus, view.getSceneListView());
 	}
 
 	@Override
@@ -141,23 +136,8 @@ public class ModeEditPresenter extends AbstractEditPresenter<ModeDto> {
 		view.getTextBoxName().setText(dto.getName());
 		view.getCheckBoxScheduled().setValue(dto.getIsScheduled());
 		view.checkShowingScheduleTimeSettingPanel(dto.getIsScheduled());
-		
-		if (dto.getId() == BaseDto.DEFAULT_ID) {
-			hideModeSceneListPanel();
-		}
-		else {
-			showModeSceneListPanel(dto.getScenes());
-		}
-		view.getScheduleTimeSettingPanel().setScheduleData(dto.getScheduleRepeat(), 
+		view.getScheduleTimeSettingPanel().setScheduleData(dto.getScheduleRepeat(),
 				dto.getScheduleDay(), dto.getScheduleTime());
 	}
 
-	private void hideModeSceneListPanel() {
-		view.getSceneListView().asPanel().setVisible(false);
-	}
-
-	private void showModeSceneListPanel(List<ModeSceneDto> modeScenes) {
-		view.getSceneListView().asPanel().setVisible(true);
-		modeScenesTabPresenter.setModeScenes(modeScenes);
-	}
 }
