@@ -10,4 +10,6 @@ import net.ionoff.center.server.entity.Area;
 public interface IAreaDao extends IGenericDao<Area> {
 	
 	List<Area> findByProjectId(long projectId);
+
+    List<Area> findHavingAlertInProject(long projectId);
 }

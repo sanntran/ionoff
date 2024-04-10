@@ -7,22 +7,22 @@ import java.util.Optional;
 public class ControllerStatisticDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private List<ControllerDto> offline;
-
+	private int offlineCount;
+	private ControllerDto firstOffline;
 
 	public int getOfflineCount() {
-		return offline == null ? 0 : offline.size();
+		return offlineCount;
 	}
 
-	public Optional<ControllerDto> getFirstOffline() {
-		return offline == null || offline.isEmpty() ? Optional.empty() : Optional.of(offline.get(0));
+	public void setOfflineCount(int offlineCount) {
+		this.offlineCount = offlineCount;
 	}
 
-	public List<ControllerDto> getOffline() {
-		return offline;
+	public ControllerDto getFirstOffline() {
+		return firstOffline;
 	}
 
-	public void setOffline(List<ControllerDto> offline) {
-		this.offline = offline;
+	public void setFirstOffline(ControllerDto firstOffline) {
+		this.firstOffline = firstOffline;
 	}
 }

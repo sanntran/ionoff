@@ -25,7 +25,8 @@ public abstract class Controller implements IEntity {
 	private String ip;
 	private Integer port;
 	private String key;
-	private Long connectedTime;
+	private Long lastConnected;
+	private Long connectionExpired;
 	private Integer crashCount;
 	private Project project;
 	private List<Relay> relays;
@@ -36,10 +37,18 @@ public abstract class Controller implements IEntity {
 	}
 
 	public boolean isConnected() {
-		if (connectedTime == null || System.currentTimeMillis() - connectedTime > getOnlineBuffer()) {
+		if (lastConnected == null || System.currentTimeMillis() - lastConnected > getOnlineBuffer()) {
 			return false;
 		}
 		return true;
+	}
+
+	public boolean isOffline() {
+		return !isConnected();
+	}
+
+	public boolean isOnline() {
+		return isConnected();
 	}
 
 	public Relay getRelayByIdx(int relayIndex) {

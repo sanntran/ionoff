@@ -13,4 +13,7 @@ public interface ISensorDao extends IGenericDao<Sensor> {
 	
 	List<Sensor> findByProjectId(long projectId);
 
+    List<Sensor> findOfflineInProject(long projectId);
+
+    List<Sensor> findHavingAlertInProject(long projectId);
 }

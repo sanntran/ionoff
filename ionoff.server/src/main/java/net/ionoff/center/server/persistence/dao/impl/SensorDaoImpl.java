@@ -3,6 +3,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 import java.util.Collections;
 import java.util.List;
 
+import net.ionoff.center.server.entity.Controller;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,27 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 				+ " where sensor.project.id = :projectId"
 				+ " order by sensor.order, sensor.name";
 		Query query = getCurrentSession().createQuery(sql)
+				.setParameter("projectId", projectId);
+		return findMany(query);
+	}
+
+	@Override
+	public List<Sensor> findOfflineInProject(long projectId) {
+		String sql = "SELECT s.* FROM ionoff.sensors s " +
+				" JOIN ionoff.controllers c ON c.id = s.controller_id " +
+				" WHERE c.project_id = :projectId" +
+				" AND (c.connection_expired IS NULL OR c.connection_expired <= UNIX_TIMESTAMP() * 1000)";
+		Query query = getCurrentSession().createNativeQuery(sql, Sensor.class)
+				.setParameter("projectId", projectId);
+		return findMany(query);
+	}
+
+	@Override
+	public List<Sensor> findHavingAlertInProject(long projectId) {
+		String sql = "SELECT s.* FROM ionoff.sensors s " +
+				" JOIN ionoff.sensors_status ss ON ss.sensor_id = s.id " +
+				" WHERE s.project_id = :projectId AND ss.alert = 1";
+		Query query = getCurrentSession().createNativeQuery(sql, Sensor.class)
 				.setParameter("projectId", projectId);
 		return findMany(query);
 	}

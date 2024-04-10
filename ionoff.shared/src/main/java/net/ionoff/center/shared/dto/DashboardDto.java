@@ -4,11 +4,11 @@ import java.util.List;
 
 public class DashboardDto extends BaseDto {
 
-	private AlertStatisticDto alertStatisticDto;
-	private AreaStatisticDto areaStatisticDto;
-	private ZoneStatisticDto zoneStatisticDto;
-	private SensorStatisticDto sensorStatisticDto;
-	private ControllerStatisticDto controllerStatisticDto;
+	private AlertStatisticDto alertStatistic;
+	private AreaStatisticDto areaStatistic;
+	private ZoneStatisticDto zoneStatistic;
+	private SensorStatisticDto sensorStatistic;
+	private ControllerStatisticDto controllerStatistic;
 	private DeviceStatisticDto deviceStatistic;
 
 	private ModeStatisticDto modeStatistic;
@@ -74,19 +74,43 @@ public class DashboardDto extends BaseDto {
 		this.scenes = scenes;
 	}
 
-	public ControllerStatisticDto getControllerStatisticDto() {
-		return controllerStatisticDto;
+	public ControllerStatisticDto getControllerStatistic() {
+		return controllerStatistic;
 	}
 
-	public void setControllerStatisticDto(ControllerStatisticDto controllerStatisticDto) {
-		this.controllerStatisticDto = controllerStatisticDto;
+	public void setControllerStatistic(ControllerStatisticDto controllerStatistic) {
+		this.controllerStatistic = controllerStatistic;
 	}
 
-	public AlertStatisticDto getAlertStatisticDto() {
-		return alertStatisticDto;
+	public AlertStatisticDto getAlertStatistic() {
+		return alertStatistic;
 	}
 
-	public void setAlertStatisticDto(AlertStatisticDto alertStatisticDto) {
-		this.alertStatisticDto = alertStatisticDto;
+	public void setAlertStatistic(AlertStatisticDto alertStatistic) {
+		this.alertStatistic = alertStatistic;
+	}
+
+	public AreaStatisticDto getAreaStatistic() {
+		return areaStatistic;
+	}
+
+	public void setAreaStatistic(AreaStatisticDto areaStatistic) {
+		this.areaStatistic = areaStatistic;
+	}
+
+	public ZoneStatisticDto getZoneStatistic() {
+		return zoneStatistic;
+	}
+
+	public void setZoneStatistic(ZoneStatisticDto zoneStatistic) {
+		this.zoneStatistic = zoneStatistic;
+	}
+
+	public SensorStatisticDto getSensorStatistic() {
+		return sensorStatistic;
+	}
+
+	public void setSensorStatistic(SensorStatisticDto sensorStatistic) {
+		this.sensorStatistic = sensorStatistic;
 	}
 }

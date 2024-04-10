@@ -14,4 +14,6 @@ public interface IZoneDao extends IGenericDao<Zone> {
 	List<Zone> findByAreaId(long areaId);
 
 	List<Zone> findByUserProjectId(long userId, long projectId);
+
+    List<Zone> findHavingAlertInProject(long projectId);
 }

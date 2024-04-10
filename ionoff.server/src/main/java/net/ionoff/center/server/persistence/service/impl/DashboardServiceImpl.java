@@ -4,8 +4,7 @@ import net.ionoff.center.server.entity.*;
 import net.ionoff.center.server.exception.EntityNotFoundException;
 import net.ionoff.center.server.mediaplayer.service.IMediaPlayerService;
 import net.ionoff.center.server.persistence.dao.*;
-import net.ionoff.center.server.persistence.mapper.DashboardMapper;
-import net.ionoff.center.server.persistence.mapper.DeviceMapper;
+import net.ionoff.center.server.persistence.mapper.*;
 import net.ionoff.center.server.persistence.service.IDashboardService;
 import net.ionoff.center.server.persistence.service.IDeviceService;
 import net.ionoff.center.server.persistence.service.IProjectService;
@@ -33,6 +32,24 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 
 	@Autowired
 	private DeviceMapper deviceMapper;
+
+	@Autowired
+	private SensorMapper sensorMapper;
+
+	@Autowired
+	private ZoneMapper zoneMapper;
+
+	@Autowired
+	private IZoneDao zoneDao;
+
+	@Autowired
+	private IAreaDao areaDao;
+
+	@Autowired
+	private AreaMapper areaMapper;
+
+	@Autowired
+	private ControllerMapper controllerMapper;
 
 	@Autowired
 	private IDeviceDao deviceDao;
@@ -67,6 +84,9 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
     @Lazy
     @Autowired
     private IDeviceService deviceService;
+
+	@Autowired
+	private ISensorDao sensorDao;
 
 	@Autowired
 	public DashboardServiceImpl(IDashboardDao dashboardDao) {
@@ -153,12 +173,48 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 
 		setDeviceStatistic(devices, dashboardDto);
 
+		setServerStatistic(dashboardDto);
 		setModeStatistic(user, projectId, dashboardDto);
 		setSceneStatistic(user, projectId, dashboardDto);
 		setScheduleStatistic(user, schedules, dashboardDto);
 		setControllerStatistic(projectId, dashboardDto);
-		setServerStatistic(dashboardDto);
+		setSensorStatistic(projectId, dashboardDto);
+		setAreaStatistic(projectId, dashboardDto);
+		setZoneStatistic(projectId, dashboardDto);
+		setAlertStatistic(projectId, dashboardDto);
 		return dashboardDto;
+	}
+
+	private void setAreaStatistic(long projectId, DashboardDto dashboardDto) {
+		List<Area> alertArea = areaDao.findHavingAlertInProject(projectId);
+		AreaStatisticDto areaStatistic = new AreaStatisticDto();
+		areaStatistic.setHavingAlertCount(alertArea.size());
+		areaStatistic.setFirstHasAlert(alertArea.isEmpty() ? null : areaMapper.createDto(alertArea.get(0)));
+		dashboardDto.setAreaStatistic(areaStatistic);
+	}
+
+	private void setZoneStatistic(long projectId, DashboardDto dashboardDto) {
+		List<Zone> alertZone = zoneDao.findHavingAlertInProject(projectId);
+		ZoneStatisticDto zoneStatistic = new ZoneStatisticDto();
+		zoneStatistic.setHavingAlertCount(alertZone.size());
+		zoneStatistic.setFirstHasAlert(alertZone.isEmpty() ? null : zoneMapper.createZoneDto(alertZone.get(0), false));
+		dashboardDto.setZoneStatistic(zoneStatistic);
+	}
+
+	private void setAlertStatistic(long projectId, DashboardDto dashboardDto) {
+		List<Sensor> alertSensors = sensorDao.findHavingAlertInProject(projectId);
+		AlertStatisticDto alertStatistic = new AlertStatisticDto();
+		alertStatistic.setTotalCount(alertSensors.size());
+		alertStatistic.setFirstAlert(alertSensors.isEmpty() ? null : sensorMapper.createSensorDto(alertSensors.get(0)));
+		dashboardDto.setAlertStatistic(alertStatistic);
+	}
+
+	private void setSensorStatistic(long projectId, DashboardDto dashboardDto) {
+		List<Sensor> offlineSensors = sensorDao.findOfflineInProject(projectId);
+		SensorStatisticDto sensorStatistic = new SensorStatisticDto();
+		sensorStatistic.setOfflineCount(offlineSensors.size());
+		sensorStatistic.setFirstOffline(offlineSensors.isEmpty() ? null : sensorMapper.createSensorDto(offlineSensors.get(0)));
+		dashboardDto.setSensorStatistic(sensorStatistic);
 	}
 
 	private void setServerStatistic(DashboardDto dashboardDto) {
@@ -185,17 +241,10 @@ public class DashboardServiceImpl extends AbstractGenericService<Dashboard, Dash
 
 	private void setControllerStatistic(long projectId, DashboardDto dashboardDto) {
 		ControllerStatisticDto controllerStatistic = new ControllerStatisticDto();
-		List<Controller> controllers = controllerDao.findByProjectId(projectId);
-		//controllerStatistic.setTotalCount(controllers.size());
-//		for (Controller controller : controllers) {
-//			if (controller.isConnected()) {
-//				controllerStatistic.setOnlineCount(controllerStatistic.getOnlineCount() + 1);
-//			}
-//			else {
-//				controllerStatistic.setOfflineCount(controllerStatistic.getOfflineCount() + 1);
-//			}
-//		}
-		dashboardDto.setControllerStatisticDto(controllerStatistic);
+		List<Controller> controllers = controllerDao.findOfflineInProject(projectId);
+		controllerStatistic.setOfflineCount(controllers.size());
+		controllerStatistic.setFirstOffline(controllers.isEmpty() ? null : controllerMapper.createControllerDto(controllers.get(0)));
+		dashboardDto.setControllerStatistic(controllerStatistic);
 	}
 
 	private void setDeviceStatistic(List<Device> devices, DashboardDto dashboardDto) {

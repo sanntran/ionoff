@@ -21,4 +21,5 @@ public interface IControllerDao extends IGenericDao<Controller> {
 
 	List<Controller> findByIp(String ip);
 
+    List<Controller> findOfflineInProject(long projectId);
 }

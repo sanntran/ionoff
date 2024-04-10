@@ -3,10 +3,10 @@ package net.ionoff.center.client.dashboard;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Panel;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialRow;
 import net.ionoff.center.client.base.AbstractPresenter;
 import net.ionoff.center.client.device.*;
 import net.ionoff.center.client.event.ChangeTokenEvent;
@@ -28,15 +28,18 @@ public class DashboardPresenter extends AbstractPresenter {
 
 	public interface Display {
 		Panel asPanel();
+		MaterialRow getSliceRow();
 		MaterialLink getLblTitle();
-		DashboardCard getCartDevice();
-		DashboardCard getCartController();
-		FlowPanel getDeviceWrapper();
 		void setPresenter(DashboardPresenter presenter);
-		void displayCartDeviceData(DeviceStatisticDto deviceStatistic);
-		void displayCartModeData(ModeStatisticDto modeStatistic);
-		void displayCartSceneData(SceneStatisticDto sceneStatistic);
-		void displayCartScheduleData(ScheduleStatisticDto scheduleStatistic);
+		void updateCardDevice(DeviceStatisticDto deviceStatistic);
+		void updateCardMode(ModeStatisticDto modeStatistic);
+		void updateCardScene(SceneStatisticDto sceneStatistic);
+		void updateCardSchedule(ScheduleStatisticDto scheduleStatistic);
+		void updateCardController(ControllerStatisticDto controllerStatisticDto);
+		void updateCardSensor(SensorStatisticDto sensorStatisticDto);
+		void updateCardAlert(AlertStatisticDto alertStatistic);
+		void updateCardArea(AreaStatisticDto areaStatistic);
+		void updateCardZone(ZoneStatisticDto zoneStatistic);
 	}
 	
 	private IRpcServiceProvider rpcService;
@@ -98,7 +101,6 @@ public class DashboardPresenter extends AbstractPresenter {
 				public void onSuccess(Method method, DashboardDto response) {
 					eventBus.fireEvent(ShowLoadingEvent.getInstance(false));				
 					updateDashboard(response);
-					showDevices(response.getDevices());
 				}
 			});
 		}
@@ -127,38 +129,9 @@ public class DashboardPresenter extends AbstractPresenter {
 				public void onSuccess(Method method, DashboardDto response) {
 					eventBus.fireEvent(ShowLoadingEvent.getInstance(false));				
 					updateDashboard(response);
-					showDevices(response.getDevices());
 				}
 			});
 		}
-
-	}
-
-	
-	private void showDevices(List<DeviceDto> devices) {
-		for (final DeviceDto device : devices) {
-			if (device instanceof MediaPlayerDto) {
-				showMediaPlayer((MediaPlayerDto) device);
-			} else if (device instanceof RelayLoadDto) {
-				showRelayLoad((RelayLoadDto) device);
-			}
-		}
-	}
-
-	private void showMediaPlayer(MediaPlayerDto player) {
-		PlayerSliceView playerView = new PlayerSliceView();
-		PlayerSlicePresenter playerPresenter = new PlayerSlicePresenter(rpcService, eventBus, playerView, player);
-		playerPresenter.go();
-		devicePresenters.add(playerPresenter);
-		playerPresenter.show(display.getDeviceWrapper());
-	}
-
-	private void showRelayLoad(RelayLoadDto relayLoad) {
-		RelayLoadSliceView relayLoadView = new RelayLoadSliceView();
-		RelayLoadSlicePresenter relayLoadPresenter = new RelayLoadSlicePresenter(rpcService, eventBus, relayLoadView, relayLoad);
-		relayLoadPresenter.go();
-		devicePresenters.add(relayLoadPresenter);
-		relayLoadPresenter.show(display.getDeviceWrapper());
 	}
 
 	private void refreshDashboard() {
@@ -200,33 +173,18 @@ public class DashboardPresenter extends AbstractPresenter {
 		if (!isVisible()) {
 			return;
 		}
-
-		display.displayCartDeviceData(dashboard.getDeviceStatistic());
-		display.displayCartModeData(dashboard.getModeStatistic());
-		display.displayCartSceneData(dashboard.getSceneStatistic());
-		display.displayCartScheduleData(dashboard.getScheduleStatistic());
-
-//
-//		// Server
-//		if (dashboard.getServerStatistic() != null) {
-//			display.getServerChart().setValue(dashboard.getServerStatistic().getMemoryUsedPercent(),
-//					dashboard.getServerStatistic().getDiskSpaceUsedPercent());
-//		}
-
+		display.updateCardDevice(dashboard.getDeviceStatistic());
+		display.updateCardMode(dashboard.getModeStatistic());
+		display.updateCardScene(dashboard.getSceneStatistic());
+		display.updateCardSchedule(dashboard.getScheduleStatistic());
+		display.updateCardController(dashboard.getControllerStatistic());
+		display.updateCardSensor(dashboard.getSensorStatistic());
+		display.updateCardAlert(dashboard.getAlertStatistic());
+		display.updateCardArea(dashboard.getAreaStatistic());
+		display.updateCardZone(dashboard.getZoneStatistic());
 		updatingDashboard = updatingDashboard - 1;
 	}
 
-	private void updateDeviceStatus(DeviceSlicePresenter devicePresenter, List<DeviceDto> devices) {
-		if (devicePresenter.isLocked() || devices == null || devices.isEmpty()) {
-			return;
-		}
-		for (final DeviceDto device : devices) {
-			if (device.getId() == devicePresenter.getDevice().getId()) {
-				devicePresenter.updateStatus(device.getStatus());
-				break;
-			}
-		}
-	}
 
 	protected boolean isVisible() {
 		return AppToken.hasTokenItem(AppToken.DASHBOARD);
@@ -241,19 +199,7 @@ public class DashboardPresenter extends AbstractPresenter {
 	public void show(HasWidgets container) {
 		container.clear();
 		container.add(display.asPanel());
-		display.getDeviceWrapper().clear();
-		if (AppToken.hasTokenItem(AppToken.ZONE)) {
-			display.getCartController().setVisible(false);
-//			display.getCartMode().setVisible(false);
-//			display.getCartServerChart().setVisible(false);
-//			display.getCartSchedule().setVisible(false);
-		}
-		else if (AppToken.hasTokenItem(AppToken.PROJECT)) {
-			display.getCartController().setVisible(true);
-//			display.getCartMode().setVisible(true);
-//			display.getCartServerChart().setVisible(true);
-//			display.getCartSchedule().setVisible(true);
-		}
+		display.getSliceRow().clear();
 		getAndShowDashboard();
 		scheduleRefreshDashboard();
 	}

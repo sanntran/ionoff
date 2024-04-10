@@ -18,6 +18,7 @@ public class SensorStatus implements IEntity {
 	private String name;
 	private Date time;
 	private Double value;
+	private Boolean alert;
 	private Long index;
 	private Sensor sensor;
 }

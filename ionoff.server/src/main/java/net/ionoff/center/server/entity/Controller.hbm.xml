@@ -29,8 +29,12 @@
 			<column name="key_" />
 		</property>
 
-		<property name="connectedTime">
-			<column name="connected_time"/>
+		<property name="lastConnected">
+			<column name="last_connected"/>
+		</property>
+
+		<property name="connectionExpired">
+			<column name="connection_expired"/>
 		</property>
 		
 		<property name="crashCount">

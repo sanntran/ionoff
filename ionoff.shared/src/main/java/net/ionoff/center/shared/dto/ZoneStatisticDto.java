@@ -7,21 +7,23 @@ import java.util.Optional;
 public class ZoneStatisticDto implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	private List<ZoneDto> havingAlerts;
 
-	public int getHavingAlertsCount() {
-		return havingAlerts == null ? 0 : havingAlerts.size();
+	private int havingAlertCount;
+	private ZoneDto firstHasAlert;
+
+	public int getHavingAlertCount() {
+		return havingAlertCount;
 	}
 
-	public Optional<ZoneDto> getFirstHavingAlerts() {
-		return havingAlerts == null || havingAlerts.isEmpty() ? Optional.empty() : Optional.of(havingAlerts.get(0));
+	public void setHavingAlertCount(int havingAlertCount) {
+		this.havingAlertCount = havingAlertCount;
 	}
 
-	public List<ZoneDto> getHavingAlerts() {
-		return havingAlerts;
+	public ZoneDto getFirstHasAlert() {
+		return firstHasAlert;
 	}
 
-	public void setHavingAlerts(List<ZoneDto> havingAlerts) {
-		this.havingAlerts = havingAlerts;
+	public void setFirstHasAlert(ZoneDto firstHasAlert) {
+		this.firstHasAlert = firstHasAlert;
 	}
 }

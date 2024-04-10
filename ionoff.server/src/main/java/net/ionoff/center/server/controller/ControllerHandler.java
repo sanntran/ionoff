@@ -100,13 +100,13 @@ public class ControllerHandler {
 		if (!controller.isConnected()) {
 			LOGGER.info("Controller " + controller.getKey() + " is now connected");
 			if (controller.isLazy()) {
-				controller.setConnectedTime(System.currentTimeMillis());
+				controller.setLastConnected(System.currentTimeMillis());
 				controllerDao.update(controller);
 				handleStarted(controller, status);
 				return;
 			}
 		}
-		controller.setConnectedTime(System.currentTimeMillis());
+		controller.setLastConnected(System.currentTimeMillis());
 		controllerDao.update(controller);
 		if (status.isChanged()) {
 			handleChanged(controller, status);

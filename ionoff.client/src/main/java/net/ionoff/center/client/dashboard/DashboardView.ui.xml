@@ -9,7 +9,7 @@
 				<m:MaterialLink ui:field="lblTitle" iconType="DASHBOARD" addStyleNames="title" />
 			</m:MaterialColumn>
 		</m:MaterialRow>
-		<m:MaterialRow>
+		<m:MaterialRow ui:field="cardRow">
 			<m:MaterialColumn grid="l4 m6 s6 col">
 				<i:DashboardCard ui:field="cartAlert"/>
 			</m:MaterialColumn>
@@ -37,11 +37,8 @@
 			<m:MaterialColumn grid="l4 m6 s6 col">
 				<i:DashboardCard ui:field="cartMode"/>
 			</m:MaterialColumn>
-
-			<g:FlowPanel ui:field="deviceWrapper">
-			</g:FlowPanel>
-
 		</m:MaterialRow>
+		<m:MaterialRow ui:field="sliceRow"> </m:MaterialRow>
 
 	</g:HTMLPanel>
 

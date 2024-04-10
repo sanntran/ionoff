@@ -14,6 +14,10 @@ public class SensorDto extends BaseDto {
 	private Long deviceId;
 	private String deviceName;
 	private Long projectId;
+	private String zoneName;
+	private Long zoneId;
+	private String areaName;
+	private Long areaId;
 
 	public String getType() {
 		return type;
@@ -83,4 +87,40 @@ public class SensorDto extends BaseDto {
 	public void setFormula(String formula) {
 		this.formula = formula;
 	}
+
+	public String getZoneName() {
+		return zoneName;
+	}
+
+	public void setZoneName(String zoneName) {
+		this.zoneName = zoneName;
+	}
+
+	public Long getZoneId() {
+		return zoneId;
+	}
+
+	public void setZoneId(Long zoneId) {
+		this.zoneId = zoneId;
+	}
+
+	public String getAreaName() {
+		return areaName;
+	}
+
+	public void setAreaName(String areaName) {
+		this.areaName = areaName;
+	}
+
+	public Long getAreaId() {
+		return areaId;
+	}
+
+	public void setAreaId(Long areaId) {
+		this.areaId = areaId;
+	}
+
+	public String getPathName() {
+		return zoneName + ", " + areaName;
+    }
 }

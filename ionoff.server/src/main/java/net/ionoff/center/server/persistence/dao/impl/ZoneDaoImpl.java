@@ -3,6 +3,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 import java.util.Collections;
 import java.util.List;
 
+import net.ionoff.center.server.entity.Sensor;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -192,6 +193,17 @@ public class ZoneDaoImpl extends AbstractGenericDao<Zone> implements IZoneDao {
 					.setParameter("userId", userId)
 					.setParameter("projectId", projectId);
 		
+		return findMany(query);
+	}
+
+	@Override
+	public List<Zone> findHavingAlertInProject(long projectId) {
+		String sql = "SELECT DISTINCT z.* FROM ionoff.zones z " +
+				" JOIN ionoff.sensors s ON s.zone_id = z.id" +
+				" JOIN ionoff.sensors_status ss ON ss.sensor_id = s.id " +
+				" WHERE z.project_id = :projectId AND ss.alert = 1";
+		Query query = getCurrentSession().createNativeQuery(sql, Zone.class)
+				.setParameter("projectId", projectId);
 		return findMany(query);
 	}
 

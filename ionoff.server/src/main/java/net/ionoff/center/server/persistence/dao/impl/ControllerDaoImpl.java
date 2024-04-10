@@ -101,6 +101,8 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 		return findMany(query);
 	}
 
+
+
 	@Override
 	public long countByCriteria(QueryCriteria criteria) {
 		if (NAME.equals(criteria.getSearchField())) {
@@ -150,6 +152,17 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 				+ " order by controller.name";
 		Query query = getCurrentSession().createQuery(sql)
 				.setParameter("ip", ip);
+		return findMany(query);
+	}
+
+
+	@Override
+	public List<Controller> findOfflineInProject(long projectId) {
+			String sql = "SELECT * FROM ionoff.controllers"
+					+ " WHERE project_id = :projectId"
+					+ " AND (connection_expired IS NULL OR connection_expired <= UNIX_TIMESTAMP() * 1000)";
+		Query query = getCurrentSession().createNativeQuery(sql, Controller.class)
+				.setParameter("projectId", projectId);
 		return findMany(query);
 	}
 }

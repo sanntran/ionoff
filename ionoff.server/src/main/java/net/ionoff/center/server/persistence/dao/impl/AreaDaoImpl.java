@@ -3,6 +3,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 import java.util.Collections;
 import java.util.List;
 
+import net.ionoff.center.server.entity.Zone;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,18 @@ public class AreaDaoImpl extends AbstractGenericDao<Area> implements IAreaDao {
 				+ " where area.project.id = :projectId"
 				+ " order by area.order, area.name";
 		Query query = getCurrentSession().createQuery(sql)
+				.setParameter("projectId", projectId);
+		return findMany(query);
+	}
+
+	@Override
+	public List<Area> findHavingAlertInProject(long projectId) {
+		String sql = "SELECT DISTINCT a.* FROM ionoff.areas a" +
+				" JOIN ionoff.zones z ON z.area_id = a.id" +
+				" JOIN ionoff.sensors s ON s.zone_id = z.id" +
+				" JOIN ionoff.sensors_status ss ON ss.sensor_id = s.id " +
+				" WHERE a.project_id = :projectId AND ss.alert = 1";
+		Query query = getCurrentSession().createNativeQuery(sql, Area.class)
 				.setParameter("projectId", projectId);
 		return findMany(query);
 	}

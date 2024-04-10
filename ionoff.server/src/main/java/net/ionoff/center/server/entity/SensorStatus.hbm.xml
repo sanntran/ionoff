@@ -21,9 +21,13 @@
 		<property name="time">
 			<column name="time_" sql-type="datetime"/>
 		</property>
-		
+
 		<property name="value">
 			<column name="value_"/>
+		</property>
+
+		<property name="alert" type="java.lang.Boolean">
+			<column name="alert" sql-type="bit"/>
 		</property>
 
 		<property name="index">

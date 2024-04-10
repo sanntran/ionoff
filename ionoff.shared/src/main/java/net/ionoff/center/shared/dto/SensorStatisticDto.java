@@ -7,21 +7,22 @@ import java.util.Optional;
 public class SensorStatisticDto implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	private List<SensorDto> offline;
+	private int offlineCount;
+	private SensorDto firstOffline;
 
 	public int getOfflineCount() {
-		return offline == null ? 0 : offline.size();
+		return offlineCount;
 	}
 
-	public Optional<SensorDto> getFirstOffline() {
-		return offline == null || offline.isEmpty() ? Optional.empty() : Optional.of(offline.get(0));
+	public void setOfflineCount(int offlineCount) {
+		this.offlineCount = offlineCount;
 	}
 
-	public List<SensorDto> getOffline() {
-		return offline;
+	public SensorDto getFirstOffline() {
+		return firstOffline;
 	}
 
-	public void setOffline(List<SensorDto> offline) {
-		this.offline = offline;
+	public void setFirstOffline(SensorDto firstOffline) {
+		this.firstOffline = firstOffline;
 	}
 }

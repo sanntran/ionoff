@@ -6,6 +6,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.*;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialRow;
 import net.ionoff.center.client.ui.DashboardCard;
 import net.ionoff.center.shared.dto.*;
 
@@ -26,6 +27,8 @@ public class DashboardView extends Composite implements DashboardPresenter.Displ
 	@UiField
 	MaterialLink lblTitle;
 	@UiField
+	MaterialRow cardRow;
+	@UiField
 	DashboardCard cartAlert;
 	@UiField
 	DashboardCard cartArea;
@@ -43,14 +46,10 @@ public class DashboardView extends Composite implements DashboardPresenter.Displ
 	DashboardCard cartSchedule;
 	@UiField
 	DashboardCard cartMode;
-
-	private DashboardChartView serverChart;
-
 	@UiField
-	FlowPanel deviceWrapper;
+	MaterialRow sliceRow;
 
 	DashboardPresenter presenter;
-
 
 	public DashboardView() {
 		uiBinder.createAndBindUi(this);
@@ -72,16 +71,13 @@ public class DashboardView extends Composite implements DashboardPresenter.Displ
 		cartSensor.setTextColor(YELLOW_ACCENT_1).setIconType(WIFI_TETHERING)
 				.setName(getProjectConst().sensor())
 				.setDescription(getProjectConst().isOffline());;
-
 		cartScene.setTextColor(CYAN_ACCENT_1).setIconType(SLIDESHOW)
 				.setName(getProjectConst().scene());
 		cartSchedule.setTextColor(ORANGE_ACCENT_1).setIconType(SCHEDULE)
 				.setName(getProjectConst().schedule());
 		cartMode.setTextColor(YELLOW_ACCENT_1).setIconType(SETTINGS_BRIGHTNESS)
 				.setName(getProjectConst().mode());
-
 	}
-
 
 	@Override
 	public Panel asPanel() {
@@ -89,24 +85,13 @@ public class DashboardView extends Composite implements DashboardPresenter.Displ
 	}
 
 	@Override
+	public MaterialRow getSliceRow() {
+		return sliceRow;
+	}
+
+	@Override
 	public MaterialLink getLblTitle() {
 		return lblTitle;
-	}
-
-
-	@Override
-	public DashboardCard getCartDevice() {
-		return cartDevice;
-	}
-
-	@Override
-	public DashboardCard getCartController() {
-		return cartController;
-	}
-
-	@Override
-	public FlowPanel getDeviceWrapper() {
-		return deviceWrapper;
 	}
 
 	public void setPresenter(DashboardPresenter presenter) {
@@ -118,9 +103,8 @@ public class DashboardView extends Composite implements DashboardPresenter.Displ
 		cartSensor.setClickHandler(event -> presenter.onCartSensorClick());
 	}
 
-
 	@Override
-	public void displayCartDeviceData(DeviceStatisticDto deviceStatistic) {
+	public void updateCardDevice(DeviceStatisticDto deviceStatistic) {
 		if (deviceStatistic == null) {
 			cartDevice.setTitleValue("0");
 			cartDevice.setDetail("");
@@ -133,7 +117,7 @@ public class DashboardView extends Composite implements DashboardPresenter.Displ
 	}
 
 	@Override
-	public void displayCartModeData(ModeStatisticDto modeStatistic) {
+	public void updateCardMode(ModeStatisticDto modeStatistic) {
 		if (modeStatistic == null) {
 			cartMode.setTitleValue("0");
 			cartMode.setDescription("");
@@ -144,7 +128,7 @@ public class DashboardView extends Composite implements DashboardPresenter.Displ
 	}
 
 	@Override
-	public void displayCartSceneData(SceneStatisticDto sceneStatistic) {
+	public void updateCardScene(SceneStatisticDto sceneStatistic) {
 		if (sceneStatistic == null) {
 			cartScene.setTitleValue("0");
 			cartScene.setDescription("");
@@ -155,7 +139,7 @@ public class DashboardView extends Composite implements DashboardPresenter.Displ
 	}
 
 	@Override
-	public void displayCartScheduleData(ScheduleStatisticDto scheduleStatistic) {
+	public void updateCardSchedule(ScheduleStatisticDto scheduleStatistic) {
 		if (scheduleStatistic == null) {
 			cartSchedule.setTitleValue("0");
 			cartSchedule.setDescription("");
@@ -165,4 +149,59 @@ public class DashboardView extends Composite implements DashboardPresenter.Displ
 		}
 	}
 
+	@Override
+	public void updateCardController(ControllerStatisticDto controllerStatistic) {
+		if (controllerStatistic == null) {
+			cartController.setTitleValue("0");
+			cartController.setDetail("");
+		} else {
+			cartController.setTitleValue(controllerStatistic.getOfflineCount() + "");
+			cartController.setDetail(controllerStatistic.getFirstOffline() == null ? "" : controllerStatistic.getFirstOffline().getName() + " ...");
+		}
+	}
+
+	@Override
+	public void updateCardSensor(SensorStatisticDto sensorStatistic) {
+		if (sensorStatistic == null) {
+			cartSensor.setTitleValue("0");
+			cartSensor.setDetail("");
+		} else {
+			cartSensor.setTitleValue(sensorStatistic.getOfflineCount() + "");
+			cartSensor.setDetail(sensorStatistic.getFirstOffline() == null ? "" : sensorStatistic.getFirstOffline().getName() + " ...");
+		}
+	}
+
+	@Override
+	public void updateCardAlert(AlertStatisticDto alertStatistic) {
+		if (alertStatistic == null) {
+			cartAlert.setTitleValue("0");
+			cartAlert.setDetail("");
+		} else {
+			cartAlert.setTitleValue(alertStatistic.getTotalCount() + "");
+			cartAlert.setDescription(alertStatistic.getFirstAlert() == null ? "" : alertStatistic.getFirstAlert().getName());
+			cartAlert.setDetail(alertStatistic.getFirstAlert() == null ? "" : alertStatistic.getFirstAlert().getPathName() + " ...");
+		}
+	}
+
+	@Override
+	public void updateCardArea(AreaStatisticDto areaStatistic) {
+		if (areaStatistic == null) {
+			cartArea.setTitleValue("0");
+			cartArea.setDetail("");
+		} else {
+			cartArea.setTitleValue(areaStatistic.getHavingAlertCount() + "");
+			cartArea.setDetail(areaStatistic.getFirstHasAlert() == null ? "" : areaStatistic.getFirstHasAlert().getName() + " ...");
+		}
+	}
+
+	@Override
+	public void updateCardZone(ZoneStatisticDto zoneStatistic) {
+		if (zoneStatistic == null) {
+			cartZone.setTitleValue("0");
+			cartZone.setDetail("");
+		} else {
+			cartZone.setTitleValue(zoneStatistic.getHavingAlertCount() + "");
+			cartZone.setDetail(zoneStatistic.getFirstHasAlert() == null ? "" : zoneStatistic.getFirstHasAlert().getPathName() + " ...");
+		}
+	}
 }
