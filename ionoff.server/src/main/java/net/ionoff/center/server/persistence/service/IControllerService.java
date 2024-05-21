@@ -6,6 +6,7 @@ import net.ionoff.center.shared.dto.ControllerDto;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 public interface IControllerService extends IGenericService<Controller, ControllerDto> {
@@ -14,7 +15,7 @@ public interface IControllerService extends IGenericService<Controller, Controll
 
     List<Controller> findByProjectId(long projectId);
 
-	List<Controller> findByMac(String mac);
+	Optional<Controller> findByKey(String mac);
 
 	List<Controller> findByIp(String ip);
 

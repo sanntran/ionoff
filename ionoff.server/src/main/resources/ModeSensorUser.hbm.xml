@@ -25,7 +25,7 @@
 		<many-to-one name="user" class="net.ionoff.center.server.entity.User" fetch="select">
             <column name="user_id" not-null="true" />
         </many-to-one>
-        
+
         <many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">
             <column name="project_id" not-null="true" />
         </many-to-one>

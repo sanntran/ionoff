@@ -2,7 +2,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,9 +16,8 @@ import net.ionoff.center.server.entity.PlayLeaf;
 @Transactional
 public class PlayLeafDaoImpl extends AbstractGenericDao<PlayLeaf> implements IPlayLeafDao {
 
-	@Autowired
-	public PlayLeafDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public PlayLeafDaoImpl() {
+		super();
 		setClass(PlayLeaf.class);
 	}
 
@@ -28,7 +27,7 @@ public class PlayLeafDaoImpl extends AbstractGenericDao<PlayLeaf> implements IPl
 				+ " from PlayLeaf as leaf"
 				+ " where leaf.playNode.id = :playNodeId"
 				+ " order by leaf.idx";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("playNodeId", playNodeId);
 		
 		return findMany(query);

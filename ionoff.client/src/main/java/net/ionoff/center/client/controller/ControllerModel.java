@@ -5,6 +5,7 @@ public enum ControllerModel {
 	IONOFF_E4,
 	IONOFF_P8,
 	IONOFF_P4,
+	IONOFF_S1,
 	HBQ_EC100,
 	HLAB_EP2;
 }

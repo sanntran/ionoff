@@ -8,7 +8,9 @@ import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.entity.UserProject;
 import net.ionoff.center.server.entity.UserZone;
 import net.ionoff.center.server.security.InvalidTokenException;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class RequestContextHolder {
 
 	static User getUser() {

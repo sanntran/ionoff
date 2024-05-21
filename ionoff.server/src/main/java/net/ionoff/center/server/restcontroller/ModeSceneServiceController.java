@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.persistence.service.IModeSceneService;
@@ -22,6 +23,7 @@ import net.ionoff.center.shared.dto.ModeDto;
 import net.ionoff.center.shared.dto.ModeSceneDto;
 
 @RestController
+@Transactional
 public class ModeSceneServiceController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ModeSceneServiceController.class.getName());

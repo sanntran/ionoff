@@ -15,9 +15,8 @@ import net.ionoff.center.server.persistence.dao.IModeSceneDao;
 @Transactional
 public class ModeSceneDaoImpl extends AbstractGenericDao<ModeScene> implements IModeSceneDao {
 
-	@Autowired
-	public ModeSceneDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public ModeSceneDaoImpl() {
+		super();
 		setClass(ModeScene.class);
 	}
 

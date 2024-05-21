@@ -16,7 +16,7 @@
 		</property>
 		
 		<property name="order">
-			<column name="order_" />
+			<column name="idx" />
 		</property>
         
 		<many-to-one name="project" class="net.ionoff.center.server.entity.Project" fetch="select">

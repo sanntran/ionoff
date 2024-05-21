@@ -2,7 +2,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,9 +16,8 @@ import net.ionoff.center.server.persistence.dao.IDashboardDeviceDao;
 @Transactional
 public class DashboardDeviceDaoImpl extends AbstractGenericDao<DashboardDevice> implements IDashboardDeviceDao {
 
-	@Autowired
-	public DashboardDeviceDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public DashboardDeviceDaoImpl() {
+		super();
 		setClass(DashboardDevice.class);
 	}
 
@@ -38,7 +37,7 @@ public class DashboardDeviceDaoImpl extends AbstractGenericDao<DashboardDevice> 
 				+ " from DashboardDevice as dashboardDevice"
 				+ " where dashboardDevice.dashboard.id = :dashboardId"
 				+ " and dashboardDevice.device.id = :deviceId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("dashboardId", dashboardId)
 				.setParameter("deviceId", deviceId);
 		return getFirst(findMany(query));

@@ -1,5 +1,7 @@
 package net.ionoff.center.client.content;
 
+import net.ionoff.center.client.area.AreaGridPresenter;
+import net.ionoff.center.client.area.AreaGridView;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -10,8 +12,8 @@ import com.google.gwt.user.client.ui.Panel;
 import net.ionoff.center.client.area.AreaTablePresenter;
 import net.ionoff.center.client.area.AreaTableView;
 import net.ionoff.center.client.base.AbstractPresenter;
-import net.ionoff.center.client.dashboard.DashboardPresenter;
-import net.ionoff.center.client.dashboard.DashboardView;
+import net.ionoff.center.client.dashboard.ProjectDashboardPresenter;
+import net.ionoff.center.client.dashboard.ProjectDashboardView;
 import net.ionoff.center.client.device.DeviceTablePresenter;
 import net.ionoff.center.client.device.DeviceTableView;
 import net.ionoff.center.client.event.ChangeTokenEvent;
@@ -44,12 +46,12 @@ import net.ionoff.center.client.mediaplayer.PlayerView;
 
 public class ContentPresenter extends AbstractPresenter {
 
-    interface Display {
+	interface Display {
 		Panel asPanel();
     }
 	private SystemUsersPresenter systemUserPresenter;
 	private ProjectTablePresenter systemProjectPresenter;
-	private DashboardPresenter dashboardPresenter;
+	private ProjectDashboardPresenter dashboardPresenter;
 	private DeviceTablePresenter deviceTablePresenter;
 	private SceneTablePresenter sceneTablePresenter;
 	private ScheduleTablePresenter scheduleTablePresenter;
@@ -59,6 +61,7 @@ public class ContentPresenter extends AbstractPresenter {
 	private UserTablePresenter userTablePresenter;
 	private SensorTablePresenter sensorTablePresenter;
 	private AreaTablePresenter areaTablePresenter;
+	private AreaGridPresenter areaGridPresenter;
 	private ZoneTablePresenter zoneTablePresenter;
 	private PlayerPresenter playerPresenter;
 
@@ -156,7 +159,12 @@ public class ContentPresenter extends AbstractPresenter {
 		display.asPanel().removeStyleName("player");
 		getAreaTablePresenter().show(display.asPanel());
 	}
-	
+
+	public void showAreaGrid() {
+		display.asPanel().removeStyleName("player");
+		getAreaGridPresenter().show(display.asPanel());
+	}
+
 	public void showZoneTable() {
 		display.asPanel().removeStyleName("player");
 		getZoneTablePresenter().show(display.asPanel());
@@ -213,9 +221,9 @@ public class ContentPresenter extends AbstractPresenter {
 		return modeTablePresenter;
 	}
 	
-	public DashboardPresenter getDashboardPresenter() {
+	public ProjectDashboardPresenter getDashboardPresenter() {
 		if (dashboardPresenter == null) {
-			dashboardPresenter = new DashboardPresenter(rpcProvider, eventBus, new DashboardView());
+			dashboardPresenter = new ProjectDashboardPresenter(rpcProvider, eventBus, new ProjectDashboardView());
 			dashboardPresenter.go();
 		}
 		return dashboardPresenter;
@@ -284,7 +292,14 @@ public class ContentPresenter extends AbstractPresenter {
 		}
 		return areaTablePresenter;
 	}
-	
+
+	public AreaGridPresenter getAreaGridPresenter() {
+		if (areaGridPresenter == null) {
+			areaGridPresenter = new AreaGridPresenter(rpcProvider, eventBus, new AreaGridView());
+			areaGridPresenter.go();
+		}
+		return areaGridPresenter;
+	}
 
 	public ZoneTablePresenter getZoneTablePresenter() {
 		if (zoneTablePresenter == null) {

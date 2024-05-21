@@ -19,13 +19,17 @@ import org.springframework.context.event.ContextStoppedEvent;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
 
+;
+
 @Component
+@Transactional
 public class ApplicationEventListener implements ApplicationListener<ApplicationEvent> {
 	
 	private final Logger logger = LoggerFactory.getLogger(ApplicationEventListener.class.getName());

@@ -1,9 +1,14 @@
 package net.ionoff.center.server.restcontroller;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.ionoff.center.server.entity.AreaCell;
+import net.ionoff.center.server.persistence.mapper.AreaMapper;
+import net.ionoff.center.shared.dto.AreaCellDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.exception.ChangeEntityIdException;
@@ -25,12 +29,17 @@ import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
 
 @RestController
+@Transactional
 public class AreaServiceController {
 
 	private final Logger logger = LoggerFactory.getLogger(AreaServiceController.class.getName());
 	
 	@Autowired
 	private IAreaService areaService;
+
+
+	@Autowired
+	private AreaMapper areaMapper;
 
 	@RequestMapping(value = "areas",
 			method = RequestMethod.PUT,
@@ -95,6 +104,39 @@ public class AreaServiceController {
 		final List<AreaDto> areas = areaService.findByProjectId(projectId, includingZone, includingDevice);
 		return areas;
 	}
+
+
+	@RequestMapping(value = "areas",
+			method = RequestMethod.GET,
+			params = {"projectId", "view"},
+			produces = "application/json; charset=utf-8")
+
+	public List<? extends AreaDto> findForViewInProject(@RequestParam("projectId") Long projectId,
+									   @RequestParam(value = "view") String view,
+									   HttpServletRequest request) {
+		User user = RequestContextHolder.getUser();
+		RequestContextHolder.checkProjectPermission(user, projectId);
+		if ("grid".equals(view)) {
+			return findForGridInProject(projectId);
+		} else {
+			final List<AreaDto> areas = areaService.findByProjectId(projectId, false, false);
+			return areas;
+		}
+
+	}
+
+	private List<AreaCellDto> findForGridInProject(Long projectId) {
+		final List<AreaCell> areas = areaService.findForGridInProject(projectId);
+		return areas.stream().map(a -> {
+			AreaCellDto areaDto = new AreaCellDto();
+			areaDto.setId(a.getId());
+			areaDto.setName(a.getName());
+			areaDto.setAlertCount(a.getAlertCount());
+			areaDto.setZoneCount(a.getZoneCount());
+			return areaDto;
+		}).collect(Collectors.toList());
+	}
+
 
 	@RequestMapping(value = "areas/count",
 			method = RequestMethod.POST,

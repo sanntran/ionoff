@@ -3,7 +3,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 import java.util.Collections;
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,9 +18,8 @@ import net.ionoff.center.server.persistence.dao.IDeviceDao;
 @Transactional
 public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDeviceDao {
 
-	@Autowired
-	public DeviceDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public DeviceDaoImpl() {
+		super();
 		setClass(Device.class);
 	}
 
@@ -31,8 +30,8 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 					+ " from net.ionoff.center.server.entity.MediaPlayer as player"
 					+ " where player.mac = :mac";
 		
-		Query query = getCurrentSession().createQuery(sql)						
-					.setString("mac", mac);
+		Query query = entityManager.createQuery(sql)
+					.setParameter("mac", mac);
 		
 		List<Device> devices = findMany(query);	
 		
@@ -64,7 +63,7 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 		String sql = "select count(device)"
 				+ " from Device as device"
 				+ " where device.project.id = :projectId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("projectId", projectId);
 		return countObjects(query);
 	}
@@ -74,7 +73,7 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 				+ " from Device as device"
 				+ " where device.project.id = :projectId"
 				+ " and lower(device.name) like :name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("name", "%" + name.toLowerCase() + "%");
 		return countObjects(query);
@@ -85,7 +84,7 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 				+ " from Device as device"
 				+ " where device.project.id = :projectId"
 				+ " and lower(device.zone.name) like :zoneName";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("zoneName", "%" + zoneName.toLowerCase() + "%");
 		return countObjects(query);
@@ -122,7 +121,7 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 			sql = sql + ", device.order";
 		}
 		
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("keyWord", "%" + keyWord + "%");
 		return findMany(query, fromIndex, maxResults);
@@ -142,7 +141,7 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 			sql = sql + ", device.order";
 		}
 		
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("keyWord", "%" + keyWord + "%");
 		return findMany(query, fromIndex, maxResults);
@@ -161,7 +160,7 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 		else {
 			sql = sql + ", device.order";
 		}
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("projectId", projectId);
 		
 		return findMany(query, fromIndex, maxResults);
@@ -176,7 +175,7 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 				+ " and userDevice.user.id = :userId"
 				+ " and userDevice.role = true"
 				+ " order by device.order, device.name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("zoneId", zoneId)
 				.setParameter("userId", userId);
 		
@@ -195,7 +194,7 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 				+ " order by device.zone.area.order, device.zone.area.name,"
 				+ " device.zone.order, device.zone.name, device.order, device.name";
 	
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("userId", userId)
 					.setParameter("projectId", projectId);
 		
@@ -226,9 +225,9 @@ public class DeviceDaoImpl extends AbstractGenericDao<Device> implements IDevice
 					" where ud.project_id = :projectId" +
 					" and ud.user_id = :userId" +
 					(deviceStatus == null ? " and ud.role is null " : " and ud.role = :deviceStatus ") +
-					" order by a.order_, a.name, z.order_, z.name, d.order_, d.name";
+					" order by a.idx, a.name, z.order_, z.name, d.order_, d.name";
 
-		Query query = getCurrentSession().createNativeQuery(sql, Device.class)
+		Query query = entityManager.createNativeQuery(sql, Device.class)
 				.setParameter("userId", userId)
 				.setParameter("projectId", projectId);
 		if (deviceStatus != null) {

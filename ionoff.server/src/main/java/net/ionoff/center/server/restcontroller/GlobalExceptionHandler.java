@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.BadRequestException;
 
 @ControllerAdvice
+@Transactional
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class.getName());

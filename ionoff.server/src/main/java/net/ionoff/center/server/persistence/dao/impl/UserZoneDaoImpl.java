@@ -2,7 +2,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,9 +16,8 @@ import net.ionoff.center.server.persistence.dao.IUserZoneDao;
 @Transactional
 public class UserZoneDaoImpl extends AbstractGenericDao<UserZone> implements IUserZoneDao {
 
-	@Autowired
-	public UserZoneDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public UserZoneDaoImpl() {
+		super();
 		setClass(UserZone.class);
 	}
 
@@ -31,7 +30,7 @@ public class UserZoneDaoImpl extends AbstractGenericDao<UserZone> implements IUs
 				+ " ORDER BY userZone.zone.area.order, userZone.zone.area.name,"
 				+ " userZone.zone.order, userZone.zone.name";
 	
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("userId", userId)
 					.setParameter("projectId", projectId);
 		
@@ -43,7 +42,7 @@ public class UserZoneDaoImpl extends AbstractGenericDao<UserZone> implements IUs
 		String sql = "DELETE FROM UserZone AS userZone"
 				+ " WHERE userZone.user.id= :userId"
 				+ " AND userZone.project.id= :projectId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("userId", userId)
 				.setParameter("projectId", projectId);
 	
@@ -68,10 +67,10 @@ public class UserZoneDaoImpl extends AbstractGenericDao<UserZone> implements IUs
 				+ " WHERE userZone.user.id = :userId"
 				+ " AND userZone.zone.id = :zoneId";
 	
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("userId", userId)
 					.setParameter("zoneId", zoneId);
 		
-		return getFirst(query.list());
+		return getFirst(query.getResultList());
 	}
 }

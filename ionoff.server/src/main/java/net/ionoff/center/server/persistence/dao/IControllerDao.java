@@ -1,6 +1,7 @@
 package net.ionoff.center.server.persistence.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +18,7 @@ public interface IControllerDao extends IGenericDao<Controller> {
 
 	List<Controller> findByIpPort(String ip, Integer port);
 
-	List<Controller> findByMac(String mac);
+    Optional<Controller> findByKey(String mac);
 
 	List<Controller> findByIp(String ip);
 

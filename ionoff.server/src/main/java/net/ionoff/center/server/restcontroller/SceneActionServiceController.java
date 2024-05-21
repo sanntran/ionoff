@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.persistence.service.ISceneActionService;
 import net.ionoff.center.shared.dto.SceneActionDto;
 
 @RestController
+@Transactional
 public class SceneActionServiceController {
 
 	@Autowired

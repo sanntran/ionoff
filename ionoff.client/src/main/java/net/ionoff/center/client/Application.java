@@ -4,27 +4,20 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.ui.RootPanel;
 import org.fusesource.restygwt.client.Defaults;
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.MethodCallback;
 
-import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
 import net.ionoff.center.client.event.ChangeTokenEvent;
-import net.ionoff.center.client.event.ShowMessageEvent;
 import net.ionoff.center.client.event.UserEnterEvent;
-import net.ionoff.center.client.locale.ClientLocale;
 import net.ionoff.center.client.service.IRpcServiceProvider;
 import net.ionoff.center.client.storage.StorageService;
 import net.ionoff.center.client.utils.AppToken;
 import net.ionoff.center.client.utils.ClientUtil;
 import net.ionoff.center.client.utils.ConsoleLog;
 import net.ionoff.center.client.utils.TokenUtil;
-import net.ionoff.center.shared.cookie.Kookie;
 import net.ionoff.center.shared.dto.ProjectDto;
 
 import java.util.HashMap;
@@ -195,7 +188,12 @@ public class Application implements IClientApp, ValueChangeHandler<String> {
 				appController.showSensors();
 			}
 			else if (AppToken.hasTokenItem(AppToken.AREAS)) {
-				appController.showAreas();
+				if (AppToken.hasTokenItem(AppToken.TABLE)) {
+					appController.showAreasTable();
+				} else {
+					appController.showAreasGrid();
+				}
+
 			}
 			else if (AppToken.hasTokenItem(AppToken.ZONES)) {
 				appController.showZones();

@@ -6,12 +6,14 @@ import net.ionoff.center.shared.dto.ModeSensorSceneDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
+@Transactional
 public class ModeSensorSceneServiceController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ModeSensorSceneServiceController.class.getName());

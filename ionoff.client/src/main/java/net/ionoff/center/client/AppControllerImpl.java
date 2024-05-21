@@ -174,8 +174,13 @@ public class AppControllerImpl implements IAppController {
 	}
 
 	@Override
-	public void showAreas() {
+	public void showAreasTable() {
 		getContentPresenter().showAreaTable();
+	}
+
+	@Override
+	public void showAreasGrid() {
+		getContentPresenter().showAreaGrid();
 	}
 
 	@Override

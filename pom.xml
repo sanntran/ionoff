@@ -17,7 +17,7 @@
 		<module>ionoff.shared</module>
   		<module>ionoff.client</module>
  		<module>ionoff.server</module>
-		<!--<module>ionoff.broker</module>-->
+		<module>ionoff.broker</module>
 		<!--<module>ionoff.player</module>-->
 	</modules>
 

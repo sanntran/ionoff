@@ -27,43 +27,41 @@
 		<property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
 
 		<property name="hibernate.bytecode.use_reflection_optimizer">false</property>
-		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
 		<!-- Echo all executed SQL to stdout -->
 		<!-- Mapping files -->
-		<mapping resource="net/ionoff/center/server/entity/Device.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/UserGroup.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/User.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/Project.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/UserProject.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/Area.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/Zone.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/UserZone.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/UserDevice.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/UserScene.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/Controller.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/Relay.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/RelayGroup.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/RelayGroupRelay.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/Sensor.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/SensorStatus.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/SensorData.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/Mode.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/Scene.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/ModeScene.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/SceneDevice.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/SceneAction.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/Schedule.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/ScheduleAction.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/ModeSensor.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/ModeSensorScene.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/ModeSensorUser.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/PlayList.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/PlayNode.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/PlayLeaf.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/Token.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/Dashboard.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/DashboardDevice.hbm.xml"/>
-		<mapping resource="net/ionoff/center/server/entity/DashboardScene.hbm.xml"/>
+		<mapping resource="Device.hbm.xml"/>
+		<mapping resource="UserGroup.hbm.xml"/>
+		<mapping resource="User.hbm.xml"/>
+		<mapping resource="Project.hbm.xml"/>
+		<mapping resource="UserProject.hbm.xml"/>
+		<mapping resource="Area.hbm.xml"/>
+		<mapping resource="Zone.hbm.xml"/>
+		<mapping resource="UserZone.hbm.xml"/>
+		<mapping resource="UserDevice.hbm.xml"/>
+		<mapping resource="UserScene.hbm.xml"/>
+		<mapping resource="Relay.hbm.xml"/>
+		<mapping resource="RelayGroup.hbm.xml"/>
+		<mapping resource="RelayGroupRelay.hbm.xml"/>
+		<mapping resource="Sensor.hbm.xml"/>
+		<mapping resource="SensorStatus.hbm.xml"/>
+		<mapping resource="SensorData.hbm.xml"/>
+		<mapping resource="Mode.hbm.xml"/>
+		<mapping resource="Scene.hbm.xml"/>
+		<mapping resource="ModeScene.hbm.xml"/>
+		<mapping resource="SceneDevice.hbm.xml"/>
+		<mapping resource="SceneAction.hbm.xml"/>
+		<mapping resource="Schedule.hbm.xml"/>
+		<mapping resource="ScheduleAction.hbm.xml"/>
+		<mapping resource="ModeSensor.hbm.xml"/>
+		<mapping resource="ModeSensorScene.hbm.xml"/>
+		<mapping resource="ModeSensorUser.hbm.xml"/>
+		<mapping resource="PlayList.hbm.xml"/>
+		<mapping resource="PlayNode.hbm.xml"/>
+		<mapping resource="PlayLeaf.hbm.xml"/>
+		<mapping resource="Token.hbm.xml"/>
+		<mapping resource="Dashboard.hbm.xml"/>
+		<mapping resource="DashboardDevice.hbm.xml"/>
+		<mapping resource="DashboardScene.hbm.xml"/>
 		
 	</session-factory>
 </hibernate-configuration>

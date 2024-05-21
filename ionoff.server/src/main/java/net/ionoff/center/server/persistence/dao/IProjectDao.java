@@ -1,6 +1,7 @@
 package net.ionoff.center.server.persistence.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,4 +12,5 @@ public interface IProjectDao extends IGenericDao<Project> {
 
 	List<Project> findByUserId(Long userId);
 
+    Optional<Project> findFirst();
 }

@@ -2,7 +2,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,9 +17,8 @@ import net.ionoff.center.server.persistence.dao.IUserSceneDao;
 @Transactional
 public class UserSceneDaoImpl extends AbstractGenericDao<UserScene> implements IUserSceneDao {
 
-	@Autowired
-	public UserSceneDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public UserSceneDaoImpl() {
+		super();
 		setClass(UserScene.class);
 	}
 
@@ -31,7 +30,7 @@ public class UserSceneDaoImpl extends AbstractGenericDao<UserScene> implements I
 				+ " AND userScene.project.id = :projectId"
 				+ " ORDER BY userScene.scene.zone.order";
 	
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("userId", userId)
 					.setParameter("projectId", projectId);
 		
@@ -43,7 +42,7 @@ public class UserSceneDaoImpl extends AbstractGenericDao<UserScene> implements I
 		String sql = "DELETE FROM UserScene AS userScene"
 				+ " WHERE userScene.user.id= :userId"
 				+ " AND userScene.project.id= :projectId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("userId", userId)
 				.setParameter("projectId", projectId);
 	
@@ -68,7 +67,7 @@ public class UserSceneDaoImpl extends AbstractGenericDao<UserScene> implements I
 				+ " AND userScene.scene.zone.id = :zoneId"
 				+ " ORDER BY userScene.scene.name";
 	
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("userId", userId)
 					.setParameter("zoneId", zoneId);
 		
@@ -80,7 +79,7 @@ public class UserSceneDaoImpl extends AbstractGenericDao<UserScene> implements I
 		String sql = "DELETE FROM UserScene AS userScene"
 				+ " WHERE userScene.user.id= :userId"
 				+ " AND userScene.scene.zone.id= :zoneId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("userId", userId)
 				.setParameter("zoneId", zoneId);
 	
@@ -93,7 +92,7 @@ public class UserSceneDaoImpl extends AbstractGenericDao<UserScene> implements I
 				+ " WHERE userScene.scene.id IN"
 				+ " (SELECT scene.id FROM Scene AS scene WHERE scene.zone.id = :zoneId)"
 				+ " AND userScene.user.id = :userId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("role", userZone.getRole())
 				.setParameter("zoneId", userZone.getZone().getId())
 				.setParameter("userId", userZone.getUser().getId());

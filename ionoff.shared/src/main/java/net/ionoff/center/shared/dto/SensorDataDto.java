@@ -6,7 +6,7 @@ public class SensorDataDto extends BaseDto {
 
 	private String time;
 	private Double value;
-	private Long index;
+	private Integer index;
 	private String sensorName;
 
 	public String getTime() {
@@ -23,10 +23,10 @@ public class SensorDataDto extends BaseDto {
 		this.value = value;
 	}
 
-	public Long getIndex() {
+	public Integer getIndex() {
 		return index;
 	}
-	public void setIndex(Long index) {
+	public void setIndex(Integer index) {
 		this.index = index;
 	}
 

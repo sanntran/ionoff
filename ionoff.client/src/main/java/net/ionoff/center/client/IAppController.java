@@ -40,7 +40,9 @@ public interface IAppController {
 
 	void showSensors();
 
-	void showAreas();
+	void showAreasTable();
+
+	void showAreasGrid();
 
 	void showZones();
 

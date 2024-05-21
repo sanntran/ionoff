@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -175,8 +176,8 @@ public class ControllerServiceImpl extends AbstractGenericService<Controller, Co
 	}
 
 	@Override
-	public List<Controller> findByMac(String mac) {
-		return getDao().findByMac(mac);
+	public Optional<Controller> findByKey(String key) {
+		return getDao().findByKey(key);
 	}
 
 	@Override

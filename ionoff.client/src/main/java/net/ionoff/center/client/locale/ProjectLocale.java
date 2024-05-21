@@ -1,10 +1,5 @@
 package net.ionoff.center.client.locale;
 
-
-
-/**
- * @author Sann Tran
- */
 import com.google.gwt.core.client.GWT;
 
 public class ProjectLocale extends ClientLocale {

@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.ionoff.center.server.entity.Controller;
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,9 +18,8 @@ import net.ionoff.center.server.persistence.dao.ISensorDao;
 @Transactional
 public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensorDao {
 
-	@Autowired
-	public SensorDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public SensorDaoImpl() {
+		super();
 		setClass(Sensor.class);
 	}
 
@@ -29,7 +28,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 			String sql = "select count(sensor)"
 						+ " from Sensor as sensor"
 						+ " where sensor.project.id = :projectId";
-			Query query = getCurrentSession().createQuery(sql)
+			Query query = entityManager.createQuery(sql)
 						.setParameter("projectId", projectId);;
 			return countObjects(query);
 			
@@ -38,7 +37,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 					+ " from Sensor as sensor" 
 					+ " where sensor.project.id = :projectId"
 					+ " and lower(sensor.name) like :name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("name", "%" + name.toLowerCase() + "%");
 		return countObjects(query);
@@ -58,7 +57,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 			sql = sql + " desc";
 		}
 		
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("name", "%" + name.toLowerCase() + "%");
 		return findMany(query, fromIndex, maxResults);
@@ -72,7 +71,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("projectId", projectId);
 		return findMany(query, fromIndex, maxResults);
 	}
@@ -83,7 +82,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 				+ " from Sensor as sensor"
 				+ " where sensor.project.id = :projectId"
 				+ " order by sensor.order, sensor.name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId);
 		return findMany(query);
 	}
@@ -94,7 +93,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 				" JOIN ionoff.controllers c ON c.id = s.controller_id " +
 				" WHERE c.project_id = :projectId" +
 				" AND (c.connection_expired IS NULL OR c.connection_expired <= UNIX_TIMESTAMP() * 1000)";
-		Query query = getCurrentSession().createNativeQuery(sql, Sensor.class)
+		Query query = entityManager.createNativeQuery(sql, Sensor.class)
 				.setParameter("projectId", projectId);
 		return findMany(query);
 	}
@@ -102,9 +101,9 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 	@Override
 	public List<Sensor> findHavingAlertInProject(long projectId) {
 		String sql = "SELECT s.* FROM ionoff.sensors s " +
-				" JOIN ionoff.sensors_status ss ON ss.sensor_id = s.id " +
+				" JOIN ionoff.sensors_status ss ON ss.id = s.id " +
 				" WHERE s.project_id = :projectId AND ss.alert = 1";
-		Query query = getCurrentSession().createNativeQuery(sql, Sensor.class)
+		Query query = entityManager.createNativeQuery(sql, Sensor.class)
 				.setParameter("projectId", projectId);
 		return findMany(query);
 	}
@@ -132,7 +131,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 				+ " from Sensor as sensor"
 				+ " where sensor.device.id = :deviceId"
 				+ " order by sensor.order, sensor.name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("deviceId", deviceId);
 		return findMany(query);
 	}

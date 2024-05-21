@@ -10,6 +10,7 @@ public final class AppToken extends TokenUtil {
 
 	public static final String LIST = "list";
 	public static final String TABLE = "table";
+	public static final String GRID = "grid";
 
 	public static final String LOGIN = "login";
 	public static final String PROJECT = "project_";
@@ -245,6 +246,9 @@ public final class AppToken extends TokenUtil {
 		return PROJECT + getProjectId() + TOKEN_DLM + AREAS + TOKEN_DLM + TABLE;
 	}
 
+	public static String newAreaGridToken() {
+		return PROJECT + getProjectId() + TOKEN_DLM + AREAS + TOKEN_DLM + GRID;
+	}
 	public static String newSensorTableToken() {
 		return PROJECT + getProjectId() + TOKEN_DLM + SENSORS + TOKEN_DLM + TABLE;
 	}

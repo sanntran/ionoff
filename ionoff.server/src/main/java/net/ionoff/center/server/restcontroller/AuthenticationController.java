@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.bind.annotation.RestController;import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.exception.AppUnactivatedException;
@@ -46,6 +46,7 @@ import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.ProjectDto;
 
 @RestController
+@Transactional
 public class AuthenticationController {
 
 	private final Logger logger = LoggerFactory.getLogger(AuthenticationController.class.getName());
@@ -145,9 +146,8 @@ public class AuthenticationController {
         }
         User user = (User) principal;
  		final String token = jwtTokenUtil.generateToken(user, remember);
-		logger.info("Login successfully. User: " + username + ". Token: " + token);
-		Kookie kookie = createKookie(user, token, null);
-		return kookie;
+		logger.info("User {} logged in successfully", username);
+		return createKookie(user, token, null);
     }
 	
 	private Kookie createKookie(User user, String token, Long projectId) {

@@ -4,33 +4,81 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Getter
 @Setter
+@Entity
+@Table(name = "controllers")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public abstract class Controller implements IEntity {
+public class Controller implements IEntity {
 
 	public static final Map<String, Class<? extends Controller>> MODELS = new HashMap<>();
 	private static final long serialVersionUID = 1L;
 
-	public static final int KEY_LENGTH = 8;
 	public static final int ONE_SECOND = 1;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column
 	@EqualsAndHashCode.Include
 	private long id;
+
+	@Column
 	private String name;
+
+	@Column
+	private String type;
+
+	@Column
 	private String ip;
+
+	@Column
 	private Integer port;
+
+	@Column(name = "code")
 	private String key;
+
+	@Column
+	private String protocol;
+
+	@Column
+	private Integer input;
+
+	@Column
+	private Integer output;
+
+	@Column
+	private String model;
+
+	@Column
+	private Integer onlineBuffer;
+
+	@Column
 	private Long lastConnected;
+
+	@Column
 	private Long connectionExpired;
+
+	@Column
 	private Integer crashCount;
-	private Project project;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "driver_id", referencedColumnName = "id")
+	@OrderColumn(name = "idx")
 	private List<Relay> relays;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "controller_id", referencedColumnName = "id")
+	@OrderColumn(name = "idx")
 	private List<Sensor> sensors;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "project_id", referencedColumnName = "id")
+	private Project project;
 
 	public void overrideKey() {
 		// does nothing by default
@@ -68,11 +116,6 @@ public abstract class Controller implements IEntity {
 		return key != null && !key.trim().isEmpty();
 	}
 
-	@Override
-	public String toString() {
-		return "Id: " + getId() + ", Name: " + getName() + ", Key: " + getKey() + ", Model: " + getModel();
-	}
-
 	/**
 	 * Lazy: not auto-publish
 	 */
@@ -84,25 +127,34 @@ public abstract class Controller implements IEntity {
 		return false;
 	}
 
-	public abstract int getInput();
+	public String getCommandStatus() {
+		return "{ioget}";
+	}
 
-	public abstract int getOutput();
+	public String getCommandOpenRelay(int relayIndex) {
+		return "{ioseto" + (relayIndex + 1) + "1}";
+	}
 
-	public abstract String getModel();
+	public String getCommandCloseRelay(int relayIndex) {
+		return "{ioseto" + (relayIndex + 1) + "0}";
+	}
 
-	public abstract int getOnlineBuffer();
+	public String getCommandOpenRelay(int relayIndex, Integer autoRevert) {
+		int revert = autoRevert != null && autoRevert > 0 ? autoRevert : 0;
+		return "{ioseto" + (relayIndex + 1) + "1"+ revert + "}";
+	}
 
-	public abstract String getProtocol();
+	public String getCommandCloseRelay(int relayIndex, Integer autoRevert) {
+		int revert = autoRevert != null && autoRevert > 0 ? autoRevert : 0;
+		return "{ioseto" + (relayIndex + 1) + "0" + revert + "}";
+	}
 
-	public abstract String getCommandStatus();
+	public int getOneSecondDelay() {
+		return 650;
+	}
+	@Override
+	public String toString() {
+		return "Id: " + getId() + ", Name: " + getName() + ", Key: " + getKey() + ", Model: " + getModel();
+	}
 
-	public abstract String getCommandOpenRelay(int relayIndex);
-
-	public abstract String getCommandCloseRelay(int relayIndex);
-
-	public abstract String getCommandOpenRelay(int relayIndex, Integer autoRevert);
-
-	public abstract String getCommandCloseRelay(int relayIndex, Integer autoRevert);
-
-	public abstract int getOneSecondDelay();
 }

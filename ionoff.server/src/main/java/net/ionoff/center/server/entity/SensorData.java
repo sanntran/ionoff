@@ -19,6 +19,6 @@ public class SensorData implements IEntity {
 	private String name;
 	private Date time;
 	private Double value;
-	private Long index;
+	private Integer index;
 	private Sensor sensor;
 }

@@ -2,7 +2,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,9 +16,8 @@ import net.ionoff.center.server.persistence.dao.IUserProjectDao;
 @Transactional
 public class UserProjectDaoImpl extends AbstractGenericDao<UserProject> implements IUserProjectDao {
 
-	@Autowired
-	public UserProjectDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public UserProjectDaoImpl() {
+		super();
 		setClass(UserProject.class);
 	}
 
@@ -29,7 +28,7 @@ public class UserProjectDaoImpl extends AbstractGenericDao<UserProject> implemen
 				+ " where userProject.user.id = :userId"
 				+ " order by userProject.id";
 	
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("userId", userId);
 		
 		return findMany(query);

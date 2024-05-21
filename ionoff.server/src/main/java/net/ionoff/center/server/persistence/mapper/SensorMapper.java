@@ -47,6 +47,12 @@ public class SensorMapper {
 			sensorDto.setDeviceId(sensor.getDevice().getId());
 			sensorDto.setDeviceName(sensor.getDevice().getName());
 		}
+		if (sensor.getZone() != null) {
+			sensorDto.setZoneId(sensor.getZone().getId());
+			sensorDto.setZoneName(sensor.getZone().getName());
+			sensorDto.setAreaId(sensor.getZone().getArea().getId());
+			sensorDto.setAreaName(sensor.getZone().getArea().getName());
+		}
 		sensorDto.setProjectId(sensor.getProject().getId());
 		return sensorDto;
 	}

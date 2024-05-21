@@ -2,8 +2,9 @@ package net.ionoff.center.server.persistence.dao.impl;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,9 +18,8 @@ import net.ionoff.center.server.persistence.dao.IControllerDao;
 @Transactional
 public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements IControllerDao {
 
-	@Autowired
-	public ControllerDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public ControllerDaoImpl() {
+		super();
 		setClass(Controller.class);
 	}
 
@@ -31,7 +31,7 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 					+ " from Controller as controller"
 					+ " where lower(controller.name) like :keyWord"
 					+ " and controller.project.id = :projectId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("keyWord", "%" + keyWord.toLowerCase() + "%");
 		return countObjects(query);
@@ -42,7 +42,7 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 		String sql = "select count(controller)"
 				+ " from Controller as controller"
 				+ " where controller.project.id = :projectId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId);
 		return countObjects(query);
 	}
@@ -61,7 +61,7 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 			sql = sql + " desc";
 		}
 		
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("keyWord", "%" + keyWord + "%");
 		return findMany(query, fromIndex, maxResults);
@@ -76,18 +76,14 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId);
 		return findMany(query, fromIndex, maxResults);
 	}
 
 	@Override
 	public List<Controller> findByIsLazy() {
-		String sql = "select * from controllers where type_='Ep2Controller'" +
-				" or type_='Ec100Controller'";
-		Query query = getCurrentSession().
-                    createSQLQuery(sql).addEntity(Controller.class);
-		return query.list();
+		return Collections.emptyList();
 	}
 
 	@Override
@@ -96,7 +92,7 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 				+ " from Controller as controller"
 				+ " where controller.project.id = :projectId"
 				+ " order by controller.name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId);
 		return findMany(query);
 	}
@@ -127,21 +123,22 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 				+ " where controller.ip = :ip"
 				+ " and controller.port = :port"
 				+ " order by controller.name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("ip", ip)
 				.setParameter("port", port);
 		return findMany(query);
 	}
 
 	@Override
-	public List<Controller> findByMac(String mac) {
-		String sql = "select distinct controller"
-				+ " from Controller as controller"
-				+ " where controller.key = :mac"
-				+ " order by controller.name";
-		Query query = getCurrentSession().createQuery(sql)
-				.setParameter("mac", mac);
-		return findMany(query);
+	public Optional<Controller> findByKey(String key) {
+		String sql = "SELECT DISTINCT *"
+				+ " FROM ionoff.controllers as c"
+				+ " WHERE c.code = :key"
+				+ " ORDER BY c.name";
+		Query query = entityManager.createNativeQuery(sql, Controller.class)
+				.setParameter("key", key);
+		List<Controller> controllers = findMany(query);
+		return controllers.isEmpty() ? Optional.empty() : Optional.of(controllers.get(0));
 	}
 
 	@Override
@@ -150,7 +147,7 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 				+ " from Controller as controller"
 				+ " where controller.ip = :ip"
 				+ " order by controller.name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("ip", ip);
 		return findMany(query);
 	}
@@ -161,7 +158,7 @@ public class ControllerDaoImpl extends AbstractGenericDao<Controller> implements
 			String sql = "SELECT * FROM ionoff.controllers"
 					+ " WHERE project_id = :projectId"
 					+ " AND (connection_expired IS NULL OR connection_expired <= UNIX_TIMESTAMP() * 1000)";
-		Query query = getCurrentSession().createNativeQuery(sql, Controller.class)
+		Query query = entityManager.createNativeQuery(sql, Controller.class)
 				.setParameter("projectId", projectId);
 		return findMany(query);
 	}

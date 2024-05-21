@@ -609,6 +609,10 @@ textarea.materialize-textarea[readonly="readonly"] {
 	margin: 0px;	
 }
 
+.main .content .dashboard .card.alert {
+	background-color: red !important;
+}
+
 .main .content .dashboard .card .card-content {
 	height: 85px;
 	width: 100%;
@@ -619,7 +623,7 @@ textarea.materialize-textarea[readonly="readonly"] {
 	font-size: 80px;
     margin: -5px 20px !important;
     position: absolute;
-    opacity: 0.1;
+    opacity: 0.25;
     text-align: center;
     right: 0px;
 }

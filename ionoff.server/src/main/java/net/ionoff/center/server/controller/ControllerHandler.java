@@ -1,19 +1,19 @@
 package net.ionoff.center.server.controller;
 
+import com.google.common.collect.ImmutableList;
+import lombok.extern.slf4j.Slf4j;
 import net.ionoff.center.server.controller.exception.ControllerRequestException;
 import net.ionoff.center.server.controller.exception.MessageFormatException;
-import net.ionoff.center.server.controller.model.BaseStatus;
-import net.ionoff.center.server.controller.model.ExIOStatus;
-import net.ionoff.center.server.controller.model.PxIOStatus;
-import net.ionoff.center.server.entity.Controller;
-import net.ionoff.center.server.entity.Relay;
-import net.ionoff.center.server.entity.Sensor;
+import net.ionoff.center.server.controller.model.*;
+import net.ionoff.center.server.entity.*;
 import net.ionoff.center.server.message.RelayStatusNotifier;
 import net.ionoff.center.server.message.SensorStatusNotifier;
 import net.ionoff.center.server.message.event.RelayStatusChangedEvent;
 import net.ionoff.center.server.message.event.SensorStatusChangedEvent;
 import net.ionoff.center.server.persistence.dao.IControllerDao;
+import net.ionoff.center.server.persistence.dao.IProjectDao;
 import net.ionoff.center.server.persistence.dao.ISensorDao;
+import net.ionoff.center.server.persistence.dao.ISensorStatusDao;
 import net.ionoff.center.server.persistence.service.IControllerService;
 import net.ionoff.center.server.persistence.service.IDeviceService;
 import net.ionoff.center.server.persistence.service.IRelayService;
@@ -25,10 +25,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
+@Slf4j
 @Component
 public class ControllerHandler {
 
@@ -54,6 +53,13 @@ public class ControllerHandler {
 	@Autowired
 	private RelayStatusNotifier relayStatusNotifier;
 
+	@Lazy
+	@Autowired
+	private IProjectDao projectDao;
+
+	@Lazy
+	@Autowired
+	private ISensorStatusDao sensorStatusDao;
 
 	@Lazy
 	@Autowired
@@ -68,12 +74,76 @@ public class ControllerHandler {
 	IControlService controlService;
 
 	public void onMessageArrived(String payload) {
-		BaseStatus status = parseIOStatus(payload);
-		if (status == null) {
-			LOGGER.error("Unknown message format " + payload);
-			return;
+		if (SxIOStatus.accept(payload)) {
+			handleStatusMessage(SxIOStatus.of(payload));
+		} else {
+			BaseStatus status = parseIOStatus(payload);
+			if (status == null) {
+				log.error("Unknown message format {}", payload);
+				return;
+			}
+			handleStatusMessage(status);
 		}
-		handleStatusMessage(status);
+	}
+
+	private void handleStatusMessage(SxIOStatus status) {
+		String controllerKey =i status.getControllerKey();
+		Optional<Controller> controller = controllerDao.findByKey(controllerKey);
+		if (!controller.isPresent()) {
+			Controller newController = insertController(status);
+			log.info("Inserted controller {} as first time connected", newController.getKey());
+		} else {
+			Controller existingController = controller.get();
+			existingController.setLastConnected(System.currentTimeMillis());
+			controllerDao.update(existingController);
+			for (Sensor sensor : existingController.getSensors()) {
+				Double value = "ON".equals(status.getSensors().get(sensor.getIndex()).getValue()) ? 1D : 0D;
+				if (sensor.updateStatus(value)) {
+					controllerService.updateSensor(sensor);
+				}
+			}
+		}
+	}
+
+	private Controller insertController(SxIOStatus status) {
+		Project project = projectDao
+				.findFirst()
+				.orElseThrow(() -> new IllegalStateException("No project found when insert controller"));
+		Controller newController = new Controller();
+		String id = status.getId();
+		newController.setName(id);
+		newController.setType("IONOFF_SM");
+		newController.setModel("IONOFF_1S");
+		newController.setKey(id);
+		newController.setProject(project);
+		newController.setLastConnected(System.currentTimeMillis());
+		newController.setRelays(ImmutableList.of());
+		newController.setOnlineBuffer(15000);
+		newController.setConnectionExpired(newController.getLastConnected() + newController.getOnlineBuffer());
+		List<Sensor> sensors = newSensors(newController, status);
+		newController.setSensors(sensors);
+		return controllerDao.insert(newController);
+	}
+
+	private List<Sensor> newSensors(Controller controller, SxIOStatus status) {
+		List<Sensor> sensors = new ArrayList<>();
+		for (int i = 0; i < status.getSensors().size(); i++) {
+			Sensor sensor = new Sensor();
+			sensor.setController(controller);
+			sensor.setName(status.getSensors().get(i).getAddrSub());
+			sensor.setProject(controller.getProject());
+			net.ionoff.center.server.entity.SensorStatus sensorStatus = new net.ionoff.center.server.entity.SensorStatus();
+			sensorStatus.setIndex(i);
+			sensorStatus.setTime(new Date(status.getSensors().get(i).getTimestamp()));
+			sensorStatus.setValue("ON".equals(status.getSensors().get(i).getValue()) ? 1D : 0D);
+			sensorStatus.setAlert("ON".equals(status.getSensors().get(i).getValue()));
+			sensorStatus.setName(status.getSensors().get(i).getType());
+			sensorStatus.setSensor(sensor);
+			sensor.setStatus(sensorStatus);
+			sensor.setController(controller);
+			sensors.add(sensor);
+		}
+		return sensors;
 	}
 
 	private BaseStatus parseIOStatus(String payload) {
@@ -84,18 +154,18 @@ public class ControllerHandler {
 				return new PxIOStatus(payload);
 			}
 		} catch (Exception e) {
-			LOGGER.error(e.getClass().getSimpleName() + " Error parsing message " + e.getMessage());
+			log.error("Error parsing message {}", e.getMessage());
 		}
 		return null;
 	}
 
 	public void handleStatusMessage(BaseStatus status) {
-		List<Controller> controllers = controllerDao.findByMac(status.getKey());
-		if (controllers.isEmpty()) {
-			LOGGER.info("No controller found. Key: " + status.getKey());
+		Optional<Controller> controllers = controllerDao.findByKey(status.getKey());
+		if (!controllers.isPresent()) {
+			log.info("No controller found by key {}", status.getKey());
 			return;
 		}
-		Controller controller = controllers.get(0);
+		Controller controller = controllers.get();
 		validateIOStatus(controller, status);
 		if (!controller.isConnected()) {
 			LOGGER.info("Controller " + controller.getKey() + " is now connected");
@@ -207,12 +277,12 @@ public class ControllerHandler {
 	}
 
 	@Async
-	private void handleRelayStatusChanged(Relay relay) {
+    protected void handleRelayStatusChanged(Relay relay) {
 		relayStatusNotifier.notifyListeners(new RelayStatusChangedEvent(relay));
 	}
 
 	@Async
-	private void onSensorStatusChanged(Sensor sensor) {
+    protected void onSensorStatusChanged(Sensor sensor) {
 		sensorStatusNotifier.notifyListeners(new SensorStatusChangedEvent(sensor));
 	}
 
@@ -222,7 +292,6 @@ public class ControllerHandler {
 			Sensor sensor = new Sensor();
 			sensor.setController(controller);
 			sensor.setIndex(i);
-			sensorDao.insert(sensor);
 			controller.getSensors().add(sensor);
 		}
 	}

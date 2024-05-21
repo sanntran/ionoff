@@ -10,15 +10,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
+import net.ionoff.center.shared.dto.AreaCellDto;
 import org.fusesource.restygwt.client.MethodCallback;
 
 import net.ionoff.center.shared.dto.AreaDto;
 import net.ionoff.center.shared.dto.MessageDto;
 import net.ionoff.center.shared.dto.QueryCriteriaDto;
 
-/**
- * @author Sann Tran
- */
 public interface AreaService extends EntityService<AreaDto> {
 
 	@PUT
@@ -52,5 +50,11 @@ public interface AreaService extends EntityService<AreaDto> {
 			@QueryParam("includingZone") boolean includingZone,
 			@QueryParam("includingDevice") boolean includingDevice,
 			MethodCallback<List<AreaDto>> callback);
-	
+
+
+	@GET
+	@Path("areas")
+	void findForGridView(@QueryParam("projectId") Long projectId,
+						 @QueryParam("view") String view,
+						 MethodCallback<List<AreaCellDto>> callback);
 }

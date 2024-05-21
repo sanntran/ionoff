@@ -49,12 +49,6 @@ public class MqttConnection implements MqttCallback {
 	@Value("${broker.mqtt.topic.ionoffnet}")
 	private String defaultTopic;
 
-	@Value("${broker.mqtt.topic.controller}")
-	private String topicController;
-
-	@Value("${broker.mqtt.topic.mediaplayer}")
-	private String topicMediaPlayer;
-
 	@Autowired
 	private ControllerHandler controllerHandler;
 
@@ -64,7 +58,7 @@ public class MqttConnection implements MqttCallback {
 	public void initAndConnectBroker() {
 		clientId = "ionoff-" + hashCode() + "";
 
-		subscribleTopics = new String[] {defaultTopic, topicController, topicMediaPlayer};
+		subscribleTopics = new String[] {defaultTopic};
 		try {
 			client = new MqttClient(brockerUrl, clientId);
 		} catch (MqttException e) {
@@ -162,16 +156,12 @@ public class MqttConnection implements MqttCallback {
 		try {
 			// Called when a message arrives from the server that matches any
 			// subscription made by the connector
-			if (defaultTopic.equals(topic) || topicController.equals(topic)) {
+			if (defaultTopic.equals(topic)) {
 				controllerHandler.onMessageArrived(payload);
-			}
-			else if (topicMediaPlayer.equals(topic)) {
-				mediaPlayerHandler.onMessageArrived(payload);
 			}
 		} catch (Exception e) {
 			LOGGER.error("Error handle MQTT message {" + payload + "} " + e.getMessage(), e);
 		}
-
 	}
 
 	private void setSubscribleTopic(String subscribleTopic[]) {

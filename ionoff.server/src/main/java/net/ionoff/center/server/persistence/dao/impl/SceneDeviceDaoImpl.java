@@ -2,7 +2,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,9 +16,8 @@ import net.ionoff.center.server.persistence.dao.ISceneDeviceDao;
 @Transactional
 public class SceneDeviceDaoImpl extends AbstractGenericDao<SceneDevice> implements ISceneDeviceDao {
 
-	@Autowired
-	public SceneDeviceDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public SceneDeviceDaoImpl() {
+		super();
 		setClass(SceneDevice.class);
 	}
 
@@ -28,7 +27,7 @@ public class SceneDeviceDaoImpl extends AbstractGenericDao<SceneDevice> implemen
 				+ " from SceneDevice as sceneDevice"
 				+ " where sceneDevice.scene.id = :sceneId"
 				+ " and sceneDevice.device.id = :deviceId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("sceneId", sceneId)
 				.setParameter("deviceId", deviceId);
 		return getFirst(findMany(query));
@@ -39,7 +38,7 @@ public class SceneDeviceDaoImpl extends AbstractGenericDao<SceneDevice> implemen
 		String sql = "select distinct sceneDevice"
 				+ " from SceneDevice as sceneDevice"
 				+ " where sceneDevice.device.id = :deviceId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("deviceId", deviceId);
 		return findMany(query);
 	}
@@ -59,7 +58,7 @@ public class SceneDeviceDaoImpl extends AbstractGenericDao<SceneDevice> implemen
 		String sql = "select distinct sceneDevice"
 				+ " from SceneDevice as sceneDevice"
 				+ " where sceneDevice.scene.id = :sceneId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("sceneId", sceneId);
 		return findMany(query);
 	}

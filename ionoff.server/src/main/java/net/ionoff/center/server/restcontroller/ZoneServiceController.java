@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.User;
 import net.ionoff.center.server.exception.ChangeEntityIdException;
@@ -22,6 +23,7 @@ import net.ionoff.center.shared.dto.QueryCriteriaDto;
 import net.ionoff.center.shared.dto.ZoneDto;
 
 @RestController
+@Transactional
 public class ZoneServiceController {
 
 	private final Logger logger = LoggerFactory.getLogger(ZoneServiceController.class.getName());
