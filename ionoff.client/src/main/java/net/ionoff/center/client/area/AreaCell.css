@@ -1,0 +1,14 @@
+.card {
+    height: 150px;
+}
+.content {
+    width: 100%;
+}
+
+.title {
+
+}
+.title i {
+    font-size: 50px;
+    opacity: 0.25;
+}

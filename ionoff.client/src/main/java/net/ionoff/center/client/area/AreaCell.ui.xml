@@ -1,0 +1,17 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:m="urn:import:gwt.material.design.client.ui">
+
+	<ui:style field='style' src="AreaCell.css"/>
+
+	<m:MaterialColumn grid="l4 m6 s6 col" ui:field="root" >
+		<m:MaterialCard ui:field="card" addStyleNames="{style.card}" backgroundColor="BLUE_GREY_DARKEN_2">
+			<m:MaterialCardContent ui:field="cardContent" addStyleNames="{style.content}" textColor="GREY_LIGHTEN_4" waves="LIGHT" >
+				<m:MaterialCardTitle ui:field="cardTitle" iconPosition="RIGHT" addStyleNames="{style.title}" iconType="DOMAIN"/>
+				<m:MaterialLabel ui:field="lblZoneCount" textColor="GREY_LIGHTEN_4"/>
+				<m:MaterialLabel ui:field="lblAlertCount" textColor="RED_LIGHTEN_5"/>
+				<m:MaterialLabel ui:field="lblAlertDetail" textColor="RED_LIGHTEN_5"/>
+			</m:MaterialCardContent>
+		</m:MaterialCard>
+	</m:MaterialColumn>
+
+</ui:UiBinder>

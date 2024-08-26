@@ -1,0 +1,611 @@
+2024-05-21 09:22:42 INFO  TcpBroker:27 - TCP server is listening on port 8118
+2024-05-21 09:22:43 INFO  MqttBroker:113 - MQTT server is listening on port 1883
+2024-05-21 09:22:44 INFO  MqttBroker:42 - MQTT connector [ionoff-1860060918] request to connect, clean session = true
+2024-05-21 09:22:44 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 09:22:44 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 09:22:44 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 09:22:44 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 09:22:44 INFO  MqttBroker:58 - Subscription for Controller with QoS AT_LEAST_ONCE
+2024-05-21 09:22:44 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 09:22:59 INFO  MqttBroker:85 - Connection closed
+2024-05-21 09:24:45 INFO  MqttBroker:42 - MQTT connector [ionoff-132423149] request to connect, clean session = true
+2024-05-21 09:24:45 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 09:24:45 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 09:24:45 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 09:24:45 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 09:24:45 INFO  MqttBroker:58 - Subscription for Controller with QoS AT_LEAST_ONCE
+2024-05-21 09:24:45 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 09:45:58 INFO  MqttBroker:42 - MQTT connector [mqttx_e1979fc9] request to connect, clean session = true
+2024-05-21 09:45:58 INFO  MqttBroker:45 - [username = ionoff, password = IONOffNet]
+2024-05-21 09:45:58 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 09:45:58 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 09:46:24 INFO  MqttBroker:88 - Received message on [Controller] payload [{
+  "msg": "hello"
+}] with QoS [AT_MOST_ONCE]
+2024-05-21 09:47:45 INFO  MqttBroker:88 - Received message on [Controller] payload [{
+  "msg": "hello"
+}] with QoS [AT_MOST_ONCE]
+2024-05-21 09:48:12 INFO  MqttBroker:88 - Received message on [Controller] payload [{
+  "msg": "hello"
+}] with QoS [AT_MOST_ONCE]
+2024-05-21 09:50:30 INFO  TcpBroker:27 - TCP server is listening on port 8118
+2024-05-21 09:50:30 INFO  MqttBroker:113 - MQTT server is listening on port 1883
+2024-05-21 09:50:38 INFO  MqttBroker:42 - MQTT connector [ionoff-132423149] request to connect, clean session = true
+2024-05-21 09:50:38 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 09:50:38 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 09:50:38 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 09:50:38 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 09:50:38 INFO  MqttBroker:58 - Subscription for Controller with QoS AT_LEAST_ONCE
+2024-05-21 09:50:38 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 09:51:12 INFO  MqttBroker:42 - MQTT connector [mqttx_e1979fc9] request to connect, clean session = true
+2024-05-21 09:51:12 INFO  MqttBroker:45 - [username = ionoff, password = IONOffNet]
+2024-05-21 09:51:12 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 09:51:12 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 09:51:17 INFO  MqttBroker:88 - Received message on [Controller] payload [{
+  "msg": "hello"
+}] with QoS [AT_MOST_ONCE]
+2024-05-21 09:52:05 INFO  MqttBroker:88 - Received message on [Controller] payload [{
+  "msg": "hello"
+}] with QoS [AT_MOST_ONCE]
+2024-05-21 10:00:01 INFO  TcpBroker:27 - TCP server is listening on port 8118
+2024-05-21 10:00:02 INFO  MqttBroker:113 - MQTT server is listening on port 1883
+2024-05-21 10:00:17 INFO  MqttBroker:42 - MQTT connector [ionoff-2119918107] request to connect, clean session = true
+2024-05-21 10:00:17 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 10:00:17 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 10:00:17 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 10:00:17 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 10:00:17 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 10:00:17 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 10:01:08 INFO  MqttBroker:42 - MQTT connector [mqttx_e1979fc9] request to connect, clean session = true
+2024-05-21 10:01:08 INFO  MqttBroker:45 - [username = ionoff, password = IONOffNet]
+2024-05-21 10:01:08 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 10:01:08 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 10:01:09 INFO  MqttBroker:88 - Received message on [Controller] payload [{
+  "msg": "hello"
+}] with QoS [AT_MOST_ONCE]
+2024-05-21 10:01:10 INFO  MqttBroker:42 - MQTT connector [mqttx_e1979fc9] request to connect, clean session = true
+2024-05-21 10:01:10 INFO  MqttBroker:45 - [username = ionoff, password = IONOffNet]
+2024-05-21 10:01:10 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 10:01:10 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 10:01:28 INFO  MqttBroker:88 - Received message on [Controller] payload [{
+  "msg": "hello"
+}] with QoS [AT_MOST_ONCE]
+2024-05-21 10:02:05 INFO  TcpBroker:27 - TCP server is listening on port 8118
+2024-05-21 10:02:05 INFO  MqttBroker:113 - MQTT server is listening on port 1883
+2024-05-21 10:02:16 INFO  MqttBroker:42 - MQTT connector [ionoff-2119918107] request to connect, clean session = true
+2024-05-21 10:02:16 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 10:02:16 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 10:02:16 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 10:02:16 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 10:02:16 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 10:02:16 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 10:02:55 INFO  MqttBroker:42 - MQTT connector [mqttx_e1979fc9] request to connect, clean session = true
+2024-05-21 10:02:55 INFO  MqttBroker:45 - [username = ionoff, password = IONOffNet]
+2024-05-21 10:02:55 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 10:02:55 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 10:02:56 INFO  MqttBroker:42 - MQTT connector [mqttx_e1979fc9] request to connect, clean session = true
+2024-05-21 10:02:56 INFO  MqttBroker:45 - [username = ionoff, password = IONOffNet]
+2024-05-21 10:02:56 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 10:02:56 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 10:03:04 INFO  MqttBroker:88 - Received message on [Controller] payload [{
+  "msg": "hello"
+}] with QoS [AT_MOST_ONCE]
+2024-05-21 10:03:08 INFO  MqttBroker:88 - Received message on [Controller] payload [{
+  "msg": "hello"
+}] with QoS [AT_MOST_ONCE]
+2024-05-21 10:03:17 INFO  MqttBroker:88 - Received message on [Controller] payload [{
+  "msg": "hello"
+}] with QoS [AT_MOST_ONCE]
+2024-05-21 10:03:50 INFO  MqttBroker:85 - Connection closed
+2024-05-21 10:03:50 INFO  MqttBroker:42 - MQTT connector [ionoff-2119918107] request to connect, clean session = true
+2024-05-21 10:03:50 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 10:03:50 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 10:03:50 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 10:03:50 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 10:03:50 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 10:03:50 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 10:04:08 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [{
+  "msg": "hello"
+}] with QoS [AT_MOST_ONCE]
+2024-05-21 10:04:17 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-21 10:05:50 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 10:05:50 INFO  MqttBroker:65 - Received ack for message = 2
+2024-05-21 10:06:59 INFO  MqttBroker:85 - Connection closed
+2024-05-21 10:07:08 INFO  MqttBroker:42 - MQTT connector [ionoff-783682673] request to connect, clean session = true
+2024-05-21 10:07:08 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 10:07:08 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 10:07:08 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 10:07:08 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 10:07:08 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 10:07:08 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 10:07:44 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 10:07:44 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-21 10:27:04 INFO  MqttBroker:85 - Connection closed
+2024-05-21 13:28:06 INFO  MqttBroker:42 - MQTT connector [ionoff-1559191497] request to connect, clean session = true
+2024-05-21 13:28:06 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 13:28:06 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 13:28:06 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 13:28:06 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 13:28:06 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 13:28:06 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 13:30:32 INFO  MqttBroker:85 - Connection closed
+2024-05-21 13:30:43 INFO  MqttBroker:42 - MQTT connector [ionoff-2036507492] request to connect, clean session = true
+2024-05-21 13:30:43 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 13:30:43 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 13:30:43 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 13:30:43 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 13:30:43 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 13:30:43 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 13:31:25 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 13:31:33 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-21 13:31:53 INFO  MqttBroker:85 - Connection closed
+2024-05-21 13:32:02 INFO  MqttBroker:42 - MQTT connector [ionoff-1260431588] request to connect, clean session = true
+2024-05-21 13:32:02 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 13:32:02 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 13:32:02 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 13:32:02 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 13:32:02 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 13:32:02 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 13:32:23 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 13:32:42 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-21 13:35:02 INFO  MqttBroker:85 - Connection closed
+2024-05-21 13:35:11 INFO  MqttBroker:42 - MQTT connector [ionoff-989251186] request to connect, clean session = true
+2024-05-21 13:35:11 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 13:35:11 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 13:35:11 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 13:35:11 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 13:35:11 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 13:35:11 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 13:35:14 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 13:35:45 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-21 13:36:15 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 13:37:45 INFO  MqttBroker:85 - Connection closed
+2024-05-21 13:37:50 INFO  MqttBroker:42 - MQTT connector [ionoff-989251186] request to connect, clean session = true
+2024-05-21 13:37:50 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 13:37:50 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 13:37:50 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 13:38:16 INFO  MqttBroker:85 - Connection closed
+2024-05-21 13:38:26 INFO  MqttBroker:42 - MQTT connector [ionoff-132416701] request to connect, clean session = true
+2024-05-21 13:38:26 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 13:38:26 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 13:38:26 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 13:38:26 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 13:38:26 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 13:38:26 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 13:38:33 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 13:38:35 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-21 13:43:33 INFO  MqttBroker:85 - Connection closed
+2024-05-21 13:43:42 INFO  MqttBroker:42 - MQTT connector [ionoff-2079515765] request to connect, clean session = true
+2024-05-21 13:43:42 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 13:43:42 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 13:43:42 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 13:43:42 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 13:43:42 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 13:43:42 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 13:43:50 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 13:43:53 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-21 13:44:42 INFO  MqttBroker:85 - Connection closed
+2024-05-21 13:44:51 INFO  MqttBroker:42 - MQTT connector [ionoff-1237669315] request to connect, clean session = true
+2024-05-21 13:44:51 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 13:44:51 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 13:44:51 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 13:44:51 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 13:44:51 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 13:44:51 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 13:44:56 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 13:44:59 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-21 13:45:36 INFO  MqttBroker:85 - Connection closed
+2024-05-21 13:45:48 INFO  MqttBroker:42 - MQTT connector [ionoff-1586128778] request to connect, clean session = true
+2024-05-21 13:45:48 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 13:45:48 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 13:45:48 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 13:45:48 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 13:45:48 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 13:45:48 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 13:45:56 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 13:46:01 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-21 13:48:52 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 13:48:52 INFO  MqttBroker:65 - Received ack for message = 2
+2024-05-21 13:50:28 INFO  MqttBroker:85 - Connection closed
+2024-05-21 13:50:39 INFO  MqttBroker:42 - MQTT connector [ionoff-649154765] request to connect, clean session = true
+2024-05-21 13:50:39 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 13:50:39 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 13:50:39 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 13:50:39 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 13:50:39 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 13:50:39 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 13:50:45 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 13:50:45 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-21 13:51:14 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 13:52:44 INFO  MqttBroker:85 - Connection closed
+2024-05-21 13:54:21 INFO  MqttBroker:42 - MQTT connector [ionoff-649154765] request to connect, clean session = true
+2024-05-21 13:54:21 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 13:54:21 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 13:54:21 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 13:54:21 INFO  MqttBroker:85 - Connection closed
+2024-05-21 13:54:33 INFO  MqttBroker:42 - MQTT connector [ionoff-2114676965] request to connect, clean session = true
+2024-05-21 13:54:33 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 13:54:33 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 13:54:33 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 13:54:33 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 13:54:33 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 13:54:33 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 13:54:37 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 13:54:48 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-21 13:56:26 INFO  MqttBroker:85 - Connection closed
+2024-05-21 13:58:47 INFO  MqttBroker:42 - MQTT connector [ionoff-261980805] request to connect, clean session = true
+2024-05-21 13:58:47 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 13:58:47 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 13:58:47 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 13:58:47 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 13:58:47 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 13:58:47 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 13:59:38 INFO  MqttBroker:85 - Connection closed
+2024-05-21 13:59:51 INFO  MqttBroker:42 - MQTT connector [ionoff-552186123] request to connect, clean session = true
+2024-05-21 13:59:51 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 13:59:51 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 13:59:51 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 13:59:51 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 13:59:51 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 13:59:51 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 14:06:30 INFO  MqttBroker:85 - Connection closed
+2024-05-21 14:07:30 INFO  MqttBroker:42 - MQTT connector [ionoff-74815209] request to connect, clean session = true
+2024-05-21 14:07:30 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 14:07:30 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 14:07:30 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 14:07:30 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 14:07:30 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 14:07:30 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 14:08:51 INFO  MqttBroker:85 - Connection closed
+2024-05-21 14:09:05 INFO  MqttBroker:42 - MQTT connector [ionoff-2028313348] request to connect, clean session = true
+2024-05-21 14:09:05 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 14:09:05 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 14:09:05 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 14:09:05 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 14:09:05 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 14:09:05 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 14:10:03 INFO  MqttBroker:85 - Connection closed
+2024-05-21 14:14:39 INFO  MqttBroker:42 - MQTT connector [ionoff-894025840] request to connect, clean session = true
+2024-05-21 14:14:39 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 14:14:39 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 14:14:39 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 14:14:39 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 14:14:39 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 14:14:39 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 14:16:00 INFO  MqttBroker:85 - Connection closed
+2024-05-21 14:17:13 INFO  MqttBroker:42 - MQTT connector [ionoff-1974910273] request to connect, clean session = true
+2024-05-21 14:17:13 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 14:17:13 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 14:17:13 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 14:17:13 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 14:17:13 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 14:17:13 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 14:17:51 INFO  MqttBroker:85 - Connection closed
+2024-05-21 14:18:05 INFO  MqttBroker:42 - MQTT connector [ionoff-271099719] request to connect, clean session = true
+2024-05-21 14:18:05 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 14:18:05 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 14:18:05 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 14:18:05 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 14:18:05 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 14:18:05 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 14:20:29 INFO  MqttBroker:85 - Connection closed
+2024-05-21 14:20:43 INFO  MqttBroker:42 - MQTT connector [ionoff-651177414] request to connect, clean session = true
+2024-05-21 14:20:43 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 14:20:43 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 14:20:43 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 14:20:43 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 14:20:43 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 14:20:43 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 14:22:46 INFO  MqttBroker:85 - Connection closed
+2024-05-21 14:22:58 INFO  MqttBroker:42 - MQTT connector [ionoff-1287817936] request to connect, clean session = true
+2024-05-21 14:22:58 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 14:22:58 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 14:22:58 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 14:22:58 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 14:22:58 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 14:22:58 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 14:24:19 INFO  MqttBroker:85 - Connection closed
+2024-05-21 14:24:31 INFO  MqttBroker:42 - MQTT connector [ionoff-249200083] request to connect, clean session = true
+2024-05-21 14:24:31 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 14:24:31 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 14:24:31 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 14:24:31 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 14:24:31 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 14:24:31 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 14:26:19 INFO  MqttBroker:85 - Connection closed
+2024-05-21 14:26:28 INFO  MqttBroker:42 - MQTT connector [ionoff-1334198737] request to connect, clean session = true
+2024-05-21 14:26:28 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 14:26:28 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 14:26:28 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 14:26:28 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 14:26:28 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 14:26:28 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 14:28:25 INFO  MqttBroker:85 - Connection closed
+2024-05-21 14:28:36 INFO  MqttBroker:42 - MQTT connector [ionoff-2000471377] request to connect, clean session = true
+2024-05-21 14:28:36 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 14:28:36 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 14:28:36 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 14:28:36 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 14:28:36 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 14:28:36 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 14:47:08 INFO  MqttBroker:85 - Connection closed
+2024-05-21 14:47:20 INFO  MqttBroker:42 - MQTT connector [ionoff-691171870] request to connect, clean session = true
+2024-05-21 14:47:20 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 14:47:20 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 14:47:20 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 14:47:20 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 14:47:20 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 14:47:20 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 14:47:33 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 14:47:33 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-21 14:47:59 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 14:49:03 INFO  MqttBroker:65 - Received ack for message = 2
+2024-05-21 14:49:04 INFO  MqttBroker:85 - Connection closed
+2024-05-21 14:49:16 INFO  MqttBroker:42 - MQTT connector [ionoff-71054164] request to connect, clean session = true
+2024-05-21 14:49:16 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-21 14:49:16 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-21 14:49:16 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-21 14:49:16 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-21 14:49:16 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-21 14:49:16 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-21 14:49:25 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 14:49:25 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-21 14:50:10 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-21 14:50:10 INFO  MqttBroker:65 - Received ack for message = 2
+2024-05-21 15:01:21 INFO  MqttBroker:85 - Connection closed
+2024-05-21 15:01:36 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-22 09:02:34 INFO  MqttBroker:42 - MQTT connector [ionoff-1128933904] request to connect, clean session = true
+2024-05-22 09:02:34 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 09:02:34 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 09:02:34 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 09:02:34 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 09:02:34 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 09:02:34 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 09:03:05 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-22 09:03:05 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-22 09:07:18 INFO  MqttBroker:85 - Connection closed
+2024-05-22 09:11:28 INFO  MqttBroker:42 - MQTT connector [ionoff-1678338625] request to connect, clean session = true
+2024-05-22 09:11:28 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 09:11:28 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 09:11:28 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 09:11:28 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 09:11:28 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 09:11:28 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 09:14:52 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-22 09:14:52 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-22 09:38:35 INFO  MqttBroker:85 - Connection closed
+2024-05-22 09:38:45 INFO  MqttBroker:42 - MQTT connector [ionoff-1599146281] request to connect, clean session = true
+2024-05-22 09:38:45 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 09:38:45 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 09:38:45 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 09:38:45 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 09:38:45 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 09:38:45 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 09:38:52 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-22 09:38:52 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-22 09:42:45 INFO  MqttBroker:85 - Connection closed
+2024-05-22 09:42:58 INFO  MqttBroker:42 - MQTT connector [ionoff-1981719029] request to connect, clean session = true
+2024-05-22 09:42:58 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 09:42:58 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 09:42:58 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 09:42:58 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 09:42:58 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 09:42:58 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 09:43:00 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-22 09:43:01 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-22 09:43:28 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-22 09:43:28 INFO  MqttBroker:65 - Received ack for message = 2
+2024-05-22 09:48:08 INFO  MqttBroker:85 - Connection closed
+2024-05-22 09:48:21 INFO  MqttBroker:42 - MQTT connector [ionoff-1477200907] request to connect, clean session = true
+2024-05-22 09:48:21 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 09:48:21 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 09:48:21 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 09:48:21 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 09:48:21 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 09:48:21 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 09:51:57 INFO  MqttBroker:85 - Connection closed
+2024-05-22 09:52:10 INFO  MqttBroker:42 - MQTT connector [ionoff-2036507492] request to connect, clean session = true
+2024-05-22 09:52:10 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 09:52:10 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 09:52:10 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 09:52:10 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 09:52:10 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 09:52:10 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 09:53:50 INFO  MqttBroker:85 - Connection closed
+2024-05-22 09:54:03 INFO  MqttBroker:42 - MQTT connector [ionoff-651177414] request to connect, clean session = true
+2024-05-22 09:54:03 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 09:54:03 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 09:54:03 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 09:54:03 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 09:54:03 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 09:54:03 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 09:54:47 INFO  MqttBroker:85 - Connection closed
+2024-05-22 09:55:00 INFO  MqttBroker:42 - MQTT connector [ionoff-1141912166] request to connect, clean session = true
+2024-05-22 09:55:00 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 09:55:00 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 09:55:00 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 09:55:00 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 09:55:00 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 09:55:00 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 09:56:34 INFO  MqttBroker:85 - Connection closed
+2024-05-22 09:57:12 INFO  MqttBroker:42 - MQTT connector [ionoff-1530669727] request to connect, clean session = true
+2024-05-22 09:57:12 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 09:57:12 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 09:57:12 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 09:57:12 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 09:57:12 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 09:57:12 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 09:59:02 INFO  MqttBroker:85 - Connection closed
+2024-05-22 09:59:15 INFO  MqttBroker:42 - MQTT connector [ionoff-712215879] request to connect, clean session = true
+2024-05-22 09:59:15 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 09:59:15 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 09:59:15 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 09:59:15 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 09:59:15 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 09:59:15 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 10:03:22 INFO  MqttBroker:85 - Connection closed
+2024-05-22 10:03:35 INFO  MqttBroker:42 - MQTT connector [ionoff-1436731998] request to connect, clean session = true
+2024-05-22 10:03:35 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 10:03:35 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 10:03:35 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 10:03:35 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 10:03:35 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 10:03:35 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 10:04:01 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-22 10:04:02 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-22 10:05:50 INFO  MqttBroker:85 - Connection closed
+2024-05-22 10:06:04 INFO  MqttBroker:42 - MQTT connector [ionoff-787889005] request to connect, clean session = true
+2024-05-22 10:06:04 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 10:06:04 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 10:06:04 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 10:06:04 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 10:06:04 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 10:06:04 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 10:06:11 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-22 10:06:11 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-22 10:07:04 INFO  MqttBroker:85 - Connection closed
+2024-05-22 10:07:17 INFO  MqttBroker:42 - MQTT connector [ionoff-269724308] request to connect, clean session = true
+2024-05-22 10:07:17 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 10:07:17 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 10:07:17 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 10:07:17 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 10:07:17 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 10:07:17 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 10:07:18 INFO  MqttBroker:85 - Connection closed
+2024-05-22 10:07:32 INFO  MqttBroker:42 - MQTT connector [ionoff-931280002] request to connect, clean session = true
+2024-05-22 10:07:32 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 10:07:32 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 10:07:32 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 10:07:32 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 10:07:32 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 10:07:32 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 10:07:36 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-22 10:07:36 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-22 10:08:16 INFO  MqttBroker:85 - Connection closed
+2024-05-22 10:08:43 INFO  MqttBroker:42 - MQTT connector [ionoff-217103506] request to connect, clean session = true
+2024-05-22 10:08:43 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 10:08:43 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 10:08:43 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 10:08:43 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 10:08:43 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 10:08:43 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 10:08:47 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [[{"addrSub": "AC123","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]] with QoS [AT_MOST_ONCE]
+2024-05-22 10:08:48 INFO  MqttBroker:65 - Received ack for message = 1
+2024-05-22 10:10:11 INFO  MqttBroker:85 - Connection closed
+2024-05-22 10:10:24 INFO  MqttBroker:42 - MQTT connector [ionoff-789273977] request to connect, clean session = true
+2024-05-22 10:10:24 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 10:10:24 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 10:10:24 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 10:10:24 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 10:10:24 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 10:10:24 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 10:10:59 INFO  MqttBroker:85 - Connection closed
+2024-05-22 10:11:11 INFO  MqttBroker:42 - MQTT connector [ionoff-648021229] request to connect, clean session = true
+2024-05-22 10:11:11 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 10:11:11 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 10:11:11 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 10:11:11 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 10:11:11 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 10:11:11 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 10:11:50 INFO  MqttBroker:85 - Connection closed
+2024-05-22 10:12:03 INFO  MqttBroker:42 - MQTT connector [ionoff-1037201686] request to connect, clean session = true
+2024-05-22 10:12:03 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-22 10:12:03 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-22 10:12:03 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-22 10:12:03 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-22 10:12:03 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-22 10:12:03 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-22 16:17:48 INFO  MqttBroker:85 - Connection closed
+2024-05-24 17:30:12 INFO  MqttBroker:42 - MQTT connector [ionoff-894025840] request to connect, clean session = true
+2024-05-24 17:30:12 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-24 17:30:12 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-24 17:30:12 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-24 17:30:12 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-24 17:30:12 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-24 17:30:12 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-24 17:31:47 INFO  MqttBroker:85 - Connection closed
+2024-05-24 17:36:15 INFO  MqttBroker:42 - MQTT connector [ionoff-783323948] request to connect, clean session = true
+2024-05-24 17:36:15 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-24 17:36:15 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-24 17:36:15 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-24 17:36:15 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-24 17:36:15 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-24 17:36:15 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-24 17:39:12 INFO  MqttBroker:85 - Connection closed
+2024-05-24 17:39:24 INFO  MqttBroker:42 - MQTT connector [ionoff-1394617094] request to connect, clean session = true
+2024-05-24 17:39:24 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-24 17:39:24 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-24 17:39:24 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-24 17:39:24 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-24 17:39:24 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-24 17:39:24 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-24 17:41:41 INFO  MqttBroker:85 - Connection closed
+2024-05-24 17:41:54 INFO  MqttBroker:42 - MQTT connector [ionoff-1328191747] request to connect, clean session = true
+2024-05-24 17:41:54 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-24 17:41:54 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-24 17:41:54 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-24 17:41:54 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-24 17:41:54 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-24 17:41:54 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-27 17:43:20 INFO  TcpBroker:27 - TCP server is listening on port 8118
+2024-05-27 17:43:20 INFO  MqttBroker:113 - MQTT server is listening on port 1883
+2024-05-27 17:43:35 INFO  MqttBroker:42 - MQTT connector [ionoff-161040638] request to connect, clean session = true
+2024-05-27 17:43:35 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-27 17:43:35 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-27 17:43:35 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-27 17:43:35 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-27 17:43:35 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-27 17:43:35 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-27 17:44:54 INFO  MqttBroker:42 - MQTT connector [mqttx_e1979fc9] request to connect, clean session = true
+2024-05-27 17:44:54 INFO  MqttBroker:45 - [username = ionoff, password = IONOffNet]
+2024-05-27 17:44:54 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-27 17:44:54 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-27 17:50:26 INFO  MqttBroker:85 - Connection closed
+2024-05-27 17:50:39 INFO  MqttBroker:42 - MQTT connector [ionoff-1736027968] request to connect, clean session = true
+2024-05-27 17:50:39 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-27 17:50:39 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-27 17:50:39 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-27 17:50:39 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-27 17:50:39 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-27 17:50:39 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-27 17:50:57 INFO  MqttBroker:85 - Connection closed
+2024-05-27 17:51:10 INFO  MqttBroker:42 - MQTT connector [ionoff-857010553] request to connect, clean session = true
+2024-05-27 17:51:10 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-27 17:51:10 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-27 17:51:10 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-27 17:51:10 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-27 17:51:10 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-27 17:51:10 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-27 17:51:44 INFO  MqttBroker:85 - Connection closed
+2024-05-27 17:52:06 INFO  MqttBroker:42 - MQTT connector [ionoff-413880637] request to connect, clean session = true
+2024-05-27 17:52:06 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-27 17:52:06 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-27 17:52:06 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-27 17:52:06 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-27 17:52:06 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-27 17:52:06 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-27 17:54:54 INFO  MqttBroker:85 - Connection closed
+2024-05-27 17:55:07 INFO  MqttBroker:42 - MQTT connector [ionoff-733026478] request to connect, clean session = true
+2024-05-27 17:55:07 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-27 17:55:07 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-27 17:55:07 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-27 17:55:07 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-27 17:55:07 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-27 17:55:07 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-27 17:55:23 INFO  MqttBroker:85 - Connection closed
+2024-05-27 17:55:35 INFO  MqttBroker:42 - MQTT connector [ionoff-1708850768] request to connect, clean session = true
+2024-05-27 17:55:35 INFO  MqttBroker:45 - [username = ionoff, password = I0n0FFNet]
+2024-05-27 17:55:35 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-27 17:55:35 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-27 17:55:35 INFO  MqttBroker:58 - Subscription for IOnOffNet with QoS AT_LEAST_ONCE
+2024-05-27 17:55:35 INFO  MqttBroker:58 - Subscription for RelayDriver with QoS AT_LEAST_ONCE
+2024-05-27 17:55:35 INFO  MqttBroker:58 - Subscription for MediaPlayer with QoS AT_LEAST_ONCE
+2024-05-27 18:09:29 INFO  MqttBroker:85 - Connection closed
+2024-05-27 18:11:02 INFO  MqttBroker:42 - MQTT connector [mqttx_e1979fc9] request to connect, clean session = true
+2024-05-27 18:11:02 INFO  MqttBroker:45 - [username = ionoff, password = IONOffNet]
+2024-05-27 18:11:02 INFO  MqttBroker:49 - [will flag = false topic = null msg = null QoS = 0 isRetain = false]
+2024-05-27 18:11:02 INFO  MqttBroker:53 - [keep alive timeout = 60]
+2024-05-27 18:11:07 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [{"id": "MASTER_TEST","sensors":[{"addrSub": "SENSOR_1","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]}] with QoS [AT_MOST_ONCE]
+2024-05-27 18:11:52 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [{"id": "MASTER_TEST","sensors":[{"addrSub": "SENSOR_1","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]}] with QoS [AT_MOST_ONCE]
+2024-05-27 18:14:30 INFO  MqttBroker:88 - Received message on [RelayDriver] payload [{"id": "MASTER_TEST","sensors":[{"addrSub": "SENSOR_1","type":"SMOKE_SENSOR","value":"ON","timestamp":1716242740}]}] with QoS [EXACTLY_ONCE]
+2024-05-27 18:14:30 INFO  MqttBroker:107 - Publish complete 29835
