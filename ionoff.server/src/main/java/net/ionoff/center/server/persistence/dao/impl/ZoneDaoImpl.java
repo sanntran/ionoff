@@ -3,7 +3,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 import java.util.Collections;
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,9 +17,8 @@ import net.ionoff.center.server.persistence.dao.IZoneDao;
 @Transactional
 public class ZoneDaoImpl extends AbstractGenericDao<Zone> implements IZoneDao {
 
-	@Autowired
-	public ZoneDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public ZoneDaoImpl() {
+		super();
 		setClass(Zone.class);
 	}
 
@@ -27,7 +26,7 @@ public class ZoneDaoImpl extends AbstractGenericDao<Zone> implements IZoneDao {
 		String sql = "select count(zone)"
 				+ " from Zone as zone"
 				+ " where zone.project.id = :projectId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("projectId", projectId);
 		return countObjects(query);
 	}
@@ -37,7 +36,7 @@ public class ZoneDaoImpl extends AbstractGenericDao<Zone> implements IZoneDao {
 				+ " from Zone as zone"
 				+ " where zone.project.id = :projectId"
 				+ " and lower(zone.name) like :name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("name", "%" + name.toLowerCase() + "%");
 		return countObjects(query);
@@ -48,7 +47,7 @@ public class ZoneDaoImpl extends AbstractGenericDao<Zone> implements IZoneDao {
 				+ " from Zone as zone"
 				+ " where zone.project.id = :projectId"
 				+ " and lower(zone.area.name) like :areaName";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("areaName", "%" + areaName.toLowerCase() + "%");
 		return countObjects(query);
@@ -72,7 +71,7 @@ public class ZoneDaoImpl extends AbstractGenericDao<Zone> implements IZoneDao {
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("keyWord", "%" + keyWord + "%");
 		return findMany(query, fromIndex, maxResults);
@@ -95,7 +94,7 @@ public class ZoneDaoImpl extends AbstractGenericDao<Zone> implements IZoneDao {
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("keyWord", "%" + keyWord + "%");
 		return findMany(query, fromIndex, maxResults);
@@ -107,7 +106,7 @@ public class ZoneDaoImpl extends AbstractGenericDao<Zone> implements IZoneDao {
 				+ " from Zone as zone"
 				+ " where zone.project.id = :projectId"
 				+ " order by zone.area.order, zone.area.name, zone.order, zone.name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId);
 
 		return findMany(query);
@@ -128,7 +127,7 @@ public class ZoneDaoImpl extends AbstractGenericDao<Zone> implements IZoneDao {
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("projectId", projectId);
 		return findMany(query, fromIndex, maxResults);
 	}
@@ -139,7 +138,7 @@ public class ZoneDaoImpl extends AbstractGenericDao<Zone> implements IZoneDao {
 				+ " from Zone as zone"
 				+ " where zone.area.id = :areaId"
 				+ " order by zone.order";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("areaId", areaId);
 
 		return findMany(query);
@@ -188,7 +187,7 @@ public class ZoneDaoImpl extends AbstractGenericDao<Zone> implements IZoneDao {
 				+ " AND userZone.role = true"
 				+ " ORDER BY zone.area.order, zone.area.name, zone.order, zone.name";
 	
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("userId", userId)
 					.setParameter("projectId", projectId);
 		

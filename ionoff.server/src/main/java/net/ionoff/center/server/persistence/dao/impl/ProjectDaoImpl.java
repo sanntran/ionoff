@@ -1,25 +1,21 @@
 package net.ionoff.center.server.persistence.dao.impl;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.hibernate.Query;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import net.ionoff.center.server.entity.Project;
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.persistence.dao.IProjectDao;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.Query;
+import java.util.Collections;
+import java.util.List;
 
 @Repository
 @Transactional
 public class ProjectDaoImpl extends AbstractGenericDao<Project> implements IProjectDao {
 
-	@Autowired
-	public ProjectDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public ProjectDaoImpl() {
+		super();
 		setClass(Project.class);
 	}
 	
@@ -35,7 +31,7 @@ public class ProjectDaoImpl extends AbstractGenericDao<Project> implements IProj
 			sql = sql + " desc";
 		}
 		
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("name", "%" + name + "%");
 		return findMany(query, fromIndex, maxResults);
 	}
@@ -47,7 +43,7 @@ public class ProjectDaoImpl extends AbstractGenericDao<Project> implements IProj
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
-		Query query = getCurrentSession().createQuery(sql);
+		Query query = entityManager.createQuery(sql);
 		return findMany(query, fromIndex, maxResults);
 	}
 
@@ -56,14 +52,14 @@ public class ProjectDaoImpl extends AbstractGenericDao<Project> implements IProj
 		if (criteria.isBlankKey()) {
 			String sql = "select count(project)"
 					+ " from Project as project";
-			Query query = getCurrentSession().createQuery(sql);
+			Query query = entityManager.createQuery(sql);
 			return countObjects(query);
 			
 		}
 		String sql = "select count(project)"
 					+ " from Project as project" 
 					+ " where lower(project.name) like :name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("name", "%" + criteria.getSearchKey().toLowerCase() + "%");
 		return countObjects(query);
 	}
@@ -85,7 +81,7 @@ public class ProjectDaoImpl extends AbstractGenericDao<Project> implements IProj
 				+ " and userProject.user.id = :userId"
 				+ " and userProject.role = true" 
 				+ " order by project.id";
-		Query query = getCurrentSession().createQuery(sql).setParameter("userId", userId);
+		Query query = entityManager.createQuery(sql).setParameter("userId", userId);
 		return findMany(query);
 	}
 }

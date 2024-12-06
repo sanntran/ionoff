@@ -2,7 +2,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,9 +16,8 @@ import net.ionoff.center.server.persistence.dao.ITokenDao;
 @Transactional
 public class TokenDaoImpl extends AbstractGenericDao<Token> implements ITokenDao {
 
-	@Autowired
-	public TokenDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public TokenDaoImpl() {
+		super();
 		setClass(Token.class);
 	}
 
@@ -27,7 +26,7 @@ public class TokenDaoImpl extends AbstractGenericDao<Token> implements ITokenDao
 		final String sql = "select token"
 				+ " from Token as token"
 				+ " where token.token = :tokenString";
-		final Query query = getCurrentSession().createQuery(sql)
+		final Query query = entityManager.createQuery(sql)
 				.setParameter("tokenString", tokenString);
 		
 		return getFirst(findMany(query));

@@ -2,7 +2,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,9 +17,8 @@ import net.ionoff.center.server.persistence.dao.IModeSensorDao;
 @Transactional
 public class ModeSensorDaoImpl extends AbstractGenericDao<ModeSensor> implements IModeSensorDao {
 
-	@Autowired
-	public ModeSensorDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public ModeSensorDaoImpl() {
+		super();
 		setClass(ModeSensor.class);
 	}
 
@@ -39,7 +38,7 @@ public class ModeSensorDaoImpl extends AbstractGenericDao<ModeSensor> implements
 				+ " from ModeSensor as modeSensor" 
 				+ " where modeSensor.sensor.id = :sensorId";
 		
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("sensorId", sensorId);
 		return findMany(query);
 	}
@@ -53,7 +52,7 @@ public class ModeSensorDaoImpl extends AbstractGenericDao<ModeSensor> implements
 					   + " OR (modeSensor.mode IS NULL))"
 				+ " AND modeSensor.enabled = true";
 		
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("sensorId", sensor.getId());
 		
 		return findMany(query);

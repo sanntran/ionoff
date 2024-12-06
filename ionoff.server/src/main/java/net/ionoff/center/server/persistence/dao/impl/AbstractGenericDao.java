@@ -1,16 +1,14 @@
 package net.ionoff.center.server.persistence.dao.impl;
 
-import java.io.Serializable;
-import java.util.List;
-
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import com.google.common.base.Preconditions;
+import net.ionoff.center.server.persistence.dao.IGenericDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.common.base.Preconditions;
-
-import net.ionoff.center.server.persistence.dao.IGenericDao;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.io.Serializable;
+import java.util.List;
 
 @Transactional
 @SuppressWarnings("unchecked")
@@ -23,16 +21,13 @@ public abstract class AbstractGenericDao<T extends Serializable> implements IGen
 
 	private Class<T> clazz;
 
-	protected final SessionFactory sessionFactory;
-
-	public AbstractGenericDao(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
+	@Autowired
+	protected EntityManager entityManager;
 
 	protected final void setClass(final Class<T> clasz) {
 		clazz = Preconditions.checkNotNull(clasz);
 	}
-	
+
 	@Override
 	public final String getClazz() {
 		return clazz.getSimpleName();
@@ -41,7 +36,7 @@ public abstract class AbstractGenericDao<T extends Serializable> implements IGen
 	@Override
 	public T insert(T entity) {
 		Preconditions.checkNotNull(entity);
-		getCurrentSession().save(entity);
+		entityManager.persist(entity);
 		return entity;
 	}
 
@@ -50,7 +45,7 @@ public abstract class AbstractGenericDao<T extends Serializable> implements IGen
 	public T update(T entity) {
 		synchronized (entity) {
 			Preconditions.checkNotNull(entity);
-			getCurrentSession().merge(entity);
+			entityManager.merge(entity);
 			return entity;
 		}
 	}
@@ -58,7 +53,7 @@ public abstract class AbstractGenericDao<T extends Serializable> implements IGen
 	@Override
 	public void delete(T entity) {
 		Preconditions.checkNotNull(entity);
-		getCurrentSession().delete(entity);
+		entityManager.remove(entity);
 	}
 
 	@Override
@@ -70,27 +65,25 @@ public abstract class AbstractGenericDao<T extends Serializable> implements IGen
 
 	@Override
 	public List<T> loadAll() {
-		return getCurrentSession().createQuery("from " + clazz.getName()).list();
+		return entityManager.createQuery("from " + clazz.getName()).getResultList();
 	}
 
 	@Override
 	public T findById(long id) {
-		return (T) getCurrentSession().get(clazz, id);
+		return (T) entityManager.find(clazz, id);
 	}
 
 	@Override
 	public T loadById(long id) {
-		return (T) getCurrentSession().load(clazz, id);
+		return (T) entityManager.find(clazz, id);
 	}
 
-	@Override
 	public List<T> findMany(Query query) {
-		return query.list();
+		return query.getResultList();
 	}
 
-	@Override
 	public List<T> findMany(Query query, int fromIndex, int maxResults) {
-		return query.setFirstResult(fromIndex).setMaxResults(maxResults).list();
+		return query.setFirstResult(fromIndex).setMaxResults(maxResults).getResultList();
 	}
 
 	protected T getFirst(List<T> list) {
@@ -101,17 +94,7 @@ public abstract class AbstractGenericDao<T extends Serializable> implements IGen
 	}
 
 	protected long countObjects(Query query) {
-		final Long result = Long.parseLong(query.list().get(0).toString());
+		final Long result = Long.parseLong(query.getResultList().get(0).toString());
 		return result;
-	}
-	
-	@Override
-	public final Session getCurrentSession() {
-		return sessionFactory.getCurrentSession();
-	}
-	
-	@Override
-	public final SessionFactory getSessionFactory() {
-		return sessionFactory;
 	}
 }

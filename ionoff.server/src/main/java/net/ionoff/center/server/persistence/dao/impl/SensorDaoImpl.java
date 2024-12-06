@@ -3,7 +3,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 import java.util.Collections;
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,9 +17,8 @@ import net.ionoff.center.server.persistence.dao.ISensorDao;
 @Transactional
 public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensorDao {
 
-	@Autowired
-	public SensorDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public SensorDaoImpl() {
+		super();
 		setClass(Sensor.class);
 	}
 
@@ -28,7 +27,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 			String sql = "select count(sensor)"
 						+ " from Sensor as sensor"
 						+ " where sensor.project.id = :projectId";
-			Query query = getCurrentSession().createQuery(sql)
+			Query query = entityManager.createQuery(sql)
 						.setParameter("projectId", projectId);;
 			return countObjects(query);
 			
@@ -37,7 +36,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 					+ " from Sensor as sensor" 
 					+ " where sensor.project.id = :projectId"
 					+ " and lower(sensor.name) like :name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("name", "%" + name.toLowerCase() + "%");
 		return countObjects(query);
@@ -57,7 +56,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 			sql = sql + " desc";
 		}
 		
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("name", "%" + name.toLowerCase() + "%");
 		return findMany(query, fromIndex, maxResults);
@@ -71,7 +70,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("projectId", projectId);
 		return findMany(query, fromIndex, maxResults);
 	}
@@ -82,7 +81,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 				+ " from Sensor as sensor"
 				+ " where sensor.project.id = :projectId"
 				+ " order by sensor.order, sensor.name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId);
 		return findMany(query);
 	}
@@ -110,7 +109,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 				+ " from Sensor as sensor"
 				+ " where sensor.zwitch.id = :switchId"
 				+ " order by sensor.order, sensor.name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("switchId", switchId);
 		return findMany(query);
 	}
@@ -121,7 +120,7 @@ public class SensorDaoImpl extends AbstractGenericDao<Sensor> implements ISensor
 				+ " from Sensor as sensor"
 				+ " where sensor.device.id = :deviceId"
 				+ " order by sensor.order, sensor.name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("deviceId", deviceId);
 		return findMany(query);
 	}

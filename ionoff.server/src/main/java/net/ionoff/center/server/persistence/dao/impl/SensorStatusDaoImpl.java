@@ -15,9 +15,8 @@ import net.ionoff.center.server.persistence.dao.ISensorStatusDao;
 @Transactional
 public class SensorStatusDaoImpl extends AbstractGenericDao<SensorStatus> implements ISensorStatusDao {
 
-	@Autowired
-	public SensorStatusDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public SensorStatusDaoImpl() {
+		super();
 		setClass(SensorStatus.class);
 	}
 

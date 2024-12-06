@@ -1,25 +1,21 @@
 package net.ionoff.center.server.persistence.dao.impl;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.hibernate.Query;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import net.ionoff.center.server.entity.Area;
 import net.ionoff.center.server.entity.QueryCriteria;
 import net.ionoff.center.server.persistence.dao.IAreaDao;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.Query;
+import java.util.Collections;
+import java.util.List;
 
 @Repository
 @Transactional
 public class AreaDaoImpl extends AbstractGenericDao<Area> implements IAreaDao {
 
-	@Autowired
-	public AreaDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public AreaDaoImpl() {
+		super();
 		setClass(Area.class);
 	}
 
@@ -31,7 +27,7 @@ public class AreaDaoImpl extends AbstractGenericDao<Area> implements IAreaDao {
 					+ " from Area as area" 
 					+ " where area.project.id = :projectId"
 					+ " and lower(area.name) like :name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("name", "%" + name.toLowerCase() + "%");
 		return countObjects(query);
@@ -41,7 +37,7 @@ public class AreaDaoImpl extends AbstractGenericDao<Area> implements IAreaDao {
 		String sql = "select count(area)"
 				+ " from Area as area"
 				+ " where area.project.id = :projectId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("projectId", projectId);;
 		return countObjects(query);
 	}
@@ -60,7 +56,7 @@ public class AreaDaoImpl extends AbstractGenericDao<Area> implements IAreaDao {
 			sql = sql + " desc";
 		}
 		
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("name", "%" + name.toLowerCase() + "%");
 		return findMany(query, fromIndex, maxResults);
@@ -74,7 +70,7 @@ public class AreaDaoImpl extends AbstractGenericDao<Area> implements IAreaDao {
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("projectId", projectId);
 		return findMany(query, fromIndex, maxResults);
 	}
@@ -85,7 +81,7 @@ public class AreaDaoImpl extends AbstractGenericDao<Area> implements IAreaDao {
 				+ " from Area as area"
 				+ " where area.project.id = :projectId"
 				+ " order by area.order, area.name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId);
 		return findMany(query);
 	}

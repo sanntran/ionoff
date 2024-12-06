@@ -3,9 +3,7 @@ package net.ionoff.center.server.persistence.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import javax.persistence.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ionoff.center.server.entity.QueryCriteria;
@@ -23,8 +21,4 @@ public interface IGenericDao<T extends Serializable> extends IPersistence<T> {
 	long countByCriteria(QueryCriteria criteria);
 	
 	List<T> findByCriteria(QueryCriteria criteria);
-
-	Session getCurrentSession();
-
-	SessionFactory getSessionFactory();
 }

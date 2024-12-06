@@ -2,7 +2,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,9 +16,8 @@ import net.ionoff.center.server.persistence.dao.IRelayGroupDao;
 @Transactional
 public class RelayGroupDaoImpl extends AbstractGenericDao<RelayGroup> implements IRelayGroupDao {
 
-	@Autowired
-	public RelayGroupDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public RelayGroupDaoImpl() {
+		super();
 		setClass(RelayGroup.class);
 	}
 
@@ -45,7 +44,7 @@ public class RelayGroupDaoImpl extends AbstractGenericDao<RelayGroup> implements
 				+ " WHERE relayGroupRelay.group.id = relayGroup.id"
 				+ " AND relayGroupRelay.relay.id = :relayId";
 		
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("relayId", relayId);
 		
 		return findMany(query);

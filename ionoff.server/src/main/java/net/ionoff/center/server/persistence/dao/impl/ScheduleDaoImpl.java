@@ -3,7 +3,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 import java.util.Collections;
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,9 +17,8 @@ import net.ionoff.center.server.persistence.dao.IScheduleDao;
 @Transactional
 public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements IScheduleDao {
 
-	@Autowired
-	public ScheduleDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public ScheduleDaoImpl() {
+		super();
 		setClass(Schedule.class);
 	}
 
@@ -28,7 +27,7 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 		String sql = "select count(scheduler)"
 				+ " from Schedule as scheduler"
 				+ " where scheduler.project.id = :projectId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("projectId", projectId);
 		return countObjects(query);
 	}
@@ -38,7 +37,7 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 				+ " from Schedule as scheduler"
 				+ " where scheduler.project.id = :projectId"
 				+ " and lower(scheduler.name) like :name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("name", "%" + name + "%");
 		return countObjects(query);
@@ -49,7 +48,7 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 				+ " from Schedule as scheduler"
 				+ " where scheduler.project.id = :projectId"
 				+ " and lower(scheduler.device.name) like :keyWord";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("keyWord", "%" + keyWord.toLowerCase() + "%");
 		return countObjects(query);
@@ -66,7 +65,7 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 			sql = sql + " desc";
 		}
 		
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("keyWord", "%" + keyWord.toLowerCase() + "%");
 		return findMany(query, fromIndex, maxResults);
@@ -83,7 +82,7 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 			sql = sql + " desc";
 		}
 		
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("name", "%" + keyWord.toLowerCase() + "%");
 		return findMany(query, fromIndex, maxResults);
@@ -96,7 +95,7 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 				+ " from Schedule as scheduler"
 				+ " where scheduler.project.id = :projectId"
 				+ " order by scheduler.name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId);
 		
 		return findMany(query);
@@ -111,7 +110,7 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("projectId", projectId);
 		return findMany(query, fromIndex, maxResults);
 	}
@@ -122,7 +121,7 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 				+ " from Schedule as scheduler"
 				+ " where scheduler.device.id = :deviceId"
 				+ " order by scheduler.name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("deviceId", deviceId);
 		
 		return findMany(query);
@@ -135,7 +134,7 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 				+ " where scheduler.enabled = :enabled"
 				+ " and scheduler.status = :status"
 				+ " order by scheduler.project.id";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("enabled", true)
 				.setParameter("status", false);
 		
@@ -149,7 +148,7 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 				+ " where scheduler.enabled = :enabled"
 				+ " and scheduler.time = :scheduleTime"
 				+ " order by scheduler.project.id";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("enabled", true)
 				.setParameter("scheduleTime", scheduleTime);
 		
@@ -162,7 +161,7 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 				+ " from Schedule as scheduler"
 				+ " where scheduler.device.zone.id = :zoneId";
 	
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("zoneId", zoneId);
 		
 		 List<Schedule> schedules = findMany(query);
@@ -210,7 +209,7 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 				+ " and userDevice.device.zone.id = :zoneId"
 				+ " and userDevice.role = true"
 				+ " order by scheduler.name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("userId", userId)
 				.setParameter("zoneId", zoneId);
 		return findMany(query);
@@ -226,7 +225,7 @@ public class ScheduleDaoImpl extends AbstractGenericDao<Schedule> implements ISc
 				+ " and userDevice.role = true"
 				+ " and userDevice.project.id = :projectId"
 				+ " order by scheduler.name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("userId", userId)
 				.setParameter("projectId", projectId);
 		return findMany(query);

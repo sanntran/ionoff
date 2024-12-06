@@ -24,9 +24,8 @@ public class SensorDataDaoImpl extends AbstractGenericDao<SensorData> implements
 	@Autowired
 	private IDeviceDao deviceDao;
 
-	@Autowired
-	public SensorDataDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public SensorDataDaoImpl() {
+		super();
 		setClass(SensorData.class);
 	}
 

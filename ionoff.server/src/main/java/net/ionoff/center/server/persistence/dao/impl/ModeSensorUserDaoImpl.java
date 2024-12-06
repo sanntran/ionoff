@@ -2,7 +2,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,9 +16,8 @@ import net.ionoff.center.server.persistence.dao.IModeSensorUserDao;
 @Transactional
 public class ModeSensorUserDaoImpl extends AbstractGenericDao<ModeSensorUser> implements IModeSensorUserDao {
 
-	@Autowired
-	public ModeSensorUserDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public ModeSensorUserDaoImpl() {
+		super();
 		setClass(ModeSensorUser.class);
 	}
 
@@ -37,7 +36,7 @@ public class ModeSensorUserDaoImpl extends AbstractGenericDao<ModeSensorUser> im
 		String sql = "DELETE FROM ModeSensorUser AS modeSensorUser"
 				+ " WHERE modeSensorUser.user.id= :userId"
 				+ " AND modeSensorUser.project.id= :projectId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("userId", userId)
 				.setParameter("projectId", projectId);
 	

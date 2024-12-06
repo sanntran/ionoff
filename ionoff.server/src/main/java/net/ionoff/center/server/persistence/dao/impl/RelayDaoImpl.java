@@ -3,7 +3,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 import java.util.Collections;
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,9 +19,8 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 
 	public static final String DRIVER_NAME = "driverName";
 
-	@Autowired
-	public RelayDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public RelayDaoImpl() {
+		super();
 		setClass(Relay.class);
 	}
 
@@ -35,7 +34,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 				+ " from Relay as relay" 
 				+ " where relay.driver.project.id = :projectId"
 				+ " and lower(relay.driver.name) like :driverName";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("driverName", "%" + driverName.toLowerCase() + "%");
 		return countObjects(query);
@@ -49,7 +48,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 					+ " from Relay as relay" 
 					+ " where relay.driver.project.id = :projectId"
 					+ " and lower(relay.name) like :name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("name", "%" + name.toLowerCase() + "%");
 		return countObjects(query);
@@ -59,7 +58,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 		String sql = "select count(relay)"
 				+ " from Relay as relay"
 				+ " where relay.driver.project.id = :projectId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("projectId", projectId);;
 		return countObjects(query);
 	}
@@ -69,7 +68,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 					+ " from Relay as relay" 
 					+ " where relay.driver.project.id = :projectId"
 					+ " and lower(relay.device.name) like :deviceName";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("deviceName", "%" + deviceName.toLowerCase() + "%");
 		return countObjects(query);
@@ -90,7 +89,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 		else {
 			sql = sql + ", relay.index";
 		}
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("driverName", "%" + driverName.toLowerCase() + "%");
 		return findMany(query, fromIndex, maxResults);
@@ -109,7 +108,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 		else {
 			sql = sql + ", relay.index";
 		}
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("deviceName", "%" + deviceName.toLowerCase() + "%");
 		return findMany(query, fromIndex, maxResults);
@@ -132,7 +131,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 			sql = sql + ", relay.index";
 		}
 		
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("name", "%" + name.toLowerCase() + "%");
 		return findMany(query, fromIndex, maxResults);
@@ -149,7 +148,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 		else {
 			sql = sql + ", relay.index";
 		}
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("projectId", projectId);
 		return findMany(query, fromIndex, maxResults);
 	}
@@ -160,7 +159,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 				+ " from Relay as relay"
 				+ " where relay.driver.project.id = :projectId"
 				+ " order by relay.driver.id, relay.index";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId);
 		return findMany(query);
 	}
@@ -171,7 +170,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 				+ " from Relay as relay"
 				+ " where relay.driver.id = :controllerId"
 				+ " order by relay.index";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("controllerId", controllerId);
 		return findMany(query);
 	}
@@ -182,7 +181,7 @@ public class RelayDaoImpl extends AbstractGenericDao<Relay> implements IRelayDao
 				+ " from Relay as relay"
 				+ " where relay.device.id = :deviceId"
 				+ " order by relay.driver.id, relay.index";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("deviceId", deviceId);
 		return findMany(query);
 	}

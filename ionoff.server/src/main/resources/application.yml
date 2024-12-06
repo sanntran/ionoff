@@ -14,13 +14,25 @@ spring:
         flyway.baseline-version: 1
     main:
         allow-bean-definition-overriding: true
-hibernate:
-    connection.url: jdbc:mysql://localhost/ionoff?autoReconnect=true&characterEncoding=UTF-8
-    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-    connection.driver_class: com.mysql.jdbc.Driver
-    connection.username: root
-    connection.password: r@@t
-    show_sql: false;
+
+    datasource:
+        hikari:
+            connectionTimeout: 30000
+            idleTimeout: 30000
+            maxLifetime: 2000000
+            maximumPoolSize: 20
+            minimumIdle: 5
+            poolName: SpringBootJPAHikariCP
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:mysql://127.0.0.1:3306/ionoff?autoReconnect=true&characterEncoding=UTF-8
+        username: ionoff
+        password: i@n@ff
+    jpa:
+        properties:
+            hibernate:
+                format_sql: true
+                show_sql: false
+                enable_lazy_load_no_trans: true
 
 service.notify.url: http://service.ionoff.net/inotify
 service.mediadata.url: http://service.ionoff.net/imedia/api
@@ -39,7 +51,3 @@ broker.mqtt.url: tcp://localhost:1883
 broker.mqtt.topic.ionoffnet: IOnOffNet
 broker.mqtt.topic.controller: Controller
 broker.mqtt.topic.mediaplayer: MediaPlayer
-
-logging:
-    level:
-        org.hibernate.engine: ERROR

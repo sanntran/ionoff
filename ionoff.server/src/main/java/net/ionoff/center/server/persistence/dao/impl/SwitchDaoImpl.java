@@ -2,7 +2,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,9 +21,8 @@ public class SwitchDaoImpl extends AbstractGenericDao<Switch> implements ISwitch
 	@Autowired
 	private IControllerDao controllerDao;
 
-	@Autowired
-	public SwitchDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public SwitchDaoImpl() {
+		super();
 		setClass(Switch.class);
 	}
 
@@ -44,7 +43,7 @@ public class SwitchDaoImpl extends AbstractGenericDao<Switch> implements ISwitch
 				+ " where zwitch.driver.id = :driverId"
 				+ " and zwitch.index = :index";
 	
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("driverId", driverId)
 				.setParameter("index", index);
 	

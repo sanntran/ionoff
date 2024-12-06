@@ -3,7 +3,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 import java.util.Collections;
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,9 +17,8 @@ import net.ionoff.center.server.persistence.dao.IUserDao;
 @Transactional
 public class UserDaoImpl extends AbstractGenericDao<User> implements IUserDao {
 
-	@Autowired
-	public UserDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public UserDaoImpl() {
+		super();
 		setClass(User.class);
 	}
 
@@ -29,7 +28,7 @@ public class UserDaoImpl extends AbstractGenericDao<User> implements IUserDao {
 					+ " from User as user_" 
 					+ " where user_.name = :userName";
 		
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("userName", userName);
 
 		List<User> users = findMany(query);
@@ -43,7 +42,7 @@ public class UserDaoImpl extends AbstractGenericDao<User> implements IUserDao {
 					+ " from User as user_, UserGroup as group_" 
 					+ " where user_.groupId = :groupId";
 					
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("groupId", groupId);
 
 		return findMany(query);
@@ -60,7 +59,7 @@ public class UserDaoImpl extends AbstractGenericDao<User> implements IUserDao {
 					+ " and userProject.role = true"
 					+ " and userProject.project.id = :projectId"
 					+ " and lower(user_.name) like :name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("name", "%" + name.toLowerCase() + "%");
 		return countObjects(query);
@@ -76,7 +75,7 @@ public class UserDaoImpl extends AbstractGenericDao<User> implements IUserDao {
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("projectId", projectId);
 		return findMany(query, fromIndex, maxResults);
 	}
@@ -89,7 +88,7 @@ public class UserDaoImpl extends AbstractGenericDao<User> implements IUserDao {
 				+ " and userProject.role = true"
 				+ " and userProject.project.id = :projectId"
 				+ " order by user_.name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId);
 		return findMany(query);
 	}
@@ -100,7 +99,7 @@ public class UserDaoImpl extends AbstractGenericDao<User> implements IUserDao {
 				+ " where user_.id = userProject.user.id"
 				+ " and userProject.role = true"
 				+ " and userProject.project.id = :projectId";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 					.setParameter("projectId", projectId);
 		return countObjects(query);
 	}
@@ -121,7 +120,7 @@ public class UserDaoImpl extends AbstractGenericDao<User> implements IUserDao {
 			sql = sql + " desc";
 		}
 		
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("projectId", projectId)
 				.setParameter("name", "%" + name.toLowerCase() + "%");
 		return findMany(query, fromIndex, maxResults);
@@ -134,7 +133,7 @@ public class UserDaoImpl extends AbstractGenericDao<User> implements IUserDao {
 		String sql = "select count(user_)"
 					+ " from User as user_" 
 					+ " where lower(user_.name) like :name";
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("name", "%" + name.toLowerCase() + "%");
 		return countObjects(query);
 	}
@@ -142,7 +141,7 @@ public class UserDaoImpl extends AbstractGenericDao<User> implements IUserDao {
 	private Long countAll() {
 		String sql = "select count(user_)"
 				+ " from User as user_";
-		Query query = getCurrentSession().createQuery(sql);
+		Query query = entityManager.createQuery(sql);
 		return countObjects(query);
 	}
 
@@ -158,7 +157,7 @@ public class UserDaoImpl extends AbstractGenericDao<User> implements IUserDao {
 			sql = sql + " desc";
 		}
 		
-		Query query = getCurrentSession().createQuery(sql)
+		Query query = entityManager.createQuery(sql)
 				.setParameter("name", "%" + name.toLowerCase() + "%");
 		return findMany(query, fromIndex, maxResults);
 	}
@@ -170,7 +169,7 @@ public class UserDaoImpl extends AbstractGenericDao<User> implements IUserDao {
 		if (!isAscending) {
 			sql = sql + " desc";
 		}
-		Query query = getCurrentSession().createQuery(sql);
+		Query query = entityManager.createQuery(sql);
 		return findMany(query, fromIndex, maxResults);
 	}
 

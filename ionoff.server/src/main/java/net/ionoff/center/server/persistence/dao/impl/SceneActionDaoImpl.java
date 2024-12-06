@@ -2,7 +2,7 @@ package net.ionoff.center.server.persistence.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,16 +16,15 @@ import net.ionoff.center.server.persistence.dao.ISceneActionDao;
 @Transactional
 public class SceneActionDaoImpl extends AbstractGenericDao<SceneAction> implements ISceneActionDao {
 
-	@Autowired
-	public SceneActionDaoImpl(SessionFactory sessionFactory) {
-		super(sessionFactory);
+	public SceneActionDaoImpl() {
+		super();
 		setClass(SceneAction.class);
 	}
 
 	@Override
 	public void deleteByRelayId(long relayId) {
 		 String sql = "delete from SceneAction where relay.id = :relayId";
-		 Query query = getCurrentSession().createQuery(sql)
+		 Query query = entityManager.createQuery(sql)
 					.setParameter("relayId", relayId);
 		 query.executeUpdate();
 	}
