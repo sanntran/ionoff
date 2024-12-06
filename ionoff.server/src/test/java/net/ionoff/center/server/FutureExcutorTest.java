@@ -1,5 +1,7 @@
 package net.ionoff.center.server;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -11,10 +13,12 @@ public class FutureExcutorTest {
 
 
     public static void main(String[] args) {
-        String s = "Starting # one-minute countdown now...";
+        String s =  new BCryptPasswordEncoder().encode("123456");
         System.out.println(s);
-
-        System.out.println(s.substring(0, s.indexOf("#")).substring(0, s.indexOf("?")));
+//        String s = "Starting # one-minute countdown now...";
+//        System.out.println(s);
+//
+//        System.out.println(s.substring(0, s.indexOf("#")).substring(0, s.indexOf("?")));
 
         List<Runnable> runnableList = new ArrayList<>();
 

@@ -1,45 +1,69 @@
-**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
+## Welcome to IOnOff!
 
-When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
+### What Is It?
+IOnOff is a comprehensive system to control on/off electric device remotely using mobile device over internet.
+To simply replace the dump switches by the IOnOff switches (i-switches) and register the i-switches to IOnOff software.
 
-*We recommend that you open this README in another tab as you perform the tasks below. You can [watch our video](https://youtu.be/0ocf7u76WSo) for a full demo of all the steps in this tutorial. Open the video in a new tab to avoid leaving Bitbucket.*
+### Introduction
+This project integrates:
 
----
+A frontend web interface for user interaction.
+A Java-based backend server for business logic and API handling.
+Embedded C code deployed on a microcontroller to control devices remotely.
+It enables users to control devices (e.g., turning them on/off) over the internet, leveraging IoT principles.
 
-## Edit a file
+### Features
+Web-based user interface for device management.
+Secure backend APIs for data handling and device communication.
+Embedded C firmware to interface with hardware for device control.
+Real-time synchronization between UI and devices.
 
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
+### Architecture Overview
+Frontend: Developed using GWT, connects to backend APIs to interact with devices.
+Backend: Java-based application built with Spring Boot, JPA, MySQL database. Backend manages business logic and handles REST APIs.
+Embedded System: Microcontroller (PIC 18F4550 for ethernet wire connection i-switch and ESP8266 for wifi connection i-switch) code written in C.
 
-1. Click **Source** on the left side.
-2. Click the README.md link from the list of files.
-3. Click the **Edit** button.
-4. Delete the following text: *Delete this line to make a change to the README from Bitbucket.*
-5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
-6. Go back to the **Source** page.
+### Getting Started
+To get started, clone the repository and navigate to the repo folder
+Folder Structure
 
----
+```
+.
+├── ionoff.client/        # Web application code writiing in Java using GWT
+├── ionoff.server/        # Spring boot web service, Java code
+├── ionoff.things/        # Embedded C code for the microcontroller
+├── ...                  
+└── README.md             # This README file
+```
 
-## Create a file
+### Installation and Setup
+#### Frontend
+##### Setup GWT Super Dev Mode (IntelliJ)
+Run -> Edit Configurations -> + -> Application
+```
+Name:           ionoff.client
+Run on:         Local machine
+Build and run:  Runtime:    Java 1.8
+                Mudule:     -cp ionoff.client
+                Main class: com.google.gwt.dev.codeserver.CodeServer
+                Arguments: -src src/main/java -launcherDir /$your_path_to_ionoff.client/src/main/webapp net.ionoff.center.IOnOff
+                Working directory: /$your_path_to_ionoff.client
+                Environment variable: 
+```
 
-Next, you’ll add a new file to this repository.
+##### Setup web application in tomcat
+- Install tomcat (simply extract `ionoff.tomcat/tomcat9.zip`)
+- Copy `ionoff.client/ionoff.xml` to `$your_tomcat_folder/conf/Catalina/localhost`
+- Open `ionoff.xml` and change `docBase` to `$your_path_to_ionoff.client/src/main/webapp`
 
-1. Click the **New file** button at the top of the **Source** page.
-2. Give the file a filename of **contributors.txt**.
-3. Enter your name in the empty file space.
-4. Click **Commit** and then **Commit** again in the dialog.
-5. Go back to the **Source** page.
+##### Start front-end
+- CD to tomcat folder
+- Run `export JAVA_HOME='/usr/lib/jvm/jdk1.8.0_291'`
+- Run `./bin/catalina.sh run`
+- Start tomcat on console 
+- Start GWT Super Dev Mode by start the IntelliJ run config `ionoff.client`
 
-Before you move on, go ahead and explore the repository. You've already seen the **Source** page, but check out the **Commits**, **Branches**, and **Settings** pages.
+#### Backend
+- Run `mvn clean install`
+- Start `net.ionoff.center.server.CenterServerApplication`
 
----
-
-## Clone a repository
-
-Use these steps to clone from SourceTree, our client for using the repository command-line free. Cloning allows you to work on your files locally. If you don't yet have SourceTree, [download and install first](https://www.sourcetreeapp.com/). If you prefer to clone from the command line, see [Clone a repository](https://confluence.atlassian.com/x/4whODQ).
-
-1. You’ll see the clone button under the **Source** heading. Click that button.
-2. Now click **Check out in SourceTree**. You may need to create a SourceTree account or log in.
-3. When you see the **Clone New** dialog in SourceTree, update the destination path and name if you’d like to and then click **Clone**.
-4. Open the directory you just created to see your repository’s files.
-
-Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).

@@ -78,7 +78,7 @@ public final class ClientUtil {
     	if (protocol.contains("http")) {
     		String port = Window.Location.getPort();
     		if (!"8008".equals(port) && !"80".equals(port) && !"".equals(port)) { // production port
-    			port = "8208"; // development mode
+    			port = "8081"; // development mode
 		    }
     		return protocol + "//" + Window.Location.getHostName() + ":" + port;
     	}

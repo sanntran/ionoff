@@ -89,10 +89,7 @@ public class AuthenticationController {
 	public Kookie requestAuthen(
 			@RequestParam(value="projectId", required=false) Long projectId, HttpServletRequest request) {
 		
-		if (!LicenseManager.isActivated()) {
-			logger.info("Login unsuccessfully. Application is unactivated");
-			throw new AppUnactivatedException();
-		}
+
 		String authToken = request.getHeader(JwtAuthenticationTokenFilter.TOKEN_HEADER);
         JwtObject jwtObj = jwtTokenUtil.getJwtObjectFromToken(authToken);
 		
@@ -129,10 +126,6 @@ public class AuthenticationController {
 	public Kookie requestAuthen( @RequestParam("username") String username, @RequestParam("password") String password,
 								@RequestParam("remember") boolean remember, @RequestParam("language") String language) {
 		
-		if (!LicenseManager.isActivated()) {
-			logger.info("Login unsuccessfully. Application is unactivated");
-			throw new AppUnactivatedException();
-		}
 		UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
         
